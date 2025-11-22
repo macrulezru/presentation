@@ -7,12 +7,26 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      script: {
+        defineModel: true,
+        propsDestructure: true,
+      },
+    }),
     vueDevTools(),
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
+  },
+  // Оптимизации для разработки
+  server: {
+    port: 3000,
+    open: true,
+  },
+  build: {
+    target: 'esnext',
+    minify: 'esbuild',
   },
 })
