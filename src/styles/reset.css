@@ -17,6 +17,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   line-height: 1.5;
+  text-rendering: optimizeSpeed;
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+  font-feature-settings: 'kern', 'liga', 'clig', 'calt';
 }
 
 ol,
@@ -29,6 +33,10 @@ a {
   color: inherit;
 }
 
+a:visited {
+  color: inherit;
+}
+
 button,
 input,
 textarea,
@@ -38,6 +46,33 @@ select {
   border: none;
   background: none;
   outline: none;
+}
+
+button::-moz-focus-inner {
+  border: 0;
+}
+
+input[type='search'] {
+  -webkit-appearance: none;
+}
+
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+input::-webkit-credentials-auto-fill-button {
+  -webkit-appearance: none;
+  display: none;
 }
 
 table {
@@ -53,6 +88,10 @@ svg {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+iframe {
+  border: 0;
 }
 
 fieldset {
@@ -95,6 +134,35 @@ progress {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+}
+
+pre {
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+[role='button'] {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
