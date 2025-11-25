@@ -5,6 +5,9 @@
     "description": "Transforming complex tasks into elegant solutions. Specializing in Vue 3, TypeScript and creating scalable applications with well-thought-out architecture.",
     "more": "view resume"
   },
+  "app": {
+    "examples_title": "Examples of Some Solutions"
+  },
   "about": {
     "intro": "Frontend developer with over 6 years of experience in Vue.js.",
     "approach": "My journey in web development and design started more than 20 years ago, which allowed me to develop a comprehensive approach to interface creation. I strive to build applications that are not only functional and performant but also feature thoughtful interaction logic and a clean visual design.",
@@ -282,6 +285,144 @@
         "Reusability of pipeline components and steps",
         "Simplified debugging and execution monitoring",
         "Integration with the existing Vue.js ecosystem"
+      ]
+    }
+  },
+  "localization": {
+    "title": "Flexible Localization System with String Overrides",
+    "subtitle": "Translation Customization Mechanism for Different Bundles",
+    "description": "The implemented system allows overriding specific strings in locales depending on the project build bundle, providing flexibility in interface customization for different clients.",
+    "features": {
+      "title": "Key Features",
+      "items": [
+        "Override specific strings without duplicating entire dictionaries",
+        "Support for multiple languages with customization for each",
+        "Automatic merging of default and custom locales",
+        "Flexible configuration for different build bundles",
+        "Preservation of default values for non-overridden strings",
+        "Quick addition of new custom translations"
+      ]
+    },
+    "architecture": {
+      "title": "Architectural Components",
+      "items": [
+        {
+          "name": "Base Locales",
+          "description": "main translation dictionaries with standard strings for all languages"
+        },
+        {
+          "name": "Custom Locales",
+          "description": "custom dictionaries with overridden strings for specific bundles"
+        },
+        {
+          "name": "Merge Engine",
+          "description": "mechanism for merging default and custom locales during build"
+        },
+        {
+          "name": "Bundle Config",
+          "description": "bundle configuration specifying custom dictionaries for overrides"
+        }
+      ]
+    },
+    "process": {
+      "title": "Work Process",
+      "steps": [
+        {
+          "title": "Bundle Identification",
+          "description": "The system identifies the current build bundle and checks for custom dictionaries for it"
+        },
+        {
+          "title": "Locale Loading",
+          "description": "Base translation dictionaries and custom dictionaries for the specified bundle are loaded"
+        },
+        {
+          "title": "Dictionary Merging",
+          "description": "Default locales are merged with custom ones, with custom strings having priority"
+        },
+        {
+          "title": "Result Generation",
+          "description": "Final translation dictionaries used in the application are formed"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Approach Benefits",
+      "items": [
+        "Flexibility in interface customization for different clients",
+        "Time savings in maintaining multiple translation versions",
+        "Reduced probability of errors when updating locales",
+        "Simplified process of adding new custom translations",
+        "Maintaining a single codebase for all bundles",
+        "Quick deployment of customized versions"
+      ]
+    }
+  },
+  "seatMap": {
+    "title": "Universal Aircraft Seat Map Display System",
+    "subtitle": "Architecture with Drivers for Different Data Formats",
+    "description": "The implemented system allows displaying aircraft seat maps from various booking systems through a single universal component using special drivers for data transformation.",
+    "features": {
+      "title": "Key Features",
+      "items": [
+        "Support for multiple data formats from different systems",
+        "Universal seat map display component",
+        "Driver system for data transformation",
+        "Flexible configuration for new clients",
+        "Isolated display business logic",
+        "Quick connection of new data sources"
+      ]
+    },
+    "architecture": {
+      "title": "Architectural Components",
+      "items": [
+        {
+          "name": "Universal Seat Map Component",
+          "description": "main seat map display component with unified API"
+        },
+        {
+          "name": "Data Drivers",
+          "description": "specialized drivers for transforming data from different formats"
+        },
+        {
+          "name": "Seat Map Engine",
+          "description": "engine for processing and preparing data for display"
+        },
+        {
+          "name": "Configuration Manager",
+          "description": "configuration manager for connecting drivers to the component"
+        }
+      ]
+    },
+    "process": {
+      "title": "Work Process",
+      "steps": [
+        {
+          "title": "Data Receiving",
+          "description": "The system receives seat map data from an external system in a specific format"
+        },
+        {
+          "title": "Driver Selection",
+          "description": "Based on data type or client, the appropriate transformation driver is selected"
+        },
+        {
+          "title": "Data Transformation",
+          "description": "The driver transforms incoming data into a unified format for the component"
+        },
+        {
+          "title": "Map Rendering",
+          "description": "The universal component displays the seat map based on prepared data"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Approach Benefits",
+      "items": [
+        "Quick connection of new clients with their own data formats",
+        "No code duplication in the display component",
+        "Simplified system maintenance and updates",
+        "Isolation of business logic from data specifics",
+        "Architecture scalability",
+        "Reduced development time for new integrations"
       ]
     }
   }

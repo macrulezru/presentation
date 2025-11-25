@@ -94,41 +94,49 @@
   .dlv-select {
     position: relative;
     display: inline-block;
-    min-width: 140px;
+    min-width: 120px;
   }
 
   .dlv-select__trigger {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #fff;
-    border: 1px solid #dcdfe6;
-    border-radius: 4px;
-    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 8px 16px;
     font-size: 14px;
     line-height: 1.5;
     cursor: pointer;
     outline: none;
-    transition: border-color 0.2s;
+    transition: all 0.3s ease;
     user-select: none;
+    color: white;
+    backdrop-filter: blur(10px);
   }
 
   .dlv-select__trigger:hover {
-    border-color: #c0c4cc;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
   }
 
   .dlv-select__trigger:focus {
-    border-color: #409eff;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
   }
 
   .dlv-select__selected {
-    color: #606266;
+    color: white;
+    font-weight: 500;
   }
 
   .dlv-select__arrow {
-    color: #c0c4cc;
-    font-size: 12px;
-    transition: transform 0.2s;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 10px;
+    transition: transform 0.3s ease;
+    margin-left: 8px;
   }
 
   .dlv-select__arrow--open {
@@ -140,10 +148,10 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: #fff;
-    border: 1px solid #e4e7ed;
-    border-radius: 4px;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    background: white;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     z-index: 1000;
     max-height: 200px;
     overflow-y: auto;
@@ -151,17 +159,58 @@
   }
 
   .dlv-select__option {
-    padding: 8px 12px;
+    padding: 12px 16px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
+    color: #2c3e50;
+    font-weight: 500;
+    border-bottom: 1px solid #f8f9fa;
   }
 
   .dlv-select__option:hover {
-    background-color: #f5f7fa;
+    background-color: #f8f9fa;
+    color: #3498db;
   }
 
   .dlv-select__option--selected {
-    background-color: #f0f9ff;
-    color: #409eff;
+    background-color: #3498db;
+    color: white;
+  }
+
+  .dlv-select__option--selected:hover {
+    background-color: #2980b9;
+    color: white;
+  }
+
+  .dlv-select__option:last-child {
+    border-bottom: none;
+  }
+
+  /* Адаптивность */
+  @media (max-width: 768px) {
+    .dlv-select {
+      min-width: 100px;
+    }
+
+    .dlv-select__trigger {
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+
+    .dlv-select__option {
+      padding: 10px 12px;
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .dlv-select {
+      min-width: 90px;
+    }
+
+    .dlv-select__trigger {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
   }
 </style>

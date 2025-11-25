@@ -5,6 +5,9 @@
     "description": "Verwandle komplexe Aufgaben in elegante Lösungen. Spezialisiert auf Vue 3, TypeScript und die Erstellung skalierbarer Anwendungen mit durchdachter Architektur.",
     "more": "Lebenslauf ansehen"
   },
+  "app": {
+    "examples_title": "Beispiele einiger Lösungen"
+  },
   "about": {
     "intro": "Frontend-Entwickler mit über 6 Jahren Erfahrung in Vue.js.",
     "approach": "Mein Weg in Webentwicklung und Design begann vor mehr als 20 Jahren, was mir ermöglicht hat, einen umfassenden Ansatz für die Erstellung von Schnittstellen zu entwickeln. Ich strebe danach, Anwendungen zu erstellen, die nicht nur funktional und leistungsstark sind, sondern auch eine durchdachte Interaktionslogik und ein sauberes visuelles Design aufweisen.",
@@ -282,6 +285,144 @@
         "Wiederverwendbarkeit von Pipeline-Komponenten und Schritten",
         "Vereinfachtes Debugging und Ausführungsüberwachung",
         "Integration in die bestehende Vue.js-Ökosystem"
+      ]
+    }
+  },
+  "localization": {
+    "title": "Flexibles Lokalisierungssystem mit String-Überschreibungen",
+    "subtitle": "Mechanismus zur Übersetzungsanpassung für verschiedene Bundles",
+    "description": "Das implementierte System ermöglicht das Überschreiben bestimmter Zeichenketten in Locales in Abhängigkeit vom Projekt-Build-Bundle und bietet Flexibilität bei der Anpassung der Benutzeroberfläche für verschiedene Kunden.",
+    "features": {
+      "title": "Hauptfunktionen",
+      "items": [
+        "Überschreiben bestimmter Zeichenketten ohne Duplizierung gesamter Wörterbücher",
+        "Unterstützung mehrerer Sprachen mit Anpassung für jede",
+        "Automatisches Zusammenführen von Standard- und benutzerdefinierten Locales",
+        "Flexible Konfiguration für verschiedene Build-Bundles",
+        "Beibehaltung von Standardwerten für nicht überschriebene Zeichenketten",
+        "Schnelles Hinzufügen neuer benutzerdefinierter Übersetzungen"
+      ]
+    },
+    "architecture": {
+      "title": "Architekturkomponenten",
+      "items": [
+        {
+          "name": "Base Locales",
+          "description": "Hauptübersetzungswörterbücher mit Standardzeichenketten für alle Sprachen"
+        },
+        {
+          "name": "Custom Locales",
+          "description": "Benutzerdefinierte Wörterbücher mit überschriebenen Zeichenketten für bestimmte Bundles"
+        },
+        {
+          "name": "Merge Engine",
+          "description": "Mechanismus zum Zusammenführen von Standard- und benutzerdefinierten Locales während des Builds"
+        },
+        {
+          "name": "Bundle Config",
+          "description": "Bundle-Konfiguration, die benutzerdefinierte Wörterbücher für Überschreibungen angibt"
+        }
+      ]
+    },
+    "process": {
+      "title": "Arbeitsprozess",
+      "steps": [
+        {
+          "title": "Bundle-Identifikation",
+          "description": "Das System identifiziert das aktuelle Build-Bundle und prüft auf benutzerdefinierte Wörterbücher dafür"
+        },
+        {
+          "title": "Lokalisierungs-Laden",
+          "description": "Basis-Übersetzungswörterbücher und benutzerdefinierte Wörterbücher für das angegebene Bundle werden geladen"
+        },
+        {
+          "title": "Wörterbuch-Zusammenführung",
+          "description": "Standard-Locales werden mit benutzerdefinierten zusammengeführt, wobei benutzerdefinierte Zeichenketten Priorität haben"
+        },
+        {
+          "title": "Ergebnisgenerierung",
+          "description": "Finale Übersetzungswörterbücher, die in der Anwendung verwendet werden, werden gebildet"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Vorteile des Ansatzes",
+      "items": [
+        "Flexibilität bei der Anpassung der Benutzeroberfläche für verschiedene Kunden",
+        "Zeitersparnis bei der Pflege mehrerer Übersetzungsversionen",
+        "Reduzierte Fehlerwahrscheinlichkeit bei der Aktualisierung von Locales",
+        "Vereinfachter Prozess zum Hinzufügen neuer benutzerdefinierter Übersetzungen",
+        "Beibehaltung einer einzigen Codebase für alle Bundles",
+        "Schnelle Bereitstellung angepasster Versionen"
+      ]
+    }
+  },
+  "seatMap": {
+    "title": "Universelles Flugzeug-Sitzplatz-Anzeigesystem",
+    "subtitle": "Architektur mit Treibern für verschiedene Datenformate",
+    "description": "Das implementierte System ermöglicht die Anzeige von Flugzeug-Sitzplänen aus verschiedenen Buchungssystemen durch eine einzige universelle Komponente unter Verwendung spezieller Treiber für die Datentransformation.",
+    "features": {
+      "title": "Hauptfunktionen",
+      "items": [
+        "Unterstützung mehrerer Datenformate von verschiedenen Systemen",
+        "Universelle Sitzplan-Anzeigekomponente",
+        "Treibersystem für Datentransformation",
+        "Flexible Konfiguration für neue Kunden",
+        "Isolierte Anzeigegeschäftslogik",
+        "Schneller Anschluss neuer Datenquellen"
+      ]
+    },
+    "architecture": {
+      "title": "Architekturkomponenten",
+      "items": [
+        {
+          "name": "Universal Seat Map Component",
+          "description": "Haupt-Sitzplan-Anzeigekomponente mit einheitlicher API"
+        },
+        {
+          "name": "Data Drivers",
+          "description": "Spezialisierte Treiber zur Transformation von Daten aus verschiedenen Formaten"
+        },
+        {
+          "name": "Seat Map Engine",
+          "description": "Engine zur Verarbeitung und Vorbereitung von Daten für die Anzeige"
+        },
+        {
+          "name": "Configuration Manager",
+          "description": "Konfigurationsmanager zum Verbinden von Treibern mit der Komponente"
+        }
+      ]
+    },
+    "process": {
+      "title": "Arbeitsprozess",
+      "steps": [
+        {
+          "title": "Datenerfassung",
+          "description": "Das System empfängt Sitzplandaten von einem externen System in einem spezifischen Format"
+        },
+        {
+          "title": "Treiberauswahl",
+          "description": "Basierend auf Datentyp oder Kunde wird der entsprechende Transformations-Treiber ausgewählt"
+        },
+        {
+          "title": "Datenumwandlung",
+          "description": "Der Treiber wandelt eingehende Daten in ein einheitliches Format für die Komponente um"
+        },
+        {
+          "title": "Kartenanzeige",
+          "description": "Die universelle Komponente zeigt den Sitzplan basierend auf vorbereiteten Daten an"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Vorteile des Ansatzes",
+      "items": [
+        "Schneller Anschluss neuer Kunden mit eigenen Datenformaten",
+        "Keine Code-Duplizierung in der Anzeigekomponente",
+        "Vereinfachte Systemwartung und Updates",
+        "Isolierung der Geschäftslogik von Datenspezifika",
+        "Skalierbarkeit der Architektur",
+        "Reduzierte Entwicklungszeit für neue Integrationen"
       ]
     }
   }

@@ -189,7 +189,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-width: 100vw;
+    min-width: 100%;
     min-height: 100vh;
     gap: 3rem;
     padding: 2rem;

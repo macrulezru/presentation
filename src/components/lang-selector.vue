@@ -30,12 +30,19 @@
 </script>
 
 <template>
-  <DlvSelect
-    v-model="currentLanguage"
-    :options="languageOptions"
-    placeholder="Select language"
-    @change="handleLanguageChange"
-  />
+  <div class="lang-selector">
+    <DlvSelect
+      v-model="currentLanguage"
+      :options="languageOptions"
+      :placeholder="currentLanguage.name"
+      @change="handleLanguageChange"
+    />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+  .lang-selector {
+    display: flex;
+    align-items: center;
+  }
+</style>
