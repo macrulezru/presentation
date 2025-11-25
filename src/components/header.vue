@@ -17,7 +17,7 @@
     left: 0;
     width: 100%;
     background-color: var(--color-bg-dark);
-    z-index: var(--z-fixed);
+    z-index: var(--z-header);
     box-shadow: var(--shadow-sm);
   }
 

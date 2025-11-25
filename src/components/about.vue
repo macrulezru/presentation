@@ -1,5 +1,9 @@
 <script setup lang="ts">
+  import { ref } from 'vue'
+
   const { t, tm } = useI18n()
+
+  const container = ref<HTMLElement>()
 
   const technologies = computed(() => [
     {
@@ -37,10 +41,12 @@
   ])
 
   const skillsList = computed(() => tm('about.skills_list'))
+
+  defineExpose({ container })
 </script>
 
 <template>
-  <div class="about">
+  <div ref="container" class="about">
     <div class="about__container">
       <div class="about__intro">
         <p class="about__intro-lead">{{ t('about.intro') }}</p>

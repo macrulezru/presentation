@@ -13,10 +13,20 @@
 
   const { t } = useI18n()
 
-  const splashSection = ref('splashSection')
-  const aboutSection = ref('aboutSection')
+  const aboutSection = ref<InstanceType<typeof About>>()
 
-  const scrollToAbout = () => {}
+  const scrollToAbout = () => {
+    if (aboutSection.value?.container) {
+      const headerHeight = 60
+      const elementPosition = aboutSection.value.container.offsetTop
+      const offsetPosition = elementPosition - headerHeight
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      })
+    }
+  }
 </script>
 
 <template>
