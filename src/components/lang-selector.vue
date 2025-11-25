@@ -14,6 +14,7 @@
     { value: 'ru', name: 'Русский' },
     { value: 'en', name: 'English' },
     { value: 'de', name: 'Deutsch' },
+    { value: 'zh', name: '中文' },
   ]
 
   const currentLanguage = computed({

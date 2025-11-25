@@ -6,26 +6,32 @@
 
 <template>
   <div class="experience">
-    <h2 class="experience__title">{{ t('experience.title') }}</h2>
+    <div class="experience__container">
+      <h2 class="experience__title">{{ t('experience.title') }}</h2>
 
-    <div class="experience__timeline">
-      <div v-for="(item, index) in experienceItems" :key="index" class="experience__item">
-        <!-- Точка на временной линии -->
-        <div class="experience__timeline-dot"></div>
+      <div class="experience__timeline">
+        <div
+          v-for="(item, index) in experienceItems"
+          :key="index"
+          class="experience__item"
+        >
+          <!-- Точка на временной линии -->
+          <div class="experience__timeline-dot"></div>
 
-        <!-- Содержимое карточки -->
-        <div class="experience__card">
-          <div class="experience__period">{{ item.period }}</div>
+          <!-- Содержимое карточки -->
+          <div class="experience__card">
+            <div class="experience__period">{{ item.period }}</div>
 
-          <div class="experience__card-header">
-            <h3 class="experience__company">{{ item.company }}</h3>
-            <span class="experience__duration">{{ item.duration }}</span>
-          </div>
+            <div class="experience__card-header">
+              <h3 class="experience__company">{{ item.company }}</h3>
+              <span class="experience__duration">{{ item.duration }}</span>
+            </div>
 
-          <div class="experience__position">{{ item.position }}</div>
+            <div class="experience__position">{{ item.position }}</div>
 
-          <div class="experience__description">
-            {{ item.description }}
+            <div class="experience__description">
+              {{ item.description }}
+            </div>
           </div>
         </div>
       </div>
@@ -35,9 +41,13 @@
 
 <style scoped>
   .experience {
+    padding: 2rem 0;
+  }
+
+  .experience__container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 0 1rem;
   }
 
   .experience__title {
@@ -179,7 +189,11 @@
   /* Стили для мобильных устройств */
   @media (max-width: 768px) {
     .experience {
-      padding: 1rem 0.5rem;
+      padding: 1rem 0;
+    }
+
+    .experience__container {
+      padding: 0 0.5rem;
     }
 
     .experience__title {
@@ -230,6 +244,10 @@
 
   /* Для очень маленьких экранов */
   @media (max-width: 480px) {
+    .experience__container {
+      padding: 0 0.75rem;
+    }
+
     .experience__timeline {
       padding-left: 1.25rem;
     }

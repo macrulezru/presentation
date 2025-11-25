@@ -16,25 +16,25 @@
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #2c3e50;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--color-bg-dark);
+    z-index: var(--z-fixed);
+    box-shadow: var(--shadow-sm);
   }
 
   .header__content {
-    max-width: 1200px;
+    max-width: var(--container-xl);
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 var(--spacing-md);
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    height: 60px;
+    height: var(--header-height);
   }
 
   @media (max-width: 768px) {
     .header__content {
-      padding: 0 0.5rem;
-      height: 50px;
+      padding: 0 var(--spacing-sm);
+      height: var(--header-height-mobile);
     }
   }
 </style>

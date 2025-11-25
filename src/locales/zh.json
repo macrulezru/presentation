@@ -1,0 +1,429 @@
+{
+  "splash": {
+    "welcome": "李辛·丹尼尔·弗拉基米罗维奇",
+    "subtitle": "Vue.js 开发工程师",
+    "description": "将复杂任务转化为优雅的解决方案。专注于 Vue 3、TypeScript 和构建具有深思熟虑架构的可扩展应用程序。",
+    "more": "查看简历"
+  },
+  "app": {
+    "examples_title": "部分解决方案示例"
+  },
+  "about": {
+    "intro": "拥有 6 年以上 Vue.js 经验的前端开发工程师。",
+    "approach": "我在网页开发和设计领域的旅程始于 20 多年前，这使我形成了创建用户界面的综合方法。我致力于让应用程序不仅功能强大、性能优异，而且具备经过深思熟虑的交互逻辑和整洁的视觉效果。",
+    "skills_title": "在工作中，我注重架构的清晰性、代码的可维护性和类型安全性。拥有复杂 SPA 前端部分全周期开发经验：",
+    "skills_list": [
+      {
+        "title": "应用程序结构设计",
+        "description": "开发模块化和可扩展的架构，组织代码库以便于维护和发展"
+      },
+      {
+        "title": "界面布局",
+        "description": "使用现代方法（Flexbox、Grid）创建响应式、跨浏览器且可访问的界面"
+      },
+      {
+        "title": "状态管理实现",
+        "description": "配置集中式存储（Pinia/Vuex），组织数据及其在组件间的响应式关联"
+      },
+      {
+        "title": "客户端-服务器交互",
+        "description": "构建用于 API 交互的服务层，处理错误，实现重试机制和缓存"
+      },
+      {
+        "title": "路由",
+        "description": "开发具有嵌套路由、受保护路由和组件懒加载功能的复杂导航系统"
+      }
+    ],
+    "conclusion": "这种方法能够创建可靠且可扩展的解决方案，便于发展和维护。",
+    "tech_title": "技术与工具"
+  },
+  "tech": {
+    "javascript": "一切的基础。编写现代 ES6+ 代码",
+    "vue": "我的主要专业方向。Vue 3, Composition API",
+    "typescript": "严格的类型系统保障代码可靠性",
+    "pinia": "应用程序状态管理",
+    "vite": "用于快速开发的现代构建工具",
+    "i18n": "本地化和多语言界面",
+    "html": "语义化和可访问的布局",
+    "css": "响应式设计, Flexbox, Grid"
+  },
+  "experience": {
+    "title": "工作经历",
+    "items": [
+      {
+        "company": "在线预订系统",
+        "duration": "4年11个月",
+        "position": "高级HTML布局工程师 / 前端开发工程师",
+        "period": "2020年12月 — 2025年10月",
+        "description": "从事 TWx, TravelShop 公司的产品开发。使用 Vue 3 设计和开发组件，在 Bitrix 管理下支持 TravelShop 模板。"
+      },
+      {
+        "company": "塔伊斯",
+        "duration": "3年3个月",
+        "position": "网页开发工程师",
+        "period": "2017年10月 — 2020年12月",
+        "description": "开发航班预订和登记的前端系统"
+      },
+      {
+        "company": "TNT, 电视公司",
+        "duration": "5个月",
+        "position": "网页设计师",
+        "period": "2017年6月 — 2017年10月",
+        "description": "创建动画和交互式横幅。绘图、布局、JS 编程。"
+      },
+      {
+        "company": "Bauservice, 有限责任公司",
+        "duration": "6个月",
+        "position": "网页设计师",
+        "period": "2016年9月 — 2017年2月",
+        "description": "网站、横幅、图标设计，布局"
+      },
+      {
+        "company": "欧洲媒体集团 (EMG)",
+        "duration": "1年4个月",
+        "position": "网页设计师",
+        "period": "2014年11月 — 2016年2月",
+        "description": "网页设计师，网页开发工程师"
+      },
+      {
+        "company": "Advego",
+        "duration": "2年11个月",
+        "position": "网页设计师，网页开发工程师",
+        "period": "2011年6月 — 2014年4月",
+        "description": "设计，编程"
+      },
+      {
+        "company": "NIKITA ONLINE",
+        "duration": "5个月",
+        "position": "网页设计师",
+        "period": "2010年8月 — 2010年12月",
+        "description": "公司网站设计"
+      },
+      {
+        "company": "Nettrader",
+        "duration": "6个月",
+        "position": "网页设计师",
+        "period": "2008年6月 — 2008年11月",
+        "description": "网页设计师"
+      },
+      {
+        "company": "SOLDIS 传播机构",
+        "duration": "4个月",
+        "position": "网页设计师",
+        "period": "2007年9月 — 2007年12月",
+        "description": "网页设计师"
+      },
+      {
+        "company": "Yutinet.Ru",
+        "duration": "5个月",
+        "position": "网页设计师",
+        "period": "2007年8月 — 2007年12月",
+        "description": "网页设计师"
+      },
+      {
+        "company": "ION 数字中心",
+        "duration": "2年",
+        "position": "网页设计师",
+        "period": "2006年1月 — 2007年12月",
+        "description": "网页设计师"
+      },
+      {
+        "company": "ADT Web Solutions",
+        "duration": "1年10个月",
+        "position": "网页设计师",
+        "period": "2005年1月 — 2006年10月",
+        "description": "网页设计师"
+      },
+      {
+        "company": "自由职业",
+        "duration": "1年5个月",
+        "position": "网页设计师",
+        "period": "2004年8月 — 2005年12月",
+        "description": "网页设计师"
+      },
+      {
+        "company": "Artez 制作",
+        "duration": "7个月",
+        "position": "网页设计师",
+        "period": "2004年1月 — 2004年7月",
+        "description": "网页设计师"
+      },
+      {
+        "company": "Publicis United",
+        "duration": "3年1个月",
+        "position": "网页设计师",
+        "period": "2000年1月 — 2003年1月",
+        "description": "网页设计师"
+      },
+      {
+        "company": "AVM New Wave Inc.",
+        "duration": "1年1个月",
+        "position": "网页设计师",
+        "period": "1997年1月 — 1998年1月",
+        "description": "网页设计师"
+      }
+    ]
+  },
+  "travelshop": {
+    "title": "TravelShop - 机票预订系统",
+    "role": "高级前端开发工程师",
+    "period": "2020年12月 — 2025年10月",
+    "description": "为包括 Azimuth 航空在内的各大航空公司开发和支持现代化的机票预订系统",
+    "features": {
+      "title": "系统核心功能",
+      "items": [
+        "实时机票搜索和预订",
+        "复杂的票价和费用计算业务逻辑",
+        "带数据验证的多步骤预订流程",
+        "订单和乘客管理系统",
+        "与预订系统（GDS）集成",
+        "支持附加服务（行李、餐食、保险）",
+        "适用于所有设备的响应式设计"
+      ]
+    },
+    "tech_stack": {
+      "title": "技术栈",
+      "items": [
+        "使用 Composition API 和 TypeScript 的 Vue 3",
+        "自研 UI 组件库",
+        "使用 Vite 进行快速构建和开发",
+        "使用 Pinia 进行应用程序状态管理",
+        "带组件懒加载的 Vue Router",
+        "具有集中错误处理功能的 REST API",
+        "国际化 (i18n)"
+      ]
+    },
+    "achievements": {
+      "title": "成就与成果",
+      "items": [
+        "开发了可扩展的组件架构，使新功能的开发速度提高了 40%",
+        "创建了表单验证系统，将预订过程中的错误减少了 60%",
+        "实现了搜索查询缓存机制，性能提升了 25%",
+        "建立了代码审查流程并引入了静态类型，提高了代码可靠性",
+        "开发了响应式设计，确保在所有类型的设备上都能正常工作"
+      ]
+    },
+    "projects": {
+      "title": "已实施项目",
+      "items": [
+        {
+          "name": "Azimuth 航空公司",
+          "url": "https://booking.azimuth.ru/new/",
+          "description": "具有定制化设计的功能齐全的预订系统"
+        },
+        {
+          "name": "TravelShop 白标平台",
+          "url": "https://ors-aero.ru/travelshop",
+          "description": "用于快速部署预订系统的基础平台"
+        }
+      ]
+    }
+  },
+  "pipeline": {
+    "title": "异步流水线管理系统",
+    "subtitle": "用于复杂顺序操作的架构",
+    "description": "开发的系统用于管理多任务异步流程，具有进度跟踪、错误处理功能，并基于 TypeScript 实现类型安全。",
+    "features": {
+      "title": "核心功能",
+      "items": [
+        "多个流水线的并行执行",
+        "实时的详细进度跟踪",
+        "基于 TypeScript 的完全类型安全",
+        "灵活的错误处理系统",
+        "步骤的条件执行和自定义处理器",
+        "自动资源清理"
+      ]
+    },
+    "architecture": {
+      "title": "架构组件",
+      "items": [
+        {
+          "name": "存储层",
+          "description": "集中管理所有活动流水线的状态，计算总体进度"
+        },
+        {
+          "name": "流水线引擎",
+          "description": "支持条件、处理器和上下文传递的步骤执行器"
+        },
+        {
+          "name": "类型系统",
+          "description": "步骤、配置和执行结果的严格类型化"
+        },
+        {
+          "name": "错误处理",
+          "description": "集中错误处理，提供关于步骤和上下文的详细信息"
+        }
+      ]
+    },
+    "process": {
+      "title": "工作流程",
+      "steps": [
+        {
+          "title": "注册流水线",
+          "description": "系统创建唯一标识符，确定总步骤数并初始化进度跟踪"
+        },
+        {
+          "title": "顺序执行",
+          "description": "步骤按顺序执行，并在它们之间传递上下文。每个步骤可以有执行条件和自定义处理器"
+        },
+        {
+          "title": "跟踪进度",
+          "description": "集中存储实时更新执行状态，确保在 UI 中准确显示进度"
+        },
+        {
+          "title": "完成与清理",
+          "description": "所有步骤执行完毕后，系统自动清理资源，完成上下文并通知完成"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "方法优势",
+      "items": [
+        "通过精确显示进度改善用户体验",
+        "通过集中错误处理提高可靠性",
+        "适用于复杂业务流程的可扩展性",
+        "组件和流水线步骤的可重用性",
+        "简化执行过程的调试和监控",
+        "与现有 Vue.js 生态系统集成"
+      ]
+    }
+  },
+  "localization": {
+    "title": "支持覆写翻译的灵活本地化系统",
+    "subtitle": "针对不同构建包的翻译自定义机制",
+    "description": "实现的系统允许根据项目构建的包覆写特定翻译，为不同客户定制界面提供了灵活性。",
+    "features": {
+      "title": "核心功能",
+      "items": [
+        "无需复制整个词典即可覆写特定翻译",
+        "支持多种语言，每种语言均可自定义",
+        "默认本地化文件与自定义本地化文件的自动合并",
+        "针对不同构建包的灵活配置",
+        "保留未覆写翻译的默认值",
+        "快速添加新的自定义翻译"
+      ]
+    },
+    "architecture": {
+      "title": "架构组件",
+      "items": [
+        {
+          "name": "基础本地化文件",
+          "description": "包含所有语言标准翻译的主要词典"
+        },
+        {
+          "name": "自定义本地化文件",
+          "description": "包含针对特定构建包覆写翻译的自定义词典"
+        },
+        {
+          "name": "合并引擎",
+          "description": "在构建时合并默认和自定义本地化文件的机制"
+        },
+        {
+          "name": "构建包配置",
+          "description": "构建包配置，指定用于覆写的自定义词典"
+        }
+      ]
+    },
+    "process": {
+      "title": "工作流程",
+      "steps": [
+        {
+          "title": "确定构建包",
+          "description": "系统识别当前构建包并检查其是否存在自定义词典"
+        },
+        {
+          "title": "加载本地化文件",
+          "description": "加载基础翻译词典和指定构建包的自定义词典"
+        },
+        {
+          "title": "合并词典",
+          "description": "默认本地化文件与自定义本地化文件合并，自定义翻译具有优先权"
+        },
+        {
+          "title": "生成结果",
+          "description": "形成应用程序中使用的最终翻译词典"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "方法优势",
+      "items": [
+        "灵活地为不同客户定制界面",
+        "节省维护多个翻译版本的时间",
+        "降低更新本地化文件时出错的可能性",
+        "简化添加新自定义翻译的过程",
+        "为所有构建包保持统一的代码库",
+        "快速部署定制版本"
+      ]
+    }
+  },
+  "seatMap": {
+    "title": "通用飞机座位图显示系统",
+    "subtitle": "支持不同数据格式驱动程序的架构",
+    "description": "实现的系统允许通过统一的通用组件显示来自不同预订系统的飞机座位图，使用特殊的驱动程序进行数据转换。",
+    "features": {
+      "title": "核心功能",
+      "items": [
+        "支持来自不同系统的多种数据格式",
+        "通用的座位图显示组件",
+        "用于数据转换的驱动程序系统",
+        "针对新客户的灵活配置",
+        "隔离的显示业务逻辑",
+        "快速连接新的数据源"
+      ]
+    },
+    "architecture": {
+      "title": "架构组件",
+      "items": [
+        {
+          "name": "通用座位图组件",
+          "description": "具有统一 API 的主要座位图显示组件"
+        },
+        {
+          "name": "数据驱动程序",
+          "description": "用于转换不同格式数据的专用驱动程序"
+        },
+        {
+          "name": "座位图引擎",
+          "description": "处理和准备显示数据的引擎"
+        },
+        {
+          "name": "配置管理器",
+          "description": "用于将驱动程序连接到组件的配置管理器"
+        }
+      ]
+    },
+    "process": {
+      "title": "工作流程",
+      "steps": [
+        {
+          "title": "获取数据",
+          "description": "系统从外部系统获取特定格式的座位图数据"
+        },
+        {
+          "title": "选择驱动程序",
+          "description": "根据数据类型或客户选择相应的数据转换驱动程序"
+        },
+        {
+          "title": "转换数据",
+          "description": "驱动程序将传入数据转换为组件的统一格式"
+        },
+        {
+          "title": "渲染座位图",
+          "description": "通用组件基于准备好的数据显示座位图"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "方法优势",
+      "items": [
+        "快速连接具有自身数据格式的新客户",
+        "避免在显示组件中重复代码",
+        "简化系统的支持和更新",
+        "业务逻辑与数据细节隔离",
+        "架构的可扩展性",
+        "减少新集成的开发时间"
+      ]
+    }
+  }
+}

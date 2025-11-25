@@ -41,35 +41,37 @@
 
 <template>
   <div class="about">
-    <div class="about__intro">
-      <p class="about__intro-lead">{{ t('about.intro') }}</p>
-      <p>{{ t('about.approach') }}</p>
+    <div class="about__container">
+      <div class="about__intro">
+        <p class="about__intro-lead">{{ t('about.intro') }}</p>
+        <p>{{ t('about.approach') }}</p>
 
-      <div class="about__skills">
-        <p class="about__skills-title">{{ t('about.skills_title') }}</p>
-        <ul class="about__skills-list">
-          <li
-            v-for="(skill, index) in skillsList"
-            :key="index"
-            class="about__skills-item"
-          >
-            <span class="about__skill-title">{{ skill.title }}</span>
-            <span class="about__skill-description">{{ skill.description }}</span>
-          </li>
-        </ul>
-        <p class="about__skills-conclusion">{{ t('about.conclusion') }}</p>
+        <div class="about__skills">
+          <p class="about__skills-title">{{ t('about.skills_title') }}</p>
+          <ul class="about__skills-list">
+            <li
+              v-for="(skill, index) in skillsList"
+              :key="index"
+              class="about__skills-item"
+            >
+              <span class="about__skill-title">{{ skill.title }}</span>
+              <span class="about__skill-description">{{ skill.description }}</span>
+            </li>
+          </ul>
+          <p class="about__skills-conclusion">{{ t('about.conclusion') }}</p>
+        </div>
       </div>
-    </div>
 
-    <h3 class="about__tech-title">{{ t('about.tech_title') }}</h3>
+      <h3 class="about__tech-title">{{ t('about.tech_title') }}</h3>
 
-    <div class="about__tech-wrapper">
-      <div v-for="tech in technologies" :key="tech.icon" class="about__tech-item">
-        <div
-          class="about__tech-item-icon"
-          :class="`about__tech-item-icon_${tech.icon}`"
-        />
-        <div class="about__tech-item-description">{{ tech.description }}</div>
+      <div class="about__tech-wrapper">
+        <div v-for="tech in technologies" :key="tech.icon" class="about__tech-item">
+          <div
+            class="about__tech-item-icon"
+            :class="`about__tech-item-icon_${tech.icon}`"
+          />
+          <div class="about__tech-item-description">{{ tech.description }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -77,47 +79,64 @@
 
 <style scoped>
   .about {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .about__container {
+    max-width: var(--container-lg);
     margin: 0 auto;
-    padding: 20px;
-    max-width: 800px;
+    padding: 0 var(--spacing-md);
   }
 
   .about__intro {
     line-height: 1.6;
-    color: #2c3e50;
-    font-size: 1.1rem;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-lg);
   }
 
   .about__intro p {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--spacing-lg);
     text-align: left;
   }
 
   .about__intro-lead {
-    font-weight: 600;
-    font-size: 1.2rem;
-    color: #2c3e50;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-xl);
+    color: var(--color-text-primary);
   }
 
   .about__skills {
-    background: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin: 2rem 0;
+    background: var(--color-bg-secondary);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    margin: var(--spacing-xl) 0;
   }
 
   .about__skills-title {
-    margin-bottom: 1rem !important;
-    font-weight: 500;
+    margin-bottom: var(--spacing-md) !important;
+    font-weight: var(--font-weight-medium);
   }
 
   .about__skills-list {
-    margin: 1rem 0;
-    padding-left: 1.5rem;
+    margin: var(--spacing-md) 0;
+    padding-left: var(--spacing-lg);
+    list-style: none;
   }
 
   .about__skills-item {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.5;
+    position: relative;
+    padding-left: var(--spacing-md);
+  }
+
+  .about__skills-item::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #8e9ba7;
+    font-size: var(--font-size-xl);
     line-height: 1.5;
   }
 
@@ -127,38 +146,37 @@
 
   .about__skill-title {
     display: block;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 0.5rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
   }
 
   .about__skill-description {
     display: block;
-    color: #5a6c7d;
-    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
     line-height: 1.4;
   }
 
   .about__skills-conclusion {
-    margin-top: 1.5rem !important;
+    margin-top: var(--spacing-lg) !important;
     font-style: italic;
   }
 
   .about__tech-title {
     text-align: center;
-    margin: 3rem 0 1.5rem 0;
-    color: #2c3e50;
-    font-size: 1.5rem;
-    font-weight: 600;
+    margin: var(--spacing-3xl) 0 var(--spacing-lg) 0;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-semibold);
   }
 
   .about__tech-wrapper {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    margin-top: 0;
     border-radius: 10px;
-    border: solid 1px #bdbdbd;
-    padding: 1.5rem;
+    border: solid 1px var(--color-border-muted);
+    padding: var(--spacing-lg);
   }
 
   .about__tech-item {
@@ -166,13 +184,13 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 1rem;
+    padding: var(--spacing-md);
   }
 
   .about__tech-item-icon {
-    margin-bottom: 0.5rem;
-    width: 50px;
-    height: 50px;
+    margin-bottom: var(--spacing-sm);
+    width: var(--icon-size-xl);
+    height: var(--icon-size-xl);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
@@ -211,45 +229,64 @@
   }
 
   .about__tech-item-description {
-    font-size: 0.7rem;
-    color: #5a6c7d;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
     line-height: 1.3;
   }
 
   @media (max-width: 768px) {
+    .about {
+      padding: var(--spacing-md) 0;
+    }
+
+    .about__container {
+      padding: 0 var(--spacing-sm);
+    }
+
     .about__intro {
-      font-size: 1rem;
-      padding: 0 1rem;
+      font-size: var(--font-size-md);
     }
 
     .about__skills {
-      padding: 1rem;
-      margin: 1.5rem 0;
+      padding: var(--spacing-md);
+      margin: var(--spacing-lg) 0;
     }
 
     .about__skills-list {
-      padding-left: 1rem;
+      padding-left: var(--spacing-md);
     }
 
     .about__tech-title {
-      font-size: 1.3rem;
-      margin: 2rem 0 1rem 0;
+      font-size: var(--font-size-2xl);
+      margin: var(--spacing-xl) 0 var(--spacing-md) 0;
     }
 
     .about__tech-wrapper {
       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      padding: var(--spacing-md);
     }
 
     .about__tech-item {
-      padding: 0.75rem;
-    }
-
-    .about__tech-item-icon {
-      font-size: 1rem;
+      padding: var(--spacing-sm);
     }
 
     .about__tech-item-description {
-      font-size: 0.75rem;
+      font-size: var(--font-size-sm);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .about__container {
+      padding: 0 var(--spacing-sm);
+    }
+
+    .about__tech-wrapper {
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      padding: var(--spacing-sm);
+    }
+
+    .about__tech-item {
+      padding: var(--spacing-xs);
     }
   }
 </style>

@@ -191,8 +191,8 @@
     align-items: center;
     min-width: 100%;
     min-height: 100vh;
-    gap: 3rem;
-    padding: 2rem;
+    gap: var(--spacing-3xl);
+    padding: var(--spacing-xl) var(--spacing-md);
     text-align: center;
     background-image: url('@/assets/images/splash-background.jpg');
     background-repeat: no-repeat;
@@ -212,24 +212,24 @@
   }
 
   .splash__content {
-    max-width: 600px;
-    color: #ffffff;
+    max-width: var(--container-sm);
+    color: var(--color-text-light);
   }
 
   .splash__title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
+    font-size: var(--font-size-5xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-md);
   }
 
   .splash__subtitle {
-    font-size: 1.5rem;
-    font-weight: 500;
-    margin-bottom: 1.5rem;
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-lg);
   }
 
   .splash__description {
-    font-size: 1.1rem;
+    font-size: var(--font-size-lg);
     line-height: 1.6;
   }
 
@@ -251,12 +251,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-md);
     color: #506e8a;
     opacity: 0.8;
     cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 10;
+    transition: all var(--transition-normal);
+    z-index: var(--z-tooltip);
   }
 
   .compact-chevron:hover {
@@ -274,18 +274,16 @@
   .compact-chevron-icon:nth-child(1) {
     opacity: 1;
   }
-
   .compact-chevron-icon:nth-child(2) {
     opacity: 0.6;
   }
-
   .compact-chevron-icon:nth-child(3) {
     opacity: 0.3;
   }
 
   .compact-label {
-    font-size: 0.7rem;
-    font-weight: 500;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
     letter-spacing: 1px;
   }
 
@@ -299,18 +297,17 @@
     }
   }
 
-  /* Адаптивность */
   @media (max-width: 768px) {
     .splash__title {
-      font-size: 2rem;
+      font-size: var(--font-size-4xl);
     }
 
     .splash__subtitle {
-      font-size: 1.25rem;
+      font-size: var(--font-size-2xl);
     }
 
     .splash__description {
-      font-size: 1rem;
+      font-size: var(--font-size-md);
     }
 
     .splash__animation {

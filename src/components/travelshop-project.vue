@@ -9,82 +9,86 @@
 
 <template>
   <div class="travelshop">
-    <div class="travelshop__header">
-      <h2 class="travelshop__title">{{ t('travelshop.title') }}</h2>
-      <div class="travelshop__meta">
-        <span class="travelshop__role">{{ t('travelshop.role') }}</span>
-        <span class="travelshop__period">{{ t('travelshop.period') }}</span>
-      </div>
-      <p class="travelshop__description">{{ t('travelshop.description') }}</p>
-    </div>
-
-    <div class="travelshop__content">
-      <!-- Ключевые функции -->
-      <div class="travelshop__section">
-        <h3 class="travelshop__section-title">{{ t('travelshop.features.title') }}</h3>
-        <div class="travelshop__features">
-          <div
-            v-for="(feature, index) in features"
-            :key="index"
-            class="travelshop__feature"
-          >
-            <div class="travelshop__feature-icon">⚡</div>
-            <span>{{ feature }}</span>
-          </div>
+    <div class="travelshop__container">
+      <div class="travelshop__header">
+        <h2 class="travelshop__title">{{ t('travelshop.title') }}</h2>
+        <div class="travelshop__meta">
+          <span class="travelshop__role">{{ t('travelshop.role') }}</span>
+          <span class="travelshop__period">{{ t('travelshop.period') }}</span>
         </div>
+        <p class="travelshop__description">{{ t('travelshop.description') }}</p>
       </div>
 
-      <!-- Технологический стек -->
-      <div class="travelshop__section">
-        <h3 class="travelshop__section-title">{{ t('travelshop.tech_stack.title') }}</h3>
-        <div class="travelshop__tech-stack">
-          <div
-            v-for="(tech, index) in techStack"
-            :key="index"
-            class="travelshop__tech-item"
-          >
-            <div class="travelshop__tech-dot"></div>
-            <span>{{ tech }}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Достижения -->
-      <div class="travelshop__section">
-        <h3 class="travelshop__section-title">
-          {{ t('travelshop.achievements.title') }}
-        </h3>
-        <div class="travelshop__achievements">
-          <div
-            v-for="(achievement, index) in achievements"
-            :key="index"
-            class="travelshop__achievement"
-          >
-            <div class="travelshop__achievement-number">{{ index + 1 }}</div>
-            <div class="travelshop__achievement-content">
-              {{ achievement }}
+      <div class="travelshop__content">
+        <!-- Ключевые функции -->
+        <div class="travelshop__section">
+          <h3 class="travelshop__section-title">{{ t('travelshop.features.title') }}</h3>
+          <div class="travelshop__features">
+            <div
+              v-for="(feature, index) in features"
+              :key="index"
+              class="travelshop__feature"
+            >
+              <div class="travelshop__feature-icon">⚡</div>
+              <span>{{ feature }}</span>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Проекты -->
-      <div class="travelshop__section">
-        <h3 class="travelshop__section-title">{{ t('travelshop.projects.title') }}</h3>
-        <div class="travelshop__projects">
-          <a
-            v-for="(project, index) in projects"
-            :key="index"
-            :href="project.url"
-            target="_blank"
-            class="travelshop__project"
-          >
-            <div class="travelshop__project-header">
-              <h4 class="travelshop__project-name">{{ project.name }}</h4>
-              <div class="travelshop__project-arrow">↗</div>
+        <!-- Технологический стек -->
+        <div class="travelshop__section">
+          <h3 class="travelshop__section-title">
+            {{ t('travelshop.tech_stack.title') }}
+          </h3>
+          <div class="travelshop__tech-stack">
+            <div
+              v-for="(tech, index) in techStack"
+              :key="index"
+              class="travelshop__tech-item"
+            >
+              <div class="travelshop__tech-dot"></div>
+              <span>{{ tech }}</span>
             </div>
-            <p class="travelshop__project-description">{{ project.description }}</p>
-          </a>
+          </div>
+        </div>
+
+        <!-- Достижения -->
+        <div class="travelshop__section">
+          <h3 class="travelshop__section-title">
+            {{ t('travelshop.achievements.title') }}
+          </h3>
+          <div class="travelshop__achievements">
+            <div
+              v-for="(achievement, index) in achievements"
+              :key="index"
+              class="travelshop__achievement"
+            >
+              <div class="travelshop__achievement-number">{{ index + 1 }}</div>
+              <div class="travelshop__achievement-content">
+                {{ achievement }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Проекты -->
+        <div class="travelshop__section">
+          <h3 class="travelshop__section-title">{{ t('travelshop.projects.title') }}</h3>
+          <div class="travelshop__projects">
+            <a
+              v-for="(project, index) in projects"
+              :key="index"
+              :href="project.url"
+              target="_blank"
+              class="travelshop__project"
+            >
+              <div class="travelshop__project-header">
+                <h4 class="travelshop__project-name">{{ project.name }}</h4>
+                <div class="travelshop__project-arrow">↗</div>
+              </div>
+              <p class="travelshop__project-description">{{ project.description }}</p>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -93,220 +97,223 @@
 
 <style scoped>
   .travelshop {
-    max-width: 800px;
+    padding: var(--spacing-xl) 0;
+  }
+
+  .travelshop__container {
+    max-width: var(--container-lg);
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 0 var(--spacing-md);
   }
 
   .travelshop__header {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: var(--spacing-3xl);
   }
 
   .travelshop__title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #2c3e50;
-    margin-bottom: 1rem;
+    font-size: var(--font-size-5xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
   }
 
   .travelshop__meta {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
-    margin-bottom: 1.5rem;
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
     flex-wrap: wrap;
   }
 
   .travelshop__role {
-    background: #3498db;
-    color: white;
-    padding: 0.5rem 1.5rem;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 0.9rem;
+    background: var(--color-secondary);
+    color: var(--color-text-light);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-pill);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-base);
   }
 
   .travelshop__period {
-    color: #7f8c8d;
-    font-weight: 500;
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
   }
 
   .travelshop__description {
-    font-size: 1.2rem;
-    color: #5a6c7d;
+    font-size: var(--font-size-xl);
+    color: var(--color-text-secondary);
     line-height: 1.6;
-    max-width: 600px;
+    max-width: var(--container-sm);
     margin: 0 auto;
   }
 
   .travelshop__content {
     display: grid;
-    gap: 3rem;
+    gap: var(--spacing-3xl);
   }
 
   .travelshop__section {
-    background: white;
-    border-radius: 16px;
+    background: var(--color-bg-card);
+    border-radius: var(--radius-xl);
   }
 
   .travelshop__section-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #f1f3f4;
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--color-border-light);
   }
 
-  /* Стили для функций */
   .travelshop__features {
     display: grid;
-    gap: 1rem;
+    gap: var(--spacing-md);
   }
 
   .travelshop__feature {
     display: flex;
     align-items: flex-start;
-    gap: 1rem;
-    padding: 1rem;
-    background: #f8f9fa;
-    border-radius: 12px;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
   }
 
   .travelshop__feature-icon {
-    font-size: 1.2rem;
+    font-size: var(--font-size-xl);
     flex-shrink: 0;
   }
 
-  /* Стили для технологического стека */
   .travelshop__tech-stack {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
+    gap: var(--spacing-md);
   }
 
   .travelshop__tech-item {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    background: #f8f9fa;
-    border-radius: 8px;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-md);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
   }
 
   .travelshop__tech-dot {
     width: 8px;
     height: 8px;
-    border-radius: 50%;
-    background: #3498db;
+    border-radius: var(--radius-full);
+    background: var(--color-secondary);
     flex-shrink: 0;
   }
 
-  /* Стили для достижений */
   .travelshop__achievements {
     display: grid;
-    gap: 1.5rem;
+    gap: var(--spacing-lg);
   }
 
   .travelshop__achievement {
     display: flex;
-    gap: 1.5rem;
+    gap: var(--spacing-lg);
     align-items: flex-start;
   }
 
   .travelshop__achievement-number {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #3498db;
-    color: white;
+    width: var(--icon-size-lg);
+    height: var(--icon-size-lg);
+    border-radius: var(--radius-full);
+    background: var(--color-secondary);
+    color: var(--color-text-light);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     flex-shrink: 0;
   }
 
   .travelshop__achievement-content {
     flex: 1;
-    padding-top: 0.5rem;
+    padding-top: var(--spacing-sm);
     line-height: 1.6;
-    color: #5a6c7d;
+    color: var(--color-text-secondary);
   }
 
-  /* Стили для проектов */
   .travelshop__projects {
     display: flex;
-    gap: 1.5rem;
+    gap: var(--spacing-lg);
   }
 
   .travelshop__project {
     display: block;
-    padding: 1.5rem;
-    background: #f8f9fa;
-    border-radius: 12px;
+    padding: var(--spacing-lg);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
     text-decoration: none;
     color: inherit;
-    transition: all 0.3s ease;
+    transition: all var(--transition-normal);
     border: 1px solid transparent;
   }
 
   .travelshop__project:hover {
-    background: white;
-    border-color: #3498db;
+    background: var(--color-bg-primary);
+    border-color: var(--color-secondary);
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.15);
+    box-shadow: var(--shadow-blue);
   }
 
   .travelshop__project-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.75rem;
+    margin-bottom: var(--spacing-md);
   }
 
   .travelshop__project-name {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #2c3e50;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
     margin: 0;
   }
 
   .travelshop__project-arrow {
-    font-size: 1.2rem;
-    color: #3498db;
+    font-size: var(--font-size-xl);
+    color: var(--color-secondary);
   }
 
   .travelshop__project-description {
-    color: #5a6c7d;
+    color: var(--color-text-secondary);
     line-height: 1.5;
     margin: 0;
   }
 
-  /* Адаптивность */
   @media (max-width: 768px) {
     .travelshop {
-      padding: 1rem 0.5rem;
+      padding: var(--spacing-md) 0;
+    }
+
+    .travelshop__container {
+      padding: 0 var(--spacing-sm);
     }
 
     .travelshop__title {
-      font-size: 2rem;
+      font-size: var(--font-size-4xl);
     }
 
     .travelshop__meta {
       flex-direction: column;
-      gap: 1rem;
+      gap: var(--spacing-md);
     }
 
     .travelshop__description {
-      padding: 0 1rem;
-      font-size: 1.1rem;
+      padding: 0 var(--spacing-md);
+      font-size: var(--font-size-lg);
     }
 
     .travelshop__section {
-      padding: 1rem;
+      padding: var(--spacing-md);
     }
 
     .travelshop__projects {
@@ -318,27 +325,31 @@
     }
 
     .travelshop__achievement {
-      gap: 1rem;
+      gap: var(--spacing-md);
     }
 
     .travelshop__achievement-number {
-      width: 32px;
-      height: 32px;
-      font-size: 0.9rem;
+      width: var(--icon-size-md);
+      height: var(--icon-size-md);
+      font-size: var(--font-size-base);
     }
   }
 
   @media (max-width: 480px) {
+    .travelshop__container {
+      padding: 0 var(--spacing-sm);
+    }
+
     .travelshop__title {
-      font-size: 1.75rem;
+      font-size: var(--font-size-3xl);
     }
 
     .travelshop__section {
-      padding: 1.25rem;
+      padding: var(--spacing-md);
     }
 
     .travelshop__feature {
-      padding: 0.75rem;
+      padding: var(--spacing-md);
     }
   }
 </style>
