@@ -1,0 +1,12 @@
+{
+  "welcome": "Welcome",
+  "greeting": "Hello, {name}!",
+  "buttons": {
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "messages": {
+    "success": "Operation completed successfully",
+    "error": "An error occurred"
+  }
+}

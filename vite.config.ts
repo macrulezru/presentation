@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import AutoImport from 'unplugin-auto-import/vite' // ← добавляем эту строку
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -14,6 +15,18 @@ export default defineConfig({
       },
     }),
     vueDevTools(),
+    AutoImport({
+      imports: [
+        'vue',
+        {
+          '@/composables/useI18n': ['useI18n'],
+        },
+      ],
+      dts: 'src/auto-imports.d.ts',
+      eslintrc: {
+        enabled: true,
+      },
+    }),
   ],
   resolve: {
     alias: {

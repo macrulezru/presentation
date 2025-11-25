@@ -58,6 +58,46 @@ export default defineConfigWithVueTs(
       'vue/multi-word-component-names': 'off',
       'vue/no-multiple-template-root': 'off',
 
+      // Правила для форматирования template
+      'vue/html-indent': ['error', 2],
+      'vue/html-closing-bracket-newline': [
+        'error',
+        {
+          singleline: 'never',
+          multiline: 'always',
+        },
+      ],
+      'vue/html-self-closing': [
+        'error',
+        {
+          html: {
+            void: 'always',
+            normal: 'always',
+            component: 'always',
+          },
+          svg: 'always',
+          math: 'always',
+        },
+      ],
+      'vue/max-attributes-per-line': [
+        'error',
+        {
+          singleline: 3,
+          multiline: 1,
+        },
+      ],
+      'vue/first-attribute-linebreak': [
+        'error',
+        {
+          singleline: 'ignore',
+          multiline: 'below',
+        },
+      ],
+      'vue/multiline-html-element-content-newline': 'error',
+      'vue/singleline-html-element-content-newline': 'off',
+      'vue/attribute-hyphenation': ['error', 'never'],
+      'vue/mustache-interpolation-spacing': ['error', 'always'],
+
       // Composition API лучшие практики
       'vue/prefer-import-from-vue': 'error',
       'vue/no-ref-object-destructure': 'error',
@@ -74,11 +114,36 @@ export default defineConfigWithVueTs(
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/prefer-const': 'error',
 
+      // Правила для деструктуризации
+      'object-curly-spacing': ['error', 'always'],
+      'object-curly-newline': [
+        'error',
+        {
+          ObjectExpression: { multiline: true, minProperties: 2 },
+          ObjectPattern: { multiline: true, minProperties: 2 },
+          ImportDeclaration: { multiline: true, minProperties: 2 },
+          ExportDeclaration: { multiline: true, minProperties: 2 },
+        },
+      ],
+
       // Общие правила
       'prefer-const': 'error',
       'no-var': 'error',
       'object-shorthand': 'error',
       'prefer-template': 'error',
+      'prefer-destructuring': [
+        'error',
+        {
+          VariableDeclarator: {
+            array: false,
+            object: true,
+          },
+          AssignmentExpression: {
+            array: false,
+            object: true,
+          },
+        },
+      ],
     },
   },
 

@@ -1,8 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  import Header from '@/components/header.vue'
+  import Splash from '@/components/splash.vue'
+</script>
 
 <template>
   <div class="page">
-    <div class="intro"></div>
+    <Header />
+    <Splash />
   </div>
 </template>
 
