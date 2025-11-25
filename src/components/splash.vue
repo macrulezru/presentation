@@ -1,14 +1,22 @@
 <script setup lang="ts">
   const { t } = useI18n()
 
-  const messages = {
-    welcome: t('splash.welcome'),
-    subtitle: t('splash.subtitle'),
-    description: t('splash.description'),
-    more: t('splash.more'),
-  }
+  const emit = defineEmits<{
+    scrollToAbout: []
+  }>()
 
-  const scrollToContent = () => {}
+  const messages = computed(() => {
+    return {
+      welcome: t('splash.welcome'),
+      subtitle: t('splash.subtitle'),
+      description: t('splash.description'),
+      more: t('splash.more'),
+    }
+  })
+
+  const scrollToAbout = () => {
+    emit('scrollToAbout')
+  }
 </script>
 
 <template>
@@ -125,7 +133,7 @@
       <p class="splash__subtitle">{{ messages.subtitle }}</p>
       <p class="splash__description">{{ messages.description }}</p>
     </div>
-    <div class="compact-chevron" @click="scrollToContent">
+    <div class="compact-chevron" @click="scrollToAbout">
       <div class="compact-chevron-group">
         <svg
           class="compact-chevron-icon"

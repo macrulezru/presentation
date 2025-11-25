@@ -1,12 +1,18 @@
 {
-  "welcome": "Welcome",
-  "greeting": "Hello, {name}!",
-  "buttons": {
-    "save": "Save",
-    "cancel": "Cancel"
+  "splash": {
+    "welcome": "Danil Lisin",
+    "subtitle": "Vue.js Developer",
+    "description": "Transforming complex tasks into elegant solutions. Specializing in Vue 3, TypeScript and creating scalable applications with well-thought-out architecture.",
+    "more": "view resume"
   },
-  "messages": {
-    "success": "Operation completed successfully",
-    "error": "An error occurred"
+  "tech": {
+    "javascript": "The foundation. Writing modern ES6+ code",
+    "vue": "My main specialization. Vue 3, Composition API",
+    "typescript": "Strict typing for code reliability",
+    "pinia": "Application state management",
+    "vite": "Modern build tool for fast development",
+    "i18n": "Localization and multilingual interfaces",
+    "html": "Semantic and accessible markup",
+    "css": "Responsive design, Flexbox, Grid"
   }
 }

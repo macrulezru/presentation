@@ -13,18 +13,19 @@
   const languageOptions: LanguageOption[] = [
     { value: 'ru', name: 'Русский' },
     { value: 'en', name: 'English' },
+    { value: 'de', name: 'Deutsch' },
   ]
 
   const currentLanguage = computed({
     get: () =>
       languageOptions.find(opt => opt.value === locale.value) || languageOptions[0],
     set: (option: LanguageOption) => {
-      changeLocale(option.value as 'ru' | 'en')
+      changeLocale(option.value as 'ru' | 'en' | 'de')
     },
   })
 
   const handleLanguageChange = (option: LanguageOption) => {
-    changeLocale(option.value as 'ru' | 'en')
+    changeLocale(option.value as 'ru' | 'en' | 'de')
   }
 </script>
 

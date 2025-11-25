@@ -1,0 +1,18 @@
+{
+  "splash": {
+    "welcome": "Danil Lisin",
+    "subtitle": "Vue.js Entwickler",
+    "description": "Verwandle komplexe Aufgaben in elegante Lösungen. Spezialisiert auf Vue 3, TypeScript und die Erstellung skalierbarer Anwendungen mit durchdachter Architektur.",
+    "more": "Lebenslauf ansehen"
+  },
+  "tech": {
+    "javascript": "Die Grundlage. Moderne ES6+ Code",
+    "vue": "Meine Hauptspezialisierung. Vue 3, Composition API",
+    "typescript": "Strikte Typisierung für Code-Zuverlässigkeit",
+    "pinia": "Anwendungszustandsverwaltung",
+    "vite": "Modernes Build-Tool für schnelle Entwicklung",
+    "i18n": "Lokalisierung und mehrsprachige Schnittstellen",
+    "html": "Semantisches und zugängliches Markup",
+    "css": "Responsives Design, Flexbox, Grid"
+  }
+}
