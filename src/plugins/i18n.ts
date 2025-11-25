@@ -8,6 +8,7 @@ declare module '@vue/runtime-core' {
     $te: typeof i18n.global.te
     $d: typeof i18n.global.d
     $n: typeof i18n.global.n
+    $tm: typeof i18n.global.tm
   }
 }
 
@@ -20,6 +21,7 @@ export default {
     app.config.globalProperties.$te = i18n.global.te
     app.config.globalProperties.$d = i18n.global.d
     app.config.globalProperties.$n = i18n.global.n
+    app.config.globalProperties.$tm = i18n.global.tm
 
     // Делаем useI18n глобально доступным для Composition API
     app.config.globalProperties.useI18n = useI18nComposable

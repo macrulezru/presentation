@@ -2,6 +2,9 @@
   import Header from '@/components/header.vue'
   import Splash from '@/components/splash.vue'
   import About from '@/components/about.vue'
+  import ExperienceTimeline from '@/components/experience-timeline.vue'
+  import TravelshopProject from '@/components/travelshop-project.vue'
+  import Pipeline from '@/components/pipeline.vue'
 
   import { ref } from 'vue'
 
@@ -16,6 +19,9 @@
     <Header />
     <Splash ref="splashSection" @scrollToAbout="scrollToAbout" />
     <About ref="aboutSection" />
+    <ExperienceTimeline />
+    <TravelshopProject />
+    <Pipeline />
   </div>
 </template>
 

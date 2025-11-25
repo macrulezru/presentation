@@ -5,6 +5,35 @@
     "description": "Verwandle komplexe Aufgaben in elegante Lösungen. Spezialisiert auf Vue 3, TypeScript und die Erstellung skalierbarer Anwendungen mit durchdachter Architektur.",
     "more": "Lebenslauf ansehen"
   },
+  "about": {
+    "intro": "Frontend-Entwickler mit über 6 Jahren Erfahrung in Vue.js.",
+    "approach": "Mein Weg in Webentwicklung und Design begann vor mehr als 20 Jahren, was mir ermöglicht hat, einen umfassenden Ansatz für die Erstellung von Schnittstellen zu entwickeln. Ich strebe danach, Anwendungen zu erstellen, die nicht nur funktional und leistungsstark sind, sondern auch eine durchdachte Interaktionslogik und ein sauberes visuelles Design aufweisen.",
+    "skills_title": "In meiner Arbeit lege ich Wert auf architektonische Sauberkeit, Wartbarkeit des Codes und Typsicherheit. Ich habe Erfahrung im kompletten Zyklus der Frontend-Entwicklung komplexer SPAs:",
+    "skills_list": [
+      {
+        "title": "Anwendungsstruktur-Design",
+        "description": "Entwicklung modularer und skalierbarer Architekturen, Organisation der Codebasis für einfache Wartung und Erweiterung"
+      },
+      {
+        "title": "Interface-Layout",
+        "description": "Erstellung responsiver, cross-browser-fähiger und barrierefreier Schnittstellen mit modernen Ansätzen (Flexbox, Grid)"
+      },
+      {
+        "title": "Implementierung von State-Management",
+        "description": "Einrichtung zentraler Speicher (Pinia/Vuex), Organisation von Daten und ihrer reaktiven Verbindungen zwischen Komponenten"
+      },
+      {
+        "title": "Client-Server-Kommunikation",
+        "description": "Aufbau einer Service-Schicht für API-Arbeit, Fehlerbehandlung, Implementierung von Wiederholungsmechanismen und Caching"
+      },
+      {
+        "title": "Routing",
+        "description": "Entwicklung komplexer Navigationssysteme mit verschachtelten und geschützten Routen, lazy Loading von Komponenten"
+      }
+    ],
+    "conclusion": "Dieser Ansatz ermöglicht es mir, zuverlässige und skalierbare Lösungen zu schaffen, die bequem zu entwickeln und zu warten sind.",
+    "tech_title": "Technologien & Werkzeuge"
+  },
   "tech": {
     "javascript": "Die Grundlage. Moderne ES6+ Code",
     "vue": "Meine Hauptspezialisierung. Vue 3, Composition API",
@@ -14,5 +43,246 @@
     "i18n": "Lokalisierung und mehrsprachige Schnittstellen",
     "html": "Semantisches und zugängliches Markup",
     "css": "Responsives Design, Flexbox, Grid"
+  },
+  "experience": {
+    "title": "Berufserfahrung",
+    "items": [
+      {
+        "company": "Online Reservation System",
+        "duration": "4 Jahre 11 Monate",
+        "position": "Lead HTML-Entwickler / Frontend-Entwickler",
+        "period": "Dezember 2020 — Oktober 2025",
+        "description": "Arbeit an Unternehmensprodukten TWx, TravelShop. Entwurf und Entwicklung von Vue 3-Komponenten, Wartung von TravelShop-Vorlagen unter Bitrix."
+      },
+      {
+        "company": "Tais",
+        "duration": "3 Jahre 3 Monate",
+        "position": "Web-Entwickler",
+        "period": "Oktober 2017 — Dezember 2020",
+        "description": "Entwicklung von Frontend-Buchungs- und Flugregistrierungssystemen"
+      },
+      {
+        "company": "TNT Fernsehgesellschaft",
+        "duration": "5 Monate",
+        "position": "Web-Designer",
+        "period": "Juni 2017 — Oktober 2017",
+        "description": "Erstellung animierter und interaktiver Banner. Zeichnen, Layout, JS-Programmierung."
+      },
+      {
+        "company": "Bauservice GmbH",
+        "duration": "6 Monate",
+        "position": "Web-Designer",
+        "period": "September 2016 — Februar 2017",
+        "description": "Webseitendesign, Banner, Icons, Layout"
+      },
+      {
+        "company": "Europäische Mediengruppe (EMG)",
+        "duration": "1 Jahr 4 Monate",
+        "position": "Web-Designer",
+        "period": "November 2014 — Februar 2016",
+        "description": "Web-Designer, Web-Entwickler"
+      },
+      {
+        "company": "Advego",
+        "duration": "2 Jahre 11 Monate",
+        "position": "Web-Designer, Web-Entwickler",
+        "period": "Juni 2011 — April 2014",
+        "description": "Design, Programmierung"
+      },
+      {
+        "company": "NIKITA ONLINE",
+        "duration": "5 Monate",
+        "position": "Web-Designer",
+        "period": "August 2010 — Dezember 2010",
+        "description": "Unternehmenswebseiten-Design"
+      },
+      {
+        "company": "Nettrader",
+        "duration": "6 Monate",
+        "position": "Web-Designer",
+        "period": "Juni 2008 — November 2008",
+        "description": "Web-Designer"
+      },
+      {
+        "company": "SOLDIS Kommunikationsagentur",
+        "duration": "4 Monate",
+        "position": "Web-Designer",
+        "period": "September 2007 — Dezember 2007",
+        "description": "Web-Designer"
+      },
+      {
+        "company": "Yutinet.Ru",
+        "duration": "5 Monate",
+        "position": "Web-Designer",
+        "period": "August 2007 — Dezember 2007",
+        "description": "Web-Designer"
+      },
+      {
+        "company": "ION Digitalzentrum",
+        "duration": "2 Jahre",
+        "position": "Web-Designer",
+        "period": "Januar 2006 — Dezember 2007",
+        "description": "Web-Designer"
+      },
+      {
+        "company": "ADT Web Solutions",
+        "duration": "1 Jahr 10 Monate",
+        "position": "Web-Designer",
+        "period": "Januar 2005 — Oktober 2006",
+        "description": "Web-Designer"
+      },
+      {
+        "company": "Freelance",
+        "duration": "1 Jahr 5 Monate",
+        "position": "Web-Designer",
+        "period": "August 2004 — Dezember 2005",
+        "description": "Web-Designer"
+      },
+      {
+        "company": "Artez Production",
+        "duration": "7 Monate",
+        "position": "Web-Designer",
+        "period": "Januar 2004 — Juli 2004",
+        "description": "Web-Designer"
+      },
+      {
+        "company": "Publicis United",
+        "duration": "3 Jahre 1 Monat",
+        "position": "Web-Designer",
+        "period": "Januar 2000 — Januar 2003",
+        "description": "Web-Designer"
+      },
+      {
+        "company": "AVM New Wave Inc.",
+        "duration": "1 Jahr 1 Monat",
+        "position": "Web-Designer",
+        "period": "Januar 1997 — Januar 1998",
+        "description": "Web-Designer"
+      }
+    ]
+  },
+  "travelshop": {
+    "title": "TravelShop - Flugbuchungssystem",
+    "role": "Lead Frontend-Entwickler",
+    "period": "Dezember 2020 — Oktober 2025",
+    "description": "Entwicklung und Wartung eines modernen Flugbuchungssystems für große Fluggesellschaften, einschließlich Azimuth Airlines",
+    "features": {
+      "title": "Wichtige Systemfunktionen",
+      "items": [
+        "Echtzeit-Flugsuche und -buchung",
+        "Komplexe Geschäftslogik für Tarif- und Gebührenberechnung",
+        "Mehrstufiger Buchungsprozess mit Datenvalidierung",
+        "Bestell- und Passagierverwaltungssystem",
+        "Integration mit Buchungssystemen (GDS)",
+        "Unterstützung für Zusatzleistungen (Gepäck, Verpflegung, Versicherungen)",
+        "Responsives Design für alle Geräte"
+      ]
+    },
+    "tech_stack": {
+      "title": "Technologie-Stack",
+      "items": [
+        "Vue 3 mit Composition API und TypeScript",
+        "Eigenes UI-Komponenten-Bibliothek",
+        "Vite für schnelle Builds und Entwicklung",
+        "Pinia für Application State Management",
+        "Vue Router mit Lazy Loading von Komponenten",
+        "REST API mit zentralisierter Fehlerbehandlung",
+        "Internationalisierung (i18n)"
+      ]
+    },
+    "achievements": {
+      "title": "Erfolge und Ergebnisse",
+      "items": [
+        "Entwickelte skalierbare Komponentenarchitektur, die die Entwicklung neuer Funktionen um 40 % beschleunigte",
+        "Erstellte Formularvalidierungssystem, das Buchungsfehler um 60 % reduzierte",
+        "Implementierte Suchanfragen-Caching-Mechanismus, der die Leistung um 25 % verbesserte",
+        "Etablierte Code-Review-Prozess und führte statische Typisierung ein, erhöhte die Code-Zuverlässigkeit",
+        "Entwickelte responsives Design für korrekte Funktion auf allen Gerätetypen"
+      ]
+    },
+    "projects": {
+      "title": "Umsetzte Projekte",
+      "items": [
+        {
+          "name": "Azimuth Airlines",
+          "url": "https://booking.azimuth.ru/new/",
+          "description": "Vollfunktionales Buchungssystem mit individualisiertem Design"
+        },
+        {
+          "name": "TravelShop White Label",
+          "url": "https://ors-aero.ru/travelshop",
+          "description": "Basisplattform für schnelle Bereitstellung von Buchungssystemen"
+        }
+      ]
+    }
+  },
+  "pipeline": {
+    "title": "Asynchrones Pipeline-Management-System",
+    "subtitle": "Architektur für komplexe sequentielle Operationen",
+    "description": "Ein entwickeltes System zur Verwaltung von Multitask-Asynchronprozessen mit Fortschrittsverfolgung, Fehlerbehandlung und TypeScript-Typsicherheit.",
+    "features": {
+      "title": "Hauptfunktionen",
+      "items": [
+        "Parallele Ausführung mehrerer Pipelines",
+        "Detaillierte Echtzeit-Fortschrittsverfolgung",
+        "Volle Typsicherheit mit TypeScript",
+        "Flexibles Fehlerbehandlungssystem",
+        "Bedingte Schrittausführung und benutzerdefinierte Handler",
+        "Automatische Ressourcenbereinigung"
+      ]
+    },
+    "architecture": {
+      "title": "Architekturkomponenten",
+      "items": [
+        {
+          "name": "Store Layer",
+          "description": "Zentralisierte Verwaltung des Zustands aller aktiven Pipelines, Berechnung des Gesamtfortschritts"
+        },
+        {
+          "name": "Pipeline Engine",
+          "description": "Schrittausführer mit Unterstützung für Bedingungen, Handler und Kontextübergabe"
+        },
+        {
+          "name": "Type System",
+          "description": "Strikte Typisierung von Schritten, Konfigurationen und Ausführungsergebnissen"
+        },
+        {
+          "name": "Error Handling",
+          "description": "Zentralisierte Fehlerbehandlung mit detaillierten Informationen über Schritt und Kontext"
+        }
+      ]
+    },
+    "process": {
+      "title": "Arbeitsprozess",
+      "steps": [
+        {
+          "title": "Pipeline-Registrierung",
+          "description": "Das System erstellt eine eindeutige Kennung, bestimmt die Gesamtzahl der Schritte und initialisiert die Fortschrittsverfolgung"
+        },
+        {
+          "title": "Sequenzielle Ausführung",
+          "description": "Schritte werden in Reihenfolge mit Kontextübergabe zwischen ihnen ausgeführt. Jeder Schritt kann Ausführungsbedingungen und benutzerdefinierte Handler haben"
+        },
+        {
+          "title": "Fortschrittsverfolgung",
+          "description": "Zentraler Store aktualisiert den Ausführungsstatus in Echtzeit und gewährleistet eine genaue Fortschrittsanzeige in der Benutzeroberfläche"
+        },
+        {
+          "title": "Abschluss und Bereinigung",
+          "description": "Nach Abschluss aller Schritte bereinigt das System automatisch Ressourcen, finalisiert den Kontext und benachrichtigt über den Abschluss"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Vorteile des Ansatzes",
+      "items": [
+        "Verbessertes Benutzererlebnis mit genauer Fortschrittsanzeige",
+        "Erhöhte Zuverlässigkeit durch zentralisierte Fehlerbehandlung",
+        "Skalierbarkeit für komplexe Geschäftsprozesse",
+        "Wiederverwendbarkeit von Pipeline-Komponenten und Schritten",
+        "Vereinfachtes Debugging und Ausführungsüberwachung",
+        "Integration in die bestehende Vue.js-Ökosystem"
+      ]
+    }
   }
 }
