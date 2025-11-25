@@ -15,7 +15,6 @@
   <div class="splash">
     <div class="splash__animation">
       <svg
-        version="1.1"
         id="face"
         class="face"
         xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +23,6 @@
         x="0px"
         y="0px"
         viewBox="0 0 307.3 307.3"
-        style="enable-background: new 0 0 307.3 307.3"
         xml:space="preserve"
       >
         <polygon
