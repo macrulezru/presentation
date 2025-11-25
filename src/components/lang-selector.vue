@@ -35,7 +35,7 @@
     <DlvSelect
       v-model="currentLanguage"
       :options="languageOptions"
-      :placeholder="currentLanguage.name"
+      :placeholder="currentLanguage?.name"
       @change="handleLanguageChange"
     />
   </div>
