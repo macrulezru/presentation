@@ -1,4 +1,3 @@
-// composables/useScrollRouting.ts
 import { ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
@@ -42,6 +41,11 @@ export function useScrollRouting() {
   const getCurrentSection = (): string => {
     const scrollPosition = window.pageYOffset + window.innerHeight / 2
     const headerHeight = 60
+
+    // Если прокрутка в самом верху - это splash секция
+    if (window.pageYOffset < 100) {
+      return 'splash'
+    }
 
     for (const section of sections.value) {
       if (section.element) {
@@ -107,7 +111,7 @@ export function useScrollRouting() {
       // Сбрасываем флаг после завершения анимации
       setTimeout(() => {
         isScrolling.value = false
-      }, 500)
+      }, 800)
     } else if (sectionName === 'splash') {
       // Особый случай для главной страницы - прокрутка наверх
       isScrolling.value = true
@@ -119,7 +123,7 @@ export function useScrollRouting() {
 
       setTimeout(() => {
         isScrolling.value = false
-      }, 500)
+      }, 800)
     }
   }
 
@@ -132,21 +136,17 @@ export function useScrollRouting() {
     router.push(path)
   }
 
+  // Получить текущую активную секцию (для использования в lang-selector)
+  const getActiveSection = () => {
+    return currentSection.value
+  }
+
   // Следим за изменениями маршрута для обновления активного пункта
   watch(
     () => route.params,
     (newParams, oldParams) => {
       // Обновляем currentSection при изменении секции
       if (newParams.section !== oldParams.section) {
-        if (newParams.section) {
-          currentSection.value = newParams.section as string
-        } else {
-          currentSection.value = 'splash'
-        }
-      }
-
-      // При смене локали обновляем currentSection из URL
-      if (newParams.locale !== oldParams.locale) {
         if (newParams.section) {
           currentSection.value = newParams.section as string
         } else {
@@ -183,10 +183,11 @@ export function useScrollRouting() {
 
   return {
     sections,
-    currentSection, // Теперь это глобальная реактивная переменная
+    currentSection,
     scrollToSection,
     navigateToSection,
     getCurrentSection,
+    getActiveSection, // Добавляем эту функцию
     init,
     destroy,
   }

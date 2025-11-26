@@ -8,7 +8,7 @@
   import Features from '@/components/features.vue'
   import RemoteWorkplace from '@/components/remote-workplace.vue'
 
-  import { onMounted, onUnmounted, watch, nextTick } from 'vue'
+  import { onMounted, onUnmounted, watch, nextTick, ref } from 'vue'
   import { useI18n } from '@/composables/useI18n'
   import { useRoute } from 'vue-router'
   import { useScrollRouting } from '@/composables/useScrollRouting'
@@ -18,6 +18,9 @@
 
   const scrollRouting = useScrollRouting()
   const { navigateToSection, scrollToSection, init, destroy } = scrollRouting
+
+  // Флаг для отслеживания смены языка
+  const isChangingLocale = ref(false)
 
   onMounted(() => {
     initLocale()
@@ -30,10 +33,12 @@
     destroy()
   })
 
+  // Обработчик изменения секции
   watch(
     () => route.params.section,
     async (newSection, oldSection) => {
-      if (newSection !== oldSection) {
+      if (newSection !== oldSection && !isChangingLocale.value) {
+        // Ждем обновления DOM
         await nextTick()
 
         if (newSection) {
@@ -41,6 +46,7 @@
             scrollToSection(newSection as string)
           }, 100)
         } else {
+          // Если секции нет - это главная страница
           setTimeout(() => {
             scrollToSection('splash')
           }, 100)
