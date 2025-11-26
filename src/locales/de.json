@@ -1,4 +1,12 @@
 {
+  "navigation": {
+    "home": "Startseite",
+    "about": "Über Mich",
+    "experience": "Erfahrung",
+    "travelshop": "TravelShop",
+    "features": "Lösungen",
+    "workplace": "Arbeitsplatz"
+  },
   "splash": {
     "welcome": "Danil Lisin",
     "subtitle": "Vue.js Entwickler",

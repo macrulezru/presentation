@@ -8,42 +8,93 @@
   import Features from '@/components/features.vue'
   import RemoteWorkplace from '@/components/remote-workplace.vue'
 
-  import { ref, onMounted } from 'vue'
+  import { onMounted, onUnmounted, watch, nextTick } from 'vue'
   import { useI18n } from '@/composables/useI18n'
+  import { useRoute } from 'vue-router'
+  import { useScrollRouting } from '@/composables/useScrollRouting'
 
   const { t, initLocale } = useI18n()
+  const route = useRoute()
 
-  const aboutSection = ref<InstanceType<typeof About>>()
+  const scrollRouting = useScrollRouting()
+  const { navigateToSection, scrollToSection, init, destroy } = scrollRouting
 
-  // Инициализируем локаль при загрузке
   onMounted(() => {
     initLocale()
+    setTimeout(() => {
+      init()
+    }, 100)
   })
 
-  const scrollToAbout = () => {
-    if (aboutSection.value?.container) {
-      const headerHeight = 60
-      const elementPosition = aboutSection.value.container.offsetTop
-      const offsetPosition = elementPosition - headerHeight
+  onUnmounted(() => {
+    destroy()
+  })
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      })
-    }
+  watch(
+    () => route.params.section,
+    async (newSection, oldSection) => {
+      if (newSection !== oldSection) {
+        await nextTick()
+
+        if (newSection) {
+          setTimeout(() => {
+            scrollToSection(newSection as string)
+          }, 100)
+        } else {
+          setTimeout(() => {
+            scrollToSection('splash')
+          }, 100)
+        }
+      }
+    },
+  )
+
+  watch(
+    () => route.params.locale,
+    async (newLocale, oldLocale) => {
+      if (newLocale !== oldLocale) {
+        await nextTick()
+        const section = (route.params.section as string) || 'splash'
+        setTimeout(() => {
+          scrollToSection(section)
+        }, 100)
+      }
+    },
+  )
+
+  const scrollToAbout = () => {
+    navigateToSection('about')
   }
 </script>
 
 <template>
   <div class="page">
     <Header />
-    <Splash ref="splashSection" @scrollToAbout="scrollToAbout" />
-    <About ref="aboutSection" />
-    <ExperienceTimeline />
-    <TravelshopProject />
-    <h3 class="examples-title">{{ t('app.examples_title') }}</h3>
-    <Features />
-    <RemoteWorkplace />
+
+    <section id="splash">
+      <Splash @scrollToAbout="navigateToSection('about')" />
+    </section>
+
+    <section id="about">
+      <About />
+    </section>
+
+    <section id="experience">
+      <ExperienceTimeline />
+    </section>
+
+    <section id="travelshop">
+      <TravelshopProject />
+    </section>
+
+    <section id="features">
+      <h3 class="examples-title">{{ t('app.examples_title') }}</h3>
+      <Features />
+    </section>
+
+    <section id="remote-workplace">
+      <RemoteWorkplace />
+    </section>
   </div>
 </template>
 
@@ -63,11 +114,19 @@
     max-width: 1200px;
   }
 
+  section {
+    scroll-margin-top: 80px;
+  }
+
   @media (max-width: 768px) {
     .examples-title {
       font-size: 1.5rem;
       margin-top: 2rem;
       padding: 0 0.5rem 0.75rem 0.5rem;
+    }
+
+    section {
+      scroll-margin-top: 60px;
     }
   }
 </style>

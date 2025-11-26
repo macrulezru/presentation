@@ -2,45 +2,60 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { i18n } from '@/locales'
 
+const routes = [
+  {
+    path: '/:locale?',
+    name: 'home',
+    component: () => import('@/App.vue'),
+  },
+  {
+    path: '/:locale/:section',
+    name: 'section',
+    component: () => import('@/App.vue'),
+  },
+]
+
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/:locale?',
-      name: 'home',
-      component: () => import('@/App.vue'),
-      beforeEnter: to => {
-        const supportedLocales = ['ru', 'en', 'de', 'zh']
-        const locale = (to.params.locale as string) || 'ru'
-
-        // Если локаль не поддерживается, редиректим на русскую
-        if (!supportedLocales.includes(locale)) {
-          return '/ru'
-        }
-
-        // Устанавливаем локаль
-        i18n.global.locale.value = locale as 'ru' | 'en' | 'de' | 'zh'
-        localStorage.setItem('user-locale', locale)
-      },
-    },
-  ],
+  routes,
 })
 
-// Глобальный хук для обработки смены локали
+// Глобальный хук для обработки навигации
 router.beforeEach(to => {
   const supportedLocales = ['ru', 'en', 'de', 'zh']
-  const toLocale = to.params.locale as string
+  const supportedSections = [
+    'splash',
+    'about',
+    'experience',
+    'travelshop',
+    'features',
+    'remote-workplace',
+  ]
 
-  // Если в пути нет локали, добавляем текущую
-  if (!toLocale && to.name === 'home') {
-    const currentLocale = i18n.global.locale.value
-    return `/${currentLocale}`
+  const toLocale = to.params.locale as string
+  const toSection = to.params.section as string
+
+  // Если нет локали, используем сохраненную или русскую по умолчанию
+  if (!toLocale) {
+    const savedLocale = localStorage.getItem('user-locale') || 'ru'
+    return `/${savedLocale}`
   }
 
   // Если локаль не поддерживается, редиректим на русскую
-  if (toLocale && !supportedLocales.includes(toLocale)) {
-    return '/ru'
+  if (!supportedLocales.includes(toLocale)) {
+    const fallbackSection =
+      toSection && supportedSections.includes(toSection) ? `/${toSection}` : ''
+    return `/ru${fallbackSection}`
   }
+
+  // Если секция указана но не поддерживается, убираем ее
+  if (toSection && !supportedSections.includes(toSection)) {
+    return `/${toLocale}`
+  }
+
+  // Устанавливаем локаль
+  i18n.global.locale.value = toLocale as 'ru' | 'en' | 'de' | 'zh'
+  localStorage.setItem('user-locale', toLocale)
 })
 
 export default router

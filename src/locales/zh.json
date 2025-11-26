@@ -1,4 +1,12 @@
 {
+  "navigation": {
+    "home": "首页",
+    "about": "关于我",
+    "experience": "经验",
+    "travelshop": "TravelShop",
+    "features": "解决方案",
+    "workplace": "工作场所"
+  },
   "splash": {
     "welcome": "李辛·丹尼尔·弗拉基米罗维奇",
     "subtitle": "Vue.js 开发工程师",

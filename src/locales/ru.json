@@ -1,4 +1,12 @@
 {
+  "navigation": {
+    "home": "Главная",
+    "about": "Обо мне",
+    "experience": "Опыт",
+    "travelshop": "TravelShop",
+    "features": "Решения",
+    "workplace": "Рабочее место"
+  },
   "splash": {
     "welcome": "Лисин Данил Владимирович",
     "subtitle": "Vue.js Developer",
