@@ -6,6 +6,7 @@
   import ExperienceTimeline from '@/components/experience-timeline.vue'
   import TravelshopProject from '@/components/travelshop-project.vue'
   import Features from '@/components/features.vue'
+  import RemoteWorkplace from '@/components/remote-workplace.vue'
 
   import { ref, onMounted } from 'vue'
   import { useI18n } from '@/composables/useI18n'
@@ -42,6 +43,7 @@
     <TravelshopProject />
     <h3 class="examples-title">{{ t('app.examples_title') }}</h3>
     <Features />
+    <RemoteWorkplace />
   </div>
 </template>
 

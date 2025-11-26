@@ -435,5 +435,41 @@
         "Reduced development time for new integrations"
       ]
     }
+  },
+  "remote_workplace": {
+    "title": "Remote Workplace",
+    "subtitle": "Ready for effective work from anywhere",
+    "description": "A fully equipped space for productive remote work. Everything needed for comfortable development and communication with the team.",
+    "benefits_title": "Benefits for the Team",
+    "features": {
+      "items": [
+        {
+          "title": "Productive Workstation",
+          "description": "Powerful computer for working with modern IDEs and simultaneous running of multiple development environments"
+        },
+        {
+          "title": "Three Monitors",
+          "description": "Large monitors for comfortable separation of code, browser, and communication applications"
+        },
+        {
+          "title": "Stable Internet",
+          "description": "High-speed wired connection for video conferences and fast code synchronization"
+        },
+        {
+          "title": "Webcam and Headset",
+          "description": "Quality camera and headset for daily team meetings"
+        }
+      ]
+    },
+    "benefits": {
+      "items": [
+        "Instant switching between tasks",
+        "Parallel work on code and communication",
+        "Quick response to team messages",
+        "Quality participation in planning and code review",
+        "Readiness for frequent video meetings",
+        "Reduced communication time"
+      ]
+    }
   }
 }
