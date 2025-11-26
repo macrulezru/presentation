@@ -220,71 +220,81 @@
     }
   },
   "pipeline": {
-    "title": "Asynchronous Pipeline Management System",
-    "subtitle": "Architecture for Complex Sequential Operations",
-    "description": "A developed system for managing multi-task asynchronous processes with progress tracking, error handling, and TypeScript type safety.",
+    "title": "REST API Pipeline System",
+    "subtitle": "Efficient Management of Interconnected API Call Chains",
+    "description": "A powerful system for organizing sequential HTTP requests to REST API, where each subsequent call can utilize data from the previous one. Provides complete control over request chain execution with progress visualization and intelligent error handling.",
     "features": {
-      "title": "Key Features",
+      "title": "Key System Capabilities",
       "items": [
-        "Parallel execution of multiple pipelines",
-        "Detailed real-time progress tracking",
-        "Full type safety with TypeScript",
-        "Flexible error handling system",
-        "Conditional step execution and custom handlers",
-        "Automatic resource cleanup"
+        "Sequential execution of interconnected HTTP request chains",
+        "Automatic data transfer between pipeline stages",
+        "Detailed real-time execution progress tracking",
+        "Intelligent HTTP error handling with retry mechanisms",
+        "Conditional request execution logic based on previous results",
+        "Automatic cancellation of dependent requests on critical errors",
+        "Full type safety at all execution stages"
       ]
     },
     "architecture": {
       "title": "Architectural Components",
       "items": [
         {
-          "name": "Store Layer",
-          "description": "centralized management of all active pipelines' state, overall progress calculation"
+          "name": "Pipeline Orchestrator",
+          "description": "central coordinator managing the sequence of API request execution and data transfer between them"
         },
         {
-          "name": "Pipeline Engine",
-          "description": "step executor with support for conditions, handlers, and context passing"
+          "name": "Request Executor",
+          "description": "HTTP request executor with support for retry logic, timeouts, and handling of various status codes"
         },
         {
-          "name": "Type System",
-          "description": "strict typing of steps, configurations, and execution results"
+          "name": "Progress Tracker",
+          "description": "module for tracking request chain execution progress with detailed breakdown by each stage"
         },
         {
-          "name": "Error Handling",
-          "description": "centralized error handling with detailed information about the step and context"
+          "name": "Error Handler",
+          "description": "centralized error handler with classification by types and recovery strategies"
+        },
+        {
+          "name": "Type Safety Layer",
+          "description": "strict typing layer ensuring data correctness at all pipeline stages"
         }
       ]
     },
     "process": {
-      "title": "Work Process",
+      "title": "Pipeline Work Process",
       "steps": [
         {
-          "title": "Pipeline Registration",
-          "description": "The system creates a unique identifier, determines the total number of steps, and initializes progress tracking"
+          "title": "Request Chain Configuration",
+          "description": "Defining the sequence of API calls, dependencies between them, and execution conditions for each stage"
+        },
+        {
+          "title": "Initialization and Validation",
+          "description": "Configuration correctness check, data preparation, and execution progress tracking initialization"
         },
         {
           "title": "Sequential Execution",
-          "description": "Steps are executed in order with context passing between them. Each step can have execution conditions and custom handlers"
+          "description": "Step-by-step execution of HTTP requests with automatic data transfer and intermediate result processing"
         },
         {
-          "title": "Progress Tracking",
-          "description": "Centralized store updates execution status in real-time, ensuring accurate progress display in the UI"
+          "title": "Monitoring and Management",
+          "description": "Continuous progress tracking, handling emerging errors, and adaptive management of chain execution"
         },
         {
-          "title": "Completion and Cleanup",
-          "description": "After all steps are completed, the system automatically cleans up resources, finalizes the context, and notifies about completion"
+          "title": "Final Processing and Cleanup",
+          "description": "Aggregation of all request results, data finalization, and system resource release"
         }
       ]
     },
     "benefits": {
       "title": "Approach Benefits",
       "items": [
-        "Improved user experience with accurate progress display",
-        "Increased reliability through centralized error handling",
-        "Scalability for complex business processes",
-        "Reusability of pipeline components and steps",
-        "Simplified debugging and execution monitoring",
-        "Integration with the existing Vue.js ecosystem"
+        "40% reduction in development time for complex API interactions",
+        "Increased reliability through centralized error handling and retry mechanisms",
+        "Improved user experience through accurate progress display",
+        "Simplified debugging and monitoring of request chains",
+        "Flexibility for implementing complex business processes with dependent API calls",
+        "Full type safety reduces runtime errors",
+        "Easy integration with existing Vue.js application ecosystem"
       ]
     }
   },

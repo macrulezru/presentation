@@ -220,71 +220,81 @@
     }
   },
   "pipeline": {
-    "title": "Asynchrones Pipeline-Management-System",
-    "subtitle": "Architektur für komplexe sequentielle Operationen",
-    "description": "Ein entwickeltes System zur Verwaltung von Multitask-Asynchronprozessen mit Fortschrittsverfolgung, Fehlerbehandlung und TypeScript-Typsicherheit.",
+    "title": "REST API Pipeline-System",
+    "subtitle": "Effizientes Management vernetzter API-Aufrufketten",
+    "description": "Ein leistungsstarkes System zur Organisation sequenzieller HTTP-Anfragen an REST API, bei dem jeder nachfolgende Aufruf Daten vom vorherigen verwenden kann. Bietet vollständige Kontrolle über die Ausführung von Anfrageketten mit Fortschrittsvisualisierung und intelligenter Fehlerbehandlung.",
     "features": {
-      "title": "Hauptfunktionen",
+      "title": "Wichtige Systemfunktionen",
       "items": [
-        "Parallele Ausführung mehrerer Pipelines",
-        "Detaillierte Echtzeit-Fortschrittsverfolgung",
-        "Volle Typsicherheit mit TypeScript",
-        "Flexibles Fehlerbehandlungssystem",
-        "Bedingte Schrittausführung und benutzerdefinierte Handler",
-        "Automatische Ressourcenbereinigung"
+        "Sequentielle Ausführung vernetzter HTTP-Anfrageketten",
+        "Automatische Datenübertragung zwischen Pipeline-Stufen",
+        "Detaillierte Echtzeit-Fortschrittsverfolgung der Ausführung",
+        "Intelligente HTTP-Fehlerbehandlung mit Wiederholungsmechanismen",
+        "Bedingte Anfrageausführungslogik basierend auf vorherigen Ergebnissen",
+        "Automatischer Abbruch abhängiger Anfragen bei kritischen Fehlern",
+        "Volle Typsicherheit in allen Ausführungsstufen"
       ]
     },
     "architecture": {
       "title": "Architekturkomponenten",
       "items": [
         {
-          "name": "Store Layer",
-          "description": "Zentralisierte Verwaltung des Zustands aller aktiven Pipelines, Berechnung des Gesamtfortschritts"
+          "name": "Pipeline Orchestrator",
+          "description": "Zentraler Koordinator, der die Reihenfolge der API-Anfrageausführung und Datenübertragung zwischen ihnen verwaltet"
         },
         {
-          "name": "Pipeline Engine",
-          "description": "Schrittausführer mit Unterstützung für Bedingungen, Handler und Kontextübergabe"
+          "name": "Request Executor",
+          "description": "HTTP-Anfrageausführer mit Unterstützung für Wiederholungslogik, Timeouts und Behandlung verschiedener Statuscodes"
         },
         {
-          "name": "Type System",
-          "description": "Strikte Typisierung von Schritten, Konfigurationen und Ausführungsergebnissen"
+          "name": "Progress Tracker",
+          "description": "Modul zur Verfolgung des Ausführungsfortschritts der Anfragekette mit detaillierter Aufschlüsselung nach jeder Stufe"
         },
         {
-          "name": "Error Handling",
-          "description": "Zentralisierte Fehlerbehandlung mit detaillierten Informationen über Schritt und Kontext"
+          "name": "Error Handler",
+          "description": "Zentralisierter Fehlerbehandler mit Klassifizierung nach Typen und Wiederherstellungsstrategien"
+        },
+        {
+          "name": "Type Safety Layer",
+          "description": "Strikte Typisierungsschicht, die Datenkorrektheit in allen Pipeline-Stufen gewährleistet"
         }
       ]
     },
     "process": {
-      "title": "Arbeitsprozess",
+      "title": "Pipeline-Arbeitsprozess",
       "steps": [
         {
-          "title": "Pipeline-Registrierung",
-          "description": "Das System erstellt eine eindeutige Kennung, bestimmt die Gesamtzahl der Schritte und initialisiert die Fortschrittsverfolgung"
+          "title": "Anfrageketten-Konfiguration",
+          "description": "Definition der Abfolge von API-Aufrufen, Abhängigkeiten zwischen ihnen und Ausführungsbedingungen für jede Stufe"
         },
         {
-          "title": "Sequenzielle Ausführung",
-          "description": "Schritte werden in Reihenfolge mit Kontextübergabe zwischen ihnen ausgeführt. Jeder Schritt kann Ausführungsbedingungen und benutzerdefinierte Handler haben"
+          "title": "Initialisierung und Validierung",
+          "description": "Konfigurationskorrektheitsprüfung, Datenvorbereitung und Initialisierung der Ausführungsfortschrittsverfolgung"
         },
         {
-          "title": "Fortschrittsverfolgung",
-          "description": "Zentraler Store aktualisiert den Ausführungsstatus in Echtzeit und gewährleistet eine genaue Fortschrittsanzeige in der Benutzeroberfläche"
+          "title": "Sequentielle Ausführung",
+          "description": "Schrittweise Ausführung von HTTP-Anfragen mit automatischer Datenübertragung und Zwischenergebnissverarbeitung"
         },
         {
-          "title": "Abschluss und Bereinigung",
-          "description": "Nach Abschluss aller Schritte bereinigt das System automatisch Ressourcen, finalisiert den Kontext und benachrichtigt über den Abschluss"
+          "title": "Überwachung und Management",
+          "description": "Kontinuierliche Fortschrittsverfolgung, Behandlung auftretender Fehler und adaptives Management der Kettenausführung"
+        },
+        {
+          "title": "Finale Verarbeitung und Bereinigung",
+          "description": "Zusammenfassung aller Anfrageergebnisse, Datenfinalisierung und Freigabe von Systemressourcen"
         }
       ]
     },
     "benefits": {
       "title": "Vorteile des Ansatzes",
       "items": [
-        "Verbessertes Benutzererlebnis mit genauer Fortschrittsanzeige",
-        "Erhöhte Zuverlässigkeit durch zentralisierte Fehlerbehandlung",
-        "Skalierbarkeit für komplexe Geschäftsprozesse",
-        "Wiederverwendbarkeit von Pipeline-Komponenten und Schritten",
-        "Vereinfachtes Debugging und Ausführungsüberwachung",
-        "Integration in die bestehende Vue.js-Ökosystem"
+        "40 % Reduzierung der Entwicklungszeit für komplexe API-Interaktionen",
+        "Erhöhte Zuverlässigkeit durch zentralisierte Fehlerbehandlung und Wiederholungsmechanismen",
+        "Verbessertes Benutzererlebnis durch genaue Fortschrittsanzeige",
+        "Vereinfachtes Debugging und Überwachung von Anfrageketten",
+        "Flexibilität für die Implementierung komplexer Geschäftsprozesse mit abhängigen API-Aufrufen",
+        "Volle Typsicherheit reduziert Laufzeitfehler",
+        "Einfache Integration in die bestehende Vue.js-Anwendungsökosystem"
       ]
     }
   },
