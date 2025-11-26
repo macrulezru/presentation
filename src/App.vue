@@ -48,19 +48,6 @@
       }
     },
   )
-
-  watch(
-    () => route.params.locale,
-    async (newLocale, oldLocale) => {
-      if (newLocale !== oldLocale) {
-        await nextTick()
-        const section = (route.params.section as string) || 'splash'
-        setTimeout(() => {
-          scrollToSection(section)
-        }, 100)
-      }
-    },
-  )
 </script>
 
 <template>
