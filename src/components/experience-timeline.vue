@@ -257,7 +257,7 @@
     }
 
     .experience__timeline-dot {
-      left: -1rem;
+      left: -22px;
     }
 
     .experience__company {
