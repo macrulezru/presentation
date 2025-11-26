@@ -107,7 +107,7 @@
 
   .about__intro-lead {
     font-weight: var(--font-weight-semibold);
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-3xl);
     color: var(--color-text-primary);
   }
 
