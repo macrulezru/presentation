@@ -61,10 +61,6 @@
       }
     },
   )
-
-  const scrollToAbout = () => {
-    navigateToSection('about')
-  }
 </script>
 
 <template>
