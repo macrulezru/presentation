@@ -1,3 +1,4 @@
+// composables/useI18n.ts
 import { i18n } from '@/locales'
 import { useRouter } from 'vue-router'
 
@@ -5,7 +6,7 @@ export const useI18n = () => {
   const { t, tm, locale, availableLocales } = i18n.global
   const router = useRouter()
 
-  const changeLocale = async (newLocale: string) => {
+  const changeLocale = async (newLocale: string, path?: string) => {
     const supportedLocales = ['ru', 'en', 'de', 'zh']
 
     if (!supportedLocales.includes(newLocale)) {
@@ -18,8 +19,15 @@ export const useI18n = () => {
       locale.value = newLocale as 'ru' | 'en' | 'de' | 'zh'
       localStorage.setItem('user-locale', newLocale)
 
+      // Используем переданный путь или формируем из текущего URL с сохранением секции
+      const currentRoute = router.currentRoute.value
+      const currentSection = currentRoute.params.section as string
+
+      const newPath =
+        path || (currentSection ? `/${newLocale}/${currentSection}` : `/${newLocale}`)
+
       // Обновляем URL через роутер
-      await router.push(`/${newLocale}`)
+      await router.push(newPath)
     } catch (error) {
       console.error('Failed to change locale:', error)
     }

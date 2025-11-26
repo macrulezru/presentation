@@ -134,12 +134,24 @@ export function useScrollRouting() {
 
   // Следим за изменениями маршрута для обновления активного пункта
   watch(
-    () => route.params.section,
-    newSection => {
-      if (newSection) {
-        currentSection.value = newSection as string
-      } else {
-        currentSection.value = 'splash'
+    () => route.params,
+    (newParams, oldParams) => {
+      // Обновляем currentSection при изменении секции
+      if (newParams.section !== oldParams.section) {
+        if (newParams.section) {
+          currentSection.value = newParams.section as string
+        } else {
+          currentSection.value = 'splash'
+        }
+      }
+
+      // При смене локали обновляем currentSection из URL
+      if (newParams.locale !== oldParams.locale) {
+        if (newParams.section) {
+          currentSection.value = newParams.section as string
+        } else {
+          currentSection.value = 'splash'
+        }
       }
     },
   )

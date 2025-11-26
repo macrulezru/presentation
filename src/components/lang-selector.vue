@@ -2,8 +2,10 @@
 <script setup lang="ts">
   import DlvSelect from '@/components/ui/DlvSelect.vue'
   import { computed } from 'vue'
+  import { useRoute } from 'vue-router'
 
   const { changeLocale, locale } = useI18n()
+  const route = useRoute()
 
   interface LanguageOption {
     value: string
@@ -26,7 +28,16 @@
   })
 
   const handleLanguageChange = (option: LanguageOption) => {
-    changeLocale(option.value)
+    // Получаем текущую секцию из URL
+    const currentSection = route.params.section as string
+
+    // Формируем новый путь с сохранением секции
+    const newPath = currentSection
+      ? `/${option.value}/${currentSection}`
+      : `/${option.value}`
+
+    // Вызываем changeLocale с путем для сохранения секции
+    changeLocale(option.value, newPath)
   }
 </script>
 
