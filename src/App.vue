@@ -4,9 +4,7 @@
   import About from '@/components/about.vue'
   import ExperienceTimeline from '@/components/experience-timeline.vue'
   import TravelshopProject from '@/components/travelshop-project.vue'
-  import Pipeline from '@/components/pipeline.vue'
-  import Localization from '@/components/localization.vue'
-  import SeatMap from '@/components/seat-map.vue'
+  import Features from '@/components/features.vue'
 
   import { ref } from 'vue'
   import { useI18n } from 'vue-i18n'
@@ -37,9 +35,7 @@
     <ExperienceTimeline />
     <TravelshopProject />
     <h3 class="examples-title">{{ t('app.examples_title') }}</h3>
-    <Pipeline />
-    <Localization />
-    <SeatMap />
+    <Features />
   </div>
 </template>
 

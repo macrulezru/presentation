@@ -246,7 +246,7 @@
     }
 
     .about__container {
-      padding: 0 var(--spacing-sm);
+      padding: 0 var(--spacing-lg);
     }
 
     .about__intro {

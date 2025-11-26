@@ -1,130 +1,136 @@
 <script setup lang="ts">
-  const { t, tm } = useI18n()
+  import type { FeatureData } from '@/composables/useFeatures'
 
-  const messages = computed(() => ({
-    title: t('pipeline.title'),
-    subtitle: t('pipeline.subtitle'),
-    description: t('pipeline.description'),
-    features_title: t('pipeline.features.title'),
-    features: tm('pipeline.features.items'),
-    architecture_title: t('pipeline.architecture.title'),
-    architecture_items: tm('pipeline.architecture.items'),
-    process_title: t('pipeline.process.title'),
-    process_steps: tm('pipeline.process.steps'),
-    benefits_title: t('pipeline.benefits.title'),
-    benefits: tm('pipeline.benefits.items'),
-  }))
+  interface Props {
+    feature: FeatureData
+  }
+
+  defineProps<Props>()
 </script>
 
 <template>
-  <div class="pipeline">
-    <div class="pipeline__container">
-      <div class="pipeline__header">
-        <h2 class="pipeline__title">{{ messages.title }}</h2>
-        <p class="pipeline__subtitle">{{ messages.subtitle }}</p>
-        <p class="pipeline__description">{{ messages.description }}</p>
-      </div>
+  <article class="feature-item" :data-feature-id="feature.id">
+    <div class="feature-item__container">
+      <header class="feature-item__header">
+        <h2 class="feature-item__title">{{ feature.title }}</h2>
+        <p class="feature-item__subtitle" :style="{ color: feature.accentColor }">
+          {{ feature.subtitle }}
+        </p>
+        <p class="feature-item__description">{{ feature.description }}</p>
+      </header>
 
-      <div class="pipeline__content">
+      <div class="feature-item__content">
         <!-- Ключевые возможности -->
-        <div class="pipeline__section">
-          <h3 class="pipeline__section-title">{{ messages.features_title }}</h3>
-          <div class="pipeline__features">
+        <section class="feature-item__section">
+          <h3 class="feature-item__section-title">{{ feature.features.title }}</h3>
+          <div class="feature-item__features">
             <div
-              v-for="(feature, index) in messages.features"
+              v-for="(item, index) in feature.features.items"
               :key="index"
-              class="pipeline__feature"
+              class="feature-item__feature"
             >
-              <div class="pipeline__feature-icon">✓</div>
-              <div class="pipeline__feature-text">{{ feature }}</div>
+              <div class="feature-item__feature-icon">{{ feature.featureIcon }}</div>
+              <div class="feature-item__feature-text">{{ item }}</div>
             </div>
           </div>
-        </div>
+        </section>
 
         <!-- Процесс работы -->
-        <div class="pipeline__section">
-          <h3 class="pipeline__section-title">{{ messages.process_title }}</h3>
-          <div class="pipeline__process">
+        <section class="feature-item__section">
+          <h3 class="feature-item__section-title">{{ feature.process.title }}</h3>
+          <div class="feature-item__process">
             <div
-              v-for="(step, index) in messages.process_steps"
+              v-for="(step, index) in feature.process.steps"
               :key="index"
-              class="pipeline__process-step"
+              class="feature-item__process-step"
             >
-              <div class="pipeline__step-number">{{ index + 1 }}</div>
-              <div class="pipeline__step-content">
+              <div
+                class="feature-item__step-number"
+                :style="{ background: feature.accentColor }"
+              >
+                {{ index + 1 }}
+              </div>
+              <div class="feature-item__step-content">
                 <h4>{{ step.title }}</h4>
                 <p>{{ step.description }}</p>
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
         <!-- Архитектурные компоненты -->
-        <div class="pipeline__section">
-          <h3 class="pipeline__section-title">{{ messages.architecture_title }}</h3>
-          <div class="pipeline__architecture">
+        <section class="feature-item__section">
+          <h3 class="feature-item__section-title">{{ feature.architecture.title }}</h3>
+          <div class="feature-item__architecture">
             <div
-              v-for="(item, index) in messages.architecture_items"
+              v-for="(item, index) in feature.architecture.items"
               :key="index"
-              class="pipeline__architecture-item"
+              class="feature-item__architecture-item"
             >
-              <div class="pipeline__arch-content">
+              <div class="feature-item__arch-content">
                 <strong>{{ item.name }}</strong>
                 - {{ item.description }}
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
         <!-- Преимущества подхода -->
-        <div class="pipeline__section">
-          <h3 class="pipeline__section-title">{{ messages.benefits_title }}</h3>
-          <div class="pipeline__benefits">
+        <section class="feature-item__section">
+          <h3 class="feature-item__section-title">{{ feature.benefits.title }}</h3>
+          <div class="feature-item__benefits">
             <div
-              v-for="(benefit, index) in messages.benefits"
+              v-for="(benefit, index) in feature.benefits.items"
               :key="index"
-              class="pipeline__benefit"
+              class="feature-item__benefit"
             >
-              <div class="pipeline__benefit-text">{{ benefit }}</div>
+              <div class="feature-item__benefit-text">{{ benefit }}</div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
-  </div>
+  </article>
 </template>
 
 <style scoped>
-  .pipeline {
+  .feature-item {
     padding: var(--spacing-xl) 0;
+    border-bottom: 1px solid var(--color-border-light);
+    scroll-margin-top: var(--spacing-lg);
   }
 
-  .pipeline__container {
+  .feature-item:last-child {
+    border-bottom: none;
+  }
+
+  .feature-item__container {
     max-width: var(--container-lg);
     margin: 0 auto;
     padding: 0 var(--spacing-md);
   }
 
-  .pipeline__header {
+  .feature-item__header {
     text-align: center;
     margin-bottom: var(--spacing-3xl);
   }
 
-  .pipeline__title {
+  .feature-item__title {
     font-size: var(--font-size-5xl);
     font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);
     margin-bottom: var(--spacing-md);
+    line-height: 1.2;
   }
 
-  .pipeline__subtitle {
+  .feature-item__subtitle {
     font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-medium);
-    color: var(--color-secondary);
     margin-bottom: var(--spacing-md);
+    line-height: 1.3;
   }
 
-  .pipeline__description {
+  .feature-item__description {
     font-size: var(--font-size-lg);
     color: var(--color-text-secondary);
     line-height: 1.6;
@@ -132,16 +138,16 @@
     margin: 0 auto;
   }
 
-  .pipeline__content {
+  .feature-item__content {
     display: grid;
     gap: var(--spacing-3xl);
   }
 
-  .pipeline__section {
+  .feature-item__section {
     margin-bottom: var(--spacing-xl);
   }
 
-  .pipeline__section-title {
+  .feature-item__section-title {
     font-size: var(--font-size-3xl);
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
@@ -151,13 +157,13 @@
   }
 
   /* Стили для ключевых возможностей */
-  .pipeline__features {
+  .feature-item__features {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);
   }
 
-  .pipeline__feature {
+  .feature-item__feature {
     display: flex;
     align-items: flex-start;
     gap: var(--spacing-md);
@@ -167,16 +173,16 @@
     transition: all var(--transition-normal);
   }
 
-  .pipeline__feature:hover {
+  .feature-item__feature:hover {
     background: var(--color-bg-tertiary);
     transform: translateY(-2px);
   }
 
-  .pipeline__feature-icon {
+  .feature-item__feature-icon {
     width: var(--icon-size-sm);
     height: var(--icon-size-sm);
-    background: var(--color-accent-green);
-    color: var(--color-text-light);
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -187,28 +193,27 @@
     margin-top: 0.1rem;
   }
 
-  .pipeline__feature-text {
+  .feature-item__feature-text {
     line-height: 1.5;
     color: var(--color-text-primary);
     font-size: var(--font-size-md);
   }
 
   /* Стили для процесса */
-  .pipeline__process {
+  .feature-item__process {
     display: grid;
     gap: var(--spacing-xl);
   }
 
-  .pipeline__process-step {
+  .feature-item__process-step {
     display: flex;
     gap: var(--spacing-lg);
     align-items: flex-start;
   }
 
-  .pipeline__step-number {
+  .feature-item__step-number {
     width: var(--icon-size-md);
     height: var(--icon-size-md);
-    background: var(--color-secondary);
     color: var(--color-text-light);
     display: flex;
     align-items: center;
@@ -219,30 +224,30 @@
     font-size: var(--font-size-base);
   }
 
-  .pipeline__step-content {
+  .feature-item__step-content {
     flex: 1;
   }
 
-  .pipeline__step-content h4 {
+  .feature-item__step-content h4 {
     color: var(--color-text-primary);
     margin: 0 0 var(--spacing-sm) 0;
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-semibold);
   }
 
-  .pipeline__step-content p {
+  .feature-item__step-content p {
     color: var(--color-text-secondary);
     line-height: 1.6;
     margin: 0;
   }
 
   /* Стили для архитектуры */
-  .pipeline__architecture {
+  .feature-item__architecture {
     display: grid;
     gap: var(--spacing-md);
   }
 
-  .pipeline__architecture-item {
+  .feature-item__architecture-item {
     display: flex;
     gap: var(--spacing-md);
     align-items: flex-start;
@@ -250,28 +255,28 @@
     border-bottom: 1px solid var(--color-border-light);
   }
 
-  .pipeline__architecture-item:last-child {
+  .feature-item__architecture-item:last-child {
     border-bottom: none;
   }
 
-  .pipeline__arch-content {
+  .feature-item__arch-content {
     flex: 1;
     line-height: 1.5;
     color: var(--color-text-primary);
   }
 
-  .pipeline__arch-content strong {
+  .feature-item__arch-content strong {
     color: var(--color-text-primary);
   }
 
   /* Стили для преимуществ */
-  .pipeline__benefits {
+  .feature-item__benefits {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);
   }
 
-  .pipeline__benefit {
+  .feature-item__benefit {
     display: flex;
     gap: var(--spacing-md);
     align-items: flex-start;
@@ -281,12 +286,12 @@
     transition: all var(--transition-normal);
   }
 
-  .pipeline__benefit:hover {
+  .feature-item__benefit:hover {
     background: var(--color-bg-tertiary);
     transform: translateY(-2px);
   }
 
-  .pipeline__benefit-text {
+  .feature-item__benefit-text {
     flex: 1;
     line-height: 1.5;
     color: var(--color-text-primary);
@@ -294,80 +299,79 @@
 
   /* Адаптивность */
   @media (max-width: 768px) {
-    .pipeline {
-      padding: var(--spacing-md) 0;
+    .feature-item {
+      padding: var(--spacing-lg) 0;
     }
 
-    .pipeline__container {
+    .feature-item__container {
       padding: 0 var(--spacing-sm);
     }
 
-    .pipeline__title {
+    .feature-item__title {
       font-size: var(--font-size-4xl);
     }
 
     /* На мобильных - одна колонка */
-    .pipeline__features {
+    .feature-item__features {
       grid-template-columns: 1fr;
     }
 
-    .pipeline__benefits {
+    .feature-item__benefits {
       grid-template-columns: 1fr;
     }
 
-    .pipeline__process-step {
+    .feature-item__process-step {
       gap: var(--spacing-md);
     }
 
-    .pipeline__step-number {
+    .feature-item__step-number {
       width: var(--icon-size-sm);
       height: var(--icon-size-sm);
       font-size: var(--font-size-sm);
     }
 
-    .pipeline__step-content h4 {
+    .feature-item__step-content h4 {
       font-size: var(--font-size-md);
     }
 
-    .pipeline__step-content p {
+    .feature-item__step-content p {
       font-size: var(--font-size-sm);
     }
   }
 
   @media (max-width: 480px) {
-    .pipeline__container {
+    .feature-item__container {
       padding: 0 var(--spacing-sm);
     }
 
-    .pipeline__title {
+    .feature-item__title {
       font-size: var(--font-size-3xl);
     }
 
-    .pipeline__section-title {
+    .feature-item__section-title {
       font-size: var(--font-size-2xl);
     }
 
-    .pipeline__feature,
-    .pipeline__architecture-item,
-    .pipeline__benefit {
+    .feature-item__feature,
+    .feature-item__architecture-item,
+    .feature-item__benefit {
       gap: var(--spacing-sm);
     }
 
-    .pipeline__feature,
-    .pipeline__benefit {
+    .feature-item__feature,
+    .feature-item__benefit {
       padding: var(--spacing-md);
     }
   }
 
-  /* Для очень маленьких экранов */
   @media (max-width: 360px) {
-    .pipeline__feature,
-    .pipeline__benefit {
+    .feature-item__feature,
+    .feature-item__benefit {
       padding: var(--spacing-sm);
     }
 
-    .pipeline__feature-text,
-    .pipeline__benefit-text {
+    .feature-item__feature-text,
+    .feature-item__benefit-text {
       font-size: var(--font-size-base);
     }
   }
