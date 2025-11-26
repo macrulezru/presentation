@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { useI18n } from '@/composables/useI18n'
 
 export interface SectionItem {
   name?: string

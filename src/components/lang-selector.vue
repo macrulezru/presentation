@@ -1,6 +1,6 @@
+<!-- components/lang-selector.vue -->
 <script setup lang="ts">
   import DlvSelect from '@/components/ui/DlvSelect.vue'
-
   import { computed } from 'vue'
 
   const { changeLocale, locale } = useI18n()
@@ -21,12 +21,12 @@
     get: () =>
       languageOptions.find(opt => opt.value === locale.value) || languageOptions[0],
     set: (option: LanguageOption) => {
-      changeLocale(option.value as 'ru' | 'en' | 'de')
+      changeLocale(option.value)
     },
   })
 
   const handleLanguageChange = (option: LanguageOption) => {
-    changeLocale(option.value as 'ru' | 'en' | 'de')
+    changeLocale(option.value)
   }
 </script>
 

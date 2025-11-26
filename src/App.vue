@@ -1,3 +1,4 @@
+<!-- App.vue -->
 <script setup lang="ts">
   import Header from '@/components/header.vue'
   import Splash from '@/components/splash.vue'
@@ -6,12 +7,17 @@
   import TravelshopProject from '@/components/travelshop-project.vue'
   import Features from '@/components/features.vue'
 
-  import { ref } from 'vue'
-  import { useI18n } from 'vue-i18n'
+  import { ref, onMounted } from 'vue'
+  import { useI18n } from '@/composables/useI18n'
 
-  const { t } = useI18n()
+  const { t, initLocale } = useI18n()
 
   const aboutSection = ref<InstanceType<typeof About>>()
+
+  // Инициализируем локаль при загрузке
+  onMounted(() => {
+    initLocale()
+  })
 
   const scrollToAbout = () => {
     if (aboutSection.value?.container) {
