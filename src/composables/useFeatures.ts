@@ -37,6 +37,12 @@ export function useFeatures() {
 
   const featuresConfig = computed(() => [
     {
+      id: 'ui-components',
+      i18nKey: 'uiComponents',
+      accentColor: 'var(--color-accent-ui)',
+      featureIcon: '✓',
+    },
+    {
       id: 'pipeline',
       i18nKey: 'pipeline',
       accentColor: 'var(--color-secondary)',

@@ -479,5 +479,72 @@
         "Reduced communication time"
       ]
     }
+  },
+  "uiComponents": {
+    "title": "UI Components Development",
+    "subtitle": "UI Components Architect",
+    "description": "Designed and implemented a UI component library for a large web application with focus on accessibility, performance and developer experience.",
+    "features": {
+      "title": "Key Components",
+      "items": [
+        "Input fields and selectors - Components with full interaction cycle: validation, input masks, custom placeholders, error and loading states",
+        "Smart autocomplete - Complex keyboard logic, virtual scrolling, mobile device adaptation and T9 input support",
+        "Modal windows and tooltips - Universal overlay components with swipe gesture support, scroll locking and focus management",
+        "Calendar and date picker - Flexible component for date and period selection with custom range highlighting logic and visual states",
+        "Tables and tabs - High-performance tables with virtualization and adaptive tabs with programmatic navigation API"
+      ]
+    },
+    "architecture": {
+      "title": "Architectural Components",
+      "items": [
+        {
+          "name": "Base Components",
+          "description": "fundamental UI elements with well-designed API and theming support"
+        },
+        {
+          "name": "Composite Components",
+          "description": "complex compound components built on base elements"
+        },
+        {
+          "name": "Theming System",
+          "description": "appearance customization mechanism through CSS Custom Properties"
+        },
+        {
+          "name": "Documentation",
+          "description": "comprehensive documentation with usage examples and API reference"
+        }
+      ]
+    },
+    "process": {
+      "title": "Development Process",
+      "steps": [
+        {
+          "title": "API Design",
+          "description": "Developing component interfaces considering usability and type safety"
+        },
+        {
+          "title": "Core Functionality Implementation",
+          "description": "Creating main component functionality with accessibility support"
+        },
+        {
+          "title": "Testing and Documentation",
+          "description": "Writing tests and creating documentation with usage examples"
+        },
+        {
+          "title": "Integration and Feedback",
+          "description": "Project integration and feedback collection for component improvement"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Approach Benefits",
+      "items": [
+        "30% faster feature development through component reuse",
+        "Ensuring interface consistency throughout the application",
+        "Simplifying codebase maintenance and scaling",
+        "Improving user experience on mobile devices",
+        "40% reduction in UI logic bugs"
+      ]
+    }
   }
 }

@@ -479,5 +479,72 @@
         "Reduzierte Kommunikationszeit"
       ]
     }
+  },
+  "uiComponents": {
+    "title": "UI-Komponenten-Entwicklung",
+    "subtitle": "UI-Komponenten-Architekt",
+    "description": "Entwurf und Implementierung einer UI-Komponentenbibliothek für eine große Webanwendung mit Fokus auf Barrierefreiheit, Leistung und Entwicklungserfahrung.",
+    "features": {
+      "title": "Schlüsselkomponenten",
+      "items": [
+        "Eingabefelder und Selektoren - Komponenten mit vollständigem Interaktionszyklus: Validierung, Eingabemasken, benutzerdefinierte Platzhalter, Fehler- und Ladezustände",
+        "Intelligente Autovervollständigung - Komplexe Tastaturlogik, virtuelles Scrollen, Mobilgeräteanpassung und T9-Eingabeunterstützung",
+        "Modale Fenster und Tooltips - Universelle Overlay-Komponenten mit Wischgesten-Unterstützung, Scrollsperre und Fokusverwaltung",
+        "Kalender und Datumsauswahl - Flexible Komponente für Datums- und Zeitraumauswahl mit benutzerdefinierter Bereichsmarkierungslogik und visuellen Zuständen",
+        "Tabellen und Registerkarten - Leistungsstarke Tabellen mit Virtualisierung und adaptive Tabs mit programmatischer Navigations-API"
+      ]
+    },
+    "architecture": {
+      "title": "Architekturkomponenten",
+      "items": [
+        {
+          "name": "Basis-Komponenten",
+          "description": "grundlegende UI-Elemente mit durchdachter API und Theme-Unterstützung"
+        },
+        {
+          "name": "Komposite Komponenten",
+          "description": "komplexe zusammengesetzte Komponenten auf Basis von Grundelementen"
+        },
+        {
+          "name": "Theming-System",
+          "description": "Mechanismus zur Anpassung des Erscheinungsbilds über CSS Custom Properties"
+        },
+        {
+          "name": "Dokumentation",
+          "description": "umfassende Dokumentation mit Anwendungsbeispielen und API-Referenz"
+        }
+      ]
+    },
+    "process": {
+      "title": "Entwicklungsprozess",
+      "steps": [
+        {
+          "title": "API-Design",
+          "description": "Entwicklung von Komponentenschnittstellen unter Berücksichtigung von Benutzerfreundlichkeit und Typsicherheit"
+        },
+        {
+          "title": "Implementierung der Kernfunktionalität",
+          "description": "Erstellung der Hauptfunktionalität von Komponenten mit Barrierefreiheitsunterstützung"
+        },
+        {
+          "title": "Tests und Dokumentation",
+          "description": "Schreiben von Tests und Erstellen von Dokumentation mit Anwendungsbeispielen"
+        },
+        {
+          "title": "Integration und Feedback",
+          "description": "Projektintegration und Feedback-Sammlung zur Verbesserung der Komponenten"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Vorteile des Ansatzes",
+      "items": [
+        "30 % schnellere Funktionsentwicklung durch Komponentenwiederverwendung",
+        "Gewährleistung der Konsistenz der Benutzeroberfläche in der gesamten Anwendung",
+        "Vereinfachung der Wartung und Skalierung der Codebasis",
+        "Verbesserung der Benutzererfahrung auf Mobilgeräten",
+        "40 % weniger Fehler in der UI-Logik"
+      ]
+    }
   }
 }
