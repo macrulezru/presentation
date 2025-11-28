@@ -6,6 +6,7 @@
   import ExperienceTimeline from '@/components/experience-timeline.vue'
   import TravelshopProject from '@/components/travelshop-project.vue'
   import Features from '@/components/features.vue'
+  import Testing from '@/components/testing.vue'
   import RemoteWorkplace from '@/components/remote-workplace.vue'
 
   import { onMounted, onUnmounted, watch, nextTick, ref } from 'vue'
@@ -79,8 +80,8 @@
     <section id="features">
       <h3 class="examples-title">{{ t('app.examples_title') }}</h3>
       <Features />
+      <Testing />
     </section>
-
     <section id="remote-workplace">
       <RemoteWorkplace />
     </section>

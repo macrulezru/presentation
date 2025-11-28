@@ -557,5 +557,10 @@
         "40 % weniger Fehler in der UI-Logik"
       ]
     }
+  },
+  "demonstration": {
+    "title": "Berufsethik und meine Fähigkeiten",
+    "description": "Bei kommerziellen Projekten wie TravelShop ist die Codebasis geistiges Eigentum der Unternehmen, daher habe ich nicht das Recht, diese zu demonstrieren.",
+    "readiness": "Ich bin bereit, eine Testaufgabe zu absolvieren, um in der Praxis meinen Lösungsansatz, Code-Qualität und professionelle Fähigkeiten zu demonstrieren."
   }
 }
