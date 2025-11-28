@@ -172,7 +172,6 @@
     content: '•';
     position: absolute;
     left: 0;
-    color: var(--color-accent-blue);
     font-weight: var(--font-weight-bold);
   }
 
