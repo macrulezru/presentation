@@ -19,6 +19,15 @@
   "about": {
     "intro": "Frontend developer with over 6 years of experience in Vue.js.",
     "approach": "My journey in web development and design started more than 20 years ago, which allowed me to develop a comprehensive approach to interface creation. I strive to build applications that are not only functional and performant but also feature thoughtful interaction logic and a clean visual design.",
+    "bitrix_title": "Bitrix Experience",
+    "bitrix_description": "Worked on support and development of new TravelShop 1.0 templates for various airlines. Confidently use PHP for this purpose. Understand Bitrix specifics.",
+    "bitrix_skills": [
+      "Development and support of TravelShop 1.0 templates",
+      "Integration with flight booking systems",
+      "Customization of functionality according to airline requirements",
+      "Working with PHP in the context of Bitrix projects",
+      "Understanding Bitrix architecture and features"
+    ],
     "skills_title": "In my work, I focus on architectural cleanliness, code maintainability, and type safety. I have experience in the full cycle of frontend development for complex SPAs:",
     "skills_list": [
       {
@@ -53,7 +62,9 @@
     "vite": "Modern build tool for fast development",
     "i18n": "Localization and multilingual interfaces",
     "html": "Semantic and accessible markup",
-    "css": "Responsive design, Flexbox, Grid"
+    "css": "Responsive design, Flexbox, Grid",
+    "php": "PHP template development for Bitrix",
+    "bitrix": "Bitrix template development and support"
   },
   "experience": {
     "title": "Work Experience",

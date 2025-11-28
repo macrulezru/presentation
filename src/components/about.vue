@@ -38,6 +38,14 @@
       icon: 'css',
       description: t('tech.css'),
     },
+    {
+      icon: 'php',
+      description: t('tech.php'),
+    },
+    {
+      icon: 'bitrix',
+      description: t('tech.bitrix'),
+    },
   ])
 
   const skillsList = computed(() => tm('about.skills_list'))
@@ -79,6 +87,20 @@
           <div class="about__tech-item-description">{{ tech.description }}</div>
         </div>
       </div>
+      <!-- Блок про Bitrix опыт -->
+      <div class="about__bitrix">
+        <h3 class="about__bitrix-title">{{ t('about.bitrix_title') }}</h3>
+        <p class="about__bitrix-description">{{ t('about.bitrix_description') }}</p>
+        <ul class="about__bitrix-skills">
+          <li
+            v-for="(skill, index) in tm('about.bitrix_skills')"
+            :key="index"
+            class="about__bitrix-skill"
+          >
+            {{ skill }}
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -109,6 +131,53 @@
     font-weight: var(--font-weight-semibold);
     font-size: var(--font-size-3xl);
     color: var(--color-text-primary);
+  }
+
+  /* Блок Bitrix */
+  .about__bitrix {
+    background: var(--color-bg-secondary);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    margin: var(--spacing-xl) 0 0;
+  }
+
+  .about__bitrix-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .about__bitrix-description {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .about__bitrix-skills {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  .about__bitrix-skill {
+    position: relative;
+    padding-left: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-primary);
+    line-height: 1.5;
+  }
+
+  .about__bitrix-skill::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent-blue);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .about__bitrix-skill:last-child {
+    margin-bottom: 0;
   }
 
   .about__skills {
@@ -234,6 +303,14 @@
     background-image: url('@/assets/images/css-logo.svg');
   }
 
+  .about__tech-item-icon_php {
+    background-image: url('@/assets/images/php-logo.svg');
+  }
+
+  .about__tech-item-icon_bitrix {
+    background-image: url('@/assets/images/bitrix-logo.svg');
+  }
+
   .about__tech-item-description {
     font-size: var(--font-size-xs);
     color: var(--color-text-secondary);
@@ -251,6 +328,11 @@
 
     .about__intro {
       font-size: var(--font-size-md);
+    }
+
+    .about__bitrix {
+      padding: var(--spacing-md);
+      margin: var(--spacing-lg) 0;
     }
 
     .about__skills {
