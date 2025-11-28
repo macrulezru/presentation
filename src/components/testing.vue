@@ -28,7 +28,7 @@
 
 <style scoped>
   .demonstration {
-    padding: var(--spacing-xl) 0;
+    padding: var(--spacing-3xl) 0;
     background: var(--color-bg-secondary);
   }
 
