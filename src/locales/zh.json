@@ -64,7 +64,9 @@
     "html": "语义化和可访问的布局",
     "css": "响应式设计, Flexbox, Grid",
     "php": "Bitrix 的 PHP 模板开发",
-    "bitrix": "Bitrix 模板开发与支持"
+    "bitrix": "Bitrix 模板开发与支持",
+    "git": "所有项目的分布式版本控制",
+    "svn": "具有集中式版本控制系统的经验"
   },
   "experience": {
     "title": "工作经历",

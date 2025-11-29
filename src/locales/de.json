@@ -64,7 +64,9 @@
     "html": "Semantisches und zugängliches Markup",
     "css": "Responsives Design, Flexbox, Grid",
     "php": "PHP-Vorlagenentwicklung für Bitrix",
-    "bitrix": "Bitrix-Vorlagenentwicklung und -Support"
+    "bitrix": "Bitrix-Vorlagenentwicklung und -Support",
+    "git": "Verteiltes Versionskontrollsystem für alle Projekte",
+    "svn": "Erfahrung mit zentralisierten Versionskontrollsystemen"
   },
   "experience": {
     "title": "Berufserfahrung",

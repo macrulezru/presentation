@@ -46,6 +46,14 @@
       icon: 'bitrix',
       description: t('tech.bitrix'),
     },
+    {
+      icon: 'git',
+      description: t('tech.git'),
+    },
+    {
+      icon: 'svn',
+      description: t('tech.svn'),
+    },
   ])
 
   const skillsList = computed(() => tm('about.skills_list'))
@@ -310,6 +318,14 @@
     background-image: url('@/assets/images/bitrix-logo.svg');
   }
 
+  .about__tech-item-icon_git {
+    background-image: url('@/assets/images/git-logo.svg');
+  }
+
+  .about__tech-item-icon_svn {
+    background-image: url('@/assets/images/svn-logo.svg');
+  }
+
   .about__tech-item-description {
     font-size: var(--font-size-xs);
     color: var(--color-text-secondary);
@@ -349,7 +365,7 @@
     }
 
     .about__tech-wrapper {
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
       padding: var(--spacing-md);
     }
 
@@ -368,7 +384,6 @@
     }
 
     .about__tech-wrapper {
-      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
       padding: var(--spacing-sm);
     }
 

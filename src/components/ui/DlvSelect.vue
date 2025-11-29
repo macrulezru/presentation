@@ -105,7 +105,7 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
     padding: 8px 16px;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     line-height: 1.5;
     cursor: pointer;
     outline: none;
