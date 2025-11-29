@@ -30,6 +30,7 @@ router.beforeEach(to => {
     'travelshop',
     'features',
     'remote-workplace',
+    'contacts',
   ]
 
   const toLocale = to.params.locale as string

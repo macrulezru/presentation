@@ -8,6 +8,7 @@
   import Features from '@/components/features.vue'
   import Testing from '@/components/testing.vue'
   import RemoteWorkplace from '@/components/remote-workplace.vue'
+  import Contacts from '@/components/contacts.vue'
 
   import { onMounted, onUnmounted, watch, nextTick, ref } from 'vue'
   import { useI18n } from '@/composables/useI18n'
@@ -84,6 +85,9 @@
     </section>
     <section id="remote-workplace">
       <RemoteWorkplace />
+    </section>
+    <section id="contacts">
+      <Contacts />
     </section>
   </div>
 </template>

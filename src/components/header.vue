@@ -18,6 +18,7 @@
     { id: 'travelshop', label: t('navigation.travelshop') },
     { id: 'features', label: t('navigation.features') },
     { id: 'remote-workplace', label: t('navigation.workplace') },
+    { id: 'contacts', label: t('navigation.contacts') },
   ])
 
   // Проверка размера экрана
@@ -172,7 +173,7 @@
 
   .header__nav {
     display: flex;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
     align-items: center;
   }
 
@@ -180,7 +181,7 @@
     background: none;
     border: none;
     color: var(--color-text-light);
-    padding: var(--spacing-sm) var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--radius-pill);
     cursor: pointer;
     transition: all var(--transition-normal);
@@ -281,7 +282,6 @@
     left: 0;
     right: 0;
     background: var(--color-bg-dark);
-    border-bottom: 1px solid var(--color-border);
     padding: var(--spacing-md);
     display: flex;
     flex-direction: column;

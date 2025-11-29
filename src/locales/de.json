@@ -5,7 +5,8 @@
     "experience": "Erfahrung",
     "travelshop": "TravelShop",
     "features": "Lösungen",
-    "workplace": "Arbeitsplatz"
+    "workplace": "Arbeitsplatz",
+    "contacts": "Kontakte"
   },
   "splash": {
     "welcome": "Danil Lisin",
@@ -564,5 +565,21 @@
     "title": "Berufsethik und meine Fähigkeiten",
     "description": "Bei kommerziellen Projekten wie TravelShop ist die Codebasis geistiges Eigentum der Unternehmen, daher habe ich nicht das Recht, diese zu demonstrieren.",
     "readiness": "Ich bin bereit, eine Testaufgabe zu absolvieren, um in der Praxis meinen Lösungsansatz, Code-Qualität und professionelle Fähigkeiten zu demonstrieren."
+  },
+  "contacts": {
+    "title": "Kontakte",
+    "subtitle": "Kontaktieren Sie mich auf bequeme Weise",
+    "emails": {
+      "label": "E-mail",
+      "values": ["macrulezru@gmail.com", "macrulezru@yandex.ru"]
+    },
+    "telegram": {
+      "label": "Telegram",
+      "value": "@Danil_Anapa"
+    },
+    "phone": {
+      "label": "Telefon",
+      "value": "+7 963 697-26-62"
+    }
   }
 }

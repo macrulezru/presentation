@@ -5,7 +5,8 @@
     "experience": "经验",
     "travelshop": "TravelShop",
     "features": "解决方案",
-    "workplace": "工作场所"
+    "workplace": "工作场所",
+    "contacts": "联系方式"
   },
   "splash": {
     "welcome": "李辛·丹尼尔·弗拉基米罗维奇",
@@ -560,9 +561,20 @@
       ]
     }
   },
-  "demonstration": {
-    "title": "职业道德与我的技能",
-    "description": "在商业项目（如TravelShop）中，代码库是公司的知识产权，因此我无权展示。",
-    "readiness": "我准备完成测试任务，以在实践中展示我解决问题的方法、代码质量和专业技能。"
+  "contacts": {
+    "title": "联系方式",
+    "subtitle": "通过便捷的方式与我联系",
+    "emails": {
+      "label": "E-mail",
+      "values": ["macrulezru@gmail.com", "macrulezru@yandex.ru"]
+    },
+    "telegram": {
+      "label": "Telegram",
+      "value": "@Danil_Anapa"
+    },
+    "phone": {
+      "label": "电话",
+      "value": "+7 963 697-26-62"
+    }
   }
 }

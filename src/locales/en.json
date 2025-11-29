@@ -5,7 +5,8 @@
     "experience": "Experience",
     "travelshop": "TravelShop",
     "features": "Solutions",
-    "workplace": "Workplace"
+    "workplace": "Workplace",
+    "contacts": "Contacts"
   },
   "splash": {
     "welcome": "Danil Lisin",
@@ -564,5 +565,21 @@
     "title": "Professional Ethics and My Skills",
     "description": "In commercial projects such as TravelShop, the codebase is the intellectual property of the companies, therefore I do not have the right to demonstrate it.",
     "readiness": "I am ready to complete a test task to demonstrate in practice my approach to problem solving, code quality and professional skills."
+  },
+  "contacts": {
+    "title": "Contacts",
+    "subtitle": "Get in touch with me in a convenient way",
+    "emails": {
+      "label": "E-mail",
+      "values": ["macrulezru@gmail.com", "macrulezru@yandex.ru"]
+    },
+    "telegram": {
+      "label": "Telegram",
+      "value": "@Danil_Anapa"
+    },
+    "phone": {
+      "label": "Phone",
+      "value": "+7 963 697-26-62"
+    }
   }
 }

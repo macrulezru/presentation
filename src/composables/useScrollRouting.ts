@@ -25,6 +25,7 @@ export function useScrollRouting() {
     { id: 'travelshop', name: 'travelshop' },
     { id: 'features', name: 'features' },
     { id: 'remote-workplace', name: 'remote-workplace' },
+    { id: 'contacts', name: 'contacts' },
   ]
 
   // Инициализация секций
