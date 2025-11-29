@@ -199,11 +199,10 @@
   }
 
   .header__nav-item--active {
-    background: linear-gradient(135deg, var(--color-primary), #4facfe);
+    background-color: #2773b1;
     color: white;
     box-shadow: 0 4px 16px rgba(74, 144, 226, 0.4);
     transform: translateY(-2px);
-    font-weight: var(--font-weight-semibold);
   }
 
   .header__nav-item--active::before {
@@ -310,10 +309,9 @@
   }
 
   .mobile-menu__item--active {
-    background: linear-gradient(135deg, var(--color-primary), #4facfe);
+    background-color: #2773b1;
     color: white;
     box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
-    font-weight: var(--font-weight-semibold);
   }
 
   /* Анимации */
