@@ -10,7 +10,7 @@
     {
       icon: 'telegram',
       label: t('contacts.telegram.label'),
-      value: t('contacts.telegram.value'),
+      value: `@${t('contacts.telegram.value')}`,
       href: 'https://t.me/Danil_Anapa',
     },
     {
