@@ -580,6 +580,10 @@
     "phone": {
       "label": "Phone",
       "value": "+7 963 697-26-62"
+    },
+    "ya-messenger": {
+      "label": "Yandex Messenger",
+      "value": "macrulezru"
     }
   }
 }

@@ -8,16 +8,22 @@
       emails: tm('contacts.emails.values'),
     },
     {
+      icon: 'phone',
+      label: t('contacts.phone.label'),
+      value: t('contacts.phone.value'),
+      href: 'tel:+79636972662',
+    },
+    {
       icon: 'telegram',
       label: t('contacts.telegram.label'),
       value: `@${t('contacts.telegram.value')}`,
       href: 'https://t.me/Danil_Anapa',
     },
     {
-      icon: 'phone',
-      label: t('contacts.phone.label'),
-      value: t('contacts.phone.value'),
-      href: 'tel:+79636972662',
+      icon: 'ya-messenger',
+      label: t('contacts.ya-messenger.label'),
+      value: `@${t('contacts.ya-messenger.value')}`,
+      href: 'https://yandex.ru/chat/p/41a53011-0ac3-4de7-b032-918fabf51dae?utm_source=invite',
     },
   ])
 </script>
@@ -156,6 +162,10 @@
 
   .contacts__item-icon_phone {
     background-image: url('@/assets/images/phone-icon.svg');
+  }
+
+  .contacts__item-icon_ya-messenger {
+    background-image: url('@/assets/images/ya-messenger-icon.svg');
   }
 
   .contacts__item-content {

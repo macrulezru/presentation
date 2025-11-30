@@ -575,6 +575,10 @@
     "phone": {
       "label": "电话",
       "value": "+7 963 697-26-62"
+    },
+    "ya-messenger": {
+      "label": "Yandex 即时通讯",
+      "value": "macrulezru"
     }
   }
 }

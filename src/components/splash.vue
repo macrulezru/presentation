@@ -194,6 +194,7 @@
     gap: var(--spacing-3xl);
     padding: var(--spacing-xl) var(--spacing-md);
     text-align: center;
+    background-color: #020f19;
     background-image: url('@/assets/images/splash-background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
