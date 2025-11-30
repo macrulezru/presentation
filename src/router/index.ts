@@ -55,7 +55,8 @@ router.beforeEach(to => {
   }
 
   // Устанавливаем локаль
-  i18n.global.locale.value = toLocale as 'ru' | 'en' | 'de' | 'zh'
+  // @ts-ignore - игнорируем ошибку типов Vue I18n
+  i18n.global.locale.value = toLocale
   localStorage.setItem('user-locale', toLocale)
 })
 

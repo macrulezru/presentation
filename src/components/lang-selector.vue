@@ -4,7 +4,7 @@
   import { computed } from 'vue'
   import { useScrollRouting } from '@/composables/useScrollRouting'
 
-  const { changeLocale, locale } = useI18n()
+  const { changeLocale, locale, isLoading } = useI18n()
   const { getActiveSection } = useScrollRouting()
 
   interface LanguageOption {
@@ -28,16 +28,14 @@
   })
 
   const handleLanguageChange = (option: LanguageOption) => {
-    // Используем актуальную секцию из useScrollRouting, а не из URL
-    const activeSection = getActiveSection()
+    if (isLoading.value) return // Предотвращаем изменение во время загрузки
 
-    // Формируем новый путь с актуальной секцией
+    const activeSection = getActiveSection()
     const newPath =
       activeSection !== 'splash'
         ? `/${option.value}/${activeSection}`
         : `/${option.value}`
 
-    // Вызываем changeLocale с путем для сохранения секции
     changeLocale(option.value, newPath)
   }
 </script>
@@ -48,14 +46,39 @@
       v-model="currentLanguage"
       :options="languageOptions"
       :placeholder="currentLanguage?.name"
+      :disabled="isLoading"
       @change="handleLanguageChange"
-    />
+    >
+      <template #arrow v-if="isLoading">
+        <div class="lang-selector__loader--small"></div>
+      </template>
+    </DlvSelect>
   </div>
 </template>
 
 <style scoped>
   .lang-selector {
+    position: relative;
     display: flex;
     align-items: center;
+  }
+
+  .lang-selector__loader--small {
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 8px;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 </style>
