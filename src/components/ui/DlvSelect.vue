@@ -9,9 +9,11 @@
       <span class="dlv-select__selected">
         {{ selectedOption?.name || placeholder }}
       </span>
-      <div class="dlv-select__arrow" :class="{ 'dlv-select__arrow--open': isOpen }">
-        ▼
-      </div>
+      <slot name="arrow">
+        <div class="dlv-select__arrow" :class="{ 'dlv-select__arrow--open': isOpen }">
+          ▼
+        </div>
+      </slot>
     </div>
 
     <div v-if="isOpen" class="dlv-select__dropdown">
