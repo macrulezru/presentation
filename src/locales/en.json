@@ -88,100 +88,72 @@
       },
       {
         "company": "TNT, Television Company",
-        "duration": "5 months",
         "position": "Web Designer",
-        "period": "June 2017 — October 2017",
         "description": "Creating animated and interactive advertising banners for television projects. Full development cycle: from concept and design to implementation using HTML5, CSS3 and JavaScript. Creating responsive banners supporting various sizes and devices."
       },
       {
         "company": "Bauservice LLC",
-        "duration": "6 months",
         "position": "Web Designer",
-        "period": "September 2016 — February 2017",
         "description": "Development of corporate website designs, creating advertising banners and iconography. Full interface design cycle: from prototyping and visual design to adaptive layout. Graphics optimization and ensuring cross-browser compatibility."
       },
       {
         "company": "European Media Group (EMG)",
-        "duration": "1 year and 4 months",
         "position": "Web Designer / Web Developer",
-        "period": "November 2014 — February 2016",
         "description": "Development and support of websites for company's media projects. Creating user interfaces, designing promotional pages and landing pages. Integration of design with content management systems, optimization of web page performance."
       },
       {
         "company": "Advego",
-        "duration": "2 years and 11 months",
         "position": "Web Designer / Web Developer",
-        "period": "June 2011 — April 2014",
         "description": "Full cycle of web project creation: from user interface design and visual design to frontend development. Creating intuitive interfaces for content exchange platforms, developing admin panels and user cabinets. Optimizing user experience and interaction."
       },
       {
         "company": "NIKITA ONLINE",
-        "duration": "5 months",
         "position": "Web Designer",
-        "period": "August 2010 — December 2010",
         "description": "Development of corporate website designs and promotional pages for company's gaming projects. Creating visual concepts, designing page layouts and interface elements. Preparing graphic materials for web publications."
       },
       {
         "company": "Nettrader",
-        "duration": "6 months",
         "position": "Web Designer",
-        "period": "June 2008 — November 2008",
         "description": "Design of user interfaces for financial and trading platforms. Creating intuitive and functional interfaces for working with financial data. Development of visual communication systems and branding elements."
       },
       {
         "company": "SOLDIS Communication Agency",
-        "duration": "4 months",
         "position": "Web Designer",
-        "period": "September 2007 — December 2007",
         "description": "Creating website designs for agency clients. Development of visual concepts, preparation of layouts and graphic elements. Working on improving user experience and navigation on web resources."
       },
       {
         "company": "Yutinet.Ru",
-        "duration": "5 months",
         "position": "Web Designer",
-        "period": "August 2007 — December 2007",
         "description": "Design and development of web interfaces for internet portals. Creating user interfaces, working on improving navigation and content structure. Development of graphic elements and visual identity systems."
       },
       {
         "company": "ION Digital Center",
-        "duration": "2 years",
         "position": "Web Designer",
-        "period": "January 2006 — December 2007",
         "description": "Design and development of websites for various business segments. Full interface creation cycle: from target audience research and prototyping to final implementation. Development of adaptive designs and ensuring cross-browser compatibility."
       },
       {
         "company": "ADT Web Solutions",
-        "duration": "1 year and 10 months",
         "position": "Web Designer",
-        "period": "January 2005 — October 2006",
         "description": "Creation of corporate website and online store designs. Development of user interfaces, navigation design and content structure. Working on branding and creating unified visual systems for web projects."
       },
       {
         "company": "Freelance",
-        "duration": "1 year and 5 months",
         "position": "Web Designer",
-        "period": "August 2004 — December 2005",
         "description": "Execution of website design and development orders for various clients. Creating unique design concepts, developing page layouts, preparing graphic elements. Working on full web project creation cycle from idea to implementation."
       },
       {
         "company": "Artez Production",
-        "duration": "7 months",
         "position": "Web Designer",
-        "period": "January 2004 — July 2004",
         "description": "Website design for production company clients. Creating visual concepts, developing interfaces and navigation systems. Preparing graphics for web publications and ensuring design compliance with technical requirements."
       },
       {
         "company": "Publicis United",
-        "duration": "3 years and 1 month",
         "position": "Web Designer",
-        "period": "January 2000 — January 2003",
         "description": "Design and development of websites for major advertising agency clients. Creating interactive interfaces, working on improving user experience. Participation in creating comprehensive digital solutions for brands. Working according to corporate standards and client guidelines."
       },
       {
         "company": "AVM New Wave Inc.",
-        "duration": "1 year and 1 month",
         "position": "Web Designer",
-        "period": "January 1997 — January 1998",
         "description": "Design of early websites at the beginning of internet development in Russia. Establishing foundational principles of web design and navigation. Working with limited technical capabilities of that time, optimizing graphics for slow internet connections."
       }
     ]

@@ -20,11 +20,17 @@
 
           <!-- Содержимое карточки -->
           <div class="experience__card">
-            <div class="experience__period">{{ item.period }}</div>
+            <!-- Период (только если есть) -->
+            <div v-if="item.period" class="experience__period">
+              {{ item.period }}
+            </div>
 
             <div class="experience__card-header">
               <h3 class="experience__company">{{ item.company }}</h3>
-              <span class="experience__duration">{{ item.duration }}</span>
+              <!-- Длительность (только если есть) -->
+              <span v-if="item.duration" class="experience__duration">
+                {{ item.duration }}
+              </span>
             </div>
 
             <div class="experience__position">{{ item.position }}</div>
