@@ -34,9 +34,11 @@
   const formData = ref({
     name: '',
     email: '',
-    subject: '',
     message: '',
   })
+
+  // Фиксированная тема
+  const formSubject = computed(() => t('form.default_subject'))
 
   // Состояние формы
   const isSubmitting = ref(false)
@@ -85,7 +87,7 @@
         to_email: EMAILJS_CONFIG.recipientEmail,
         from_name: formData.value.name,
         from_email: formData.value.email,
-        subject: formData.value.subject || t('form.default_subject'),
+        subject: formSubject.value,
         message: formData.value.message,
         reply_to: formData.value.email,
         date: new Date().toLocaleString('ru-RU'),
@@ -102,7 +104,7 @@
       if (result.status === 200) {
         isSuccess.value = true
         setTimeout(() => {
-          formData.value = { name: '', email: '', subject: '', message: '' }
+          formData.value = { name: '', email: '', message: '' }
           isSuccess.value = false
         }, 3000)
       } else {
@@ -116,14 +118,13 @@
       setTimeout(() => {
         if (errorMessage.value === t('form.errors.submission_failed')) {
           const subject = encodeURIComponent(
-            formData.value.subject ||
-              `${t('form.default_subject')} от ${formData.value.name}`,
+            `${formSubject.value} от ${formData.value.name}`,
           )
 
           const body = encodeURIComponent(`
 ${t('form.fields.name')}: ${formData.value.name}
 ${t('form.fields.email')}: ${formData.value.email}
-${t('form.fields.subject')}: ${formData.value.subject || t('form.default_subject')}
+${t('form.fields.subject')}: ${formSubject.value}
 
 ${t('form.fields.message')}:
 ${formData.value.message}
@@ -142,7 +143,7 @@ ${t('form.sent_from')}: ${window.location.href}
 
   // Сброс формы
   const resetForm = () => {
-    formData.value = { name: '', email: '', subject: '', message: '' }
+    formData.value = { name: '', email: '', message: '' }
     errorMessage.value = ''
     isSuccess.value = false
   }
@@ -239,22 +240,6 @@ ${t('form.sent_from')}: ${window.location.href}
               />
             </div>
 
-            <!-- Тема (необязательное поле) -->
-            <div class="form-group">
-              <label for="subject" class="form-label">
-                {{ t('form.fields.subject') }}
-              </label>
-              <input
-                id="subject"
-                v-model="formData.subject"
-                type="text"
-                :placeholder="t('form.placeholders.subject')"
-                class="form-input"
-                :disabled="isSubmitting"
-                autocomplete="off"
-              />
-            </div>
-
             <!-- Сообщение -->
             <div class="form-group">
               <label for="message" class="form-label">
@@ -271,6 +256,9 @@ ${t('form.sent_from')}: ${window.location.href}
                 autocomplete="off"
               ></textarea>
             </div>
+
+            <!-- Скрытое поле с темой -->
+            <input type="hidden" name="subject" :value="formSubject" />
 
             <!-- Сообщения об ошибках и успехе -->
             <div v-if="errorMessage" class="form-error">
