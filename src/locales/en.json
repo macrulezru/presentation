@@ -585,5 +585,34 @@
       "label": "Yandex Messenger",
       "value": "macrulezru"
     }
+  },
+  "form": {
+    "title": "Contact Form",
+    "description": "Write to me directly using the form below",
+    "default_subject": "Message from portfolio website",
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message"
+    },
+    "placeholders": {
+      "name": "Enter your name",
+      "email": "Enter your email",
+      "subject": "Message subject (optional)",
+      "message": "Tell me about your project or ask a question"
+    },
+    "submit": "Send Message",
+    "sending": "Sending...",
+    "reset": "Clear",
+    "sent_from": "Sent from page",
+    "success_message": "✅ Thank you! Message sent. I'll respond within 24 hours.",
+    "errors": {
+      "name_required": "Please enter your name",
+      "email_required": "Please enter your email",
+      "email_invalid": "Please enter a valid email address",
+      "message_required": "Please enter your message",
+      "submission_failed": "Sending failed. The email will open in your mail client."
+    }
   }
 }

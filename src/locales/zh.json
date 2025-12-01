@@ -580,5 +580,34 @@
       "label": "Yandex 即时通讯",
       "value": "macrulezru"
     }
+  },
+  "form": {
+    "title": "联系表单",
+    "description": "通过下面的表单直接给我写信",
+    "default_subject": "来自作品集网站的消息",
+    "fields": {
+      "name": "姓名",
+      "email": "电子邮件",
+      "subject": "主题",
+      "message": "消息"
+    },
+    "placeholders": {
+      "name": "请输入您的姓名",
+      "email": "请输入您的电子邮件",
+      "subject": "消息主题（可选）",
+      "message": "请告诉我您的项目或提出问题"
+    },
+    "submit": "发送消息",
+    "sending": "发送中...",
+    "reset": "清除",
+    "sent_from": "发送自页面",
+    "success_message": "✅ 谢谢！消息已发送。我将在24小时内回复。",
+    "errors": {
+      "name_required": "请输入您的姓名",
+      "email_required": "请输入您的电子邮件",
+      "email_invalid": "请输入有效的电子邮件地址",
+      "message_required": "请输入您的消息",
+      "submission_failed": "发送失败。邮件将在您的邮件客户端中打开。"
+    }
   }
 }

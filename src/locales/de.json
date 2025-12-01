@@ -585,5 +585,34 @@
       "label": "Yandex Messenger",
       "value": "macrulezru"
     }
+  },
+  "form": {
+    "title": "Kontaktformular",
+    "description": "Schreiben Sie mir direkt über das untenstehende Formular",
+    "default_subject": "Nachricht von der Portfolio-Website",
+    "fields": {
+      "name": "Name",
+      "email": "E-Mail",
+      "subject": "Betreff",
+      "message": "Nachricht"
+    },
+    "placeholders": {
+      "name": "Geben Sie Ihren Namen ein",
+      "email": "Geben Sie Ihre E-Mail-Adresse ein",
+      "subject": "Betreff der Nachricht (optional)",
+      "message": "Erzählen Sie mir über Ihr Projekt oder stellen Sie eine Frage"
+    },
+    "submit": "Nachricht senden",
+    "sending": "Wird gesendet...",
+    "reset": "Löschen",
+    "sent_from": "Gesendet von Seite",
+    "success_message": "✅ Vielen Dank! Nachricht gesendet. Ich antworte innerhalb von 24 Stunden.",
+    "errors": {
+      "name_required": "Bitte geben Sie Ihren Namen ein",
+      "email_required": "Bitte geben Sie Ihre E-Mail-Adresse ein",
+      "email_invalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+      "message_required": "Bitte geben Sie Ihre Nachricht ein",
+      "submission_failed": "Senden fehlgeschlagen. Die E-Mail wird in Ihrem E-Mail-Programm geöffnet."
+    }
   }
 }
