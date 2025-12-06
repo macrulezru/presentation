@@ -336,6 +336,13 @@
     transform: translateY(-50%) scale(1.1);
   }
 
+  @media (hover: none) and (pointer: coarse) {
+    .image-modal__nav:hover {
+      background: rgba(0, 0, 0, 0.7);
+      transform: translateY(-50%) scale(1);
+    }
+  }
+
   .image-modal__nav_desktop {
     display: flex;
   }
