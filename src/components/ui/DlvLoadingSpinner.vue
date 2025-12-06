@@ -45,7 +45,6 @@
     margin-bottom: var(--spacing-md);
   }
 
-  /* Размеры */
   .dlv-loading-spinner.small .dlv-loading-spinner__spinner {
     width: 24px;
     height: 24px;

@@ -156,7 +156,6 @@
     border-bottom: 1px solid var(--color-border);
   }
 
-  /* Стили для ключевых возможностей */
   .feature-item__features {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -199,7 +198,6 @@
     font-size: var(--font-size-md);
   }
 
-  /* Стили для процесса */
   .feature-item__process {
     display: grid;
     gap: var(--spacing-xl);
@@ -241,7 +239,6 @@
     margin: 0;
   }
 
-  /* Стили для архитектуры */
   .feature-item__architecture {
     display: grid;
     gap: var(--spacing-md);
@@ -269,7 +266,6 @@
     color: var(--color-text-primary);
   }
 
-  /* Стили для преимуществ */
   .feature-item__benefits {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -297,7 +293,6 @@
     color: var(--color-text-primary);
   }
 
-  /* Адаптивность */
   @media (max-width: 768px) {
     .feature-item {
       padding: var(--spacing-lg) 0;
@@ -311,7 +306,6 @@
       font-size: var(--font-size-4xl);
     }
 
-    /* На мобильных - одна колонка */
     .feature-item__features {
       grid-template-columns: 1fr;
     }

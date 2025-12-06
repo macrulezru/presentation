@@ -1,36 +1,3 @@
-<template>
-  <div class="dlv-select" :class="{ 'dlv-select--open': isOpen }">
-    <div
-      class="dlv-select__trigger"
-      @click="toggleDropdown"
-      @blur="closeDropdown"
-      tabindex="0"
-    >
-      <span class="dlv-select__selected">
-        {{ selectedOption?.name || placeholder }}
-      </span>
-      <slot name="arrow">
-        <div class="dlv-select__arrow" :class="{ 'dlv-select__arrow--open': isOpen }">
-          ▼
-        </div>
-      </slot>
-    </div>
-
-    <div v-if="isOpen" class="dlv-select__dropdown">
-      <div
-        v-for="option in options"
-        :key="option.value"
-        class="dlv-select__option"
-        :class="{ 'dlv-select__option--selected': option.value === modelValue?.value }"
-        @click="selectOption(option)"
-        @mousedown.prevent
-      >
-        {{ option.name }}
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
   interface SelectOption {
     value: string
@@ -91,6 +58,39 @@
     document.removeEventListener('click', clickOutside)
   })
 </script>
+
+<template>
+  <div class="dlv-select" :class="{ 'dlv-select--open': isOpen }">
+    <div
+      class="dlv-select__trigger"
+      @click="toggleDropdown"
+      @blur="closeDropdown"
+      tabindex="0"
+    >
+      <span class="dlv-select__selected">
+        {{ selectedOption?.name || placeholder }}
+      </span>
+      <slot name="arrow">
+        <div class="dlv-select__arrow" :class="{ 'dlv-select__arrow--open': isOpen }">
+          ▼
+        </div>
+      </slot>
+    </div>
+
+    <div v-if="isOpen" class="dlv-select__dropdown">
+      <div
+        v-for="option in options"
+        :key="option.value"
+        class="dlv-select__option"
+        :class="{ 'dlv-select__option--selected': option.value === modelValue?.value }"
+        @click="selectOption(option)"
+        @mousedown.prevent
+      >
+        {{ option.name }}
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped>
   .dlv-select {
@@ -188,7 +188,6 @@
     border-bottom: none;
   }
 
-  /* Адаптивность */
   @media (max-width: 768px) {
     .dlv-select {
       min-width: 100px;

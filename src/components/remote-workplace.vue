@@ -108,7 +108,6 @@
     opacity: 0.9;
   }
 
-  /* Особенности */
   .features-section {
     margin-bottom: 3rem;
   }
@@ -145,7 +144,6 @@
     opacity: 0.8;
   }
 
-  /* Преимущества */
   .benefits-section {
     margin-bottom: 2rem;
   }
@@ -183,7 +181,6 @@
     color: var(--color-accent-green);
   }
 
-  /* Адаптивность */
   @media (max-width: 768px) {
     .remote-workplace {
       padding: 3rem 0.5rem;

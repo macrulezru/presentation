@@ -141,7 +141,6 @@
     color: var(--color-text-primary);
   }
 
-  /* Блок Bitrix */
   .about__bitrix {
     background: var(--color-bg-secondary);
     padding: var(--spacing-lg);

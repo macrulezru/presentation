@@ -1,4 +1,3 @@
-// router/index.ts
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { i18n } from '@/locales'
 

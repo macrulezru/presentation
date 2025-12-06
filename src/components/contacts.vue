@@ -335,7 +335,6 @@ ${t('form.sent_from')}: ${window.location.href}
     gap: var(--spacing-2xl);
   }
 
-  /* Секция контактов (оригинальный стиль) */
   .contacts__list-section {
     display: flex;
     flex-direction: column;
@@ -433,7 +432,6 @@ ${t('form.sent_from')}: ${window.location.href}
     color: var(--color-secondary);
   }
 
-  /* Секция формы (в стиле остального сайта) */
   .contacts__form-section {
     background: var(--color-bg-card);
     border-radius: var(--radius-xl);
@@ -454,7 +452,6 @@ ${t('form.sent_from')}: ${window.location.href}
     line-height: 1.6;
   }
 
-  /* Форма */
   .contacts__form {
     display: flex;
     flex-direction: column;
@@ -502,7 +499,6 @@ ${t('form.sent_from')}: ${window.location.href}
     min-height: 120px;
   }
 
-  /* Сообщения */
   .form-error {
     padding: var(--spacing-md);
     background: rgba(231, 76, 60, 0.1);
@@ -521,7 +517,6 @@ ${t('form.sent_from')}: ${window.location.href}
     font-size: var(--font-size-base);
   }
 
-  /* Кнопки */
   .form-actions {
     display: flex;
     gap: var(--spacing-md);
@@ -596,7 +591,6 @@ ${t('form.sent_from')}: ${window.location.href}
     cursor: not-allowed;
   }
 
-  /* Адаптивность */
   @media (max-width: 768px) {
     .contacts {
       padding: var(--spacing-xl) 0;

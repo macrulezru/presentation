@@ -69,7 +69,6 @@
     padding-left: 2rem;
   }
 
-  /* Вертикальная линия таймлайна */
   .experience__timeline::before {
     content: '';
     position: absolute;
@@ -91,7 +90,6 @@
     margin-bottom: 0;
   }
 
-  /* Точка на таймлайне */
   .experience__timeline-dot {
     position: absolute;
     left: -1.87rem;
@@ -103,7 +101,6 @@
     z-index: 2;
   }
 
-  /* Карточка с контентом */
   .experience__card {
     background: white;
     border-radius: 12px;
@@ -161,7 +158,6 @@
     font-size: 0.95rem;
   }
 
-  /* Анимация появления */
   .experience__item {
     opacity: 0;
     transform: translateY(20px);
@@ -175,7 +171,6 @@
     }
   }
 
-  /* Задержка для анимации каждого элемента */
   .experience__item:nth-child(1) {
     animation-delay: 0.1s;
   }
@@ -192,7 +187,6 @@
     animation-delay: 0.5s;
   }
 
-  /* Стили для мобильных устройств */
   @media (max-width: 768px) {
     .experience {
       padding: 1rem 0;
@@ -248,7 +242,6 @@
     }
   }
 
-  /* Для очень маленьких экранов */
   @media (max-width: 480px) {
     .experience__container {
       padding: 0 0.75rem;

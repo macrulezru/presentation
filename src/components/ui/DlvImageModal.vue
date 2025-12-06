@@ -341,7 +341,6 @@
     transform: translateY(-50%) scale(1.1);
   }
 
-  /* Десктопная навигация */
   .image-modal__nav_desktop {
     display: flex;
   }
@@ -354,7 +353,6 @@
     right: -60px;
   }
 
-  /* Мобильная навигация */
   .image-modal__nav_mobile {
     display: none;
   }
@@ -484,7 +482,6 @@
     object-fit: cover;
   }
 
-  /* Анимации */
   .modal-enter-active,
   .modal-leave-active {
     transition: opacity 0.3s ease;
@@ -505,14 +502,11 @@
     transform: scale(0.9);
   }
 
-  /* Адаптивность */
   @media (max-width: 1360px) {
-    /* Скрываем десктопные кнопки на средних экранах */
     .image-modal__nav_desktop {
       display: none;
     }
 
-    /* Показываем мобильные кнопки */
     .image-modal__nav_mobile {
       display: flex;
       position: absolute;
@@ -530,7 +524,6 @@
       right: 10px;
     }
 
-    /* Корректируем позицию кнопки закрытия */
     .image-modal__close {
       top: 10px;
       right: 10px;

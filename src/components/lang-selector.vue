@@ -1,4 +1,3 @@
-<!-- components/lang-selector.vue -->
 <script setup lang="ts">
   import DlvSelect from '@/components/ui/DlvSelect.vue'
   import { computed } from 'vue'

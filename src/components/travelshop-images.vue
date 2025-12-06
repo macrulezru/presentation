@@ -81,16 +81,15 @@
     max-width: 1200px;
     margin: 0 auto;
     position: relative;
-    padding: 0 40px; /* Уменьшили отступы для меньших кнопок */
+    padding: 0 40px;
   }
 
-  /* Общие стили для кнопок навигации (уменьшенные) */
   .travelshop-images__nav-control {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 40px; /* Уменьшили с 50px */
-    height: 40px; /* Уменьшили с 50px */
+    width: 40px;
+    height: 40px;
     background: rgba(255, 255, 255, 0.9);
     border: none;
     border-radius: 50%;
@@ -101,13 +100,13 @@
     justify-content: center;
     z-index: 10;
     transition: all 0.3s ease;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); /* Уменьшили тень */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
   }
 
   .travelshop-images__nav-control::after {
     content: '';
-    width: 20px; /* Уменьшили с 24px */
-    height: 20px; /* Уменьшили с 24px */
+    width: 20px;
+    height: 20px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M15 18L9 12L15 6' stroke='%23333' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: center;
@@ -115,16 +114,14 @@
 
   .travelshop-images__nav-control:hover {
     background: white;
-    transform: translateY(-50%) scale(1.08); /* Уменьшили масштаб */
-    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.2); /* Уменьшили тень */
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.2);
   }
 
-  /* Кнопка "назад" */
   .travelshop-images__nav-control_prev {
     left: -6px;
   }
 
-  /* Кнопка "вперед" */
   .travelshop-images__nav-control_next {
     right: -6px;
   }
@@ -133,7 +130,6 @@
     transform: rotate(180deg);
   }
 
-  /* Стили для отключенных кнопок */
   .travelshop-images__nav-control.swiper-button-disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -154,45 +150,41 @@
     color: var(--color-text-muted);
   }
 
-  /* Адаптивность для мобильных устройств */
   @media (max-width: 768px) {
     .travelshop-images {
-      padding: 0 30px; /* Уменьшили отступы для мобильных */
+      padding: 0 30px;
     }
 
     .travelshop-images__nav-control {
-      width: 36px; /* Уменьшили с 40px */
-      height: 36px; /* Уменьшили с 40px */
+      width: 36px;
+      height: 36px;
     }
 
     .travelshop-images__nav-control::after {
-      width: 18px; /* Уменьшили с 20px */
-      height: 18px; /* Уменьшили с 20px */
+      width: 18px;
+      height: 18px;
       background-size: 18px 18px;
     }
   }
 
   @media (max-width: 480px) {
     .travelshop-images {
-      padding: 0 24px; /* Еще меньше отступы на очень маленьких экранах */
+      padding: 0 24px;
     }
 
     .travelshop-images__nav-control {
-      width: 32px; /* Уменьшили с 36px */
-      height: 32px; /* Уменьшили с 36px */
+      width: 32px;
+      height: 32px;
     }
 
     .travelshop-images__nav-control::after {
-      width: 16px; /* Уменьшили с 18px */
-      height: 16px; /* Уменьшили с 18px */
+      width: 16px;
+      height: 16px;
       background-size: 16px 16px;
     }
   }
 
-  /* Стили для свайпера (только для контейнера) */
   .travelshop-images :deep(.swiper) {
     padding: 20px 0;
   }
-
-  /* Булеты оставляем как есть (стили не меняем) */
 </style>

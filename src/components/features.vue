@@ -34,7 +34,6 @@
     gap: var(--spacing-3xl);
   }
 
-  /* Адаптивность */
   @media (max-width: 768px) {
     .features {
       padding: var(--spacing-xl) 0;

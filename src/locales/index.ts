@@ -1,4 +1,3 @@
-// locales/index.ts
 import { createI18n } from 'vue-i18n'
 import ru from './ru.json'
 

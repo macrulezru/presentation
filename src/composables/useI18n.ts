@@ -1,4 +1,3 @@
-// composables/useI18n.ts
 import { i18n, loadLocale } from '@/locales'
 import { useRouter } from 'vue-router'
 

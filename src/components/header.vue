@@ -1,4 +1,3 @@
-<!-- header.vue -->
 <script setup lang="ts">
   import LangSelector from '@/components/lang-selector.vue'
   import { useScrollRouting } from '@/composables/useScrollRouting'
@@ -227,7 +226,6 @@
     gap: var(--spacing-md);
   }
 
-  /* Гамбургер-меню */
   .hamburger {
     display: flex;
     flex-direction: column;
@@ -263,7 +261,6 @@
     transform: rotate(-45deg) translate(6px, -6px);
   }
 
-  /* Мобильное меню оверлей */
   .mobile-menu-overlay {
     position: fixed;
     top: var(--header-height-mobile);
@@ -314,7 +311,6 @@
     box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
   }
 
-  /* Анимации */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -335,7 +331,6 @@
     }
   }
 
-  /* Адаптивность */
   @media (max-width: 768px) {
     .header__content {
       padding: 0 var(--spacing-sm);
@@ -352,7 +347,6 @@
       gap: var(--spacing-sm);
     }
 
-    /* Скрываем десктопное меню на мобильных */
     .header__nav {
       display: none;
     }
@@ -373,7 +367,6 @@
     }
   }
 
-  /* Для очень маленьких экранов */
   @media (max-width: 360px) {
     .header__logo-text {
       font-size: var(--font-size-md);
@@ -384,7 +377,6 @@
     }
   }
 
-  /* Десктопные стили */
   @media (min-width: 769px) {
     .hamburger {
       display: none;
