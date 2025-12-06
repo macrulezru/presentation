@@ -326,7 +326,7 @@
 
   .travelshop__screenshots {
     display: inline-block;
-    margin: 20px 0;
+    margin: 40px 0 20px;
     border-bottom: dashed 1px var(--color-secondary);
     font-size: var(--font-size-3xl);
     font-weight: var(--font-weight-semibold);
