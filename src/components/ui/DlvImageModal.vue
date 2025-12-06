@@ -9,7 +9,7 @@
 
   interface Props {
     isOpen: boolean
-    images: ImageObject[] // Теперь только массив объектов
+    images: ImageObject[]
     initialIndex?: number
     showNavigation?: boolean
     showCounter?: boolean
@@ -32,7 +32,6 @@
   const currentIndex = ref(props.initialIndex)
   const isLoading = ref(false)
   const imageRef = ref<HTMLImageElement | null>(null)
-  const modalRef = ref<HTMLElement | null>(null)
 
   // Вспомогательные вычисляемые свойства
   const currentImage = computed(() => props.images[currentIndex.value]?.full)
@@ -98,22 +97,13 @@
     }
   }
 
-  // Закрытие по клику вне области
-  const handleClickOutside = (event: MouseEvent) => {
-    if (modalRef.value && !modalRef.value.contains(event.target as Node)) {
-      close()
-    }
-  }
-
   // Инициализация
   onMounted(() => {
     document.addEventListener('keydown', handleKeydown)
-    document.addEventListener('click', handleClickOutside)
   })
 
   onUnmounted(() => {
     document.removeEventListener('keydown', handleKeydown)
-    document.removeEventListener('click', handleClickOutside)
   })
 
   const getImageUrl = (name?: string) => {
@@ -148,7 +138,7 @@
 <template>
   <Teleport to="body">
     <Transition name="modal">
-      <div v-if="isOpen" class="image-modal" ref="modalRef">
+      <div v-if="isOpen" class="image-modal">
         <div class="image-modal__overlay" @click="close"></div>
 
         <div class="image-modal__container">
@@ -270,11 +260,9 @@
                 class="image-modal__thumbnail"
                 :class="{ 'image-modal__thumbnail_active': index === currentIndex }"
                 @click="setImage(index)"
+                :aria-label="t('common.thumbnail', { number: index + 1 })"
               >
-                <img
-                  :src="getImageUrl(img.preview)"
-                  :alt="getDescription(currentIndex)"
-                />
+                <img :src="getImageUrl(img.preview)" :alt="getDescription(index)" />
               </button>
             </div>
           </div>
