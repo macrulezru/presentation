@@ -211,7 +211,26 @@
           "description": "用于快速部署预订系统的基础平台"
         }
       ]
+    },
+    "view_screenshots": "TravelShop 截图",
+    "loading_screenshots": "加载截图中...",
+    "images": {
+      "description": {
+        "desktop_1": "航班搜索表单",
+        "desktop_2": "搜索结果屏幕",
+        "desktop_3": "资费选择",
+        "desktop_4": "乘客数据表单屏幕",
+        "desktop_5": "机上服务选择",
+        "desktop_6": "机舱座位选择",
+        "desktop_7": "预提交屏幕",
+        "desktop_8": "包含所选服务的购物车"
+      }
     }
+  },
+  "common": {
+    "loading": "加载中...",
+    "loading_images": "加载图片中...",
+    "loading_please_wait": "请稍候..."
   },
   "pipeline": {
     "title": "REST API 流水线系统",

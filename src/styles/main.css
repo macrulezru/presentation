@@ -5,3 +5,27 @@ body {
   font-weight: 400;
   font-style: normal;
 }
+
+.swiper-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 0 5px;
+}
+
+.swiper-pagination-bullet {
+  display: block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: solid 1px var(--color-primary);
+  cursor: pointer;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--color-primary);
+}
+
+body.image-modal-open {
+  overflow: hidden;
+}

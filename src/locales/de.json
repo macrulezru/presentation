@@ -211,7 +211,26 @@
           "description": "Basisplattform für schnelle Bereitstellung von Buchungssystemen"
         }
       ]
+    },
+    "view_screenshots": "TravelShop-Screenshots",
+    "loading_screenshots": "Screenshots werden geladen...",
+    "images": {
+      "description": {
+        "desktop_1": "Flugsuchformular",
+        "desktop_2": "Gefundene Flüge Bildschirm",
+        "desktop_3": "Tarifauswahl",
+        "desktop_4": "Passagierdatenformular Bildschirm",
+        "desktop_5": "Auswahl der Borddienste",
+        "desktop_6": "Sitzplatzwahl in der Flugzeugkabine",
+        "desktop_7": "Pre-Commit-Bildschirm",
+        "desktop_8": "Warenkorb mit ausgewählten Dienstleistungen"
+      }
     }
+  },
+  "common": {
+    "loading": "Laden...",
+    "loading_images": "Bilder werden geladen...",
+    "loading_please_wait": "Bitte warten..."
   },
   "pipeline": {
     "title": "REST API Pipeline-System",
