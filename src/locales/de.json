@@ -53,7 +53,57 @@
       }
     ],
     "conclusion": "Dieser Ansatz ermöglicht es mir, zuverlässige und skalierbare Lösungen zu schaffen, die bequem zu entwickeln und zu warten sind.",
-    "tech_title": "Technologien & Werkzeuge"
+    "tech_title": "Technologien & Werkzeuge",
+    "tech_stack_title": "Technologie-Stack",
+    "main_tech_title": "Kern-Technologien",
+    "main_tech_list": [
+      {
+        "title": "Vue.js 3",
+        "description": "SPA-Entwicklung mit Composition API, Composables, Reaktivität, Arbeit mit Lifecycle-Hooks, benutzerdefinierte Direktiven"
+      },
+      {
+        "title": "TypeScript",
+        "description": "Strikte Typisierung, Generics, Utility-Typen, Typsicherheit in Komponenten und Stores"
+      },
+      {
+        "title": "Pinia",
+        "description": "Anwendungszustandsverwaltung, Organisation modularer Stores, Arbeit mit Actions/Getters, TypeScript-Integration"
+      },
+      {
+        "title": "Vite",
+        "description": "Schneller Projektbuild, Plugin-Konfiguration, Optimierung von Production-Builds"
+      }
+    ],
+    "infra_tech_title": "Infrastruktur & Tools",
+    "infra_tech_list": [
+      {
+        "title": "Vue Router",
+        "description": "Navigation mit Lazy Loading, verschachtelte Routen, Navigations-Hooks, Verlaufshistorie"
+      },
+      {
+        "title": "Vue i18n",
+        "description": "Anwendungslokalisierung, dynamisches Laden von Übersetzungen, Pluralisierung"
+      },
+      {
+        "title": "Git",
+        "description": "Teamarbeit, Feature-Branches, Code-Review, Konfliktlösung"
+      },
+      {
+        "title": "REST API",
+        "description": "Entwicklung und Nutzung benutzerdefinierter HTTP-Request-Wrapper, Fehlerbehandlung, Caching, Request-Lebenszyklus-Management"
+      }
+    ],
+    "layout_tech_title": "Layout & Styling",
+    "layout_tech_list": [
+      {
+        "title": "HTML5/CSS3",
+        "description": "Semantisches Markup, responsives Design, CSS Grid/Flexbox"
+      },
+      {
+        "title": "SCSS/SASS",
+        "description": "Präprozessor, Mixins, modulares Styling, CSS Custom Properties"
+      }
+    ]
   },
   "tech": {
     "javascript": "Die Grundlage. Moderne ES6+ Code",

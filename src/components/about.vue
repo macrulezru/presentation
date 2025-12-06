@@ -99,6 +99,53 @@
           <div class="about__tech-item-description">{{ tech.description }}</div>
         </div>
       </div>
+
+      <div class="about__tech-stack-details">
+        <h3 class="about__tech-stack-title">{{ t('about.tech_stack_title') }}</h3>
+
+        <div class="about__tech-category">
+          <h4 class="about__tech-category-title">{{ t('about.main_tech_title') }}</h4>
+          <ul class="about__tech-list">
+            <li
+              v-for="(item, index) in tm('about.main_tech_list')"
+              :key="index"
+              class="about__tech-list-item"
+            >
+              <span class="about__tech-item-title">{{ item.title }}</span>
+              <span class="about__tech-item-description">{{ item.description }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="about__tech-category">
+          <h4 class="about__tech-category-title">{{ t('about.infra_tech_title') }}</h4>
+          <ul class="about__tech-list">
+            <li
+              v-for="(item, index) in tm('about.infra_tech_list')"
+              :key="index"
+              class="about__tech-list-item"
+            >
+              <span class="about__tech-item-title">{{ item.title }}</span>
+              <span class="about__tech-item-description">{{ item.description }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="about__tech-category">
+          <h4 class="about__tech-category-title">{{ t('about.layout_tech_title') }}</h4>
+          <ul class="about__tech-list">
+            <li
+              v-for="(item, index) in tm('about.layout_tech_list')"
+              :key="index"
+              class="about__tech-list-item"
+            >
+              <span class="about__tech-item-title">{{ item.title }}</span>
+              <span class="about__tech-item-description">{{ item.description }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
       <!-- Блок про Bitrix опыт -->
       <div class="about__bitrix">
         <h3 class="about__bitrix-title">{{ t('about.bitrix_title') }}</h3>
@@ -339,6 +386,68 @@
     line-height: 1.3;
   }
 
+  .about__tech-stack-details {
+    background: var(--color-bg-secondary);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-md);
+    margin: var(--spacing-xl) 0;
+  }
+
+  .about__tech-stack-title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+  }
+
+  .about__tech-category {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .about__tech-category:last-child {
+    margin-bottom: 0;
+  }
+
+  .about__tech-category-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .about__tech-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  .about__tech-list-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--color-bg-primary);
+    border-radius: var(--radius-sm);
+  }
+
+  .about__tech-list-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .about__tech-item-title {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+    font-size: var(--font-size-lg);
+  }
+
+  .about__tech-item-description {
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    font-size: var(--font-size-base);
+  }
+
   @media (max-width: 768px) {
     .about {
       padding: var(--spacing-md) 0;
@@ -383,6 +492,28 @@
     .about__tech-item-description {
       font-size: var(--font-size-sm);
     }
+
+    .about__tech-stack-details {
+      padding: var(--spacing-lg);
+      margin: var(--spacing-lg) 0;
+    }
+
+    .about__tech-stack-title {
+      font-size: var(--font-size-2xl);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .about__tech-category-title {
+      font-size: var(--font-size-lg);
+    }
+
+    .about__tech-list-item {
+      padding: var(--spacing-sm);
+    }
+
+    .about__tech-item-title {
+      font-size: var(--font-size-md);
+    }
   }
 
   @media (max-width: 480px) {
@@ -396,6 +527,10 @@
 
     .about__tech-item {
       padding: var(--spacing-xs);
+    }
+
+    .about__tech-stack-details {
+      padding: var(--spacing-md);
     }
   }
 </style>

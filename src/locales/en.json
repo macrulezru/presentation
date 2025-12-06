@@ -53,7 +53,57 @@
       }
     ],
     "conclusion": "This approach enables me to create reliable and scalable solutions that are convenient to develop and maintain.",
-    "tech_title": "Technologies & Tools"
+    "tech_title": "Technologies & Tools",
+    "tech_stack_title": "Technology Stack",
+    "main_tech_title": "Core Technologies",
+    "main_tech_list": [
+      {
+        "title": "Vue.js 3",
+        "description": "SPA development using Composition API, composables, reactivity, working with lifecycle hooks, custom directives"
+      },
+      {
+        "title": "TypeScript",
+        "description": "Strict typing, generics, utility types, type safety in components and stores"
+      },
+      {
+        "title": "Pinia",
+        "description": "Application state management, organization of modular stores, working with actions/getters, TypeScript integration"
+      },
+      {
+        "title": "Vite",
+        "description": "Fast project building, plugin configuration, production build optimization"
+      }
+    ],
+    "infra_tech_title": "Infrastructure & Tools",
+    "infra_tech_list": [
+      {
+        "title": "Vue Router",
+        "description": "Navigation with lazy loading, nested routes, navigation hooks, history management"
+      },
+      {
+        "title": "Vue i18n",
+        "description": "Application localization, dynamic translation loading, pluralization"
+      },
+      {
+        "title": "Git",
+        "description": "Team collaboration, feature branches, code review, conflict resolution"
+      },
+      {
+        "title": "REST API",
+        "description": "Development and use of custom HTTP request wrappers, error handling, caching, request lifecycle management"
+      }
+    ],
+    "layout_tech_title": "Layout & Styling",
+    "layout_tech_list": [
+      {
+        "title": "HTML5/CSS3",
+        "description": "Semantic markup, responsive design, CSS Grid/Flexbox"
+      },
+      {
+        "title": "SCSS/SASS",
+        "description": "Preprocessing, mixins, modular styling, CSS Custom Properties"
+      }
+    ]
   },
   "tech": {
     "javascript": "The foundation. Writing modern ES6+ code",

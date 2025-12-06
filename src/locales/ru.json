@@ -53,7 +53,57 @@
       }
     ],
     "conclusion": "Такой подход позволяет создавать надежные и масштабируемые решения, которые удобно развивать и сопровождать.",
-    "tech_title": "Технологии и инструменты"
+    "tech_title": "Технологии и инструменты",
+    "tech_stack_title": "Технологический стек",
+    "main_tech_title": "Основные технологии",
+    "main_tech_list": [
+      {
+        "title": "Vue.js 3",
+        "description": "Разработка SPA-приложений с использованием Composition API, composables, реактивность, работа с lifecycle hooks..."
+      },
+      {
+        "title": "TypeScript",
+        "description": "Строгая типизация, generics, utility types, типобезопасность в компонентах и сторах"
+      },
+      {
+        "title": "Pinia",
+        "description": "Управление состоянием приложения, организация модульных хранилищ, работа с actions/getters, TypeScript-интеграция"
+      },
+      {
+        "title": "Vite",
+        "description": "Быстрая сборка проектов, конфигурация плагинов, оптимизация production-сборки"
+      }
+    ],
+    "infra_tech_title": "Инфраструктура и инструменты",
+    "infra_tech_list": [
+      {
+        "title": "Vue Router",
+        "description": "Навигация с lazy loading, nested routes, навигационные хуки, история переходов"
+      },
+      {
+        "title": "Vue i18n",
+        "description": "Локализация приложений, динамическая подгрузка переводов, pluralization"
+      },
+      {
+        "title": "Git",
+        "description": "Работа в команде, feature branches, code review, разрешение конфликтов"
+      },
+      {
+        "title": "REST API",
+        "description": "Разработка и использование кастомных обёрток для HTTP-запросов, обработка ошибок, кеширование, управление жизненным циклом запросов"
+      }
+    ],
+    "layout_tech_title": "Верстка и стилизация",
+    "layout_tech_list": [
+      {
+        "title": "HTML5/CSS3",
+        "description": "Семантическая верстка, адаптивный дизайн, CSS Grid/Flexbox"
+      },
+      {
+        "title": "SCSS/SASS",
+        "description": "Препроцессинг, миксины, модульность стилей, кастомные свойства (CSS Custom Properties)"
+      }
+    ]
   },
   "tech": {
     "javascript": "Основа всего. Пишу современный ES6+ код",

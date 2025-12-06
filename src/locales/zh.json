@@ -53,7 +53,57 @@
       }
     ],
     "conclusion": "这种方法能够创建可靠且可扩展的解决方案，便于发展和维护。",
-    "tech_title": "技术与工具"
+    "tech_title": "技术与工具",
+    "tech_stack_title": "技术栈",
+    "main_tech_title": "核心技术",
+    "main_tech_list": [
+      {
+        "title": "Vue.js 3",
+        "description": "使用Composition API、组合函数、响应式系统开发SPA应用，处理生命周期钩子，自定义指令"
+      },
+      {
+        "title": "TypeScript",
+        "description": "严格类型检查，泛型，实用工具类型，组件和存储中的类型安全"
+      },
+      {
+        "title": "Pinia",
+        "description": "应用程序状态管理，组织模块化存储，使用actions/getters，TypeScript集成"
+      },
+      {
+        "title": "Vite",
+        "description": "快速项目构建，插件配置，生产构建优化"
+      }
+    ],
+    "infra_tech_title": "基础设施与工具",
+    "infra_tech_list": [
+      {
+        "title": "Vue Router",
+        "description": "导航路由，懒加载，嵌套路由，导航钩子，历史管理"
+      },
+      {
+        "title": "Vue i18n",
+        "description": "应用本地化，动态加载翻译，复数形式处理"
+      },
+      {
+        "title": "Git",
+        "description": "团队协作，功能分支，代码审查，冲突解决"
+      },
+      {
+        "title": "REST API",
+        "description": "开发和自定义HTTP请求包装器，错误处理，缓存，请求生命周期管理"
+      }
+    ],
+    "layout_tech_title": "布局与样式",
+    "layout_tech_list": [
+      {
+        "title": "HTML5/CSS3",
+        "description": "语义化标记，响应式设计，CSS Grid/Flexbox"
+      },
+      {
+        "title": "SCSS/SASS",
+        "description": "预处理，混合器，模块化样式，CSS自定义属性"
+      }
+    ]
   },
   "tech": {
     "javascript": "一切的基础。编写现代 ES6+ 代码",
