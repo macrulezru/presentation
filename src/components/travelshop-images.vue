@@ -6,8 +6,9 @@
   import { ref } from 'vue'
   import { Swiper, SwiperSlide } from 'swiper/vue'
   import { Pagination, Navigation, Mousewheel, Keyboard } from 'swiper/modules'
-  import { travelshopImages } from '@/components/data/travelshop-images.data'
-  const { t } = useI18n()
+  import { useTravelshopImages } from '@/composables/useTravelshopImages'
+
+  const { images } = useTravelshopImages()
 
   const modalOpen = ref(false)
   const currentImageIndex = ref(0)
@@ -24,18 +25,6 @@
       enabled: true,
       onlyInViewport: true,
     },
-  }
-
-  const getImageDescription = (index: number): string => {
-    const imageKey = `desktop_${index + 1}`
-    return (
-      t(`travelshop.images.description.${imageKey}`) ||
-      t('travelshop.images.description.default', { number: index + 1 })
-    )
-  }
-
-  const getImageUrl = (name: string) => {
-    return new URL(`/src/assets/images/travelshop/${name}`, import.meta.url).href
   }
 
   const openModal = (index: number) => {
@@ -55,14 +44,14 @@
 <template>
   <div class="travelshop-images">
     <swiper :slides-per-view="1" :space-between="50" v-bind="swiperOptions">
-      <swiper-slide v-for="(slide, index) in travelshopImages" :key="index">
+      <swiper-slide v-for="(slide, index) in images" :key="index">
         <img
-          :src="getImageUrl(slide.preview)"
-          :alt="getImageDescription(index)"
+          :src="slide.preview"
+          :alt="slide.description"
           @click.stop="openModal(index)"
           class="clickable-image"
         />
-        <div class="travelshop-images__description">{{ getImageDescription(index) }}</div>
+        <div class="travelshop-images__description">{{ slide.description }}</div>
       </swiper-slide>
     </swiper>
     <span class="travelshop-images__nav-control travelshop-images__nav-control_prev" />
@@ -71,7 +60,7 @@
     <DlvImageModal
       v-model:isOpen="modalOpen"
       :initial-index="currentImageIndex"
-      :images="travelshopImages"
+      :images="images"
       @close="onModalClose"
       @change="onModalChange"
     />

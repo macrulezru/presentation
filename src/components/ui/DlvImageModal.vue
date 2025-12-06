@@ -1,10 +1,13 @@
 <script setup lang="ts">
   import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+  import { useI18n } from 'vue-i18n'
+
   const { t } = useI18n()
 
   interface ImageObject {
     preview: string
     full: string
+    description: string
   }
 
   interface Props {
@@ -35,14 +38,7 @@
 
   // Вспомогательные вычисляемые свойства
   const currentImage = computed(() => props.images[currentIndex.value]?.full)
-
-  const getDescription = (index: number): string => {
-    const imageKey = `desktop_${index + 1}`
-    return (
-      t(`travelshop.images.description.${imageKey}`) ||
-      t('travelshop.images.description.default', { number: index + 1 })
-    )
-  }
+  const currentAlt = computed(() => props.images[currentIndex.value]?.description)
   const hasPrev = computed(() => currentIndex.value > 0)
   const hasNext = computed(() => currentIndex.value < props.images.length - 1)
 
@@ -105,14 +101,6 @@
   onUnmounted(() => {
     document.removeEventListener('keydown', handleKeydown)
   })
-
-  const getImageUrl = (name?: string) => {
-    if (name) {
-      return new URL(`/src/assets/images/travelshop/${name}`, import.meta.url).href
-    }
-
-    return ''
-  }
 
   // Сброс индекса при открытии
   watch(
@@ -213,8 +201,8 @@
 
               <img
                 ref="imageRef"
-                :src="getImageUrl(currentImage)"
-                :alt="getDescription(currentIndex)"
+                :src="currentImage"
+                :alt="currentAlt"
                 class="image-modal__image"
                 @load="onImageLoad"
                 @error="onImageError"
@@ -262,7 +250,7 @@
                 @click="setImage(index)"
                 :aria-label="t('common.thumbnail', { number: index + 1 })"
               >
-                <img :src="getImageUrl(img.preview)" :alt="getDescription(index)" />
+                <img :src="img.preview" :alt="img.description" />
               </button>
             </div>
           </div>
