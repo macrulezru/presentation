@@ -223,7 +223,8 @@
         "desktop_5": "In-flight services selection",
         "desktop_6": "Seat selection in the airplane cabin",
         "desktop_7": "Pre-commit screen",
-        "desktop_8": "Shopping cart with selected services"
+        "desktop_8": "Shopping cart with selected services",
+        "default": "Image {number}"
       }
     }
   },

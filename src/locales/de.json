@@ -223,7 +223,8 @@
         "desktop_5": "Auswahl der Borddienste",
         "desktop_6": "Sitzplatzwahl in der Flugzeugkabine",
         "desktop_7": "Pre-Commit-Bildschirm",
-        "desktop_8": "Warenkorb mit ausgewählten Dienstleistungen"
+        "desktop_8": "Warenkorb mit ausgewählten Dienstleistungen",
+        "default": "Bild {number}"
       }
     }
   },

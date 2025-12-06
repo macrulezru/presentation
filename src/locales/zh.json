@@ -223,7 +223,8 @@
         "desktop_5": "机上服务选择",
         "desktop_6": "机舱座位选择",
         "desktop_7": "预提交屏幕",
-        "desktop_8": "包含所选服务的购物车"
+        "desktop_8": "包含所选服务的购物车",
+        "default": "图片 {number}"
       }
     }
   },

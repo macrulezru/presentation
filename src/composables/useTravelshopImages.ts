@@ -1,36 +1,30 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-
-export interface SlideImage {
-  preview: string
-  full: string
-  description: string
-}
+import {
+  TRAVELSHOP_IMAGE_CONFIGS,
+  type TravelshopImageData,
+  TravelshopImage,
+} from '@/enums/travelshop-images.enum'
 
 export const useTravelshopImages = () => {
   const { t } = useI18n()
 
-  // Конфигурация изображений с именами файлов и ключами перевода
-  const imageConfigs = [
-    { name: 'desktop-1', key: 'desktop_1' },
-    { name: 'desktop-2', key: 'desktop_2' },
-    { name: 'desktop-3', key: 'desktop_3' },
-    { name: 'desktop-4', key: 'desktop_4' },
-    { name: 'desktop-5', key: 'desktop_5' },
-    { name: 'desktop-6', key: 'desktop_6' },
-    { name: 'desktop-8', key: 'desktop_8' },
-    { name: 'desktop-7', key: 'desktop_7' },
-  ]
-
   // Вычисляемое свойство с готовыми объектами
-  const images = computed<SlideImage[]>(() =>
-    imageConfigs.map(config => ({
-      preview: getImageUrl(`${config.name}-small.jpg`),
-      full: getImageUrl(`${config.name}.jpg`),
-      description:
-        t(`travelshop.images.description.${config.key}`) ||
-        t('travelshop.images.description.default', { number: config.name.split('-')[1] }),
-    })),
+  const images = computed<TravelshopImageData[]>(() =>
+    TRAVELSHOP_IMAGE_CONFIGS.map(config => {
+      const translationKey = `travelshop.images.description.${config.enum}`
+
+      return {
+        preview: getImageUrl(`${config.fileName}-small.jpg`),
+        full: getImageUrl(`${config.fileName}.jpg`),
+        description:
+          t(translationKey) ||
+          t('travelshop.images.description.default', {
+            number: config.fileName.split('-')[1],
+          }),
+        key: config.enum,
+      }
+    }),
   )
 
   // Получение URL для изображения
@@ -38,10 +32,33 @@ export const useTravelshopImages = () => {
     return new URL(`/src/assets/images/travelshop/${name}`, import.meta.url).href
   }
 
+  // Получение изображения по ключу enum
+  const getImageByKey = (key: TravelshopImage) => {
+    return images.value.find(img => img.key === key)
+  }
+
+  // Получение изображения по индексу
+  const getImageByIndex = (index: number) => {
+    return images.value[index]
+  }
+
+  // Получение индекса по ключу enum
+  const getIndexByKey = (key: TravelshopImage) => {
+    return images.value.findIndex(img => img.key === key)
+  }
+
   return {
     // Данные
     images,
-    imageConfigs,
+
+    // Enum для использования в других компонентах
+    TravelshopImage,
+
+    // Методы
+    getImageUrl,
+    getImageByKey,
+    getImageByIndex,
+    getIndexByKey,
 
     // Свойства
     totalImages: computed(() => images.value.length),
