@@ -1,10 +1,35 @@
 <script setup lang="ts">
+  import DlvLoadingSpinner from '@/components/ui/DlvLoadingSpinner.vue'
+
+  const TravelshopImages = defineAsyncComponent({
+    loader: () => import('@/components/travelshop-images.vue'),
+    loadingComponent: DlvLoadingSpinner,
+    delay: 200,
+    timeout: 10000,
+    errorComponent: {
+      template: `
+        <div class="travelshop__error">
+          <p>{{ $t('travelshop.loading_error') }}</p>
+        </div>
+      `,
+    },
+  })
+
   const { t, tm } = useI18n()
 
+  const showSwiper = ref<boolean>(false)
+
   const features = computed(() => tm('travelshop.features.items'))
+
   const techStack = computed(() => tm('travelshop.tech_stack.items'))
+
   const achievements = computed(() => tm('travelshop.achievements.items'))
+
   const projects = computed(() => tm('travelshop.projects.items'))
+
+  const toggleSwiper = () => {
+    showSwiper.value = !showSwiper.value
+  }
 </script>
 
 <template>
@@ -90,6 +115,16 @@
             </a>
           </div>
         </div>
+      </div>
+      <div class="travelshop__section">
+        <span class="travelshop__screenshots" @click="toggleSwiper">
+          {{ t('travelshop.view_screenshots') }}
+        </span>
+        <TravelshopImages
+          v-if="showSwiper"
+          size="large"
+          :text-key="t('travelshop.loading_screenshots')"
+        />
       </div>
     </div>
   </div>
@@ -287,6 +322,16 @@
     color: var(--color-text-secondary);
     line-height: 1.5;
     margin: 0;
+  }
+
+  .travelshop__screenshots {
+    display: inline-block;
+    margin: 20px 0;
+    border-bottom: dashed 1px var(--color-secondary);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-secondary);
+    cursor: pointer;
   }
 
   @media (max-width: 768px) {

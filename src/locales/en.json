@@ -211,7 +211,26 @@
           "description": "Base platform for rapid deployment of booking systems"
         }
       ]
+    },
+    "view_screenshots": "TravelShop Screenshots",
+    "loading_screenshots": "Loading screenshots...",
+    "images": {
+      "description": {
+        "desktop_1": "Flight search form",
+        "desktop_2": "Found flights screen",
+        "desktop_3": "Tariff selection",
+        "desktop_4": "Passenger data form screen",
+        "desktop_5": "In-flight services selection",
+        "desktop_6": "Seat selection in the airplane cabin",
+        "desktop_7": "Pre-commit screen",
+        "desktop_8": "Shopping cart with selected services"
+      }
     }
+  },
+  "common": {
+    "loading": "Loading...",
+    "loading_images": "Loading images...",
+    "loading_please_wait": "Please wait..."
   },
   "pipeline": {
     "title": "REST API Pipeline System",

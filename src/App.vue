@@ -80,8 +80,8 @@
 
     <section id="features">
       <h3 class="examples-title">{{ t('app.examples_title') }}</h3>
-      <Features />
       <Testing />
+      <Features />
     </section>
     <section id="remote-workplace">
       <RemoteWorkplace />
@@ -100,7 +100,6 @@
   .examples-title {
     margin: 3rem auto 0 auto;
     padding: 0 1rem 1rem 1rem;
-    border-bottom: 1px solid #e1e5e9;
     font-size: 2rem;
     font-weight: 600;
     text-align: center;
