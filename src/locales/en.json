@@ -455,6 +455,99 @@
       ]
     }
   },
+  "multisync": {
+    "title": "Unified Synchronization System for Distributed Vue.js Applications",
+    "subtitle": "State synchronization architecture between independent applications with optional encryption",
+    "description": "System for creating and managing multiple independent Vue applications within a single repository with automatic state synchronization between them. Implements cross-tab synchronization mechanism and communication between applications through a unified storage with encryption support and flexible configuration.",
+    "features": {
+      "title": "Key System Capabilities",
+      "items": [
+        "Unified architecture for multiple independent Vue applications in one repository",
+        "Automatic cross-tab synchronization and state coordination between applications via localStorage",
+        "Multi-layered store architecture with clear responsibility separation (Pinia + custom stores)",
+        "Optional storage data encryption using AES-GCM",
+        "Mechanism for preventing cyclic updates and data races",
+        "Flexible synchronization management (enable/disable on the fly)",
+        "Detailed logging and debugging of all synchronization stages"
+      ]
+    },
+    "architecture": {
+      "title": "Architectural Components",
+      "items": [
+        {
+          "name": "Multi-App Coordinator",
+          "description": "central coordinator managing multiple independent Vue applications within a single repository"
+        },
+        {
+          "name": "Cross-Tab Sync Engine",
+          "description": "synchronization engine for states between browser tabs via localStorage and custom events"
+        },
+        {
+          "name": "Layered Store Architecture",
+          "description": "multi-layered store architecture with clear separation of responsibilities between components"
+        },
+        {
+          "name": "Optional Encryption Layer",
+          "description": "optional data encryption layer with AES-GCM support and flexible key configuration"
+        },
+        {
+          "name": "Cycle Prevention Mechanism",
+          "description": "mechanism for preventing cyclic updates and data races during synchronization"
+        },
+        {
+          "name": "Unified Logging System",
+          "description": "unified logging system with detailed recording of all synchronization operations and error handling"
+        }
+      ]
+    },
+    "process": {
+      "title": "System Workflow",
+      "steps": [
+        {
+          "title": "Application Initialization",
+          "description": "Loading and initialization of multiple independent Vue applications with connection to unified synchronized storage"
+        },
+        {
+          "title": "Synchronization Configuration",
+          "description": "Configuration of synchronization parameters, encryption, and connection of event listeners for cross-tab updates"
+        },
+        {
+          "title": "Distributed State Management",
+          "description": "Automatic synchronization of changes between applications with processing and resolution of update conflicts"
+        },
+        {
+          "title": "Secure Data Storage",
+          "description": "Optional storage data encryption and protection against unauthorized access to system state"
+        },
+        {
+          "title": "Monitoring and Debugging",
+          "description": "Detailed logging of all synchronization operations with visualization of connection status and updates"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Benefits of the Approach",
+      "items": [
+        "Single codebase for multiple applications — reducing code duplication by 60%",
+        "Automatic synchronization — ensuring data consistency between applications",
+        "Architectural flexibility — ability to easily add new applications to the system",
+        "Enhanced security — optional encryption of critical user data",
+        "Improved UX — instant interface updates when state changes in any application",
+        "Scalability — support for unlimited number of applications in synchronized system",
+        "Simplified debugging — centralized logging of all synchronization operations in real time"
+      ]
+    },
+    "metrics": {
+      "title": "Key Metrics and Achievements",
+      "items": [
+        "Support for 3+ independent Vue applications in one system",
+        "Reduction in new application development time by 40%",
+        "Ensuring data synchronization during 100+ simultaneous updates",
+        "Reduction in code duplication between applications by 70%",
+        "Decrease in debugging time for inter-application interactions by 50%"
+      ]
+    }
+  },
   "remote_workplace": {
     "title": "Remote Workplace",
     "subtitle": "Ready for effective work from anywhere",

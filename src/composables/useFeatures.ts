@@ -60,6 +60,12 @@ export function useFeatures() {
       accentColor: 'var(--color-accent-orange)',
       featureIcon: '✈️',
     },
+    {
+      id: 'multisync',
+      i18nKey: 'multisync',
+      accentColor: 'var(--color-accent-blue)',
+      featureIcon: '🌐',
+    },
   ])
 
   const features = computed((): FeatureData[] =>
