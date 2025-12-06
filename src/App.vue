@@ -97,8 +97,8 @@
   }
 
   .examples-title {
-    margin: 3rem auto 0 auto;
-    padding: 0 1rem 1rem 1rem;
+    margin: 0 auto;
+    padding: 3rem 1rem 1rem;
     font-size: 2rem;
     font-weight: 600;
     text-align: center;
