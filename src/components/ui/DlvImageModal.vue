@@ -228,11 +228,6 @@
               <div v-if="isLoading" class="image-modal__loader">
                 <div class="image-modal__spinner"></div>
               </div>
-
-              <!-- Номер изображения -->
-              <div v-if="showCounter" class="image-modal__counter">
-                {{ currentIndex + 1 }} / {{ images.length }}
-              </div>
             </div>
           </div>
 
@@ -413,19 +408,6 @@
     }
   }
 
-  .image-modal__counter {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    z-index: 5;
-  }
-
   .image-modal__thumbnails-wrapper {
     width: 100%;
     overflow: hidden;
@@ -602,12 +584,6 @@
       right: 5px;
       width: 32px;
       height: 32px;
-    }
-
-    .image-modal__counter {
-      bottom: 10px;
-      padding: 6px 12px;
-      font-size: 12px;
     }
 
     .image-modal__thumbnail {

@@ -6,6 +6,17 @@ body {
   font-style: normal;
 }
 
+.swiper-wrapper {
+  align-items: center;
+}
+
+.swiper-slide {
+  display: flex !important;
+  min-height: 100% !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
 .swiper-pagination {
   display: flex;
   justify-content: center;
@@ -15,8 +26,8 @@ body {
 
 .swiper-pagination-bullet {
   display: block;
-  width: 15px;
-  height: 15px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   border: solid 1px var(--color-primary);
   cursor: pointer;

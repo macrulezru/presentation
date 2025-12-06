@@ -43,15 +43,22 @@
 
 <template>
   <div class="travelshop-images">
-    <swiper :slides-per-view="1" :space-between="50" v-bind="swiperOptions">
+    <swiper
+      class="travelshop-images__swiper"
+      :slides-per-view="1"
+      :space-between="50"
+      v-bind="swiperOptions"
+    >
       <swiper-slide v-for="(slide, index) in images" :key="index">
-        <img
-          :src="slide.preview"
-          :alt="slide.description"
-          @click.stop="openModal(index)"
-          class="clickable-image"
-        />
-        <div class="travelshop-images__description">{{ slide.description }}</div>
+        <div class="travelshop-images__slide">
+          <img
+            :src="slide.preview"
+            :alt="slide.description"
+            @click.stop="openModal(index)"
+            class="travelshop-images__image clickable-image"
+          />
+          <span class="travelshop-images__description">{{ slide.description }}</span>
+        </div>
       </swiper-slide>
     </swiper>
     <span class="travelshop-images__nav-control travelshop-images__nav-control_prev" />
@@ -150,6 +157,18 @@
     color: var(--color-text-muted);
   }
 
+  .travelshop-images__slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .travelshop-images__image {
+    width: auto;
+    max-height: 590px;
+    border: solid 1px var(--color-text-muted);
+  }
+
   @media (max-width: 768px) {
     .travelshop-images {
       padding: 0 30px;
@@ -182,9 +201,13 @@
       height: 16px;
       background-size: 16px 16px;
     }
+
+    .travelshop-images__image {
+      max-height: 400px;
+    }
   }
 
   .travelshop-images :deep(.swiper) {
-    padding: 20px 0;
+    padding: 20px 0 0;
   }
 </style>
