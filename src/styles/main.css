@@ -40,3 +40,30 @@ body {
 body.image-modal-open {
   overflow: hidden;
 }
+
+@media print {
+  .header,
+  #splash,
+  .contacts__form-section,
+  .about__tech-title,
+  .about__tech-wrapper,
+  .contacts__item-icon,
+  .feature-icon {
+    display: none!important;
+  }
+
+  .contacts__content {
+    grid-template-columns: 1fr!important;
+  }
+
+  .remote-workplace,
+  .remote-workplace__title,
+  .remote-workplace__description,
+  .remote-workplace__subtitle,
+  .feature-title,
+  .feature-description,
+  .section-title,
+  .benefit-item {
+    color: #000000!important;
+  }
+}
