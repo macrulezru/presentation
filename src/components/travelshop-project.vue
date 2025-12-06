@@ -116,10 +116,10 @@
           </div>
         </div>
       </div>
-      <div class="travelshop__section">
-        <span class="travelshop__screenshots" @click="toggleSwiper">
+      <div class="travelshop__section travelshop__section_images">
+        <button v-if="!showSwiper" class="travelshop__screenshots" @click="toggleSwiper">
           {{ t('travelshop.view_screenshots') }}
-        </span>
+        </button>
         <TravelshopImages
           v-if="showSwiper"
           size="large"
@@ -192,6 +192,10 @@
   .travelshop__section {
     background: var(--color-bg-card);
     border-radius: var(--radius-xl);
+  }
+
+  .travelshop__section_images {
+    margin-top: 2rem;
   }
 
   .travelshop__section-title {
@@ -325,13 +329,27 @@
   }
 
   .travelshop__screenshots {
-    display: inline-block;
-    margin: 40px 0 20px;
-    border-bottom: dashed 1px var(--color-secondary);
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-semibold);
+    width: 100%;
+    padding: 0.75rem 2rem;
+    background: #ffffff;
     color: var(--color-secondary);
+    border: solid 2px var(--color-secondary);
+    border-radius: 14px;
+    font-size: 1.2rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .travelshop__screenshots:hover {
+    color: #ffffff;
+    background: var(--color-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+  }
+
+  .travelshop__screenshots:active {
+    transform: translateY(0);
   }
 
   @media (max-width: 768px) {
@@ -377,6 +395,15 @@
       width: var(--icon-size-md);
       height: var(--icon-size-md);
       font-size: var(--font-size-base);
+    }
+
+    .travelshop__section_images {
+      margin-top: 0;
+    }
+
+    .travelshop__screenshots {
+      padding: 0.6rem 1.5rem;
+      font-size: 0.95rem;
     }
   }
 

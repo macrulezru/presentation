@@ -71,6 +71,7 @@
   },
   "experience": {
     "title": "Berufserfahrung",
+    "showAllButton": "Alle Berufserfahrung anzeigen",
     "items": [
       {
         "company": "Online Reservation System",
@@ -212,7 +213,7 @@
         }
       ]
     },
-    "view_screenshots": "TravelShop-Screenshots",
+    "view_screenshots": "TravelShop-Screenshots ansehen",
     "loading_screenshots": "Screenshots werden geladen...",
     "images": {
       "description": {

@@ -1,7 +1,17 @@
 <script setup lang="ts">
+  import { ref, computed } from 'vue'
   const { t, tm } = useI18n()
 
   const experienceItems = computed(() => tm('experience.items'))
+  const showAll = ref(false)
+
+  // Показываем только первые 4 компании, если не нажата кнопка "Показать все"
+  const displayedItems = computed(() => {
+    return showAll.value ? experienceItems.value : experienceItems.value.slice(0, 4)
+  })
+
+  // Проверяем, есть ли скрытые элементы
+  const hasMore = computed(() => experienceItems.value.length > 4 && !showAll.value)
 </script>
 
 <template>
@@ -11,7 +21,7 @@
 
       <div class="experience__timeline">
         <div
-          v-for="(item, index) in experienceItems"
+          v-for="(item, index) in displayedItems"
           :key="index"
           class="experience__item"
         >
@@ -40,6 +50,13 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Кнопка "Показать все компании" -->
+      <div v-if="hasMore" class="experience__button-container">
+        <button @click="showAll = true" class="experience__button">
+          {{ t('experience.showAllButton') }}
+        </button>
       </div>
     </div>
   </div>
@@ -158,33 +175,36 @@
     font-size: 0.95rem;
   }
 
-  .experience__item {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.6s ease forwards;
+  /* Контейнер для кнопки */
+  .experience__button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
   }
 
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  /* Стили кнопки */
+  .experience__button {
+    width: 100%;
+    padding: 0.75rem 2rem;
+    background: #ffffff;
+    color: var(--color-secondary);
+    border: solid 2px var(--color-secondary);
+    border-radius: 14px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
   }
 
-  .experience__item:nth-child(1) {
-    animation-delay: 0.1s;
+  .experience__button:hover {
+    color: #ffffff;
+    background: var(--color-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
   }
-  .experience__item:nth-child(2) {
-    animation-delay: 0.2s;
-  }
-  .experience__item:nth-child(3) {
-    animation-delay: 0.3s;
-  }
-  .experience__item:nth-child(4) {
-    animation-delay: 0.4s;
-  }
-  .experience__item:nth-child(5) {
-    animation-delay: 0.5s;
+
+  .experience__button:active {
+    transform: translateY(0);
   }
 
   @media (max-width: 768px) {
@@ -240,6 +260,15 @@
     .experience__description {
       font-size: 0.9rem;
     }
+
+    .experience__button {
+      padding: 0.6rem 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .experience__button-container {
+      margin-top: 2.5rem;
+    }
   }
 
   @media (max-width: 480px) {
@@ -265,6 +294,11 @@
 
     .experience__position {
       font-size: 0.95rem;
+    }
+
+    .experience__button {
+      padding: 0.75rem;
+      font-size: 0.9rem;
     }
   }
 </style>

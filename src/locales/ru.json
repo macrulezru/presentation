@@ -71,6 +71,7 @@
   },
   "experience": {
     "title": "Опыт работы",
+    "showAllButton": "Показать весь опыт работы",
     "items": [
       {
         "company": "Online Reservation System",
@@ -212,7 +213,7 @@
         }
       ]
     },
-    "view_screenshots": "Скриншоты экранов TravelShop",
+    "view_screenshots": "Посмотреть скриншоты TravelShop",
     "loading_screenshots": "Загрузка скриншотов...",
     "images": {
       "description": {

@@ -71,6 +71,7 @@
   },
   "experience": {
     "title": "工作经验",
+    "showAllButton": "显示所有工作经验",
     "items": [
       {
         "company": "在线预订系统",
@@ -212,7 +213,7 @@
         }
       ]
     },
-    "view_screenshots": "TravelShop 截图",
+    "view_screenshots": "查看TravelShop截图",
     "loading_screenshots": "加载截图中...",
     "images": {
       "description": {

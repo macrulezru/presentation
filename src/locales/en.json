@@ -71,6 +71,7 @@
   },
   "experience": {
     "title": "Work Experience",
+    "showAllButton": "Show All Work Experience",
     "items": [
       {
         "company": "Online Reservation System",
@@ -212,7 +213,7 @@
         }
       ]
     },
-    "view_screenshots": "TravelShop Screenshots",
+    "view_screenshots": "View TravelShop Screenshots",
     "loading_screenshots": "Loading screenshots...",
     "images": {
       "description": {
