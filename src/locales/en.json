@@ -230,7 +230,11 @@
   "common": {
     "loading": "Loading...",
     "loading_images": "Loading images...",
-    "loading_please_wait": "Please wait..."
+    "loading_please_wait": "Please wait...",
+    "previous_image": "Previous image",
+    "next_image": "Next image",
+    "close": "Close",
+    "thumbnail": "Thumbnail {number}"
   },
   "pipeline": {
     "title": "REST API Pipeline System",

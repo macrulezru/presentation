@@ -58,7 +58,7 @@
       <swiper-slide v-for="(slide, index) in travelshopImages" :key="index">
         <img
           :src="getImageUrl(slide.preview)"
-          :alt="slide.description"
+          :alt="getImageDescription(index)"
           @click.stop="openModal(index)"
           class="clickable-image"
         />

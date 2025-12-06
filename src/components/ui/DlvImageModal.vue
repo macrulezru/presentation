@@ -153,7 +153,11 @@
 
         <div class="image-modal__container">
           <!-- Кнопка закрытия -->
-          <button class="image-modal__close" @click="close" aria-label="Закрыть">
+          <button
+            class="image-modal__close"
+            @click="close"
+            :aria-label="t('common.close')"
+          >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
                 d="M18 6L6 18M6 6L18 18"
@@ -169,7 +173,7 @@
             v-if="showNavigation && hasPrev"
             class="image-modal__nav image-modal__nav_prev image-modal__nav_desktop"
             @click="prevImage"
-            aria-label="Предыдущее изображение"
+            :aria-label="t('common.previous_image')"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
@@ -185,7 +189,7 @@
             v-if="showNavigation && hasNext"
             class="image-modal__nav image-modal__nav_next image-modal__nav_desktop"
             @click="nextImage"
-            aria-label="Следующее изображение"
+            :aria-label="t('common.next_image')"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
@@ -205,7 +209,7 @@
                 v-if="showNavigation && hasPrev"
                 class="image-modal__nav image-modal__nav_prev image-modal__nav_mobile"
                 @click="prevImage"
-                aria-label="Предыдущее изображение"
+                :aria-label="t('common.previous_image')"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path
@@ -230,7 +234,7 @@
                 v-if="showNavigation && hasNext"
                 class="image-modal__nav image-modal__nav_next image-modal__nav_mobile"
                 @click="nextImage"
-                aria-label="Следующее изображение"
+                :aria-label="t('common.next_image')"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path
