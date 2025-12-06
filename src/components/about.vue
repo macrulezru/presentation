@@ -39,6 +39,10 @@
       description: t('tech.css'),
     },
     {
+      icon: 'figma',
+      description: t('tech.figma'),
+    },
+    {
       icon: 'php',
       description: t('tech.php'),
     },
@@ -323,6 +327,10 @@
 
   .about__tech-item-icon_svn {
     background-image: url('@/assets/images/svn-logo.svg');
+  }
+
+  .about__tech-item-icon_figma {
+    background-image: url('@/assets/images/figma-logo.svg');
   }
 
   .about__tech-item-description {
