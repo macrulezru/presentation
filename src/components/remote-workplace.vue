@@ -41,6 +41,7 @@
               class="feature-item"
             >
               <div class="feature-content">
+                <div class="feature-icon" :class="`feature-icon__${feature.icon}`" />
                 <h3 class="feature-title">{{ feature.title }}</h3>
                 <p class="feature-description">{{ feature.description }}</p>
               </div>
@@ -125,19 +126,45 @@
     padding: 1.5rem 0;
   }
 
+  .feature-icon {
+    margin-bottom: 1.5rem;
+    height: 5rem;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  .feature-icon__workstation {
+    background-image: url('@/assets/images/workstation-icon.svg');
+  }
+
+  .feature-icon__monitors {
+    background-image: url('@/assets/images/monitors-icon.svg');
+  }
+
+  .feature-icon__internet {
+    background-image: url('@/assets/images/internet-icon.svg');
+  }
+
+  .feature-icon__webcam {
+    background-image: url('@/assets/images/webcam-icon.svg');
+  }
+
   .feature-content {
     flex: 1;
   }
 
   .feature-title {
+    margin-bottom: 0.5rem;
     font-size: 1.125rem;
     font-weight: var(--font-weight-semibold);
-    margin-bottom: 0.5rem;
+    text-align: center;
     line-height: 1.4;
     color: var(--color-text-light);
   }
 
   .feature-description {
+    text-align: center;
     line-height: 1.5;
     margin: 0;
     color: #8193aa;
@@ -202,6 +229,11 @@
 
     .benefits-list {
       grid-template-columns: 1fr;
+    }
+
+    .feature-icon {
+      margin-bottom: 1rem;
+      height: 4rem;
     }
   }
 

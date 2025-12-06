@@ -462,18 +462,22 @@
     "features": {
       "items": [
         {
+          "icon": "workstation",
           "title": "高效工作站",
           "description": "功能强大的计算机，可用于现代IDE并同时运行多个开发环境"
         },
         {
+          "icon": "monitors",
           "title": "三台显示器",
           "description": "大屏幕显示器，可舒适地分隔代码、浏览器和通信应用程序"
         },
         {
+          "icon": "internet",
           "title": "稳定网络",
           "description": "高速有线连接，用于视频会议和快速代码同步"
         },
         {
+          "icon": "webcam",
           "title": "网络摄像头和耳机",
           "description": "高质量的摄像头和耳机，用于日常团队会议"
         }

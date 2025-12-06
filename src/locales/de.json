@@ -462,18 +462,22 @@
     "features": {
       "items": [
         {
+          "icon": "workstation",
           "title": "Leistungsstarke Workstation",
           "description": "Leistungsstarker Computer für die Arbeit mit modernen IDEs und gleichzeitiges Ausführen mehrerer Entwicklungsumgebungen"
         },
         {
+          "icon": "monitors",
           "title": "Drei Monitore",
           "description": "Große Monitore für komfortable Trennung von Code, Browser und Kommunikationsanwendungen"
         },
         {
+          "icon": "internet",
           "title": "Stabiles Internet",
           "description": "Hochgeschwindigkeits-Kabelverbindung für Videokonferenzen und schnelle Code-Synchronisation"
         },
         {
+          "icon": "webcam",
           "title": "Webcam und Headset",
           "description": "Hochwertige Kamera und Headset für tägliche Team-Meetings"
         }

@@ -20,7 +20,9 @@
       nextEl: '.travelshop-images__nav-control_next',
       prevEl: '.travelshop-images__nav-control_prev',
     },
-    mousewheel: {},
+    mousewheel: {
+      releaseOnEdges: true,
+    },
     keyboard: {
       enabled: true,
       onlyInViewport: true,

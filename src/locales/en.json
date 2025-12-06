@@ -462,18 +462,22 @@
     "features": {
       "items": [
         {
+          "icon": "workstation",
           "title": "Productive Workstation",
           "description": "Powerful computer for working with modern IDEs and simultaneous running of multiple development environments"
         },
         {
+          "icon": "monitors",
           "title": "Three Monitors",
           "description": "Large monitors for comfortable separation of code, browser, and communication applications"
         },
         {
+          "icon": "internet",
           "title": "Stable Internet",
           "description": "High-speed wired connection for video conferences and fast code synchronization"
         },
         {
+          "icon": "webcam",
           "title": "Webcam and Headset",
           "description": "Quality camera and headset for daily team meetings"
         }
