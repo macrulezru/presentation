@@ -3,18 +3,15 @@ import * as THREE from 'three'
 import { onMounted, onUnmounted, type Ref } from 'vue'
 
 export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) {
-  // Three.js переменные
   let scene: THREE.Scene
   let camera: THREE.PerspectiveCamera
   let renderer: THREE.WebGLRenderer
   let animationFrameId: number
 
-  // Основные параметры
   let time = 0
   let isAnimationActive = false
   let colorCycleTime = 0
 
-  // Параметры мышки
   let mouseX = 0
   let mouseY = 0
   let normalizedMouseX = 0
@@ -28,73 +25,62 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   const MOUSE_INFLUENCE_RADIUS = 0.4
   const MOUSE_SWIRL_FORCE = 1.2
 
-  // Intersection Observer
   let intersectionObserver: IntersectionObserver | null = null
 
-  // Плазменные элементы
   let plasmaField: THREE.Mesh | null = null
   let plasmaParticles: THREE.Points | null = null
   let glowParticles: THREE.Points | null = null
 
-  // Константы
-  const COLOR_CYCLE_DURATION = 30 // 30 секунд на полный цикл цветов
-  const MIN_BRIGHTNESS = 0.05 // Минимальная яркость
-  const MAX_BRIGHTNESS = 0.3 // Максимальная яркость (уменьшена на 25%)
+  const COLOR_CYCLE_DURATION = 30
+  const MIN_BRIGHTNESS = 0.05
+  const MAX_BRIGHTNESS = 0.3
 
-  // Конфигурация
   const PLASMA_CONFIG = {
-    // Базовые цвета для цикла (цветовой круг)
     baseColors: [
-      new THREE.Color(0x000a99), // синий
-      new THREE.Color(0x0044aa), // голубой
-      new THREE.Color(0x0088bb), // бирюзовый
-      new THREE.Color(0x00aa88), // зелёно-голубой
-      new THREE.Color(0x00bb44), // зелёный
-      new THREE.Color(0x88bb00), // жёлто-зелёный
-      new THREE.Color(0xbb8800), // жёлтый
-      new THREE.Color(0xbb4400), // оранжевый
-      new THREE.Color(0xbb0044), // красно-розовый
-      new THREE.Color(0x8800bb), // фиолетовый
-      new THREE.Color(0x4400aa), // пурпурный
-      new THREE.Color(0x000a99), // синий (замыкает круг)
+      new THREE.Color(0x000a99),
+      new THREE.Color(0x0044aa),
+      new THREE.Color(0x0088bb),
+      new THREE.Color(0x00aa88),
+      new THREE.Color(0x00bb44),
+      new THREE.Color(0x88bb00),
+      new THREE.Color(0xbb8800),
+      new THREE.Color(0xbb4400),
+      new THREE.Color(0xbb0044),
+      new THREE.Color(0x8800bb),
+      new THREE.Color(0x4400aa),
+      new THREE.Color(0x000a99),
     ],
 
-    // Текущие цвета (обновляются в цикле)
     currentColors: [] as THREE.Color[],
 
-    // Увеличенные параметры плазменного поля
     fieldSize: 120,
     fieldDetail: 200,
     fieldSpeed: 0.6,
     fieldAmplitude: 5.0,
 
-    // Частицы
-    particleCount: 12000, // Увеличено с 8000
+    particleCount: 12000,
     particleSize: 0.1,
     particleSpeed: 0.8,
-    particleBrightness: 1.3, // Увеличение яркости на 30%
+    particleBrightness: 1.3,
 
-    glowParticleCount: 5000, // Увеличено с 3000
+    glowParticleCount: 1000,
     glowParticleSize: 0.2,
     glowParticleSpeed: 0.5,
-    glowParticleBrightness: 1.3, // Увеличение яркости на 30%
+    glowParticleBrightness: 1.3,
 
-    // Яркость уменьшена на 25% (только для волн)
-    brightness: 0.225, // было 0.3, уменьшено на 25%
-    pulseIntensity: 0.1, // уменьшена интенсивность пульсации
+    brightness: 0.225,
+    pulseIntensity: 0.1,
 
-    fogDensity: 0.02, // уменьшена плотность тумана
+    fogDensity: 0.02,
 
-    // Анимационные эффекты
     enableWaves: true,
     enablePulse: true,
     enableFlow: true,
     enableSwirl: true,
-    enableColorCycle: true, // Включить цикл цветов
-    enableMouseInteraction: true, // Включить взаимодействие с мышкой
+    enableColorCycle: true,
+    enableMouseInteraction: true,
   }
 
-  // Инициализация цветов
   const initColors = () => {
     PLASMA_CONFIG.currentColors = [
       PLASMA_CONFIG.baseColors[0].clone(),
@@ -104,13 +90,11 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     ]
   }
 
-  // Обновление позиции мышки
   const updateMousePosition = (event: MouseEvent) => {
     if (!containerRef.value || !PLASMA_CONFIG.enableMouseInteraction) return
 
     const rect = containerRef.value.getBoundingClientRect()
 
-    // Преобразуем координаты мышки в нормализованные (-1 до 1)
     mouseX = event.clientX - rect.left
     mouseY = event.clientY - rect.top
 
@@ -120,17 +104,14 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     lastMouseMoveTime = Date.now()
     mouseActive = true
 
-    // Увеличиваем влияние мышки при движении
     mouseInfluence = Math.min(mouseInfluence + 0.2, 1.0)
   }
 
-  // Плавное обновление позиции мышки
   const smoothMouseUpdate = () => {
     const smoothing = 0.1
     normalizedMouseX += (targetMouseX - normalizedMouseX) * smoothing
     normalizedMouseY += (targetMouseY - normalizedMouseY) * smoothing
 
-    // Постепенно уменьшаем влияние мышки при бездействии
     if (Date.now() - lastMouseMoveTime > 1000) {
       mouseInfluence = Math.max(mouseInfluence - MOUSE_DECAY_RATE, 0)
       if (mouseInfluence < 0.01) {
@@ -139,16 +120,14 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     }
   }
 
-  // Обновление цветов в цикле
   const updateColorCycle = (deltaTime: number) => {
     if (!PLASMA_CONFIG.enableColorCycle) return
 
     colorCycleTime += deltaTime
     const cycleProgress = (colorCycleTime % COLOR_CYCLE_DURATION) / COLOR_CYCLE_DURATION
 
-    // Интерполируем между цветами по кругу
     const totalColors = PLASMA_CONFIG.baseColors.length
-    const progressPerColor = 1.0 / 4 // У нас 4 цвета в шейдере
+    const progressPerColor = 1.0 / 4
 
     for (let i = 0; i < 4; i++) {
       const targetProgress = (cycleProgress + i * progressPerColor) % 1.0
@@ -160,12 +139,9 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         .clone()
         .lerp(PLASMA_CONFIG.baseColors[nextIndex], lerpFactor)
 
-      // Дополнительно уменьшаем яркость цветов только для волн
-      // Для частиц ярчность будем увеличивать отдельно
       PLASMA_CONFIG.currentColors[i].multiplyScalar(0.7)
     }
 
-    // Обновляем цвета в шейдере
     if (plasmaField?.material instanceof THREE.ShaderMaterial) {
       plasmaField.material.uniforms.uColor1.value = PLASMA_CONFIG.currentColors[0]
       plasmaField.material.uniforms.uColor2.value = PLASMA_CONFIG.currentColors[1]
@@ -174,7 +150,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     }
   }
 
-  // Шейдер для плазменного поля с поддержкой мышки
   const createPlasmaField = () => {
     const geometry = new THREE.PlaneGeometry(
       PLASMA_CONFIG.fieldSize,
@@ -203,7 +178,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
         vec3 newPosition = position;
 
-        // Расстояние до курсора мышки
         vec2 mouseDist = position.xy - uMousePos * 60.0;
         float distanceToMouse = length(mouseDist);
         vDistanceToMouse = distanceToMouse;
@@ -212,27 +186,20 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         float swirlEffect = 0.0;
 
         if (uMouseActive && uMouseInfluence > 0.01) {
-          // Плавное влияние мышки (гауссово затухание)
           float mouseRadius = 60.0 * ${MOUSE_INFLUENCE_RADIUS.toFixed(3)};
           float mouseStrength = uMouseInfluence * ${MOUSE_SWIRL_FORCE.toFixed(3)};
 
-          // Гауссово распределение влияния
           float gaussian = exp(-distanceToMouse * distanceToMouse / (mouseRadius * mouseRadius * 0.5));
           mouseEffect = gaussian * mouseStrength;
 
-          // Эффект завихрения вокруг мышки по часовой стрелке
           if (distanceToMouse < mouseRadius * 2.0) {
-            // Вычисляем угол относительно мышки
             float angle = atan(mouseDist.y, mouseDist.x);
 
-            // Добавляем завихрение по часовой стрелке (отрицательный угол)
             float swirl = -gaussian * mouseStrength * 0.8;
 
-            // Усиливаем эффект ближе к центру
             float centerIntensity = 1.0 - smoothstep(0.0, mouseRadius, distanceToMouse);
             swirl *= centerIntensity * 1.5;
 
-            // Вращение вокруг мышки
             float cosA = cos(swirl);
             float sinA = sin(swirl);
             float rotatedX = mouseDist.x * cosA - mouseDist.y * sinA;
@@ -241,7 +208,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
             newPosition.x = uMousePos.x * 60.0 + rotatedX;
             newPosition.y = uMousePos.y * 60.0 + rotatedY;
 
-            // Дополнительное волнение от мышки
             mouseEffect = gaussian * mouseStrength * 0.3 * sin(distanceToMouse * 0.1 - uTime * 2.0);
           }
         }
@@ -261,7 +227,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
           vWave = (wave1 + wave2 + wave3 + wave4) / (uAmplitude * 3.0);
 
-          // Добавляем влияние мышки к волнам
           newPosition.z = wave1 + wave2 + wave3 + wave4 + mouseEffect * 8.0;
         }
 
@@ -371,7 +336,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
         color += vec3(0.2, 0.15, 0.3) * vWave * 0.15;
 
-        // Эффект свечения вокруг мышки
         if (uMouseActive && uMouseInfluence > 0.01) {
           float mouseGlow = smoothstep(0.5, 0.0, vDistanceToMouse / 40.0);
           mouseGlow *= uMouseInfluence * 0.4;
@@ -379,7 +343,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           vec3 glowColor = mix(uColor1, uColor2, 0.5);
           color += glowColor * mouseGlow * 0.6;
 
-          // Создаем спиральный паттерн вокруг мышки
           vec2 toMouse = vPosition.xy - uMousePos * 60.0;
           float angle = atan(toMouse.y, toMouse.x);
           float spiral = sin(angle * 4.0 + uTime * 3.0 - length(toMouse) * 0.1);
@@ -387,12 +350,10 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           float spiralIntensity = smoothstep(0.4, 0.1, vDistanceToMouse / 50.0);
           color += glowColor * spiral * spiralIntensity * uMouseInfluence * 0.2;
 
-          // Усиливаем яркость в зоне влияния мышки
           float brightnessBoost = smoothstep(0.3, 0.0, vDistanceToMouse / 60.0);
           color *= (1.0 + brightnessBoost * 0.15 * uMouseInfluence);
         }
 
-        // Применяем яркость с ограничениями
         color *= clamp(uBrightness, ${MIN_BRIGHTNESS.toFixed(3)}, ${MAX_BRIGHTNESS.toFixed(3)});
 
         float alpha = smoothstep(0.0, 0.6, p) * 0.5;
@@ -434,7 +395,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     return mesh
   }
 
-  // Создание основных частиц плазмы с концентрацией перед камерой и увеличенной яркостью
   const createPlasmaParticles = () => {
     const particleCount = PLASMA_CONFIG.particleCount
     const positions = new Float32Array(particleCount * 3)
@@ -609,7 +569,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     return new THREE.Points(geometry, material)
   }
 
-  // Создание частиц свечения
   const createGlowParticles = () => {
     const particleCount = PLASMA_CONFIG.glowParticleCount
     const positions = new Float32Array(particleCount * 3)
@@ -722,7 +681,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     return new THREE.Points(geometry, material)
   }
 
-  // Обновление яркости ТОЛЬКО ДЛЯ ВОЛН
   const updateBrightness = (brightness: number) => {
     PLASMA_CONFIG.brightness = Math.max(
       MIN_BRIGHTNESS,
@@ -734,7 +692,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     }
   }
 
-  // Обновление яркости частиц
   const updateParticleBrightness = (brightness: number) => {
     PLASMA_CONFIG.particleBrightness = brightness
     PLASMA_CONFIG.glowParticleBrightness = brightness
@@ -747,7 +704,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     }
   }
 
-  // Включение/выключение взаимодействия с мышкой
   const toggleMouseInteraction = (enabled: boolean) => {
     PLASMA_CONFIG.enableMouseInteraction = enabled
     if (!enabled) {
@@ -756,7 +712,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     }
   }
 
-  // Анимация
   const animate = () => {
     if (!isAnimationActive) {
       return
@@ -767,16 +722,12 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     const deltaTimeSeconds = deltaTime * 0.001
     time += deltaTimeSeconds
 
-    // Плавное обновление позиции мышки
     smoothMouseUpdate()
 
-    // Обновляем цикл цветов
     updateColorCycle(deltaTimeSeconds)
 
-    // Прогресс цикла для частиц
     const cycleProgress = (colorCycleTime % COLOR_CYCLE_DURATION) / COLOR_CYCLE_DURATION
 
-    // Обновляем uniforms мышки
     if (plasmaField?.material instanceof THREE.ShaderMaterial) {
       plasmaField.material.uniforms.uTime.value = time
       plasmaField.material.uniforms.uMousePos.value.set(
@@ -804,7 +755,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       glowParticles.material.uniforms.uCycleProgress.value = cycleProgress
     }
 
-    // Анимация плазменного поля
     if (plasmaField) {
       plasmaField.rotation.y += 0.0002 * PLASMA_CONFIG.fieldSpeed
       plasmaField.rotation.z += 0.0001 * PLASMA_CONFIG.fieldSpeed
@@ -815,13 +765,11 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       }
     }
 
-    // ВОЗВРАЩАЕМ ОРИГИНАЛЬНЫЕ ПАРАМЕТРЫ КАМЕРЫ
     camera.position.x = Math.sin(time * 0.008) * 1.5
     camera.position.y = 5 + Math.cos(time * 0.006) * 0.5
     camera.position.z = 15 + Math.sin(time * 0.005) * 1
     camera.lookAt(0, -5, 0)
 
-    // Освещение
     const pointLight = scene.getObjectByName('mainPointLight') as THREE.PointLight
     if (pointLight && PLASMA_CONFIG.enablePulse) {
       pointLight.intensity = 0.4 + Math.sin(time * 0.6) * 0.08
@@ -834,7 +782,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     renderer.render(scene, camera)
   }
 
-  // Остановка анимации
   const stopAnimation = () => {
     if (animationFrameId) {
       cancelAnimationFrame(animationFrameId)
@@ -843,7 +790,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     isAnimationActive = false
   }
 
-  // Запуск анимации
   const startAnimation = () => {
     if (!isAnimationActive) {
       isAnimationActive = true
@@ -851,7 +797,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     }
   }
 
-  // Проверка видимости элемента
   const isElementInViewport = () => {
     if (!containerRef.value) return false
 
@@ -865,11 +810,9 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     return vertInView && horInView
   }
 
-  // Очистка ресурсов
   const cleanup = () => {
     stopAnimation()
 
-    // Удаляем обработчики мышки
     if (containerRef.value) {
       containerRef.value.removeEventListener('mousemove', updateMousePosition)
     }
@@ -909,7 +852,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     }
   }
 
-  // Инициализация Intersection Observer
   const initIntersectionObserver = () => {
     if (!containerRef.value) return
 
@@ -933,18 +875,14 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     intersectionObserver.observe(containerRef.value)
   }
 
-  // Инициализация Three.js
   const initThreeJS = () => {
     if (!containerRef.value) return
 
-    // Инициализируем цвета
     initColors()
 
-    // Сцена
     scene = new THREE.Scene()
     scene.fog = new THREE.Fog(0x000011, 10, 60)
 
-    // Камера - ВОЗВРАЩАЕМ ОРИГИНАЛЬНЫЕ ПАРАМЕТРЫ
     camera = new THREE.PerspectiveCamera(
       110,
       window.innerWidth / window.innerHeight,
@@ -954,7 +892,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     camera.position.set(0, 5, 15)
     camera.lookAt(0, -5, 0)
 
-    // Рендерер
     renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
@@ -964,7 +901,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.setClearColor(0x000011, 1)
 
-    // Вставляем canvas в контейнер
     const canvas = renderer.domElement
     canvas.style.position = 'absolute'
     canvas.style.top = '0'
@@ -975,10 +911,8 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     canvas.style.pointerEvents = 'auto'
     containerRef.value.prepend(canvas)
 
-    // Добавляем обработчик мышки
     containerRef.value.addEventListener('mousemove', updateMousePosition)
 
-    // Освещение
     const ambientLight = new THREE.AmbientLight(0x220099, 0.1)
     scene.add(ambientLight)
 
@@ -991,7 +925,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     pointLight.position.set(0, 4, 0)
     scene.add(pointLight)
 
-    // Создаем плазменные элементы
     plasmaField = createPlasmaField()
     scene.add(plasmaField)
 
@@ -1001,7 +934,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     glowParticles = createGlowParticles()
     scene.add(glowParticles)
 
-    // Обработка ресайза
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()
@@ -1010,10 +942,8 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
     window.addEventListener('resize', handleResize)
 
-    // Инициализация Intersection Observer
     initIntersectionObserver()
 
-    // Проверка начальной видимости
     setTimeout(() => {
       if (isElementInViewport()) {
         startAnimation()
@@ -1077,7 +1007,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     }
   }
 
-  // Инициализируем при монтировании
   onMounted(async () => {
     const controls = initThreeJS()
 
