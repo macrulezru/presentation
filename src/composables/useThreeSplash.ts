@@ -5,6 +5,7 @@ import { onMounted, onUnmounted, type Ref } from 'vue'
 /**
  * Vue Composition API хук для создания интерактивного плазменного фона с использованием Three.js
  * Создает анимированную сцену с плазменными волнами, частицами и эффектом параллакса от мыши
+ * Поддерживает гироскоп и компас на мобильных устройствах
  *
  * @param containerRef - Vue ref, ссылающийся на HTML-элемент контейнера, в который будет рендериться сцена
  * @returns Объект с методами управления анимацией и настройками
@@ -21,7 +22,12 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   let isAnimationActive = false // Флаг, указывающий, активна ли в данный момент анимация
   let colorCycleTime = 0 // Время, используемое для циклической смены цветов
 
-  // ============ ПЕРЕМЕННЫЕ ДЛЯ ВЗАИМОДЕЙСТВИЯ С МЫШЬЮ ============
+  // ============ ДЕТЕКТИРОВАНИЕ УСТРОЙСТВА ============
+  let isMobileDevice = false
+  let isGyroAvailable = false
+  let isCompassAvailable = false
+
+  // ============ ПЕРЕМЕННЫЕ ДЛЯ ВЗАИМОДЕЙСТВИЯ С МЫШЬЮ (для десктопов) ============
   let mouseX = 0 // Абсолютная X-координата курсора мыши в пикселях относительно контейнера
   let mouseY = 0 // Абсолютная Y-координата курсора мыши в пикселях относительно контейнера
   let normalizedMouseX = 0 // Нормализованная X-координата (-1 до 1) для параллакса
@@ -29,13 +35,31 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   let targetMouseX = 0 // Целевая X-координата для плавной интерполяции
   let targetMouseY = 0 // Целевая Y-координата для плавной интерполяции
 
-  // Настройки параллакса
+  // ============ ПЕРЕМЕННЫЕ ДЛЯ ГИРОСКОПА (для мобильных устройств) ============
+  let deviceAlpha = 0 // Угол вращения вокруг оси Z (азимут/компас)
+  let deviceBeta = 0 // Угол вращения вокруг оси X (наклон вперед/назад)
+  let deviceGamma = 0 // Угол вращения вокруг оси Y (наклон влево/вправо)
+  let targetDeviceAlpha = 0 // Целевое значение для плавной интерполяции
+  let targetDeviceBeta = 0
+  let targetDeviceGamma = 0
+  let isGyroInitialized = false // Флаг инициализации гироскопа
+
+  // Настройки параллакса для мыши
   const PARALLAX_INTENSITY = 0.5 // Интенсивность эффекта параллакса (смещение камеры)
   const PARALLAX_SMOOTHING = 0.08 // Коэффициент сглаживания движения камеры
+
+  // Настройки гироскопа
+  const GYRO_INTENSITY = 0.015 // Интенсивность вращения камеры от гироскопа
+  const GYRO_SMOOTHING = 0.05 // Коэффициент сглаживания для гироскопа
+  const GYRO_DEAD_ZONE = 0.02 // Мертвая зона для предотвращения дрожания
 
   // Начальная позиция камеры (будет использоваться как база для параллакса)
   let cameraBasePosition = new THREE.Vector3(0, 5, 15)
   let cameraTargetPosition = new THREE.Vector3(0, 5, 15)
+
+  // Целевое вращение камеры для гироскопа
+  let cameraTargetRotation = new THREE.Euler(0, 0, 0, 'YXZ')
+  let cameraCurrentRotation = new THREE.Euler(0, 0, 0, 'YXZ')
 
   // ============ НАБЛЮДАТЕЛЬ ЗА ВИДИМОСТЬЮ ЭЛЕМЕНТА ============
   let intersectionObserver: IntersectionObserver | null = null // Для автоматического старта/остановки анимации при скролле
@@ -106,7 +130,37 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     enableSwirl: true, // Включение вихревых эффектов
     enableColorCycle: true, // Включение автоматической циклической смены цветов
     enableMouseParallax: true, // Включение эффекта параллакса при движении мыши
+    enableGyroParallax: true, // Включение эффекта параллакса при движении устройства
     enableCameraAutoMovement: true, // Включение автоматического движения камеры
+  }
+
+  /**
+   * ДЕТЕКТИРОВАНИЕ УСТРОЙСТВА И ДАТЧИКОВ
+   * Определяет тип устройства и доступность гироскопа/компаса
+   */
+  const detectDeviceAndSensors = () => {
+    // Проверяем, является ли устройство мобильным
+    isMobileDevice =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      )
+
+    // Проверяем доступность гироскопа и компаса
+    if (typeof DeviceOrientationEvent !== 'undefined') {
+      if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+        // iOS 13+ - требуется запрос разрешения
+        isGyroAvailable = true
+        isCompassAvailable = true
+      } else if ('ondeviceorientation' in window) {
+        // Android и другие устройства
+        isGyroAvailable = true
+        isCompassAvailable = true
+      }
+    }
+
+    console.log(
+      `Device detection: Mobile=${isMobileDevice}, Gyro=${isGyroAvailable}, Compass=${isCompassAvailable}`,
+    )
   }
 
   /**
@@ -123,14 +177,94 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   }
 
   /**
-   * ОБНОВЛЕНИЕ ПОЗИЦИИ МЫШИ
+   * ЗАПРОС РАЗРЕШЕНИЯ НА ИСПОЛЬЗОВАНИЕ ДАТЧИКОВ (для iOS)
+   */
+  const requestGyroPermission = async (): Promise<boolean> => {
+    if (
+      typeof DeviceOrientationEvent !== 'undefined' &&
+      typeof (DeviceOrientationEvent as any).requestPermission === 'function'
+    ) {
+      try {
+        const permission = await (DeviceOrientationEvent as any).requestPermission()
+        if (permission === 'granted') {
+          return true
+        } else {
+          console.warn('Permission for device orientation was denied')
+          return false
+        }
+      } catch (error) {
+        console.error('Error requesting device orientation permission:', error)
+        return false
+      }
+    }
+    // Для Android и других устройств разрешение не требуется
+    return true
+  }
+
+  /**
+   * ИНИЦИАЛИЗАЦИЯ ГИРОСКОПА И КОМПАСА
+   */
+  const initGyroscope = async () => {
+    if (!isGyroAvailable || !isCompassAvailable || !PLASMA_CONFIG.enableGyroParallax) {
+      return false
+    }
+
+    // Для iOS запрашиваем разрешение
+    if (isMobileDevice) {
+      const hasPermission = await requestGyroPermission()
+      if (!hasPermission) {
+        PLASMA_CONFIG.enableGyroParallax = false
+        return false
+      }
+    }
+
+    // Начальные значения
+    deviceAlpha = 0
+    deviceBeta = 0
+    deviceGamma = 0
+    targetDeviceAlpha = 0
+    targetDeviceBeta = 0
+    targetDeviceGamma = 0
+
+    // Обработчик события изменения ориентации устройства
+    const handleDeviceOrientation = (event: DeviceOrientationEvent) => {
+      if (!PLASMA_CONFIG.enableGyroParallax) return
+
+      // Значения могут быть null, поэтому проверяем
+      if (event.alpha !== null && event.beta !== null && event.gamma !== null) {
+        targetDeviceAlpha = event.alpha || 0
+        targetDeviceBeta = event.beta || 0
+        targetDeviceGamma = event.gamma || 0
+
+        // Нормализуем значения для плавной работы
+        if (targetDeviceBeta > 90) targetDeviceBeta = 90
+        if (targetDeviceBeta < -90) targetDeviceBeta = -90
+        if (targetDeviceGamma > 90) targetDeviceGamma = 90
+        if (targetDeviceGamma < -90) targetDeviceGamma = -90
+      }
+    }
+
+    // Добавляем обработчик
+    window.addEventListener('deviceorientation', handleDeviceOrientation)
+
+    // Сохраняем ссылку на обработчик для последующей очистки
+    ;(window as any).__gyroHandler = handleDeviceOrientation
+
+    isGyroInitialized = true
+    console.log('Gyroscope and compass initialized successfully')
+    return true
+  }
+
+  /**
+   * ОБНОВЛЕНИЕ ПОЗИЦИИ МЫШИ (для десктопов)
    * Обрабатывает события движения мыши, преобразует абсолютные координаты в нормализованные
    *
    * @param event - Событие MouseEvent, содержащее координаты курсора
    */
   const updateMousePosition = (event: MouseEvent) => {
     // Проверяем, что контейнер существует и параллакс включен
-    if (!containerRef.value || !PLASMA_CONFIG.enableMouseParallax) return
+    if (!containerRef.value || !PLASMA_CONFIG.enableMouseParallax || isMobileDevice)
+      return
 
     // Получаем размеры и позицию контейнера относительно viewport
     const rect = containerRef.value.getBoundingClientRect()
@@ -145,7 +279,25 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   }
 
   /**
-   * ПЛАВНОЕ ОБНОВЛЕНИЕ ПОЗИЦИИ МЫШИ И КАМЕРЫ
+   * ПЛАВНОЕ ОБНОВЛЕНИЕ ДАННЫХ ДАТЧИКОВ (для мобильных устройств)
+   * Интерполирует текущие значения датчиков к целевым
+   */
+  const smoothGyroUpdate = () => {
+    if (!isGyroInitialized || !PLASMA_CONFIG.enableGyroParallax) return
+
+    // Линейная интерполяция значений датчиков
+    deviceAlpha += (targetDeviceAlpha - deviceAlpha) * GYRO_SMOOTHING
+    deviceBeta += (targetDeviceBeta - deviceBeta) * GYRO_SMOOTHING
+    deviceGamma += (targetDeviceGamma - deviceGamma) * GYRO_SMOOTHING
+
+    // Применяем мертвую зону для предотвращения дрожания
+    if (Math.abs(deviceBeta) < GYRO_DEAD_ZONE) deviceBeta = 0
+    if (Math.abs(deviceGamma) < GYRO_DEAD_ZONE) deviceGamma = 0
+    if (Math.abs(deviceAlpha) < GYRO_DEAD_ZONE * 10) deviceAlpha = 0
+  }
+
+  /**
+   * ПЛАВНОЕ ОБНОВЛЕНИЕ ПОЗИЦИИ МЫШИ И КАМЕРЫ (для десктопов)
    * Интерполирует текущую позицию мыши к целевой и обновляет позицию камеры для параллакса
    */
   const smoothMouseUpdate = () => {
@@ -153,8 +305,8 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     normalizedMouseX += (targetMouseX - normalizedMouseX) * PARALLAX_SMOOTHING
     normalizedMouseY += (targetMouseY - normalizedMouseY) * PARALLAX_SMOOTHING
 
-    // Если параллакс включен, обновляем целевую позицию камеры
-    if (PLASMA_CONFIG.enableMouseParallax) {
+    // Если параллакс включен и это не мобильное устройство, обновляем камеру
+    if (PLASMA_CONFIG.enableMouseParallax && !isMobileDevice) {
       // Вычисляем смещение камеры на основе позиции мыши
       const parallaxX = normalizedMouseX * PARALLAX_INTENSITY * 8
       const parallaxY = normalizedMouseY * PARALLAX_INTENSITY * 4
@@ -170,6 +322,37 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       // Плавно интерполируем текущую позицию камеры к целевой
       camera.position.lerp(cameraTargetPosition, PARALLAX_SMOOTHING)
     }
+  }
+
+  /**
+   * ОБНОВЛЕНИЕ КАМЕРЫ ДЛЯ ГИРОСКОПА (для мобильных устройств)
+   * Применяет вращение камеры на основе данных гироскопа и компаса
+   */
+  const updateCameraForGyro = () => {
+    if (!isGyroInitialized || !PLASMA_CONFIG.enableGyroParallax || !isMobileDevice) return
+
+    // Вычисляем углы вращения на основе данных датчиков
+    // Используем gamma для вращения по оси Y (влево/вправо)
+    // Используем beta для вращения по оси X (вверх/вниз)
+    // Используем alpha для плавного вращения по оси Z (компас)
+
+    const targetRotationY = -deviceGamma * GYRO_INTENSITY * 2 // Умножаем для более заметного эффекта
+    const targetRotationX = -deviceBeta * GYRO_INTENSITY
+    const targetRotationZ = -deviceAlpha * GYRO_INTENSITY * 0.1 // Медленное вращение по компасу
+
+    // Устанавливаем целевое вращение
+    cameraTargetRotation.set(targetRotationX, targetRotationY, targetRotationZ, 'YXZ')
+
+    // Плавно интерполируем текущее вращение к целевому
+    cameraCurrentRotation.x +=
+      (cameraTargetRotation.x - cameraCurrentRotation.x) * GYRO_SMOOTHING
+    cameraCurrentRotation.y +=
+      (cameraTargetRotation.y - cameraCurrentRotation.y) * GYRO_SMOOTHING
+    cameraCurrentRotation.z +=
+      (cameraTargetRotation.z - cameraCurrentRotation.z) * GYRO_SMOOTHING
+
+    // Применяем вращение к камере
+    camera.rotation.copy(cameraCurrentRotation)
   }
 
   /**
@@ -272,7 +455,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           // Нормализованное значение волны для окрашивания
           vWave = (wave1 + wave2 + wave3 + wave4) / (uAmplitude * 3.0);
 
-          // Применяем волны к Z-координате (высоте)
+          // Применяем волны к Z-координате (высота)
           newPosition.z = wave1 + wave2 + wave3 + wave4;
         }
 
@@ -793,7 +976,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
    * ОБНОВЛЕНИЕ ЯРКОСТИ ЧАСТИЦ
    * Устанавливает новую яркость для всех частиц
    *
-   * @param brightness - Новое значение ярчности частиц
+   * @param brightness - Новое значение яркости частиц
    */
   const updateParticleBrightness = (brightness: number) => {
     PLASMA_CONFIG.particleBrightness = brightness
@@ -809,7 +992,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   }
 
   /**
-   * ПЕРЕКЛЮЧЕНИЕ ЭФФЕКТА ПАРАЛЛАКСА
+   * ПЕРЕКЛЮЧЕНИЕ ЭФФЕКТА ПАРАЛЛАКСА ОТ МЫШИ
    * Включает или выключает эффект параллакса от мыши
    *
    * @param enabled - true для включения, false для выключения
@@ -820,6 +1003,25 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     // Если параллакс выключен, возвращаем камеру в базовую позицию
     if (!enabled) {
       cameraTargetPosition.copy(cameraBasePosition)
+    }
+  }
+
+  /**
+   * ПЕРЕКЛЮЧЕНИЕ ЭФФЕКТА ПАРАЛЛАКСА ОТ ГИРОСКОПА
+   * Включает или выключает эффект параллакса от гироскопа
+   *
+   * @param enabled - true для включения, false для выключения
+   */
+  const toggleGyroParallax = async (enabled: boolean) => {
+    PLASMA_CONFIG.enableGyroParallax = enabled
+
+    if (enabled && isMobileDevice && !isGyroInitialized) {
+      await initGyroscope()
+    }
+
+    // Если гироскоп выключен, возвращаем камеру в исходное положение
+    if (!enabled && isMobileDevice) {
+      cameraTargetRotation.set(0, 0, 0, 'YXZ')
     }
   }
 
@@ -842,8 +1044,15 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     const deltaTimeSeconds = deltaTime * 0.001
     time += deltaTimeSeconds
 
-    // Плавное обновление позиции мыши и камеры
-    smoothMouseUpdate()
+    // Обновление данных в зависимости от типа устройства
+    if (isMobileDevice && isGyroInitialized) {
+      // Для мобильных устройств с гироскопом
+      smoothGyroUpdate()
+      updateCameraForGyro()
+    } else {
+      // Для десктопов или устройств без гироскопа
+      smoothMouseUpdate()
+    }
 
     // Обновление цикла цветов
     updateColorCycle(deltaTimeSeconds)
@@ -889,16 +1098,22 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       }
     }
 
-    // Автоматическое движение камеры (если включено и параллакс неактивен)
-    if (PLASMA_CONFIG.enableCameraAutoMovement && !PLASMA_CONFIG.enableMouseParallax) {
+    // Автоматическое движение камеры (если включено и не используется гироскоп)
+    if (
+      PLASMA_CONFIG.enableCameraAutoMovement &&
+      !PLASMA_CONFIG.enableMouseParallax &&
+      !(isMobileDevice && PLASMA_CONFIG.enableGyroParallax)
+    ) {
       cameraBasePosition.x = Math.sin(time * 0.008) * 1.5
       cameraBasePosition.y = 5 + Math.cos(time * 0.006) * 0.5
       cameraBasePosition.z = 15 + Math.sin(time * 0.005) * 1
       cameraTargetPosition.copy(cameraBasePosition)
     }
 
-    // Направление взгляда камеры (всегда на центр сцены)
-    camera.lookAt(0, -5, 0)
+    // Направление взгляда камеры (если не используется гироскоп)
+    if (!(isMobileDevice && PLASMA_CONFIG.enableGyroParallax)) {
+      camera.lookAt(0, -5, 0)
+    }
 
     // Анимация точечного источника света
     const pointLight = scene.getObjectByName('mainPointLight') as THREE.PointLight
@@ -968,6 +1183,12 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     // Удаление слушателя событий мыши
     if (containerRef.value) {
       containerRef.value.removeEventListener('mousemove', updateMousePosition)
+    }
+
+    // Удаление слушателя гироскопа
+    if ((window as any).__gyroHandler) {
+      window.removeEventListener('deviceorientation', (window as any).__gyroHandler)
+      delete (window as any).__gyroHandler
     }
 
     // Отключение Intersection Observer
@@ -1043,8 +1264,11 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
    *
    * @returns Объект с методами управления анимацией
    */
-  const initThreeJS = () => {
+  const initThreeJS = async () => {
     if (!containerRef.value) return
+
+    // Детектируем устройство и датчики
+    detectDeviceAndSensors()
 
     initColors()
 
@@ -1062,7 +1286,15 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     cameraBasePosition.set(0, 5, 15)
     cameraTargetPosition.copy(cameraBasePosition)
     camera.position.copy(cameraBasePosition)
-    camera.lookAt(0, -5, 0)
+
+    // Инициализируем вращение камеры
+    cameraTargetRotation.set(0, 0, 0, 'YXZ')
+    cameraCurrentRotation.set(0, 0, 0, 'YXZ')
+
+    // Для мобильных устройств с гироскопом не смотрим в центр
+    if (!(isMobileDevice && PLASMA_CONFIG.enableGyroParallax)) {
+      camera.lookAt(0, -5, 0)
+    }
 
     // Создание WebGL рендерера
     renderer = new THREE.WebGLRenderer({
@@ -1085,8 +1317,16 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     canvas.style.pointerEvents = 'auto' // Разрешаем события мыши
     containerRef.value.prepend(canvas) // Вставляем canvas в начало контейнера
 
-    // Добавление слушателя событий мыши
-    containerRef.value.addEventListener('mousemove', updateMousePosition)
+    // Добавление слушателей событий в зависимости от типа устройства
+    if (isMobileDevice) {
+      // Для мобильных устройств инициализируем гироскоп
+      if (PLASMA_CONFIG.enableGyroParallax && isGyroAvailable) {
+        await initGyroscope()
+      }
+    } else {
+      // Для десктопов добавляем слушатель мыши
+      containerRef.value.addEventListener('mousemove', updateMousePosition)
+    }
 
     // Создание освещения сцены
     const ambientLight = new THREE.AmbientLight(0x220099, 0.1) // Рассеянный свет
@@ -1134,7 +1374,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     return {
       cleanup: () => {
         window.removeEventListener('resize', handleResize)
-        if (containerRef.value) {
+        if (containerRef.value && !isMobileDevice) {
           containerRef.value.removeEventListener('mousemove', updateMousePosition)
         }
         cleanup()
@@ -1162,6 +1402,9 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       toggleMouseParallax: (enabled: boolean) => {
         toggleMouseParallax(enabled)
       },
+      toggleGyroParallax: async (enabled: boolean) => {
+        await toggleGyroParallax(enabled)
+      },
       toggleCameraAutoMovement: (enabled: boolean) => {
         PLASMA_CONFIG.enableCameraAutoMovement = enabled
       },
@@ -1169,7 +1412,11 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         cameraBasePosition.set(x, y, z)
         cameraTargetPosition.copy(cameraBasePosition)
         camera.position.copy(cameraBasePosition)
-        camera.lookAt(0, -5, 0)
+
+        // Только если не используется гироскоп
+        if (!(isMobileDevice && PLASMA_CONFIG.enableGyroParallax)) {
+          camera.lookAt(0, -5, 0)
+        }
       },
       updateCameraFOV: (fov: number) => {
         camera.fov = fov
@@ -1178,18 +1425,28 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       updateParallaxIntensity: (intensity: number) => {
         PARALLAX_INTENSITY = intensity
       },
+      updateGyroIntensity: (intensity: number) => {
+        GYRO_INTENSITY = intensity
+      },
       startAnimation: () => {
         startAnimation()
       },
       stopAnimation: () => {
         stopAnimation()
       },
+      getDeviceInfo: () => ({
+        isMobile: isMobileDevice,
+        hasGyro: isGyroAvailable,
+        hasCompass: isCompassAvailable,
+        isGyroEnabled: PLASMA_CONFIG.enableGyroParallax && isGyroInitialized,
+      }),
       getConfig: () => ({
         ...PLASMA_CONFIG,
         colorCycleDuration: COLOR_CYCLE_DURATION,
         minBrightness: MIN_BRIGHTNESS,
         maxBrightness: MAX_BRIGHTNESS,
         parallaxIntensity: PARALLAX_INTENSITY,
+        gyroIntensity: GYRO_INTENSITY,
       }),
       setConfig: (config: Partial<typeof PLASMA_CONFIG>) => {
         // Частичное обновление конфигурации
@@ -1207,7 +1464,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
    * Инициализирует Three.js сцену при монтировании компонента
    */
   onMounted(async () => {
-    const controls = initThreeJS()
+    const controls = await initThreeJS()
 
     // Очистка при размонтировании компонента
     onUnmounted(() => {
@@ -1254,6 +1511,13 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     },
 
     /**
+     * Включение/выключение эффекта параллакса от гироскопа
+     */
+    toggleGyroParallax: async (enabled: boolean) => {
+      await toggleGyroParallax(enabled)
+    },
+
+    /**
      * Ручной запуск анимации
      */
     startAnimation: () => {
@@ -1266,5 +1530,15 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     stopAnimation: () => {
       stopAnimation()
     },
+
+    /**
+     * Получение информации об устройстве
+     */
+    getDeviceInfo: () => ({
+      isMobile: isMobileDevice,
+      hasGyro: isGyroAvailable,
+      hasCompass: isCompassAvailable,
+      isGyroEnabled: PLASMA_CONFIG.enableGyroParallax && isGyroInitialized,
+    }),
   }
 }
