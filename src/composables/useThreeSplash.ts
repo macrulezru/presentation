@@ -4,7 +4,7 @@ import { onMounted, onUnmounted, type Ref } from 'vue'
 
 /**
  * Vue Composition API хук для создания интерактивного плазменного фона с использованием Three.js
- * Создает анимированную сцену с плазменными волнами, частицами и интерактивными эффектами
+ * Создает анимированную сцену с плазменными волнами, частицами и эффектом параллакса от мыши
  *
  * @param containerRef - Vue ref, ссылающийся на HTML-элемент контейнера, в который будет рендериться сцена
  * @returns Объект с методами управления анимацией и настройками
@@ -24,16 +24,18 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   // ============ ПЕРЕМЕННЫЕ ДЛЯ ВЗАИМОДЕЙСТВИЯ С МЫШЬЮ ============
   let mouseX = 0 // Абсолютная X-координата курсора мыши в пикселях относительно контейнера
   let mouseY = 0 // Абсолютная Y-координата курсора мыши в пикселях относительно контейнера
-  let normalizedMouseX = 0 // Нормализованная X-координата (-1 до 1) для использования в шейдерах
-  let normalizedMouseY = 0 // Нормализованная Y-координата (-1 до 1) для использования в шейдерах
+  let normalizedMouseX = 0 // Нормализованная X-координата (-1 до 1) для параллакса
+  let normalizedMouseY = 0 // Нормализованная Y-координата (-1 до 1) для параллакса
   let targetMouseX = 0 // Целевая X-координата для плавной интерполяции
   let targetMouseY = 0 // Целевая Y-координата для плавной интерполяции
-  let mouseInfluence = 0 // Уровень влияния мыши на сцену (0-1), плавно изменяется
-  let mouseActive = false // Флаг активности мыши (true при движении, false после бездействия)
-  let lastMouseMoveTime = 0 // Timestamp последнего движения мыши для определения бездействия
-  const MOUSE_DECAY_RATE = 0.05 // Скорость затухания влияния мыши после прекращения движения
-  const MOUSE_INFLUENCE_RADIUS = 0.4 // Радиус влияния мыши в нормализованных координатах
-  const MOUSE_SWIRL_FORCE = 1.2 // Сила вихревого эффекта, создаваемого движением мыши
+
+  // Настройки параллакса
+  const PARALLAX_INTENSITY = 0.5 // Интенсивность эффекта параллакса (смещение камеры)
+  const PARALLAX_SMOOTHING = 0.08 // Коэффициент сглаживания движения камеры
+
+  // Начальная позиция камеры (будет использоваться как база для параллакса)
+  let cameraBasePosition = new THREE.Vector3(0, 5, 15)
+  let cameraTargetPosition = new THREE.Vector3(0, 5, 15)
 
   // ============ НАБЛЮДАТЕЛЬ ЗА ВИДИМОСТЬЮ ЭЛЕМЕНТА ============
   let intersectionObserver: IntersectionObserver | null = null // Для автоматического старта/остановки анимации при скролле
@@ -103,7 +105,8 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     enableFlow: true, // Включение плавного течения цветов
     enableSwirl: true, // Включение вихревых эффектов
     enableColorCycle: true, // Включение автоматической циклической смены цветов
-    enableMouseInteraction: true, // Включение интерактивных эффектов при движении мыши
+    enableMouseParallax: true, // Включение эффекта параллакса при движении мыши
+    enableCameraAutoMovement: true, // Включение автоматического движения камеры
   }
 
   /**
@@ -126,8 +129,8 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
    * @param event - Событие MouseEvent, содержащее координаты курсора
    */
   const updateMousePosition = (event: MouseEvent) => {
-    // Проверяем, что контейнер существует и взаимодействие с мышью включено
-    if (!containerRef.value || !PLASMA_CONFIG.enableMouseInteraction) return
+    // Проверяем, что контейнер существует и параллакс включен
+    if (!containerRef.value || !PLASMA_CONFIG.enableMouseParallax) return
 
     // Получаем размеры и позицию контейнера относительно viewport
     const rect = containerRef.value.getBoundingClientRect()
@@ -137,38 +140,35 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     mouseY = event.clientY - rect.top
 
     // Преобразуем абсолютные координаты в нормализованные (-1 до 1)
-    // X: 0 → -1, width → 1
-    // Y: 0 → 1, height → -1 (инвертировано, т.к. в WebGL ось Y направлена вверх)
     targetMouseX = (mouseX / rect.width) * 2 - 1
     targetMouseY = -(mouseY / rect.height) * 2 + 1
-
-    // Обновляем время последнего движения и активируем мышь
-    lastMouseMoveTime = Date.now()
-    mouseActive = true
-
-    // Плавно увеличиваем влияние мыши (но не более 1.0)
-    mouseInfluence = Math.min(mouseInfluence + 0.2, 1.0)
   }
 
   /**
-   * ПЛАВНОЕ ОБНОВЛЕНИЕ ПОЗИЦИИ МЫШИ
-   * Интерполирует текущую позицию к целевой для создания плавного движения
-   * Также уменьшает влияние мыши при бездействии
+   * ПЛАВНОЕ ОБНОВЛЕНИЕ ПОЗИЦИИ МЫШИ И КАМЕРЫ
+   * Интерполирует текущую позицию мыши к целевой и обновляет позицию камеры для параллакса
    */
   const smoothMouseUpdate = () => {
-    const smoothing = 0.1 // Коэффициент сглаживания (чем меньше, тем плавнее)
+    // Линейная интерполяция мышиных координат
+    normalizedMouseX += (targetMouseX - normalizedMouseX) * PARALLAX_SMOOTHING
+    normalizedMouseY += (targetMouseY - normalizedMouseY) * PARALLAX_SMOOTHING
 
-    // Линейная интерполяция к целевым координатам
-    normalizedMouseX += (targetMouseX - normalizedMouseX) * smoothing
-    normalizedMouseY += (targetMouseY - normalizedMouseY) * smoothing
+    // Если параллакс включен, обновляем целевую позицию камеры
+    if (PLASMA_CONFIG.enableMouseParallax) {
+      // Вычисляем смещение камеры на основе позиции мыши
+      const parallaxX = normalizedMouseX * PARALLAX_INTENSITY * 8
+      const parallaxY = normalizedMouseY * PARALLAX_INTENSITY * 4
+      const parallaxZ = normalizedMouseY * PARALLAX_INTENSITY * 2
 
-    // Если мышь не двигалась более 1 секунды, начинаем затухание влияния
-    if (Date.now() - lastMouseMoveTime > 1000) {
-      mouseInfluence = Math.max(mouseInfluence - MOUSE_DECAY_RATE, 0)
-      // Если влияние практически исчезло, деактивируем мышь
-      if (mouseInfluence < 0.01) {
-        mouseActive = false
-      }
+      // Устанавливаем целевую позицию камеры с учетом параллакса
+      cameraTargetPosition.set(
+        cameraBasePosition.x + parallaxX,
+        cameraBasePosition.y + parallaxY,
+        cameraBasePosition.z + parallaxZ,
+      )
+
+      // Плавно интерполируем текущую позицию камеры к целевой
+      camera.position.lerp(cameraTargetPosition, PARALLAX_SMOOTHING)
     }
   }
 
@@ -242,61 +242,17 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       varying vec2 vUv;                 // Передает UV-координаты во фрагментный шейдер
       varying vec3 vPosition;           // Передает позицию вершины во фрагментный шейдер
       varying float vWave;              // Значение волны для окрашивания
-      varying float vDistanceToMouse;   // Расстояние до курсора мыши
       uniform float uTime;              // Текущее время для анимации
       uniform float uAmplitude;         // Амплитуда волн
       uniform float uSpeed;             // Скорость анимации
       uniform bool uEnableWaves;        // Флаг включения волн
       uniform bool uEnableSwirl;        // Флаг включения вихревого эффекта
-      uniform vec2 uMousePos;           // Позиция курсора мыши
-      uniform float uMouseInfluence;    // Уровень влияния мыши
-      uniform bool uMouseActive;        // Флаг активности мыши
 
       void main() {
         vUv = uv;
         vPosition = position;
 
         vec3 newPosition = position;
-
-        // Вычисляем расстояние до курсора мыши
-        vec2 mouseDist = position.xy - uMousePos * 60.0;
-        float distanceToMouse = length(mouseDist);
-        vDistanceToMouse = distanceToMouse;
-
-        float mouseEffect = 0.0;
-        float swirlEffect = 0.0;
-
-        // Эффекты взаимодействия с мышью
-        if (uMouseActive && uMouseInfluence > 0.01) {
-          float mouseRadius = 60.0 * ${MOUSE_INFLUENCE_RADIUS.toFixed(3)};
-          float mouseStrength = uMouseInfluence * ${MOUSE_SWIRL_FORCE.toFixed(3)};
-
-          // Гауссово распределение влияния (сильнее в центре)
-          float gaussian = exp(-distanceToMouse * distanceToMouse / (mouseRadius * mouseRadius * 0.5));
-          mouseEffect = gaussian * mouseStrength;
-
-          // Вихревой эффект вокруг курсора
-          if (distanceToMouse < mouseRadius * 2.0) {
-            float angle = atan(mouseDist.y, mouseDist.x);
-            float swirl = -gaussian * mouseStrength * 0.8;
-
-            // Усиление эффекта в центре
-            float centerIntensity = 1.0 - smoothstep(0.0, mouseRadius, distanceToMouse);
-            swirl *= centerIntensity * 1.5;
-
-            // Применение вращения
-            float cosA = cos(swirl);
-            float sinA = sin(swirl);
-            float rotatedX = mouseDist.x * cosA - mouseDist.y * sinA;
-            float rotatedY = mouseDist.x * sinA + mouseDist.y * cosA;
-
-            newPosition.x = uMousePos.x * 60.0 + rotatedX;
-            newPosition.y = uMousePos.y * 60.0 + rotatedY;
-
-            // Добавление волнового эффекта от мыши
-            mouseEffect = gaussian * mouseStrength * 0.3 * sin(distanceToMouse * 0.1 - uTime * 2.0);
-          }
-        }
 
         // Волновая анимация (несколько слоев с разными параметрами)
         if (uEnableWaves) {
@@ -317,7 +273,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           vWave = (wave1 + wave2 + wave3 + wave4) / (uAmplitude * 3.0);
 
           // Применяем волны к Z-координате (высоте)
-          newPosition.z = wave1 + wave2 + wave3 + wave4 + mouseEffect * 8.0;
+          newPosition.z = wave1 + wave2 + wave3 + wave4;
         }
 
         // Вихревой эффект (вращение вокруг центра)
@@ -342,7 +298,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       varying vec2 vUv;
       varying vec3 vPosition;
       varying float vWave;
-      varying float vDistanceToMouse;
       uniform float uTime;
       uniform float uBrightness;
       uniform bool uEnablePulse;
@@ -350,9 +305,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       uniform vec3 uColor2;
       uniform vec3 uColor3;
       uniform vec3 uColor4;
-      uniform vec2 uMousePos;
-      uniform float uMouseInfluence;
-      uniform bool uMouseActive;
 
       // Функция псевдослучайного хеширования для шума
       float hash(vec2 p) {
@@ -445,28 +397,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         // Добавление цвета на основе высоты волны
         color += vec3(0.2, 0.15, 0.3) * vWave * 0.15;
 
-        // Эффекты при взаимодействии с мышью
-        if (uMouseActive && uMouseInfluence > 0.01) {
-          // Свечение вокруг курсора
-          float mouseGlow = smoothstep(0.5, 0.0, vDistanceToMouse / 40.0);
-          mouseGlow *= uMouseInfluence * 0.4;
-
-          vec3 glowColor = mix(uColor1, uColor2, 0.5);
-          color += glowColor * mouseGlow * 0.6;
-
-          // Спиральный эффект
-          vec2 toMouse = vPosition.xy - uMousePos * 60.0;
-          float angle = atan(toMouse.y, toMouse.x);
-          float spiral = sin(angle * 4.0 + uTime * 3.0 - length(toMouse) * 0.1);
-
-          float spiralIntensity = smoothstep(0.4, 0.1, vDistanceToMouse / 50.0);
-          color += glowColor * spiral * spiralIntensity * uMouseInfluence * 0.2;
-
-          // Усиление яркости вокруг курсора
-          float brightnessBoost = smoothstep(0.3, 0.0, vDistanceToMouse / 60.0);
-          color *= (1.0 + brightnessBoost * 0.15 * uMouseInfluence);
-        }
-
         // Применение общей яркости с ограничениями
         color *= clamp(uBrightness, ${MIN_BRIGHTNESS.toFixed(3)}, ${MAX_BRIGHTNESS.toFixed(3)});
 
@@ -495,9 +425,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         uColor2: { value: PLASMA_CONFIG.currentColors[1] }, // Цвет градиента 2
         uColor3: { value: PLASMA_CONFIG.currentColors[2] }, // Цвет градиента 3
         uColor4: { value: PLASMA_CONFIG.currentColors[3] }, // Цвет градиента 4
-        uMousePos: { value: new THREE.Vector2(0, 0) }, // Позиция мыши
-        uMouseInfluence: { value: 0 }, // Влияние мыши
-        uMouseActive: { value: false }, // Активность мыши
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
@@ -866,7 +793,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
    * ОБНОВЛЕНИЕ ЯРКОСТИ ЧАСТИЦ
    * Устанавливает новую яркость для всех частиц
    *
-   * @param brightness - Новое значение яркости частиц
+   * @param brightness - Новое значение ярчности частиц
    */
   const updateParticleBrightness = (brightness: number) => {
     PLASMA_CONFIG.particleBrightness = brightness
@@ -882,16 +809,17 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   }
 
   /**
-   * ПЕРЕКЛЮЧЕНИЕ ВЗАИМОДЕЙСТВИЯ С МЫШЬЮ
-   * Включает или выключает все эффекты, связанные с движением мыши
+   * ПЕРЕКЛЮЧЕНИЕ ЭФФЕКТА ПАРАЛЛАКСА
+   * Включает или выключает эффект параллакса от мыши
    *
    * @param enabled - true для включения, false для выключения
    */
-  const toggleMouseInteraction = (enabled: boolean) => {
-    PLASMA_CONFIG.enableMouseInteraction = enabled
+  const toggleMouseParallax = (enabled: boolean) => {
+    PLASMA_CONFIG.enableMouseParallax = enabled
+
+    // Если параллакс выключен, возвращаем камеру в базовую позицию
     if (!enabled) {
-      mouseActive = false
-      mouseInfluence = 0
+      cameraTargetPosition.copy(cameraBasePosition)
     }
   }
 
@@ -914,7 +842,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     const deltaTimeSeconds = deltaTime * 0.001
     time += deltaTimeSeconds
 
-    // Плавное обновление позиции мыши
+    // Плавное обновление позиции мыши и камеры
     smoothMouseUpdate()
 
     // Обновление цикла цветов
@@ -926,12 +854,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     // Обновление uniform-переменных плазменного поля
     if (plasmaField?.material instanceof THREE.ShaderMaterial) {
       plasmaField.material.uniforms.uTime.value = time
-      plasmaField.material.uniforms.uMousePos.value.set(
-        normalizedMouseX,
-        normalizedMouseY,
-      )
-      plasmaField.material.uniforms.uMouseInfluence.value = mouseInfluence
-      plasmaField.material.uniforms.uMouseActive.value = mouseActive
     }
 
     // Обновление uniform-переменных частиц плазмы
@@ -967,11 +889,16 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       }
     }
 
-    // Анимация камеры (плавное движение по орбите)
-    camera.position.x = Math.sin(time * 0.008) * 1.5
-    camera.position.y = 5 + Math.cos(time * 0.006) * 0.5
-    camera.position.z = 15 + Math.sin(time * 0.005) * 1
-    camera.lookAt(0, -5, 0) // Фокусировка на центре сцены
+    // Автоматическое движение камеры (если включено и параллакс неактивен)
+    if (PLASMA_CONFIG.enableCameraAutoMovement && !PLASMA_CONFIG.enableMouseParallax) {
+      cameraBasePosition.x = Math.sin(time * 0.008) * 1.5
+      cameraBasePosition.y = 5 + Math.cos(time * 0.006) * 0.5
+      cameraBasePosition.z = 15 + Math.sin(time * 0.005) * 1
+      cameraTargetPosition.copy(cameraBasePosition)
+    }
+
+    // Направление взгляда камеры (всегда на центр сцены)
+    camera.lookAt(0, -5, 0)
 
     // Анимация точечного источника света
     const pointLight = scene.getObjectByName('mainPointLight') as THREE.PointLight
@@ -1132,7 +1059,9 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       0.1,
       1000,
     )
-    camera.position.set(0, 5, 15)
+    cameraBasePosition.set(0, 5, 15)
+    cameraTargetPosition.copy(cameraBasePosition)
+    camera.position.copy(cameraBasePosition)
     camera.lookAt(0, -5, 0)
 
     // Создание WebGL рендерера
@@ -1230,16 +1159,24 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       toggleColorCycle: (enabled: boolean) => {
         PLASMA_CONFIG.enableColorCycle = enabled
       },
-      toggleMouseInteraction: (enabled: boolean) => {
-        toggleMouseInteraction(enabled)
+      toggleMouseParallax: (enabled: boolean) => {
+        toggleMouseParallax(enabled)
+      },
+      toggleCameraAutoMovement: (enabled: boolean) => {
+        PLASMA_CONFIG.enableCameraAutoMovement = enabled
       },
       updateCameraPosition: (x: number, y: number, z: number) => {
-        camera.position.set(x, y, z)
+        cameraBasePosition.set(x, y, z)
+        cameraTargetPosition.copy(cameraBasePosition)
+        camera.position.copy(cameraBasePosition)
         camera.lookAt(0, -5, 0)
       },
       updateCameraFOV: (fov: number) => {
         camera.fov = fov
         camera.updateProjectionMatrix()
+      },
+      updateParallaxIntensity: (intensity: number) => {
+        PARALLAX_INTENSITY = intensity
       },
       startAnimation: () => {
         startAnimation()
@@ -1252,6 +1189,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         colorCycleDuration: COLOR_CYCLE_DURATION,
         minBrightness: MIN_BRIGHTNESS,
         maxBrightness: MAX_BRIGHTNESS,
+        parallaxIntensity: PARALLAX_INTENSITY,
       }),
       setConfig: (config: Partial<typeof PLASMA_CONFIG>) => {
         // Частичное обновление конфигурации
@@ -1309,10 +1247,10 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     },
 
     /**
-     * Включение/выключение взаимодействия с мышью
+     * Включение/выключение эффекта параллакса от мыши
      */
-    toggleMouseInteraction: (enabled: boolean) => {
-      toggleMouseInteraction(enabled)
+    toggleMouseParallax: (enabled: boolean) => {
+      toggleMouseParallax(enabled)
     },
 
     /**
