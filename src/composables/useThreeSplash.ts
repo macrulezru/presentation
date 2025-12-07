@@ -1221,7 +1221,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     if (isMobileDevice) {
       // Для мобильных устройств
       camera = new THREE.PerspectiveCamera(
-        75, // Меньший FOV для мобильных (было 110)
+        190,
         window.innerWidth / window.innerHeight,
         0.1,
         1000,
@@ -1230,7 +1230,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     } else {
       // Для десктопов
       camera = new THREE.PerspectiveCamera(
-        110, // Большой FOV для десктопов
+        110,
         window.innerWidth / window.innerHeight,
         0.1,
         1000,
