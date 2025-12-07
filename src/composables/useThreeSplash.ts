@@ -55,15 +55,17 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     fieldAmplitude: 5.0,
 
     // Частицы
-    particleCount: 8000,
+    particleCount: 12000, // Увеличено с 8000
     particleSize: 0.1,
     particleSpeed: 0.8,
+    particleBrightness: 1.3, // Увеличение яркости на 30%
 
-    glowParticleCount: 3000,
+    glowParticleCount: 5000, // Увеличено с 3000
     glowParticleSize: 0.2,
     glowParticleSpeed: 0.5,
+    glowParticleBrightness: 1.3, // Увеличение яркости на 30%
 
-    // Яркость уменьшена на 25%
+    // Яркость уменьшена на 25% (только для волн)
     brightness: 0.225, // было 0.3, уменьшено на 25%
     pulseIntensity: 0.1, // уменьшена интенсивность пульсации
 
@@ -108,7 +110,8 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         .clone()
         .lerp(PLASMA_CONFIG.baseColors[nextIndex], lerpFactor)
 
-      // Дополнительно уменьшаем яркость цветов
+      // Дополнительно уменьшаем яркость цветов только для волн
+      // Для частиц яркость будем увеличивать отдельно
       PLASMA_CONFIG.currentColors[i].multiplyScalar(0.7)
     }
 
@@ -121,7 +124,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     }
   }
 
-  // Шейдер для плазменного поля
+  // Шейдер для плазменного поля (БЕЗ ИЗМЕНЕНИЙ)
   const createPlasmaField = () => {
     const geometry = new THREE.PlaneGeometry(
       PLASMA_CONFIG.fieldSize,
@@ -304,7 +307,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     return mesh
   }
 
-  // Создание основных частиц плазмы с поддержкой смены цвета
+  // Создание основных частиц плазмы с концентрацией перед камерой и увеличенной яркостью
   const createPlasmaParticles = () => {
     const particleCount = PLASMA_CONFIG.particleCount
     const positions = new Float32Array(particleCount * 3)
@@ -314,15 +317,37 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     const colorPhases = new Float32Array(particleCount)
 
     for (let i = 0; i < particleCount; i++) {
-      const radius = 20 + Math.random() * 50
-      const theta = Math.random() * Math.PI * 2
-      const phi = Math.acos(Math.random() * 2 - 1)
+      // Улучшенный алгоритм распределения частиц с концентрацией перед камерой
+      const isFrontZone = Math.random() < 0.65 // 65% частиц в передней зоне
 
-      positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta)
-      positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta)
-      positions[i * 3 + 2] = radius * Math.cos(phi)
+      let radius, theta, phi
 
-      // Начальный цвет для частицы
+      if (isFrontZone) {
+        // Передняя зона (ближе к камере)
+        radius = 12 + Math.random() * 28
+
+        // Концентрация в передней полусфере
+        phi = Math.acos(1 - Math.random() * 1.6)
+        theta = Math.random() * Math.PI * 2
+
+        // Смещение к положительному Z (к камере)
+        const zBias = 0.6 + Math.random() * 0.4
+
+        positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta) * 0.9
+        positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta) * 0.9
+        positions[i * 3 + 2] = radius * Math.cos(phi) * (1.3 + Math.random() * 0.4)
+      } else {
+        // Задняя зона
+        radius = 22 + Math.random() * 40
+        theta = Math.random() * Math.PI * 2
+        phi = Math.acos(Math.random() * 2 - 1)
+
+        positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta)
+        positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta)
+        positions[i * 3 + 2] = radius * Math.cos(phi)
+      }
+
+      // Начальный цвет для частицы с увеличенной яркостью
       const colorProgress = Math.random()
       const color = new THREE.Color()
 
@@ -344,16 +369,22 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           .lerp(PLASMA_CONFIG.currentColors[0], (colorProgress - 0.75) * 4)
       }
 
-      color.multiplyScalar(0.6) // дополнительное уменьшение яркости
+      // УВЕЛИЧЕННАЯ ЯРКОСТЬ НА 30%
+      color.multiplyScalar(0.78) // было 0.6
 
       colors[i * 3] = color.r
       colors[i * 3 + 1] = color.g
       colors[i * 3 + 2] = color.b
 
-      sizes[i] = PLASMA_CONFIG.particleSize * (0.6 + Math.random() * 1.2)
+      // Размер частицы: ближние частицы немного больше
+      const distanceFromCenter = Math.sqrt(
+        positions[i * 3] ** 2 + positions[i * 3 + 1] ** 2 + positions[i * 3 + 2] ** 2,
+      )
+      const sizeMultiplier = Math.max(0.6, 1.1 - distanceFromCenter / 80)
+      sizes[i] = PLASMA_CONFIG.particleSize * (0.7 + Math.random() * 1.0) * sizeMultiplier
 
       phases[i] = Math.random() * Math.PI * 2
-      colorPhases[i] = Math.random() // фаза для смены цвета частицы
+      colorPhases[i] = Math.random()
     }
 
     const geometry = new THREE.BufferGeometry()
@@ -368,6 +399,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         uTime: { value: 0 },
         uSpeed: { value: PLASMA_CONFIG.particleSpeed },
         uCycleProgress: { value: 0 },
+        uParticleBrightness: { value: PLASMA_CONFIG.particleBrightness }, // Uniform для яркости
         uColors: {
           value: [
             PLASMA_CONFIG.currentColors[0],
@@ -376,6 +408,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
             PLASMA_CONFIG.currentColors[3],
           ],
         },
+        uFrontBias: { value: 1.5 },
       },
       vertexShader: `
         attribute float size;
@@ -386,7 +419,9 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         uniform float uTime;
         uniform float uSpeed;
         uniform float uCycleProgress;
+        uniform float uParticleBrightness;
         uniform vec3 uColors[4];
+        uniform float uFrontBias;
 
         vec3 getParticleColor(float progress, float offset) {
           float totalProgress = mod(progress + offset, 1.0);
@@ -404,15 +439,19 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         void main() {
           float colorOffset = colorPhase * 0.3;
           vColor = getParticleColor(uCycleProgress, colorOffset);
-          vColor *= 0.6;
+          vColor *= uParticleBrightness; // Применяем множитель яркости
 
           vec3 pos = position;
           float t = uTime * uSpeed + phase;
 
+          float distanceFromCenter = length(position);
+          float frontBiasFactor = smoothstep(30.0, 10.0, distanceFromCenter) * uFrontBias;
+
+          // Увеличиваем амплитуду движения для ближних частиц
           float orbitSpeed = 0.08 + phase * 0.03;
-          pos.x += sin(t * orbitSpeed) * 0.3;
-          pos.y += cos(t * orbitSpeed * 0.8) * 0.25;
-          pos.z += sin(t * orbitSpeed * 0.6) * 0.2;
+          pos.x += sin(t * orbitSpeed * (1.0 + frontBiasFactor * 0.3)) * 0.3 * (1.0 + frontBiasFactor * 0.2);
+          pos.y += cos(t * orbitSpeed * 0.8 * (1.0 + frontBiasFactor * 0.3)) * 0.25 * (1.0 + frontBiasFactor * 0.2);
+          pos.z += sin(t * orbitSpeed * 0.6 * (1.0 + frontBiasFactor * 0.3)) * 0.2 * (1.0 + frontBiasFactor * 0.2);
 
           float angle = t * 0.15;
           float cosA = cos(angle);
@@ -423,7 +462,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           pos.z = newZ;
 
           vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-          gl_PointSize = size * (200.0 / -mvPosition.z);
+          gl_PointSize = size * (220.0 / -mvPosition.z);
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
@@ -439,11 +478,11 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           }
 
           float alpha = 1.0 - smoothstep(0.0, 0.5, dist);
-          alpha *= 0.5;
+          alpha *= 0.65; // Увеличена прозрачность
 
-          float glow = pow(1.0 - dist * 2.0, 2.0) * 0.15;
+          float glow = pow(1.0 - dist * 2.0, 2.0) * 0.2; // Увеличено свечение
 
-          gl_FragColor = vec4(vColor + vec3(glow * 0.3), alpha);
+          gl_FragColor = vec4(vColor + vec3(glow * 0.4), alpha); // Увеличена яркость свечения
         }
       `,
       transparent: true,
@@ -454,7 +493,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     return new THREE.Points(geometry, material)
   }
 
-  // Создание частиц свечения
+  // Создание частиц свечения с концентрацией перед камерой и увеличенной яркостью
   const createGlowParticles = () => {
     const particleCount = PLASMA_CONFIG.glowParticleCount
     const positions = new Float32Array(particleCount * 3)
@@ -463,24 +502,53 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     const colorPhases = new Float32Array(particleCount)
 
     for (let i = 0; i < particleCount; i++) {
-      const radius = 10 + Math.random() * 35
-      const theta = Math.random() * Math.PI * 2
-      const phi = Math.acos(Math.random() * 2 - 1)
+      // Увеличиваем шанс нахождения в передней зоне
+      const isFrontZone = Math.random() < 0.7 // 70% в передней зоне
 
-      positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta)
-      positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta)
-      positions[i * 3 + 2] = radius * Math.cos(phi)
+      let radius, theta, phi
 
-      // Случайный цвет из текущей палитры
+      if (isFrontZone) {
+        // Передняя зона (ближе к камере)
+        radius = 6 + Math.random() * 18
+
+        // Концентрация в передней полусфере
+        phi = Math.acos(1 - Math.random() * 1.4)
+        theta = Math.random() * Math.PI * 2
+
+        // Смещение в сторону положительного Z (к камере)
+        const zMultiplier = 1.3 + Math.random() * 0.3
+
+        positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta) * 0.7
+        positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta) * 0.7
+        positions[i * 3 + 2] = radius * Math.cos(phi) * zMultiplier
+      } else {
+        // Задняя зона
+        radius = 12 + Math.random() * 25
+        theta = Math.random() * Math.PI * 2
+        phi = Math.acos(Math.random() * 2 - 1)
+
+        positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta)
+        positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta)
+        positions[i * 3 + 2] = radius * Math.cos(phi)
+      }
+
+      // Случайный цвет из текущей палитры с увеличенной яркостью
       const colorIndex = Math.floor(Math.random() * 4)
       const color = PLASMA_CONFIG.currentColors[colorIndex].clone()
-      color.multiplyScalar(0.8 + Math.random() * 0.2)
+
+      // УВЕЛИЧЕННАЯ ЯРКОСТЬ НА 30%
+      color.multiplyScalar(1.04) // было 0.8 + Math.random() * 0.2
 
       colors[i * 3] = color.r
       colors[i * 3 + 1] = color.g
       colors[i * 3 + 2] = color.b
 
-      sizes[i] = PLASMA_CONFIG.glowParticleSize * (0.7 + Math.random() * 1.2)
+      // Размер частицы: ближние частицы немного больше
+      const zPos = Math.abs(positions[i * 3 + 2])
+      const sizeMultiplier = zPos < 15 ? 1.4 : 0.9
+
+      sizes[i] =
+        PLASMA_CONFIG.glowParticleSize * (0.8 + Math.random() * 1.0) * sizeMultiplier
       colorPhases[i] = Math.random()
     }
 
@@ -495,6 +563,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         uTime: { value: 0 },
         uSpeed: { value: PLASMA_CONFIG.glowParticleSpeed },
         uCycleProgress: { value: 0 },
+        uGlowBrightness: { value: PLASMA_CONFIG.glowParticleBrightness }, // Uniform для яркости
       },
       vertexShader: `
         attribute float size;
@@ -504,9 +573,10 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         uniform float uTime;
         uniform float uSpeed;
         uniform float uCycleProgress;
+        uniform float uGlowBrightness;
 
         void main() {
-          vColor = color;
+          vColor = color * uGlowBrightness; // Применяем множитель яркости
 
           vec3 pos = position;
           float t = uTime * uSpeed;
@@ -516,7 +586,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           pos.z += sin(t * 0.15 + position.x * 0.03) * 0.15;
 
           vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-          gl_PointSize = size * (250.0 / -mvPosition.z);
+          gl_PointSize = size * (260.0 / -mvPosition.z); // Увеличен размер
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
@@ -532,11 +602,12 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           }
 
           float alpha = pow(1.0 - dist * 2.0, 3.0);
-          alpha *= 0.3;
+          alpha *= 0.39; // Увеличена прозрачность (было 0.3)
 
           float glow = pow(1.0 - dist * 2.0, 4.0);
 
-          gl_FragColor = vec4(vColor * (1.0 + glow * 0.2), alpha);
+          // Увеличиваем яркость свечения
+          gl_FragColor = vec4(vColor * (1.0 + glow * 0.26), alpha); // Увеличено свечение (было 0.2)
         }
       `,
       transparent: true,
@@ -547,7 +618,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     return new THREE.Points(geometry, material)
   }
 
-  // Обновление яркости
+  // Обновление яркости ТОЛЬКО ДЛЯ ВОЛН (частицы управляются отдельно)
   const updateBrightness = (brightness: number) => {
     PLASMA_CONFIG.brightness = Math.max(
       MIN_BRIGHTNESS,
@@ -556,6 +627,19 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
     if (plasmaField?.material instanceof THREE.ShaderMaterial) {
       plasmaField.material.uniforms.uBrightness.value = PLASMA_CONFIG.brightness
+    }
+  }
+
+  // Обновление яркости частиц
+  const updateParticleBrightness = (brightness: number) => {
+    PLASMA_CONFIG.particleBrightness = brightness
+    PLASMA_CONFIG.glowParticleBrightness = brightness
+
+    if (plasmaParticles?.material instanceof THREE.ShaderMaterial) {
+      plasmaParticles.material.uniforms.uParticleBrightness.value = brightness
+    }
+    if (glowParticles?.material instanceof THREE.ShaderMaterial) {
+      glowParticles.material.uniforms.uGlowBrightness.value = brightness
     }
   }
 
@@ -815,6 +899,9 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       updateBrightness: (value: number) => {
         updateBrightness(value)
       },
+      updateParticleBrightness: (value: number) => {
+        updateParticleBrightness(value)
+      },
       updateSpeed: (value: number) => {
         PLASMA_CONFIG.fieldSpeed = value * 0.6
         PLASMA_CONFIG.particleSpeed = value * 0.8
@@ -850,6 +937,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       setConfig: (config: Partial<typeof PLASMA_CONFIG>) => {
         Object.assign(PLASMA_CONFIG, config)
         updateBrightness(PLASMA_CONFIG.brightness)
+        updateParticleBrightness(PLASMA_CONFIG.particleBrightness)
       },
     }
   }
@@ -870,6 +958,9 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   return {
     updateBrightness: (value: number) => {
       updateBrightness(value)
+    },
+    updateParticleBrightness: (value: number) => {
+      updateParticleBrightness(value)
     },
     updateSpeed: (value: number) => {
       PLASMA_CONFIG.fieldSpeed = value * 0.6
