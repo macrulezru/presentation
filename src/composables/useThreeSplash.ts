@@ -46,8 +46,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   let targetGamma = 0 // Целевое значение gamma
 
   // ============ НАСТРОЙКИ ПАРАЛЛАКСА ============
-  const PARALLAX_INTENSITY = 0.8 // Общая интенсивность эффекта
-  const PARALLAX_INTENSITY_MOBILE = 2 // Общая интенсивность эффекта
+  const PARALLAX_INTENSITY = 0.5 // Общая интенсивность эффекта
   const PARALLAX_SMOOTHING = 0.08 // Коэффициент сглаживания
 
   // Коэффициенты для разных осей (мышь)
@@ -321,12 +320,10 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     const positionZ = normalizedBeta * PARALLAX_INTENSITY * GYRO_Z_MULTIPLIER
 
     // Вычисляем вращение камеры (только для гироскопа)
-    const rotationX =
-      normalizedBeta * PARALLAX_INTENSITY_MOBILE * GYRO_ROTATION_MULTIPLIER
-    const rotationY =
-      normalizedGamma * PARALLAX_INTENSITY_MOBILE * GYRO_ROTATION_MULTIPLIER
+    const rotationX = normalizedBeta * PARALLAX_INTENSITY * GYRO_ROTATION_MULTIPLIER
+    const rotationY = normalizedGamma * PARALLAX_INTENSITY * GYRO_ROTATION_MULTIPLIER
     const rotationZ =
-      normalizedAlpha * PARALLAX_INTENSITY_MOBILE * GYRO_ROTATION_MULTIPLIER * 0.3
+      normalizedAlpha * PARALLAX_INTENSITY * GYRO_ROTATION_MULTIPLIER * 0.3
 
     cameraTargetPosition.set(
       cameraBasePosition.x + positionX,
@@ -1218,25 +1215,12 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     scene.fog = new THREE.Fog(0x000011, 10, 60)
 
     // Настройка камеры
-    if (isMobileDevice) {
-      // Для мобильных устройств
-      camera = new THREE.PerspectiveCamera(
-        75, // Меньший FOV для мобильных (было 110)
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000,
-      )
-      cameraBasePosition.set(0, 3, 20) // Камера дальше (было 15)
-    } else {
-      // Для десктопов
-      camera = new THREE.PerspectiveCamera(
-        110, // Большой FOV для десктопов
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000,
-      )
-      cameraBasePosition.set(0, 5, 15) // Стандартная позиция
-    }
+    camera = new THREE.PerspectiveCamera(
+      110,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000,
+    )
     cameraBasePosition.set(0, 5, 15)
     cameraTargetPosition.copy(cameraBasePosition)
     camera.position.copy(cameraBasePosition)
