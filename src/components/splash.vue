@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { useThreeSplash } from '@/composables/useThreeSplash'
+  import { usePlasmaBackground } from '@/composables/useThreeSplash'
 
   const { t } = useI18n()
 
@@ -21,11 +21,9 @@
     emit('scrollToAbout')
   }
 
-  // Ref для контейнера Three.js
   const splashRef = ref<HTMLElement>()
 
-  // Инициализируем Three.js анимацию
-  useThreeSplash(splashRef)
+  usePlasmaBackground(splashRef)
 </script>
 
 <template>

@@ -1,577 +1,629 @@
+// @ts-nocheck
 import * as THREE from 'three'
 import { onMounted, onUnmounted, type Ref } from 'vue'
 
-export function useThreeSplash(containerRef: Ref<HTMLElement | undefined>) {
+export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) {
   // Three.js переменные
   let scene: THREE.Scene
   let camera: THREE.PerspectiveCamera
   let renderer: THREE.WebGLRenderer
   let animationFrameId: number
 
-  // Массивы объектов
-  let objects: any[] = []
-  let connections: any[] = []
-  let particles: any[] = []
-
-  // Параметры
-  let globalSpeed = 1
-  let globalRotation = 1
-  let globalBrightness = 0.4
-  let connectionDensity = 80
+  // Основные параметры
   let time = 0
-
-  // Флаг активности анимации
   let isAnimationActive = false
+  let colorCycleTime = 0
 
   // Intersection Observer
   let intersectionObserver: IntersectionObserver | null = null
 
-  // Таймеры интервалов
-  let maintainInterval: NodeJS.Timeout | null = null
-  let connectionsInterval: NodeJS.Timeout | null = null
+  // Плазменные элементы
+  let plasmaField: THREE.Mesh | null = null
+  let plasmaParticles: THREE.Points | null = null
+  let glowParticles: THREE.Points | null = null
 
   // Константы
-  const vueColors = [
-    0x42b883, // Яркий зеленый Vue
-    0x64d4b4, // Светлый бирюзовый
-    0x3aaf85, // Средний зеленый
-    0x2dccaf, // Бирюзовый
-    0x5ce0c6, // Очень светлый бирюзовый
-  ]
+  const COLOR_CYCLE_DURATION = 30 // 30 секунд на полный цикл цветов
+  const MIN_BRIGHTNESS = 0.05 // Минимальная яркость
+  const MAX_BRIGHTNESS = 0.3 // Максимальная яркость (уменьшена на 25%)
 
-  const VIEWPORT_BOUNDS = {
-    x: 25,
-    y: 15,
-    z: 25,
+  // Конфигурация
+  const PLASMA_CONFIG = {
+    // Базовые цвета для цикла (цветовой круг)
+    baseColors: [
+      new THREE.Color(0x000a99), // синий
+      new THREE.Color(0x0044aa), // голубой
+      new THREE.Color(0x0088bb), // бирюзовый
+      new THREE.Color(0x00aa88), // зелёно-голубой
+      new THREE.Color(0x00bb44), // зелёный
+      new THREE.Color(0x88bb00), // жёлто-зелёный
+      new THREE.Color(0xbb8800), // жёлтый
+      new THREE.Color(0xbb4400), // оранжевый
+      new THREE.Color(0xbb0044), // красно-розовый
+      new THREE.Color(0x8800bb), // фиолетовый
+      new THREE.Color(0x4400aa), // пурпурный
+      new THREE.Color(0x000a99), // синий (замыкает круг)
+    ],
+
+    // Текущие цвета (обновляются в цикле)
+    currentColors: [] as THREE.Color[],
+
+    // Увеличенные параметры плазменного поля
+    fieldSize: 120,
+    fieldDetail: 200,
+    fieldSpeed: 0.6,
+    fieldAmplitude: 5.0,
+
+    // Частицы
+    particleCount: 8000,
+    particleSize: 0.1,
+    particleSpeed: 0.8,
+
+    glowParticleCount: 3000,
+    glowParticleSize: 0.2,
+    glowParticleSpeed: 0.5,
+
+    // Яркость уменьшена на 25%
+    brightness: 0.225, // было 0.3, уменьшено на 25%
+    pulseIntensity: 0.1, // уменьшена интенсивность пульсации
+
+    fogDensity: 0.02, // уменьшена плотность тумана
+
+    // Анимационные эффекты
+    enableWaves: true,
+    enablePulse: true,
+    enableFlow: true,
+    enableSwirl: true,
+    enableColorCycle: true, // Включить цикл цветов
   }
 
-  const MIN_OBJECTS = 20
-  const MAX_OBJECTS = 35
-  const OBJECT_LIFETIME_MIN = 15000
-  const OBJECT_LIFETIME_MAX = 30000
-  const APPEAR_DURATION = 1000 // мс на появление
-  const DISAPPEAR_DURATION = 1000 // мс на исчезновение
+  // Инициализация цветов
+  const initColors = () => {
+    PLASMA_CONFIG.currentColors = [
+      PLASMA_CONFIG.baseColors[0].clone(),
+      PLASMA_CONFIG.baseColors[3].clone(),
+      PLASMA_CONFIG.baseColors[6].clone(),
+      PLASMA_CONFIG.baseColors[9].clone(),
+    ]
+  }
 
-  // Easing функции
-  const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
-  const easeInCubic = (t: number) => t * t * t
+  // Обновление цветов в цикле
+  const updateColorCycle = (deltaTime: number) => {
+    if (!PLASMA_CONFIG.enableColorCycle) return
 
-  // Функции для создания материалов
-  const createBrightMaterial = (color: number, isWireframe = false) => {
-    if (isWireframe) {
-      return new THREE.MeshBasicMaterial({
-        color: color,
-        transparent: true,
-        opacity: 0.25,
-        wireframe: true,
-        side: THREE.DoubleSide,
-      })
+    colorCycleTime += deltaTime
+    const cycleProgress = (colorCycleTime % COLOR_CYCLE_DURATION) / COLOR_CYCLE_DURATION
+
+    // Интерполируем между цветами по кругу
+    const totalColors = PLASMA_CONFIG.baseColors.length
+    const progressPerColor = 1.0 / 4 // У нас 4 цвета в шейдере
+
+    for (let i = 0; i < 4; i++) {
+      const targetProgress = (cycleProgress + i * progressPerColor) % 1.0
+      const colorIndex = Math.floor(targetProgress * (totalColors - 1))
+      const nextIndex = (colorIndex + 1) % (totalColors - 1)
+      const lerpFactor = (targetProgress * (totalColors - 1)) % 1.0
+
+      PLASMA_CONFIG.currentColors[i] = PLASMA_CONFIG.baseColors[colorIndex]
+        .clone()
+        .lerp(PLASMA_CONFIG.baseColors[nextIndex], lerpFactor)
+
+      // Дополнительно уменьшаем яркость цветов
+      PLASMA_CONFIG.currentColors[i].multiplyScalar(0.7)
     }
 
-    return new THREE.MeshPhysicalMaterial({
-      color: color,
-      metalness: 0.3,
-      roughness: 0.2,
-      transmission: 0.1,
-      transparent: true,
-      opacity: 0.95,
-      clearcoat: 0.5,
-      clearcoatRoughness: 0.1,
-      side: THREE.DoubleSide,
-      emissive: color,
-      emissiveIntensity: 0.1,
-    })
-  }
-
-  // Создание объекта с плавным появлением
-  const createObject = () => {
-    const cubeGeometry = new THREE.BoxGeometry(1, 1, 1)
-    const sphereGeometry = new THREE.SphereGeometry(0.8, 20, 20)
-
-    const isCube = Math.random() > 0.5
-    const color = vueColors[Math.floor(Math.random() * vueColors.length)]
-
-    // Основной объект
-    const mesh = new THREE.Mesh(
-      isCube ? cubeGeometry : sphereGeometry,
-      createBrightMaterial(color as number),
-    )
-
-    // Проволочная оболочка
-    const wireGeometry = isCube
-      ? new THREE.BoxGeometry(1.15, 1.15, 1.15)
-      : new THREE.SphereGeometry(0.95, 16, 16)
-    const wireMesh = new THREE.Mesh(
-      wireGeometry,
-      createBrightMaterial(color as number, true),
-    )
-    mesh.add(wireMesh)
-
-    // Начальная позиция
-    mesh.position.set(
-      (Math.random() - 0.5) * VIEWPORT_BOUNDS.x * 1.5,
-      (Math.random() - 0.5) * VIEWPORT_BOUNDS.y,
-      (Math.random() - 0.5) * VIEWPORT_BOUNDS.z * 1.5,
-    )
-
-    // Начальный размер - почти 0 (будет увеличиваться)
-    const targetSize = 0.8 + Math.random() * 0.8
-    mesh.scale.setScalar(0.001)
-    wireMesh.scale.setScalar(0.001)
-
-    // Скорость движения
-    const velocity = new THREE.Vector3(
-      (Math.random() - 0.5) * 0.02,
-      (Math.random() - 0.5) * 0.015,
-      (Math.random() - 0.5) * 0.02,
-    )
-
-    // Начальное вращение
-    mesh.rotation.set(
-      Math.random() * Math.PI * 2,
-      Math.random() * Math.PI * 2,
-      Math.random() * Math.PI * 2,
-    )
-
-    const obj = {
-      mesh: mesh,
-      wireframe: wireMesh,
-      isCube: isCube,
-      lifetime:
-        OBJECT_LIFETIME_MIN + Math.random() * (OBJECT_LIFETIME_MAX - OBJECT_LIFETIME_MIN),
-      age: 0,
-      velocity: velocity,
-      rotationSpeed: new THREE.Vector3(
-        (Math.random() - 0.5) * 0.008,
-        (Math.random() - 0.5) * 0.008,
-        (Math.random() - 0.5) * 0.008,
-      ),
-      targetSize: targetSize,
-      state: 'appearing', // appearing, alive, disappearing
-      appearProgress: 0,
-      disappearProgress: 0,
+    // Обновляем цвета в шейдере
+    if (plasmaField?.material instanceof THREE.ShaderMaterial) {
+      plasmaField.material.uniforms.uColor1.value = PLASMA_CONFIG.currentColors[0]
+      plasmaField.material.uniforms.uColor2.value = PLASMA_CONFIG.currentColors[1]
+      plasmaField.material.uniforms.uColor3.value = PLASMA_CONFIG.currentColors[2]
+      plasmaField.material.uniforms.uColor4.value = PLASMA_CONFIG.currentColors[3]
     }
-
-    scene.add(mesh)
-    objects.push(obj)
-
-    updateBrightness()
-
-    return obj
   }
 
-  // Удаление объекта
-  const removeObject = (index: number) => {
-    const obj = objects[index]
+  // Шейдер для плазменного поля
+  const createPlasmaField = () => {
+    const geometry = new THREE.PlaneGeometry(
+      PLASMA_CONFIG.fieldSize,
+      PLASMA_CONFIG.fieldSize,
+      PLASMA_CONFIG.fieldDetail,
+      PLASMA_CONFIG.fieldDetail,
+    )
 
-    if (obj) {
-      scene.remove(obj.mesh)
+    const vertexShader = `
+      varying vec2 vUv;
+      varying vec3 vPosition;
+      varying float vWave;
+      uniform float uTime;
+      uniform float uAmplitude;
+      uniform float uSpeed;
+      uniform bool uEnableWaves;
+      uniform bool uEnableSwirl;
 
-      // Очистка ресурсов
-      obj.mesh.geometry.dispose()
-      obj.mesh.material.dispose()
-      if (obj.wireframe) {
-        obj.wireframe.geometry.dispose()
-        obj.wireframe.material.dispose()
+      void main() {
+        vUv = uv;
+        vPosition = position;
+
+        vec3 newPosition = position;
+
+        if (uEnableWaves) {
+          float wave1 = sin(position.x * 0.2 + uTime * uSpeed) *
+                       cos(position.y * 0.15 + uTime * uSpeed * 0.8) * uAmplitude;
+
+          float wave2 = sin(position.x * 0.35 + uTime * uSpeed * 1.3) *
+                       cos(position.y * 0.25 + uTime * uSpeed * 1.1) * uAmplitude * 0.7;
+
+          float wave3 = sin(position.x * 0.6 + position.y * 0.6 + uTime * uSpeed * 0.7) *
+                       uAmplitude * 0.5;
+
+          float radius = length(position.xy);
+          float wave4 = sin(radius * 0.12 + uTime * uSpeed * 0.4) * uAmplitude * 0.4;
+
+          vWave = (wave1 + wave2 + wave3 + wave4) / (uAmplitude * 3.0);
+          newPosition.z = wave1 + wave2 + wave3 + wave4;
+        }
+
+        if (uEnableSwirl) {
+          float distanceFromCenter = length(position.xy);
+          float swirl = sin(distanceFromCenter * 0.12 - uTime * uSpeed * 0.25) * 0.4;
+          float angle = atan(position.y, position.x) + swirl;
+
+          newPosition.x = cos(angle) * distanceFromCenter;
+          newPosition.y = sin(angle) * distanceFromCenter;
+        }
+
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
       }
-    }
+    `
 
-    objects.splice(index, 1)
-  }
+    const fragmentShader = `
+      varying vec2 vUv;
+      varying vec3 vPosition;
+      varying float vWave;
+      uniform float uTime;
+      uniform float uBrightness;
+      uniform bool uEnablePulse;
+      uniform vec3 uColor1;
+      uniform vec3 uColor2;
+      uniform vec3 uColor3;
+      uniform vec3 uColor4;
 
-  // Создание соединения
-  const createConnection = (obj1: any, obj2: any) => {
-    // Не создаем соединения с объектами, которые появляются или исчезают
-    if (obj1.state !== 'alive' || obj2.state !== 'alive') return null
+      float hash(vec2 p) {
+        p = mod(p, 1000.0);
+        return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+      }
 
-    const start = obj1.mesh.position
-    const end = obj2.mesh.position
+      float smoothNoise(vec2 p) {
+        vec2 i = floor(p);
+        vec2 f = fract(p);
 
-    // Проверяем расстояние
-    const distance = start.distanceTo(end)
-    if (distance > 25) return null
+        float a = hash(i);
+        float b = hash(i + vec2(1.0, 0.0));
+        float c = hash(i + vec2(0.0, 1.0));
+        float d = hash(i + vec2(1.0, 1.0));
 
-    // Создаем кривую Безье с амплитудой
-    const midPoint = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5)
-    const curveHeight = distance * 0.4
+        vec2 u = f * f * (3.0 - 2.0 * f);
 
-    // Добавляем изгиб
-    midPoint.y += (Math.random() - 0.5) * curveHeight
-    midPoint.x += (Math.random() - 0.5) * curveHeight * 0.6
-    midPoint.z += (Math.random() - 0.5) * curveHeight * 0.6
+        return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+      }
 
-    const curve = new THREE.QuadraticBezierCurve3(start, midPoint, end)
-    const points = curve.getPoints(25)
-    const geometry = new THREE.BufferGeometry().setFromPoints(points)
+      float fractalNoise(vec2 p) {
+        float value = 0.0;
+        float amplitude = 0.5;
+        float frequency = 0.7;
 
-    // Смешиваем цвета объектов
-    const color1 = new THREE.Color(obj1.mesh.material.color)
-    const color2 = new THREE.Color(obj2.mesh.material.color)
-    const mixedColor = color1.clone().lerp(color2, 0.5)
+        for (int i = 0; i < 5; i++) {
+          value += smoothNoise(p * frequency) * amplitude;
+          amplitude *= 0.6;
+          frequency *= 1.8;
+        }
 
-    // Материал для линии
-    const material = new THREE.LineBasicMaterial({
-      color: mixedColor,
+        return value;
+      }
+
+      float plasma(vec2 uv, float time) {
+        float value = 0.0;
+
+        value += sin(uv.x * 3.0 + time * 0.8) * 0.5 + 0.5;
+        value += sin(uv.y * 2.5 + time * 1.2) * 0.5 + 0.5;
+        value += sin((uv.x + uv.y) * 1.5 + time * 0.5) * 0.5 + 0.5;
+
+        value += fractalNoise(uv * 1.2 + time * 0.2) * 0.3;
+
+        float radius = length(uv);
+        value += sin(radius * 2.5 - time * 1.0) * 0.2 + 0.2;
+
+        return clamp(value / 2.0, 0.0, 1.0);
+      }
+
+      void main() {
+        vec2 animatedUV = vUv * 1.2 - 0.6;
+        animatedUV.x += sin(uTime * 0.08) * 0.08;
+        animatedUV.y += cos(uTime * 0.06) * 0.08;
+
+        float p = plasma(animatedUV, uTime * 0.3);
+
+        float pulse = 1.0;
+        if (uEnablePulse) {
+          pulse = 0.95 + sin(uTime * 1.0) * 0.05;
+          p *= pulse;
+        }
+
+        vec3 color;
+        if (p < 0.25) {
+          color = mix(uColor1, uColor2, p * 4.0);
+        } else if (p < 0.5) {
+          color = mix(uColor2, uColor3, (p - 0.25) * 4.0);
+        } else if (p < 0.75) {
+          color = mix(uColor3, uColor4, (p - 0.5) * 4.0);
+        } else {
+          color = mix(uColor4, uColor1, (p - 0.75) * 4.0);
+        }
+
+        float edge = 1.0 - smoothstep(0.0, 0.6, length(animatedUV));
+        color += vec3(0.4, 0.3, 0.6) * edge * 0.15;
+
+        color += vec3(0.2, 0.15, 0.3) * vWave * 0.15;
+
+        // Применяем яркость с ограничениями
+        color *= clamp(uBrightness, ${MIN_BRIGHTNESS.toFixed(3)}, ${MAX_BRIGHTNESS.toFixed(3)});
+
+        float alpha = smoothstep(0.0, 0.6, p) * 0.5;
+        alpha += edge * 0.08;
+
+        gl_FragColor = vec4(color, alpha);
+      }
+    `
+
+    initColors()
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uAmplitude: { value: PLASMA_CONFIG.fieldAmplitude },
+        uSpeed: { value: PLASMA_CONFIG.fieldSpeed },
+        uBrightness: { value: PLASMA_CONFIG.brightness },
+        uEnableWaves: { value: PLASMA_CONFIG.enableWaves },
+        uEnablePulse: { value: PLASMA_CONFIG.enablePulse },
+        uEnableSwirl: { value: PLASMA_CONFIG.enableSwirl },
+        uColor1: { value: PLASMA_CONFIG.currentColors[0] },
+        uColor2: { value: PLASMA_CONFIG.currentColors[1] },
+        uColor3: { value: PLASMA_CONFIG.currentColors[2] },
+        uColor4: { value: PLASMA_CONFIG.currentColors[3] },
+      },
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader,
       transparent: true,
-      opacity: 0, // начинаем с прозрачности 0
-      linewidth: 2,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
     })
 
-    const line = new THREE.Line(geometry, material)
-
-    const connection = {
-      line: line,
-      startObj: obj1,
-      endObj: obj2,
-      age: 0,
-      maxAge: 5000 + Math.random() * 4000,
-      pulsePhase: Math.random() * Math.PI * 2,
-      controlPoint: midPoint.clone(),
-      appearProgress: 0,
-      state: 'appearing',
-    }
-
-    scene.add(line)
-    connections.push(connection)
-
-    return connection
+    const mesh = new THREE.Mesh(geometry, material)
+    mesh.position.y = -8
+    return mesh
   }
 
-  // Удаление соединения
-  const removeConnection = (index: number) => {
-    const conn = connections[index]
+  // Создание основных частиц плазмы с поддержкой смены цвета
+  const createPlasmaParticles = () => {
+    const particleCount = PLASMA_CONFIG.particleCount
+    const positions = new Float32Array(particleCount * 3)
+    const colors = new Float32Array(particleCount * 3)
+    const sizes = new Float32Array(particleCount)
+    const phases = new Float32Array(particleCount)
+    const colorPhases = new Float32Array(particleCount)
 
-    if (conn) {
-      scene.remove(conn.line)
-      conn.line.geometry.dispose()
-      conn.line.material.dispose()
+    for (let i = 0; i < particleCount; i++) {
+      const radius = 20 + Math.random() * 50
+      const theta = Math.random() * Math.PI * 2
+      const phi = Math.acos(Math.random() * 2 - 1)
+
+      positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta)
+      positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta)
+      positions[i * 3 + 2] = radius * Math.cos(phi)
+
+      // Начальный цвет для частицы
+      const colorProgress = Math.random()
+      const color = new THREE.Color()
+
+      if (colorProgress < 0.25) {
+        color
+          .copy(PLASMA_CONFIG.currentColors[0])
+          .lerp(PLASMA_CONFIG.currentColors[1], colorProgress * 4)
+      } else if (colorProgress < 0.5) {
+        color
+          .copy(PLASMA_CONFIG.currentColors[1])
+          .lerp(PLASMA_CONFIG.currentColors[2], (colorProgress - 0.25) * 4)
+      } else if (colorProgress < 0.75) {
+        color
+          .copy(PLASMA_CONFIG.currentColors[2])
+          .lerp(PLASMA_CONFIG.currentColors[3], (colorProgress - 0.5) * 4)
+      } else {
+        color
+          .copy(PLASMA_CONFIG.currentColors[3])
+          .lerp(PLASMA_CONFIG.currentColors[0], (colorProgress - 0.75) * 4)
+      }
+
+      color.multiplyScalar(0.6) // дополнительное уменьшение яркости
+
+      colors[i * 3] = color.r
+      colors[i * 3 + 1] = color.g
+      colors[i * 3 + 2] = color.b
+
+      sizes[i] = PLASMA_CONFIG.particleSize * (0.6 + Math.random() * 1.2)
+
+      phases[i] = Math.random() * Math.PI * 2
+      colorPhases[i] = Math.random() // фаза для смены цвета частицы
     }
 
-    connections.splice(index, 1)
+    const geometry = new THREE.BufferGeometry()
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
+    geometry.setAttribute('phase', new THREE.BufferAttribute(phases, 1))
+    geometry.setAttribute('colorPhase', new THREE.BufferAttribute(colorPhases, 1))
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uSpeed: { value: PLASMA_CONFIG.particleSpeed },
+        uCycleProgress: { value: 0 },
+        uColors: {
+          value: [
+            PLASMA_CONFIG.currentColors[0],
+            PLASMA_CONFIG.currentColors[1],
+            PLASMA_CONFIG.currentColors[2],
+            PLASMA_CONFIG.currentColors[3],
+          ],
+        },
+      },
+      vertexShader: `
+        attribute float size;
+        attribute vec3 color;
+        attribute float phase;
+        attribute float colorPhase;
+        varying vec3 vColor;
+        uniform float uTime;
+        uniform float uSpeed;
+        uniform float uCycleProgress;
+        uniform vec3 uColors[4];
+
+        vec3 getParticleColor(float progress, float offset) {
+          float totalProgress = mod(progress + offset, 1.0);
+          float segment = totalProgress * 3.0;
+
+          if (segment < 1.0) {
+            return mix(uColors[0], uColors[1], segment);
+          } else if (segment < 2.0) {
+            return mix(uColors[1], uColors[2], segment - 1.0);
+          } else {
+            return mix(uColors[2], uColors[3], segment - 2.0);
+          }
+        }
+
+        void main() {
+          float colorOffset = colorPhase * 0.3;
+          vColor = getParticleColor(uCycleProgress, colorOffset);
+          vColor *= 0.6;
+
+          vec3 pos = position;
+          float t = uTime * uSpeed + phase;
+
+          float orbitSpeed = 0.08 + phase * 0.03;
+          pos.x += sin(t * orbitSpeed) * 0.3;
+          pos.y += cos(t * orbitSpeed * 0.8) * 0.25;
+          pos.z += sin(t * orbitSpeed * 0.6) * 0.2;
+
+          float angle = t * 0.15;
+          float cosA = cos(angle);
+          float sinA = sin(angle);
+          float newX = pos.x * cosA - pos.z * sinA;
+          float newZ = pos.x * sinA + pos.z * cosA;
+          pos.x = newX;
+          pos.z = newZ;
+
+          vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+          gl_PointSize = size * (200.0 / -mvPosition.z);
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vColor;
+
+        void main() {
+          vec2 center = gl_PointCoord - vec2(0.5);
+          float dist = length(center);
+
+          if (dist > 0.5) {
+            discard;
+          }
+
+          float alpha = 1.0 - smoothstep(0.0, 0.5, dist);
+          alpha *= 0.5;
+
+          float glow = pow(1.0 - dist * 2.0, 2.0) * 0.15;
+
+          gl_FragColor = vec4(vColor + vec3(glow * 0.3), alpha);
+        }
+      `,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    })
+
+    return new THREE.Points(geometry, material)
   }
 
-  // Создание частиц
-  const createParticles = () => {
-    const particleGeometry = new THREE.SphereGeometry(0.05, 8, 8)
+  // Создание частиц свечения
+  const createGlowParticles = () => {
+    const particleCount = PLASMA_CONFIG.glowParticleCount
+    const positions = new Float32Array(particleCount * 3)
+    const colors = new Float32Array(particleCount * 3)
+    const sizes = new Float32Array(particleCount)
+    const colorPhases = new Float32Array(particleCount)
 
-    for (let i = 0; i < 200; i++) {
-      const color = vueColors[Math.floor(Math.random() * vueColors.length)]
-      const material = new THREE.MeshBasicMaterial({
-        color: color,
-        transparent: true,
-        opacity: 0.4 + Math.random() * 0.4,
-      })
+    for (let i = 0; i < particleCount; i++) {
+      const radius = 10 + Math.random() * 35
+      const theta = Math.random() * Math.PI * 2
+      const phi = Math.acos(Math.random() * 2 - 1)
 
-      const particle = new THREE.Mesh(particleGeometry, material)
+      positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta)
+      positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta)
+      positions[i * 3 + 2] = radius * Math.cos(phi)
 
-      particle.position.set(
-        (Math.random() - 0.5) * VIEWPORT_BOUNDS.x * 2.5,
-        (Math.random() - 0.5) * VIEWPORT_BOUNDS.y * 1.8,
-        (Math.random() - 0.5) * VIEWPORT_BOUNDS.z * 2.5,
-      )
+      // Случайный цвет из текущей палитры
+      const colorIndex = Math.floor(Math.random() * 4)
+      const color = PLASMA_CONFIG.currentColors[colorIndex].clone()
+      color.multiplyScalar(0.8 + Math.random() * 0.2)
 
-      particles.push({
-        mesh: particle,
-        speed: 0.001 + Math.random() * 0.003,
-        amplitude: 1.5 + Math.random() * 3,
-        phase: Math.random() * Math.PI * 2,
-        originalY: particle.position.y,
-      })
+      colors[i * 3] = color.r
+      colors[i * 3 + 1] = color.g
+      colors[i * 3 + 2] = color.b
 
-      scene.add(particle)
+      sizes[i] = PLASMA_CONFIG.glowParticleSize * (0.7 + Math.random() * 1.2)
+      colorPhases[i] = Math.random()
     }
+
+    const geometry = new THREE.BufferGeometry()
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
+    geometry.setAttribute('colorPhase', new THREE.BufferAttribute(colorPhases, 1))
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uSpeed: { value: PLASMA_CONFIG.glowParticleSpeed },
+        uCycleProgress: { value: 0 },
+      },
+      vertexShader: `
+        attribute float size;
+        attribute vec3 color;
+        attribute float colorPhase;
+        varying vec3 vColor;
+        uniform float uTime;
+        uniform float uSpeed;
+        uniform float uCycleProgress;
+
+        void main() {
+          vColor = color;
+
+          vec3 pos = position;
+          float t = uTime * uSpeed;
+
+          pos.x += sin(t * 0.2 + position.y * 0.03) * 0.15;
+          pos.y += cos(t * 0.18 + position.z * 0.03) * 0.15;
+          pos.z += sin(t * 0.15 + position.x * 0.03) * 0.15;
+
+          vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+          gl_PointSize = size * (250.0 / -mvPosition.z);
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vColor;
+
+        void main() {
+          vec2 center = gl_PointCoord - vec2(0.5);
+          float dist = length(center);
+
+          if (dist > 0.5) {
+            discard;
+          }
+
+          float alpha = pow(1.0 - dist * 2.0, 3.0);
+          alpha *= 0.3;
+
+          float glow = pow(1.0 - dist * 2.0, 4.0);
+
+          gl_FragColor = vec4(vColor * (1.0 + glow * 0.2), alpha);
+        }
+      `,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    })
+
+    return new THREE.Points(geometry, material)
   }
 
   // Обновление яркости
-  const updateBrightness = () => {
-    objects.forEach(obj => {
-      if (obj.state === 'alive') {
-        obj.mesh.material.opacity = 0.95 * globalBrightness
-        obj.wireframe.material.opacity = 0.25 * globalBrightness
-        obj.mesh.material.emissiveIntensity = 0.1 * globalBrightness
-      }
-    })
-
-    connections.forEach(conn => {
-      if (conn.state === 'alive') {
-        conn.line.material.opacity = 0.15 * globalBrightness
-      }
-    })
-
-    particles.forEach(particle => {
-      particle.mesh.material.opacity = 0.6 * globalBrightness
-    })
-
-    // Обновление света с приведением типов
-    if (scene) {
-      const ambientLight = scene.getObjectByName(
-        'ambientLight',
-      ) as THREE.AmbientLight | null
-      const directionalLight = scene.getObjectByName(
-        'directionalLight',
-      ) as THREE.DirectionalLight | null
-      const pointLight = scene.getObjectByName('pointLight') as THREE.PointLight | null
-
-      if (ambientLight) ambientLight.intensity = 0.3 * globalBrightness
-      if (directionalLight) directionalLight.intensity = 0.8 * globalBrightness
-      if (pointLight) pointLight.intensity = 0.5 * globalBrightness
-    }
-  }
-
-  // Создание случайных соединений
-  const createRandomConnections = () => {
-    if (objects.length < 2) return
-
-    const aliveObjects = objects.filter(obj => obj.state === 'alive')
-    if (aliveObjects.length < 2) return
-
-    const targetConnections = Math.min(
-      50,
-      Math.floor(aliveObjects.length * (connectionDensity / 100) * 1.2),
+  const updateBrightness = (brightness: number) => {
+    PLASMA_CONFIG.brightness = Math.max(
+      MIN_BRIGHTNESS,
+      Math.min(MAX_BRIGHTNESS, brightness),
     )
 
-    // Удаляем только очень старые соединения
-    for (let i = connections.length - 1; i >= 0; i--) {
-      if (connections[i].age > connections[i].maxAge * 1.5) {
-        removeConnection(i)
-      }
-    }
-
-    // Создаем новые соединения если нужно
-    if (connections.length < targetConnections) {
-      for (let attempt = 0; attempt < 15; attempt++) {
-        if (connections.length >= targetConnections) break
-
-        const obj1 = aliveObjects[Math.floor(Math.random() * aliveObjects.length)]
-        const obj2 = aliveObjects[Math.floor(Math.random() * aliveObjects.length)]
-
-        if (obj1 === obj2) continue
-
-        // Проверяем, нет ли уже соединения
-        const existingConnection = connections.find(
-          conn =>
-            (conn.startObj === obj1 && conn.endObj === obj2) ||
-            (conn.startObj === obj2 && conn.endObj === obj1),
-        )
-
-        if (!existingConnection) {
-          createConnection(obj1, obj2)
-        }
-      }
-    }
-  }
-
-  // Поддержание количества объектов
-  const maintainObjects = () => {
-    const aliveObjects = objects.filter(obj => obj.state === 'alive')
-
-    // Всегда поддерживаем минимальное количество живых объектов
-    if (aliveObjects.length < MIN_OBJECTS) {
-      const needed = MIN_OBJECTS - aliveObjects.length
-      for (let i = 0; i < needed; i++) {
-        createObject()
-      }
-    }
-
-    // Иногда создаем дополнительные объекты
-    if (aliveObjects.length < MAX_OBJECTS && Math.random() > 0.7) {
-      createObject()
+    if (plasmaField?.material instanceof THREE.ShaderMaterial) {
+      plasmaField.material.uniforms.uBrightness.value = PLASMA_CONFIG.brightness
     }
   }
 
   // Анимация
   const animate = () => {
-    // Если анимация неактивна, не запускаем новый кадр
     if (!isAnimationActive) {
       return
     }
 
     animationFrameId = requestAnimationFrame(animate)
     const deltaTime = 16
-    time += deltaTime * globalSpeed * 0.001
+    const deltaTimeSeconds = deltaTime * 0.001
+    time += deltaTimeSeconds
 
-    // Обновление объектов
-    objects.forEach((obj, index) => {
-      obj.age += deltaTime
+    // Обновляем цикл цветов
+    updateColorCycle(deltaTimeSeconds)
 
-      // Управление состояниями объекта
-      switch (obj.state) {
-        case 'appearing':
-          obj.appearProgress += deltaTime / APPEAR_DURATION
-          if (obj.appearProgress >= 1) {
-            obj.appearProgress = 1
-            obj.state = 'alive'
-          }
+    // Прогресс цикла для частиц
+    const cycleProgress = (colorCycleTime % COLOR_CYCLE_DURATION) / COLOR_CYCLE_DURATION
 
-          // Анимация появления (увеличение из точки)
-          const appearScale = easeOutCubic(obj.appearProgress) * obj.targetSize
-          obj.mesh.scale.setScalar(appearScale)
-          obj.wireframe.scale.setScalar(appearScale * 1.15)
+    // Обновляем время в шейдерах
+    if (plasmaField?.material instanceof THREE.ShaderMaterial) {
+      plasmaField.material.uniforms.uTime.value = time
+    }
 
-          // Постепенное увеличение прозрачности
-          const appearOpacity = easeOutCubic(obj.appearProgress)
-          obj.mesh.material.opacity = 0.95 * appearOpacity * globalBrightness
-          obj.wireframe.material.opacity = 0.25 * appearOpacity * globalBrightness
-          break
+    if (plasmaParticles?.material instanceof THREE.ShaderMaterial) {
+      plasmaParticles.material.uniforms.uTime.value = time
+      plasmaParticles.material.uniforms.uCycleProgress.value = cycleProgress
 
-        case 'alive':
-          // Проверяем, не пора ли начинать исчезать
-          if (obj.age > obj.lifetime - DISAPPEAR_DURATION) {
-            obj.state = 'disappearing'
-            obj.disappearProgress = 0
-          }
-          break
+      // Обновляем цвета в шейдере частиц
+      plasmaParticles.material.uniforms.uColors.value = [
+        PLASMA_CONFIG.currentColors[0],
+        PLASMA_CONFIG.currentColors[1],
+        PLASMA_CONFIG.currentColors[2],
+        PLASMA_CONFIG.currentColors[3],
+      ]
+    }
 
-        case 'disappearing':
-          obj.disappearProgress += deltaTime / DISAPPEAR_DURATION
-          if (obj.disappearProgress >= 1) {
-            // Полностью исчез - удаляем
-            removeObject(index)
-            return
-          }
+    if (glowParticles?.material instanceof THREE.ShaderMaterial) {
+      glowParticles.material.uniforms.uTime.value = time
+      glowParticles.material.uniforms.uCycleProgress.value = cycleProgress
+    }
 
-          // Анимация исчезновения (уменьшение в точку)
-          const disappearScale = (1 - easeInCubic(obj.disappearProgress)) * obj.targetSize
-          obj.mesh.scale.setScalar(disappearScale)
-          obj.wireframe.scale.setScalar(disappearScale * 1.15)
+    // Анимация плазменного поля
+    if (plasmaField) {
+      plasmaField.rotation.y += 0.0002 * PLASMA_CONFIG.fieldSpeed
+      plasmaField.rotation.z += 0.0001 * PLASMA_CONFIG.fieldSpeed
 
-          // Постепенное уменьшение прозрачности
-          const disappearOpacity = 1 - easeInCubic(obj.disappearProgress)
-          obj.mesh.material.opacity = 0.95 * disappearOpacity * globalBrightness
-          obj.wireframe.material.opacity = 0.25 * disappearOpacity * globalBrightness
-          break
+      if (PLASMA_CONFIG.enablePulse) {
+        const pulse = Math.sin(time * 0.8) * 0.02 + 1
+        plasmaField.scale.setScalar(pulse)
       }
+    }
 
-      // Физика движения (только для живых и появляющихся объектов)
-      if (obj.state !== 'disappearing') {
-        obj.mesh.position.add(obj.velocity.clone().multiplyScalar(globalSpeed))
+    // Медленное движение камеры
+    camera.position.x = Math.sin(time * 0.008) * 1.5
+    camera.position.y = 5 + Math.cos(time * 0.006) * 0.5
+    camera.position.z = 15 + Math.sin(time * 0.005) * 1
+    camera.lookAt(0, -5, 0)
 
-        // Мягкие границы с отскоком
-        const bounds = VIEWPORT_BOUNDS
-        const pos = obj.mesh.position
+    // Освещение
+    const pointLight = scene.getObjectByName('mainPointLight') as THREE.PointLight
+    if (pointLight && PLASMA_CONFIG.enablePulse) {
+      pointLight.intensity = 0.4 + Math.sin(time * 0.6) * 0.08
 
-        if (Math.abs(pos.x) > bounds.x) {
-          obj.velocity.x *= -0.9
-          pos.x = Math.sign(pos.x) * bounds.x * 0.95
-        }
-        if (Math.abs(pos.y) > bounds.y) {
-          obj.velocity.y *= -0.9
-          pos.y = Math.sign(pos.y) * bounds.y * 0.95
-        }
-        if (Math.abs(pos.z) > bounds.z) {
-          obj.velocity.z *= -0.9
-          pos.z = Math.sign(pos.z) * bounds.z * 0.95
-        }
-      }
-
-      // Плавное вращение (одинаковая скорость для всех состояний)
-      obj.mesh.rotation.x += obj.rotationSpeed.x * globalRotation
-      obj.mesh.rotation.y += obj.rotationSpeed.y * globalRotation
-      obj.mesh.rotation.z += obj.rotationSpeed.z * globalRotation
-
-      // Вращение проволочной оболочки в другую сторону
-      obj.wireframe.rotation.x -= obj.rotationSpeed.x * globalRotation * 0.7
-      obj.wireframe.rotation.y -= obj.rotationSpeed.y * globalRotation * 0.7
-    })
-
-    // Обновление соединений
-    connections.forEach((conn, index) => {
-      conn.age += deltaTime
-
-      // Управление состояниями соединения
-      if (conn.state === 'appearing') {
-        conn.appearProgress += deltaTime / 500 // 500ms на появление
-        if (conn.appearProgress >= 1) {
-          conn.appearProgress = 1
-          conn.state = 'alive'
-        }
-        conn.line.material.opacity =
-          0.15 * easeOutCubic(conn.appearProgress) * globalBrightness
-      }
-
-      // Проверяем, нужно ли удалять соединение
-      if (
-        conn.age > conn.maxAge ||
-        !objects.includes(conn.startObj) ||
-        !objects.includes(conn.endObj) ||
-        (conn.startObj && conn.startObj.state === 'disappearing') ||
-        (conn.endObj && conn.endObj.state === 'disappearing')
-      ) {
-        // Начинаем исчезать
-        if (conn.state !== 'disappearing') {
-          conn.state = 'disappearing'
-          conn.disappearProgress = 0
-        }
-
-        conn.disappearProgress += deltaTime / 400 // 400ms на исчезновение
-        if (conn.disappearProgress >= 1) {
-          removeConnection(index)
-          return
-        }
-
-        conn.line.material.opacity =
-          0.15 * (1 - easeInCubic(conn.disappearProgress)) * globalBrightness
-      }
-
-      // Обновляем кривую только для живых соединений
-      if (conn.state === 'alive' && conn.startObj && conn.endObj) {
-        const start = conn.startObj.mesh.position
-        const end = conn.endObj.mesh.position
-
-        // Анимируем контрольную точку
-        const midPoint = conn.controlPoint.clone()
-        const distance = start.distanceTo(end)
-        const baseHeight = distance * 0.3
-
-        // Плавное движение контрольной точки
-        midPoint.y += Math.sin(time * 1.5 + conn.pulsePhase) * baseHeight * 0.2
-        midPoint.x += Math.sin(time * 1.2 + conn.pulsePhase * 1.3) * baseHeight * 0.15
-        midPoint.z += Math.sin(time * 1.3 + conn.pulsePhase * 1.7) * baseHeight * 0.15
-
-        // Обновляем контрольную точку
-        conn.controlPoint.lerp(midPoint, 0.1)
-
-        const curve = new THREE.QuadraticBezierCurve3(start, conn.controlPoint, end)
-        const points = curve.getPoints(25)
-
-        // Обновляем геометрию линии
-        const positions = conn.line.geometry.attributes.position.array as Float32Array
-        for (let j = 0; j < points.length; j++) {
-          const point = points[j]
-          positions[j * 3] = point?.x || 0
-          positions[j * 3 + 1] = point?.y || 0
-          positions[j * 3 + 2] = point?.z || 0
-        }
-
-        conn.line.geometry.attributes.position.needsUpdate = true
-      }
-    })
-
-    // Обновление частиц
-    particles.forEach(particle => {
-      particle.mesh.position.y =
-        particle.originalY +
-        Math.sin(time * particle.speed + particle.phase) * particle.amplitude
-
-      const angle = time * particle.speed * 3 + particle.phase
-      particle.mesh.position.x += Math.cos(angle) * 0.01
-      particle.mesh.position.z += Math.sin(angle) * 0.01
-
-      particle.mesh.material.opacity =
-        (0.4 + Math.sin(time * 2 + particle.phase) * 0.3) * globalBrightness
-    })
-
-    // Движение камеры
-    camera.position.x = Math.sin(time * 0.015) * 3
-    camera.position.z = 25 + Math.cos(time * 0.012) * 2
-    camera.position.y = 5 + Math.sin(time * 0.008) * 1.5
-    camera.lookAt(0, 2, 0)
-
-    // Движение света
-    const pointLight = scene.getObjectByName('pointLight') as THREE.PointLight | null
-    if (pointLight) {
-      pointLight.position.x = camera.position.x * 0.3
-      pointLight.position.z = camera.position.z * 0.3 - 5
+      pointLight.position.x = Math.sin(time * 0.04) * 4
+      pointLight.position.y = 4 + Math.cos(time * 0.03) * 1.5
+      pointLight.position.z = Math.cos(time * 0.035) * 4
     }
 
     renderer.render(scene, camera)
@@ -584,14 +636,12 @@ export function useThreeSplash(containerRef: Ref<HTMLElement | undefined>) {
       animationFrameId = 0
     }
     isAnimationActive = false
-    console.log('Animation stopped')
   }
 
   // Запуск анимации
   const startAnimation = () => {
     if (!isAnimationActive) {
       isAnimationActive = true
-      console.log('Animation started')
       animate()
     }
   }
@@ -604,7 +654,6 @@ export function useThreeSplash(containerRef: Ref<HTMLElement | undefined>) {
     const windowHeight = window.innerHeight || document.documentElement.clientHeight
     const windowWidth = window.innerWidth || document.documentElement.clientWidth
 
-    // Проверяем, пересекается ли элемент с viewport
     const vertInView = rect.top <= windowHeight && rect.bottom >= 0
     const horInView = rect.left <= windowWidth && rect.right >= 0
 
@@ -615,44 +664,32 @@ export function useThreeSplash(containerRef: Ref<HTMLElement | undefined>) {
   const cleanup = () => {
     stopAnimation()
 
-    // Очистка интервалов
-    if (maintainInterval) {
-      clearInterval(maintainInterval)
-      maintainInterval = null
-    }
-    if (connectionsInterval) {
-      clearInterval(connectionsInterval)
-      connectionsInterval = null
+    if (intersectionObserver && containerRef.value) {
+      intersectionObserver.unobserve(containerRef.value)
+      intersectionObserver.disconnect()
+      intersectionObserver = null
     }
 
-    // Очистка Three.js ресурсов
-    objects.forEach(obj => {
-      if (obj.mesh) {
-        obj.mesh.geometry.dispose()
-        obj.mesh.material.dispose()
-        scene.remove(obj.mesh)
-      }
-      if (obj.wireframe) {
-        obj.wireframe.geometry.dispose()
-        obj.wireframe.material.dispose()
-      }
-    })
+    if (plasmaField) {
+      plasmaField.geometry.dispose()
+      const material = plasmaField.material as THREE.ShaderMaterial
+      material.dispose()
+      scene.remove(plasmaField)
+    }
 
-    connections.forEach(conn => {
-      if (conn.line) {
-        conn.line.geometry.dispose()
-        conn.line.material.dispose()
-        scene.remove(conn.line)
-      }
-    })
+    if (plasmaParticles) {
+      plasmaParticles.geometry.dispose()
+      const material = plasmaParticles.material as THREE.ShaderMaterial
+      material.dispose()
+      scene.remove(plasmaParticles)
+    }
 
-    particles.forEach(particle => {
-      if (particle.mesh) {
-        particle.mesh.geometry.dispose()
-        particle.mesh.material.dispose()
-        scene.remove(particle.mesh)
-      }
-    })
+    if (glowParticles) {
+      glowParticles.geometry.dispose()
+      const material = glowParticles.material as THREE.ShaderMaterial
+      material.dispose()
+      scene.remove(glowParticles)
+    }
 
     if (renderer) {
       renderer.dispose()
@@ -660,49 +697,28 @@ export function useThreeSplash(containerRef: Ref<HTMLElement | undefined>) {
     if (scene) {
       scene.clear()
     }
-
-    // Отключение Intersection Observer
-    if (intersectionObserver && containerRef.value) {
-      intersectionObserver.unobserve(containerRef.value)
-      intersectionObserver.disconnect()
-      intersectionObserver = null
-    }
-
-    objects = []
-    connections = []
-    particles = []
   }
 
   // Инициализация Intersection Observer
   const initIntersectionObserver = () => {
     if (!containerRef.value) return
 
-    const options = {
-      root: null, // viewport
-      rootMargin: '0px',
-      threshold: 0, // Срабатывает при любом пересечении
-    }
-
-    intersectionObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        console.log(
-          'Intersection ratio:',
-          entry.intersectionRatio,
-          'Is intersecting:',
-          entry.isIntersecting,
-        )
-
-        if (entry.isIntersecting) {
-          // Элемент виден - запускаем анимацию
-          console.log('Splash block is visible - starting animation')
-          startAnimation()
-        } else {
-          // Элемент не виден - останавливаем анимацию
-          console.log('Splash block is not visible - stopping animation')
-          stopAnimation()
-        }
-      })
-    }, options)
+    intersectionObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            startAnimation()
+          } else {
+            stopAnimation()
+          }
+        })
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1,
+      },
+    )
 
     intersectionObserver.observe(containerRef.value)
   }
@@ -711,19 +727,22 @@ export function useThreeSplash(containerRef: Ref<HTMLElement | undefined>) {
   const initThreeJS = () => {
     if (!containerRef.value) return
 
+    // Инициализируем цвета
+    initColors()
+
     // Сцена
     scene = new THREE.Scene()
-    scene.fog = new THREE.Fog(0x0a0a14, 15, 60)
+    scene.fog = new THREE.Fog(0x000011, 10, 60)
 
     // Камера
     camera = new THREE.PerspectiveCamera(
-      60,
+      75,
       window.innerWidth / window.innerHeight,
       0.1,
-      200,
+      1000,
     )
-    camera.position.z = 25
-    camera.position.y = 5
+    camera.position.set(0, 5, 15)
+    camera.lookAt(0, -5, 0)
 
     // Рендерер
     renderer = new THREE.WebGLRenderer({
@@ -733,8 +752,7 @@ export function useThreeSplash(containerRef: Ref<HTMLElement | undefined>) {
     })
     renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    renderer.shadowMap.enabled = true
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    renderer.setClearColor(0x000011, 1)
 
     // Вставляем canvas в контейнер
     const canvas = renderer.domElement
@@ -744,34 +762,31 @@ export function useThreeSplash(containerRef: Ref<HTMLElement | undefined>) {
     canvas.style.width = '100%'
     canvas.style.height = '100%'
     canvas.style.zIndex = '0'
+    canvas.style.pointerEvents = 'none'
     containerRef.value.prepend(canvas)
 
-    // Освещение
-    const ambientLight = new THREE.AmbientLight(0x42b883, 0.3)
-    ambientLight.name = 'ambientLight'
+    // Освещение с уменьшенной интенсивностью
+    const ambientLight = new THREE.AmbientLight(0x220099, 0.1)
     scene.add(ambientLight)
 
-    const directionalLight = new THREE.DirectionalLight(0x64d4b4, 0.8)
-    directionalLight.name = 'directionalLight'
-    directionalLight.position.set(10, 20, 15)
-    directionalLight.castShadow = true
+    const directionalLight = new THREE.DirectionalLight(0x440099, 0.2)
+    directionalLight.position.set(3, 10, 5)
     scene.add(directionalLight)
 
-    const pointLight = new THREE.PointLight(0x42b883, 0.5, 50)
-    pointLight.name = 'pointLight'
-    pointLight.position.set(0, 10, 0)
+    const pointLight = new THREE.PointLight(0x660099, 0.4, 80)
+    pointLight.name = 'mainPointLight'
+    pointLight.position.set(0, 4, 0)
     scene.add(pointLight)
 
-    // Инициализация системы
-    for (let i = 0; i < MIN_OBJECTS; i++) {
-      createObject()
-    }
+    // Создаем плазменные элементы
+    plasmaField = createPlasmaField()
+    scene.add(plasmaField)
 
-    createParticles()
+    plasmaParticles = createPlasmaParticles()
+    scene.add(plasmaParticles)
 
-    // Запуск систем поддержания
-    maintainInterval = setInterval(maintainObjects, 2000)
-    connectionsInterval = setInterval(createRandomConnections, 1500)
+    glowParticles = createGlowParticles()
+    scene.add(glowParticles)
 
     // Обработка ресайза
     const handleResize = () => {
@@ -785,41 +800,56 @@ export function useThreeSplash(containerRef: Ref<HTMLElement | undefined>) {
     // Инициализация Intersection Observer
     initIntersectionObserver()
 
-    // Проверка начальной видимости после небольшой задержки
-    // Это гарантирует, что DOM полностью обновлен
+    // Проверка начальной видимости
     setTimeout(() => {
       if (isElementInViewport()) {
-        console.log('Initial check: element is in viewport, starting animation')
         startAnimation()
-      } else {
-        console.log('Initial check: element is NOT in viewport, waiting for intersection')
       }
-    }, 100)
+    }, 150)
 
-    // Возвращаем функции для управления
     return {
       cleanup: () => {
         window.removeEventListener('resize', handleResize)
         cleanup()
       },
       updateBrightness: (value: number) => {
-        globalBrightness = value
-        updateBrightness()
+        updateBrightness(value)
       },
       updateSpeed: (value: number) => {
-        globalSpeed = value
+        PLASMA_CONFIG.fieldSpeed = value * 0.6
+        PLASMA_CONFIG.particleSpeed = value * 0.8
+        PLASMA_CONFIG.glowParticleSpeed = value * 0.5
       },
-      updateRotation: (value: number) => {
-        globalRotation = value
+      updateColors: (colors: number[]) => {
+        PLASMA_CONFIG.baseColors = colors.map(hex => new THREE.Color(hex))
+        initColors()
       },
-      updateConnectionDensity: (value: number) => {
-        connectionDensity = value
+      toggleColorCycle: (enabled: boolean) => {
+        PLASMA_CONFIG.enableColorCycle = enabled
+      },
+      updateCameraPosition: (x: number, y: number, z: number) => {
+        camera.position.set(x, y, z)
+        camera.lookAt(0, -5, 0)
+      },
+      updateCameraFOV: (fov: number) => {
+        camera.fov = fov
+        camera.updateProjectionMatrix()
       },
       startAnimation: () => {
         startAnimation()
       },
       stopAnimation: () => {
         stopAnimation()
+      },
+      getConfig: () => ({
+        ...PLASMA_CONFIG,
+        colorCycleDuration: COLOR_CYCLE_DURATION,
+        minBrightness: MIN_BRIGHTNESS,
+        maxBrightness: MAX_BRIGHTNESS,
+      }),
+      setConfig: (config: Partial<typeof PLASMA_CONFIG>) => {
+        Object.assign(PLASMA_CONFIG, config)
+        updateBrightness(PLASMA_CONFIG.brightness)
       },
     }
   }
@@ -828,7 +858,6 @@ export function useThreeSplash(containerRef: Ref<HTMLElement | undefined>) {
   onMounted(async () => {
     const controls = initThreeJS()
 
-    // Очищаем при размонтировании
     onUnmounted(() => {
       if (controls) {
         controls.cleanup()
@@ -840,17 +869,12 @@ export function useThreeSplash(containerRef: Ref<HTMLElement | undefined>) {
 
   return {
     updateBrightness: (value: number) => {
-      globalBrightness = value
-      updateBrightness()
+      updateBrightness(value)
     },
     updateSpeed: (value: number) => {
-      globalSpeed = value
-    },
-    updateRotation: (value: number) => {
-      globalRotation = value
-    },
-    updateConnectionDensity: (value: number) => {
-      connectionDensity = value
+      PLASMA_CONFIG.fieldSpeed = value * 0.6
+      PLASMA_CONFIG.particleSpeed = value * 0.8
+      PLASMA_CONFIG.glowParticleSpeed = value * 0.5
     },
     startAnimation: () => {
       startAnimation()
