@@ -47,7 +47,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
   // ============ НАСТРОЙКИ ПАРАЛЛАКСА ============
   const PARALLAX_INTENSITY = 0.8 // Общая интенсивность эффекта
-  const PARALLAX_INTENSITY_MOBILE = 4 // Общая интенсивность эффекта
+  const PARALLAX_INTENSITY_MOBILE = 2 // Общая интенсивность эффекта
   const PARALLAX_SMOOTHING = 0.08 // Коэффициент сглаживания
 
   // Коэффициенты для разных осей (мышь)
@@ -1221,7 +1221,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     if (isMobileDevice) {
       // Для мобильных устройств
       camera = new THREE.PerspectiveCamera(
-        120,
+        190,
         window.innerWidth / window.innerHeight,
         0.1,
         1000,
