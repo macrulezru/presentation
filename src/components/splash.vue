@@ -1,4 +1,7 @@
 <script setup lang="ts">
+  import { ref } from 'vue'
+  import { useThreeSplash } from '@/composables/useThreeSplash'
+
   const { t } = useI18n()
 
   const emit = defineEmits<{
@@ -17,10 +20,16 @@
   const scrollToAbout = () => {
     emit('scrollToAbout')
   }
+
+  // Ref для контейнера Three.js
+  const splashRef = ref<HTMLElement>()
+
+  // Инициализируем Three.js анимацию
+  useThreeSplash(splashRef)
 </script>
 
 <template>
-  <div class="splash">
+  <div ref="splashRef" class="splash">
     <div class="splash__animation">
       <svg
         id="face"
@@ -33,6 +42,7 @@
         viewBox="0 0 307.3 307.3"
         xml:space="preserve"
       >
+        <!-- SVG контент остается без изменений -->
         <polygon
           fill="#ff6600"
           points="153.6,2.8 158.5,0 163.1,3.1 168.1,0.6 172.6,4 177.7,1.8 181.9,5.5 187.2,3.6 191.2,7.5 196.5,6 200.3,10.2 205.7,9 209.2,13.4 214.7,12.6 217.9,17.2 223.4,16.7 226.3,21.5 231.9,21.3 234.5,26.3 240.1,26.5 242.3,31.6 247.9,32.2 249.8,37.4 255.3,38.3 256.9,43.7 262.3,44.9 263.6,50.4 269,52 269.9,57.5 275.1,59.4 275.7,65 280.8,67.2 281,72.8 286,75.4 285.8,81 290.6,83.9 290.1,89.4 294.7,92.6 293.9,98.1 298.3,101.6 297.1,107 301.3,110.8 299.8,116.1 303.7,120.1 301.8,125.4 305.5,129.6 303.3,134.7 306.7,139.2 304.2,144.2 307.3,148.8 304.5,153.6 307.3,158.5 304.2,163.1 306.7,168.1 303.3,172.6 305.5,177.7 301.8,181.9 303.7,187.2 299.8,191.2 301.3,196.5 297.1,200.3 298.3,205.7 293.9,209.2 294.7,214.7 290.1,217.9 290.6,223.4 285.8,226.3 286,231.9 281,234.5 280.8,240.1 275.7,242.3 275.1,247.9 269.9,249.8 269,255.3 263.6,256.9 262.3,262.3 256.9,263.6 255.3,269 249.8,269.9 247.9,275.1 242.3,275.7 240.1,280.8 234.5,281 231.9,286 226.3,285.8 223.4,290.6 217.9,290.1 214.7,294.7 209.2,293.9 205.7,298.3 200.3,297.1 196.5,301.3 191.2,299.8 187.2,303.7 181.9,301.8 177.7,305.5 172.6,303.3 168.1,306.7 163.1,304.2 158.5,307.3 153.6,304.5 148.8,307.3 144.2,304.2 139.2,306.7 134.7,303.3 129.6,305.5 125.4,301.8 120.1,303.7 116.1,299.8 110.8,301.3 107,297.1 101.6,298.3 98.1,293.9 92.6,294.7 89.4,290.1 83.9,290.6 81,285.8 75.4,286 72.8,281 67.2,280.8 65,275.7 59.4,275.1 57.5,269.9 52,269 50.4,263.6 44.9,262.3 43.7,256.9 38.3,255.3 37.4,249.8 32.2,247.9 31.6,242.3 26.5,240.1 26.3,234.5 21.3,231.9 21.5,226.3 16.7,223.4 17.2,217.9 12.6,214.7 13.4,209.2 9,205.7 10.2,200.3 6,196.5 7.5,191.2 3.6,187.2 5.5,181.9 1.8,177.7 4,172.6 0.6,168.1 3.1,163.1 0,158.5 2.8,153.6 0,148.8 3.1,144.2 0.6,139.2 4,134.7 1.8,129.6 5.5,125.4 3.6,120.1 7.5,116.1 6,110.8 10.2,107 9,101.6 13.4,98.1 12.6,92.6 17.2,89.4 16.7,83.9 21.5,81 21.3,75.4 26.3,72.8 26.5,67.2 31.6,65 32.2,59.4 37.4,57.5 38.3,52 43.7,50.4 44.9,44.9 50.4,43.7 52,38.3 57.5,37.4 59.4,32.2 65,31.6 67.2,26.5 72.8,26.3 75.4,21.3 81,21.5 83.9,16.7 89.4,17.2 92.6,12.6 98.1,13.4 101.6,9 107,10.2 110.8,6 116.1,7.5 120.1,3.6 125.4,5.5 129.6,1.8 134.7,4 139.2,0.6 144.2,3.1 148.8,0 "
@@ -185,6 +195,7 @@
 
 <style scoped>
   .splash {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -194,82 +205,114 @@
     gap: var(--spacing-3xl);
     padding: var(--spacing-xl) var(--spacing-md);
     text-align: center;
-    background-color: #020f19;
-    background-image: url('@/assets/images/splash-background.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+    background-image: linear-gradient(
+      to bottom,
+      #0d170d,
+      #121105,
+      #110b03,
+      #0b0503,
+      #000000
+    );
+    overflow: hidden;
   }
 
   .splash__animation {
     max-width: 500px;
     max-height: 500px;
+    position: relative;
+    z-index: 10;
   }
 
   .face {
     width: 100%;
     height: 100%;
     animation: float 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(66, 184, 131, 0.3));
   }
 
   .splash__content {
     max-width: var(--container-sm);
     color: var(--color-text-light);
+    position: relative;
+    z-index: 10;
+    background: rgba(10, 15, 25, 0.5);
+    backdrop-filter: blur(10px);
+    padding: var(--spacing-2xl) var(--spacing-xl);
+    border-radius: 20px;
+    border: 1px solid rgba(66, 184, 131, 0.3);
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.5),
+      0 0 80px rgba(66, 184, 131, 0.1) inset;
   }
 
   .splash__title {
-    font-size: var(--font-size-5xl);
+    font-size: var(--font-size-4xl);
     font-weight: var(--font-weight-bold);
     margin-bottom: var(--spacing-md);
+    background: linear-gradient(135deg, #42b883 0%, #64d4b4 50%, #42b883 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(66, 184, 131, 0.2);
   }
 
   .splash__subtitle {
     font-size: var(--font-size-3xl);
     font-weight: var(--font-weight-medium);
     margin-bottom: var(--spacing-lg);
+    color: rgba(255, 255, 255, 0.9);
   }
 
   .splash__description {
     font-size: var(--font-size-lg);
     line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
   }
 
   @keyframes float {
     0%,
     100% {
-      transform: translateY(0);
+      transform: translateY(0) rotate(0deg);
     }
-    50% {
-      transform: translateY(-10px);
+    25% {
+      transform: translateY(-10px) rotate(1deg);
+    }
+    75% {
+      transform: translateY(-5px) rotate(-1deg);
     }
   }
 
   .compact-chevron {
     position: absolute;
-    bottom: 25px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-md);
-    color: #506e8a;
-    opacity: 0.8;
+    color: #42b883;
+    opacity: 0.9;
     cursor: pointer;
     transition: all var(--transition-normal);
-    z-index: var(--z-tooltip);
+    z-index: 20;
   }
 
   .compact-chevron:hover {
     opacity: 1;
-    transform: translateX(-50%) scale(1.05);
+    transform: translateX(-50%) scale(1.1);
+    color: #64d4b4;
   }
 
   .compact-chevron-group {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
     animation: compact-bounce 2s infinite;
+  }
+
+  .compact-chevron-icon {
+    filter: drop-shadow(0 0 8px rgba(66, 184, 131, 0.5));
   }
 
   .compact-chevron-icon:nth-child(1) {
@@ -286,6 +329,8 @@
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
     letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #64d4b4;
   }
 
   @keyframes compact-bounce {
@@ -294,7 +339,7 @@
       transform: translateY(0);
     }
     50% {
-      transform: translateY(-3px);
+      transform: translateY(-5px);
     }
   }
 
@@ -312,8 +357,46 @@
     }
 
     .splash__animation {
-      max-width: 150px;
-      max-height: 150px;
+      max-width: 250px;
+      max-height: 250px;
+    }
+
+    .splash__content {
+      padding: var(--spacing-xl) var(--spacing-lg);
+      margin: 0 var(--spacing-md);
+    }
+
+    .compact-chevron {
+      bottom: 30px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .splash__title {
+      font-size: var(--font-size-3xl);
+    }
+
+    .splash__subtitle {
+      font-size: var(--font-size-xl);
+    }
+
+    .splash__animation {
+      max-width: 180px;
+      max-height: 180px;
+    }
+  }
+
+  @media (max-height: 810px) {
+    .splash {
+      gap: var(--spacing-lg);
+    }
+
+    .splash__subtitle {
+      font-size: var(--font-size-md);
+    }
+
+    .splash__description {
+      font-size: var(--font-size-xs);
     }
   }
 </style>
