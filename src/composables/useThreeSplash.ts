@@ -4,8 +4,7 @@ import { onMounted, onUnmounted, type Ref } from 'vue'
 
 /**
  * Vue Composition API хук для создания интерактивного плазменного фона с использованием Three.js
- * Создает анимированную сцену с плазменными волнами, частицами и эффектом параллакса
- * Автоматически определяет тип устройства: на компьютерах - параллакс от мыши, на мобильных с гироскопом - от гироскопа
+ * Создает анимированную сцену с плазменными волнами, частицами и эффектом параллакса от мыши
  *
  * @param containerRef - Vue ref, ссылающийся на HTML-элемент контейнера, в который будет рендериться сцена
  * @returns Объект с методами управления анимацией и настройками
@@ -13,76 +12,50 @@ import { onMounted, onUnmounted, type Ref } from 'vue'
 export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) {
   // ============ ОСНОВНЫЕ ПЕРЕМЕННЫЕ THREE.JS ============
   let scene: THREE.Scene // Трехмерная сцена, содержащая все объекты
-  let camera: THREE.PerspectiveCamera // Камера с перспективной проекцией
+  let camera: THREE.PerspectiveCamera // Камера с перспективной проекцией для естественного отображения 3D
   let renderer: THREE.WebGLRenderer // Рендерер для отрисовки сцены через WebGL
-  let animationFrameId: number // Идентификатор кадра анимации
+  let animationFrameId: number // Идентификатор кадра анимации для управления requestAnimationFrame
 
   // ============ ПЕРЕМЕННЫЕ ВРЕМЕНИ И СОСТОЯНИЯ ============
-  let time = 0 // Общее время анимации в секундах
-  let isAnimationActive = false // Флаг активности анимации
-  let colorCycleTime = 0 // Время для циклической смены цветов
-
-  // ============ ПЕРЕМЕННЫЕ ДЛЯ ОПРЕДЕЛЕНИЯ УСТРОЙСТВА ============
-  let isMobileDevice = false // Флаг мобильного устройства
-  let hasGyroscope = false // Флаг наличия гироскопа
-  let isGyroActive = false // Флаг активности гироскопа
-  let gyroPermissionRequested = false // Флаг запроса разрешения (iOS)
+  let time = 0 // Общее время анимации в секундах (накапливается с каждым кадром)
+  let isAnimationActive = false // Флаг, указывающий, активна ли в данный момент анимация
+  let colorCycleTime = 0 // Время, используемое для циклической смены цветов
 
   // ============ ПЕРЕМЕННЫЕ ДЛЯ ВЗАИМОДЕЙСТВИЯ С МЫШЬЮ ============
-  let mouseX = 0 // Абсолютная X-координата курсора
-  let mouseY = 0 // Абсолютная Y-координата курсора
-  let normalizedMouseX = 0 // Нормализованная X-координата (-1 до 1)
-  let normalizedMouseY = 0 // Нормализованная Y-координата (-1 до 1)
-  let targetMouseX = 0 // Целевая X-координата для интерполяции
-  let targetMouseY = 0 // Целевая Y-координата для интерполяции
-  let hasMouseMoved = false // Флаг движения мыши (для активации параллакса)
+  let mouseX = 0 // Абсолютная X-координата курсора мыши в пикселях относительно контейнера
+  let mouseY = 0 // Абсолютная Y-координата курсора мыши в пикселях относительно контейнера
+  let normalizedMouseX = 0 // Нормализованная X-координата (-1 до 1) для параллакса
+  let normalizedMouseY = 0 // Нормализованная Y-координата (-1 до 1) для параллакса
+  let targetMouseX = 0 // Целевая X-координата для плавной интерполяции
+  let targetMouseY = 0 // Целевая Y-координата для плавной интерполяции
 
-  // ============ ПЕРЕМЕННЫЕ ДЛЯ ГИРОСКОПА ============
-  let deviceAlpha = 0 // Поворот вокруг Z
-  let deviceBeta = 0 // Наклон вперед/назад
-  let deviceGamma = 0 // Наклон влево/вправо
-  let targetAlpha = 0 // Целевое значение alpha
-  let targetBeta = 0 // Целевое значение beta
-  let targetGamma = 0 // Целевое значение gamma
+  // Настройки параллакса
+  const PARALLAX_INTENSITY = 0.5 // Интенсивность эффекта параллакса (смещение камеры)
+  const PARALLAX_SMOOTHING = 0.08 // Коэффициент сглаживания движения камеры
 
-  // ============ НАСТРОЙКИ ПАРАЛЛАКСА ============
-  const PARALLAX_INTENSITY = 0.5 // Общая интенсивность эффекта
-  const PARALLAX_SMOOTHING = 0.08 // Коэффициент сглаживания
-
-  // Коэффициенты для разных осей (мышь)
-  const MOUSE_X_MULTIPLIER = 8
-  const MOUSE_Y_MULTIPLIER = 4
-  const MOUSE_Z_MULTIPLIER = 2
-
-  // Коэффициенты для гироскопа
-  const GYRO_X_MULTIPLIER = 6
-  const GYRO_Y_MULTIPLIER = 3
-  const GYRO_Z_MULTIPLIER = 2
-  const GYRO_ROTATION_MULTIPLIER = 0.5 // Множитель для вращения камеры
-
-  // ============ ПОЗИЦИИ И ВРАЩЕНИЯ КАМЕРЫ ============
-  let cameraBasePosition = new THREE.Vector3(0, 5, 15) // Базовая позиция камеры
-  let cameraTargetPosition = new THREE.Vector3(0, 5, 15) // Целевая позиция камеры
-  let cameraTargetRotation = new THREE.Euler(0, 0, 0) // Целевое вращение камеры
+  // Начальная позиция камеры (будет использоваться как база для параллакса)
+  let cameraBasePosition = new THREE.Vector3(0, 5, 15)
+  let cameraTargetPosition = new THREE.Vector3(0, 5, 15)
 
   // ============ НАБЛЮДАТЕЛЬ ЗА ВИДИМОСТЬЮ ЭЛЕМЕНТА ============
-  let intersectionObserver: IntersectionObserver | null = null
+  let intersectionObserver: IntersectionObserver | null = null // Для автоматического старта/остановки анимации при скролле
 
   // ============ ГРАФИЧЕСКИЕ ОБЪЕКТЫ СЦЕНЫ ============
-  let plasmaField: THREE.Mesh | null = null // Основное плазменное поле
-  let plasmaParticles: THREE.Points | null = null // Система мелких частиц
-  let glowParticles: THREE.Points | null = null // Светящиеся частицы
+  let plasmaField: THREE.Mesh | null = null // Основное плазменное поле (плоскость с шейдерными эффектами)
+  let plasmaParticles: THREE.Points | null = null // Система мелких частиц, создающих глубину
+  let glowParticles: THREE.Points | null = null // Более крупные светящиеся частицы для акцентов
 
   // ============ КОНСТАНТЫ НАСТРОЕК ============
-  const COLOR_CYCLE_DURATION = 30 // Длительность цикла смены цветов
-  const MIN_BRIGHTNESS = 0.05 // Минимальная яркость
-  const MAX_BRIGHTNESS = 0.3 // Максимальная яркость
+  const COLOR_CYCLE_DURATION = 30 // Длительность полного цикла смены цветов в секундах
+  const MIN_BRIGHTNESS = 0.05 // Минимальное значение яркости (ограничение для пользовательских настроек)
+  const MAX_BRIGHTNESS = 0.3 // Максимальное значение яркости (ограничение для пользовательских настроек)
 
   /**
    * КОНФИГУРАЦИЯ ПЛАЗМЕННОГО ФОНА
+   * Все настраиваемые параметры визуальных эффектов собраны в одном объекте
    */
   const PLASMA_CONFIG = {
-    // Базовые цвета для циклического градиента
+    // Базовые цвета для циклического градиента (12 цветов радужного спектра)
     baseColors: [
       new THREE.Color(0x000a99), // Темно-синий
       new THREE.Color(0x0044aa), // Синий
@@ -98,389 +71,148 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       new THREE.Color(0x000a99), // Темно-синий (замыкает цикл)
     ],
 
-    // Текущие активные цвета
+    // Текущие активные цвета (4 цвета для плавного градиента в шейдерах)
     currentColors: [] as THREE.Color[],
 
-    // Настройки плазменного поля
-    fieldSize: 120,
-    fieldDetail: 200,
-    fieldSpeed: 0.6,
-    fieldAmplitude: 5.0,
+    // ============ НАСТРОЙКИ ПЛАЗМЕННОГО ПОЛЯ ============
+    fieldSize: 120, // Размер квадратного поля в единицах Three.js
+    fieldDetail: 200, // Количество сегментов по каждой оси (детализация геометрии)
+    fieldSpeed: 0.6, // Множитель скорости анимации волн
+    fieldAmplitude: 5.0, // Амплитуда (высота) волн на поле
 
-    // Настройки частиц плазмы
-    particleCount: 12000,
-    particleSize: 0.1,
-    particleSpeed: 0.8,
-    particleBrightness: 1.3,
+    // ============ НАСТРОЙКИ ЧАСТИЦ ПЛАЗМЫ ============
+    particleCount: 12000, // Общее количество мелких частиц
+    particleSize: 0.1, // Базовый размер частиц
+    particleSpeed: 0.8, // Скорость движения частиц
+    particleBrightness: 1.3, // Множитель яркости частиц
 
-    // Настройки светящихся частиц
-    glowParticleCount: 1000,
-    glowParticleSize: 0.2,
-    glowParticleSpeed: 0.5,
-    glowParticleBrightness: 1.3,
+    // ============ НАСТРОЙКИ СВЕТЯЩИХСЯ ЧАСТИЦ ============
+    glowParticleCount: 1000, // Количество крупных светящихся частиц
+    glowParticleSize: 0.2, // Базовый размер светящихся частиц
+    glowParticleSpeed: 0.5, // Скорость движения светящихся частиц
+    glowParticleBrightness: 1.3, // Множитель яркости светящихся частиц
 
-    // Общие настройки
-    brightness: 0.225,
-    pulseIntensity: 0.1,
+    // ============ ОБЩИЕ НАСТРОЙКИ ============
+    brightness: 0.225, // Общая яркость сцены (влияет на плазменное поле)
+    pulseIntensity: 0.1, // Интенсивность пульсации (ритмичное изменение масштаба)
 
-    // Настройки атмосферных эффектов
-    fogDensity: 0.02,
+    // ============ НАСТРОЙКИ АТМОСФЕРНЫХ ЭФФЕКТОВ ============
+    fogDensity: 0.02, // Плотность тумана (создает эффект глубины)
 
-    // Флаги включения/выключения эффектов
-    enableWaves: true,
-    enablePulse: true,
-    enableFlow: true,
-    enableSwirl: true,
-    enableColorCycle: true,
-    enableCameraAutoMovement: true, // Автоматическое движение камеры
-
-    // ============ АВТОМАТИЧЕСКИ ОПРЕДЕЛЯЕМЫЕ НАСТРОЙКИ ============
-    useMouseParallax: false, // Будет true на десктопах
-    useGyroParallax: false, // Будет true на мобильных с гироскопом
-  }
-
-  /**
-   * ОПРЕДЕЛЕНИЕ ТИПА УСТРОЙСТВА И НАЛИЧИЯ ГИРОСКОПА
-   * Эта функция должна быть вызвана ПЕРВОЙ при инициализации
-   */
-  const detectDeviceType = () => {
-    // 1. Определяем, мобильное ли устройство
-    const userAgent = navigator.userAgent.toLowerCase()
-    const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/
-    isMobileDevice = mobileRegex.test(userAgent)
-
-    // 2. Определяем тач-устройство
-    const isTouchDevice =
-      'ontouchstart' in window ||
-      (navigator.maxTouchPoints && navigator.maxTouchPoints > 0)
-
-    console.log(`Тип устройства: ${isMobileDevice ? 'Мобильное' : 'Десктоп'}`)
-    console.log(`Тач-устройство: ${isTouchDevice ? 'Да' : 'Нет'}`)
-
-    // 3. Проверяем наличие гироскопа (только на мобильных)
-    if (isMobileDevice && isTouchDevice) {
-      // Проверяем поддержку DeviceOrientationEvent
-      if (typeof DeviceOrientationEvent !== 'undefined') {
-        // Дополнительная проверка для iOS 13+
-        if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
-          // iOS 13+ - гироскоп доступен, но требуется разрешение
-          hasGyroscope = true
-          PLASMA_CONFIG.useGyroParallax = true
-          PLASMA_CONFIG.useMouseParallax = false
-          console.log('iOS 13+: гироскоп доступен (требуется разрешение)')
-        } else if ('DeviceOrientationEvent' in window) {
-          // Android и другие устройства - гироскоп доступен
-          hasGyroscope = true
-          PLASMA_CONFIG.useGyroParallax = true
-          PLASMA_CONFIG.useMouseParallax = false
-          console.log('Android/другие: гироскоп доступен')
-        } else {
-          // Мобильное устройство без гироскопа
-          hasGyroscope = false
-          PLASMA_CONFIG.useGyroParallax = false
-          PLASMA_CONFIG.useMouseParallax = true
-          console.log(
-            'Мобильное устройство: гироскоп не поддерживается, используем тач-параллакс',
-          )
-        }
-      } else {
-        // DeviceOrientationEvent не поддерживается
-        hasGyroscope = false
-        PLASMA_CONFIG.useGyroParallax = false
-        PLASMA_CONFIG.useMouseParallax = true
-        console.log('Мобильное устройство: гироскоп не поддерживается')
-      }
-    } else {
-      // Десктопное устройство - используем мышь
-      hasGyroscope = false
-      PLASMA_CONFIG.useGyroParallax = false
-      PLASMA_CONFIG.useMouseParallax = true
-      console.log('Десктоп: используем параллакс от мыши')
-    }
-
-    return {
-      isMobile: isMobileDevice,
-      hasGyroscope,
-      useGyro: PLASMA_CONFIG.useGyroParallax,
-      useMouse: PLASMA_CONFIG.useMouseParallax,
-    }
-  }
-
-  /**
-   * ЗАПРОС РАЗРЕШЕНИЯ НА ИСПОЛЬЗОВАНИЕ ГИРОСКОПА (только для iOS 13+)
-   */
-  const requestGyroPermission = async (): Promise<boolean> => {
-    if (!hasGyroscope || !isMobileDevice || gyroPermissionRequested) return false
-
-    try {
-      gyroPermissionRequested = true
-
-      // @ts-ignore - iOS-specific API
-      const permission = await (DeviceOrientationEvent as any).requestPermission()
-
-      if (permission === 'granted') {
-        console.log('Разрешение на использование гироскопа получено')
-        startGyroTracking()
-        return true
-      } else {
-        console.log('Разрешение на использование гироскопа отклонено')
-        // Если отказались, переключаемся на тач-параллакс
-        PLASMA_CONFIG.useGyroParallax = false
-        PLASMA_CONFIG.useMouseParallax = true
-        return false
-      }
-    } catch (error) {
-      console.error('Ошибка при запросе разрешения на гироскоп:', error)
-      PLASMA_CONFIG.useGyroParallax = false
-      PLASMA_CONFIG.useMouseParallax = true
-      return false
-    }
-  }
-
-  /**
-   * НАЧАЛО ОТСЛЕЖИВАНИЯ ГИРОСКОПА
-   */
-  const startGyroTracking = () => {
-    if (!hasGyroscope || !PLASMA_CONFIG.useGyroParallax) return
-
-    window.addEventListener('deviceorientation', handleDeviceOrientation)
-    isGyroActive = true
-    console.log('Отслеживание гироскопа активировано')
-  }
-
-  /**
-   * ОБРАБОТКА СОБЫТИЙ ГИРОСКОПА
-   */
-  const handleDeviceOrientation = (event: DeviceOrientationEvent) => {
-    if (!PLASMA_CONFIG.useGyroParallax || !isGyroActive) return
-
-    // Значения могут быть null на некоторых устройствах
-    if (event.alpha !== null) targetAlpha = event.alpha
-    if (event.beta !== null) targetBeta = event.beta
-    if (event.gamma !== null) targetGamma = event.gamma
-  }
-
-  /**
-   * ОСТАНОВКА ОТСЛЕЖИВАНИЯ ГИРОСКОПА
-   */
-  const stopGyroTracking = () => {
-    window.removeEventListener('deviceorientation', handleDeviceOrientation)
-    isGyroActive = false
-
-    // Сбрасываем значения гироскопа
-    deviceAlpha = 0
-    deviceBeta = 0
-    deviceGamma = 0
-    targetAlpha = 0
-    targetBeta = 0
-    targetGamma = 0
-
-    console.log('Отслеживание гироскопа остановлено')
-  }
-
-  /**
-   * ПЛАВНОЕ ОБНОВЛЕНИЕ ДАННЫХ ГИРОСКОПА
-   */
-  const smoothGyroUpdate = () => {
-    if (!PLASMA_CONFIG.useGyroParallax || !isGyroActive) return
-
-    // Плавная интерполяция значений гироскопа
-    deviceAlpha += (targetAlpha - deviceAlpha) * PARALLAX_SMOOTHING
-    deviceBeta += (targetBeta - deviceBeta) * PARALLAX_SMOOTHING
-    deviceGamma += (targetGamma - deviceGamma) * PARALLAX_SMOOTHING
-  }
-
-  /**
-   * ПРИМЕНЕНИЕ ЭФФЕКТА ОТ ГИРОСКОПА К КАМЕРЕ
-   */
-  const applyGyroEffect = () => {
-    if (!PLASMA_CONFIG.useGyroParallax || !isGyroActive) return
-
-    // Проверяем, есть ли реальные данные от гироскопа
-    const hasGyroData = Math.abs(targetBeta) > 1 || Math.abs(targetGamma) > 1
-
-    if (!hasGyroData) return
-
-    // Нормализация углов гироскопа
-    const normalizedBeta = THREE.MathUtils.clamp(
-      (deviceBeta - 90) / 180, // Приводим к диапазону -1..1
-      -1,
-      1,
-    )
-    const normalizedGamma = THREE.MathUtils.clamp(
-      deviceGamma / 90, // Приводим к диапазону -1..1
-      -1,
-      1,
-    )
-    const normalizedAlpha = deviceAlpha / 360 // 0..1
-
-    // Вычисляем смещение позиции камеры
-    const positionX = normalizedGamma * PARALLAX_INTENSITY * GYRO_X_MULTIPLIER
-    const positionY = -normalizedBeta * PARALLAX_INTENSITY * GYRO_Y_MULTIPLIER
-    const positionZ = normalizedBeta * PARALLAX_INTENSITY * GYRO_Z_MULTIPLIER
-
-    // Вычисляем вращение камеры (только для гироскопа)
-    const rotationX = normalizedBeta * PARALLAX_INTENSITY * GYRO_ROTATION_MULTIPLIER
-    const rotationY = normalizedGamma * PARALLAX_INTENSITY * GYRO_ROTATION_MULTIPLIER
-    const rotationZ =
-      normalizedAlpha * PARALLAX_INTENSITY * GYRO_ROTATION_MULTIPLIER * 0.3
-
-    cameraTargetPosition.set(
-      cameraBasePosition.x + positionX,
-      cameraBasePosition.y + positionY,
-      cameraBasePosition.z + positionZ,
-    )
-
-    cameraTargetRotation.set(
-      THREE.MathUtils.degToRad(rotationX),
-      THREE.MathUtils.degToRad(rotationY),
-      THREE.MathUtils.degToRad(rotationZ),
-    )
+    // ============ ФЛАГИ ВКЛЮЧЕНИЯ/ВЫКЛЮЧЕНИЯ ЭФФЕКТОВ ============
+    enableWaves: true, // Включение волновой анимации на плазменном поле
+    enablePulse: true, // Включение пульсации (ритмичное изменение масштаба)
+    enableFlow: true, // Включение плавного течения цветов
+    enableSwirl: true, // Включение вихревых эффектов
+    enableColorCycle: true, // Включение автоматической циклической смены цветов
+    enableMouseParallax: true, // Включение эффекта параллакса при движении мыши
+    enableCameraAutoMovement: true, // Включение автоматического движения камеры
   }
 
   /**
    * ИНИЦИАЛИЗАЦИЯ ТЕКУЩИХ ЦВЕТОВ
+   * Выбирает 4 равномерно распределенных цвета из базовой палитры для создания градиента
    */
   const initColors = () => {
     PLASMA_CONFIG.currentColors = [
-      PLASMA_CONFIG.baseColors[0].clone(),
-      PLASMA_CONFIG.baseColors[3].clone(),
-      PLASMA_CONFIG.baseColors[6].clone(),
-      PLASMA_CONFIG.baseColors[9].clone(),
+      PLASMA_CONFIG.baseColors[0].clone(), // Первый цвет (темно-синий)
+      PLASMA_CONFIG.baseColors[3].clone(), // Четвертый цвет (бирюзовый)
+      PLASMA_CONFIG.baseColors[6].clone(), // Седьмой цвет (оранжевый)
+      PLASMA_CONFIG.baseColors[9].clone(), // Десятый цвет (фиолетовый)
     ]
   }
 
   /**
    * ОБНОВЛЕНИЕ ПОЗИЦИИ МЫШИ
+   * Обрабатывает события движения мыши, преобразует абсолютные координаты в нормализованные
+   *
+   * @param event - Событие MouseEvent, содержащее координаты курсора
    */
   const updateMousePosition = (event: MouseEvent) => {
-    if (!containerRef.value || !PLASMA_CONFIG.useMouseParallax) return
+    // Проверяем, что контейнер существует и параллакс включен
+    if (!containerRef.value || !PLASMA_CONFIG.enableMouseParallax) return
 
+    // Получаем размеры и позицию контейнера относительно viewport
     const rect = containerRef.value.getBoundingClientRect()
+
+    // Вычисляем абсолютные координаты относительно контейнера
     mouseX = event.clientX - rect.left
     mouseY = event.clientY - rect.top
 
+    // Преобразуем абсолютные координаты в нормализованные (-1 до 1)
     targetMouseX = (mouseX / rect.width) * 2 - 1
     targetMouseY = -(mouseY / rect.height) * 2 + 1
-
-    // Отмечаем, что мышь двигалась (для активации параллакса)
-    if (!hasMouseMoved) {
-      hasMouseMoved = true
-    }
   }
 
   /**
-   * ОБРАБОТКА ТАЧ-СОБЫТИЙ (для мобильных без гироскопа)
-   */
-  const handleTouchMove = (event: TouchEvent) => {
-    if (!containerRef.value || !PLASMA_CONFIG.useMouseParallax) return
-
-    event.preventDefault()
-
-    if (event.touches.length > 0) {
-      const touch = event.touches[0]
-      const mouseEvent = new MouseEvent('mousemove', {
-        clientX: touch.clientX,
-        clientY: touch.clientY,
-      })
-      updateMousePosition(mouseEvent)
-    }
-  }
-
-  /**
-   * ПЛАВНОЕ ОБНОВЛЕНИЕ ПОЗИЦИИ МЫШИ
+   * ПЛАВНОЕ ОБНОВЛЕНИЕ ПОЗИЦИИ МЫШИ И КАМЕРЫ
+   * Интерполирует текущую позицию мыши к целевой и обновляет позицию камеры для параллакса
    */
   const smoothMouseUpdate = () => {
-    if (!PLASMA_CONFIG.useMouseParallax) return
-
+    // Линейная интерполяция мышиных координат
     normalizedMouseX += (targetMouseX - normalizedMouseX) * PARALLAX_SMOOTHING
     normalizedMouseY += (targetMouseY - normalizedMouseY) * PARALLAX_SMOOTHING
-  }
 
-  /**
-   * ПРИМЕНЕНИЕ ЭФФЕКТА ОТ МЫШИ К КАМЕРЕ
-   */
-  const applyMouseEffect = () => {
-    if (!PLASMA_CONFIG.useMouseParallax) return
+    // Если параллакс включен, обновляем целевую позицию камеры
+    if (PLASMA_CONFIG.enableMouseParallax) {
+      // Вычисляем смещение камеры на основе позиции мыши
+      const parallaxX = normalizedMouseX * PARALLAX_INTENSITY * 8
+      const parallaxY = normalizedMouseY * PARALLAX_INTENSITY * 4
+      const parallaxZ = normalizedMouseY * PARALLAX_INTENSITY * 2
 
-    // Если мышь еще не двигалась, не применяем эффект (чтобы камера не смещалась при старте)
-    if (!hasMouseMoved) {
-      cameraTargetPosition.copy(cameraBasePosition)
-      cameraTargetRotation.set(0, 0, 0)
-      return
-    }
+      // Устанавливаем целевую позицию камеры с учетом параллакса
+      cameraTargetPosition.set(
+        cameraBasePosition.x + parallaxX,
+        cameraBasePosition.y + parallaxY,
+        cameraBasePosition.z + parallaxZ,
+      )
 
-    const parallaxX = normalizedMouseX * PARALLAX_INTENSITY * MOUSE_X_MULTIPLIER
-    const parallaxY = normalizedMouseY * PARALLAX_INTENSITY * MOUSE_Y_MULTIPLIER
-    const parallaxZ = normalizedMouseY * PARALLAX_INTENSITY * MOUSE_Z_MULTIPLIER
-
-    cameraTargetPosition.set(
-      cameraBasePosition.x + parallaxX,
-      cameraBasePosition.y + parallaxY,
-      cameraBasePosition.z + parallaxZ,
-    )
-
-    // Для мыши вращение камеры не применяется (только для гироскопа)
-    cameraTargetRotation.set(0, 0, 0)
-  }
-
-  /**
-   * ПРИМЕНЕНИЕ АВТОМАТИЧЕСКОГО ДВИЖЕНИЯ КАМЕРЫ
-   */
-  const applyAutoCameraMovement = () => {
-    if (!PLASMA_CONFIG.enableCameraAutoMovement) return
-
-    // Автоматическое движение камеры по орбите
-    cameraBasePosition.x = Math.sin(time * 0.008) * 1.5
-    cameraBasePosition.y = 5 + Math.cos(time * 0.006) * 0.5
-    cameraBasePosition.z = 15 + Math.sin(time * 0.005) * 1
-
-    cameraTargetPosition.copy(cameraBasePosition)
-    cameraTargetRotation.set(0, 0, 0)
-  }
-
-  /**
-   * ПЛАВНОЕ ОБНОВЛЕНИЕ КАМЕРЫ
-   */
-  const smoothCameraUpdate = () => {
-    // Плавное перемещение позиции камеры
-    camera.position.lerp(cameraTargetPosition, 0.1)
-
-    // Плавное вращение камеры (только если используем гироскоп)
-    if (PLASMA_CONFIG.useGyroParallax) {
-      const currentRotation = new THREE.Euler().setFromQuaternion(camera.quaternion)
-
-      currentRotation.x += (cameraTargetRotation.x - currentRotation.x) * 0.05
-      currentRotation.y += (cameraTargetRotation.y - currentRotation.y) * 0.05
-      currentRotation.z += (cameraTargetRotation.z - currentRotation.z) * 0.05
-
-      camera.quaternion.setFromEuler(currentRotation)
+      // Плавно интерполируем текущую позицию камеры к целевой
+      camera.position.lerp(cameraTargetPosition, PARALLAX_SMOOTHING)
     }
   }
 
   /**
    * ОБНОВЛЕНИЕ ЦИКЛА СМЕНЫ ЦВЕТОВ
+   * Анимирует плавный переход между цветами по круговой палитре
+   *
+   * @param deltaTime - Время в секундах, прошедшее с последнего кадра
    */
   const updateColorCycle = (deltaTime: number) => {
+    // Проверяем, включен ли цикл смены цветов
     if (!PLASMA_CONFIG.enableColorCycle) return
 
+    // Увеличиваем общее время цикла
     colorCycleTime += deltaTime
-    const cycleProgress = (colorCycleTime % COLOR_CYCLE_DURATION) / COLOR_CYCLE_DURATION
-    const totalColors = PLASMA_CONFIG.baseColors.length
-    const progressPerColor = 1.0 / 4
 
+    // Вычисляем прогресс цикла от 0 до 1
+    const cycleProgress = (colorCycleTime % COLOR_CYCLE_DURATION) / COLOR_CYCLE_DURATION
+
+    const totalColors = PLASMA_CONFIG.baseColors.length
+    const progressPerColor = 1.0 / 4 // Делим цикл на 4 части (по одному цвету)
+
+    // Обновляем каждый из 4 текущих цветов с смещением по фазе
     for (let i = 0; i < 4; i++) {
+      // Вычисляем прогресс для текущего цвета со смещением
       const targetProgress = (cycleProgress + i * progressPerColor) % 1.0
+
+      // Определяем индексы текущего и следующего цвета в палитре
       const colorIndex = Math.floor(targetProgress * (totalColors - 1))
       const nextIndex = (colorIndex + 1) % (totalColors - 1)
+
+      // Коэффициент интерполяции между двумя цветами
       const lerpFactor = (targetProgress * (totalColors - 1)) % 1.0
 
+      // Создаем новый цвет путем линейной интерполяции
       PLASMA_CONFIG.currentColors[i] = PLASMA_CONFIG.baseColors[colorIndex]
         .clone()
         .lerp(PLASMA_CONFIG.baseColors[nextIndex], lerpFactor)
-        .multiplyScalar(0.7)
+
+      // Немного затемняем цвет для лучшего визуального восприятия
+      PLASMA_CONFIG.currentColors[i].multiplyScalar(0.7)
     }
 
+    // Обновляем uniform-переменные в шейдере плазменного поля
     if (plasmaField?.material instanceof THREE.ShaderMaterial) {
       plasmaField.material.uniforms.uColor1.value = PLASMA_CONFIG.currentColors[0]
       plasmaField.material.uniforms.uColor2.value = PLASMA_CONFIG.currentColors[1]
@@ -491,8 +223,12 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
   /**
    * СОЗДАНИЕ ПЛАЗМЕННОГО ПОЛЯ
+   * Создает геометрию плоскости и применяет к ней сложный шейдерный материал
+   *
+   * @returns THREE.Mesh - Объект меша с плазменным полем
    */
   const createPlasmaField = () => {
+    // Создаем плоскость с заданными размерами и детализацией
     const geometry = new THREE.PlaneGeometry(
       PLASMA_CONFIG.fieldSize,
       PLASMA_CONFIG.fieldSize,
@@ -500,15 +236,17 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       PLASMA_CONFIG.fieldDetail,
     )
 
+    // ВЕРТЕКСНЫЙ ШЕЙДЕР (выполняется для каждой вершины)
+    // Отвечает за преобразование позиций вершин, создание волн и эффектов
     const vertexShader = `
-      varying vec2 vUv;
-      varying vec3 vPosition;
-      varying float vWave;
-      uniform float uTime;
-      uniform float uAmplitude;
-      uniform float uSpeed;
-      uniform bool uEnableWaves;
-      uniform bool uEnableSwirl;
+      varying vec2 vUv;                 // Передает UV-координаты во фрагментный шейдер
+      varying vec3 vPosition;           // Передает позицию вершины во фрагментный шейдер
+      varying float vWave;              // Значение волны для окрашивания
+      uniform float uTime;              // Текущее время для анимации
+      uniform float uAmplitude;         // Амплитуда волн
+      uniform float uSpeed;             // Скорость анимации
+      uniform bool uEnableWaves;        // Флаг включения волн
+      uniform bool uEnableSwirl;        // Флаг включения вихревого эффекта
 
       void main() {
         vUv = uv;
@@ -516,6 +254,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
         vec3 newPosition = position;
 
+        // Волновая анимация (несколько слоев с разными параметрами)
         if (uEnableWaves) {
           float wave1 = sin(position.x * 0.2 + uTime * uSpeed) *
                        cos(position.y * 0.15 + uTime * uSpeed * 0.8) * uAmplitude;
@@ -526,26 +265,35 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           float wave3 = sin(position.x * 0.6 + position.y * 0.6 + uTime * uSpeed * 0.7) *
                        uAmplitude * 0.5;
 
+          // Радиальные волны от центра
           float radius = length(position.xy);
           float wave4 = sin(radius * 0.12 + uTime * uSpeed * 0.4) * uAmplitude * 0.4;
 
+          // Нормализованное значение волны для окрашивания
           vWave = (wave1 + wave2 + wave3 + wave4) / (uAmplitude * 3.0);
+
+          // Применяем волны к Z-координате (высоте)
           newPosition.z = wave1 + wave2 + wave3 + wave4;
         }
 
+        // Вихревой эффект (вращение вокруг центра)
         if (uEnableSwirl) {
           float distanceFromCenter = length(position.xy);
           float swirl = sin(distanceFromCenter * 0.12 - uTime * uSpeed * 0.25) * 0.4;
           float angle = atan(position.y, position.x) + swirl;
 
+          // Преобразование в полярные координаты с вращением
           newPosition.x = cos(angle) * distanceFromCenter;
           newPosition.y = sin(angle) * distanceFromCenter;
         }
 
+        // Стандартное преобразование для рендеринга
         gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
       }
     `
 
+    // ФРАГМЕНТНЫЙ ШЕЙДЕР (выполняется для каждого пикселя)
+    // Отвечает за цвет, текстуру и прозрачность
     const fragmentShader = `
       varying vec2 vUv;
       varying vec3 vPosition;
@@ -558,11 +306,13 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       uniform vec3 uColor3;
       uniform vec3 uColor4;
 
+      // Функция псевдослучайного хеширования для шума
       float hash(vec2 p) {
         p = mod(p, 1000.0);
         return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
       }
 
+      // Функция сглаженного шума
       float smoothNoise(vec2 p) {
         vec2 i = floor(p);
         vec2 f = fract(p);
@@ -573,9 +323,11 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         float d = hash(i + vec2(1.0, 1.0));
 
         vec2 u = f * f * (3.0 - 2.0 * f);
+
         return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
       }
 
+      // Фрактальный шум (сумма нескольких октав)
       float fractalNoise(vec2 p) {
         float value = 0.0;
         float amplitude = 0.5;
@@ -586,35 +338,47 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           amplitude *= 0.6;
           frequency *= 1.8;
         }
+
         return value;
       }
 
+      // Основная функция плазменного эффекта
       float plasma(vec2 uv, float time) {
         float value = 0.0;
+
+        // Добавляем несколько синусоидальных волн
         value += sin(uv.x * 3.0 + time * 0.8) * 0.5 + 0.5;
         value += sin(uv.y * 2.5 + time * 1.2) * 0.5 + 0.5;
         value += sin((uv.x + uv.y) * 1.5 + time * 0.5) * 0.5 + 0.5;
+
+        // Добавляем фрактальный шум для органичности
         value += fractalNoise(uv * 1.2 + time * 0.2) * 0.3;
 
+        // Радиальные волны
         float radius = length(uv);
         value += sin(radius * 2.5 - time * 1.0) * 0.2 + 0.2;
 
+        // Нормализация и ограничение значения
         return clamp(value / 2.0, 0.0, 1.0);
       }
 
       void main() {
+        // Анимированные UV-координаты
         vec2 animatedUV = vUv * 1.2 - 0.6;
         animatedUV.x += sin(uTime * 0.08) * 0.08;
         animatedUV.y += cos(uTime * 0.06) * 0.08;
 
+        // Вычисляем значение плазмы
         float p = plasma(animatedUV, uTime * 0.3);
 
+        // Эффект пульсации
         float pulse = 1.0;
         if (uEnablePulse) {
           pulse = 0.95 + sin(uTime * 1.0) * 0.05;
           p *= pulse;
         }
 
+        // Интерполяция между 4 цветами на основе значения плазмы
         vec3 color;
         if (p < 0.25) {
           color = mix(uColor1, uColor2, p * 4.0);
@@ -626,11 +390,17 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           color = mix(uColor4, uColor1, (p - 0.75) * 4.0);
         }
 
+        // Эффект свечения по краям
         float edge = 1.0 - smoothstep(0.0, 0.6, length(animatedUV));
         color += vec3(0.4, 0.3, 0.6) * edge * 0.15;
+
+        // Добавление цвета на основе высоты волны
         color += vec3(0.2, 0.15, 0.3) * vWave * 0.15;
+
+        // Применение общей яркости с ограничениями
         color *= clamp(uBrightness, ${MIN_BRIGHTNESS.toFixed(3)}, ${MAX_BRIGHTNESS.toFixed(3)});
 
+        // Вычисление прозрачности (альфа-канал)
         float alpha = smoothstep(0.0, 0.6, p) * 0.5;
         alpha += edge * 0.08;
 
@@ -638,53 +408,64 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       }
     `
 
+    // Инициализируем цвета перед созданием материала
     initColors()
 
+    // Создаем шейдерный материал с custom шейдерами
     const material = new THREE.ShaderMaterial({
       uniforms: {
-        uTime: { value: 0 },
-        uAmplitude: { value: PLASMA_CONFIG.fieldAmplitude },
-        uSpeed: { value: PLASMA_CONFIG.fieldSpeed },
-        uBrightness: { value: PLASMA_CONFIG.brightness },
-        uEnableWaves: { value: PLASMA_CONFIG.enableWaves },
-        uEnablePulse: { value: PLASMA_CONFIG.enablePulse },
-        uEnableSwirl: { value: PLASMA_CONFIG.enableSwirl },
-        uColor1: { value: PLASMA_CONFIG.currentColors[0] },
-        uColor2: { value: PLASMA_CONFIG.currentColors[1] },
-        uColor3: { value: PLASMA_CONFIG.currentColors[2] },
-        uColor4: { value: PLASMA_CONFIG.currentColors[3] },
+        uTime: { value: 0 }, // Текущее время
+        uAmplitude: { value: PLASMA_CONFIG.fieldAmplitude }, // Амплитуда волн
+        uSpeed: { value: PLASMA_CONFIG.fieldSpeed }, // Скорость анимации
+        uBrightness: { value: PLASMA_CONFIG.brightness }, // Яркость
+        uEnableWaves: { value: PLASMA_CONFIG.enableWaves }, // Флаг волн
+        uEnablePulse: { value: PLASMA_CONFIG.enablePulse }, // Флаг пульсации
+        uEnableSwirl: { value: PLASMA_CONFIG.enableSwirl }, // Флаг вихрей
+        uColor1: { value: PLASMA_CONFIG.currentColors[0] }, // Цвет градиента 1
+        uColor2: { value: PLASMA_CONFIG.currentColors[1] }, // Цвет градиента 2
+        uColor3: { value: PLASMA_CONFIG.currentColors[2] }, // Цвет градиента 3
+        uColor4: { value: PLASMA_CONFIG.currentColors[3] }, // Цвет градиента 4
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
-      transparent: true,
-      side: THREE.DoubleSide,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
+      transparent: true, // Включаем прозрачность
+      side: THREE.DoubleSide, // Отображаем обе стороны плоскости
+      blending: THREE.AdditiveBlending, // Аддитивное смешение цветов
+      depthWrite: false, // Отключаем запись глубины для прозрачных объектов
     })
 
+    // Создаем меш из геометрии и материала
     const mesh = new THREE.Mesh(geometry, material)
-    mesh.position.y = -8
+    mesh.position.y = -8 // Смещаем вниз для лучшей композиции
     return mesh
   }
 
   /**
    * СОЗДАНИЕ СИСТЕМЫ ЧАСТИЦ ПЛАЗМЫ
+   * Создает множество мелких частиц, которые окружают плазменное поле
+   *
+   * @returns THREE.Points - Система частиц
    */
   const createPlasmaParticles = () => {
     const particleCount = PLASMA_CONFIG.particleCount
-    const positions = new Float32Array(particleCount * 3)
-    const colors = new Float32Array(particleCount * 3)
-    const sizes = new Float32Array(particleCount)
-    const phases = new Float32Array(particleCount)
-    const colorPhases = new Float32Array(particleCount)
+
+    // Буферы для атрибутов частиц
+    const positions = new Float32Array(particleCount * 3) // XYZ позиции
+    const colors = new Float32Array(particleCount * 3) // RGB цвета
+    const sizes = new Float32Array(particleCount) // Размеры
+    const phases = new Float32Array(particleCount) // Фазы для анимации
+    const colorPhases = new Float32Array(particleCount) // Фазы для цветового цикла
 
     for (let i = 0; i < particleCount; i++) {
+      // Распределение частиц: 65% в передней зоне (ближе к камере), 35% в дальней
       const isFrontZone = Math.random() < 0.65
+
       let radius, theta, phi
 
       if (isFrontZone) {
+        // Передняя зона: частицы ближе к камере, с bias по оси Z
         radius = 12 + Math.random() * 28
-        phi = Math.acos(1 - Math.random() * 1.6)
+        phi = Math.acos(1 - Math.random() * 1.6) // Предпочтительно передняя полусфера
         theta = Math.random() * Math.PI * 2
         const zBias = 0.6 + Math.random() * 0.4
 
@@ -692,6 +473,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta) * 0.9
         positions[i * 3 + 2] = radius * Math.cos(phi) * (1.3 + Math.random() * 0.4)
       } else {
+        // Задняя зона: равномерное распределение по всей сфере
         radius = 22 + Math.random() * 40
         theta = Math.random() * Math.PI * 2
         phi = Math.acos(Math.random() * 2 - 1)
@@ -701,6 +483,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         positions[i * 3 + 2] = radius * Math.cos(phi)
       }
 
+      // Назначение цвета на основе позиции в градиенте
       const colorProgress = Math.random()
       const color = new THREE.Color()
 
@@ -722,21 +505,25 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           .lerp(PLASMA_CONFIG.currentColors[0], (colorProgress - 0.75) * 4)
       }
 
-      color.multiplyScalar(0.78)
+      color.multiplyScalar(0.78) // Слегка затемняем
+
       colors[i * 3] = color.r
       colors[i * 3 + 1] = color.g
       colors[i * 3 + 2] = color.b
 
+      // Размер частицы зависит от расстояния до центра (уменьшается с расстоянием)
       const distanceFromCenter = Math.sqrt(
         positions[i * 3] ** 2 + positions[i * 3 + 1] ** 2 + positions[i * 3 + 2] ** 2,
       )
       const sizeMultiplier = Math.max(0.6, 1.1 - distanceFromCenter / 80)
       sizes[i] = PLASMA_CONFIG.particleSize * (0.7 + Math.random() * 1.0) * sizeMultiplier
 
+      // Случайные фазы для разнообразия анимации
       phases[i] = Math.random() * Math.PI * 2
       colorPhases[i] = Math.random()
     }
 
+    // Создаем геометрию и добавляем атрибуты
     const geometry = new THREE.BufferGeometry()
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
@@ -744,6 +531,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     geometry.setAttribute('phase', new THREE.BufferAttribute(phases, 1))
     geometry.setAttribute('colorPhase', new THREE.BufferAttribute(colorPhases, 1))
 
+    // Шейдерный материал для частиц
     const material = new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
@@ -758,7 +546,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
             PLASMA_CONFIG.currentColors[3],
           ],
         },
-        uFrontBias: { value: 1.5 },
+        uFrontBias: { value: 1.5 }, // Смещение для частиц в передней зоне
       },
       vertexShader: `
         attribute float size;
@@ -773,6 +561,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         uniform vec3 uColors[4];
         uniform float uFrontBias;
 
+        // Функция получения цвета частицы на основе прогресса цикла
         vec3 getParticleColor(float progress, float offset) {
           float totalProgress = mod(progress + offset, 1.0);
           float segment = totalProgress * 3.0;
@@ -787,6 +576,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         }
 
         void main() {
+          // Получаем цвет с учетом фазового смещения
           float colorOffset = colorPhase * 0.3;
           vColor = getParticleColor(uCycleProgress, colorOffset);
           vColor *= uParticleBrightness;
@@ -794,14 +584,17 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           vec3 pos = position;
           float t = uTime * uSpeed + phase;
 
+          // Определяем, насколько частица близка к камере
           float distanceFromCenter = length(position);
           float frontBiasFactor = smoothstep(30.0, 10.0, distanceFromCenter) * uFrontBias;
 
+          // Орбитальное движение с учетом зоны
           float orbitSpeed = 0.08 + phase * 0.03;
           pos.x += sin(t * orbitSpeed * (1.0 + frontBiasFactor * 0.3)) * 0.3 * (1.0 + frontBiasFactor * 0.2);
           pos.y += cos(t * orbitSpeed * 0.8 * (1.0 + frontBiasFactor * 0.3)) * 0.25 * (1.0 + frontBiasFactor * 0.2);
           pos.z += sin(t * orbitSpeed * 0.6 * (1.0 + frontBiasFactor * 0.3)) * 0.2 * (1.0 + frontBiasFactor * 0.2);
 
+          // Медленное вращение вокруг оси Y
           float angle = t * 0.15;
           float cosA = cos(angle);
           float sinA = sin(angle);
@@ -810,8 +603,9 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           pos.x = newX;
           pos.z = newZ;
 
+          // Стандартные преобразования с расчетом размера точки
           vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-          gl_PointSize = size * (220.0 / -mvPosition.z);
+          gl_PointSize = size * (220.0 / -mvPosition.z); // Перспективное масштабирование
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
@@ -819,16 +613,20 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         varying vec3 vColor;
 
         void main() {
+          // Создаем круглую форму частицы
           vec2 center = gl_PointCoord - vec2(0.5);
           float dist = length(center);
 
+          // Отбрасываем пиксели за пределами круга
           if (dist > 0.5) {
             discard;
           }
 
+          // Прозрачность уменьшается от центра к краям
           float alpha = 1.0 - smoothstep(0.0, 0.5, dist);
           alpha *= 0.65;
 
+          // Эффект свечения
           float glow = pow(1.0 - dist * 2.0, 2.0) * 0.2;
 
           gl_FragColor = vec4(vColor + vec3(glow * 0.4), alpha);
@@ -844,19 +642,27 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
   /**
    * СОЗДАНИЕ СВЕТЯЩИХСЯ ЧАСТИЦ
+   * Создает крупные частицы с сильным свечением для акцентных эффектов
+   *
+   * @returns THREE.Points - Система светящихся частиц
    */
   const createGlowParticles = () => {
     const particleCount = PLASMA_CONFIG.glowParticleCount
+
+    // Буферы для атрибутов
     const positions = new Float32Array(particleCount * 3)
     const colors = new Float32Array(particleCount * 3)
     const sizes = new Float32Array(particleCount)
     const colorPhases = new Float32Array(particleCount)
 
     for (let i = 0; i < particleCount; i++) {
+      // 70% частиц в передней зоне, 30% в дальней
       const isFrontZone = Math.random() < 0.7
+
       let radius, theta, phi
 
       if (isFrontZone) {
+        // Передняя зона: более плотное скопление
         radius = 6 + Math.random() * 18
         phi = Math.acos(1 - Math.random() * 1.4)
         theta = Math.random() * Math.PI * 2
@@ -866,6 +672,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta) * 0.7
         positions[i * 3 + 2] = radius * Math.cos(phi) * zMultiplier
       } else {
+        // Задняя зона: равномерное распределение
         radius = 12 + Math.random() * 25
         theta = Math.random() * Math.PI * 2
         phi = Math.acos(Math.random() * 2 - 1)
@@ -875,14 +682,16 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         positions[i * 3 + 2] = radius * Math.cos(phi)
       }
 
+      // Случайный выбор одного из 4 цветов
       const colorIndex = Math.floor(Math.random() * 4)
       const color = PLASMA_CONFIG.currentColors[colorIndex].clone()
-      color.multiplyScalar(1.04)
+      color.multiplyScalar(1.04) // Слегка осветляем
 
       colors[i * 3] = color.r
       colors[i * 3 + 1] = color.g
       colors[i * 3 + 2] = color.b
 
+      // Размер зависит от позиции по Z (ближе = больше)
       const zPos = Math.abs(positions[i * 3 + 2])
       const sizeMultiplier = zPos < 15 ? 1.4 : 0.9
 
@@ -891,12 +700,14 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       colorPhases[i] = Math.random()
     }
 
+    // Создаем геометрию
     const geometry = new THREE.BufferGeometry()
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
     geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
     geometry.setAttribute('colorPhase', new THREE.BufferAttribute(colorPhases, 1))
 
+    // Шейдерный материал для светящихся частиц
     const material = new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
@@ -917,6 +728,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         void main() {
           vColor = color * uGlowBrightness;
 
+          // Простое волнообразное движение
           vec3 pos = position;
           float t = uTime * uSpeed;
 
@@ -925,7 +737,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
           pos.z += sin(t * 0.15 + position.x * 0.03) * 0.15;
 
           vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-          gl_PointSize = size * (260.0 / -mvPosition.z);
+          gl_PointSize = size * (260.0 / -mvPosition.z); // Больший размер для свечения
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
@@ -940,9 +752,11 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
             discard;
           }
 
+          // Более сильное свечение с мягкими краями
           float alpha = pow(1.0 - dist * 2.0, 3.0);
           alpha *= 0.39;
 
+          // Эффект сильного свечения
           float glow = pow(1.0 - dist * 2.0, 4.0);
 
           gl_FragColor = vec4(vColor * (1.0 + glow * 0.26), alpha);
@@ -958,13 +772,18 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
   /**
    * ОБНОВЛЕНИЕ ОБЩЕЙ ЯРКОСТИ СЦЕНЫ
+   * Устанавливает новое значение яркости с проверкой границ
+   *
+   * @param brightness - Новое значение яркости (0-1)
    */
   const updateBrightness = (brightness: number) => {
+    // Ограничиваем значение между MIN и MAX
     PLASMA_CONFIG.brightness = Math.max(
       MIN_BRIGHTNESS,
       Math.min(MAX_BRIGHTNESS, brightness),
     )
 
+    // Обновляем uniform в шейдере плазменного поля
     if (plasmaField?.material instanceof THREE.ShaderMaterial) {
       plasmaField.material.uniforms.uBrightness.value = PLASMA_CONFIG.brightness
     }
@@ -972,11 +791,15 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
   /**
    * ОБНОВЛЕНИЕ ЯРКОСТИ ЧАСТИЦ
+   * Устанавливает новую яркость для всех частиц
+   *
+   * @param brightness - Новое значение ярчности частиц
    */
   const updateParticleBrightness = (brightness: number) => {
     PLASMA_CONFIG.particleBrightness = brightness
     PLASMA_CONFIG.glowParticleBrightness = brightness
 
+    // Обновляем uniforms в шейдерах частиц
     if (plasmaParticles?.material instanceof THREE.ShaderMaterial) {
       plasmaParticles.material.uniforms.uParticleBrightness.value = brightness
     }
@@ -986,61 +809,59 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   }
 
   /**
+   * ПЕРЕКЛЮЧЕНИЕ ЭФФЕКТА ПАРАЛЛАКСА
+   * Включает или выключает эффект параллакса от мыши
+   *
+   * @param enabled - true для включения, false для выключения
+   */
+  const toggleMouseParallax = (enabled: boolean) => {
+    PLASMA_CONFIG.enableMouseParallax = enabled
+
+    // Если параллакс выключен, возвращаем камеру в базовую позицию
+    if (!enabled) {
+      cameraTargetPosition.copy(cameraBasePosition)
+    }
+  }
+
+  /**
    * ОСНОВНОЙ ЦИКЛ АНИМАЦИИ
+   * Вызывается на каждом кадре через requestAnimationFrame
+   * Обновляет все анимированные параметры и рендерит сцену
    */
   const animate = () => {
+    // Проверяем, активна ли анимация
     if (!isAnimationActive) {
       return
     }
 
+    // Запрашиваем следующий кадр анимации
     animationFrameId = requestAnimationFrame(animate)
 
+    // Фиксированный deltaTime для стабильной анимации
     const deltaTime = 16
     const deltaTimeSeconds = deltaTime * 0.001
     time += deltaTimeSeconds
 
-    // Плавное обновление позиции мыши (если используем мышь)
-    if (PLASMA_CONFIG.useMouseParallax) {
-      smoothMouseUpdate()
-    }
-
-    // Плавное обновление данных гироскопа (если используем гироскоп)
-    if (PLASMA_CONFIG.useGyroParallax) {
-      smoothGyroUpdate()
-    }
-
-    // ============ АВТОМАТИЧЕСКИЙ ВЫБОР ЭФФЕКТА ДЛЯ КАМЕРЫ ============
-    if (PLASMA_CONFIG.useGyroParallax && isGyroActive) {
-      // 1. Приоритет: гироскоп на мобильных устройствах
-      applyGyroEffect()
-    } else if (PLASMA_CONFIG.useMouseParallax) {
-      // 2. Мышь на десктопах (или мобильных без гироскопа)
-      applyMouseEffect()
-    } else if (PLASMA_CONFIG.enableCameraAutoMovement) {
-      // 3. Автоматическое движение камеры
-      applyAutoCameraMovement()
-    } else {
-      // 4. Камера остается на месте
-      cameraTargetPosition.copy(cameraBasePosition)
-      cameraTargetRotation.set(0, 0, 0)
-    }
-
-    // Плавное обновление позиции и вращения камеры
-    smoothCameraUpdate()
+    // Плавное обновление позиции мыши и камеры
+    smoothMouseUpdate()
 
     // Обновление цикла цветов
     updateColorCycle(deltaTimeSeconds)
 
+    // Прогресс цветового цикла для частиц
     const cycleProgress = (colorCycleTime % COLOR_CYCLE_DURATION) / COLOR_CYCLE_DURATION
 
-    // Обновление uniform-переменных
+    // Обновление uniform-переменных плазменного поля
     if (plasmaField?.material instanceof THREE.ShaderMaterial) {
       plasmaField.material.uniforms.uTime.value = time
     }
 
+    // Обновление uniform-переменных частиц плазмы
     if (plasmaParticles?.material instanceof THREE.ShaderMaterial) {
       plasmaParticles.material.uniforms.uTime.value = time
       plasmaParticles.material.uniforms.uCycleProgress.value = cycleProgress
+
+      // Передача текущих цветов в шейдер
       plasmaParticles.material.uniforms.uColors.value = [
         PLASMA_CONFIG.currentColors[0],
         PLASMA_CONFIG.currentColors[1],
@@ -1049,6 +870,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       ]
     }
 
+    // Обновление uniform-переменных светящихся частиц
     if (glowParticles?.material instanceof THREE.ShaderMaterial) {
       glowParticles.material.uniforms.uTime.value = time
       glowParticles.material.uniforms.uCycleProgress.value = cycleProgress
@@ -1056,19 +878,34 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
     // Анимация плазменного поля
     if (plasmaField) {
+      // Медленное вращение
       plasmaField.rotation.y += 0.0002 * PLASMA_CONFIG.fieldSpeed
       plasmaField.rotation.z += 0.0001 * PLASMA_CONFIG.fieldSpeed
 
+      // Пульсация масштаба
       if (PLASMA_CONFIG.enablePulse) {
         const pulse = Math.sin(time * 0.8) * 0.02 + 1
         plasmaField.scale.setScalar(pulse)
       }
     }
 
-    // Анимация света
+    // Автоматическое движение камеры (если включено и параллакс неактивен)
+    if (PLASMA_CONFIG.enableCameraAutoMovement && !PLASMA_CONFIG.enableMouseParallax) {
+      cameraBasePosition.x = Math.sin(time * 0.008) * 1.5
+      cameraBasePosition.y = 5 + Math.cos(time * 0.006) * 0.5
+      cameraBasePosition.z = 15 + Math.sin(time * 0.005) * 1
+      cameraTargetPosition.copy(cameraBasePosition)
+    }
+
+    // Направление взгляда камеры (всегда на центр сцены)
+    camera.lookAt(0, -5, 0)
+
+    // Анимация точечного источника света
     const pointLight = scene.getObjectByName('mainPointLight') as THREE.PointLight
     if (pointLight && PLASMA_CONFIG.enablePulse) {
       pointLight.intensity = 0.4 + Math.sin(time * 0.6) * 0.08
+
+      // Движение света по своей орбите
       pointLight.position.x = Math.sin(time * 0.04) * 4
       pointLight.position.y = 4 + Math.cos(time * 0.03) * 1.5
       pointLight.position.z = Math.cos(time * 0.035) * 4
@@ -1080,6 +917,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
   /**
    * ОСТАНОВКА АНИМАЦИИ
+   * Отменяет requestAnimationFrame и деактивирует анимацию
    */
   const stopAnimation = () => {
     if (animationFrameId) {
@@ -1087,13 +925,11 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       animationFrameId = 0
     }
     isAnimationActive = false
-
-    // Останавливаем отслеживание гироскопа
-    stopGyroTracking()
   }
 
   /**
    * ЗАПУСК АНИМАЦИИ
+   * Активирует анимацию, если она еще не запущена
    */
   const startAnimation = () => {
     if (!isAnimationActive) {
@@ -1103,7 +939,10 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   }
 
   /**
-   * ПРОВЕРКА ВИДИМОСТИ ЭЛЕМЕНТА
+   * ПРОВЕРКА ВИДИМОСТИ ЭЛЕМЕНТА ВО VIEWPORT
+   * Определяет, находится ли контейнер в видимой области окна
+   *
+   * @returns boolean - true если элемент видим
    */
   const isElementInViewport = () => {
     if (!containerRef.value) return false
@@ -1112,6 +951,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     const windowHeight = window.innerHeight || document.documentElement.clientHeight
     const windowWidth = window.innerWidth || document.documentElement.clientWidth
 
+    // Проверка вертикальной и горизонтальной видимости
     const vertInView = rect.top <= windowHeight && rect.bottom >= 0
     const horInView = rect.left <= windowWidth && rect.right >= 0
 
@@ -1120,23 +960,24 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
   /**
    * ОЧИСТКА РЕСУРСОВ
+   * Освобождает память, удаляет слушатели событий и останавливает анимацию
    */
   const cleanup = () => {
     stopAnimation()
 
+    // Удаление слушателя событий мыши
     if (containerRef.value) {
       containerRef.value.removeEventListener('mousemove', updateMousePosition)
-      containerRef.value.removeEventListener('touchmove', handleTouchMove)
     }
 
+    // Отключение Intersection Observer
     if (intersectionObserver && containerRef.value) {
       intersectionObserver.unobserve(containerRef.value)
       intersectionObserver.disconnect()
       intersectionObserver = null
     }
 
-    stopGyroTracking()
-
+    // Освобождение ресурсов плазменного поля
     if (plasmaField) {
       plasmaField.geometry.dispose()
       const material = plasmaField.material as THREE.ShaderMaterial
@@ -1144,6 +985,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       scene.remove(plasmaField)
     }
 
+    // Освобождение ресурсов частиц плазмы
     if (plasmaParticles) {
       plasmaParticles.geometry.dispose()
       const material = plasmaParticles.material as THREE.ShaderMaterial
@@ -1151,6 +993,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       scene.remove(plasmaParticles)
     }
 
+    // Освобождение ресурсов светящихся частиц
     if (glowParticles) {
       glowParticles.geometry.dispose()
       const material = glowParticles.material as THREE.ShaderMaterial
@@ -1158,6 +1001,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       scene.remove(glowParticles)
     }
 
+    // Освобождение ресурсов рендерера и сцены
     if (renderer) {
       renderer.dispose()
     }
@@ -1168,6 +1012,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
   /**
    * ИНИЦИАЛИЗАЦИЯ INTERSECTION OBSERVER
+   * Настраивает наблюдение за видимостью элемента для автоматического управления анимацией
    */
   const initIntersectionObserver = () => {
     if (!containerRef.value) return
@@ -1176,16 +1021,16 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            startAnimation()
+            startAnimation() // Запуск анимации при появлении в viewport
           } else {
-            stopAnimation()
+            stopAnimation() // Остановка анимации при скрытии
           }
         })
       },
       {
         root: null,
         rootMargin: '0px',
-        threshold: 0.1,
+        threshold: 0.1, // Срабатывает при 10% видимости
       },
     )
 
@@ -1194,29 +1039,22 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
   /**
    * ИНИЦИАЛИЗАЦИЯ THREE.JS
+   * Создает сцену, камеру, рендерер и все графические объекты
+   *
+   * @returns Объект с методами управления анимацией
    */
   const initThreeJS = () => {
     if (!containerRef.value) return
 
-    // ============ ШАГ 1: ОПРЕДЕЛЯЕМ ТИП УСТРОЙСТВА ============
-    const deviceInfo = detectDeviceType()
-    console.log('Настройки параллакса:', {
-      useMouseParallax: PLASMA_CONFIG.useMouseParallax,
-      useGyroParallax: PLASMA_CONFIG.useGyroParallax,
-      hasGyroscope,
-      isMobileDevice,
-    })
-
-    // ============ ШАГ 2: ИНИЦИАЛИЗИРУЕМ THREE.JS ============
     initColors()
 
     // Создание сцены с туманом
     scene = new THREE.Scene()
-    scene.fog = new THREE.Fog(0x000011, 10, 60)
+    scene.fog = new THREE.Fog(0x000011, 10, 60) // Темно-синий туман
 
     // Настройка камеры
     camera = new THREE.PerspectiveCamera(
-      110,
+      110, // Широкий угол обзора
       window.innerWidth / window.innerHeight,
       0.1,
       1000,
@@ -1228,13 +1066,13 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
     // Создание WebGL рендерера
     renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      alpha: true,
-      powerPreference: 'high-performance',
+      antialias: true, // Сглаживание
+      alpha: true, // Прозрачный фон
+      powerPreference: 'high-performance', // Приоритет производительности
     })
     renderer.setSize(window.innerWidth, window.innerHeight)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    renderer.setClearColor(0x000011, 1)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)) // Ограничение pixel ratio
+    renderer.setClearColor(0x000011, 1) // Темно-синий фон
 
     // Настройка стилей canvas
     const canvas = renderer.domElement
@@ -1242,44 +1080,23 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     canvas.style.top = '0'
     canvas.style.left = '0'
     canvas.style.width = '100%'
-    canvas.style.height = '100dvh'
+    canvas.style.height = '100dvh' // Динамическая высота viewport
     canvas.style.zIndex = '0'
-    canvas.style.pointerEvents = 'auto'
-    containerRef.value.prepend(canvas)
+    canvas.style.pointerEvents = 'auto' // Разрешаем события мыши
+    containerRef.value.prepend(canvas) // Вставляем canvas в начало контейнера
 
-    // ============ ШАГ 3: НАСТРАИВАЕМ ВЗАИМОДЕЙСТВИЕ В ЗАВИСИМОСТИ ОТ УСТРОЙСТВА ============
-    if (PLASMA_CONFIG.useMouseParallax) {
-      // Для десктопов и мобильных без гироскопа - добавляем обработчики мыши/тача
-      containerRef.value.addEventListener('mousemove', updateMousePosition)
+    // Добавление слушателя событий мыши
+    containerRef.value.addEventListener('mousemove', updateMousePosition)
 
-      // Для мобильных устройств добавляем обработку тач-событий
-      if (isMobileDevice) {
-        containerRef.value.addEventListener('touchmove', handleTouchMove, {
-          passive: false,
-        })
-      }
-    }
-
-    // Если на мобильном с гироскопом и это не iOS 13+, сразу запускаем отслеживание
-    if (
-      PLASMA_CONFIG.useGyroParallax &&
-      hasGyroscope &&
-      typeof (DeviceOrientationEvent as any).requestPermission !== 'function'
-    ) {
-      // Для Android и других устройств запускаем гироскоп сразу
-      startGyroTracking()
-    }
-
-    // ============ ШАГ 4: СОЗДАЕМ СЦЕНУ ============
-    // Создание освещения
-    const ambientLight = new THREE.AmbientLight(0x220099, 0.1)
+    // Создание освещения сцены
+    const ambientLight = new THREE.AmbientLight(0x220099, 0.1) // Рассеянный свет
     scene.add(ambientLight)
 
-    const directionalLight = new THREE.DirectionalLight(0x440099, 0.2)
+    const directionalLight = new THREE.DirectionalLight(0x440099, 0.2) // Направленный свет
     directionalLight.position.set(3, 10, 5)
     scene.add(directionalLight)
 
-    const pointLight = new THREE.PointLight(0x660099, 0.4, 80)
+    const pointLight = new THREE.PointLight(0x660099, 0.4, 80) // Точечный источник
     pointLight.name = 'mainPointLight'
     pointLight.position.set(0, 4, 0)
     scene.add(pointLight)
@@ -1294,7 +1111,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     glowParticles = createGlowParticles()
     scene.add(glowParticles)
 
-    // ============ ШАГ 5: НАСТРАИВАЕМ ОБРАБОТЧИКИ ============
     // Обработчик изменения размера окна
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight
@@ -1307,25 +1123,12 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     // Инициализация наблюдения за видимостью
     initIntersectionObserver()
 
-    // ============ ШАГ 6: ЗАПРАШИВАЕМ РАЗРЕШЕНИЕ НА ГИРОСКОП (для iOS 13+) ============
-    if (
-      PLASMA_CONFIG.useGyroParallax &&
-      hasGyroscope &&
-      typeof (DeviceOrientationEvent as any).requestPermission === 'function'
-    ) {
-      // Ждем немного, чтобы пользователь увидел интерфейс, затем запрашиваем разрешение
-      setTimeout(async () => {
-        console.log('Запрашиваем разрешение на использование гироскопа (iOS 13+)...')
-        await requestGyroPermission()
-      }, 1500)
-    }
-
-    // Запускаем анимацию через небольшую задержку
+    // Задержка перед проверкой видимости и запуском анимации
     setTimeout(() => {
       if (isElementInViewport()) {
         startAnimation()
       }
-    }, 200)
+    }, 150)
 
     // Возвращаем объект с методами управления
     return {
@@ -1333,7 +1136,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         window.removeEventListener('resize', handleResize)
         if (containerRef.value) {
           containerRef.value.removeEventListener('mousemove', updateMousePosition)
-          containerRef.value.removeEventListener('touchmove', handleTouchMove)
         }
         cleanup()
       },
@@ -1344,24 +1146,24 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         updateParticleBrightness(value)
       },
       updateSpeed: (value: number) => {
+        // Масштабирование скорости для разных элементов
         PLASMA_CONFIG.fieldSpeed = value * 0.6
         PLASMA_CONFIG.particleSpeed = value * 0.8
         PLASMA_CONFIG.glowParticleSpeed = value * 0.5
       },
       updateColors: (colors: number[]) => {
+        // Обновление базовой палитры цветов
         PLASMA_CONFIG.baseColors = colors.map(hex => new THREE.Color(hex))
         initColors()
       },
       toggleColorCycle: (enabled: boolean) => {
         PLASMA_CONFIG.enableColorCycle = enabled
       },
+      toggleMouseParallax: (enabled: boolean) => {
+        toggleMouseParallax(enabled)
+      },
       toggleCameraAutoMovement: (enabled: boolean) => {
         PLASMA_CONFIG.enableCameraAutoMovement = enabled
-
-        if (!enabled) {
-          cameraTargetPosition.copy(cameraBasePosition)
-          cameraTargetRotation.set(0, 0, 0)
-        }
       },
       updateCameraPosition: (x: number, y: number, z: number) => {
         cameraBasePosition.set(x, y, z)
@@ -1376,29 +1178,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       updateParallaxIntensity: (intensity: number) => {
         PARALLAX_INTENSITY = intensity
       },
-      enableGyroManually: async () => {
-        // Ручное включение гироскопа (например, по кнопке)
-        if (hasGyroscope && !isGyroActive) {
-          if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
-            return await requestGyroPermission()
-          } else {
-            startGyroTracking()
-            return true
-          }
-        }
-        return false
-      },
-      disableGyroManually: () => {
-        // Ручное выключение гироскопа
-        if (isGyroActive) {
-          stopGyroTracking()
-          // Переключаемся на мышь/тач
-          PLASMA_CONFIG.useGyroParallax = false
-          PLASMA_CONFIG.useMouseParallax = true
-          return true
-        }
-        return false
-      },
       startAnimation: () => {
         startAnimation()
       },
@@ -1411,13 +1190,9 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         minBrightness: MIN_BRIGHTNESS,
         maxBrightness: MAX_BRIGHTNESS,
         parallaxIntensity: PARALLAX_INTENSITY,
-        isMobileDevice,
-        hasGyroscope,
-        isGyroActive,
-        useMouseParallax: PLASMA_CONFIG.useMouseParallax,
-        useGyroParallax: PLASMA_CONFIG.useGyroParallax,
       }),
       setConfig: (config: Partial<typeof PLASMA_CONFIG>) => {
+        // Частичное обновление конфигурации
         Object.assign(PLASMA_CONFIG, config)
         updateBrightness(PLASMA_CONFIG.brightness)
         updateParticleBrightness(PLASMA_CONFIG.particleBrightness)
@@ -1427,9 +1202,14 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
   // ============ HOOKS ЖИЗНЕННОГО ЦИКЛА VUE ============
 
+  /**
+   * МОНТИРОВАНИЕ КОМПОНЕНТА
+   * Инициализирует Three.js сцену при монтировании компонента
+   */
   onMounted(async () => {
     const controls = initThreeJS()
 
+    // Очистка при размонтировании компонента
     onUnmounted(() => {
       if (controls) {
         controls.cleanup()
@@ -1440,22 +1220,49 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   })
 
   // ============ PUBLIC API ============
+  // Методы, доступные компоненту, использующему этот хук
 
   return {
+    /**
+     * Обновление общей яркости сцены
+     */
     updateBrightness: (value: number) => {
       updateBrightness(value)
     },
+
+    /**
+     * Обновление яркости частиц
+     */
     updateParticleBrightness: (value: number) => {
       updateParticleBrightness(value)
     },
+
+    /**
+     * Обновление скорости анимации
+     */
     updateSpeed: (value: number) => {
       PLASMA_CONFIG.fieldSpeed = value * 0.6
       PLASMA_CONFIG.particleSpeed = value * 0.8
       PLASMA_CONFIG.glowParticleSpeed = value * 0.5
     },
+
+    /**
+     * Включение/выключение эффекта параллакса от мыши
+     */
+    toggleMouseParallax: (enabled: boolean) => {
+      toggleMouseParallax(enabled)
+    },
+
+    /**
+     * Ручной запуск анимации
+     */
     startAnimation: () => {
       startAnimation()
     },
+
+    /**
+     * Ручная остановка анимации
+     */
     stopAnimation: () => {
       stopAnimation()
     },
