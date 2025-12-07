@@ -5,7 +5,7 @@ import { onMounted, onUnmounted, type Ref } from 'vue'
 /**
  * Vue Composition API хук для создания интерактивного плазменного фона с использованием Three.js
  * Создает анимированную сцену с плазменными волнами, частицами и эффектом параллакса от мыши
- * Поддерживает гироскоп и компас на мобильных устройствах (включая iOS)
+ * Поддерживает гироскоп и компас на мобильных устройствах
  *
  * @param containerRef - Vue ref, ссылающийся на HTML-элемент контейнера, в который будет рендериться сцена
  * @returns Объект с методами управления анимацией и настройками
@@ -24,11 +24,8 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
   // ============ ДЕТЕКТИРОВАНИЕ УСТРОЙСТВА ============
   let isMobileDevice = false
-  let isIOS = false
-  let isAndroid = false
   let isGyroAvailable = false
   let isCompassAvailable = false
-  let isIOS13Plus = false // iOS 13+ требует специального разрешения
 
   // ============ ПЕРЕМЕННЫЕ ДЛЯ ВЗАИМОДЕЙСТВИЯ С МЫШЬЮ (для десктопов) ============
   let mouseX = 0 // Абсолютная X-координата курсора мыши в пикселях относительно контейнера
@@ -46,17 +43,15 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   let targetDeviceBeta = 0
   let targetDeviceGamma = 0
   let isGyroInitialized = false // Флаг инициализации гироскопа
-  let isGyroPermissionGranted = false // Флаг разрешения для iOS
-  let gyroHandler: ((event: DeviceOrientationEvent) => void) | null = null
 
   // Настройки параллакса для мыши
   const PARALLAX_INTENSITY = 0.5 // Интенсивность эффекта параллакса (смещение камеры)
   const PARALLAX_SMOOTHING = 0.08 // Коэффициент сглаживания движения камеры
 
   // Настройки гироскопа
-  const GYRO_INTENSITY = 0.02 // Интенсивность вращения камеры от гироскопа (увеличено для iOS)
-  const GYRO_SMOOTHING = 0.08 // Коэффициент сглаживания для гироскопа (увеличено для плавности)
-  const GYRO_DEAD_ZONE = 0.03 // Мертвая зона для предотвращения дрожания
+  const GYRO_INTENSITY = 0.015 // Интенсивность вращения камеры от гироскопа
+  const GYRO_SMOOTHING = 0.05 // Коэффициент сглаживания для гироскопа
+  const GYRO_DEAD_ZONE = 0.02 // Мертвая зона для предотвращения дрожания
 
   // Начальная позиция камеры (будет использоваться как база для параллакса)
   let cameraBasePosition = new THREE.Vector3(0, 5, 15)
@@ -144,56 +139,28 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
    * Определяет тип устройства и доступность гироскопа/компаса
    */
   const detectDeviceAndSensors = () => {
-    const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera
-
     // Проверяем, является ли устройство мобильным
     isMobileDevice =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)
-    isIOS = /iPhone|iPad|iPod/i.test(userAgent) && !(window as any).MSStream
-    isAndroid = /Android/i.test(userAgent)
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      )
 
-    // Проверяем версию iOS
-    if (isIOS) {
-      const iosVersion = userAgent.match(/OS (\d+)_(\d+)_?(\d+)?/)
-      if (iosVersion && parseInt(iosVersion[1]) >= 13) {
-        isIOS13Plus = true
-      }
-    }
-
-    // Проверяем доступность DeviceOrientation API
+    // Проверяем доступность гироскопа и компаса
     if (typeof DeviceOrientationEvent !== 'undefined') {
-      // Проверяем наличие requestPermission (iOS 13+)
       if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
-        isIOS13Plus = true
+        // iOS 13+ - требуется запрос разрешения
         isGyroAvailable = true
         isCompassAvailable = true
-      }
-      // Проверяем наличие самого события
-      else if ('ondeviceorientation' in window) {
-        isGyroAvailable = true
-        isCompassAvailable = true
-      }
-
-      // Дополнительная проверка для старых iOS
-      if (isIOS && !isIOS13Plus && 'ondeviceorientation' in window) {
+      } else if ('ondeviceorientation' in window) {
+        // Android и другие устройства
         isGyroAvailable = true
         isCompassAvailable = true
       }
     }
 
-    // Для Android всегда предполагаем доступность (если API есть)
-    if (isAndroid && 'ondeviceorientation' in window) {
-      isGyroAvailable = true
-      isCompassAvailable = true
-    }
-
-    console.log(`Device detection:
-      Mobile=${isMobileDevice},
-      iOS=${isIOS},
-      Android=${isAndroid},
-      iOS13+=${isIOS13Plus},
-      Gyro=${isGyroAvailable},
-      Compass=${isCompassAvailable}`)
+    console.log(
+      `Device detection: Mobile=${isMobileDevice}, Gyro=${isGyroAvailable}, Compass=${isCompassAvailable}`,
+    )
   }
 
   /**
@@ -210,54 +177,43 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   }
 
   /**
-   * ЗАПРОС РАЗРЕШЕНИЯ НА ИСПОЛЬЗОВАНИЕ ДАТЧИКОВ (для iOS 13+)
-   * Должен быть вызван из обработчика пользовательского действия (click/touch)
+   * ЗАПРОС РАЗРЕШЕНИЯ НА ИСПОЛЬЗОВАНИЕ ДАТЧИКОВ (для iOS)
    */
-  const requestGyroPermissionIOS = async (): Promise<boolean> => {
-    if (!isIOS13Plus) return true // Для старых iOS разрешение не требуется
-
-    try {
-      // Проверяем, есть ли requestPermission
-      if (typeof (DeviceOrientationEvent as any).requestPermission !== 'function') {
-        console.log('DeviceOrientationEvent.requestPermission is not available')
-        return true // Разрешение не требуется
-      }
-
-      console.log('Requesting device orientation permission for iOS...')
-      const permission = await (DeviceOrientationEvent as any).requestPermission()
-
-      if (permission === 'granted') {
-        console.log('Device orientation permission granted on iOS')
-        isGyroPermissionGranted = true
-        return true
-      } else {
-        console.warn('Device orientation permission denied on iOS:', permission)
-        isGyroPermissionGranted = false
+  const requestGyroPermission = async (): Promise<boolean> => {
+    if (
+      typeof DeviceOrientationEvent !== 'undefined' &&
+      typeof (DeviceOrientationEvent as any).requestPermission === 'function'
+    ) {
+      try {
+        const permission = await (DeviceOrientationEvent as any).requestPermission()
+        if (permission === 'granted') {
+          return true
+        } else {
+          console.warn('Permission for device orientation was denied')
+          return false
+        }
+      } catch (error) {
+        console.error('Error requesting device orientation permission:', error)
         return false
       }
-    } catch (error) {
-      console.error('Error requesting device orientation permission on iOS:', error)
-      isGyroPermissionGranted = false
-      return false
     }
+    // Для Android и других устройств разрешение не требуется
+    return true
   }
 
   /**
    * ИНИЦИАЛИЗАЦИЯ ГИРОСКОПА И КОМПАСА
-   * @param requestPermission - Запрашивать ли разрешение (true для iOS 13+)
    */
-  const initGyroscope = async (requestPermission: boolean = true): Promise<boolean> => {
+  const initGyroscope = async () => {
     if (!isGyroAvailable || !isCompassAvailable || !PLASMA_CONFIG.enableGyroParallax) {
-      console.log('Gyro not available or disabled')
       return false
     }
 
-    // Для iOS 13+ запрашиваем разрешение
-    if (requestPermission && isIOS13Plus && !isGyroPermissionGranted) {
-      const hasPermission = await requestGyroPermissionIOS()
+    // Для iOS запрашиваем разрешение
+    if (isMobileDevice) {
+      const hasPermission = await requestGyroPermission()
       if (!hasPermission) {
         PLASMA_CONFIG.enableGyroParallax = false
-        console.log('Gyro parallax disabled due to missing permission')
         return false
       }
     }
@@ -271,10 +227,10 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     targetDeviceGamma = 0
 
     // Обработчик события изменения ориентации устройства
-    gyroHandler = (event: DeviceOrientationEvent) => {
-      if (!PLASMA_CONFIG.enableGyroParallax || !isGyroInitialized) return
+    const handleDeviceOrientation = (event: DeviceOrientationEvent) => {
+      if (!PLASMA_CONFIG.enableGyroParallax) return
 
-      // Значения могут быть null, особенно на iOS
+      // Значения могут быть null, поэтому проверяем
       if (event.alpha !== null && event.beta !== null && event.gamma !== null) {
         targetDeviceAlpha = event.alpha || 0
         targetDeviceBeta = event.beta || 0
@@ -285,112 +241,18 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         if (targetDeviceBeta < -90) targetDeviceBeta = -90
         if (targetDeviceGamma > 90) targetDeviceGamma = 90
         if (targetDeviceGamma < -90) targetDeviceGamma = -90
-
-        // iOS иногда возвращает undefined для beta/gamma при плохом сигнале
-        if (isNaN(targetDeviceBeta)) targetDeviceBeta = 0
-        if (isNaN(targetDeviceGamma)) targetDeviceGamma = 0
-        if (isNaN(targetDeviceAlpha)) targetDeviceAlpha = 0
-      } else {
-        // На iOS значения могут быть null - используем предыдущие значения
-        console.debug('Device orientation values are null')
       }
     }
 
-    // Добавляем обработчик с пассивным флагом для производительности
-    window.addEventListener('deviceorientation', gyroHandler as EventListener, {
-      passive: true,
-    })
+    // Добавляем обработчик
+    window.addEventListener('deviceorientation', handleDeviceOrientation)
 
-    // Для iOS добавляем дополнительный обработчик touch для "пробуждения" датчиков
-    if (isIOS) {
-      const wakeGyro = () => {
-        // Пустая функция, просто для активации датчиков
-      }
-      window.addEventListener('touchstart', wakeGyro, { once: true })
-    }
+    // Сохраняем ссылку на обработчик для последующей очистки
+    ;(window as any).__gyroHandler = handleDeviceOrientation
 
     isGyroInitialized = true
     console.log('Gyroscope and compass initialized successfully')
     return true
-  }
-
-  /**
-   * АЛЬТЕРНАТИВНЫЙ МЕТОД ДЛЯ iOS (если DeviceOrientation не работает)
-   * Использует DeviceMotion API, который может быть доступен даже когда DeviceOrientation недоступен
-   */
-  const initDeviceMotionAsFallback = async (): Promise<boolean> => {
-    if (typeof DeviceMotionEvent === 'undefined') {
-      console.log('DeviceMotionEvent is not available')
-      return false
-    }
-
-    try {
-      // Для iOS 13+ запрашиваем разрешение
-      if (
-        isIOS13Plus &&
-        typeof (DeviceMotionEvent as any).requestPermission === 'function'
-      ) {
-        try {
-          const permission = await (DeviceMotionEvent as any).requestPermission()
-          if (permission !== 'granted') {
-            console.log('DeviceMotion permission denied')
-            return false
-          }
-        } catch (error) {
-          console.error('Error requesting DeviceMotion permission:', error)
-          return false
-        }
-      }
-
-      gyroHandler = (event: DeviceOrientationEvent) => {
-        // Альтернативная логика для DeviceMotion
-        // Можно использовать acceleration или rotationRate
-        // Для простоты оставим пустым - это запасной вариант
-      }
-
-      window.addEventListener('devicemotion', gyroHandler as EventListener, {
-        passive: true,
-      })
-      console.log('DeviceMotion fallback initialized')
-      return true
-    } catch (error) {
-      console.error('Error initializing DeviceMotion fallback:', error)
-      return false
-    }
-  }
-
-  /**
-   * ПРОВЕРКА РАБОТОСПОСОБНОСТИ ДАТЧИКОВ НА iOS
-   * iOS может блокировать доступ к датчикам до первого user gesture
-   */
-  const checkIOSGyroAvailability = (): boolean => {
-    if (!isIOS) return true
-
-    // Проверяем, доступен ли DeviceOrientation
-    if (typeof DeviceOrientationEvent === 'undefined') {
-      console.log('DeviceOrientationEvent is not defined on iOS')
-      return false
-    }
-
-    // Проверяем, возвращает ли DeviceOrientation данные
-    let hasData = false
-    const testHandler = (event: DeviceOrientationEvent) => {
-      if (event.alpha !== null || event.beta !== null || event.gamma !== null) {
-        hasData = true
-      }
-      window.removeEventListener('deviceorientation', testHandler as EventListener)
-    }
-
-    window.addEventListener('deviceorientation', testHandler as EventListener, {
-      once: true,
-    })
-
-    // Даем время на получение данных
-    setTimeout(() => {
-      window.removeEventListener('deviceorientation', testHandler as EventListener)
-    }, 1000)
-
-    return hasData
   }
 
   /**
@@ -421,54 +283,17 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
    * Интерполирует текущие значения датчиков к целевым
    */
   const smoothGyroUpdate = () => {
-    if (
-      !isGyroInitialized ||
-      !PLASMA_CONFIG.enableGyroParallax ||
-      !isGyroPermissionGranted
-    )
-      return
+    if (!isGyroInitialized || !PLASMA_CONFIG.enableGyroParallax) return
 
     // Линейная интерполяция значений датчиков
-    const smoothing = isIOS ? GYRO_SMOOTHING * 1.5 : GYRO_SMOOTHING // Больше сглаживания для iOS
-    deviceAlpha += (targetDeviceAlpha - deviceAlpha) * smoothing
-    deviceBeta += (targetDeviceBeta - deviceBeta) * smoothing
-    deviceGamma += (targetDeviceGamma - deviceGamma) * smoothing
+    deviceAlpha += (targetDeviceAlpha - deviceAlpha) * GYRO_SMOOTHING
+    deviceBeta += (targetDeviceBeta - deviceBeta) * GYRO_SMOOTHING
+    deviceGamma += (targetDeviceGamma - deviceGamma) * GYRO_SMOOTHING
 
     // Применяем мертвую зону для предотвращения дрожания
-    const deadZone = isIOS ? GYRO_DEAD_ZONE * 1.5 : GYRO_DEAD_ZONE
-    if (Math.abs(deviceBeta) < deadZone) deviceBeta = 0
-    if (Math.abs(deviceGamma) < deadZone) deviceGamma = 0
-    if (Math.abs(deviceAlpha) < deadZone * 10) deviceAlpha = 0
-
-    // iOS может давать скачкообразные значения - дополнительная фильтрация
-    if (isIOS) {
-      deviceBeta = filterIOSValue(deviceBeta, 'beta')
-      deviceGamma = filterIOSValue(deviceGamma, 'gamma')
-      deviceAlpha = filterIOSValue(deviceAlpha, 'alpha')
-    }
-  }
-
-  /**
-   * ФИЛЬТР ДЛЯ iOS ЗНАЧЕНИЙ (предотвращает скачки)
-   */
-  const filterIOSValue = (value: number, axis: string): number => {
-    // Простой фильтр низких частот для iOS
-    const maxChange = 5.0 // Максимальное изменение за кадр
-    const lastValues = (window as any).__iosGyroLastValues || {}
-    const lastValue = lastValues[axis] || 0
-
-    let filteredValue = value
-    const diff = Math.abs(value - lastValue)
-
-    if (diff > maxChange) {
-      // Слишком резкое изменение - вероятно, артефакт iOS
-      filteredValue = lastValue + (value > lastValue ? maxChange : -maxChange)
-    }
-
-    lastValues[axis] = filteredValue
-    ;(window as any).__iosGyroLastValues = lastValues
-
-    return filteredValue
+    if (Math.abs(deviceBeta) < GYRO_DEAD_ZONE) deviceBeta = 0
+    if (Math.abs(deviceGamma) < GYRO_DEAD_ZONE) deviceGamma = 0
+    if (Math.abs(deviceAlpha) < GYRO_DEAD_ZONE * 10) deviceAlpha = 0
   }
 
   /**
@@ -506,50 +331,28 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   const updateCameraForGyro = () => {
     if (!isGyroInitialized || !PLASMA_CONFIG.enableGyroParallax || !isMobileDevice) return
 
-    // Настройки для разных платформ
-    const intensity = isIOS ? GYRO_INTENSITY * 1.3 : GYRO_INTENSITY
-    const smoothing = isIOS ? 0.12 : 0.08 // Больше сглаживания для iOS
-
     // Вычисляем углы вращения на основе данных датчиков
     // Используем gamma для вращения по оси Y (влево/вправо)
     // Используем beta для вращения по оси X (вверх/вниз)
     // Используем alpha для плавного вращения по оси Z (компас)
 
-    const targetRotationY = -deviceGamma * intensity * (isIOS ? 1.5 : 2.0)
-    const targetRotationX = -deviceBeta * intensity * (isIOS ? 0.8 : 1.0) // Меньше для iOS (меньше диапазон)
-    const targetRotationZ = -deviceAlpha * intensity * 0.1
+    const targetRotationY = -deviceGamma * GYRO_INTENSITY * 2 // Умножаем для более заметного эффекта
+    const targetRotationX = -deviceBeta * GYRO_INTENSITY
+    const targetRotationZ = -deviceAlpha * GYRO_INTENSITY * 0.1 // Медленное вращение по компасу
 
     // Устанавливаем целевое вращение
     cameraTargetRotation.set(targetRotationX, targetRotationY, targetRotationZ, 'YXZ')
 
     // Плавно интерполируем текущее вращение к целевому
     cameraCurrentRotation.x +=
-      (cameraTargetRotation.x - cameraCurrentRotation.x) * smoothing
+      (cameraTargetRotation.x - cameraCurrentRotation.x) * GYRO_SMOOTHING
     cameraCurrentRotation.y +=
-      (cameraTargetRotation.y - cameraCurrentRotation.y) * smoothing
+      (cameraTargetRotation.y - cameraCurrentRotation.y) * GYRO_SMOOTHING
     cameraCurrentRotation.z +=
-      (cameraTargetRotation.z - cameraCurrentRotation.z) * smoothing
-
-    // Ограничиваем вращение по X (вверх/вниз) для предотвращения переворота
-    cameraCurrentRotation.x = Math.max(
-      -Math.PI / 4,
-      Math.min(Math.PI / 4, cameraCurrentRotation.x),
-    )
+      (cameraTargetRotation.z - cameraCurrentRotation.z) * GYRO_SMOOTHING
 
     // Применяем вращение к камере
     camera.rotation.copy(cameraCurrentRotation)
-
-    // Для iOS также немного двигаем позицию камеры для большего эффекта
-    if (isIOS) {
-      const parallaxX = deviceGamma * 0.05
-      const parallaxY = deviceBeta * 0.03
-      cameraTargetPosition.set(
-        cameraBasePosition.x + parallaxX,
-        cameraBasePosition.y + parallaxY,
-        cameraBasePosition.z,
-      )
-      camera.position.lerp(cameraTargetPosition, 0.05)
-    }
   }
 
   /**
@@ -605,7 +408,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
    * СОЗДАНИЕ ПЛАЗМЕННОГО ПОЛЯ
    * Создает геометрию плоскости и применяет к ней сложный шейдерный материал
    *
-   * @returns THREE.Mesh - Объект меша с плазменным поля
+   * @returns THREE.Mesh - Объект меша с плазменным полем
    */
   const createPlasmaField = () => {
     // Создаем плоскость с заданными размерами и детализацией
@@ -1206,38 +1009,20 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
   /**
    * ПЕРЕКЛЮЧЕНИЕ ЭФФЕКТА ПАРАЛЛАКСА ОТ ГИРОСКОПА
    * Включает или выключает эффект параллакса от гироскопа
-   * НА iOS: должен быть вызван из обработчика пользовательского действия (click/touch)
    *
    * @param enabled - true для включения, false для выключения
    */
-  const toggleGyroParallax = async (enabled: boolean): Promise<boolean> => {
+  const toggleGyroParallax = async (enabled: boolean) => {
     PLASMA_CONFIG.enableGyroParallax = enabled
 
     if (enabled && isMobileDevice && !isGyroInitialized) {
-      // На iOS 13+ разрешение нужно запрашивать только при первом включении
-      const requestPermission = isIOS13Plus && !isGyroPermissionGranted
-      const success = await initGyroscope(requestPermission)
-
-      if (!success && isIOS) {
-        // Пробуем запасной метод для iOS
-        console.log('Trying DeviceMotion fallback for iOS...')
-        const fallbackSuccess = await initDeviceMotionAsFallback()
-        return fallbackSuccess
-      }
-
-      return success
+      await initGyroscope()
     }
 
     // Если гироскоп выключен, возвращаем камеру в исходное положение
     if (!enabled && isMobileDevice) {
       cameraTargetRotation.set(0, 0, 0, 'YXZ')
-      cameraCurrentRotation.set(0, 0, 0, 'YXZ')
-      if (!PLASMA_CONFIG.enableMouseParallax) {
-        camera.lookAt(0, -5, 0)
-      }
     }
-
-    return true
   }
 
   /**
@@ -1260,12 +1045,12 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     time += deltaTimeSeconds
 
     // Обновление данных в зависимости от типа устройства
-    if (isMobileDevice && isGyroInitialized && PLASMA_CONFIG.enableGyroParallax) {
+    if (isMobileDevice && isGyroInitialized) {
       // Для мобильных устройств с гироскопом
       smoothGyroUpdate()
       updateCameraForGyro()
-    } else if (!isMobileDevice && PLASMA_CONFIG.enableMouseParallax) {
-      // Для десктопов с мышью
+    } else {
+      // Для десктопов или устройств без гироскопа
       smoothMouseUpdate()
     }
 
@@ -1313,7 +1098,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       }
     }
 
-    // Автоматическое движение камеры (если включено и не используется гироскоп/мышь)
+    // Автоматическое движение камеры (если включено и не используется гироскоп)
     if (
       PLASMA_CONFIG.enableCameraAutoMovement &&
       !PLASMA_CONFIG.enableMouseParallax &&
@@ -1326,7 +1111,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     }
 
     // Направление взгляда камеры (если не используется гироскоп)
-    if (!(isMobileDevice && PLASMA_CONFIG.enableGyroParallax && isGyroInitialized)) {
+    if (!(isMobileDevice && PLASMA_CONFIG.enableGyroParallax)) {
       camera.lookAt(0, -5, 0)
     }
 
@@ -1396,15 +1181,14 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     stopAnimation()
 
     // Удаление слушателя событий мыши
-    if (containerRef.value && !isMobileDevice) {
+    if (containerRef.value) {
       containerRef.value.removeEventListener('mousemove', updateMousePosition)
     }
 
     // Удаление слушателя гироскопа
-    if (gyroHandler) {
-      window.removeEventListener('deviceorientation', gyroHandler as EventListener)
-      window.removeEventListener('devicemotion', gyroHandler as EventListener)
-      gyroHandler = null
+    if ((window as any).__gyroHandler) {
+      window.removeEventListener('deviceorientation', (window as any).__gyroHandler)
+      delete (window as any).__gyroHandler
     }
 
     // Отключение Intersection Observer
@@ -1507,11 +1291,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     cameraTargetRotation.set(0, 0, 0, 'YXZ')
     cameraCurrentRotation.set(0, 0, 0, 'YXZ')
 
-    // Для iOS временно отключаем гироскоп по умолчанию (требует действия пользователя)
-    if (isIOS) {
-      PLASMA_CONFIG.enableGyroParallax = false
-    }
-
     // Для мобильных устройств с гироскопом не смотрим в центр
     if (!(isMobileDevice && PLASMA_CONFIG.enableGyroParallax)) {
       camera.lookAt(0, -5, 0)
@@ -1540,11 +1319,9 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
     // Добавление слушателей событий в зависимости от типа устройства
     if (isMobileDevice) {
-      // Для мобильных устройств инициализируем гироскоп (без запроса разрешения)
-      // На iOS разрешение будет запрошено только при явном вызове toggleGyroParallax(true)
-      if (PLASMA_CONFIG.enableGyroParallax && isGyroAvailable && !isIOS) {
-        // Для Android инициализируем сразу
-        await initGyroscope(false)
+      // Для мобильных устройств инициализируем гироскоп
+      if (PLASMA_CONFIG.enableGyroParallax && isGyroAvailable) {
+        await initGyroscope()
       }
     } else {
       // Для десктопов добавляем слушатель мыши
@@ -1625,12 +1402,8 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       toggleMouseParallax: (enabled: boolean) => {
         toggleMouseParallax(enabled)
       },
-      toggleGyroParallax: async (enabled: boolean): Promise<boolean> => {
-        return await toggleGyroParallax(enabled)
-      },
-      requestGyroPermission: async (): Promise<boolean> => {
-        if (!isIOS13Plus) return true
-        return await requestGyroPermissionIOS()
+      toggleGyroParallax: async (enabled: boolean) => {
+        await toggleGyroParallax(enabled)
       },
       toggleCameraAutoMovement: (enabled: boolean) => {
         PLASMA_CONFIG.enableCameraAutoMovement = enabled
@@ -1641,7 +1414,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         camera.position.copy(cameraBasePosition)
 
         // Только если не используется гироскоп
-        if (!(isMobileDevice && PLASMA_CONFIG.enableGyroParallax && isGyroInitialized)) {
+        if (!(isMobileDevice && PLASMA_CONFIG.enableGyroParallax)) {
           camera.lookAt(0, -5, 0)
         }
       },
@@ -1663,13 +1436,9 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       },
       getDeviceInfo: () => ({
         isMobile: isMobileDevice,
-        isIOS: isIOS,
-        isAndroid: isAndroid,
-        isIOS13Plus: isIOS13Plus,
         hasGyro: isGyroAvailable,
         hasCompass: isCompassAvailable,
         isGyroEnabled: PLASMA_CONFIG.enableGyroParallax && isGyroInitialized,
-        isGyroPermissionGranted: isGyroPermissionGranted,
       }),
       getConfig: () => ({
         ...PLASMA_CONFIG,
@@ -1743,19 +1512,9 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
     /**
      * Включение/выключение эффекта параллакса от гироскопа
-     * НА iOS: должен быть вызван из обработчика пользовательского действия (click/touch)
      */
-    toggleGyroParallax: async (enabled: boolean): Promise<boolean> => {
-      return await toggleGyroParallax(enabled)
-    },
-
-    /**
-     * Запрос разрешения на использование датчиков (для iOS 13+)
-     * Должен быть вызван из обработчика пользовательского действия
-     */
-    requestGyroPermission: async (): Promise<boolean> => {
-      if (!isIOS13Plus) return true
-      return await requestGyroPermissionIOS()
+    toggleGyroParallax: async (enabled: boolean) => {
+      await toggleGyroParallax(enabled)
     },
 
     /**
@@ -1777,20 +1536,9 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
      */
     getDeviceInfo: () => ({
       isMobile: isMobileDevice,
-      isIOS: isIOS,
-      isAndroid: isAndroid,
-      isIOS13Plus: isIOS13Plus,
       hasGyro: isGyroAvailable,
       hasCompass: isCompassAvailable,
       isGyroEnabled: PLASMA_CONFIG.enableGyroParallax && isGyroInitialized,
-      isGyroPermissionGranted: isGyroPermissionGranted,
     }),
-
-    /**
-     * Проверка работоспособности датчиков на iOS
-     */
-    checkIOSGyroAvailability: (): boolean => {
-      return checkIOSGyroAvailability()
-    },
   }
 }
