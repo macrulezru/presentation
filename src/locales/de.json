@@ -122,7 +122,7 @@
   },
   "experience": {
     "title": "Berufserfahrung",
-    "showAllButton": "Alle Berufserfahrung anzeigen",
+    "showAllButton": "Alle Unternehmen",
     "items": [
       {
         "company": "Online Reservation System",
@@ -214,7 +214,7 @@
     "title": "TravelShop - Flugbuchungssystem",
     "role": "Lead Frontend-Entwickler",
     "period": "Dezember 2020 — Oktober 2025",
-    "description": "Entwicklung und Wartung eines modernen Flugbuchungssystems für große Fluggesellschaften, einschließlich Azimuth Airlines",
+    "description": "Entwicklung und Wartung eines modernen Flugbuchungssystems für russische und internationale Fluggesellschaften, inklusive Azimut.",
     "features": {
       "title": "Wichtige Systemfunktionen",
       "items": [

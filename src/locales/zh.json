@@ -122,7 +122,7 @@
   },
   "experience": {
     "title": "工作经验",
-    "showAllButton": "显示所有工作经验",
+    "showAllButton": "所有公司",
     "items": [
       {
         "company": "在线预订系统",
@@ -214,7 +214,7 @@
     "title": "TravelShop - 机票预订系统",
     "role": "高级前端开发工程师",
     "period": "2020年12月 — 2025年10月",
-    "description": "为包括 Azimuth 航空在内的各大航空公司开发和支持现代化的机票预订系统",
+    "description": "为俄罗斯及国际航空公司（包括阿齐穆特航空）开发和维护现代化的航班预订系统。",
     "features": {
       "title": "系统核心功能",
       "items": [
