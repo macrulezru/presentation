@@ -199,7 +199,7 @@
     justify-content: center;
     align-items: center;
     min-width: 100%;
-    min-height: 100vh;
+    min-height: 100dvh;
     gap: var(--spacing-3xl);
     padding: var(--spacing-xl) var(--spacing-md);
     text-align: center;
