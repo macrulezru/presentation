@@ -760,7 +760,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     canvas.style.top = '0'
     canvas.style.left = '0'
     canvas.style.width = '100%'
-    canvas.style.height = '100%'
+    canvas.style.height = '100vh'
     canvas.style.zIndex = '0'
     canvas.style.pointerEvents = 'none'
     containerRef.value.prepend(canvas)
