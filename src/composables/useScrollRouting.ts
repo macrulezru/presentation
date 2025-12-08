@@ -1,6 +1,6 @@
 import { ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useNavigationStore } from '@/stores/navigation'
+import { useNavigationStore } from '@/stores/use-navigation-store.ts'
 import { PageSectionsEnum } from '@/enums/page-sections.enum'
 
 // Константы для лучшей читаемости и поддержки

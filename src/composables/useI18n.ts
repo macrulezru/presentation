@@ -1,25 +1,24 @@
 import { i18n, loadLocale } from '@/locales'
 import { useRouter } from 'vue-router'
+import { LocalesEnum, LocalesList, type LocalesEnumType } from '@/enums/locales.enum'
+import { useLocaleStore } from '@/stores/use-locale-store'
 
 export const useI18n = () => {
   const { t, tm, locale, availableLocales } = i18n.global
   const router = useRouter()
+  const localeStore = useLocaleStore()
   const isLoading = ref(false)
 
-  const changeLocale = async (newLocale: string, path?: string) => {
-    const supportedLocales = ['ru', 'en', 'de', 'zh']
-
-    if (!supportedLocales.includes(newLocale)) {
+  const changeLocale = async (newLocale: LocalesEnumType, path?: string) => {
+    if (!LocalesList.includes(newLocale)) {
       console.warn(`Locale ${newLocale} is not supported`)
       return
     }
 
     // Если локаль уже загружена, просто меняем
-    if (
-      i18n.global.availableLocales.includes((newLocale as 'ru') || 'en' || 'de' || 'zh')
-    ) {
-      // @ts-ignore - игнорируем ошибку типов Vue I18n
-      locale.value = newLocale
+    if (i18n.global.availableLocales.includes(newLocale as any)) {
+      locale.value = newLocale as any
+      localeStore.setLocale(newLocale)
       updateURL(newLocale, path)
       return
     }
@@ -28,21 +27,21 @@ export const useI18n = () => {
     isLoading.value = true
     try {
       await loadLocale(newLocale)
-      // @ts-ignore - игнорируем ошибку типов Vue I18n
-      locale.value = newLocale
+      locale.value = newLocale as any
+      localeStore.setLocale(newLocale)
       localStorage.setItem('user-locale', newLocale)
       updateURL(newLocale, path)
     } catch (error) {
       console.error('Failed to change locale:', error)
       // Fallback на русский
-      // @ts-ignore - игнорируем ошибку типов Vue I18n
-      locale.value = 'ru'
+      locale.value = LocalesEnum.RU as any
+      localeStore.setLocale(LocalesEnum.RU)
     } finally {
       isLoading.value = false
     }
   }
 
-  const updateURL = async (newLocale: string, path?: string) => {
+  const updateURL = async (newLocale: LocalesEnumType, path?: string) => {
     const currentRoute = router.currentRoute.value
     const currentSection = currentRoute.params.section as string
 
@@ -54,49 +53,47 @@ export const useI18n = () => {
 
   // Инициализация локали при загрузке
   const initLocale = async () => {
-    const savedLocale = localStorage.getItem('user-locale')
-    const urlLocale = router.currentRoute.value.params.locale as string
-    const supportedLocales = ['ru', 'en', 'de', 'zh']
+    const savedLocale = localStorage.getItem('user-locale') as LocalesEnumType | null
+    const urlLocale = router.currentRoute.value.params.locale as LocalesEnumType
+    const supportedLocales = LocalesList
 
     // Приоритет: URL > localStorage > дефолтная (ru)
-    const targetLocale = urlLocale || savedLocale || 'ru'
+    const targetLocale = (urlLocale || savedLocale || LocalesEnum.RU) as LocalesEnumType
 
     if (!supportedLocales.includes(targetLocale)) {
-      // @ts-ignore - игнорируем ошибку типов Vue I18n
-      locale.value = 'ru'
+      locale.value = LocalesEnum.RU as any
+      localeStore.setLocale(LocalesEnum.RU)
       return
     }
 
     // Если локаль не русская, загружаем её
     if (
-      targetLocale !== 'ru' &&
-      !i18n.global.availableLocales.includes(
-        (targetLocale as 'ru') || 'en' || 'de' || 'zh',
-      )
+      targetLocale !== LocalesEnum.RU &&
+      !i18n.global.availableLocales.includes(targetLocale as any)
     ) {
       try {
         await loadLocale(targetLocale)
       } catch (error) {
         console.error(`Failed to load initial locale ${targetLocale}:`, error)
-        // @ts-ignore - игнорируем ошибку типов Vue I18n
-        locale.value = 'ru'
+        locale.value = LocalesEnum.RU as any
+        localeStore.setLocale(LocalesEnum.RU)
         return
       }
     }
 
-    // @ts-ignore - игнорируем ошибку типов Vue I18n
-    locale.value = targetLocale
+    locale.value = targetLocale as any
+    localeStore.setLocale(targetLocale)
 
     // Синхронизируем URL если нужно
     if (!urlLocale && router.currentRoute.value.name === 'home') {
-      await router.replace(`/${locale.value}`)
+      await router.replace(`/${targetLocale}`)
     }
   }
 
   return {
     t,
     tm,
-    locale: locale,
+    locale: locale as ComputedRef<LocalesEnumType>,
     availableLocales,
     changeLocale,
     initLocale,
