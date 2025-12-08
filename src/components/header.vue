@@ -2,13 +2,17 @@
   import LangSelector from '@/components/lang-selector.vue'
   import { useScrollRouting } from '@/composables/useScrollRouting'
   import { useI18n } from '@/composables/useI18n'
-  import { ref, onMounted, onUnmounted } from 'vue'
+  import { useNavigationStore } from '@/stores/navigation'
+  import { ref, onMounted, onUnmounted, computed } from 'vue'
 
   const { t } = useI18n()
+  const navigationStore = useNavigationStore()
 
-  const { navigateToSection, currentSection } = useScrollRouting()
+  const { navigateToSection } = useScrollRouting()
   const isMobileMenuOpen = ref(false)
   const isMobile = ref(false)
+
+  const currentSection = computed(() => navigationStore.currentSection)
 
   const menuItems = computed(() => [
     { id: 'splash', label: t('navigation.home') },

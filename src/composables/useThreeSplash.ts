@@ -157,10 +157,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
         isCompassAvailable = true
       }
     }
-
-    console.log(
-      `Device detection: Mobile=${isMobileDevice}, Gyro=${isGyroAvailable}, Compass=${isCompassAvailable}`,
-    )
   }
 
   /**
@@ -251,7 +247,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     ;(window as any).__gyroHandler = handleDeviceOrientation
 
     isGyroInitialized = true
-    console.log('Gyroscope and compass initialized successfully')
+
     return true
   }
 
@@ -1421,12 +1417,6 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       updateCameraFOV: (fov: number) => {
         camera.fov = fov
         camera.updateProjectionMatrix()
-      },
-      updateParallaxIntensity: (intensity: number) => {
-        PARALLAX_INTENSITY = intensity
-      },
-      updateGyroIntensity: (intensity: number) => {
-        GYRO_INTENSITY = intensity
       },
       startAnimation: () => {
         startAnimation()

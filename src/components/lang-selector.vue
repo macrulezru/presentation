@@ -1,10 +1,10 @@
 <script setup lang="ts">
   import DlvSelect from '@/components/ui/DlvSelect.vue'
   import { computed } from 'vue'
-  import { useScrollRouting } from '@/composables/useScrollRouting'
+  import { useNavigationStore } from '@/stores/navigation'
 
   const { changeLocale, locale, isLoading } = useI18n()
-  const { getActiveSection } = useScrollRouting()
+  const navigationStore = useNavigationStore()
 
   interface LanguageOption {
     value: string
@@ -29,7 +29,7 @@
   const handleLanguageChange = (option: LanguageOption) => {
     if (isLoading.value) return // Предотвращаем изменение во время загрузки
 
-    const activeSection = getActiveSection()
+    const activeSection = navigationStore.currentSection
     const newPath =
       activeSection !== 'splash'
         ? `/${option.value}/${activeSection}`

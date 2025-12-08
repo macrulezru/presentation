@@ -1,20 +1,12 @@
 import { ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-
-export interface Section {
-  id: string
-  name: string
-  element: HTMLElement | null
-}
-
-// Создаем глобальную реактивную переменную
-const currentSection = ref<string>('splash')
+import { useNavigationStore } from '@/stores/navigation'
 
 export function useScrollRouting() {
   const router = useRouter()
   const route = useRoute()
-  const sections = ref<Section[]>([])
-  const isScrolling = ref(false)
+  const navigationStore = useNavigationStore()
+
   const scrollTimeout = ref<NodeJS.Timeout | null>(null)
 
   // Определяем секции
@@ -30,12 +22,14 @@ export function useScrollRouting() {
 
   // Инициализация секций
   const initSections = () => {
-    sections.value = sectionDefinitions
+    const sections = sectionDefinitions
       .map(section => ({
         ...section,
         element: document.getElementById(section.id),
       }))
-      .filter(section => section.element !== null) as Section[]
+      .filter(section => section.element !== null)
+
+    navigationStore.setSections(sections)
   }
 
   // Получение текущей активной секции
@@ -48,7 +42,7 @@ export function useScrollRouting() {
       return 'splash'
     }
 
-    for (const section of sections.value) {
+    for (const section of navigationStore.sections) {
       if (section.element) {
         const elementTop = section.element.offsetTop - headerHeight
         const elementBottom = elementTop + section.element.offsetHeight
@@ -64,8 +58,8 @@ export function useScrollRouting() {
 
   // Обновление URL при скролле
   const updateUrl = (sectionName: string) => {
-    if (sectionName !== currentSection.value && !isScrolling.value) {
-      currentSection.value = sectionName
+    if (sectionName !== navigationStore.currentSection && !navigationStore.isScrolling) {
+      navigationStore.setCurrentSection(sectionName)
       const currentLocale = (route.params.locale as string) || 'ru'
 
       // Для секции splash используем корневой URL, для остальных - с секцией
@@ -81,7 +75,7 @@ export function useScrollRouting() {
 
   // Обработчик скролла
   const handleScroll = () => {
-    if (isScrolling.value) return
+    if (navigationStore.isScrolling) return
 
     // Дебаунс скролла для производительности
     if (scrollTimeout.value) {
@@ -96,9 +90,9 @@ export function useScrollRouting() {
 
   // Прокрутка к секции
   const scrollToSection = (sectionName: string) => {
-    const section = sections.value.find(s => s.name === sectionName)
+    const section = navigationStore.getSectionById(sectionName)
     if (section?.element) {
-      isScrolling.value = true
+      navigationStore.setIsScrolling(true)
 
       const headerHeight = 60
       const elementPosition = section.element.offsetTop
@@ -111,11 +105,11 @@ export function useScrollRouting() {
 
       // Сбрасываем флаг после завершения анимации
       setTimeout(() => {
-        isScrolling.value = false
+        navigationStore.setIsScrolling(false)
       }, 800)
     } else if (sectionName === 'splash') {
       // Особый случай для главной страницы - прокрутка наверх
-      isScrolling.value = true
+      navigationStore.setIsScrolling(true)
 
       window.scrollTo({
         top: 0,
@@ -123,7 +117,7 @@ export function useScrollRouting() {
       })
 
       setTimeout(() => {
-        isScrolling.value = false
+        navigationStore.setIsScrolling(false)
       }, 800)
     }
   }
@@ -137,9 +131,9 @@ export function useScrollRouting() {
     router.push(path)
   }
 
-  // Получить текущую активную секцию (для использования в lang-selector)
+  // Получить текущую активную секцию
   const getActiveSection = () => {
-    return currentSection.value
+    return navigationStore.currentSection
   }
 
   // Следим за изменениями маршрута для обновления активного пункта
@@ -149,9 +143,9 @@ export function useScrollRouting() {
       // Обновляем currentSection при изменении секции
       if (newParams.section !== oldParams.section) {
         if (newParams.section) {
-          currentSection.value = newParams.section as string
+          navigationStore.setCurrentSection(newParams.section as string)
         } else {
-          currentSection.value = 'splash'
+          navigationStore.setCurrentSection('splash')
         }
       }
     },
@@ -164,7 +158,7 @@ export function useScrollRouting() {
 
     // Инициализируем текущую секцию из URL
     const initialSection = (route.params.section as string) || 'splash'
-    currentSection.value = initialSection
+    navigationStore.setCurrentSection(initialSection)
 
     // Прокручиваем к секции из URL при загрузке
     if (initialSection !== 'splash') {
@@ -183,12 +177,12 @@ export function useScrollRouting() {
   }
 
   return {
-    sections,
-    currentSection,
+    sections: navigationStore.sections,
+    currentSection: navigationStore.currentSection,
     scrollToSection,
     navigateToSection,
     getCurrentSection,
-    getActiveSection, // Добавляем эту функцию
+    getActiveSection,
     init,
     destroy,
   }

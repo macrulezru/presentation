@@ -39,7 +39,6 @@
     () => route.params.section,
     async (newSection, oldSection) => {
       if (newSection !== oldSection && !isChangingLocale.value) {
-        // Ждем обновления DOM
         await nextTick()
 
         if (newSection) {
