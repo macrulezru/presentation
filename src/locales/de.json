@@ -67,7 +67,7 @@
       },
       {
         "title": "Pinia",
-        "description": "Anwendungszustandsverwaltung, Organisation modularer Stores, Arbeit mit Actions/Getters, TypeScript-Integration"
+        "description": "Anwendungszustandsverwaltung mit Composition API, Organisation modularer Stores über Setup Store-Syntax, TypeScript-Integration"
       },
       {
         "title": "Vite",

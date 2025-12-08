@@ -67,7 +67,7 @@
       },
       {
         "title": "Pinia",
-        "description": "应用程序状态管理，组织模块化存储，使用actions/getters，TypeScript集成"
+        "description": "使用Composition API进行应用程序状态管理，通过Setup Store语法组织模块化存储，TypeScript集成"
       },
       {
         "title": "Vite",

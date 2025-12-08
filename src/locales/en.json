@@ -67,7 +67,7 @@
       },
       {
         "title": "Pinia",
-        "description": "Application state management, organization of modular stores, working with actions/getters, TypeScript integration"
+        "description": "Application state management using Composition API, organization of modular stores via Setup Store syntax, TypeScript integration"
       },
       {
         "title": "Vite",

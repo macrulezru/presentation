@@ -67,7 +67,7 @@
       },
       {
         "title": "Pinia",
-        "description": "Управление состоянием приложения, организация модульных хранилищ, работа с actions/getters, TypeScript-интеграция"
+        "description": "Управление состоянием приложения с использованием Composition API, организация модульных хранилищ через Setup Store синтаксис, TypeScript-интеграция"
       },
       {
         "title": "Vite",
