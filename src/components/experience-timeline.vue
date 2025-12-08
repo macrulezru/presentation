@@ -25,9 +25,6 @@
           :key="index"
           class="experience__item"
         >
-          <!-- Точка на временной линии -->
-          <div class="experience__timeline-dot"></div>
-
           <!-- Содержимое карточки -->
           <div class="experience__card">
             <!-- Период (только если есть) -->
@@ -107,7 +104,8 @@
     margin-bottom: 0;
   }
 
-  .experience__timeline-dot {
+  .experience__item::before {
+    content: '';
     position: absolute;
     left: -1.87rem;
     top: 0.25rem;
