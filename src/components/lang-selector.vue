@@ -1,7 +1,8 @@
 <script setup lang="ts">
   import DlvSelect from '@/components/ui/DlvSelect.vue'
   import { computed } from 'vue'
-  import { useNavigationStore } from '@/stores/navigation'
+  import { useNavigationStore } from '@/stores/use-navigation-store.ts'
+  import { LocalesEnum, type LocalesEnumType, LocalesToView } from '@/enums/locales.enum'
 
   const { changeLocale, locale, isLoading } = useI18n()
   const navigationStore = useNavigationStore()
@@ -11,23 +12,23 @@
     name: string
   }
 
-  const languageOptions: LanguageOption[] = [
-    { value: 'ru', name: 'Русский' },
-    { value: 'en', name: 'English' },
-    { value: 'de', name: 'Deutsch' },
-    { value: 'zh', name: '中文' },
-  ]
+  const languageOptions: LanguageOption[] = (
+    Object.keys(LocalesEnum) as Array<keyof typeof LocalesEnum>
+  ).map(key => ({
+    value: LocalesEnum[key],
+    name: LocalesToView[key],
+  }))
 
   const currentLanguage = computed({
     get: () =>
       languageOptions.find(opt => opt.value === locale.value) || languageOptions[0],
     set: (option: LanguageOption) => {
-      changeLocale(option.value)
+      changeLocale(option.value as LocalesEnumType)
     },
   })
 
   const handleLanguageChange = (option: LanguageOption) => {
-    if (isLoading.value) return // Предотвращаем изменение во время загрузки
+    if (isLoading.value) return
 
     const activeSection = navigationStore.currentSection
     const newPath =
@@ -35,7 +36,7 @@
         ? `/${option.value}/${activeSection}`
         : `/${option.value}`
 
-    changeLocale(option.value, newPath)
+    changeLocale(option.value as LocalesEnumType, newPath)
   }
 </script>
 

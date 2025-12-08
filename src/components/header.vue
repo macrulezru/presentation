@@ -3,7 +3,7 @@
 
   import { useScrollRouting } from '@/composables/useScrollRouting'
   import { useI18n } from '@/composables/useI18n'
-  import { useNavigationStore } from '@/stores/navigation'
+  import { useNavigationStore } from '@/stores/use-navigation-store'
   import { ref, onMounted, onUnmounted, computed } from 'vue'
   import { PageSectionsEnum } from '@/enums/page-sections.enum'
 

@@ -1,41 +1,28 @@
 import { createI18n } from 'vue-i18n'
 import ru from './ru.json'
+import { LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum'
+import { localeImportMap } from '@/locales/locale-imports'
 
-// Статически импортируем только русскую локаль
 const messages = {
-  ru,
+  [LocalesEnum.RU]: ru,
 }
 
 export const i18n = createI18n({
   legacy: false,
-  locale: 'ru',
-  fallbackLocale: 'ru',
+  locale: LocalesEnum.RU,
+  fallbackLocale: LocalesEnum.RU,
   messages,
 })
 
 // Функция для динамической загрузки локалей
-export async function loadLocale(locale: string) {
-  if (locale === 'ru') {
+export async function loadLocale(locale: LocalesEnumType) {
+  if (locale === LocalesEnum.RU) {
     return // Русская локаль уже загружена
   }
 
   try {
-    // Явный перечень импортов вместо шаблонной строки
-    let module: { default: any }
-    switch (locale) {
-      case 'en':
-        module = await import('./en.json')
-        break
-      case 'de':
-        module = await import('./de.json')
-        break
-      case 'zh':
-        module = await import('./zh.json')
-        break
-      default:
-        throw new Error(`Unsupported locale: ${locale}`)
-    }
-
+    const loader = localeImportMap[locale]
+    const module = await loader()
     i18n.global.setLocaleMessage(locale, module.default)
   } catch (error) {
     console.error(`Failed to load locale ${locale}:`, error)

@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { i18n } from '@/locales'
 import { PageSectionsEnum, type PageSectionsType } from '@/enums/page-sections.enum'
+import { LocalesList, type LocalesEnumType } from '@/enums/locales.enum'
 
 const routes = [
   {
@@ -22,7 +23,7 @@ const router = createRouter({
 
 // Глобальный хук для обработки навигации
 router.beforeEach(to => {
-  const supportedLocales = ['ru', 'en', 'de', 'zh']
+  const supportedLocales = LocalesList
   const supportedSections = [
     PageSectionsEnum.SPLASH,
     PageSectionsEnum.ABOUT,
@@ -43,7 +44,7 @@ router.beforeEach(to => {
   }
 
   // Если локаль не поддерживается, редиректим на русскую
-  if (!supportedLocales.includes(toLocale)) {
+  if (!supportedLocales.includes(toLocale as LocalesEnumType)) {
     const fallbackSection =
       toSection && supportedSections.includes(toSection as PageSectionsType)
         ? `/${toSection}`
