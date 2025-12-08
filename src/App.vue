@@ -13,6 +13,7 @@
   import { useI18n } from '@/composables/useI18n'
   import { useRoute } from 'vue-router'
   import { useScrollRouting } from '@/composables/useScrollRouting'
+  import { pageSectionsEnum } from '@/enums/page-sections'
 
   const { t, initLocale } = useI18n()
   const route = useRoute()
@@ -60,31 +61,31 @@
   <div class="page">
     <Header />
 
-    <section id="splash">
+    <section :id="pageSectionsEnum.SPLASH">
       <Splash @scrollToAbout="navigateToSection('about')" />
     </section>
 
-    <section id="about">
+    <section :id="pageSectionsEnum.ABOUT">
       <About />
     </section>
 
-    <section id="experience">
+    <section :id="pageSectionsEnum.EXPERIENCE">
       <ExperienceTimeline />
     </section>
 
-    <section id="travelshop">
+    <section :id="pageSectionsEnum.TRAVELSHOP">
       <TravelshopProject />
     </section>
 
-    <section id="features">
+    <section :id="pageSectionsEnum.FEATURES">
       <h3 class="examples-title">{{ t('app.examples_title') }}</h3>
       <Testing />
       <Features />
     </section>
-    <section id="remote-workplace">
+    <section :id="pageSectionsEnum.REMOTE_WORKPLACE">
       <RemoteWorkplace />
     </section>
-    <section id="contacts">
+    <section :id="pageSectionsEnum.CONTACTS">
       <Contacts />
     </section>
   </div>

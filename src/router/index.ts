@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { i18n } from '@/locales'
+import { pageSectionsEnum, type pageSectionsType } from '@/enums/page-sections'
 
 const routes = [
   {
@@ -23,13 +24,13 @@ const router = createRouter({
 router.beforeEach(to => {
   const supportedLocales = ['ru', 'en', 'de', 'zh']
   const supportedSections = [
-    'splash',
-    'about',
-    'experience',
-    'travelshop',
-    'features',
-    'remote-workplace',
-    'contacts',
+    pageSectionsEnum.SPLASH,
+    pageSectionsEnum.ABOUT,
+    pageSectionsEnum.EXPERIENCE,
+    pageSectionsEnum.TRAVELSHOP,
+    pageSectionsEnum.FEATURES,
+    pageSectionsEnum.REMOTE_WORKPLACE,
+    pageSectionsEnum.CONTACTS,
   ]
 
   const toLocale = to.params.locale as string
@@ -44,12 +45,14 @@ router.beforeEach(to => {
   // Если локаль не поддерживается, редиректим на русскую
   if (!supportedLocales.includes(toLocale)) {
     const fallbackSection =
-      toSection && supportedSections.includes(toSection) ? `/${toSection}` : ''
+      toSection && supportedSections.includes(toSection as pageSectionsType)
+        ? `/${toSection}`
+        : ''
     return `/ru${fallbackSection}`
   }
 
   // Если секция указана но не поддерживается, убираем ее
-  if (toSection && !supportedSections.includes(toSection)) {
+  if (toSection && !supportedSections.includes(toSection as pageSectionsType)) {
     return `/${toLocale}`
   }
 

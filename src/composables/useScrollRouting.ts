@@ -1,6 +1,13 @@
 import { ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useNavigationStore } from '@/stores/navigation'
+import { pageSectionsEnum } from '@/enums/page-sections'
+
+// Константы для лучшей читаемости и поддержки
+const SCROLL_DEBOUNCE_TIME = 100
+const SCROLL_ANIMATION_DURATION = 800
+const HEADER_HEIGHT = 60
+const SPLASH_SCROLL_THRESHOLD = 100
 
 export function useScrollRouting() {
   const router = useRouter()
@@ -9,16 +16,20 @@ export function useScrollRouting() {
 
   const scrollTimeout = ref<NodeJS.Timeout | null>(null)
 
-  // Определяем секции
+  // Оптимизированный массив секций
   const sectionDefinitions = [
-    { id: 'splash', name: 'splash' },
-    { id: 'about', name: 'about' },
-    { id: 'experience', name: 'experience' },
-    { id: 'travelshop', name: 'travelshop' },
-    { id: 'features', name: 'features' },
-    { id: 'remote-workplace', name: 'remote-workplace' },
-    { id: 'contacts', name: 'contacts' },
-  ]
+    pageSectionsEnum.SPLASH,
+    pageSectionsEnum.ABOUT,
+    pageSectionsEnum.EXPERIENCE,
+    pageSectionsEnum.TRAVELSHOP,
+    pageSectionsEnum.FEATURES,
+    pageSectionsEnum.REMOTE_WORKPLACE,
+    pageSectionsEnum.CONTACTS,
+  ].map(section => ({ id: section, name: section }))
+
+  // Вспомогательная функция для проверки splash секции
+  const isSplashSection = (sectionName: string): boolean =>
+    sectionName === pageSectionsEnum.SPLASH
 
   // Инициализация секций
   const initSections = () => {
@@ -34,17 +45,16 @@ export function useScrollRouting() {
 
   // Получение текущей активной секции
   const getCurrentSection = (): string => {
-    const scrollPosition = window.pageYOffset + window.innerHeight / 2
-    const headerHeight = 60
-
     // Если прокрутка в самом верху - это splash секция
-    if (window.pageYOffset < 100) {
-      return 'splash'
+    if (window.pageYOffset < SPLASH_SCROLL_THRESHOLD) {
+      return pageSectionsEnum.SPLASH
     }
+
+    const scrollPosition = window.pageYOffset + window.innerHeight / 2
 
     for (const section of navigationStore.sections) {
       if (section.element) {
-        const elementTop = section.element.offsetTop - headerHeight
+        const elementTop = section.element.offsetTop - HEADER_HEIGHT
         const elementBottom = elementTop + section.element.offsetHeight
 
         if (scrollPosition >= elementTop && scrollPosition <= elementBottom) {
@@ -53,7 +63,7 @@ export function useScrollRouting() {
       }
     }
 
-    return 'splash'
+    return pageSectionsEnum.SPLASH
   }
 
   // Обновление URL при скролле
@@ -63,21 +73,19 @@ export function useScrollRouting() {
       const currentLocale = (route.params.locale as string) || 'ru'
 
       // Для секции splash используем корневой URL, для остальных - с секцией
-      const newPath =
-        sectionName === 'splash'
-          ? `/${currentLocale}`
-          : `/${currentLocale}/${sectionName}`
+      const newPath = isSplashSection(sectionName)
+        ? `/${currentLocale}`
+        : `/${currentLocale}/${sectionName}`
 
       // Обновляем URL без триггера навигации
       window.history.replaceState({}, '', `/#${newPath}`)
     }
   }
 
-  // Обработчик скролла
-  const handleScroll = () => {
+  // Дебаунс обработчика скролла
+  const debouncedScrollHandler = () => {
     if (navigationStore.isScrolling) return
 
-    // Дебаунс скролла для производительности
     if (scrollTimeout.value) {
       clearTimeout(scrollTimeout.value)
     }
@@ -85,18 +93,29 @@ export function useScrollRouting() {
     scrollTimeout.value = setTimeout(() => {
       const section = getCurrentSection()
       updateUrl(section)
-    }, 100)
+    }, SCROLL_DEBOUNCE_TIME)
   }
 
   // Прокрутка к секции
   const scrollToSection = (sectionName: string) => {
+    if (isSplashSection(sectionName)) {
+      // Особый случай для главной страницы - прокрутка наверх
+      navigationStore.setIsScrolling(true)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+
+      setTimeout(() => {
+        navigationStore.setIsScrolling(false)
+      }, SCROLL_ANIMATION_DURATION)
+
+      return
+    }
+
     const section = navigationStore.getSectionById(sectionName)
     if (section?.element) {
       navigationStore.setIsScrolling(true)
 
-      const headerHeight = 60
       const elementPosition = section.element.offsetTop
-      const offsetPosition = elementPosition - headerHeight
+      const offsetPosition = elementPosition - HEADER_HEIGHT
 
       window.scrollTo({
         top: offsetPosition,
@@ -106,27 +125,16 @@ export function useScrollRouting() {
       // Сбрасываем флаг после завершения анимации
       setTimeout(() => {
         navigationStore.setIsScrolling(false)
-      }, 800)
-    } else if (sectionName === 'splash') {
-      // Особый случай для главной страницы - прокрутка наверх
-      navigationStore.setIsScrolling(true)
-
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      })
-
-      setTimeout(() => {
-        navigationStore.setIsScrolling(false)
-      }, 800)
+      }, SCROLL_ANIMATION_DURATION)
     }
   }
 
   // Навигация к секции
   const navigateToSection = (sectionName: string) => {
     const currentLocale = (route.params.locale as string) || 'ru'
-    const path =
-      sectionName === 'splash' ? `/${currentLocale}` : `/${currentLocale}/${sectionName}`
+    const path = isSplashSection(sectionName)
+      ? `/${currentLocale}`
+      : `/${currentLocale}/${sectionName}`
 
     router.push(path)
   }
@@ -138,15 +146,13 @@ export function useScrollRouting() {
 
   // Следим за изменениями маршрута для обновления активного пункта
   watch(
-    () => route.params,
-    (newParams, oldParams) => {
+    () => route.params.section,
+    (newSection, oldSection) => {
       // Обновляем currentSection при изменении секции
-      if (newParams.section !== oldParams.section) {
-        if (newParams.section) {
-          navigationStore.setCurrentSection(newParams.section as string)
-        } else {
-          navigationStore.setCurrentSection('splash')
-        }
+      if (newSection !== oldSection) {
+        navigationStore.setCurrentSection(
+          (newSection as string) || pageSectionsEnum.SPLASH,
+        )
       }
     },
   )
@@ -154,14 +160,14 @@ export function useScrollRouting() {
   // Инициализация
   const init = () => {
     initSections()
-    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('scroll', debouncedScrollHandler, { passive: true })
 
     // Инициализируем текущую секцию из URL
-    const initialSection = (route.params.section as string) || 'splash'
+    const initialSection = (route.params.section as string) || pageSectionsEnum.SPLASH
     navigationStore.setCurrentSection(initialSection)
 
     // Прокручиваем к секции из URL при загрузке
-    if (initialSection !== 'splash') {
+    if (!isSplashSection(initialSection)) {
       setTimeout(() => {
         scrollToSection(initialSection)
       }, 300)
@@ -172,8 +178,9 @@ export function useScrollRouting() {
   const destroy = () => {
     if (scrollTimeout.value) {
       clearTimeout(scrollTimeout.value)
+      scrollTimeout.value = null
     }
-    window.removeEventListener('scroll', handleScroll)
+    window.removeEventListener('scroll', debouncedScrollHandler)
   }
 
   return {

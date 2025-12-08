@@ -1,9 +1,11 @@
 <script setup lang="ts">
   import LangSelector from '@/components/lang-selector.vue'
+
   import { useScrollRouting } from '@/composables/useScrollRouting'
   import { useI18n } from '@/composables/useI18n'
   import { useNavigationStore } from '@/stores/navigation'
   import { ref, onMounted, onUnmounted, computed } from 'vue'
+  import { pageSectionsEnum } from '@/enums/page-sections'
 
   const { t } = useI18n()
   const navigationStore = useNavigationStore()
@@ -15,13 +17,13 @@
   const currentSection = computed(() => navigationStore.currentSection)
 
   const menuItems = computed(() => [
-    { id: 'splash', label: t('navigation.home') },
-    { id: 'about', label: t('navigation.about') },
-    { id: 'experience', label: t('navigation.experience') },
-    { id: 'travelshop', label: t('navigation.travelshop') },
-    { id: 'features', label: t('navigation.features') },
-    { id: 'remote-workplace', label: t('navigation.workplace') },
-    { id: 'contacts', label: t('navigation.contacts') },
+    { id: pageSectionsEnum.SPLASH, label: t('navigation.home') },
+    { id: pageSectionsEnum.ABOUT, label: t('navigation.about') },
+    { id: pageSectionsEnum.EXPERIENCE, label: t('navigation.experience') },
+    { id: pageSectionsEnum.TRAVELSHOP, label: t('navigation.travelshop') },
+    { id: pageSectionsEnum.FEATURES, label: t('navigation.features') },
+    { id: pageSectionsEnum.REMOTE_WORKPLACE, label: t('navigation.workplace') },
+    { id: pageSectionsEnum.CONTACTS, label: t('navigation.contacts') },
   ])
 
   // Проверка размера экрана
