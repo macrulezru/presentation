@@ -1,7 +1,7 @@
 import { ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useNavigationStore } from '@/stores/navigation'
-import { pageSectionsEnum } from '@/enums/page-sections'
+import { PageSectionsEnum } from '@/enums/page-sections.enum'
 
 // Константы для лучшей читаемости и поддержки
 const SCROLL_DEBOUNCE_TIME = 100
@@ -18,18 +18,18 @@ export function useScrollRouting() {
 
   // Оптимизированный массив секций
   const sectionDefinitions = [
-    pageSectionsEnum.SPLASH,
-    pageSectionsEnum.ABOUT,
-    pageSectionsEnum.EXPERIENCE,
-    pageSectionsEnum.TRAVELSHOP,
-    pageSectionsEnum.FEATURES,
-    pageSectionsEnum.REMOTE_WORKPLACE,
-    pageSectionsEnum.CONTACTS,
+    PageSectionsEnum.SPLASH,
+    PageSectionsEnum.ABOUT,
+    PageSectionsEnum.EXPERIENCE,
+    PageSectionsEnum.TRAVELSHOP,
+    PageSectionsEnum.FEATURES,
+    PageSectionsEnum.REMOTE_WORKPLACE,
+    PageSectionsEnum.CONTACTS,
   ].map(section => ({ id: section, name: section }))
 
   // Вспомогательная функция для проверки splash секции
   const isSplashSection = (sectionName: string): boolean =>
-    sectionName === pageSectionsEnum.SPLASH
+    sectionName === PageSectionsEnum.SPLASH
 
   // Инициализация секций
   const initSections = () => {
@@ -47,7 +47,7 @@ export function useScrollRouting() {
   const getCurrentSection = (): string => {
     // Если прокрутка в самом верху - это splash секция
     if (window.pageYOffset < SPLASH_SCROLL_THRESHOLD) {
-      return pageSectionsEnum.SPLASH
+      return PageSectionsEnum.SPLASH
     }
 
     const scrollPosition = window.pageYOffset + window.innerHeight / 2
@@ -63,7 +63,7 @@ export function useScrollRouting() {
       }
     }
 
-    return pageSectionsEnum.SPLASH
+    return PageSectionsEnum.SPLASH
   }
 
   // Обновление URL при скролле
@@ -151,7 +151,7 @@ export function useScrollRouting() {
       // Обновляем currentSection при изменении секции
       if (newSection !== oldSection) {
         navigationStore.setCurrentSection(
-          (newSection as string) || pageSectionsEnum.SPLASH,
+          (newSection as string) || PageSectionsEnum.SPLASH,
         )
       }
     },
@@ -163,7 +163,7 @@ export function useScrollRouting() {
     window.addEventListener('scroll', debouncedScrollHandler, { passive: true })
 
     // Инициализируем текущую секцию из URL
-    const initialSection = (route.params.section as string) || pageSectionsEnum.SPLASH
+    const initialSection = (route.params.section as string) || PageSectionsEnum.SPLASH
     navigationStore.setCurrentSection(initialSection)
 
     // Прокручиваем к секции из URL при загрузке

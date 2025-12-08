@@ -1,4 +1,4 @@
-export enum pageSectionsEnum {
+export enum PageSectionsEnum {
   SPLASH = 'splash',
   ABOUT = 'about',
   EXPERIENCE = 'experience',
@@ -8,4 +8,4 @@ export enum pageSectionsEnum {
   CONTACTS = 'contacts',
 }
 
-export type pageSectionsType = (typeof pageSectionsEnum)[keyof typeof pageSectionsEnum]
+export type PageSectionsType = (typeof PageSectionsEnum)[keyof typeof PageSectionsEnum]

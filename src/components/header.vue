@@ -5,7 +5,7 @@
   import { useI18n } from '@/composables/useI18n'
   import { useNavigationStore } from '@/stores/navigation'
   import { ref, onMounted, onUnmounted, computed } from 'vue'
-  import { pageSectionsEnum } from '@/enums/page-sections'
+  import { PageSectionsEnum } from '@/enums/page-sections.enum'
 
   const { t } = useI18n()
   const navigationStore = useNavigationStore()
@@ -17,13 +17,13 @@
   const currentSection = computed(() => navigationStore.currentSection)
 
   const menuItems = computed(() => [
-    { id: pageSectionsEnum.SPLASH, label: t('navigation.home') },
-    { id: pageSectionsEnum.ABOUT, label: t('navigation.about') },
-    { id: pageSectionsEnum.EXPERIENCE, label: t('navigation.experience') },
-    { id: pageSectionsEnum.TRAVELSHOP, label: t('navigation.travelshop') },
-    { id: pageSectionsEnum.FEATURES, label: t('navigation.features') },
-    { id: pageSectionsEnum.REMOTE_WORKPLACE, label: t('navigation.workplace') },
-    { id: pageSectionsEnum.CONTACTS, label: t('navigation.contacts') },
+    { id: PageSectionsEnum.SPLASH, label: t('navigation.home') },
+    { id: PageSectionsEnum.ABOUT, label: t('navigation.about') },
+    { id: PageSectionsEnum.EXPERIENCE, label: t('navigation.experience') },
+    { id: PageSectionsEnum.TRAVELSHOP, label: t('navigation.travelshop') },
+    { id: PageSectionsEnum.FEATURES, label: t('navigation.features') },
+    { id: PageSectionsEnum.REMOTE_WORKPLACE, label: t('navigation.workplace') },
+    { id: PageSectionsEnum.CONTACTS, label: t('navigation.contacts') },
   ])
 
   // Проверка размера экрана
