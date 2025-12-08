@@ -4,7 +4,7 @@ export enum pageSectionsEnum {
   EXPERIENCE = 'experience',
   TRAVELSHOP = 'travelshop',
   FEATURES = 'features',
-  REMOTE_WORKPLACE = 'remoteWorkplace',
+  REMOTE_WORKPLACE = 'remote-workplace',
   CONTACTS = 'contacts',
 }
 
