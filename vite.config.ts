@@ -20,7 +20,7 @@ export default defineConfig({
       imports: [
         'vue',
         {
-          '@/composables/useI18n': ['useI18n'],
+          '@/view/composables/useI18n': ['useI18n'],
         },
       ],
       dts: 'src/auto-imports.d.ts',

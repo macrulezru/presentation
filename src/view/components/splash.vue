@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { usePlasmaBackground } from '@/composables/useThreeSplash'
+  import { usePlasmaBackground } from '@/view/composables/useThreeSplash'
 
   const { t } = useI18n()
 

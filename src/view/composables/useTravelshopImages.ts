@@ -29,7 +29,7 @@ export const useTravelshopImages = () => {
 
   // Получение URL для изображения
   const getImageUrl = (name: string): string => {
-    return new URL(`/src/assets/images/travelshop/${name}`, import.meta.url).href
+    return new URL(`/src/view/assets/images/travelshop/${name}`, import.meta.url).href
   }
 
   // Получение изображения по ключу enum

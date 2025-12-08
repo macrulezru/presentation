@@ -1,11 +1,11 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
-import '@/styles/reset.css'
-import '@/styles/variables.css'
-import '@/styles/main.css'
+import '@/view/styles/reset.css'
+import '@/view/styles/variables.css'
+import '@/view/styles/main.css'
 
-import App from '@/App.vue'
+import App from '@/view/pages/App.vue'
 import router from '@/router'
 import i18nPlugin from '@/plugins/i18n'
 

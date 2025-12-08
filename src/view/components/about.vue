@@ -329,55 +329,55 @@
   }
 
   .about__tech-item-icon_js {
-    background-image: url('@/assets/images/javascript-logo.svg');
+    background-image: url('@/view/assets/images/javascript-logo.svg');
   }
 
   .about__tech-item-icon_vue {
-    background-image: url('@/assets/images/vue-logo.svg');
+    background-image: url('@/view/assets/images/vue-logo.svg');
   }
 
   .about__tech-item-icon_ts {
-    background-image: url('@/assets/images/ts-logo.svg');
+    background-image: url('@/view/assets/images/ts-logo.svg');
   }
 
   .about__tech-item-icon_pinia {
-    background-image: url('@/assets/images/pinia-logo.svg');
+    background-image: url('@/view/assets/images/pinia-logo.svg');
   }
 
   .about__tech-item-icon_vite {
-    background-image: url('@/assets/images/vite-logo.svg');
+    background-image: url('@/view/assets/images/vite-logo.svg');
   }
 
   .about__tech-item-icon_i18n {
-    background-image: url('@/assets/images/i18n-logo.svg');
+    background-image: url('@/view/assets/images/i18n-logo.svg');
   }
 
   .about__tech-item-icon_html {
-    background-image: url('@/assets/images/html-logo.svg');
+    background-image: url('@/view/assets/images/html-logo.svg');
   }
 
   .about__tech-item-icon_css {
-    background-image: url('@/assets/images/css-logo.svg');
+    background-image: url('@/view/assets/images/css-logo.svg');
   }
 
   .about__tech-item-icon_php {
-    background-image: url('@/assets/images/php-logo.svg');
+    background-image: url('@/view/assets/images/php-logo.svg');
   }
 
   .about__tech-item-icon_bitrix {
-    background-image: url('@/assets/images/bitrix-logo.svg');
+    background-image: url('@/view/assets/images/bitrix-logo.svg');
   }
 
   .about__tech-item-icon_git {
-    background-image: url('@/assets/images/git-logo.svg');
+    background-image: url('@/view/assets/images/git-logo.svg');
   }
 
   .about__tech-item-icon_svn {
-    background-image: url('@/assets/images/svn-logo.svg');
+    background-image: url('@/view/assets/images/svn-logo.svg');
   }
 
   .about__tech-item-icon_figma {
-    background-image: url('@/assets/images/figma-logo.svg');
+    background-image: url('@/view/assets/images/figma-logo.svg');
   }
 
   .about__tech-item-description {

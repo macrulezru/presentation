@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue'
+  import { useI18n } from '@/view/composables/useI18n'
   import emailjs from 'emailjs-com'
 
   const { t, tm } = useI18n()
@@ -376,19 +377,19 @@ ${t('form.sent_from')}: ${window.location.href}
   }
 
   .contacts__item-icon_mail {
-    background-image: url('@/assets/images/mail-icon.svg');
+    background-image: url('@/view/assets/images/mail-icon.svg');
   }
 
   .contacts__item-icon_telegram {
-    background-image: url('@/assets/images/telegram-icon.svg');
+    background-image: url('@/view/assets/images/telegram-icon.svg');
   }
 
   .contacts__item-icon_phone {
-    background-image: url('@/assets/images/phone-icon.svg');
+    background-image: url('@/view/assets/images/phone-icon.svg');
   }
 
   .contacts__item-icon_ya-messenger {
-    background-image: url('@/assets/images/ya-messenger-icon.svg');
+    background-image: url('@/view/assets/images/ya-messenger-icon.svg');
   }
 
   .contacts__item-content {

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  import DlvLoadingSpinner from '@/components/ui/DlvLoadingSpinner.vue'
+  import DlvLoadingSpinner from '@/view/ui/DlvLoadingSpinner.vue'
 
   const TravelshopImages = defineAsyncComponent({
-    loader: () => import('@/components/travelshop-images.vue'),
+    loader: () => import('@/view/components/travelshop-images.vue'),
     loadingComponent: DlvLoadingSpinner,
     delay: 200,
     timeout: 10000,

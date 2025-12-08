@@ -1,12 +1,12 @@
 <script setup lang="ts">
-  import DlvImageModal from '@/components/ui/DlvImageModal.vue'
+  import DlvImageModal from '@/view/ui/DlvImageModal.vue'
 
   import 'swiper/css'
 
   import { ref } from 'vue'
   import { Swiper, SwiperSlide } from 'swiper/vue'
   import { Pagination, Navigation, Mousewheel, Keyboard } from 'swiper/modules'
-  import { useTravelshopImages } from '@/composables/useTravelshopImages'
+  import { useTravelshopImages } from '@/view/composables/useTravelshopImages'
 
   const { images } = useTravelshopImages()
 

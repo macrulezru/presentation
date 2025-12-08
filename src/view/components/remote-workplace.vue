@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { useI18n } from '@/composables/useI18n'
+  import { useI18n } from '@/view/composables/useI18n'
 
   const { t, tm } = useI18n()
 
@@ -135,19 +135,19 @@
   }
 
   .feature-icon__workstation {
-    background-image: url('@/assets/images/workstation-icon.svg');
+    background-image: url('@/view/assets/images/workstation-icon.svg');
   }
 
   .feature-icon__monitors {
-    background-image: url('@/assets/images/monitors-icon.svg');
+    background-image: url('@/view/assets/images/monitors-icon.svg');
   }
 
   .feature-icon__internet {
-    background-image: url('@/assets/images/internet-icon.svg');
+    background-image: url('@/view/assets/images/internet-icon.svg');
   }
 
   .feature-icon__webcam {
-    background-image: url('@/assets/images/webcam-icon.svg');
+    background-image: url('@/view/assets/images/webcam-icon.svg');
   }
 
   .feature-content {
