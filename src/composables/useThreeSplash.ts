@@ -1453,17 +1453,18 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
    * МОНТИРОВАНИЕ КОМПОНЕНТА
    * Инициализирует Three.js сцену при монтировании компонента
    */
+  let controls
   onMounted(async () => {
-    const controls = await initThreeJS()
-
-    // Очистка при размонтировании компонента
-    onUnmounted(() => {
-      if (controls) {
-        controls.cleanup()
-      }
-    })
+    controls = await initThreeJS()
 
     return controls
+  })
+
+  // Очистка при размонтировании компонента
+  onUnmounted(() => {
+    if (controls) {
+      controls.cleanup()
+    }
   })
 
   // ============ PUBLIC API ============
