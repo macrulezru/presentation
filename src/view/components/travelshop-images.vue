@@ -171,7 +171,7 @@
     border: solid 1px var(--color-text-muted);
   }
 
-  @media (max-width: 768px) {
+  @mixin media-tablet {
     .travelshop-images {
       padding: 0 30px;
     }
@@ -188,7 +188,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @mixin media-mobile {
     .travelshop-images {
       padding: 0 24px;
     }

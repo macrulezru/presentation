@@ -69,7 +69,7 @@
     border-radius: var(--radius-md);
   }
 
-  @media (max-width: 768px) {
+  @mixin media-tablet {
     .demonstration {
       padding: var(--spacing-lg) 0;
     }
@@ -92,7 +92,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @mixin media-mobile {
     .demonstration__container {
       padding: 0 var(--spacing-md);
     }

@@ -592,7 +592,7 @@ ${t('form.sent_from')}: ${window.location.href}
     cursor: not-allowed;
   }
 
-  @media (max-width: 768px) {
+  @mixin media-tablet {
     .contacts {
       padding: var(--spacing-xl) 0;
     }
@@ -636,7 +636,7 @@ ${t('form.sent_from')}: ${window.location.href}
     }
   }
 
-  @media (max-width: 480px) {
+  @mixin media-mobile {
     .contacts__container {
       padding: 0 var(--spacing-md);
     }

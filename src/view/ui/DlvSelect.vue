@@ -188,7 +188,7 @@
     border-bottom: none;
   }
 
-  @media (max-width: 768px) {
+  @mixin media-tablet {
     .dlv-select {
       min-width: 100px;
     }
@@ -204,7 +204,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @mixin media-mobile {
     .dlv-select {
       min-width: 90px;
     }

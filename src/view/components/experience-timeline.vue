@@ -107,7 +107,7 @@
   .experience__item::before {
     content: '';
     position: absolute;
-    left: -1.87rem;
+    left: -1.85rem;
     top: 0.25rem;
     width: 12px;
     height: 12px;
@@ -205,7 +205,7 @@
     transform: translateY(0);
   }
 
-  @media (max-width: 768px) {
+  @mixin media-tablet {
     .experience {
       padding: 1rem 0;
     }
@@ -227,7 +227,7 @@
       left: 0.25rem;
     }
 
-    .experience__timeline-dot {
+    .experience__item::before {
       left: -1.55rem;
       width: 10px;
       height: 10px;
@@ -269,7 +269,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @mixin media-mobile {
     .experience__container {
       padding: 0 0.75rem;
     }
@@ -282,7 +282,7 @@
       left: 0.125rem;
     }
 
-    .experience__timeline-dot {
+    .experience__item::before {
       left: -22px;
     }
 

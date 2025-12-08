@@ -352,7 +352,7 @@
     transform: translateY(0);
   }
 
-  @media (max-width: 768px) {
+  @mixin media-tablet {
     .travelshop {
       padding: var(--spacing-md) 0;
     }
@@ -407,7 +407,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @mixin media-mobile {
     .travelshop__container {
       padding: 0 var(--spacing-sm);
     }

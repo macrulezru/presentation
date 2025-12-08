@@ -110,7 +110,7 @@
     scroll-margin-top: 80px;
   }
 
-  @media (max-width: 768px) {
+  @mixin media-tablet {
     .examples-title {
       font-size: 1.5rem;
       margin-top: 2rem;

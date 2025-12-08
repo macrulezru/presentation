@@ -293,7 +293,7 @@
     color: var(--color-text-primary);
   }
 
-  @media (max-width: 768px) {
+  @mixin media-tablet {
     .feature-item {
       padding: var(--spacing-lg) 0;
     }
@@ -333,7 +333,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @mixin media-mobile {
     .feature-item__container {
       padding: 0 var(--spacing-sm);
     }
@@ -358,7 +358,7 @@
     }
   }
 
-  @media (max-width: 360px) {
+  @mixin media-mobile-small {
     .feature-item__feature,
     .feature-item__benefit {
       padding: var(--spacing-sm);

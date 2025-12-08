@@ -208,7 +208,7 @@
     color: var(--color-accent-green);
   }
 
-  @media (max-width: 768px) {
+  @mixin media-tablet {
     .remote-workplace {
       padding: 3rem 0.5rem;
     }
@@ -237,7 +237,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @mixin media-mobile {
     .remote-workplace__container {
       padding: 0 1rem;
     }

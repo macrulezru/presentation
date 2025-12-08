@@ -448,7 +448,7 @@
     font-size: var(--font-size-base);
   }
 
-  @media (max-width: 768px) {
+  @mixin media-tablet {
     .about {
       padding: var(--spacing-md) 0;
     }
@@ -516,7 +516,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @mixin media-mobile {
     .about__container {
       padding: 0 var(--spacing-lg);
     }

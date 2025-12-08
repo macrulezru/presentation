@@ -341,7 +341,7 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @mixin media-tablet {
     .splash__title {
       font-size: var(--font-size-4xl);
     }
@@ -369,7 +369,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @mixin media-mobile {
     .splash__title {
       font-size: var(--font-size-3xl);
     }

@@ -337,7 +337,7 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @mixin media-tablet {
     .header__content {
       padding: 0 var(--spacing-sm);
       height: var(--header-height-mobile);
@@ -358,7 +358,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @mixin media-mobile {
     .header__content {
       padding: 0 var(--spacing-sm);
     }
@@ -373,7 +373,7 @@
     }
   }
 
-  @media (max-width: 360px) {
+  @mixin media-mobile-small {
     .header__logo-text {
       font-size: var(--font-size-md);
     }

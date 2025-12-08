@@ -34,7 +34,7 @@
     gap: var(--spacing-3xl);
   }
 
-  @media (max-width: 768px) {
+  @mixin media-tablet {
     .features {
       padding: var(--spacing-xl) 0;
     }
@@ -44,7 +44,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @mixin media-mobile {
     .features__list {
       gap: var(--spacing-xl);
     }

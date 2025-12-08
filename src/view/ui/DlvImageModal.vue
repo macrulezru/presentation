@@ -491,7 +491,7 @@
     transform: scale(0.9);
   }
 
-  @media (max-width: 1360px) {
+  @mixin media-desktop {
     .image-modal__nav_desktop {
       display: none;
     }
@@ -521,7 +521,7 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @mixin media-tablet {
     .image-modal {
       padding: 10px;
     }
@@ -562,7 +562,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @mixin media-mobile {
     .image-modal {
       padding: 5px;
     }
