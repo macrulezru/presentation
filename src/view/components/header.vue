@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  import LangSelector from '@/components/lang-selector.vue'
+  import LangSelector from '@/view/components/lang-selector.vue'
 
-  import { useScrollRouting } from '@/composables/useScrollRouting'
-  import { useI18n } from '@/composables/useI18n'
+  import { useScrollRouting } from '@/view/composables/useScrollRouting'
+  import { useI18n } from '@/view/composables/useI18n'
   import { useNavigationStore } from '@/stores/use-navigation-store'
   import { ref, onMounted, onUnmounted, computed } from 'vue'
   import { PageSectionsEnum } from '@/enums/page-sections.enum'

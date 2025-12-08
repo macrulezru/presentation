@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import DlvSelect from '@/components/ui/DlvSelect.vue'
+  import DlvSelect from '@/view/ui/DlvSelect.vue'
   import { computed } from 'vue'
   import { useNavigationStore } from '@/stores/use-navigation-store.ts'
   import { LocalesEnum, type LocalesEnumType, LocalesToView } from '@/enums/locales.enum'

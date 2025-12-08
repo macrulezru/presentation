@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import FeatureItem from '@/components/feature-item.vue'
+  import FeatureItem from '@/view/components/feature-item.vue'
 
-  import { useFeatures } from '@/composables/useFeatures'
+  import { useFeatures } from '@/view/composables/useFeatures'
 
   const { features } = useFeatures()
 </script>
