@@ -8,9 +8,19 @@ import '@/view/styles/main.css'
 import App from '@/view/pages/App.vue'
 import router from '@/router'
 import i18nPlugin from '@/plugins/i18n'
+import { loadDefaultLocale } from '@/locales'
 
-const app = createApp(App)
+// Асинхронная функция для инициализации приложения
+async function initializeApp() {
+  await loadDefaultLocale()
 
-app.use(createPinia()).use(router).use(i18nPlugin)
+  const app = createApp(App)
 
-app.mount('#app')
+  app.use(createPinia()).use(router).use(i18nPlugin)
+
+  app.mount('#app')
+}
+
+initializeApp().catch(error => {
+  console.error('Failed to initialize app:', error)
+})

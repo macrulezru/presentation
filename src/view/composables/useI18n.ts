@@ -4,7 +4,11 @@ import { LocalesEnum, LocalesList, type LocalesEnumType } from '@/enums/locales.
 import { useLocaleStore } from '@/stores/use-locale-store'
 
 export const useI18n = () => {
-  const { t, tm, locale, availableLocales } = i18n.global
+  const { t, locale, availableLocales } = i18n.global
+
+  // Объявляем tm с явным типом возвращаемого значения
+  const tm = i18n.global.tm as (key: string) => any
+
   const router = useRouter()
   const localeStore = useLocaleStore()
   const isLoading = ref(false)

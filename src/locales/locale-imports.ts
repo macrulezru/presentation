@@ -7,7 +7,7 @@ export type LocaleImportMap = {
 
 // Карта импортов
 export const localeImportMap: LocaleImportMap = {
-  [LocalesEnum.RU]: () => Promise.resolve({ default: {} }),
+  [LocalesEnum.RU]: () => import('./ru.json'),
   [LocalesEnum.EN]: () => import('./en.json'),
   [LocalesEnum.DE]: () => import('./de.json'),
   [LocalesEnum.ZH]: () => import('./zh.json'),
