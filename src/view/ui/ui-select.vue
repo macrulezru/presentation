@@ -155,7 +155,7 @@
     border-radius: 8px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     z-index: 1000;
-    max-height: 200px;
+    max-height: 300px;
     overflow-y: auto;
     margin-top: 4px;
   }
