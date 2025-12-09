@@ -1,5 +1,5 @@
 import { createI18n } from 'vue-i18n'
-import { LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum'
+import { LocalesEnum, type LocalesEnumType, LocalesList } from '@/enums/locales.enum'
 import { localeImportMap, preloadLocale } from '@/locales/locale-imports'
 
 const messages = {}
@@ -33,13 +33,30 @@ export async function loadLocale(locale: LocalesEnumType) {
   }
 }
 
-// Функция для начальной установки локали без загрузки RU
-export function setInitialLocale(locale: LocalesEnumType) {
-  i18n.global.locale.value = locale
-}
+// Функция для определения начальной локали
+export function getInitialLocale(): LocalesEnumType {
+  const hash = window.location.hash
 
-export async function loadDefaultLocale() {
-  return loadLocale(LocalesEnum.RU)
+  if (hash) {
+    const pathWithoutHash = hash.slice(1)
+    const segments = pathWithoutHash.split('/').filter(Boolean)
+
+    const [firstSegment] = segments
+
+    if (firstSegment) {
+      const possibleLocale = firstSegment.toUpperCase() as LocalesEnumType
+      if (LocalesList.includes(possibleLocale)) {
+        return possibleLocale
+      }
+    }
+  }
+
+  const savedLocale = localStorage.getItem('user-locale') as LocalesEnumType | null
+  if (savedLocale && LocalesList.includes(savedLocale)) {
+    return savedLocale
+  }
+
+  return LocalesEnum.RU
 }
 
 // Экспортируем preloadLocale
