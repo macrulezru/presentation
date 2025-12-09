@@ -11,28 +11,29 @@ import i18nPlugin from '@/plugins/i18n'
 import { loadLocale } from '@/locales'
 import { LocalesEnum, LocalesList, type LocalesEnumType } from '@/enums/locales.enum'
 
-// Функция для определения начальной локали из URL или localStorage
+// Функция для определения начальной локали
 function getInitialLocale(): LocalesEnumType {
-  const path = window.location.hash || window.location.pathname
+  const hash = window.location.hash
 
-  // Регулярное выражение для поиска локали в пути
-  // Учитываем, что локаль может быть после # для hash роутинга
-  const urlLocaleMatch = path.match(/\/([a-zA-Z]{2})(?:\/|$|#)/)
+  if (hash) {
+    const pathWithoutHash = hash.slice(1)
+    const segments = pathWithoutHash.split('/').filter(Boolean)
 
-  if (urlLocaleMatch && urlLocaleMatch[1]) {
-    const urlLocale = urlLocaleMatch[1].toUpperCase() as LocalesEnumType
-    if (LocalesList.includes(urlLocale)) {
-      return urlLocale
+    const [firstSegment] = segments
+
+    if (firstSegment) {
+      const possibleLocale = firstSegment.toUpperCase() as LocalesEnumType
+      if (LocalesList.includes(possibleLocale)) {
+        return possibleLocale
+      }
     }
   }
 
-  // Проверяем localStorage
   const savedLocale = localStorage.getItem('user-locale') as LocalesEnumType | null
   if (savedLocale && LocalesList.includes(savedLocale)) {
     return savedLocale
   }
 
-  // По умолчанию русский
   return LocalesEnum.RU
 }
 
