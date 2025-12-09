@@ -1,0 +1,763 @@
+{
+  "navigation": {
+    "home": "Startseite",
+    "about": "Über Mich",
+    "experience": "Erfahrung",
+    "travelshop": "TravelShop",
+    "features": "Lösungen",
+    "workplace": "Arbeitsplatz",
+    "contacts": "Kontakte"
+  },
+  "splash": {
+    "welcome": "Danil Lisin",
+    "subtitle": "Vue.js Entwickler",
+    "description": "Verwandle komplexe Aufgaben in elegante Lösungen. Spezialisiert auf Vue 3, TypeScript und die Erstellung skalierbarer Anwendungen mit durchdachter Architektur.",
+    "more": "Lebenslauf ansehen"
+  },
+  "app": {
+    "examples_title": "Beispiele einiger Lösungen"
+  },
+  "about": {
+    "intro": "Frontend-Entwickler mit über 6 Jahren Erfahrung in Vue.js.",
+    "approach": "Mein Weg in Webentwicklung und Design begann vor mehr als 20 Jahren, was mir ermöglicht hat, einen umfassenden Ansatz für die Erstellung von Schnittstellen zu entwickeln. Ich strebe danach, Anwendungen zu erstellen, die nicht nur funktional und leistungsstark sind, sondern auch eine durchdachte Interaktionslogik und ein sauberes visuelles Design aufweisen.",
+    "bitrix_title": "Bitrix-Erfahrung",
+    "bitrix_description": "Beschäftigte mich mit der Wartung und Entwicklung neuer TravelShop 1.0-Vorlagen für verschiedene Fluggesellschaften. Beherrsche dafür sicher PHP. Verstehe die Besonderheiten von Bitrix.",
+    "bitrix_skills": [
+      "Entwicklung und Wartung von TravelShop 1.0-Vorlagen",
+      "Integration mit Flugbuchungssystemen",
+      "Anpassung der Funktionalität nach Anforderungen der Fluggesellschaften",
+      "Arbeit mit PHP im Kontext von Bitrix-Projekten",
+      "Verständnis der Bitrix-Architektur und -Besonderheiten"
+    ],
+    "skills_title": "In meiner Arbeit lege ich Wert auf architektonische Sauberkeit, Wartbarkeit des Codes und Typsicherheit. Ich habe Erfahrung im kompletten Zyklus der Frontend-Entwicklung komplexer SPAs:",
+    "skills_list": [
+      {
+        "title": "Anwendungsstruktur-Design",
+        "description": "Entwicklung modularer und skalierbarer Architekturen, Organisation der Codebasis für einfache Wartung und Erweiterung"
+      },
+      {
+        "title": "Interface-Layout",
+        "description": "Erstellung responsiver, cross-browser-fähiger und barrierefreier Schnittstellen mit modernen Ansätzen (Flexbox, Grid)"
+      },
+      {
+        "title": "Implementierung von State-Management",
+        "description": "Einrichtung zentraler Speicher (Pinia/Vuex), Organisation von Daten und ihrer reaktiven Verbindungen zwischen Komponenten"
+      },
+      {
+        "title": "Client-Server-Kommunikation",
+        "description": "Aufbau einer Service-Schicht für API-Arbeit, Fehlerbehandlung, Implementierung von Wiederholungsmechanismen und Caching"
+      },
+      {
+        "title": "Routing",
+        "description": "Entwicklung komplexer Navigationssysteme mit verschachtelten und geschützten Routen, lazy Loading von Komponenten"
+      }
+    ],
+    "conclusion": "Dieser Ansatz ermöglicht es mir, zuverlässige und skalierbare Lösungen zu schaffen, die bequem zu entwickeln und zu warten sind.",
+    "tech_title": "Technologien & Werkzeuge",
+    "tech_stack_title": "Technologie-Stack",
+    "main_tech_title": "Kern-Technologien",
+    "main_tech_list": [
+      {
+        "title": "Vue.js 3",
+        "description": "SPA-Entwicklung mit Composition API, Composables, Reaktivität, Arbeit mit Lifecycle-Hooks, benutzerdefinierte Direktiven"
+      },
+      {
+        "title": "TypeScript",
+        "description": "Strikte Typisierung, Generics, Utility-Typen, Typsicherheit in Komponenten und Stores"
+      },
+      {
+        "title": "Pinia",
+        "description": "Anwendungszustandsverwaltung mit Composition API, Organisation modularer Stores über Setup Store-Syntax, TypeScript-Integration"
+      },
+      {
+        "title": "Vite",
+        "description": "Schneller Projektbuild, Plugin-Konfiguration, Optimierung von Production-Builds"
+      }
+    ],
+    "infra_tech_title": "Infrastruktur & Tools",
+    "infra_tech_list": [
+      {
+        "title": "Vue Router",
+        "description": "Navigation mit Lazy Loading, verschachtelte Routen, Navigations-Hooks, Verlaufshistorie"
+      },
+      {
+        "title": "Vue i18n",
+        "description": "Anwendungslokalisierung, dynamisches Laden von Übersetzungen, Pluralisierung"
+      },
+      {
+        "title": "Git",
+        "description": "Teamarbeit, Feature-Branches, Code-Review, Konfliktlösung"
+      },
+      {
+        "title": "REST API",
+        "description": "Entwicklung und Nutzung benutzerdefinierter HTTP-Request-Wrapper, Fehlerbehandlung, Caching, Request-Lebenszyklus-Management"
+      }
+    ],
+    "layout_tech_title": "Layout & Styling",
+    "layout_tech_list": [
+      {
+        "title": "HTML5/CSS3",
+        "description": "Semantisches Markup, responsives Design, CSS Grid/Flexbox"
+      },
+      {
+        "title": "SCSS/SASS",
+        "description": "Präprozessor, Mixins, modulares Styling, CSS Custom Properties"
+      }
+    ]
+  },
+  "tech": {
+    "javascript": "Die Grundlage. Moderne ES6+ Code",
+    "vue": "Meine Hauptspezialisierung. Vue 3, Composition API",
+    "typescript": "Strikte Typisierung für Code-Zuverlässigkeit",
+    "pinia": "Anwendungszustandsverwaltung",
+    "vite": "Modernes Build-Tool für schnelle Entwicklung",
+    "i18n": "Lokalisierung und mehrsprachige Schnittstellen",
+    "html": "Semantisches und zugängliches Markup",
+    "css": "Responsives Design, Flexbox, Grid",
+    "php": "PHP-Vorlagenentwicklung für Bitrix",
+    "bitrix": "Bitrix-Vorlagenentwicklung und -Support",
+    "git": "Verteiltes Versionskontrollsystem für alle Projekte",
+    "svn": "Erfahrung mit zentralisierten Versionskontrollsystemen",
+    "figma": "Arbeit mit Figma-Layouts, Markup und Anpassungen"
+  },
+  "experience": {
+    "title": "Berufserfahrung",
+    "showAllButton": "Alle Unternehmen",
+    "items": [
+      {
+        "company": "Online Reservation System",
+        "duration": "4 Jahre und 11 Monate",
+        "position": "Leitender HTML-Entwickler / Frontend-Entwickler",
+        "period": "Dezember 2020 — Oktober 2025",
+        "description": "Design und Entwicklung von Vue 3-Komponenten für TWx und TravelShop-Produkte. Erstellung von UI-Architektur, Entwicklung interaktiver Elemente und komplexer SPA-Anwendungen für Flugbuchungssysteme. Unterstützung und Anpassung von TravelShop-Vorlagen auf Bitrix für verschiedene Fluggesellschaften."
+      },
+      {
+        "company": "Tais",
+        "duration": "3 Jahre und 3 Monate",
+        "position": "Webentwickler",
+        "period": "Oktober 2017 — Dezember 2020",
+        "description": "Entwicklung von Frontend-Schnittstellen für Online-Buchungs- und Flugregistrierungssysteme. Erstellung intuitiver Benutzeroberflächen, Arbeit mit Formularen und Datenvalidierung, Integration mit Backend-Systemen und APIs."
+      },
+      {
+        "company": "TNT, Fernsehgesellschaft",
+        "position": "Webdesigner",
+        "description": "Erstellung animierter und interaktiver Werbebanner für Fernsehprojekte. Vollständiger Entwicklungszyklus: von Konzept und Design bis zur Umsetzung mit HTML5, CSS3 und JavaScript. Erstellung responsiver Banner mit Unterstützung verschiedener Größen und Geräte."
+      },
+      {
+        "company": "Bauservice GmbH",
+        "position": "Webdesigner",
+        "description": "Entwicklung von Unternehmenswebsite-Designs, Erstellung von Werbebannern und Ikonographie. Vollständiger Interface-Design-Zyklus: von Prototyping und visuellem Design bis zum adaptiven Layout. Grafikoptimierung und Sicherstellung der Cross-Browser-Kompatibilität."
+      },
+      {
+        "company": "European Media Group (EMG)",
+        "position": "Webdesigner / Webentwickler",
+        "description": "Entwicklung und Unterstützung von Websites für Medienprojekte des Unternehmens. Erstellung von Benutzeroberflächen, Design von Promotionsseiten und Landingpages. Integration des Designs mit Content-Management-Systemen, Optimierung der Webseitenleistung."
+      },
+      {
+        "company": "Advego",
+        "position": "Webdesigner / Webentwickler",
+        "description": "Vollständiger Zyklus der Webprojekterstellung: vom Benutzeroberflächendesign und visuellem Design bis zur Frontend-Entwicklung. Erstellung intuitiver Schnittstellen für Content-Börsen, Entwicklung von Administrationspanels und Benutzerkabinetten. Optimierung des Benutzererlebnisses und der Interaktion."
+      },
+      {
+        "company": "NIKITA ONLINE",
+        "position": "Webdesigner",
+        "description": "Entwicklung von Unternehmenswebsite-Designs und Promotionsseiten für Spielprojekte des Unternehmens. Erstellung visueller Konzepte, Design von Seitenlayouts und Interface-Elementen. Vorbereitung grafischer Materialien für Webpublikationen."
+      },
+      {
+        "company": "Nettrader",
+        "position": "Webdesigner",
+        "description": "Design von Benutzeroberflächen für Finanz- und Handelsplattformen. Erstellung intuitiver und funktionaler Schnittstellen für die Arbeit mit Finanzdaten. Entwicklung von visuellen Kommunikationssystemen und Branding-Elementen."
+      },
+      {
+        "company": "SOLDIS Kommunikationsagentur",
+        "position": "Webdesigner",
+        "description": "Erstellung von Website-Designs für Agenturkunden. Entwicklung visueller Konzepte, Vorbereitung von Layouts und grafischen Elementen. Arbeit an der Verbesserung des Benutzererlebnisses und der Navigation auf Webressourcen."
+      },
+      {
+        "company": "Yutinet.Ru",
+        "position": "Webdesigner",
+        "description": "Design und Entwicklung von Webschnittstellen für Internetportale. Erstellung von Benutzeroberflächen, Arbeit an der Verbesserung von Navigation und Inhaltsstruktur. Entwicklung grafischer Elemente und visueller Identitätssysteme."
+      },
+      {
+        "company": "ION Digital Center",
+        "position": "Webdesigner",
+        "description": "Design und Entwicklung von Websites für verschiedene Geschäftssegmente. Vollständiger Interface-Erstellungszyklus: von Zielgruppenforschung und Prototyping bis zur finalen Umsetzung. Entwicklung adaptiver Designs und Sicherstellung der Cross-Browser-Kompatibilität."
+      },
+      {
+        "company": "ADT Web Solutions",
+        "position": "Webdesigner",
+        "description": "Erstellung von Unternehmenswebsite- und Online-Shop-Designs. Entwicklung von Benutzeroberflächen, Navigationsdesign und Inhaltsstruktur. Arbeit am Branding und Erstellung einheitlicher visueller Systeme für Webprojekte."
+      },
+      {
+        "company": "Freelance",
+        "position": "Webdesigner",
+        "description": "Ausführung von Website-Design- und Entwicklungsaufträgen für verschiedene Kunden. Erstellung einzigartiger Designkonzepte, Entwicklung von Seitenlayouts, Vorbereitung grafischer Elemente. Arbeit am vollständigen Webprojekterstellungszyklus von der Idee bis zur Umsetzung."
+      },
+      {
+        "company": "Artez Production",
+        "position": "Webdesigner",
+        "description": "Website-Design für Kunden der Produktionsfirma. Erstellung visueller Konzepte, Entwicklung von Schnittstellen und Navigationssystemen. Vorbereitung von Grafiken für Webpublikationen und Sicherstellung der Designkonformität mit technischen Anforderungen."
+      },
+      {
+        "company": "Publicis United",
+        "position": "Webdesigner",
+        "description": "Design und Entwicklung von Websites für große Werbeagenturkunden. Erstellung interaktiver Schnittstellen, Arbeit an der Verbesserung des Benutzererlebnisses. Beteiligung an der Erstellung umfassender digitaler Lösungen für Marken. Arbeit nach Unternehmensstandards und Kundenrichtlinien."
+      },
+      {
+        "company": "AVM New Wave Inc.",
+        "position": "Webdesigner",
+        "description": "Design früher Websites zu Beginn der Internetentwicklung in Russland. Etablierung grundlegender Prinzipien des Webdesigns und der Navigation. Arbeit mit begrenzten technischen Möglichkeiten dieser Zeit, Optimierung von Grafiken für langsame Internetverbindungen."
+      }
+    ]
+  },
+  "travelshop": {
+    "title": "TravelShop - Flugbuchungssystem",
+    "role": "Lead Frontend-Entwickler",
+    "period": "Dezember 2020 — Oktober 2025",
+    "description": "Entwicklung und Wartung eines modernen Flugticketbuchungssystems für russische und ausländische Fluggesellschaften, einschließlich Azimut.",
+    "features": {
+      "title": "Wichtige Systemfunktionen",
+      "items": [
+        "Echtzeit-Flugsuche und -buchung",
+        "Komplexe Geschäftslogik für Tarif- und Gebührenberechnung",
+        "Mehrstufiger Buchungsprozess mit Datenvalidierung",
+        "Bestell- und Passagierverwaltungssystem",
+        "Integration mit Buchungssystemen (GDS)",
+        "Unterstützung für Zusatzleistungen (Gepäck, Verpflegung, Versicherungen)",
+        "Responsives Design für alle Geräte"
+      ]
+    },
+    "tech_stack": {
+      "title": "Technologie-Stack",
+      "items": [
+        "Vue 3 mit Composition API und TypeScript",
+        "Eigenes UI-Komponenten-Bibliothek",
+        "Vite für schnelle Builds und Entwicklung",
+        "Pinia für Application State Management",
+        "Vue Router mit Lazy Loading von Komponenten",
+        "REST API mit zentralisierter Fehlerbehandlung",
+        "Internationalisierung (i18n)"
+      ]
+    },
+    "achievements": {
+      "title": "Erfolge und Ergebnisse",
+      "items": [
+        "Entwickelte skalierbare Komponentenarchitektur, die die Entwicklung neuer Funktionen um 40 % beschleunigte",
+        "Erstellte Formularvalidierungssystem, das Buchungsfehler um 60 % reduzierte",
+        "Implementierte Suchanfragen-Caching-Mechanismus, der die Leistung um 25 % verbesserte",
+        "Etablierte Code-Review-Prozess und führte statische Typisierung ein, erhöhte die Code-Zuverlässigkeit",
+        "Entwickelte responsives Design für korrekte Funktion auf allen Gerätetypen"
+      ]
+    },
+    "projects": {
+      "title": "Umsetzte Projekte",
+      "items": [
+        {
+          "name": "Azimuth Airlines",
+          "url": "https://booking.azimuth.ru/new/",
+          "description": "Vollfunktionales Buchungssystem mit individualisiertem Design"
+        },
+        {
+          "name": "TravelShop White Label",
+          "url": "https://ors-aero.ru/travelshop",
+          "description": "Basisplattform für schnelle Bereitstellung von Buchungssystemen"
+        }
+      ]
+    },
+    "view_screenshots": "TravelShop-Screenshots ansehen",
+    "loading_screenshots": "Screenshots werden geladen...",
+    "images": {
+      "description": {
+        "desktop_1": "Flugsuchformular",
+        "desktop_2": "Gefundene Flüge Bildschirm",
+        "desktop_3": "Tarifauswahl",
+        "desktop_4": "Passagierdatenformular Bildschirm",
+        "desktop_5": "Auswahl der Borddienste",
+        "desktop_6": "Sitzplatzwahl in der Flugzeugkabine",
+        "desktop_7": "Pre-Commit-Bildschirm",
+        "desktop_8": "Warenkorb mit ausgewählten Dienstleistungen",
+        "default": "Bild {number}"
+      }
+    }
+  },
+  "common": {
+    "loading": "Laden...",
+    "loading_images": "Bilder werden geladen...",
+    "loading_please_wait": "Bitte warten...",
+    "previous_image": "Vorheriges Bild",
+    "next_image": "Nächstes Bild",
+    "close": "Schließen",
+    "thumbnail": "Miniaturansicht {number}"
+  },
+  "pipeline": {
+    "title": "REST API Pipeline-System",
+    "subtitle": "Effizientes Management vernetzter API-Aufrufketten",
+    "description": "Ein leistungsstarkes System zur Organisation sequenzieller HTTP-Anfragen an REST API, bei dem jeder nachfolgende Aufruf Daten vom vorherigen verwenden kann. Bietet vollständige Kontrolle über die Ausführung von Anfrageketten mit Fortschrittsvisualisierung und intelligenter Fehlerbehandlung.",
+    "features": {
+      "title": "Wichtige Systemfunktionen",
+      "items": [
+        "Sequentielle Ausführung vernetzter HTTP-Anfrageketten",
+        "Automatische Datenübertragung zwischen Pipeline-Stufen",
+        "Detaillierte Echtzeit-Fortschrittsverfolgung der Ausführung",
+        "Intelligente HTTP-Fehlerbehandlung mit Wiederholungsmechanismen",
+        "Bedingte Anfrageausführungslogik basierend auf vorherigen Ergebnissen",
+        "Automatischer Abbruch abhängiger Anfragen bei kritischen Fehlern",
+        "Volle Typsicherheit in allen Ausführungsstufen"
+      ]
+    },
+    "architecture": {
+      "title": "Architekturkomponenten",
+      "items": [
+        {
+          "name": "Pipeline Orchestrator",
+          "description": "Zentraler Koordinator, der die Reihenfolge der API-Anfrageausführung und Datenübertragung zwischen ihnen verwaltet"
+        },
+        {
+          "name": "Request Executor",
+          "description": "HTTP-Anfrageausführer mit Unterstützung für Wiederholungslogik, Timeouts und Behandlung verschiedener Statuscodes"
+        },
+        {
+          "name": "Progress Tracker",
+          "description": "Modul zur Verfolgung des Ausführungsfortschritts der Anfragekette mit detaillierter Aufschlüsselung nach jeder Stufe"
+        },
+        {
+          "name": "Error Handler",
+          "description": "Zentralisierter Fehlerbehandler mit Klassifizierung nach Typen und Wiederherstellungsstrategien"
+        },
+        {
+          "name": "Type Safety Layer",
+          "description": "Strikte Typisierungsschicht, die Datenkorrektheit in allen Pipeline-Stufen gewährleistet"
+        }
+      ]
+    },
+    "process": {
+      "title": "Pipeline-Arbeitsprozess",
+      "steps": [
+        {
+          "title": "Anfrageketten-Konfiguration",
+          "description": "Definition der Abfolge von API-Aufrufen, Abhängigkeiten zwischen ihnen und Ausführungsbedingungen für jede Stufe"
+        },
+        {
+          "title": "Initialisierung und Validierung",
+          "description": "Konfigurationskorrektheitsprüfung, Datenvorbereitung und Initialisierung der Ausführungsfortschrittsverfolgung"
+        },
+        {
+          "title": "Sequentielle Ausführung",
+          "description": "Schrittweise Ausführung von HTTP-Anfragen mit automatischer Datenübertragung und Zwischenergebnissverarbeitung"
+        },
+        {
+          "title": "Überwachung und Management",
+          "description": "Kontinuierliche Fortschrittsverfolgung, Behandlung auftretender Fehler und adaptives Management der Kettenausführung"
+        },
+        {
+          "title": "Finale Verarbeitung und Bereinigung",
+          "description": "Zusammenfassung aller Anfrageergebnisse, Datenfinalisierung und Freigabe von Systemressourcen"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Vorteile des Ansatzes",
+      "items": [
+        "40 % Reduzierung der Entwicklungszeit für komplexe API-Interaktionen",
+        "Erhöhte Zuverlässigkeit durch zentralisierte Fehlerbehandlung und Wiederholungsmechanismen",
+        "Verbessertes Benutzererlebnis durch genaue Fortschrittsanzeige",
+        "Vereinfachtes Debugging und Überwachung von Anfrageketten",
+        "Flexibilität für die Implementierung komplexer Geschäftsprozesse mit abhängigen API-Aufrufen",
+        "Volle Typsicherheit reduziert Laufzeitfehler",
+        "Einfache Integration in die bestehende Vue.js-Anwendungsökosystem"
+      ]
+    }
+  },
+  "localization": {
+    "title": "Flexibles Lokalisierungssystem mit String-Überschreibungen",
+    "subtitle": "Mechanismus zur Übersetzungsanpassung für verschiedene Bundles",
+    "description": "Das implementierte System ermöglicht das Überschreiben bestimmter Zeichenketten in Locales in Abhängigkeit vom Projekt-Build-Bundle und bietet Flexibilität bei der Anpassung der Benutzeroberfläche für verschiedene Kunden.",
+    "features": {
+      "title": "Hauptfunktionen",
+      "items": [
+        "Überschreiben bestimmter Zeichenketten ohne Duplizierung gesamter Wörterbücher",
+        "Unterstützung mehrerer Sprachen mit Anpassung für jede",
+        "Automatisches Zusammenführen von Standard- und benutzerdefinierten Locales",
+        "Flexible Konfiguration für verschiedene Build-Bundles",
+        "Beibehaltung von Standardwerten für nicht überschriebene Zeichenketten",
+        "Schnelles Hinzufügen neuer benutzerdefinierter Übersetzungen"
+      ]
+    },
+    "architecture": {
+      "title": "Architekturkomponenten",
+      "items": [
+        {
+          "name": "Base Locales",
+          "description": "Hauptübersetzungswörterbücher mit Standardzeichenketten für alle Sprachen"
+        },
+        {
+          "name": "Custom Locales",
+          "description": "Benutzerdefinierte Wörterbücher mit überschriebenen Zeichenketten für bestimmte Bundles"
+        },
+        {
+          "name": "Merge Engine",
+          "description": "Mechanismus zum Zusammenführen von Standard- und benutzerdefinierten Locales während des Builds"
+        },
+        {
+          "name": "Bundle Config",
+          "description": "Bundle-Konfiguration, die benutzerdefinierte Wörterbücher für Überschreibungen angibt"
+        }
+      ]
+    },
+    "process": {
+      "title": "Arbeitsprozess",
+      "steps": [
+        {
+          "title": "Bundle-Identifikation",
+          "description": "Das System identifiziert das aktuelle Build-Bundle und prüft auf benutzerdefinierte Wörterbücher dafür"
+        },
+        {
+          "title": "Lokalisierungs-Laden",
+          "description": "Basis-Übersetzungswörterbücher und benutzerdefinierte Wörterbücher für das angegebene Bundle werden geladen"
+        },
+        {
+          "title": "Wörterbuch-Zusammenführung",
+          "description": "Standard-Locales werden mit benutzerdefinierten zusammengeführt, wobei benutzerdefinierte Zeichenketten Priorität haben"
+        },
+        {
+          "title": "Ergebnisgenerierung",
+          "description": "Finale Übersetzungswörterbücher, die in der Anwendung verwendet werden, werden gebildet"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Vorteile des Ansatzes",
+      "items": [
+        "Flexibilität bei der Anpassung der Benutzeroberfläche für verschiedene Kunden",
+        "Zeitersparnis bei der Pflege mehrerer Übersetzungsversionen",
+        "Reduzierte Fehlerwahrscheinlichkeit bei der Aktualisierung von Locales",
+        "Vereinfachter Prozess zum Hinzufügen neuer benutzerdefinierter Übersetzungen",
+        "Beibehaltung einer einzigen Codebase für alle Bundles",
+        "Schnelle Bereitstellung angepasster Versionen"
+      ]
+    }
+  },
+  "seatMap": {
+    "title": "Universelles Flugzeug-Sitzplatz-Anzeigesystem",
+    "subtitle": "Architektur mit Treibern für verschiedene Datenformate",
+    "description": "Das implementierte System ermöglicht die Anzeige von Flugzeug-Sitzplänen aus verschiedenen Buchungssystemen durch eine einzige universelle Komponente unter Verwendung spezieller Treiber für die Datentransformation.",
+    "features": {
+      "title": "Hauptfunktionen",
+      "items": [
+        "Unterstützung mehrerer Datenformate von verschiedenen Systemen",
+        "Universelle Sitzplan-Anzeigekomponente",
+        "Treibersystem für Datentransformation",
+        "Flexible Konfiguration für neue Kunden",
+        "Isolierte Anzeigegeschäftslogik",
+        "Schneller Anschluss neuer Datenquellen"
+      ]
+    },
+    "architecture": {
+      "title": "Architekturkomponenten",
+      "items": [
+        {
+          "name": "Universal Seat Map Component",
+          "description": "Haupt-Sitzplan-Anzeigekomponente mit einheitlicher API"
+        },
+        {
+          "name": "Data Drivers",
+          "description": "Spezialisierte Treiber zur Transformation von Daten aus verschiedenen Formaten"
+        },
+        {
+          "name": "Seat Map Engine",
+          "description": "Engine zur Verarbeitung und Vorbereitung von Daten für die Anzeige"
+        },
+        {
+          "name": "Configuration Manager",
+          "description": "Konfigurationsmanager zum Verbinden von Treibern mit der Komponente"
+        }
+      ]
+    },
+    "process": {
+      "title": "Arbeitsprozess",
+      "steps": [
+        {
+          "title": "Datenerfassung",
+          "description": "Das System empfängt Sitzplandaten von einem externen System in einem spezifischen Format"
+        },
+        {
+          "title": "Treiberauswahl",
+          "description": "Basierend auf Datentyp oder Kunde wird der entsprechende Transformations-Treiber ausgewählt"
+        },
+        {
+          "title": "Datenumwandlung",
+          "description": "Der Treiber wandelt eingehende Daten in ein einheitliches Format für die Komponente um"
+        },
+        {
+          "title": "Kartenanzeige",
+          "description": "Die universelle Komponente zeigt den Sitzplan basierend auf vorbereiteten Daten an"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Vorteile des Ansatzes",
+      "items": [
+        "Schneller Anschluss neuer Kunden mit eigenen Datenformaten",
+        "Keine Code-Duplizierung in der Anzeigekomponente",
+        "Vereinfachte Systemwartung und Updates",
+        "Isolierung der Geschäftslogik von Datenspezifika",
+        "Skalierbarkeit der Architektur",
+        "Reduzierte Entwicklungszeit für neue Integrationen"
+      ]
+    }
+  },
+  "multisync": {
+    "title": "Einheitliches Synchronisierungssystem für verteilte Vue.js-Anwendungen",
+    "subtitle": "Zustandssynchronisierungsarchitektur zwischen unabhängigen Anwendungen mit optionaler Verschlüsselung",
+    "description": "System zur Erstellung und Verwaltung mehrerer unabhängiger Vue-Anwendungen innerhalb eines einzelnen Repositorys mit automatischer Zustandssynchronisierung zwischen ihnen. Implementiert Cross-Tab-Synchronisierungsmechanismus und Kommunikation zwischen Anwendungen durch einen einheitlichen Speicher mit Verschlüsselungsunterstützung und flexibler Konfiguration.",
+    "features": {
+      "title": "Wichtige Systemfunktionen",
+      "items": [
+        "Einheitliche Architektur für mehrere unabhängige Vue-Anwendungen in einem Repository",
+        "Automatische Cross-Tab-Synchronisierung und Zustandsabstimmung zwischen Anwendungen über localStorage",
+        "Mehrschichtige Store-Architektur mit klarer Aufgabentrennung (Pinia + benutzerdefinierte Stores)",
+        "Optionale Speicherdatenverschlüsselung mit AES-GCM",
+        "Mechanismus zur Verhinderung zyklischer Updates und Datenrennen",
+        "Flexibles Synchronisierungsmanagement (Aktivierung/Deaktivierung im laufenden Betrieb)",
+        "Detaillierte Protokollierung und Fehlerbehebung aller Synchronisierungsphasen"
+      ]
+    },
+    "architecture": {
+      "title": "Architekturkomponenten",
+      "items": [
+        {
+          "name": "Multi-App-Koordinator",
+          "description": "zentraler Koordinator zur Verwaltung mehrerer unabhängiger Vue-Anwendungen innerhalb eines einzigen Repositorys"
+        },
+        {
+          "name": "Cross-Tab-Synchronisierungs-Engine",
+          "description": "Synchronisierungs-Engine für Zustände zwischen Browser-Tabs über localStorage und benutzerdefinierte Ereignisse"
+        },
+        {
+          "name": "Mehrschichtige Store-Architektur",
+          "description": "mehrschichtige Store-Architektur mit klarer Aufgabentrennung zwischen Komponenten"
+        },
+        {
+          "name": "Optionale Verschlüsselungsschicht",
+          "description": "optionale Datenverschlüsselungsschicht mit AES-GCM-Unterstützung und flexibler Schlüsselkonfiguration"
+        },
+        {
+          "name": "Zyklenverhinderungsmechanismus",
+          "description": "Mechanismus zur Verhinderung zyklischer Updates und Datenrennen während der Synchronisierung"
+        },
+        {
+          "name": "Einheitliches Protokollierungssystem",
+          "description": "einheitliches Protokollierungssystem mit detaillierter Aufzeichnung aller Synchronisierungsvorgänge und Fehlerbehandlung"
+        }
+      ]
+    },
+    "process": {
+      "title": "Systemablauf",
+      "steps": [
+        {
+          "title": "Anwendungsinitialisierung",
+          "description": "Laden und Initialisierung mehrerer unabhängiger Vue-Anwendungen mit Verbindung zum einheitlichen synchronisierten Speicher"
+        },
+        {
+          "title": "Synchronisierungskonfiguration",
+          "description": "Konfiguration der Synchronisierungsparameter, Verschlüsselung und Verbindung von Ereignis-Listenern für Cross-Tab-Updates"
+        },
+        {
+          "title": "Verteiltes Zustandsmanagement",
+          "description": "Automatische Synchronisierung von Änderungen zwischen Anwendungen mit Verarbeitung und Lösung von Update-Konflikten"
+        },
+        {
+          "title": "Sichere Datenspeicherung",
+          "description": "Optionale Speicherdatenverschlüsselung und Schutz vor unbefugtem Zugriff auf den Systemzustand"
+        },
+        {
+          "title": "Überwachung und Fehlerbehebung",
+          "description": "Detaillierte Protokollierung aller Synchronisierungsvorgänge mit Visualisierung des Verbindungsstatus und Updates"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Vorteile des Ansatzes",
+      "items": [
+        "Einzelne Codebase für mehrere Anwendungen — Reduzierung der Codeduplizierung um 60%",
+        "Automatische Synchronisierung — Gewährleistung der Datenkonsistenz zwischen Anwendungen",
+        "Architekturflexibilität — Möglichkeit, neue Anwendungen einfach in das System zu integrieren",
+        "Erhöhte Sicherheit — optionale Verschlüsselung kritischer Benutzerdaten",
+        "Verbessertes UX — sofortige Schnittstellenaktualisierung bei Zustandsänderungen in jeder Anwendung",
+        "Skalierbarkeit — Unterstützung einer unbegrenzten Anzahl von Anwendungen im synchronisierten System",
+        "Vereinfachte Fehlerbehebung — zentralisierte Protokollierung aller Synchronisierungsvorgänge in Echtzeit"
+      ]
+    },
+    "metrics": {
+      "title": "Wichtige Metriken und Erfolge",
+      "items": [
+        "Unterstützung von 3+ unabhängigen Vue-Anwendungen in einem System",
+        "Reduzierung der Entwicklungszeit für neue Anwendungen um 40%",
+        "Gewährleistung der Datensynchronisierung bei 100+ gleichzeitigen Updates",
+        "Reduzierung der Codeduplizierung zwischen Anwendungen um 70%",
+        "Verringerung der Debugging-Zeit für anwendungsübergreifende Interaktionen um 50%"
+      ]
+    }
+  },
+  "remote_workplace": {
+    "title": "Entfernter Arbeitsplatz",
+    "subtitle": "Bereit für effektive Arbeit von überall",
+    "description": "Ein voll ausgestatteter Raum für produktives Remote-Arbeiten. Alles, was für komfortable Entwicklung und Kommunikation mit dem Team benötigt wird.",
+    "benefits_title": "Vorteile für das Team",
+    "features": {
+      "items": [
+        {
+          "icon": "workstation",
+          "title": "Leistungsstarke Workstation",
+          "description": "Leistungsstarker Computer für die Arbeit mit modernen IDEs und gleichzeitiges Ausführen mehrerer Entwicklungsumgebungen"
+        },
+        {
+          "icon": "monitors",
+          "title": "Drei Monitore",
+          "description": "Große Monitore für komfortable Trennung von Code, Browser und Kommunikationsanwendungen"
+        },
+        {
+          "icon": "internet",
+          "title": "Stabiles Internet",
+          "description": "Hochgeschwindigkeits-Kabelverbindung für Videokonferenzen und schnelle Code-Synchronisation"
+        },
+        {
+          "icon": "webcam",
+          "title": "Webcam und Headset",
+          "description": "Hochwertige Kamera und Headset für tägliche Team-Meetings"
+        }
+      ]
+    },
+    "benefits": {
+      "items": [
+        "Sofortiges Umschalten zwischen Aufgaben",
+        "Paralleles Arbeiten an Code und Kommunikation",
+        "Schnelle Reaktion auf Team-Nachrichten",
+        "Qualitativ hochwertige Teilnahme an Planung und Code-Review",
+        "Bereitschaft für häufige Video-Meetings",
+        "Reduzierte Kommunikationszeit"
+      ]
+    }
+  },
+  "uiComponents": {
+    "title": "UI-Komponenten-Entwicklung",
+    "subtitle": "UI-Komponenten-Architekt",
+    "description": "Entwurf und Implementierung einer UI-Komponentenbibliothek für eine große Webanwendung mit Fokus auf Barrierefreiheit, Leistung und Entwicklungserfahrung.",
+    "features": {
+      "title": "Schlüsselkomponenten",
+      "items": [
+        "Eingabefelder und Selektoren - Komponenten mit vollständigem Interaktionszyklus: Validierung, Eingabemasken, benutzerdefinierte Platzhalter, Fehler- und Ladezustände",
+        "Intelligente Autovervollständigung - Komplexe Tastaturlogik, virtuelles Scrollen, Mobilgeräteanpassung und T9-Eingabeunterstützung",
+        "Modale Fenster und Tooltips - Universelle Overlay-Komponenten mit Wischgesten-Unterstützung, Scrollsperre und Fokusverwaltung",
+        "Kalender und Datumsauswahl - Flexible Komponente für Datums- und Zeitraumauswahl mit benutzerdefinierter Bereichsmarkierungslogik und visuellen Zuständen",
+        "Tabellen und Registerkarten - Leistungsstarke Tabellen mit Virtualisierung und adaptive Tabs mit programmatischer Navigations-API"
+      ]
+    },
+    "architecture": {
+      "title": "Architekturkomponenten",
+      "items": [
+        {
+          "name": "Basis-Komponenten",
+          "description": "grundlegende UI-Elemente mit durchdachter API und Theme-Unterstützung"
+        },
+        {
+          "name": "Komposite Komponenten",
+          "description": "komplexe zusammengesetzte Komponenten auf Basis von Grundelementen"
+        },
+        {
+          "name": "Theming-System",
+          "description": "Mechanismus zur Anpassung des Erscheinungsbilds über CSS Custom Properties"
+        },
+        {
+          "name": "Dokumentation",
+          "description": "umfassende Dokumentation mit Anwendungsbeispielen und API-Referenz"
+        }
+      ]
+    },
+    "process": {
+      "title": "Entwicklungsprozess",
+      "steps": [
+        {
+          "title": "API-Design",
+          "description": "Entwicklung von Komponentenschnittstellen unter Berücksichtigung von Benutzerfreundlichkeit und Typsicherheit"
+        },
+        {
+          "title": "Implementierung der Kernfunktionalität",
+          "description": "Erstellung der Hauptfunktionalität von Komponenten mit Barrierefreiheitsunterstützung"
+        },
+        {
+          "title": "Tests und Dokumentation",
+          "description": "Schreiben von Tests und Erstellen von Dokumentation mit Anwendungsbeispielen"
+        },
+        {
+          "title": "Integration und Feedback",
+          "description": "Projektintegration und Feedback-Sammlung zur Verbesserung der Komponenten"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Vorteile des Ansatzes",
+      "items": [
+        "30 % schnellere Funktionsentwicklung durch Komponentenwiederverwendung",
+        "Gewährleistung der Konsistenz der Benutzeroberfläche in der gesamten Anwendung",
+        "Vereinfachung der Wartung und Skalierung der Codebasis",
+        "Verbesserung der Benutzererfahrung auf Mobilgeräten",
+        "40 % weniger Fehler in der UI-Logik"
+      ]
+    }
+  },
+  "demonstration": {
+    "title": "Berufsethik und meine Fähigkeiten",
+    "description": "Bei kommerziellen Projekten wie TravelShop ist die Codebasis geistiges Eigentum der Unternehmen, daher habe ich nicht das Recht, diese zu demonstrieren.",
+    "readiness": "Ich bin bereit, eine Testaufgabe zu absolvieren, um in der Praxis meinen Lösungsansatz, Code-Qualität und professionelle Fähigkeiten zu demonstrieren."
+  },
+  "contacts": {
+    "title": "Kontakte",
+    "subtitle": "Kontaktieren Sie mich auf bequeme Weise",
+    "emails": {
+      "label": "E-mail",
+      "values": ["macrulezru@gmail.com", "macrulezru@yandex.ru"]
+    },
+    "telegram": {
+      "label": "Telegram",
+      "value": "Danil_Anapa"
+    },
+    "phone": {
+      "label": "Telefon",
+      "value": "+7 963 697-26-62"
+    },
+    "ya-messenger": {
+      "label": "Yandex Messenger",
+      "value": "macrulezru"
+    }
+  },
+  "form": {
+    "title": "Kontaktformular",
+    "description": "Schreiben Sie mir direkt über das untenstehende Formular",
+    "default_subject": "Nachricht von der Portfolio-Website",
+    "fields": {
+      "name": "Name",
+      "email": "E-Mail",
+      "subject": "Betreff",
+      "message": "Nachricht"
+    },
+    "placeholders": {
+      "name": "Geben Sie Ihren Namen ein",
+      "email": "Geben Sie Ihre E-Mail-Adresse ein",
+      "subject": "Betreff der Nachricht (optional)",
+      "message": "Erzählen Sie mir über Ihr Projekt oder stellen Sie eine Frage"
+    },
+    "submit": "Nachricht senden",
+    "sending": "Wird gesendet...",
+    "reset": "Löschen",
+    "sent_from": "Gesendet von Seite",
+    "success_message": "✅ Vielen Dank! Nachricht gesendet. Ich antworte innerhalb von 24 Stunden.",
+    "errors": {
+      "name_required": "Bitte geben Sie Ihren Namen ein",
+      "email_required": "Bitte geben Sie Ihre E-Mail-Adresse ein",
+      "email_invalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+      "message_required": "Bitte geben Sie Ihre Nachricht ein",
+      "submission_failed": "Senden fehlgeschlagen. Die E-Mail wird in Ihrem E-Mail-Programm geöffnet."
+    }
+  }
+}

@@ -1,18 +1,77 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import AutoImport from 'unplugin-auto-import/vite'
+import svgo from 'vite-plugin-svgo'
+import postcssMixins from 'postcss-mixins'
+import postcssNested from 'postcss-nested'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      script: {
+        defineModel: true,
+        propsDestructure: true,
+      },
+    }),
     vueDevTools(),
+    AutoImport({
+      imports: [
+        'vue',
+        {
+          '@/view/composables/useI18n': ['useI18n'],
+        },
+      ],
+      dts: 'src/auto-imports.d.ts',
+      eslintrc: {
+        enabled: true,
+      },
+    }),
+    // Плагин для оптимизации SVG
+    svgo({
+      multipass: true,
+      plugins: [
+        {
+          name: 'preset-default',
+          params: {
+            overrides: {
+              removeViewBox: false,
+              cleanupIds: {
+                remove: false,
+                minify: true,
+              },
+              removeTitle: false,
+            },
+          },
+        },
+        'removeDimensions',
+      ],
+    }),
   ],
+  css: {
+    postcss: {
+      plugins: [
+        postcssMixins({
+          mixinsFiles: ['./src/view/styles/mixins/media.css'],
+        }),
+        postcssNested(),
+      ],
+    },
+  },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
+  },
+  server: {
+    port: 3000,
+    open: true,
+  },
+  build: {
+    target: 'esnext',
+    minify: 'esbuild',
+    assetsInlineLimit: 4096,
   },
 })

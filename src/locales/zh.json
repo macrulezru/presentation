@@ -1,0 +1,763 @@
+{
+  "navigation": {
+    "home": "首页",
+    "about": "关于我",
+    "experience": "经验",
+    "travelshop": "TravelShop",
+    "features": "解决方案",
+    "workplace": "工作场所",
+    "contacts": "联系方式"
+  },
+  "splash": {
+    "welcome": "李辛·丹尼尔·弗拉基米罗维奇",
+    "subtitle": "Vue.js 开发工程师",
+    "description": "将复杂任务转化为优雅的解决方案。专注于 Vue 3、TypeScript 和构建具有深思熟虑架构的可扩展应用程序。",
+    "more": "查看简历"
+  },
+  "app": {
+    "examples_title": "部分解决方案示例"
+  },
+  "about": {
+    "intro": "拥有 6 年以上 Vue.js 经验的前端开发工程师。",
+    "approach": "我在网页开发和设计领域的旅程始于 20 多年前，这使我形成了创建用户界面的综合方法。我致力于让应用程序不仅功能强大、性能优异，而且具备经过深思熟虑的交互逻辑和整洁的视觉效果。",
+    "bitrix_title": "Bitrix 经验",
+    "bitrix_description": "从事各种航空公司的 TravelShop 1.0 模板的支持和新模板开发工作。为此熟练掌握 PHP 语言。了解 Bitrix 的特性。",
+    "bitrix_skills": [
+      "TravelShop 1.0 模板的开发和维护",
+      "与航班预订系统集成",
+      "根据航空公司要求定制功能",
+      "在 Bitrix 项目环境中使用 PHP",
+      "理解 Bitrix 架构和特性"
+    ],
+    "skills_title": "在工作中，我注重架构的清晰性、代码的可维护性和类型安全性。拥有复杂 SPA 前端部分全周期开发经验：",
+    "skills_list": [
+      {
+        "title": "应用程序结构设计",
+        "description": "开发模块化和可扩展的架构，组织代码库以便于维护和发展"
+      },
+      {
+        "title": "界面布局",
+        "description": "使用现代方法（Flexbox、Grid）创建响应式、跨浏览器且可访问的界面"
+      },
+      {
+        "title": "状态管理实现",
+        "description": "配置集中式存储（Pinia/Vuex），组织数据及其在组件间的响应式关联"
+      },
+      {
+        "title": "客户端-服务器交互",
+        "description": "构建用于 API 交互的服务层，处理错误，实现重试机制和缓存"
+      },
+      {
+        "title": "路由",
+        "description": "开发具有嵌套路由、受保护路由和组件懒加载功能的复杂导航系统"
+      }
+    ],
+    "conclusion": "这种方法能够创建可靠且可扩展的解决方案，便于发展和维护。",
+    "tech_title": "技术与工具",
+    "tech_stack_title": "技术栈",
+    "main_tech_title": "核心技术",
+    "main_tech_list": [
+      {
+        "title": "Vue.js 3",
+        "description": "使用Composition API、组合函数、响应式系统开发SPA应用，处理生命周期钩子，自定义指令"
+      },
+      {
+        "title": "TypeScript",
+        "description": "严格类型检查，泛型，实用工具类型，组件和存储中的类型安全"
+      },
+      {
+        "title": "Pinia",
+        "description": "使用Composition API进行应用程序状态管理，通过Setup Store语法组织模块化存储，TypeScript集成"
+      },
+      {
+        "title": "Vite",
+        "description": "快速项目构建，插件配置，生产构建优化"
+      }
+    ],
+    "infra_tech_title": "基础设施与工具",
+    "infra_tech_list": [
+      {
+        "title": "Vue Router",
+        "description": "导航路由，懒加载，嵌套路由，导航钩子，历史管理"
+      },
+      {
+        "title": "Vue i18n",
+        "description": "应用本地化，动态加载翻译，复数形式处理"
+      },
+      {
+        "title": "Git",
+        "description": "团队协作，功能分支，代码审查，冲突解决"
+      },
+      {
+        "title": "REST API",
+        "description": "开发和自定义HTTP请求包装器，错误处理，缓存，请求生命周期管理"
+      }
+    ],
+    "layout_tech_title": "布局与样式",
+    "layout_tech_list": [
+      {
+        "title": "HTML5/CSS3",
+        "description": "语义化标记，响应式设计，CSS Grid/Flexbox"
+      },
+      {
+        "title": "SCSS/SASS",
+        "description": "预处理，混合器，模块化样式，CSS自定义属性"
+      }
+    ]
+  },
+  "tech": {
+    "javascript": "一切的基础。编写现代 ES6+ 代码",
+    "vue": "我的主要专业方向。Vue 3, Composition API",
+    "typescript": "严格的类型系统保障代码可靠性",
+    "pinia": "应用程序状态管理",
+    "vite": "用于快速开发的现代构建工具",
+    "i18n": "本地化和多语言界面",
+    "html": "语义化和可访问的布局",
+    "css": "响应式设计, Flexbox, Grid",
+    "php": "Bitrix 的 PHP 模板开发",
+    "bitrix": "Bitrix 模板开发与支持",
+    "git": "所有项目的分布式版本控制",
+    "svn": "具有集中式版本控制系统的经验",
+    "figma": "Figma设计稿处理、页面制作和修改"
+  },
+  "experience": {
+    "title": "工作经验",
+    "showAllButton": "所有公司",
+    "items": [
+      {
+        "company": "在线预订系统",
+        "duration": "4年11个月",
+        "position": "高级HTML开发员 / 前端开发员",
+        "period": "2020年12月 — 2025年10月",
+        "description": "为TWx和TravelShop产品设计和开发Vue 3组件。创建UI架构，开发交互元素和复杂的航班预订系统SPA应用。支持并定制基于Bitrix的TravelShop模板，服务于多家航空公司。"
+      },
+      {
+        "company": "Tais公司",
+        "duration": "3年3个月",
+        "position": "网页开发员",
+        "period": "2017年10月 — 2020年12月",
+        "description": "为在线预订和航班登记系统开发前端界面。创建直观的用户界面，处理表单和数据验证，与后端系统和API集成。"
+      },
+      {
+        "company": "TNT电视台",
+        "position": "网页设计师",
+        "description": "为电视项目创建动画和交互式广告横幅。完整开发周期：从概念设计到使用HTML5、CSS3和JavaScript实现。创建支持多种尺寸和设备的响应式横幅。"
+      },
+      {
+        "company": "Bauservice有限责任公司",
+        "position": "网页设计师",
+        "description": "开发企业网站设计，创建广告横幅和图标系统。完整界面设计周期：从原型设计和视觉设计到自适应布局。图形优化和确保跨浏览器兼容性。"
+      },
+      {
+        "company": "欧洲媒体集团（EMG）",
+        "position": "网页设计师 / 网页开发员",
+        "description": "为公司媒体项目开发和支持网站。创建用户界面，设计促销页面和落地页。将设计与内容管理系统集成，优化网页性能。"
+      },
+      {
+        "company": "Advego公司",
+        "position": "网页设计师 / 网页开发员",
+        "description": "完整的网页项目创建周期：从用户界面设计和视觉设计到前端开发。为内容交易平台创建直观界面，开发管理面板和用户后台。优化用户体验和交互。"
+      },
+      {
+        "company": "NIKITA ONLINE公司",
+        "position": "网页设计师",
+        "description": "为公司游戏项目开发企业网站设计和促销页面。创建视觉概念，设计页面布局和界面元素。准备网页发布的图形材料。"
+      },
+      {
+        "company": "Nettrader公司",
+        "position": "网页设计师",
+        "description": "为金融和交易平台设计用户界面。创建用于处理金融数据的直观且功能性的界面。开发视觉传达系统和品牌元素。"
+      },
+      {
+        "company": "SOLDIS传播机构",
+        "position": "网页设计师",
+        "description": "为机构客户创建网站设计。开发视觉概念，准备布局和图形元素。致力于改善网络资源的用户体验和导航。"
+      },
+      {
+        "company": "Yutinet.Ru公司",
+        "position": "网页设计师",
+        "description": "为互联网门户设计和开发Web界面。创建用户界面，改进导航和内容结构。开发图形元素和视觉识别系统。"
+      },
+      {
+        "company": "ION数字中心",
+        "position": "网页设计师",
+        "description": "为不同业务领域设计和开发网站。完整的界面创建周期：从目标受众研究和原型设计到最终实现。开发自适应设计并确保跨浏览器兼容性。"
+      },
+      {
+        "company": "ADT Web Solutions公司",
+        "position": "网页设计师",
+        "description": "创建企业网站和在线商店设计。开发用户界面，设计导航和内容结构。从事品牌建设并为Web项目创建统一的视觉系统。"
+      },
+      {
+        "company": "自由职业",
+        "position": "网页设计师",
+        "description": "为不同客户执行网站设计和开发订单。创建独特的设计概念，开发页面布局，准备图形元素。从创意到实现的完整网页项目创建周期。"
+      },
+      {
+        "company": "Artez制作公司",
+        "position": "网页设计师",
+        "description": "为生产公司客户设计网站。创建视觉概念，开发界面和导航系统。准备网页发布的图形并确保设计符合技术要求。"
+      },
+      {
+        "company": "Publicis United公司",
+        "position": "网页设计师",
+        "description": "为主要广告公司客户设计和开发网站。创建交互式界面，改进用户体验。参与为品牌创建综合数字解决方案。按照公司标准和客户指南工作。"
+      },
+      {
+        "company": "AVM New Wave公司",
+        "position": "网页设计师",
+        "description": "在俄罗斯互联网发展初期设计早期网站。建立网页设计和导航的基本原则。在有限的技术条件下工作，针对慢速互联网连接优化图形。"
+      }
+    ]
+  },
+  "travelshop": {
+    "title": "TravelShop - 机票预订系统",
+    "role": "高级前端开发工程师",
+    "period": "2020年12月 — 2025年10月",
+    "description": "为俄罗斯及外国航空公司（包括阿齐穆特航空）开发和维护现代化的机票预订系统。",
+    "features": {
+      "title": "系统核心功能",
+      "items": [
+        "实时机票搜索和预订",
+        "复杂的票价和费用计算业务逻辑",
+        "带数据验证的多步骤预订流程",
+        "订单和乘客管理系统",
+        "与预订系统（GDS）集成",
+        "支持附加服务（行李、餐食、保险）",
+        "适用于所有设备的响应式设计"
+      ]
+    },
+    "tech_stack": {
+      "title": "技术栈",
+      "items": [
+        "使用 Composition API 和 TypeScript 的 Vue 3",
+        "自研 UI 组件库",
+        "使用 Vite 进行快速构建和开发",
+        "使用 Pinia 进行应用程序状态管理",
+        "带组件懒加载的 Vue Router",
+        "具有集中错误处理功能的 REST API",
+        "国际化 (i18n)"
+      ]
+    },
+    "achievements": {
+      "title": "成就与成果",
+      "items": [
+        "开发了可扩展的组件架构，使新功能的开发速度提高了 40%",
+        "创建了表单验证系统，将预订过程中的错误减少了 60%",
+        "实现了搜索查询缓存机制，性能提升了 25%",
+        "建立了代码审查流程并引入了静态类型，提高了代码可靠性",
+        "开发了响应式设计，确保在所有类型的设备上都能正常工作"
+      ]
+    },
+    "projects": {
+      "title": "已实施项目",
+      "items": [
+        {
+          "name": "Azimuth 航空公司",
+          "url": "https://booking.azimuth.ru/new/",
+          "description": "具有定制化设计的功能齐全的预订系统"
+        },
+        {
+          "name": "TravelShop 白标平台",
+          "url": "https://ors-aero.ru/travelshop",
+          "description": "用于快速部署预订系统的基础平台"
+        }
+      ]
+    },
+    "view_screenshots": "查看TravelShop截图",
+    "loading_screenshots": "加载截图中...",
+    "images": {
+      "description": {
+        "desktop_1": "航班搜索表单",
+        "desktop_2": "搜索结果屏幕",
+        "desktop_3": "资费选择",
+        "desktop_4": "乘客数据表单屏幕",
+        "desktop_5": "机上服务选择",
+        "desktop_6": "机舱座位选择",
+        "desktop_7": "预提交屏幕",
+        "desktop_8": "包含所选服务的购物车",
+        "default": "图片 {number}"
+      }
+    }
+  },
+  "common": {
+    "loading": "加载中...",
+    "loading_images": "加载图片中...",
+    "loading_please_wait": "请稍候...",
+    "previous_image": "上一张图片",
+    "next_image": "下一张图片",
+    "close": "关闭",
+    "thumbnail": "缩略图 {number}"
+  },
+  "pipeline": {
+    "title": "REST API 流水线系统",
+    "subtitle": "高效管理相互关联的 API 调用链",
+    "description": "一个强大的系统，用于组织对 REST API 的顺序 HTTP 请求，其中每个后续调用都可以利用前一个调用的数据。通过进度可视化和智能错误处理，提供对请求链执行的完全控制。",
+    "features": {
+      "title": "系统核心功能",
+      "items": [
+        "相互关联的 HTTP 请求链的顺序执行",
+        "流水线阶段之间的自动数据传输",
+        "详细的实时执行进度跟踪",
+        "具有重试机制的智能 HTTP 错误处理",
+        "基于先前结果的条件请求执行逻辑",
+        "关键错误时自动取消依赖请求",
+        "所有执行阶段的完全类型安全"
+      ]
+    },
+    "architecture": {
+      "title": "架构组件",
+      "items": [
+        {
+          "name": "流水线编排器",
+          "description": "中央协调器，管理 API 请求执行的顺序和它们之间的数据传输"
+        },
+        {
+          "name": "请求执行器",
+          "description": "HTTP 请求执行器，支持重试逻辑、超时和各种状态码的处理"
+        },
+        {
+          "name": "进度跟踪器",
+          "description": "用于跟踪请求链执行进度的模块，按每个阶段详细分解"
+        },
+        {
+          "name": "错误处理器",
+          "description": "集中式错误处理器，按类型分类并具有恢复策略"
+        },
+        {
+          "name": "类型安全层",
+          "description": "严格的类型化层，确保所有流水线阶段的数据正确性"
+        }
+      ]
+    },
+    "process": {
+      "title": "流水线工作流程",
+      "steps": [
+        {
+          "title": "请求链配置",
+          "description": "定义 API 调用的顺序、它们之间的依赖关系以及每个阶段的执行条件"
+        },
+        {
+          "title": "初始化和验证",
+          "description": "配置正确性检查、数据准备和执行进度跟踪初始化"
+        },
+        {
+          "title": "顺序执行",
+          "description": "逐步执行 HTTP 请求，具有自动数据传输和中间结果处理"
+        },
+        {
+          "title": "监控和管理",
+          "description": "持续进度跟踪、处理出现的错误以及链式执行的自适应管理"
+        },
+        {
+          "title": "最终处理和清理",
+          "description": "所有请求结果的聚合、数据定稿和系统资源释放"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "方法优势",
+      "items": [
+        "复杂 API 交互的开发时间减少 40%",
+        "通过集中错误处理和重试机制提高可靠性",
+        "通过准确的进度显示改善用户体验",
+        "简化请求链的调试和监控",
+        "灵活实现具有依赖 API 调用的复杂业务流程",
+        "完全类型安全减少运行时错误",
+        "轻松集成到现有的 Vue.js 应用程序生态系统中"
+      ]
+    }
+  },
+  "localization": {
+    "title": "支持覆写翻译的灵活本地化系统",
+    "subtitle": "针对不同构建包的翻译自定义机制",
+    "description": "实现的系统允许根据项目构建的包覆写特定翻译，为不同客户定制界面提供了灵活性。",
+    "features": {
+      "title": "核心功能",
+      "items": [
+        "无需复制整个词典即可覆写特定翻译",
+        "支持多种语言，每种语言均可自定义",
+        "默认本地化文件与自定义本地化文件的自动合并",
+        "针对不同构建包的灵活配置",
+        "保留未覆写翻译的默认值",
+        "快速添加新的自定义翻译"
+      ]
+    },
+    "architecture": {
+      "title": "架构组件",
+      "items": [
+        {
+          "name": "基础本地化文件",
+          "description": "包含所有语言标准翻译的主要词典"
+        },
+        {
+          "name": "自定义本地化文件",
+          "description": "包含针对特定构建包覆写翻译的自定义词典"
+        },
+        {
+          "name": "合并引擎",
+          "description": "在构建时合并默认和自定义本地化文件的机制"
+        },
+        {
+          "name": "构建包配置",
+          "description": "构建包配置，指定用于覆写的自定义词典"
+        }
+      ]
+    },
+    "process": {
+      "title": "工作流程",
+      "steps": [
+        {
+          "title": "确定构建包",
+          "description": "系统识别当前构建包并检查其是否存在自定义词典"
+        },
+        {
+          "title": "加载本地化文件",
+          "description": "加载基础翻译词典和指定构建包的自定义词典"
+        },
+        {
+          "title": "合并词典",
+          "description": "默认本地化文件与自定义本地化文件合并，自定义翻译具有优先权"
+        },
+        {
+          "title": "生成结果",
+          "description": "形成应用程序中使用的最终翻译词典"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "方法优势",
+      "items": [
+        "灵活地为不同客户定制界面",
+        "节省维护多个翻译版本的时间",
+        "降低更新本地化文件时出错的可能性",
+        "简化添加新自定义翻译的过程",
+        "为所有构建包保持统一的代码库",
+        "快速部署定制版本"
+      ]
+    }
+  },
+  "seatMap": {
+    "title": "通用飞机座位图显示系统",
+    "subtitle": "支持不同数据格式驱动程序的架构",
+    "description": "实现的系统允许通过统一的通用组件显示来自不同预订系统的飞机座位图，使用特殊的驱动程序进行数据转换。",
+    "features": {
+      "title": "核心功能",
+      "items": [
+        "支持来自不同系统的多种数据格式",
+        "通用的座位图显示组件",
+        "用于数据转换的驱动程序系统",
+        "针对新客户的灵活配置",
+        "隔离的显示业务逻辑",
+        "快速连接新的数据源"
+      ]
+    },
+    "architecture": {
+      "title": "架构组件",
+      "items": [
+        {
+          "name": "通用座位图组件",
+          "description": "具有统一 API 的主要座位图显示组件"
+        },
+        {
+          "name": "数据驱动程序",
+          "description": "用于转换不同格式数据的专用驱动程序"
+        },
+        {
+          "name": "座位图引擎",
+          "description": "处理和准备显示数据的引擎"
+        },
+        {
+          "name": "配置管理器",
+          "description": "用于将驱动程序连接到组件的配置管理器"
+        }
+      ]
+    },
+    "process": {
+      "title": "工作流程",
+      "steps": [
+        {
+          "title": "获取数据",
+          "description": "系统从外部系统获取特定格式的座位图数据"
+        },
+        {
+          "title": "选择驱动程序",
+          "description": "根据数据类型或客户选择相应的数据转换驱动程序"
+        },
+        {
+          "title": "转换数据",
+          "description": "驱动程序将传入数据转换为组件的统一格式"
+        },
+        {
+          "title": "渲染座位图",
+          "description": "通用组件基于准备好的数据显示座位图"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "方法优势",
+      "items": [
+        "快速连接具有自身数据格式的新客户",
+        "避免在显示组件中重复代码",
+        "简化系统的支持和更新",
+        "业务逻辑与数据细节隔离",
+        "架构的可扩展性",
+        "减少新集成的开发时间"
+      ]
+    }
+  },
+  "multisync": {
+    "title": "分布式Vue.js应用程序的统一同步系统",
+    "subtitle": "独立应用程序间的状态同步架构，支持可选加密",
+    "description": "用于在单一代码库中创建和管理多个独立Vue应用程序的系统，实现应用程序间的自动状态同步。通过统一的存储实现跨标签页同步机制和应用程序间通信，支持加密和灵活配置。",
+    "features": {
+      "title": "系统核心功能",
+      "items": [
+        "单一代码库中多个独立Vue应用程序的统一架构",
+        "通过localStorage实现跨标签页同步和应用程序间状态协调",
+        "具有明确职责分离的多层存储架构（Pinia + 自定义存储）",
+        "使用AES-GCM的可选存储数据加密",
+        "防止循环更新和数据竞争的机制",
+        "灵活的同步管理（实时启用/禁用）",
+        "所有同步阶段的详细日志记录和调试"
+      ]
+    },
+    "architecture": {
+      "title": "架构组件",
+      "items": [
+        {
+          "name": "多应用协调器",
+          "description": "在单一代码库中管理多个独立Vue应用程序的中央协调器"
+        },
+        {
+          "name": "跨标签页同步引擎",
+          "description": "通过localStorage和自定义事件实现浏览器标签页间状态同步的引擎"
+        },
+        {
+          "name": "分层存储架构",
+          "description": "组件间明确职责分离的多层存储架构"
+        },
+        {
+          "name": "可选加密层",
+          "description": "支持AES-GCM和灵活密钥配置的可选数据加密层"
+        },
+        {
+          "name": "循环预防机制",
+          "description": "防止同步过程中循环更新和数据竞争的机制"
+        },
+        {
+          "name": "统一日志系统",
+          "description": "详细记录所有同步操作和错误处理的统一日志系统"
+        }
+      ]
+    },
+    "process": {
+      "title": "系统工作流程",
+      "steps": [
+        {
+          "title": "应用程序初始化",
+          "description": "加载并初始化多个独立Vue应用程序，连接到统一的同步存储"
+        },
+        {
+          "title": "同步配置",
+          "description": "配置同步参数、加密以及为跨标签页更新连接事件监听器"
+        },
+        {
+          "title": "分布式状态管理",
+          "description": "应用程序间自动同步更改，处理并解决更新冲突"
+        },
+        {
+          "title": "安全数据存储",
+          "description": "可选的存储数据加密和防止未经授权访问系统状态的保护"
+        },
+        {
+          "title": "监控与调试",
+          "description": "详细记录所有同步操作，可视化连接状态和更新"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "方法优势",
+      "items": [
+        "多个应用程序的单一代码库 — 减少60%的代码重复",
+        "自动同步 — 确保应用程序间的数据一致性",
+        "架构灵活性 — 轻松向系统添加新应用程序",
+        "增强安全性 — 可选的关键用户数据加密",
+        "改进用户体验 — 任何应用程序状态变化时即时更新界面",
+        "可扩展性 — 支持同步系统中无限数量的应用程序",
+        "简化调试 — 实时集中记录所有同步操作"
+      ]
+    },
+    "metrics": {
+      "title": "关键指标与成就",
+      "items": [
+        "在一个系统中支持3个以上独立的Vue应用程序",
+        "新应用程序开发时间减少40%",
+        "在100多次同时更新时确保数据同步",
+        "应用程序间代码重复减少70%",
+        "应用程序间交互调试时间减少50%"
+      ]
+    }
+  },
+  "remote_workplace": {
+    "title": "远程工作场所",
+    "subtitle": "准备好在任何地方高效工作",
+    "description": "一个设备齐全的远程工作空间。为舒适的开发和团队沟通提供所需的一切。",
+    "benefits_title": "团队优势",
+    "features": {
+      "items": [
+        {
+          "icon": "workstation",
+          "title": "高效工作站",
+          "description": "功能强大的计算机，可用于现代IDE并同时运行多个开发环境"
+        },
+        {
+          "icon": "monitors",
+          "title": "三台显示器",
+          "description": "大屏幕显示器，可舒适地分隔代码、浏览器和通信应用程序"
+        },
+        {
+          "icon": "internet",
+          "title": "稳定网络",
+          "description": "高速有线连接，用于视频会议和快速代码同步"
+        },
+        {
+          "icon": "webcam",
+          "title": "网络摄像头和耳机",
+          "description": "高质量的摄像头和耳机，用于日常团队会议"
+        }
+      ]
+    },
+    "benefits": {
+      "items": [
+        "任务间即时切换",
+        "代码编写与沟通并行工作",
+        "快速响应团队消息",
+        "高质量参与规划和代码审查",
+        "准备频繁视频会议",
+        "减少沟通时间"
+      ]
+    }
+  },
+  "uiComponents": {
+    "title": "UI组件开发",
+    "subtitle": "UI组件架构师",
+    "description": "为大型Web应用程序设计和实现了UI组件库，专注于可访问性、性能和开发体验。",
+    "features": {
+      "title": "关键组件",
+      "items": [
+        "输入字段和选择器 - 具有完整交互周期的组件：验证、输入掩码、自定义占位符、错误和加载状态",
+        "智能自动完成 - 复杂的键盘逻辑、虚拟滚动、移动设备适配和T9输入支持",
+        "模态窗口和工具提示 - 支持滑动手势、滚动锁定和焦点管理的通用覆盖组件",
+        "日历和日期选择器 - 灵活的日期和周期选择组件，具有自定义范围高亮逻辑和视觉状态",
+        "表格和标签页 - 具有虚拟化的高性能表格和具有编程导航API的自适应标签页"
+      ]
+    },
+    "architecture": {
+      "title": "架构组件",
+      "items": [
+        {
+          "name": "基础组件",
+          "description": "具有精心设计API和主题支持的基本UI元素"
+        },
+        {
+          "name": "复合组件",
+          "description": "基于基础元素构建的复杂组合组件"
+        },
+        {
+          "name": "主题系统",
+          "description": "通过CSS自定义属性定制外观的机制"
+        },
+        {
+          "name": "文档",
+          "description": "包含使用示例和API参考的完整文档"
+        }
+      ]
+    },
+    "process": {
+      "title": "开发流程",
+      "steps": [
+        {
+          "title": "API设计",
+          "description": "考虑可用性和类型安全性的组件接口开发"
+        },
+        {
+          "title": "核心功能实现",
+          "description": "创建具有可访问性支持的主要组件功能"
+        },
+        {
+          "title": "测试和文档",
+          "description": "编写测试并创建包含使用示例的文档"
+        },
+        {
+          "title": "集成和反馈",
+          "description": "项目集成和收集反馈以改进组件"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "方法优势",
+      "items": [
+        "通过组件重用，功能开发速度提高30%",
+        "确保整个应用程序的界面一致性",
+        "简化代码库维护和扩展",
+        "改善移动设备上的用户体验",
+        "UI逻辑错误减少40%"
+      ]
+    }
+  },
+  "demonstration": {
+    "title": "职业道德与我的技能",
+    "description": "在商业项目（如TravelShop）中，代码库属于公司知识产权，因此我无权展示这些代码。",
+    "readiness": "我准备完成测试任务，通过实践展示我解决问题的方法、代码质量和专业技能。"
+  },
+  "contacts": {
+    "title": "联系方式",
+    "subtitle": "通过便捷的方式与我联系",
+    "emails": {
+      "label": "E-mail",
+      "values": ["macrulezru@gmail.com", "macrulezru@yandex.ru"]
+    },
+    "telegram": {
+      "label": "Telegram",
+      "value": "Danil_Anapa"
+    },
+    "phone": {
+      "label": "电话",
+      "value": "+7 963 697-26-62"
+    },
+    "ya-messenger": {
+      "label": "Yandex 即时通讯",
+      "value": "macrulezru"
+    }
+  },
+  "form": {
+    "title": "联系表单",
+    "description": "通过下面的表单直接给我写信",
+    "default_subject": "来自作品集网站的消息",
+    "fields": {
+      "name": "姓名",
+      "email": "电子邮件",
+      "subject": "主题",
+      "message": "消息"
+    },
+    "placeholders": {
+      "name": "请输入您的姓名",
+      "email": "请输入您的电子邮件",
+      "subject": "消息主题（可选）",
+      "message": "请告诉我您的项目或提出问题"
+    },
+    "submit": "发送消息",
+    "sending": "发送中...",
+    "reset": "清除",
+    "sent_from": "发送自页面",
+    "success_message": "✅ 谢谢！消息已发送。我将在24小时内回复。",
+    "errors": {
+      "name_required": "请输入您的姓名",
+      "email_required": "请输入您的电子邮件",
+      "email_invalid": "请输入有效的电子邮件地址",
+      "message_required": "请输入您的消息",
+      "submission_failed": "发送失败。邮件将在您的邮件客户端中打开。"
+    }
+  }
+}
