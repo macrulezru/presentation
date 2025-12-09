@@ -130,15 +130,13 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .travelshop {
     padding: var(--spacing-xl) 0;
   }
 
   .travelshop__container {
-    max-width: var(--container-lg);
-    margin: 0 auto;
-    padding: 0 var(--spacing-md);
+    @include container-lg;
   }
 
   .travelshop__header {
@@ -352,7 +350,7 @@
     transform: translateY(0);
   }
 
-  @mixin media-tablet {
+  @include media-tablet {
     .travelshop {
       padding: var(--spacing-md) 0;
     }
@@ -407,7 +405,7 @@
     }
   }
 
-  @mixin media-mobile {
+  @include media-mobile {
     .travelshop__container {
       padding: 0 var(--spacing-sm);
     }

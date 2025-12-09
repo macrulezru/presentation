@@ -59,7 +59,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .experience {
     padding: 2rem 0;
   }
@@ -205,7 +205,7 @@
     transform: translateY(0);
   }
 
-  @mixin media-tablet {
+  @include media-tablet {
     .experience {
       padding: 1rem 0;
     }
@@ -269,7 +269,7 @@
     }
   }
 
-  @mixin media-mobile {
+  @include media-mobile {
     .experience__container {
       padding: 0 0.75rem;
     }

@@ -92,7 +92,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .dlv-select {
     position: relative;
     display: inline-block;

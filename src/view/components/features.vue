@@ -16,7 +16,7 @@
   </section>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .features {
     padding: var(--spacing-2xl) 0;
     background: var(--color-bg-primary);
@@ -34,7 +34,7 @@
     gap: var(--spacing-3xl);
   }
 
-  @mixin media-tablet {
+  @include media-tablet {
     .features {
       padding: var(--spacing-xl) 0;
     }
@@ -44,7 +44,7 @@
     }
   }
 
-  @mixin media-mobile {
+  @include media-mobile {
     .features__list {
       gap: var(--spacing-xl);
     }

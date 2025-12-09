@@ -91,7 +91,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .page {
     min-height: 100vh;
   }

@@ -298,7 +298,7 @@ ${t('form.sent_from')}: ${window.location.href}
   </section>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .contacts {
     padding: var(--spacing-3xl) 0 5rem;
     background: var(--color-bg-secondary);
@@ -306,9 +306,7 @@ ${t('form.sent_from')}: ${window.location.href}
   }
 
   .contacts__container {
-    max-width: var(--container-lg);
-    margin: 0 auto;
-    padding: 0 var(--spacing-md);
+    @include container-lg;
   }
 
   .contacts__header {
@@ -592,7 +590,7 @@ ${t('form.sent_from')}: ${window.location.href}
     cursor: not-allowed;
   }
 
-  @mixin media-tablet {
+  @include media-tablet {
     .contacts {
       padding: var(--spacing-xl) 0;
     }
@@ -636,7 +634,7 @@ ${t('form.sent_from')}: ${window.location.href}
     }
   }
 
-  @mixin media-mobile {
+  @include media-mobile {
     .contacts__container {
       padding: 0 var(--spacing-md);
     }

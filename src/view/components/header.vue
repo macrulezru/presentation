@@ -138,7 +138,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .header {
     position: fixed;
     top: 0;
@@ -337,7 +337,7 @@
     }
   }
 
-  @mixin media-tablet {
+  @include media-tablet {
     .header__content {
       padding: 0 var(--spacing-sm);
       height: var(--header-height-mobile);
@@ -358,7 +358,7 @@
     }
   }
 
-  @mixin media-mobile {
+  @include media-mobile {
     .header__content {
       padding: 0 var(--spacing-sm);
     }
@@ -373,7 +373,7 @@
     }
   }
 
-  @mixin media-mobile-small {
+  @include media-mobile-small {
     .header__logo-text {
       font-size: var(--font-size-md);
     }

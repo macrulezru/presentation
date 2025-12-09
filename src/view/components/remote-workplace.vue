@@ -67,7 +67,7 @@
   </section>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .remote-workplace {
     padding: 5rem 0 var(--spacing-2xl);
     background-color: #1b232b;
@@ -75,9 +75,7 @@
   }
 
   .remote-workplace__container {
-    max-width: var(--container-lg);
-    margin: 0 auto;
-    padding: 0 var(--spacing-md);
+    @include container-lg;
   }
 
   .remote-workplace__header {
@@ -208,7 +206,7 @@
     color: var(--color-accent-green);
   }
 
-  @mixin media-tablet {
+  @include media-tablet {
     .remote-workplace {
       padding: 3rem 0.5rem;
     }
@@ -237,7 +235,7 @@
     }
   }
 
-  @mixin media-mobile {
+  @include media-mobile {
     .remote-workplace__container {
       padding: 0 1rem;
     }

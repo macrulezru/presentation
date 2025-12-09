@@ -76,7 +76,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .clickable-image {
     cursor: pointer;
     width: 100%;
@@ -171,7 +171,7 @@
     border: solid 1px var(--color-text-muted);
   }
 
-  @mixin media-tablet {
+  @include media-tablet {
     .travelshop-images {
       padding: 0 30px;
     }
@@ -188,7 +188,7 @@
     }
   }
 
-  @mixin media-mobile {
+  @include media-mobile {
     .travelshop-images {
       padding: 0 24px;
     }

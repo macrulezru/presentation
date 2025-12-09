@@ -164,15 +164,13 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .about {
     padding: var(--spacing-xl) 0;
   }
 
   .about__container {
-    max-width: var(--container-lg);
-    margin: 0 auto;
-    padding: 0 var(--spacing-md);
+    @include container-lg;
   }
 
   .about__intro {
@@ -448,7 +446,7 @@
     font-size: var(--font-size-base);
   }
 
-  @mixin media-tablet {
+  @include media-tablet {
     .about {
       padding: var(--spacing-md) 0;
     }
@@ -516,7 +514,7 @@
     }
   }
 
-  @mixin media-mobile {
+  @include media-mobile {
     .about__container {
       padding: 0 var(--spacing-lg);
     }

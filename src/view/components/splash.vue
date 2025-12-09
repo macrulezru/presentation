@@ -191,7 +191,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .splash {
     position: relative;
     display: flex;
@@ -341,7 +341,7 @@
     }
   }
 
-  @mixin media-tablet {
+  @include media-tablet {
     .splash__title {
       font-size: var(--font-size-4xl);
     }
@@ -369,7 +369,7 @@
     }
   }
 
-  @mixin media-mobile {
+  @include media-mobile {
     .splash__title {
       font-size: var(--font-size-3xl);
     }

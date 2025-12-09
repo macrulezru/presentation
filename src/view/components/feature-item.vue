@@ -93,7 +93,7 @@
   </article>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .feature-item {
     padding: var(--spacing-xl) 0;
     border-bottom: 1px solid var(--color-border-light);
@@ -105,9 +105,7 @@
   }
 
   .feature-item__container {
-    max-width: var(--container-lg);
-    margin: 0 auto;
-    padding: 0 var(--spacing-md);
+    @include container-lg;
   }
 
   .feature-item__header {
@@ -293,7 +291,7 @@
     color: var(--color-text-primary);
   }
 
-  @mixin media-tablet {
+  @include media-tablet {
     .feature-item {
       padding: var(--spacing-lg) 0;
     }
@@ -333,7 +331,7 @@
     }
   }
 
-  @mixin media-mobile {
+  @include media-mobile {
     .feature-item__container {
       padding: 0 var(--spacing-sm);
     }
@@ -358,7 +356,7 @@
     }
   }
 
-  @mixin media-mobile-small {
+  @include media-mobile-small {
     .feature-item__feature,
     .feature-item__benefit {
       padding: var(--spacing-sm);

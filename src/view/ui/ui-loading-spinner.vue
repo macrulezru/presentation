@@ -26,7 +26,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .dlv-loading-spinner {
     display: flex;
     flex-direction: column;

@@ -255,7 +255,7 @@
   </Teleport>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .image-modal {
     position: fixed;
     top: 0;

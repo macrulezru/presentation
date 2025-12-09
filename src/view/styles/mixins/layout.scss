@@ -1,0 +1,5 @@
+@mixin container-lg {
+  max-width: var(--container-lg);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}

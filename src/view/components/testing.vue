@@ -26,16 +26,14 @@
   </section>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .demonstration {
     padding: var(--spacing-3xl) 0;
     background: var(--color-bg-secondary);
   }
 
   .demonstration__container {
-    max-width: var(--container-lg);
-    margin: 0 auto;
-    padding: 0 var(--spacing-md);
+    @include container-lg;
   }
 
   .demonstration__content {
@@ -69,7 +67,7 @@
     border-radius: var(--radius-md);
   }
 
-  @mixin media-tablet {
+  @include media-tablet {
     .demonstration {
       padding: var(--spacing-lg) 0;
     }
@@ -92,7 +90,7 @@
     }
   }
 
-  @mixin media-mobile {
+  @include media-mobile {
     .demonstration__container {
       padding: 0 var(--spacing-md);
     }
