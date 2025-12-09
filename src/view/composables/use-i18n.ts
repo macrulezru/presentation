@@ -5,44 +5,38 @@ import { useLocaleStore } from '@/stores/use-locale-store'
 
 export const useI18n = () => {
   const { t, locale, availableLocales } = i18n.global
-
-  // Объявляем tm с явным типом возвращаемого значения
   const tm = i18n.global.tm as (key: string) => any
-
   const router = useRouter()
   const localeStore = useLocaleStore()
   const isLoading = ref(false)
 
+  // Изменяем changeLocale для предзагрузки следующей локали
   const changeLocale = async (newLocale: LocalesEnumType, path?: string) => {
     if (!LocalesList.includes(newLocale)) {
       console.warn(`Locale ${newLocale} is not supported`)
       return
     }
 
-    // Если локаль уже загружена, просто меняем
-    if (i18n.global.availableLocales.includes(newLocale as any)) {
-      locale.value = newLocale as any
-      localeStore.setLocale(newLocale)
-      updateURL(newLocale, path)
-      return
+    // Предзагружаем локаль если еще не загружена
+    if (!i18n.global.availableLocales.includes(newLocale as any)) {
+      isLoading.value = true
+      try {
+        await loadLocale(newLocale)
+      } catch (error) {
+        console.error('Failed to change locale:', error)
+        locale.value = LocalesEnum.RU as any
+        localeStore.setLocale(LocalesEnum.RU)
+        isLoading.value = false
+        return
+      } finally {
+        isLoading.value = false
+      }
     }
 
-    // Загружаем локаль динамически
-    isLoading.value = true
-    try {
-      await loadLocale(newLocale)
-      locale.value = newLocale as any
-      localeStore.setLocale(newLocale)
-      localStorage.setItem('user-locale', newLocale)
-      updateURL(newLocale, path)
-    } catch (error) {
-      console.error('Failed to change locale:', error)
-      // Fallback на русский
-      locale.value = LocalesEnum.RU as any
-      localeStore.setLocale(LocalesEnum.RU)
-    } finally {
-      isLoading.value = false
-    }
+    locale.value = newLocale as any
+    localeStore.setLocale(newLocale)
+    localStorage.setItem('user-locale', newLocale)
+    updateURL(newLocale, path)
   }
 
   const updateURL = async (newLocale: LocalesEnumType, path?: string) => {
@@ -55,38 +49,46 @@ export const useI18n = () => {
     await router.push(newPath)
   }
 
-  // Инициализация локали при загрузке
+  // Инициализация локали при загрузке с оптимизацией
   const initLocale = async () => {
-    const savedLocale = localStorage.getItem('user-locale') as LocalesEnumType | null
     const urlLocale = router.currentRoute.value.params.locale as LocalesEnumType
-    const supportedLocales = LocalesList
+    const savedLocale = localStorage.getItem('user-locale') as LocalesEnumType | null
 
-    // Приоритет: URL > localStorage > дефолтная (ru)
+    // Определяем целевую локаль
     const targetLocale = (urlLocale || savedLocale || LocalesEnum.RU) as LocalesEnumType
 
-    if (!supportedLocales.includes(targetLocale)) {
+    // Если локаль не поддерживается - fallback на RU
+    if (!LocalesList.includes(targetLocale)) {
       locale.value = LocalesEnum.RU as any
       localeStore.setLocale(LocalesEnum.RU)
       return
     }
 
-    // Если локаль не русская, загружаем её
+    // Сначала устанавливаем целевую локаль до загрузки
+    locale.value = targetLocale as any
+    localeStore.setLocale(targetLocale)
+
+    // Если локаль не русская и не загружена, загружаем её
     if (
       targetLocale !== LocalesEnum.RU &&
       !i18n.global.availableLocales.includes(targetLocale as any)
     ) {
       try {
         await loadLocale(targetLocale)
+        // После загрузки подтверждаем установку локали
+        locale.value = targetLocale as any
       } catch (error) {
         console.error(`Failed to load initial locale ${targetLocale}:`, error)
         locale.value = LocalesEnum.RU as any
         localeStore.setLocale(LocalesEnum.RU)
         return
       }
+    } else if (targetLocale === LocalesEnum.RU) {
+      // Для русской локали убедимся, что она загружена
+      if (!i18n.global.availableLocales.includes(LocalesEnum.RU as any)) {
+        await loadLocale(LocalesEnum.RU)
+      }
     }
-
-    locale.value = targetLocale as any
-    localeStore.setLocale(targetLocale)
 
     // Синхронизируем URL если нужно
     if (!urlLocale && router.currentRoute.value.name === 'home') {

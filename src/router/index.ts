@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { i18n } from '@/locales'
+import { i18n, loadLocale } from '@/locales' // Импортируем loadLocale
 import { PageSectionsEnum, type PageSectionsType } from '@/enums/page-sections.enum'
 import { LocalesList, LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum'
 
@@ -27,26 +27,32 @@ const isSupportedSection = (section: string): section is PageSectionsType => {
 }
 
 // Глобальный хук для обработки навигации
-router.beforeEach(to => {
+router.beforeEach(async to => {
   const toLocale = to.params.locale as string
   const toSection = to.params.section as string
-
-  // Устанавливаем локаль в любом случае
-  const setLocale = (locale: string) => {
-    i18n.global.locale.value = locale
-    localStorage.setItem('user-locale', locale)
-  }
 
   // Если нет локали, используем сохраненную или русскую по умолчанию
   if (!toLocale) {
     const savedLocale = localStorage.getItem('user-locale') || LocalesEnum.RU
-    setLocale(savedLocale)
+    // Загружаем локаль перед редиректом
+    if (savedLocale !== LocalesEnum.RU) {
+      try {
+        await loadLocale(savedLocale as LocalesEnumType)
+      } catch (error) {
+        console.error(`Failed to load locale ${savedLocale}:`, error)
+        // Fallback на русский
+        localStorage.setItem('user-locale', LocalesEnum.RU)
+        return `/${LocalesEnum.RU}`
+      }
+    }
     return `/${savedLocale}`
   }
 
   // Если локаль не поддерживается, редиректим на русскую
   if (!LocalesList.includes(toLocale as LocalesEnumType)) {
-    setLocale(LocalesEnum.RU)
+    // Устанавливаем русскую локаль
+    i18n.global.locale.value = LocalesEnum.RU
+    localStorage.setItem('user-locale', LocalesEnum.RU)
 
     if (toSection && isSupportedSection(toSection)) {
       return `/${LocalesEnum.RU}/${toSection}`
@@ -54,14 +60,25 @@ router.beforeEach(to => {
     return `/${LocalesEnum.RU}`
   }
 
-  // Если секция указана но не поддерживается, убираем ее
-  if (toSection && !isSupportedSection(toSection)) {
-    setLocale(toLocale)
-    return `/${toLocale}`
+  // Загружаем локаль из URL перед установкой
+  try {
+    if (toLocale !== LocalesEnum.RU) {
+      await loadLocale(toLocale as LocalesEnumType)
+    }
+    // Устанавливаем локаль только после успешной загрузки
+    i18n.global.locale.value = toLocale
+    localStorage.setItem('user-locale', toLocale)
+  } catch (error) {
+    console.error(`Failed to load locale ${toLocale}:`, error)
+    i18n.global.locale.value = LocalesEnum.RU
+    localStorage.setItem('user-locale', LocalesEnum.RU)
+    return `/${LocalesEnum.RU}${toSection ? '/' + toSection : ''}`
   }
 
-  // Устанавливаем локаль для валидных маршрутов
-  setLocale(toLocale)
+  // Если секция указана но не поддерживается, убираем ее
+  if (toSection && !isSupportedSection(toSection)) {
+    return `/${toLocale}`
+  }
 
   // Если все параметры валидны, продолжаем навигацию
   return true

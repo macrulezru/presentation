@@ -1,12 +1,12 @@
 import { createI18n } from 'vue-i18n'
 import { LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum'
-import { localeImportMap } from '@/locales/locale-imports'
+import { localeImportMap, preloadLocale } from '@/locales/locale-imports'
 
 const messages = {}
 
 export const i18n = createI18n({
   legacy: false,
-  locale: LocalesEnum.RU,
+  locale: LocalesEnum.RU, // Это начальное значение, но оно будет сразу переопределено
   fallbackLocale: LocalesEnum.RU,
   messages,
   missingWarn: false,
@@ -33,6 +33,14 @@ export async function loadLocale(locale: LocalesEnumType) {
   }
 }
 
+// Функция для начальной установки локали без загрузки RU
+export function setInitialLocale(locale: LocalesEnumType) {
+  i18n.global.locale.value = locale
+}
+
 export async function loadDefaultLocale() {
   return loadLocale(LocalesEnum.RU)
 }
+
+// Экспортируем preloadLocale
+export { preloadLocale }

@@ -13,3 +13,8 @@ export const localeImportMap: LocaleImportMap = {
   [LocalesEnum.DE]: () => import('./de.json'),
   [LocalesEnum.ZH]: () => import('./zh.json'),
 }
+
+// Функция для предварительной загрузки локали
+export const preloadLocale = async (locale: LocalesEnumType): Promise<void> => {
+  await localeImportMap[locale]()
+}
