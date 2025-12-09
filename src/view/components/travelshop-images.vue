@@ -6,7 +6,7 @@
   import { ref } from 'vue'
   import { Swiper, SwiperSlide } from 'swiper/vue'
   import { Pagination, Navigation, Mousewheel, Keyboard } from 'swiper/modules'
-  import { useTravelshopImages } from '@/view/composables/useTravelshopImages'
+  import { useTravelshopImages } from '@/view/composables/use-travelshop-images.ts'
 
   const { images } = useTravelshopImages()
 

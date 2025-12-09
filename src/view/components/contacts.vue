@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue'
-  import { useI18n } from '@/view/composables/useI18n'
+  import { useI18n } from '@/view/composables/use-i18n.ts'
   import emailjs from 'emailjs-com'
 
   const { t, tm } = useI18n()

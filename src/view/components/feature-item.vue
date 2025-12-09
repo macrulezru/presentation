@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { FeatureData } from '@/view/composables/useFeatures'
+  import type { FeatureData } from '@/view/composables/use-features.ts'
 
   interface Props {
     feature: FeatureData

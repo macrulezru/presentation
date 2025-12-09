@@ -10,9 +10,9 @@
   import Contacts from '@/view/components/contacts.vue'
 
   import { onMounted, onUnmounted, watch, nextTick, ref } from 'vue'
-  import { useI18n } from '@/view/composables/useI18n'
+  import { useI18n } from '@/view/composables/use-i18n.ts'
   import { useRoute } from 'vue-router'
-  import { useScrollRouting } from '@/view/composables/useScrollRouting'
+  import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts'
   import { PageSectionsEnum } from '@/enums/page-sections.enum'
 
   const { t, initLocale } = useI18n()

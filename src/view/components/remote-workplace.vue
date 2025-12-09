@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { useI18n } from '@/view/composables/useI18n'
+  import { useI18n } from '@/view/composables/use-i18n.ts'
 
   const { t, tm } = useI18n()
 
