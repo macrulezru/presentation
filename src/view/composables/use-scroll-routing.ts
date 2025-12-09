@@ -3,7 +3,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { useNavigationStore } from '@/stores/use-navigation-store.ts'
 import { PageSectionsEnum } from '@/enums/page-sections.enum'
 
-const SCROLL_DEBOUNCE_TIME = 100
+const SCROLL_DEBOUNCE_TIME = 10
 const SCROLL_ANIMATION_DURATION = 800
 const HEADER_HEIGHT = 60
 const SPLASH_SCROLL_THRESHOLD = 100
@@ -88,18 +88,6 @@ export function useScrollRouting() {
 
   // Прокрутка к секции
   const scrollToSection = (sectionName: string) => {
-    if (isSplashSection(sectionName)) {
-      // Особый случай для главной страницы - прокрутка наверх
-      navigationStore.setIsScrolling(true)
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-
-      setTimeout(() => {
-        navigationStore.setIsScrolling(false)
-      }, SCROLL_ANIMATION_DURATION)
-
-      return
-    }
-
     const section = navigationStore.getSectionById(sectionName)
     if (section?.element) {
       navigationStore.setIsScrolling(true)
@@ -140,11 +128,15 @@ export function useScrollRouting() {
     (newSection, oldSection) => {
       // Обновляем currentSection при изменении секции
       if (newSection !== oldSection) {
-        navigationStore.setCurrentSection(
-          (newSection as string) || PageSectionsEnum.SPLASH,
-        )
+        const sectionName = (newSection as string) || PageSectionsEnum.SPLASH
+        navigationStore.setCurrentSection(sectionName)
+
+        setTimeout(() => {
+          scrollToSection(sectionName)
+        }, SPLASH_SCROLL_THRESHOLD)
       }
     },
+    { immediate: true },
   )
 
   // Инициализация
@@ -155,13 +147,6 @@ export function useScrollRouting() {
     // Инициализируем текущую секцию из URL
     const initialSection = (route.params.section as string) || PageSectionsEnum.SPLASH
     navigationStore.setCurrentSection(initialSection)
-
-    // Прокручиваем к секции из URL при загрузке
-    if (!isSplashSection(initialSection)) {
-      setTimeout(() => {
-        scrollToSection(initialSection)
-      }, 300)
-    }
   }
 
   // Очистка

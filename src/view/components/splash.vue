@@ -1,12 +1,11 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { usePlasmaBackground } from '@/view/composables/use-three-splash.ts'
+  import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts'
+  import { PageSectionsEnum } from '@/enums/page-sections.enum.ts'
 
   const { t } = useI18n()
-
-  const emit = defineEmits<{
-    scrollToAbout: []
-  }>()
+  const { navigateToSection } = useScrollRouting()
 
   const messages = computed(() => {
     return {
@@ -16,10 +15,6 @@
       more: t('splash.more'),
     }
   })
-
-  const scrollToAbout = () => {
-    emit('scrollToAbout')
-  }
 
   const splashRef = ref<HTMLElement>()
 
@@ -34,7 +29,7 @@
       <p class="splash__subtitle">{{ messages.subtitle }}</p>
       <p class="splash__description">{{ messages.description }}</p>
     </div>
-    <div class="compact-chevron" @click="scrollToAbout">
+    <div class="compact-chevron" @click="navigateToSection(PageSectionsEnum.ABOUT)">
       <div class="compact-chevron-group">
         <span class="compact-chevron-icon" />
         <span class="compact-chevron-icon" />

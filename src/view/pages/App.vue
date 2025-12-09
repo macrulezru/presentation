@@ -9,52 +9,26 @@
   import RemoteWorkplace from '@/view/components/remote-workplace.vue'
   import Contacts from '@/view/components/contacts.vue'
 
-  import { onMounted, onUnmounted, watch, nextTick, ref } from 'vue'
+  import { onBeforeMount, onMounted, onUnmounted } from 'vue'
   import { useI18n } from '@/view/composables/use-i18n.ts'
-  import { useRoute } from 'vue-router'
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts'
   import { PageSectionsEnum } from '@/enums/page-sections.enum'
 
   const { t, initLocale } = useI18n()
-  const route = useRoute()
 
-  const scrollRouting = useScrollRouting()
-  const { navigateToSection, scrollToSection, init, destroy } = scrollRouting
+  const { init, destroy } = useScrollRouting()
 
-  // Флаг для отслеживания смены языка
-  const isChangingLocale = ref(false)
+  onBeforeMount(() => {
+    initLocale()
+  })
 
   onMounted(() => {
-    initLocale()
-    setTimeout(() => {
-      init()
-    }, 100)
+    init()
   })
 
   onUnmounted(() => {
     destroy()
   })
-
-  // Обработчик изменения секции
-  watch(
-    () => route.params.section,
-    async (newSection, oldSection) => {
-      if (newSection !== oldSection && !isChangingLocale.value) {
-        await nextTick()
-
-        if (newSection) {
-          setTimeout(() => {
-            scrollToSection(newSection as string)
-          }, 100)
-        } else {
-          // Если секции нет - это главная страница
-          setTimeout(() => {
-            scrollToSection('splash')
-          }, 100)
-        }
-      }
-    },
-  )
 </script>
 
 <template>
@@ -62,7 +36,7 @@
     <Header />
 
     <section :id="PageSectionsEnum.SPLASH">
-      <Splash @scrollToAbout="navigateToSection('about')" />
+      <Splash />
     </section>
 
     <section :id="PageSectionsEnum.ABOUT">
