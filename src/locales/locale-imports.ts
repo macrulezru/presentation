@@ -9,6 +9,7 @@ export type LocaleImportMap = {
 export const localeImportMap: LocaleImportMap = {
   [LocalesEnum.RU]: () => import('./ru.json'),
   [LocalesEnum.EN]: () => import('./en.json'),
+  [LocalesEnum.KZ]: () => import('./kz.json'),
   [LocalesEnum.DE]: () => import('./de.json'),
   [LocalesEnum.ZH]: () => import('./zh.json'),
 }
