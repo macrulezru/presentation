@@ -293,6 +293,14 @@ ${t('form.sent_from')}: ${window.location.href}
             </div>
           </form>
         </div>
+        <a
+          class="contacts__item contacts__item_git"
+          href="https://github.com/macrulezru"
+          target="_blank"
+        >
+          <span class="contacts__github-icon" />
+          <span class="contacts__item-value">github.com/macrulezru</span>
+        </a>
       </div>
     </div>
   </section>
@@ -433,6 +441,7 @@ ${t('form.sent_from')}: ${window.location.href}
 
   .contacts__form-section {
     background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--spacing-xl);
   }
@@ -590,6 +599,19 @@ ${t('form.sent_from')}: ${window.location.href}
     cursor: not-allowed;
   }
 
+  .contacts__item_git {
+    grid-column: 1 / span 2;
+  }
+
+  .contacts__github-icon {
+    display: block;
+    width: 80px;
+    height: 80px;
+    background-image: url('@/view/assets/images/github-logo.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
   @include media-tablet {
     .contacts {
       padding: var(--spacing-xl) 0;
@@ -610,6 +632,10 @@ ${t('form.sent_from')}: ${window.location.href}
     .contacts__content {
       grid-template-columns: 1fr;
       gap: var(--spacing-xl);
+    }
+
+    .contacts__item_git {
+      grid-column: 1;
     }
 
     .contacts__list {
