@@ -2,10 +2,12 @@ import { ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useNavigationStore } from '@/stores/use-navigation-store.ts'
 import { PageSectionsEnum } from '@/enums/page-sections.enum'
+import { useResponsive } from '@/view/composables/use-responsive'
 
 const SCROLL_DEBOUNCE_TIME = 10
 const SCROLL_ANIMATION_DURATION = 800
 const HEADER_HEIGHT = 60
+const HEADER_MOBILE_HEIGHT = 50
 const SPLASH_SCROLL_THRESHOLD = 100
 
 export function useScrollRouting() {
@@ -13,9 +15,15 @@ export function useScrollRouting() {
   const route = useRoute()
   const navigationStore = useNavigationStore()
 
+  const { isTablet } = useResponsive()
+
   const scrollTimeout = ref<NodeJS.Timeout | null>(null)
 
   const sectionNames = Object.values(PageSectionsEnum)
+
+  const headerHeight = computed(() => {
+    return isTablet.value ? HEADER_MOBILE_HEIGHT : HEADER_HEIGHT
+  })
 
   // Вспомогательная функция для проверки splash секции
   const isSplashSection = (sectionName: string): boolean =>
@@ -44,7 +52,7 @@ export function useScrollRouting() {
 
     for (const section of navigationStore.sections) {
       if (section.element) {
-        const elementTop = section.element.offsetTop - HEADER_HEIGHT
+        const elementTop = section.element.offsetTop - headerHeight.value
         const elementBottom = elementTop + section.element.offsetHeight
 
         if (scrollPosition >= elementTop && scrollPosition <= elementBottom) {
@@ -93,7 +101,7 @@ export function useScrollRouting() {
       navigationStore.setIsScrolling(true)
 
       const elementPosition = section.element.offsetTop
-      const offsetPosition = elementPosition - HEADER_HEIGHT
+      const offsetPosition = elementPosition - headerHeight.value
 
       window.scrollTo({
         top: offsetPosition,
