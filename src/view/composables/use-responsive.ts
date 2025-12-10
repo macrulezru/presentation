@@ -1,4 +1,3 @@
-// use-responsive.ts
 import { computed, onMounted, onUnmounted, reactive } from 'vue'
 import {
   ResponsiveConfig,
