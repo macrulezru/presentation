@@ -1,0 +1,96 @@
+<script setup lang="ts">
+  import '@/view/components/features/parts/feature-item/feature-item.scss'
+
+  import type { FeatureData } from '@/view/composables/use-features.ts'
+
+  interface Props {
+    feature: FeatureData
+  }
+
+  defineProps<Props>()
+</script>
+
+<template>
+  <article class="feature-item" :data-feature-id="feature.id">
+    <div class="feature-item__container">
+      <header class="feature-item__header">
+        <h2 class="feature-item__title">{{ feature.title }}</h2>
+        <p class="feature-item__subtitle" :style="{ color: feature.accentColor }">
+          {{ feature.subtitle }}
+        </p>
+        <p class="feature-item__description">{{ feature.description }}</p>
+      </header>
+
+      <div class="feature-item__content">
+        <!-- Ключевые возможности -->
+        <section class="feature-item__section">
+          <h3 class="feature-item__section-title">{{ feature.features.title }}</h3>
+          <div class="feature-item__features">
+            <div
+              v-for="(item, index) in feature.features.items"
+              :key="index"
+              class="feature-item__feature"
+            >
+              <div class="feature-item__feature-icon">{{ feature.featureIcon }}</div>
+              <div class="feature-item__feature-text">{{ item }}</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Процесс работы -->
+        <section class="feature-item__section">
+          <h3 class="feature-item__section-title">{{ feature.process.title }}</h3>
+          <div class="feature-item__process">
+            <div
+              v-for="(step, index) in feature.process.steps"
+              :key="index"
+              class="feature-item__process-step"
+            >
+              <div
+                class="feature-item__step-number"
+                :style="{ background: feature.accentColor }"
+              >
+                {{ index + 1 }}
+              </div>
+              <div class="feature-item__step-content">
+                <h4>{{ step.title }}</h4>
+                <p>{{ step.description }}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Архитектурные компоненты -->
+        <section class="feature-item__section">
+          <h3 class="feature-item__section-title">{{ feature.architecture.title }}</h3>
+          <div class="feature-item__architecture">
+            <div
+              v-for="(item, index) in feature.architecture.items"
+              :key="index"
+              class="feature-item__architecture-item"
+            >
+              <div class="feature-item__arch-content">
+                <strong>{{ item.name }}</strong>
+                - {{ item.description }}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Преимущества подхода -->
+        <section class="feature-item__section">
+          <h3 class="feature-item__section-title">{{ feature.benefits.title }}</h3>
+          <div class="feature-item__benefits">
+            <div
+              v-for="(benefit, index) in feature.benefits.items"
+              :key="index"
+              class="feature-item__benefit"
+            >
+              <div class="feature-item__benefit-text">{{ benefit }}</div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </article>
+</template>

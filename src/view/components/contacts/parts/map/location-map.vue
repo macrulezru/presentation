@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import '@/view/components/contacts/parts/map/location-map.scss'
+
   import locationPin from '@/view/assets/images/location-pin.svg?url'
 
   import { onMounted, onUnmounted, ref } from 'vue'
@@ -67,25 +69,3 @@
     <div ref="mapContainer" class="location-map__map" />
   </div>
 </template>
-
-<style lang="scss" scoped>
-  .location-map__title {
-    padding: var(--spacing-2xl) 0 var(--spacing-md);
-    font-size: var(--font-size-xl);
-    color: var(--color-text-primary);
-    font-weight: var(--font-weight-semibold);
-    text-align: center;
-  }
-
-  .location-map__map {
-    width: 100%;
-    height: 400px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-  }
-
-  :deep([class*='map-copyrights-promo']) {
-    display: none !important;
-  }
-</style>

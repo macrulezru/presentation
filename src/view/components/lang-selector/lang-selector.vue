@@ -1,9 +1,15 @@
 <script setup lang="ts">
-  import Select from '@/view/ui/ui-select.vue'
+  import Select from '@/view/ui/ui-select/ui-select.vue'
+
+  import '@/view/components/lang-selector/lang-selector.scss'
 
   import { computed } from 'vue'
   import { useNavigationStore } from '@/stores/use-navigation-store.ts'
-  import { LocalesEnum, type LocalesEnumType, LocalesToView } from '@/enums/locales.enum'
+  import {
+    LocalesEnum,
+    type LocalesEnumType,
+    LocalesToView,
+  } from '@/enums/locales.enum.ts'
 
   const { changeLocale, locale, isLoading } = useI18n()
   const navigationStore = useNavigationStore()
@@ -56,30 +62,3 @@
     </Select>
   </div>
 </template>
-
-<style lang="scss" scoped>
-  .lang-selector {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-
-  .lang-selector__loader--small {
-    width: 12px;
-    height: 12px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top: 2px solid white;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-left: 8px;
-  }
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-</style>

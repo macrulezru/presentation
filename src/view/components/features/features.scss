@@ -1,0 +1,32 @@
+.features {
+  padding: var(--spacing-2xl) 0;
+  background: var(--color-bg-primary);
+}
+
+.features__container {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.features__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3xl);
+}
+
+@include media-tablet {
+  .features {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .features__list {
+    gap: var(--spacing-2xl);
+  }
+}
+
+@include media-mobile {
+  .features__list {
+    gap: var(--spacing-xl);
+  }
+}
