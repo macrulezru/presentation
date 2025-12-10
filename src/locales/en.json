@@ -759,5 +759,6 @@
       "message_required": "Please enter your message",
       "submission_failed": "Sending failed. The email will open in your mail client."
     }
-  }
+  },
+  "location": "Work Location"
 }
