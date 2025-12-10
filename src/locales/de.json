@@ -759,5 +759,6 @@
       "message_required": "Bitte geben Sie Ihre Nachricht ein",
       "submission_failed": "Senden fehlgeschlagen. Die E-Mail wird in Ihrem E-Mail-Programm geöffnet."
     }
-  }
+  },
+  "location": "Arbeitsstandort"
 }

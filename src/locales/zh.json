@@ -759,5 +759,6 @@
       "message_required": "请输入您的消息",
       "submission_failed": "发送失败。邮件将在您的邮件客户端中打开。"
     }
-  }
+  },
+  "location": "工作地点"
 }

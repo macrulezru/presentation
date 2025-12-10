@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import LocationMap from '@/view/components/location-map.vue'
+
   import { ref, computed } from 'vue'
   import { useI18n } from '@/view/composables/use-i18n.ts'
   import emailjs from 'emailjs-com'
@@ -123,16 +125,16 @@
           )
 
           const body = encodeURIComponent(`
-${t('form.fields.name')}: ${formData.value.name}
-${t('form.fields.email')}: ${formData.value.email}
-${t('form.fields.subject')}: ${formSubject.value}
+  ${t('form.fields.name')}: ${formData.value.name}
+  ${t('form.fields.email')}: ${formData.value.email}
+  ${t('form.fields.subject')}: ${formSubject.value}
 
-${t('form.fields.message')}:
-${formData.value.message}
+  ${t('form.fields.message')}:
+  ${formData.value.message}
 
----
-${t('form.sent_from')}: ${window.location.href}
-        `)
+  ---
+  ${t('form.sent_from')}: ${window.location.href}
+          `)
 
           window.location.href = `mailto:${EMAILJS_CONFIG.recipientEmail}?subject=${subject}&body=${body}`
         }
@@ -302,6 +304,7 @@ ${t('form.sent_from')}: ${window.location.href}
           <span class="contacts__item-value">github.com/macrulezru</span>
         </a>
       </div>
+      <LocationMap />
     </div>
   </section>
 </template>
