@@ -8,13 +8,15 @@
   import { useNavigationStore } from '@/stores/use-navigation-store.ts'
   import { ref, onMounted, onUnmounted, computed } from 'vue'
   import { PageSectionsEnum } from '@/enums/page-sections.enum.ts'
+  import { useResponsive } from '@/view/composables/use-responsive'
 
   const { t } = useI18n()
   const navigationStore = useNavigationStore()
 
   const { navigateToSection } = useScrollRouting()
   const isMobileMenuOpen = ref(false)
-  const isMobile = ref(false)
+
+  const { isTablet } = useResponsive()
 
   const currentSection = computed(() => navigationStore.currentSection)
 
@@ -30,8 +32,7 @@
 
   // Проверка размера экрана
   const checkScreenSize = () => {
-    isMobile.value = window.innerWidth < 768
-    if (!isMobile.value) {
+    if (!isTablet.value) {
       isMobileMenuOpen.value = false
     }
   }
@@ -39,7 +40,7 @@
   // Обработчик клика по пункту меню
   const handleMenuClick = (sectionId: string) => {
     navigateToSection(sectionId)
-    if (isMobile.value) {
+    if (isTablet.value) {
       isMobileMenuOpen.value = false
     }
   }
@@ -87,7 +88,7 @@
   <div class="header">
     <div class="header__content">
       <!-- Десктопное меню -->
-      <nav v-if="!isMobile" class="header__nav">
+      <nav v-if="!isTablet" class="header__nav">
         <button
           v-for="item in menuItems"
           :key="item.id"
@@ -105,7 +106,7 @@
       <div class="header__right">
         <!-- Гамбургер-меню для мобильных -->
         <button
-          v-if="isMobile"
+          v-if="isTablet"
           class="hamburger"
           :class="{ 'hamburger--active': isMobileMenuOpen }"
           @click="toggleMobileMenu"
@@ -120,7 +121,7 @@
 
       <!-- Мобильное меню (оверлей) -->
       <div
-        v-if="isMobile && isMobileMenuOpen"
+        v-if="isTablet && isMobileMenuOpen"
         class="mobile-menu-overlay"
         @click="isMobileMenuOpen = false"
       >
