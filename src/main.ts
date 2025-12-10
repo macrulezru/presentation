@@ -15,16 +15,12 @@ import { LocalesEnum } from '@/enums/locales.enum'
 async function initializeApp() {
   const initialLocale = getInitialLocale()
 
-  // Загружаем только нужную локаль
-  if (initialLocale !== LocalesEnum.RU) {
-    try {
-      await loadLocale(initialLocale)
-    } catch (error) {
-      console.error(`Failed to load locale ${initialLocale}:`, error)
+  // Загружаем локаль
+  try {
+    await loadLocale(initialLocale)
+  } catch (error) {
+    console.error(`Failed to load locale ${initialLocale}:`, error)
 
-      await loadLocale(LocalesEnum.RU)
-    }
-  } else {
     await loadLocale(LocalesEnum.RU)
   }
 
