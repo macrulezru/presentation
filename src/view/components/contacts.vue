@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import LocationMap from '@/view/components/location-map.vue'
-
   import { ref, computed } from 'vue'
   import { useI18n } from '@/view/composables/use-i18n.ts'
   import emailjs from 'emailjs-com'
@@ -125,16 +124,16 @@
           )
 
           const body = encodeURIComponent(`
-  ${t('form.fields.name')}: ${formData.value.name}
-  ${t('form.fields.email')}: ${formData.value.email}
-  ${t('form.fields.subject')}: ${formSubject.value}
+${t('form.fields.name')}: ${formData.value.name}
+${t('form.fields.email')}: ${formData.value.email}
+${t('form.fields.subject')}: ${formSubject.value}
 
-  ${t('form.fields.message')}:
-  ${formData.value.message}
+${t('form.fields.message')}:
+${formData.value.message}
 
-  ---
-  ${t('form.sent_from')}: ${window.location.href}
-          `)
+---
+${t('form.sent_from')}: ${window.location.href}
+        `)
 
           window.location.href = `mailto:${EMAILJS_CONFIG.recipientEmail}?subject=${subject}&body=${body}`
         }
@@ -161,10 +160,8 @@
       </header>
 
       <div class="contacts__content">
-        <!-- Контакты -->
         <div class="contacts__list-section">
           <div class="contacts__list">
-            <!-- Email блок с двумя кликабельными адресами -->
             <div class="contacts__item">
               <div class="contacts__item-icon contacts__item-icon_mail" />
               <div class="contacts__item-content">
@@ -182,7 +179,6 @@
               </div>
             </div>
 
-            <!-- Telegram и Phone как ссылки -->
             <a
               v-for="contact in contacts.slice(1)"
               :key="contact.label"
@@ -203,13 +199,11 @@
           </div>
         </div>
 
-        <!-- Форма обратной связи -->
         <div class="contacts__form-section">
           <h3 class="contacts__form-title">{{ t('form.title') }}</h3>
           <p class="contacts__form-description">{{ t('form.description') }}</p>
 
           <form @submit.prevent="submitForm" class="contacts__form">
-            <!-- Имя -->
             <div class="form-group">
               <label for="name" class="form-label">
                 {{ t('form.fields.name') }}
@@ -226,7 +220,6 @@
               />
             </div>
 
-            <!-- Email -->
             <div class="form-group">
               <label for="email" class="form-label">
                 {{ t('form.fields.email') }}
@@ -243,8 +236,7 @@
               />
             </div>
 
-            <!-- Сообщение -->
-            <div class="form-group">
+            <div class="form-group form-group--message">
               <label for="message" class="form-label">
                 {{ t('form.fields.message') }}
               </label>
@@ -254,16 +246,13 @@
                 :placeholder="t('form.placeholders.message')"
                 class="form-textarea"
                 :disabled="isSubmitting"
-                rows="5"
                 required
                 autocomplete="off"
               ></textarea>
             </div>
 
-            <!-- Скрытое поле с темой -->
             <input type="hidden" name="subject" :value="formSubject" />
 
-            <!-- Сообщения об ошибках и успехе -->
             <div v-if="errorMessage" class="form-error">
               {{ errorMessage }}
             </div>
@@ -272,7 +261,6 @@
               {{ t('form.success_message') }}
             </div>
 
-            <!-- Кнопки -->
             <div class="form-actions">
               <button
                 type="submit"
@@ -295,6 +283,7 @@
             </div>
           </form>
         </div>
+
         <a
           class="contacts__item contacts__item_git"
           href="https://github.com/macrulezru"
@@ -443,6 +432,8 @@
   }
 
   .contacts__form-section {
+    display: flex;
+    flex-direction: column;
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
@@ -467,12 +458,30 @@
     display: flex;
     flex-direction: column;
     gap: var(--spacing-lg);
+    flex: 1;
+    min-height: 0;
   }
 
   .form-group {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
+
+    &:not(.form-group--message) {
+      flex: 0 0 auto;
+    }
+
+    &--message {
+      flex: 1;
+      min-height: 0;
+
+      .form-textarea {
+        flex: 1;
+        min-height: 150px;
+        max-height: 300px;
+        resize: vertical;
+      }
+    }
   }
 
   .form-label {
@@ -490,6 +499,8 @@
     font-family: inherit;
     transition: all var(--transition-normal);
     background: var(--color-bg-primary);
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .form-input:focus,
@@ -507,7 +518,6 @@
 
   .form-textarea {
     resize: vertical;
-    min-height: 120px;
   }
 
   .form-error {
@@ -532,6 +542,7 @@
     display: flex;
     gap: var(--spacing-md);
     margin-top: var(--spacing-md);
+    flex: 0 0 auto;
   }
 
   .form-submit {
@@ -651,6 +662,17 @@
 
     .contacts__form-section {
       padding: var(--spacing-md);
+      height: auto;
+    }
+
+    .contacts__form {
+      flex: none;
+    }
+
+    .form-group--message {
+      .form-textarea {
+        min-height: 200px;
+      }
     }
 
     .form-actions {
@@ -684,6 +706,12 @@
     .contacts__item-value,
     .contacts__email-link {
       font-size: var(--font-size-lg);
+    }
+
+    .form-group--message {
+      .form-textarea {
+        min-height: 180px;
+      }
     }
   }
 </style>
