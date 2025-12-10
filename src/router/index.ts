@@ -7,12 +7,12 @@ const routes = [
   {
     path: '/:locale?',
     name: 'home',
-    component: () => import('@/view/pages/App.vue'),
+    component: () => import('@/view/pages/index.vue'),
   },
   {
     path: '/:locale/:section',
     name: 'section',
-    component: () => import('@/view/pages/App.vue'),
+    component: () => import('@/view/pages/index.vue'),
   },
 ]
 

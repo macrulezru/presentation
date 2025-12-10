@@ -5,7 +5,7 @@ import '@/view/styles/reset.css'
 import '@/view/styles/variables.css'
 import '@/view/styles/main.css'
 
-import App from '@/view/pages/App.vue'
+import App from '@/view/pages/index.vue'
 import router from '@/router'
 import i18nPlugin from '@/plugins/i18n'
 import { loadLocale, getInitialLocale } from '@/locales'

@@ -1,0 +1,21 @@
+.app {
+  min-height: 100vh;
+}
+
+  .app__examples-title {
+    margin: 0 auto;
+    padding: 3rem 1rem 1rem;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    color: #2c3e50;
+    max-width: 1200px;
+}
+
+  @mixin media-tablet {
+    .app__examples-title {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      padding: 0 0.5rem 0.75rem 0.5rem;
+  }
+}
