@@ -245,8 +245,8 @@
         "scalable_architecture": "Skalierbare Architektur entwickelt, was die Bereitstellung neuer Funktionen um 40 % beschleunigte",
         "error_reduction": "Buchungsfehler um 60 % reduziert durch Einführung eines Passagierdateneingabevalidierungssystems",
         "performance_improvement": "Leistung um 25 % verbessert durch Implementierung eines Suchanfragen-Caching-Mechanismus",
-        "code_reliability": "Code-Zuverlässigkeit verbessert durch Einführung eines Code-Review-Prozesses und statischer Typisierung",
-        "responsive_design": "Korrekte Darstellung auf allen Geräten durch entwickeltes responsives Design gewährleistet"
+        "code_reliability": "Code-Zuverlässigkeit verbessert durch Konfiguration des Code-Review-Prozesses und Einführung statischer Typisierung",
+        "responsive_design": "Korrekte Darstellung auf allen Geräten durch adaptives Layout gewährleistet"
       }
     },
     "projects": {

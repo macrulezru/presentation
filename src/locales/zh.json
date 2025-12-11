@@ -245,8 +245,8 @@
         "scalable_architecture": "开发了可扩展架构，将新功能部署速度提高了40%",
         "error_reduction": "通过实施乘客数据验证系统，预订错误减少了60%",
         "performance_improvement": "通过实施搜索查询缓存机制，性能提高了25%",
-        "code_reliability": "通过实施代码审查流程和静态类型化，提高了代码可靠性",
-        "responsive_design": "通过开发的响应式设计，确保在所有设备上正确显示"
+        "code_reliability": "通过配置代码审查流程和实施静态类型化，提高了代码可靠性",
+        "responsive_design": "通过自适应布局确保在所有设备上正确显示"
       }
     },
     "projects": {
