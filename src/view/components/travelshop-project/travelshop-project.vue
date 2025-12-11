@@ -42,16 +42,12 @@
 
 <template>
   <div class="travelshop">
+    <div class="travelshop__into">
+      <img class="travelshop__airport" :src="airportImage" :alt="t('travelshop.title')" />
+      <img class="travelshop__aircraft" :src="aircraftImage" alt="aircraft" />
+    </div>
     <div class="travelshop__container">
       <div class="travelshop__header">
-        <div class="travelshop__into">
-          <img
-            class="travelshop__airport"
-            :src="airportImage"
-            :alt="t('travelshop.title')"
-          />
-          <img class="travelshop__aircraft" :src="aircraftImage" alt="aircraft" />
-        </div>
         <h2 class="travelshop__title">{{ t('travelshop.title') }}</h2>
         <div class="travelshop__meta">
           <span class="travelshop__role">{{ t('travelshop.role') }}</span>

@@ -16,7 +16,7 @@
   const { navigateToSection } = useScrollRouting()
   const isMobileMenuOpen = ref(false)
 
-  const { isTablet } = useResponsive()
+  const { isTablet, isMobile } = useResponsive()
 
   const currentSection = computed(() => navigationStore.currentSection)
 
@@ -106,7 +106,7 @@
       <div class="header__right">
         <!-- Гамбургер-меню для мобильных -->
         <button
-          v-if="isTablet"
+          v-if="isTablet || isMobile"
           class="hamburger"
           :class="{ 'hamburger--active': isMobileMenuOpen }"
           @click="toggleMobileMenu"
@@ -121,7 +121,7 @@
 
       <!-- Мобильное меню (оверлей) -->
       <div
-        v-if="isTablet && isMobileMenuOpen"
+        v-if="(isTablet || isMobile) && isMobileMenuOpen"
         class="mobile-menu-overlay"
         @click="isMobileMenuOpen = false"
       >
