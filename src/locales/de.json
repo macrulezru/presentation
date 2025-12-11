@@ -146,16 +146,22 @@
         "url": "https://tnt-online.ru/"
       },
       {
-        "company": "Bauservice GmbH",
+        "company": "Publicis United",
         "position": "Webdesigner",
-        "description": "Entwicklung von Unternehmenswebsite-Designs, Erstellung von Werbebannern und Ikonographie. Vollständiger Interface-Design-Zyklus: von Prototyping und visuellem Design bis zum adaptiven Layout. Grafikoptimierung und Sicherstellung der Cross-Browser-Kompatibilität.",
-        "url": "https://bauservice.ru/"
+        "description": "Design und Entwicklung von Websites für große Werbeagenturkunden. Erstellung interaktiver Schnittstellen, Arbeit an der Verbesserung des Benutzererlebnisses. Beteiligung an der Erstellung umfassender digitaler Lösungen für Marken. Arbeit nach Unternehmensstandards und Kundenrichtlinien.",
+        "url": "https://www.publicisgroupe.com/en/splash-en"
       },
       {
         "company": "European Media Group (EMG)",
         "position": "Webdesigner / Webentwickler",
         "description": "Entwicklung und Unterstützung von Websites für Medienprojekte des Unternehmens. Erstellung von Benutzeroberflächen, Design von Promotionsseiten und Landingpages. Integration des Designs mit Content-Management-Systemen, Optimierung der Webseitenleistung.",
         "url": "https://emg.fm/"
+      },
+      {
+        "company": "Bauservice GmbH",
+        "position": "Webdesigner",
+        "description": "Entwicklung von Unternehmenswebsite-Designs, Erstellung von Werbebannern und Ikonographie. Vollständiger Interface-Design-Zyklus: von Prototyping und visuellem Design bis zum adaptiven Layout. Grafikoptimierung und Sicherstellung der Cross-Browser-Kompatibilität.",
+        "url": "https://bauservice.ru/"
       },
       {
         "company": "Advego",
@@ -204,12 +210,6 @@
         "company": "Artez Production",
         "position": "Webdesigner",
         "description": "Website-Design für Kunden der Produktionsfirma. Erstellung visueller Konzepte, Entwicklung von Schnittstellen und Navigationssystemen. Vorbereitung von Grafiken für Webpublikationen und Sicherstellung der Designkonformität mit technischen Anforderungen."
-      },
-      {
-        "company": "Publicis United",
-        "position": "Webdesigner",
-        "description": "Design und Entwicklung von Websites für große Werbeagenturkunden. Erstellung interaktiver Schnittstellen, Arbeit an der Verbesserung des Benutzererlebnisses. Beteiligung an der Erstellung umfassender digitaler Lösungen für Marken. Arbeit nach Unternehmensstandards und Kundenrichtlinien.",
-        "url": "https://www.publicisgroupe.com/fr/splash"
       },
       {
         "company": "AVM New Wave Inc.",

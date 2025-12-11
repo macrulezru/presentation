@@ -146,16 +146,22 @@
         "url": "https://tnt-online.ru/"
       },
       {
-        "company": "Bauservice LLC",
+        "company": "Publicis United",
         "position": "Web Designer",
-        "description": "Development of corporate website designs, creating advertising banners and iconography. Full interface design cycle: from prototyping and visual design to adaptive layout. Graphics optimization and ensuring cross-browser compatibility.",
-        "url": "https://bauservice.ru/"
+        "description": "Design and development of websites for major advertising agency clients. Creating interactive interfaces, working on improving user experience. Participation in creating comprehensive digital solutions for brands. Working according to corporate standards and client guidelines.",
+        "url": "https://www.publicisgroupe.com/en/splash-en"
       },
       {
         "company": "European Media Group (EMG)",
         "position": "Web Designer / Web Developer",
         "description": "Development and support of websites for company's media projects. Creating user interfaces, designing promotional pages and landing pages. Integration of design with content management systems, optimization of web page performance.",
         "url": "https://emg.fm/"
+      },
+      {
+        "company": "Bauservice LLC",
+        "position": "Web Designer",
+        "description": "Development of corporate website designs, creating advertising banners and iconography. Full interface design cycle: from prototyping and visual design to adaptive layout. Graphics optimization and ensuring cross-browser compatibility.",
+        "url": "https://bauservice.ru/"
       },
       {
         "company": "Advego",
@@ -204,12 +210,6 @@
         "company": "Artez Production",
         "position": "Web Designer",
         "description": "Website design for production company clients. Creating visual concepts, developing interfaces and navigation systems. Preparing graphics for web publications and ensuring design compliance with technical requirements."
-      },
-      {
-        "company": "Publicis United",
-        "position": "Web Designer",
-        "description": "Design and development of websites for major advertising agency clients. Creating interactive interfaces, working on improving user experience. Participation in creating comprehensive digital solutions for brands. Working according to corporate standards and client guidelines.",
-        "url": "https://www.publicisgroupe.com/fr/splash"
       },
       {
         "company": "AVM New Wave Inc.",

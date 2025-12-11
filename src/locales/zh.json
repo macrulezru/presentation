@@ -146,16 +146,22 @@
         "url": "https://tnt-online.ru/"
       },
       {
-        "company": "Bauservice有限责任公司",
+        "company": "Publicis United公司",
         "position": "网页设计师",
-        "description": "开发企业网站设计，创建广告横幅和图标系统。完整界面设计周期：从原型设计和视觉设计到自适应布局。图形优化和确保跨浏览器兼容性。",
-        "url": "https://bauservice.ru/"
+        "description": "为主要广告公司客户设计和开发网站。创建交互式界面，改进用户体验。参与为品牌创建综合数字解决方案。按照公司标准和客户指南工作。",
+        "url": "https://www.publicisgroupe.com/en/splash-en"
       },
       {
         "company": "欧洲媒体集团（EMG）",
         "position": "网页设计师 / 网页开发员",
         "description": "为公司媒体项目开发和支持网站。创建用户界面，设计促销页面和落地页。将设计与内容管理系统集成，优化网页性能。",
         "url": "https://emg.fm/"
+      },
+      {
+        "company": "Bauservice有限责任公司",
+        "position": "网页设计师",
+        "description": "开发企业网站设计，创建广告横幅和图标系统。完整界面设计周期：从原型设计和视觉设计到自适应布局。图形优化和确保跨浏览器兼容性。",
+        "url": "https://bauservice.ru/"
       },
       {
         "company": "Advego公司",
@@ -204,12 +210,6 @@
         "company": "Artez制作公司",
         "position": "网页设计师",
         "description": "为生产公司客户设计网站。创建视觉概念，开发界面和导航系统。准备网页发布的图形并确保设计符合技术要求。"
-      },
-      {
-        "company": "Publicis United公司",
-        "position": "网页设计师",
-        "description": "为主要广告公司客户设计和开发网站。创建交互式界面，改进用户体验。参与为品牌创建综合数字解决方案。按照公司标准和客户指南工作。",
-        "url": "https://www.publicisgroupe.com/fr/splash"
       },
       {
         "company": "AVM New Wave公司",
