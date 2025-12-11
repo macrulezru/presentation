@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue'
+
   import '@/view/components/experience-timeline/experience-timeline.scss'
 
   import { ref, computed } from 'vue'
@@ -38,15 +40,21 @@
             <div class="experience__card-header">
               <div>
                 <h3 class="experience__company">
-                  {{ item.company }}
-                </h3>
-                <template v-if="item.url">
-                  <div class="experience__link">
-                    <a :href="item.url" target="_blank">
-                      {{ item.url }}
+                  <template v-if="item.url">
+                    <a
+                      class="experience__link"
+                      v-if="item.url"
+                      :href="item.url"
+                      target="_blank"
+                    >
+                      {{ item.company }}
+                      <LinkArrow />
                     </a>
-                  </div>
-                </template>
+                  </template>
+                  <template v-else>
+                    {{ item.company }}
+                  </template>
+                </h3>
               </div>
               <!-- Длительность (только если есть) -->
               <span v-if="item.duration" class="experience__duration">

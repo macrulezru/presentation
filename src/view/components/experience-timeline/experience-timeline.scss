@@ -87,16 +87,26 @@
 }
 
 .experience__link {
-  margin-top: var(--spacing-sm);
-}
-
-.experience__link a {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
   color: var(--color-secondary);
 }
 
-.experience__link a:hover {
+.experience__link:hover {
   color: var(--color-secondary-hover);
   text-decoration: underline;
+}
+
+.experience__link-arrow {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  mask-image: url('@/view/assets/images/link-icon.svg');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: var(--color-secondary-hover);
 }
 
 .experience__duration {

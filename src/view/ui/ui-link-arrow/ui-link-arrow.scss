@@ -1,0 +1,11 @@
+.link-arrow {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  mask-image: url('@/view/assets/images/link-icon.svg');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: var(--color-secondary-hover);
+  cursor: pointer;
+}

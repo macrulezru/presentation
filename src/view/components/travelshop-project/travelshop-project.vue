@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import CircleChart from '@/view/ui/ui-circle-chart/ui-circle-chart.vue'
   import LoadingSpinner from '@/view/ui/ui-loading-spinner/ui-loading-spinner.vue'
+  import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue'
 
   import '@/view/components/travelshop-project/travelshop-project.scss'
 
@@ -142,7 +143,7 @@
             >
               <div class="travelshop__project-header">
                 <h4 class="travelshop__project-name">{{ project.name }}</h4>
-                <div class="travelshop__project-arrow">↗</div>
+                <LinkArrow class="travelshop__project-arrow" />
               </div>
               <p class="travelshop__project-description">{{ project.description }}</p>
             </a>
