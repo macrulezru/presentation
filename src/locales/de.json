@@ -248,8 +248,7 @@
         "code_reliability": "Code-Zuverlässigkeit verbessert durch Einführung eines Code-Review-Prozesses und statischer Typisierung",
         "responsive_design": "Korrekte Darstellung auf allen Geräten durch entwickeltes responsives Design gewährleistet"
       }
-    }
-  },
+    },
     "projects": {
       "title": "Umsetzte Projekte",
       "items": [
