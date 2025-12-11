@@ -118,6 +118,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 40px;
+  padding-top: var(--spacing-md);
 }
 
 .travelshop__chart-item {
