@@ -6,11 +6,57 @@
   @include container-lg;
 }
 
+.travelshop__into {
+  position: relative;
+}
+
 .travelshop__airport {
   width: 100%;
   max-width: 600px;
   height: auto;
-  margin: var(--spacing-xl) auto;
+  margin: 100px auto var(--spacing-xl);
+}
+
+.travelshop__aircraft {
+  position: absolute;
+  top: -60px;
+  left: -190px;
+  width: 190px;
+  height: auto;
+  animation: fly-cycle 16s linear infinite;
+}
+
+@keyframes fly-cycle {
+  0% {
+    left: -190px;
+    transform: translateY(0) scaleX(1); // Начальная позиция, нормальное отображение
+  }
+
+  25% {
+    transform: translateY(-50px) scaleX(1); // Подъем вверх в середине пути вправо
+  }
+
+  49% {
+    transform: translateY(0) scaleX(1); // Возврат к нормальной высоте перед разворотом
+  }
+
+  50% {
+    left: 100%; // Достиг правого края
+    transform: translateY(0) scaleX(-1); // Мгновенный разворот по горизонтали
+  }
+
+  75% {
+    transform: translateY(50px) scaleX(-1); // Подъем вверх в середине пути влево
+  }
+
+  99% {
+    transform: translateY(0) scaleX(-1); // Возврат к нормальной высоте перед разворотом
+  }
+
+  100% {
+    left: -200px; // Возврат в начальную позицию
+    transform: translateY(0) scaleX(1); // Разворот в исходное положение
+  }
 }
 
 .travelshop__header {
