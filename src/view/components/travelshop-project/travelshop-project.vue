@@ -4,6 +4,8 @@
 
   import '@/view/components/travelshop-project/travelshop-project.scss'
 
+  import airportImage from '@/view/assets/images/airport.png'
+
   const TravelshopImages = defineAsyncComponent({
     loader: () =>
       import(
@@ -40,6 +42,11 @@
   <div class="travelshop">
     <div class="travelshop__container">
       <div class="travelshop__header">
+        <img
+          class="travelshop__airport"
+          :src="airportImage"
+          :alt="t('travelshop.title')"
+        />
         <h2 class="travelshop__title">{{ t('travelshop.title') }}</h2>
         <div class="travelshop__meta">
           <span class="travelshop__role">{{ t('travelshop.role') }}</span>
