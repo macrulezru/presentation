@@ -129,7 +129,8 @@
         "duration": "4 Jahre und 11 Monate",
         "position": "Leitender HTML-Entwickler / Frontend-Entwickler",
         "period": "Dezember 2020 — Oktober 2025",
-        "description": "Design und Entwicklung von Vue 3-Komponenten für TWx und TravelShop-Produkte. Erstellung von UI-Architektur, Entwicklung interaktiver Elemente und komplexer SPA-Anwendungen für Flugbuchungssysteme. Unterstützung und Anpassung von TravelShop-Vorlagen auf Bitrix für verschiedene Fluggesellschaften."
+        "description": "Design und Entwicklung von Vue 3-Komponenten für TWx und TravelShop-Produkte. Erstellung von UI-Architektur, Entwicklung interaktiver Elemente und komplexer SPA-Anwendungen für Flugbuchungssysteme. Unterstützung und Anpassung von TravelShop-Vorlagen auf Bitrix für verschiedene Fluggesellschaften.",
+        "url": "https://ors-aero.ru/"
       },
       {
         "company": "Tais",
@@ -141,27 +142,32 @@
       {
         "company": "TNT, Fernsehgesellschaft",
         "position": "Webdesigner",
-        "description": "Erstellung animierter und interaktiver Werbebanner für Fernsehprojekte. Vollständiger Entwicklungszyklus: von Konzept und Design bis zur Umsetzung mit HTML5, CSS3 und JavaScript. Erstellung responsiver Banner mit Unterstützung verschiedener Größen und Geräte."
+        "description": "Erstellung animierter und interaktiver Werbebanner für Fernsehprojekte. Vollständiger Entwicklungszyklus: von Konzept und Design bis zur Umsetzung mit HTML5, CSS3 und JavaScript. Erstellung responsiver Banner mit Unterstützung verschiedener Größen und Geräte.",
+        "url": "https://tnt-online.ru/"
       },
       {
         "company": "Bauservice GmbH",
         "position": "Webdesigner",
-        "description": "Entwicklung von Unternehmenswebsite-Designs, Erstellung von Werbebannern und Ikonographie. Vollständiger Interface-Design-Zyklus: von Prototyping und visuellem Design bis zum adaptiven Layout. Grafikoptimierung und Sicherstellung der Cross-Browser-Kompatibilität."
+        "description": "Entwicklung von Unternehmenswebsite-Designs, Erstellung von Werbebannern und Ikonographie. Vollständiger Interface-Design-Zyklus: von Prototyping und visuellem Design bis zum adaptiven Layout. Grafikoptimierung und Sicherstellung der Cross-Browser-Kompatibilität.",
+        "url": "https://bauservice.ru/"
       },
       {
         "company": "European Media Group (EMG)",
         "position": "Webdesigner / Webentwickler",
-        "description": "Entwicklung und Unterstützung von Websites für Medienprojekte des Unternehmens. Erstellung von Benutzeroberflächen, Design von Promotionsseiten und Landingpages. Integration des Designs mit Content-Management-Systemen, Optimierung der Webseitenleistung."
+        "description": "Entwicklung und Unterstützung von Websites für Medienprojekte des Unternehmens. Erstellung von Benutzeroberflächen, Design von Promotionsseiten und Landingpages. Integration des Designs mit Content-Management-Systemen, Optimierung der Webseitenleistung.",
+        "url": "https://emg.fm/"
       },
       {
         "company": "Advego",
         "position": "Webdesigner / Webentwickler",
-        "description": "Vollständiger Zyklus der Webprojekterstellung: vom Benutzeroberflächendesign und visuellem Design bis zur Frontend-Entwicklung. Erstellung intuitiver Schnittstellen für Content-Börsen, Entwicklung von Administrationspanels und Benutzerkabinetten. Optimierung des Benutzererlebnisses und der Interaktion."
+        "description": "Vollständiger Zyklus der Webprojekterstellung: vom Benutzeroberflächendesign und visuellem Design bis zur Frontend-Entwicklung. Erstellung intuitiver Schnittstellen für Content-Börsen, Entwicklung von Administrationspanels und Benutzerkabinetten. Optimierung des Benutzererlebnisses und der Interaktion.",
+        "url": "https://advego.com/"
       },
       {
         "company": "NIKITA ONLINE",
         "position": "Webdesigner",
-        "description": "Entwicklung von Unternehmenswebsite-Designs und Promotionsseiten für Spielprojekte des Unternehmens. Erstellung visueller Konzepte, Design von Seitenlayouts und Interface-Elementen. Vorbereitung grafischer Materialien für Webpublikationen."
+        "description": "Entwicklung von Unternehmenswebsite-Designs und Promotionsseiten für Spielprojekte des Unternehmens. Erstellung visueller Konzepte, Design von Seitenlayouts und Interface-Elementen. Vorbereitung grafischer Materialien für Webpublikationen.",
+        "url": "https://www.gamexp.com/ru/"
       },
       {
         "company": "Nettrader",
@@ -171,7 +177,8 @@
       {
         "company": "SOLDIS Kommunikationsagentur",
         "position": "Webdesigner",
-        "description": "Erstellung von Website-Designs für Agenturkunden. Entwicklung visueller Konzepte, Vorbereitung von Layouts und grafischen Elementen. Arbeit an der Verbesserung des Benutzererlebnisses und der Navigation auf Webressourcen."
+        "description": "Erstellung von Website-Designs für Agenturkunden. Entwicklung visueller Konzepte, Vorbereitung von Layouts und grafischen Elementen. Arbeit an der Verbesserung des Benutzererlebnisses und der Navigation auf Webressourcen.",
+        "url": "https://soldis.ru/"
       },
       {
         "company": "Yutinet.Ru",
@@ -201,7 +208,8 @@
       {
         "company": "Publicis United",
         "position": "Webdesigner",
-        "description": "Design und Entwicklung von Websites für große Werbeagenturkunden. Erstellung interaktiver Schnittstellen, Arbeit an der Verbesserung des Benutzererlebnisses. Beteiligung an der Erstellung umfassender digitaler Lösungen für Marken. Arbeit nach Unternehmensstandards und Kundenrichtlinien."
+        "description": "Design und Entwicklung von Websites für große Werbeagenturkunden. Erstellung interaktiver Schnittstellen, Arbeit an der Verbesserung des Benutzererlebnisses. Beteiligung an der Erstellung umfassender digitaler Lösungen für Marken. Arbeit nach Unternehmensstandards und Kundenrichtlinien.",
+        "url": "https://www.publicisgroupe.com/fr/splash"
       },
       {
         "company": "AVM New Wave Inc.",

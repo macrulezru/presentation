@@ -73,7 +73,7 @@
 .experience__card-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 0.5rem;
   gap: 1rem;
 }
@@ -84,6 +84,19 @@
   color: #2c3e50;
   margin: 0;
   line-height: 1.2;
+}
+
+.experience__link {
+  margin-top: var(--spacing-sm);
+}
+
+.experience__link a {
+  color: var(--color-secondary);
+}
+
+.experience__link a:hover {
+  color: var(--color-secondary-hover);
+  text-decoration: underline;
 }
 
 .experience__duration {

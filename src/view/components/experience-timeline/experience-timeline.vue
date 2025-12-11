@@ -5,6 +5,7 @@
   const { t, tm } = useI18n()
 
   const experienceItems = computed(() => tm('experience.items'))
+
   const showAll = ref(false)
 
   // Показываем только первые 4 компании, если не нажата кнопка "Показать все"
@@ -35,13 +36,23 @@
             </div>
 
             <div class="experience__card-header">
-              <h3 class="experience__company">{{ item.company }}</h3>
+              <div>
+                <h3 class="experience__company">
+                  {{ item.company }}
+                </h3>
+                <template v-if="item.url">
+                  <div class="experience__link">
+                    <a :href="item.url" target="_blank">
+                      {{ item.url }}
+                    </a>
+                  </div>
+                </template>
+              </div>
               <!-- Длительность (только если есть) -->
               <span v-if="item.duration" class="experience__duration">
                 {{ item.duration }}
               </span>
             </div>
-
             <div class="experience__position">{{ item.position }}</div>
 
             <div class="experience__description">

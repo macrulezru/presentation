@@ -129,7 +129,8 @@
         "duration": "4 years and 11 months",
         "position": "Lead HTML Developer / Frontend Developer",
         "period": "December 2020 — October 2025",
-        "description": "Design and development of Vue 3 components for TWx and TravelShop products. Creating UI architecture, developing interactive elements and complex SPA applications for flight booking systems. Support and customization of TravelShop templates on Bitrix for various airlines."
+        "description": "Design and development of Vue 3 components for TWx and TravelShop products. Creating UI architecture, developing interactive elements and complex SPA applications for flight booking systems. Support and customization of TravelShop templates on Bitrix for various airlines.",
+        "url": "https://ors-aero.ru/"
       },
       {
         "company": "Tais",
@@ -141,27 +142,32 @@
       {
         "company": "TNT, Television Company",
         "position": "Web Designer",
-        "description": "Creating animated and interactive advertising banners for television projects. Full development cycle: from concept and design to implementation using HTML5, CSS3 and JavaScript. Creating responsive banners supporting various sizes and devices."
+        "description": "Creating animated and interactive advertising banners for television projects. Full development cycle: from concept and design to implementation using HTML5, CSS3 and JavaScript. Creating responsive banners supporting various sizes and devices.",
+        "url": "https://tnt-online.ru/"
       },
       {
         "company": "Bauservice LLC",
         "position": "Web Designer",
-        "description": "Development of corporate website designs, creating advertising banners and iconography. Full interface design cycle: from prototyping and visual design to adaptive layout. Graphics optimization and ensuring cross-browser compatibility."
+        "description": "Development of corporate website designs, creating advertising banners and iconography. Full interface design cycle: from prototyping and visual design to adaptive layout. Graphics optimization and ensuring cross-browser compatibility.",
+        "url": "https://bauservice.ru/"
       },
       {
         "company": "European Media Group (EMG)",
         "position": "Web Designer / Web Developer",
-        "description": "Development and support of websites for company's media projects. Creating user interfaces, designing promotional pages and landing pages. Integration of design with content management systems, optimization of web page performance."
+        "description": "Development and support of websites for company's media projects. Creating user interfaces, designing promotional pages and landing pages. Integration of design with content management systems, optimization of web page performance.",
+        "url": "https://emg.fm/"
       },
       {
         "company": "Advego",
         "position": "Web Designer / Web Developer",
-        "description": "Full cycle of web project creation: from user interface design and visual design to frontend development. Creating intuitive interfaces for content exchange platforms, developing admin panels and user cabinets. Optimizing user experience and interaction."
+        "description": "Full cycle of web project creation: from user interface design and visual design to frontend development. Creating intuitive interfaces for content exchange platforms, developing admin panels and user cabinets. Optimizing user experience and interaction.",
+        "url": "https://advego.com/"
       },
       {
         "company": "NIKITA ONLINE",
         "position": "Web Designer",
-        "description": "Development of corporate website designs and promotional pages for company's gaming projects. Creating visual concepts, designing page layouts and interface elements. Preparing graphic materials for web publications."
+        "description": "Development of corporate website designs and promotional pages for company's gaming projects. Creating visual concepts, designing page layouts and interface elements. Preparing graphic materials for web publications.",
+        "url": "https://www.gamexp.com/ru/"
       },
       {
         "company": "Nettrader",
@@ -171,7 +177,8 @@
       {
         "company": "SOLDIS Communication Agency",
         "position": "Web Designer",
-        "description": "Creating website designs for agency clients. Development of visual concepts, preparation of layouts and graphic elements. Working on improving user experience and navigation on web resources."
+        "description": "Creating website designs for agency clients. Development of visual concepts, preparation of layouts and graphic elements. Working on improving user experience and navigation on web resources.",
+        "url": "https://soldis.ru/"
       },
       {
         "company": "Yutinet.Ru",
@@ -201,7 +208,8 @@
       {
         "company": "Publicis United",
         "position": "Web Designer",
-        "description": "Design and development of websites for major advertising agency clients. Creating interactive interfaces, working on improving user experience. Participation in creating comprehensive digital solutions for brands. Working according to corporate standards and client guidelines."
+        "description": "Design and development of websites for major advertising agency clients. Creating interactive interfaces, working on improving user experience. Participation in creating comprehensive digital solutions for brands. Working according to corporate standards and client guidelines.",
+        "url": "https://www.publicisgroupe.com/fr/splash"
       },
       {
         "company": "AVM New Wave Inc.",
