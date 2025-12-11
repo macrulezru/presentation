@@ -241,13 +241,13 @@
     },
     "achievements": {
       "title": "Achievements and Results",
-      "items": [
-        "A scalable component architecture was developed, accelerating the rollout of new features by 40%.",
-        "The number of booking errors was reduced by 60% due to the implemented form validation system.",
-        "Performance was improved by 25% through the implementation of a search query caching mechanism.",
-        "Code reliability was enhanced by establishing a code review process and introducing static typing.",
-        "Correct display on all devices was ensured thanks to the developed adaptive design."
-      ]
+      "items": {
+        "scalable_architecture": "Scalable architecture developed, accelerating new feature deployment by 40%",
+        "error_reduction": "Booking errors reduced by 60% through implementation of passenger data validation system",
+        "performance_improvement": "Performance improved by 25% through implementation of search query caching mechanism",
+        "code_reliability": "Code reliability enhanced through implementation of code review process and static typing",
+        "responsive_design": "Proper display on all devices ensured through developed responsive design"
+      }
     },
     "projects": {
       "title": "Implemented Projects",

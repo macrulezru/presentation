@@ -29,8 +29,6 @@
 
   const techStack = computed(() => tm('travelshop.tech_stack.items'))
 
-  const achievements = computed(() => tm('travelshop.achievements.items'))
-
   const projects = computed(() => tm('travelshop.projects.items'))
 
   const toggleSwiper = () => {
@@ -91,28 +89,34 @@
           <div class="travelshop__chart">
             <div class="travelshop__chart-item">
               <CircleChart :value="40" :size="190" :segmentColor="`#dd5406`" />
-              <span class="travelshop__chart-label">{{ achievements[0] }}</span>
+              <span class="travelshop__chart-label">
+                {{ t('travelshop.achievements.items.scalable_architecture') }}
+              </span>
             </div>
             <div class="travelshop__chart-item">
               <CircleChart :value="60" :size="190" :segmentColor="`#078e2d`" />
-              <span class="travelshop__chart-label">{{ achievements[1] }}</span>
+              <span class="travelshop__chart-label">
+                {{ t('travelshop.achievements.items.error_reduction') }}
+              </span>
             </div>
             <div class="travelshop__chart-item">
               <CircleChart :value="25" :size="190" :segmentColor="`#048eed`" />
-              <span class="travelshop__chart-label">{{ achievements[2] }}</span>
+              <span class="travelshop__chart-label">
+                {{ t('travelshop.achievements.items.performance_improvement') }}
+              </span>
             </div>
           </div>
           <div class="travelshop__achievements">
             <div class="travelshop__achievement">
               <div class="travelshop__achievement-content">
                 <div class="travelshop__tech-dot"></div>
-                <span>{{ achievements[3] }}</span>
+                <span>{{ t('travelshop.achievements.items.code_reliability') }}</span>
               </div>
             </div>
             <div class="travelshop__achievement">
               <div class="travelshop__achievement-content">
                 <div class="travelshop__tech-dot"></div>
-                <span>{{ achievements[4] }}</span>
+                <span>{{ t('travelshop.achievements.items.responsive_design') }}</span>
               </div>
             </div>
           </div>
