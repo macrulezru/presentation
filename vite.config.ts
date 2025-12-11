@@ -72,7 +72,10 @@ export default defineConfig({
       output: {
         assetFileNames: assetInfo => {
           if (assetInfo.name && /\.(svg)$/.test(assetInfo.name)) {
-            return 'assets/icons/[name]-[hash][extname]'
+            return 'assets/images/icons/[name]-[hash][extname]'
+          }
+          if (assetInfo.name && /\.(jpg|png)$/.test(assetInfo.name)) {
+            return 'assets/images/[name]-[hash][extname]'
           }
           return 'assets/[name]-[hash][extname]'
         },
