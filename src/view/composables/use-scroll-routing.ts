@@ -48,7 +48,8 @@ export function useScrollRouting() {
       return PageSectionsEnum.SPLASH
     }
 
-    const scrollPosition = window.pageYOffset + window.innerHeight / 2
+    const { pageYOffset, innerHeight } = window
+    const scrollPosition = pageYOffset + innerHeight / 4
 
     for (const section of navigationStore.sections) {
       if (section.element) {
