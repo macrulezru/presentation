@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import CircleChart from '@/view/ui/ui-circle-chart/ui-circle-chart.vue'
   import LoadingSpinner from '@/view/ui/ui-loading-spinner/ui-loading-spinner.vue'
 
   import '@/view/components/travelshop-project/travelshop-project.scss'
@@ -87,15 +88,31 @@
           <h3 class="travelshop__section-title">
             {{ t('travelshop.achievements.title') }}
           </h3>
+          <div class="travelshop__chart">
+            <div class="travelshop__chart-item">
+              <CircleChart :value="40" :size="190" :segmentColor="`#dd5406`" />
+              <span class="travelshop__chart-label">{{ achievements[0] }}</span>
+            </div>
+            <div class="travelshop__chart-item">
+              <CircleChart :value="60" :size="190" :segmentColor="`#078e2d`" />
+              <span class="travelshop__chart-label">{{ achievements[1] }}</span>
+            </div>
+            <div class="travelshop__chart-item">
+              <CircleChart :value="25" :size="190" :segmentColor="`#048eed`" />
+              <span class="travelshop__chart-label">{{ achievements[2] }}</span>
+            </div>
+          </div>
           <div class="travelshop__achievements">
-            <div
-              v-for="(achievement, index) in achievements"
-              :key="index"
-              class="travelshop__achievement"
-            >
-              <div class="travelshop__achievement-number">{{ index + 1 }}</div>
+            <div class="travelshop__achievement">
               <div class="travelshop__achievement-content">
-                {{ achievement }}
+                <div class="travelshop__tech-dot"></div>
+                <span>{{ achievements[3] }}</span>
+              </div>
+            </div>
+            <div class="travelshop__achievement">
+              <div class="travelshop__achievement-content">
+                <div class="travelshop__tech-dot"></div>
+                <span>{{ achievements[4] }}</span>
               </div>
             </div>
           </div>
