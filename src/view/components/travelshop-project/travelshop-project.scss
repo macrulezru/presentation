@@ -22,7 +22,7 @@
 .travelshop__aircraft {
   position: absolute;
   top: 50px;
-  left: 0;
+  left: 50%;
   width: 190px;
   height: auto;
   animation: fly-cycle 16s linear infinite;
@@ -30,34 +30,31 @@
 
 @keyframes fly-cycle {
   0% {
-    left: 0;
-    transform: translateY(0) scaleX(1); // Начальная позиция, нормальное отображение
+    transform: translate3d(-520px, 0, 0) scaleX(1);
   }
 
   25% {
-    transform: translateY(-50px) scaleX(1); // Подъем вверх в середине пути вправо
+    transform: translate3d(-150px, -50px, 0) scaleX(1);
   }
 
   49% {
-    transform: translateY(0) scaleX(1); // Возврат к нормальной высоте перед разворотом
+    transform: translate3d(300px, 0, 0) scaleX(1);
   }
 
   50% {
-    left: calc(100% - 190px); // Достиг правого края
-    transform: translateY(0) scaleX(-1); // Мгновенный разворот по горизонтали
+    transform: translate3d(300px, 0, 0) scaleX(-1);
   }
 
   75% {
-    transform: translateY(50px) scaleX(-1); // Подъем вверх в середине пути влево
+    transform: translate3d(-150px, 50px, 0) scaleX(-1);
   }
 
   99% {
-    transform: translateY(0) scaleX(-1); // Возврат к нормальной высоте перед разворотом
+    transform: translate3d(-520px, 0, 0) scaleX(-1);
   }
 
   100% {
-    left: 0; // Возврат в начальную позицию
-    transform: translateY(0) scaleX(1); // Разворот в исходное положение
+    transform: translate3d(-520px, 0, 0) scaleX(1);
   }
 }
 
