@@ -114,9 +114,29 @@
   flex-shrink: 0;
 }
 
+.travelshop__chart {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.travelshop__chart-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.travelshop__chart-label {
+  line-height: 1.6;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
 .travelshop__achievements {
   display: grid;
   gap: var(--spacing-lg);
+  padding-top: var(--spacing-xl);
 }
 
 .travelshop__achievement {
@@ -125,20 +145,11 @@
   align-items: flex-start;
 }
 
-.travelshop__achievement-number {
-  width: var(--icon-size-lg);
-  height: var(--icon-size-lg);
-  border-radius: var(--radius-full);
-  background: var(--color-secondary);
-  color: var(--color-text-light);
+.travelshop__achievement-content {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-weight: var(--font-weight-semibold);
-  flex-shrink: 0;
-}
-
-.travelshop__achievement-content {
+  gap: var(--spacing-md);
   flex: 1;
   padding-top: var(--spacing-sm);
   line-height: 1.6;
@@ -252,14 +263,12 @@
     grid-template-columns: 1fr;
   }
 
-  .travelshop__achievement {
-    gap: var(--spacing-md);
+  .travelshop__chart {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .travelshop__achievement-number {
-    width: var(--icon-size-md);
-    height: var(--icon-size-md);
-    font-size: var(--font-size-base);
+  .travelshop__achievement {
+    gap: var(--spacing-md);
   }
 
   .travelshop__section_images {
@@ -287,5 +296,9 @@
 
   .travelshop__feature {
     padding: var(--spacing-md);
+  }
+
+  .travelshop__chart {
+    grid-template-columns: 1fr;
   }
 }
