@@ -242,11 +242,11 @@
     "achievements": {
       "title": "Erfolge und Ergebnisse",
       "items": [
-        "Entwickelte skalierbare Komponentenarchitektur, die die Entwicklung neuer Funktionen um 40 % beschleunigte",
-        "Erstellte Formularvalidierungssystem, das Buchungsfehler um 60 % reduzierte",
-        "Implementierte Suchanfragen-Caching-Mechanismus, der die Leistung um 25 % verbesserte",
-        "Etablierte Code-Review-Prozess und führte statische Typisierung ein, erhöhte die Code-Zuverlässigkeit",
-        "Entwickelte responsives Design für korrekte Funktion auf allen Gerätetypen"
+        "Eine skalierbare Komponentenarchitektur wurde entwickelt, was die Einführung neuer Funktionen um 40 % beschleunigte.",
+        "Die Anzahl der Buchungsfehler wurde durch das implementierte Formularvalidierungssystem um 60 % reduziert.",
+        "Die Leistung wurde durch die Implementierung eines Caching-Mechanismus für Suchanfragen um 25 % verbessert.",
+        "Die Code-Zuverlässigkeit wurde durch die Einrichtung eines Code-Review-Prozesses und die Einführung statischer Typisierung erhöht.",
+        "Dank des entwickelten responsiven Designs wurde eine korrekte Darstellung auf allen Geräten gewährleistet."
       ]
     },
     "projects": {

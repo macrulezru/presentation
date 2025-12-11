@@ -242,11 +242,11 @@
     "achievements": {
       "title": "Achievements and Results",
       "items": [
-        "Developed scalable component architecture that accelerated new feature development by 40%",
-        "Created form validation system that reduced booking errors by 60%",
-        "Implemented search query caching mechanism that improved performance by 25%",
-        "Established code review process and introduced static typing, increasing code reliability",
-        "Developed responsive design ensuring proper operation on all device types"
+        "A scalable component architecture was developed, accelerating the rollout of new features by 40%.",
+        "The number of booking errors was reduced by 60% due to the implemented form validation system.",
+        "Performance was improved by 25% through the implementation of a search query caching mechanism.",
+        "Code reliability was enhanced by establishing a code review process and introducing static typing.",
+        "Correct display on all devices was ensured thanks to the developed adaptive design."
       ]
     },
     "projects": {
