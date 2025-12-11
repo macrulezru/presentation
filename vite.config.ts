@@ -68,8 +68,18 @@ export default defineConfig({
     open: true,
   },
   build: {
+    rollupOptions: {
+      output: {
+        assetFileNames: assetInfo => {
+          if (assetInfo.name && /\.(svg)$/.test(assetInfo.name)) {
+            return 'assets/icons/[name]-[hash][extname]'
+          }
+          return 'assets/[name]-[hash][extname]'
+        },
+      },
+    },
     target: 'esnext',
     minify: 'esbuild',
-    assetsInlineLimit: 4096,
+    assetsInlineLimit: 0,
   },
 })
