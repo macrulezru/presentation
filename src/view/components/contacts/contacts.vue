@@ -154,7 +154,7 @@ ${t('form.sent_from')}: ${window.location.href}
 </script>
 
 <template>
-  <section class="contacts">
+  <div class="contacts">
     <div class="contacts__container">
       <header class="contacts__header">
         <h2 class="contacts__title">{{ t('contacts.title') }}</h2>
@@ -297,5 +297,5 @@ ${t('form.sent_from')}: ${window.location.href}
       </div>
       <LocationMap />
     </div>
-  </section>
+  </div>
 </template>

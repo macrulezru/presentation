@@ -17,7 +17,7 @@
 </script>
 
 <template>
-  <section class="remote-workplace">
+  <div class="remote-workplace">
     <div class="remote-workplace__container">
       <!-- Заголовок -->
       <header class="remote-workplace__header">
@@ -73,5 +73,5 @@
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>

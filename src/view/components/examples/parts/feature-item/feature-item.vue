@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import '@/view/components/features/parts/feature-item/feature-item.scss'
+  import '@/view/components/examples/parts/feature-item/feature-item.scss'
 
   import type { FeatureData } from '@/view/composables/use-features.ts'
 
@@ -11,19 +11,19 @@
 </script>
 
 <template>
-  <article class="feature-item" :data-feature-id="feature.id">
+  <div class="feature-item" :data-feature-id="feature.id">
     <div class="feature-item__container">
-      <header class="feature-item__header">
+      <div class="feature-item__header">
         <h2 class="feature-item__title">{{ feature.title }}</h2>
         <p class="feature-item__subtitle" :style="{ color: feature.accentColor }">
           {{ feature.subtitle }}
         </p>
         <p class="feature-item__description">{{ feature.description }}</p>
-      </header>
+      </div>
 
       <div class="feature-item__content">
         <!-- Ключевые возможности -->
-        <section class="feature-item__section">
+        <div class="feature-item__section">
           <h3 class="feature-item__section-title">{{ feature.features.title }}</h3>
           <div class="feature-item__features">
             <div
@@ -35,10 +35,10 @@
               <div class="feature-item__feature-text">{{ item }}</div>
             </div>
           </div>
-        </section>
+        </div>
 
         <!-- Процесс работы -->
-        <section class="feature-item__section">
+        <div class="feature-item__section">
           <h3 class="feature-item__section-title">{{ feature.process.title }}</h3>
           <div class="feature-item__process">
             <div
@@ -58,10 +58,10 @@
               </div>
             </div>
           </div>
-        </section>
+        </div>
 
         <!-- Архитектурные компоненты -->
-        <section class="feature-item__section">
+        <div class="feature-item__section">
           <h3 class="feature-item__section-title">{{ feature.architecture.title }}</h3>
           <div class="feature-item__architecture">
             <div
@@ -75,10 +75,10 @@
               </div>
             </div>
           </div>
-        </section>
+        </div>
 
         <!-- Преимущества подхода -->
-        <section class="feature-item__section">
+        <div class="feature-item__section">
           <h3 class="feature-item__section-title">{{ feature.benefits.title }}</h3>
           <div class="feature-item__benefits">
             <div
@@ -89,8 +89,8 @@
               <div class="feature-item__benefit-text">{{ benefit }}</div>
             </div>
           </div>
-        </section>
+        </div>
       </div>
     </div>
-  </article>
+  </div>
 </template>

@@ -4,8 +4,7 @@
   import About from '@/view/components/about/about.vue'
   import ExperienceTimeline from '@/view/components/experience-timeline/experience-timeline.vue'
   import TravelshopProject from '@/view/components/travelshop-project/travelshop-project.vue'
-  import Features from '@/view/components/features/features.vue'
-  import Testing from '@/view/components/testing/testing.vue'
+  import Examples from '@/view/components/examples/examples.vue'
   import RemoteWorkplace from '@/view/components/remote-workplace/remote-workplace.vue'
   import Contacts from '@/view/components/contacts/contacts.vue'
 
@@ -16,7 +15,7 @@
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts'
   import { PageSectionsEnum } from '@/enums/page-sections.enum'
 
-  const { t, initLocale } = useI18n()
+  const { initLocale } = useI18n()
 
   const { init, destroy } = useScrollRouting()
 
@@ -54,9 +53,7 @@
     </section>
 
     <section :id="PageSectionsEnum.FEATURES">
-      <h3 class="app__examples-title">{{ t('app.examples_title') }}</h3>
-      <Testing />
-      <Features />
+      <Examples />
     </section>
     <section :id="PageSectionsEnum.REMOTE_WORKPLACE">
       <RemoteWorkplace />
