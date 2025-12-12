@@ -113,7 +113,9 @@
               :key="index"
               class="about__tech-list-item"
             >
-              <span class="about__tech-item-title">{{ item.title }}</span>
+              <span class="about__tech-item-title about__tech-item-title_tech">
+                {{ item.title }}
+              </span>
               <span class="about__tech-item-description">{{ item.description }}</span>
             </li>
           </ul>
@@ -127,7 +129,9 @@
               :key="index"
               class="about__tech-list-item"
             >
-              <span class="about__tech-item-title">{{ item.title }}</span>
+              <span class="about__tech-item-title about__tech-item-title_tool">
+                {{ item.title }}
+              </span>
               <span class="about__tech-item-description">{{ item.description }}</span>
             </li>
           </ul>
@@ -141,7 +145,9 @@
               :key="index"
               class="about__tech-list-item"
             >
-              <span class="about__tech-item-title">{{ item.title }}</span>
+              <span class="about__tech-item-title about__tech-item-title_style">
+                {{ item.title }}
+              </span>
               <span class="about__tech-item-description">{{ item.description }}</span>
             </li>
           </ul>
