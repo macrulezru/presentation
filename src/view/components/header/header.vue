@@ -32,7 +32,7 @@
 
   // Проверка размера экрана
   const checkScreenSize = () => {
-    if (!isTablet.value) {
+    if (!isTablet.value && !isMobile.value) {
       isMobileMenuOpen.value = false
     }
   }
@@ -40,7 +40,7 @@
   // Обработчик клика по пункту меню
   const handleMenuClick = (sectionId: string) => {
     navigateToSection(sectionId)
-    if (isTablet.value) {
+    if (isTablet.value || isMobile.value) {
       isMobileMenuOpen.value = false
     }
   }
@@ -88,7 +88,7 @@
   <div class="header">
     <div class="header__content">
       <!-- Десктопное меню -->
-      <nav v-if="!isTablet" class="header__nav">
+      <nav v-if="!isTablet && !isMobile" class="header__nav">
         <button
           v-for="item in menuItems"
           :key="item.id"
