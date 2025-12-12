@@ -1,7 +1,9 @@
 <script setup lang="ts">
+  import LocationMap from '@/view/components/contacts/parts/map/location-map.vue'
+  import Button from '@/view/ui/ui-button/ui-button.vue'
+
   import '@/view/components/contacts/contacts.scss'
 
-  import LocationMap from '@/view/components/contacts/parts/map/location-map.vue'
   import { ref, computed } from 'vue'
   import { useI18n } from '@/view/composables/use-i18n.ts'
   import emailjs from 'emailjs-com'
@@ -264,24 +266,20 @@ ${t('form.sent_from')}: ${window.location.href}
             </div>
 
             <div class="form-actions">
-              <button
-                type="submit"
-                class="form-submit"
-                :disabled="isSubmitting"
+              <Button
                 :class="{ 'form-submit--loading': isSubmitting }"
-              >
-                <span v-if="!isSubmitting">{{ t('form.submit') }}</span>
-                <span v-else>{{ t('form.sending') }}</span>
-              </button>
-
-              <button
-                type="button"
-                @click="resetForm"
-                class="form-reset"
+                type="submit"
+                small
                 :disabled="isSubmitting"
-              >
-                {{ t('form.reset') }}
-              </button>
+                :text="!isSubmitting ? t('form.submit') : t('form.sending')"
+              />
+              <Button
+                gray
+                small
+                :disabled="isSubmitting"
+                :text="t('form.reset')"
+                @click="resetForm"
+              />
             </div>
           </form>
         </div>

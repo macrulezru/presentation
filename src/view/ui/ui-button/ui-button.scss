@@ -31,6 +31,21 @@
   font-size: 1rem;
 }
 
+.ui-button_disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.ui-button_gray {
+  border-color: var(--color-bg-tertiary);
+  color: var(--color-text-muted);
+}
+
+.ui-button_gray:hover:not(:disabled) {
+  background: var(--color-text-muted);
+  box-shadow: 0 4px 12px rgba(150, 150, 150, 0.3);
+}
+
 @include media-tablet {
   .ui-button {
     padding: 0.6rem 1.5rem;

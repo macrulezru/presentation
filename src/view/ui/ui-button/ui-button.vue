@@ -5,6 +5,8 @@
     text: string
     fullWidth?: boolean
     small?: boolean
+    disabled?: boolean
+    gray?: boolean
   }
 
   const props = defineProps<Props>()
@@ -13,6 +15,8 @@
     return {
       'ui-button_full-width': props.fullWidth,
       'ui-button_small': props.small,
+      'ui-button_disabled': props.disabled,
+      'ui-button_gray': props.gray,
     }
   })
 </script>
