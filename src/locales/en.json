@@ -226,13 +226,34 @@
     "features": {
       "title": "Key System Features",
       "items": [
-        "Real-time flight search and booking",
-        "Complex business logic for fare and fee calculation",
-        "Multi-step booking process with data validation",
-        "Order and passenger management system",
-        "Integration with booking systems (GDS)",
-        "Support for additional services (baggage, meals, insurance)",
-        "Responsive design for all devices"
+        {
+          "icon": "flight-search",
+          "text": "Real-time flight search and booking"
+        },
+        {
+          "icon": "price-tag",
+          "text": "Complex business logic for fare and fee calculation"
+        },
+        {
+          "icon": "checklist",
+          "text": "Multi-step booking process with data validation"
+        },
+        {
+          "icon": "user-management",
+          "text": "Order and passenger management system"
+        },
+        {
+          "icon": "api",
+          "text": "Integration with booking systems (GDS)"
+        },
+        {
+          "icon": "luggage",
+          "text": "Support for additional services (baggage, meals, insurance)"
+        },
+        {
+          "icon": "responsive",
+          "text": "Responsive design for all devices"
+        }
       ]
     },
     "tech_stack": {

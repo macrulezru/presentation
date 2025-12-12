@@ -132,16 +132,48 @@
 
 .travelshop__feature {
   display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-md);
+  align-items: center;
+  gap: var(--spacing-lg);
   padding: var(--spacing-md);
   background: var(--color-bg-secondary);
   border-radius: var(--radius-lg);
 }
 
 .travelshop__feature-icon {
-  font-size: var(--font-size-xl);
+  width: 40px;
+  height: 30px;
   flex-shrink: 0;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.travelshop__feature-icon_flight-search {
+  background-image: url('@/view/assets/images/flight-search-icon.svg');
+}
+
+.travelshop__feature-icon_price-tag {
+  background-image: url('@/view/assets/images/price-tag-icon.svg');
+}
+
+.travelshop__feature-icon_checklist {
+  background-image: url('@/view/assets/images/checklist-icon.svg');
+}
+
+.travelshop__feature-icon_user-management {
+  background-image: url('@/view/assets/images/user-management-icon.svg');
+}
+
+.travelshop__feature-icon_api {
+  background-image: url('@/view/assets/images/api-icon.svg');
+}
+
+.travelshop__feature-icon_luggage {
+  background-image: url('@/view/assets/images/luggage-icon.svg');
+}
+
+.travelshop__feature-icon_responsive {
+  background-image: url('@/view/assets/images/responsive-icon.svg');
 }
 
 .travelshop__tech-stack {

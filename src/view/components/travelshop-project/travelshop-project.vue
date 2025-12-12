@@ -66,8 +66,11 @@
               :key="index"
               class="travelshop__feature"
             >
-              <div class="travelshop__feature-icon">⚡</div>
-              <span>{{ feature }}</span>
+              <span
+                class="travelshop__feature-icon"
+                :class="`travelshop__feature-icon_${feature.icon}`"
+              />
+              <span>{{ feature.text }}</span>
             </div>
           </div>
         </div>

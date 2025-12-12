@@ -226,13 +226,34 @@
     "features": {
       "title": "Wichtige Systemfunktionen",
       "items": [
-        "Echtzeit-Flugsuche und -buchung",
-        "Komplexe Geschäftslogik für Tarif- und Gebührenberechnung",
-        "Mehrstufiger Buchungsprozess mit Datenvalidierung",
-        "Bestell- und Passagierverwaltungssystem",
-        "Integration mit Buchungssystemen (GDS)",
-        "Unterstützung für Zusatzleistungen (Gepäck, Verpflegung, Versicherungen)",
-        "Responsives Design für alle Geräte"
+        {
+          "icon": "flight-search",
+          "text": "Echtzeit-Flugsuche und -buchung"
+        },
+        {
+          "icon": "price-tag",
+          "text": "Komplexe Geschäftslogik für Tarif- und Gebührenberechnung"
+        },
+        {
+          "icon": "checklist",
+          "text": "Mehrstufiger Buchungsprozess mit Datenvalidierung"
+        },
+        {
+          "icon": "user-management",
+          "text": "Bestell- und Passagierverwaltungssystem"
+        },
+        {
+          "icon": "api",
+          "text": "Integration mit Buchungssystemen (GDS)"
+        },
+        {
+          "icon": "luggage",
+          "text": "Unterstützung für Zusatzleistungen (Gepäck, Verpflegung, Versicherungen)"
+        },
+        {
+          "icon": "responsive",
+          "text": "Responsives Design für alle Geräte"
+        }
       ]
     },
     "tech_stack": {
