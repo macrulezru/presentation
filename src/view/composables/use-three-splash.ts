@@ -1,6 +1,6 @@
 // @ts-nocheck
 import * as THREE from 'three'
-import { onMounted, onUnmounted, type Ref } from 'vue'
+import { onMounted, onUnmounted, type Ref, ref } from 'vue'
 
 /**
  * Vue Composition API хук для создания интерактивного плазменного фона с использованием Three.js
@@ -19,7 +19,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
 
   // ============ ПЕРЕМЕННЫЕ ВРЕМЕНИ И СОСТОЯНИЯ ============
   let time = 0 // Общее время анимации в секундах (накапливается с каждым кадром)
-  let isAnimationActive = false // Флаг, указывающий, активна ли в данный момент анимация
+  const isAnimationActive = ref<boolean>(false) // Флаг, указывающий, активна ли в данный момент анимация
   let colorCycleTime = 0 // Время, используемое для циклической смены цветов
 
   // ============ ДЕТЕКТИРОВАНИЕ УСТРОЙСТВА ============
@@ -1028,7 +1028,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
    */
   const animate = () => {
     // Проверяем, активна ли анимация
-    if (!isAnimationActive) {
+    if (!isAnimationActive.value) {
       return
     }
 
@@ -1135,7 +1135,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       cancelAnimationFrame(animationFrameId)
       animationFrameId = 0
     }
-    isAnimationActive = false
+    isAnimationActive.value = false
   }
 
   /**
@@ -1143,8 +1143,8 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
    * Активирует анимацию, если она еще не запущена
    */
   const startAnimation = () => {
-    if (!isAnimationActive) {
-      isAnimationActive = true
+    if (!isAnimationActive.value) {
+      isAnimationActive.value = true
       animate()
     }
   }
@@ -1474,16 +1474,12 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     /**
      * Обновление общей яркости сцены
      */
-    updateBrightness: (value: number) => {
-      updateBrightness(value)
-    },
+    updateBrightness,
 
     /**
      * Обновление яркости частиц
      */
-    updateParticleBrightness: (value: number) => {
-      updateParticleBrightness(value)
-    },
+    updateParticleBrightness,
 
     /**
      * Обновление скорости анимации
@@ -1497,9 +1493,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     /**
      * Включение/выключение эффекта параллакса от мыши
      */
-    toggleMouseParallax: (enabled: boolean) => {
-      toggleMouseParallax(enabled)
-    },
+    toggleMouseParallax,
 
     /**
      * Включение/выключение эффекта параллакса от гироскопа
@@ -1511,16 +1505,12 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
     /**
      * Ручной запуск анимации
      */
-    startAnimation: () => {
-      startAnimation()
-    },
+    startAnimation,
 
     /**
      * Ручная остановка анимации
      */
-    stopAnimation: () => {
-      stopAnimation()
-    },
+    stopAnimation,
 
     /**
      * Получение информации об устройстве
@@ -1531,5 +1521,7 @@ export function usePlasmaBackground(containerRef: Ref<HTMLElement | undefined>) 
       hasCompass: isCompassAvailable,
       isGyroEnabled: PLASMA_CONFIG.enableGyroParallax && isGyroInitialized,
     }),
+
+    isAnimationActive,
   }
 }
