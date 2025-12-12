@@ -15,14 +15,14 @@ export function useScrollRouting() {
   const route = useRoute()
   const navigationStore = useNavigationStore()
 
-  const { isTablet } = useResponsive()
+  const { isTablet, isMobile } = useResponsive()
 
   const scrollTimeout = ref<NodeJS.Timeout | null>(null)
 
   const sectionNames = Object.values(PageSectionsEnum)
 
   const headerHeight = computed(() => {
-    return isTablet.value ? HEADER_MOBILE_HEIGHT : HEADER_HEIGHT
+    return isTablet.value || isMobile.value ? HEADER_MOBILE_HEIGHT : HEADER_HEIGHT
   })
 
   // Вспомогательная функция для проверки splash секции
