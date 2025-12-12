@@ -12,7 +12,7 @@
 
   defineProps<Props>()
 
-  const gradientOptions = { lightenPercent: 50 }
+  const gradientOptions = { offsetPercent: 50 }
 
   const getGradientStyle = (color: string) => {
     return `background: ${createGradient(color, gradientOptions)}`

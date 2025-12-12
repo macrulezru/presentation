@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 
 export interface GradientOptions {
-  lightenPercent?: number // 0-100, по умолчанию 15
+  offsetPercent?: number // -100 до 100, по умолчанию 15 (осветление)
   direction?: 'to bottom' | 'to top' | 'to right' | 'to left' | string
   angle?: number // угол в градусах для кастомного направления
   fallbackColor?: string // цвет по умолчанию, если переменная не найдена
@@ -11,24 +11,15 @@ export interface GradientOptions {
  * Композиция для работы с цветовыми градиентами
  */
 export function useColorGradient() {
-  /**
-   * Определяет, является ли значение CSS переменной
-   */
   const isCssVariable = (value: string): boolean => {
     return value.trim().startsWith('var(--')
   }
 
-  /**
-   * Определяет, является ли значение HEX цветом
-   */
   const isHexColor = (value: string): boolean => {
     const trimmed = value.trim()
     return /^#?([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(trimmed)
   }
 
-  /**
-   * Определяет тип цвета: 'hex', 'css-var' или 'unknown'
-   */
   const getColorType = (value: string): 'hex' | 'css-var' | 'unknown' => {
     const trimmed = value.trim()
 
@@ -43,17 +34,11 @@ export function useColorGradient() {
     return 'unknown'
   }
 
-  /**
-   * Извлекает имя переменной из var(--name)
-   */
   const extractCssVariableName = (value: string): string => {
     const match = value.match(/var\((--[^)]+)\)/)
     return match?.[1] || value // Используем optional chaining и значение по умолчанию
   }
 
-  /**
-   * Получает значение CSS переменной или возвращает переданное значение
-   */
   const getCssVariableValue = (value: string, fallback?: string): string => {
     if (!isCssVariable(value)) {
       return value
@@ -85,9 +70,6 @@ export function useColorGradient() {
     return `var(${varName})`
   }
 
-  /**
-   * Нормализует HEX строку
-   */
   const normalizeHex = (hex: string): string => {
     let cleanHex = hex.trim()
 
@@ -115,32 +97,38 @@ export function useColorGradient() {
     return cleanHex.toLowerCase()
   }
 
-  /**
-   * Осветляет HEX цвет на указанный процент
-   */
-  const lightenHex = (hex: string, percent: number): string => {
+  const adjustHexBrightness = (hex: string, offsetPercent: number): string => {
     const normalizedHex = normalizeHex(hex)
-    const p = Math.max(0, Math.min(100, percent)) / 100
+    // Ограничиваем значение от -100 до 100
+    const p = Math.max(-100, Math.min(100, offsetPercent)) / 100
 
     const r = parseInt(normalizedHex.slice(1, 3), 16)
     const g = parseInt(normalizedHex.slice(3, 5), 16)
     const b = parseInt(normalizedHex.slice(5, 7), 16)
 
-    const lightenChannel = (channel: number): number => {
-      return Math.min(255, Math.floor(channel + (255 - channel) * p))
+    const adjustChannel = (channel: number): number => {
+      if (p > 0) {
+        // Осветление
+        return Math.min(255, Math.floor(channel + (255 - channel) * p))
+      } else if (p < 0) {
+        // Затемнение
+        return Math.max(0, Math.floor(channel * (1 + p)))
+      }
+      return channel // Если p = 0, возвращаем исходное значение
     }
 
-    const newR = lightenChannel(r)
-    const newG = lightenChannel(g)
-    const newB = lightenChannel(b)
+    const newR = adjustChannel(r)
+    const newG = adjustChannel(g)
+    const newB = adjustChannel(b)
 
     return `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`
   }
 
-  /**
-   * Осветляет цвет с поддержкой CSS переменных
-   */
-  const lightenColor = (color: string, percent: number, fallback?: string): string => {
+  const adjustColorBrightness = (
+    color: string,
+    offsetPercent: number,
+    fallback?: string,
+  ): string => {
     const colorType = getColorType(color)
 
     // Если это CSS переменная
@@ -148,10 +136,10 @@ export function useColorGradient() {
       const varName = extractCssVariableName(color)
       const computedValue = getCssVariableValue(color, fallback)
 
-      // Если получили реальное значение (не другую переменную), осветляем его
+      // Если получили реальное значение (не другую переменную), корректируем его
       if (computedValue && !isCssVariable(computedValue)) {
-        // Осветляем и возвращаем как HEX цвет
-        return lightenHex(computedValue, percent)
+        // Корректируем яркость и возвращаем как HEX цвет
+        return adjustHexBrightness(computedValue, offsetPercent)
       }
 
       // Возвращаем исходную переменную с fallback или без
@@ -160,7 +148,7 @@ export function useColorGradient() {
 
     // Если это HEX цвет
     if (colorType === 'hex') {
-      return lightenHex(color, percent)
+      return adjustHexBrightness(color, offsetPercent)
     }
 
     // Если тип неизвестен, возвращаем fallback или оригинальный цвет
@@ -168,13 +156,9 @@ export function useColorGradient() {
     return fallback || color
   }
 
-  /**
-   * Универсальный метод для создания градиента
-   * Автоматически определяет тип цвета (HEX или CSS переменная)
-   */
   const createGradient = (baseColor: string, options?: GradientOptions): string => {
     const {
-      lightenPercent = 15,
+      offsetPercent = 15,
       direction = 'to bottom',
       angle,
       fallbackColor = '#f5e477',
@@ -184,7 +168,7 @@ export function useColorGradient() {
     const colorType = getColorType(baseColor)
 
     let colorValue: string
-    let lightColor: string
+    let adjustedColor: string
 
     if (colorType === 'css-var') {
       // Для CSS переменных
@@ -194,33 +178,36 @@ export function useColorGradient() {
       // Если получили реальное значение
       if (computedValue && !isCssVariable(computedValue)) {
         colorValue = computedValue
-        lightColor = lightenHex(computedValue, lightenPercent)
+        adjustedColor = adjustHexBrightness(computedValue, offsetPercent)
       } else {
         // Используем CSS переменные напрямую
         colorValue = `var(${varName}, ${fallbackColor})`
-        lightColor = lightenHex(fallbackColor, lightenPercent)
+        adjustedColor = adjustHexBrightness(fallbackColor, offsetPercent)
       }
     } else if (colorType === 'hex') {
       // Для HEX цветов
       colorValue = normalizeHex(baseColor)
-      lightColor = lightenHex(colorValue, lightenPercent)
+      adjustedColor = adjustHexBrightness(colorValue, offsetPercent)
     } else {
       // Для неизвестных типов используем fallback
       console.warn(`Unknown color type for ${baseColor}. Using fallback.`)
       colorValue = fallbackColor
-      lightColor = lightenHex(fallbackColor, lightenPercent)
+      adjustedColor = adjustHexBrightness(fallbackColor, offsetPercent)
     }
+
+    // Всегда начинаем с измененного цвета и заканчиваем базовым
+    // Если offsetPercent > 0: светлый → базовый
+    // Если offsetPercent < 0: темный → базовый
+    // Если offsetPercent = 0: тот же цвет → базовый (однородная заливка)
+    const startColor = adjustedColor
+    const endColor = colorValue
 
     // Если указан угол, используем его
     const gradientDirection = angle ? `${angle}deg` : direction
 
-    return `linear-gradient(${gradientDirection}, ${lightColor}, ${colorValue})`
+    return `linear-gradient(${gradientDirection}, ${startColor}, ${endColor})`
   }
 
-  /**
-   * Создаёт объект стилей для использования в :style
-   * Автоматически определяет тип цвета
-   */
   const gradientStyle = (baseColor: string, options?: GradientOptions) => {
     return computed(() => ({
       background: createGradient(baseColor, options),
@@ -228,56 +215,57 @@ export function useColorGradient() {
     }))
   }
 
-  /**
-   * Создаёт градиент с поддержкой CSS переменных для использования в CSS
-   */
   const createGradientWithCssVars = (
     baseColor: string,
     options?: GradientOptions,
   ): Record<string, string> => {
     const {
-      lightenPercent = 15,
+      offsetPercent = 15,
       direction = 'to bottom',
       angle,
       fallbackColor = '#f5e477',
     } = options || {}
 
     const colorType = getColorType(baseColor)
-    let lightColor: string
+    let adjustedColor: string
     let colorValue: string
 
     if (colorType === 'css-var') {
       const varName = extractCssVariableName(baseColor)
+      const computedValue = getCssVariableValue(baseColor, fallbackColor)
+
       colorValue = `var(${varName}, ${fallbackColor})`
-      lightColor = `var(--${varName}-light, ${fallbackColor})`
+
+      if (computedValue && !isCssVariable(computedValue)) {
+        adjustedColor = adjustHexBrightness(computedValue, offsetPercent)
+      } else {
+        adjustedColor = adjustHexBrightness(fallbackColor, offsetPercent)
+      }
     } else if (colorType === 'hex') {
       colorValue = normalizeHex(baseColor)
-      lightColor = lightenHex(baseColor, lightenPercent)
+      adjustedColor = adjustHexBrightness(baseColor, offsetPercent)
     } else {
       colorValue = fallbackColor
-      lightColor = lightenHex(fallbackColor, lightenPercent)
+      adjustedColor = adjustHexBrightness(fallbackColor, offsetPercent)
     }
 
     const gradientDirection = angle ? `${angle}deg` : direction
 
     return {
-      '--gradient-light': lightColor,
-      '--gradient-base': colorValue,
+      '--gradient-start': adjustedColor,
+      '--gradient-end': colorValue,
       '--gradient-direction': gradientDirection,
-      background: `linear-gradient(var(--gradient-direction), var(--gradient-light), var(--gradient-base))`,
+      background: `linear-gradient(var(--gradient-direction), var(--gradient-start), var(--gradient-end))`,
     }
   }
 
-  /**
-   * Создаёт градиент с несколькими промежуточными цветами
-   */
   const createMultiStepGradient = (
     baseColor: string,
     steps: number = 3,
     options?: Omit<GradientOptions, 'direction'> & { direction?: string },
   ): string => {
     const {
-      lightenPercent = 15,
+      offsetPercent = 15,
       direction = 'to bottom',
       angle,
       fallbackColor = '#f5e477',
@@ -301,9 +289,12 @@ export function useColorGradient() {
     const colors: string[] = []
 
     // Создаём цвета для каждого шага
+    // Для положительных offsetPercent: от светлого к базовому
+    // Для отрицательных offsetPercent: от темного к базовому
     for (let i = 0; i < steps; i++) {
-      const percent = (lightenPercent / (steps - 1)) * (steps - 1 - i)
-      const color = i === steps - 1 ? colorValue : lightenHex(colorValue, percent)
+      // Распределяем offsetPercent между шагами
+      const percent = offsetPercent * (1 - i / (steps - 1))
+      const color = adjustHexBrightness(colorValue, percent)
       colors.push(color)
     }
 
@@ -312,9 +303,6 @@ export function useColorGradient() {
     return `linear-gradient(${gradientDirection}, ${colors.join(', ')})`
   }
 
-  /**
-   * Создаёт радиальный градиент
-   */
   const createRadialGradient = (
     baseColor: string,
     options?: Omit<GradientOptions, 'direction'> & {
@@ -323,7 +311,7 @@ export function useColorGradient() {
     },
   ): string => {
     const {
-      lightenPercent = 15,
+      offsetPercent = 15,
       shape = 'ellipse',
       position = 'center',
       fallbackColor = '#f5e477',
@@ -344,9 +332,17 @@ export function useColorGradient() {
       colorValue = fallbackColor
     }
 
-    const lightColor = lightenHex(colorValue, lightenPercent)
+    const adjustedColor = adjustHexBrightness(colorValue, offsetPercent)
 
-    return `radial-gradient(${shape} at ${position}, ${lightColor}, ${colorValue})`
+    return `radial-gradient(${shape} at ${position}, ${adjustedColor}, ${colorValue})`
+  }
+
+  const lightenHex = (hex: string, percent: number): string => {
+    return adjustHexBrightness(hex, Math.abs(percent))
+  }
+
+  const darkenHex = (hex: string, percent: number): string => {
+    return adjustHexBrightness(hex, -Math.abs(percent))
   }
 
   return {
@@ -367,9 +363,13 @@ export function useColorGradient() {
     // Дополнительные методы
     createMultiStepGradient,
     createRadialGradient,
-    lightenHex,
-    lightenColor,
+    adjustHexBrightness,
+    adjustColorBrightness,
     normalizeHex,
+
+    // Для обратной совместимости
+    lightenHex,
+    darkenHex,
 
     // Утилиты для CSS custom properties
     gradientCssVar: (baseColor: string, options?: GradientOptions) => {
