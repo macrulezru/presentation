@@ -2,23 +2,44 @@
   import '@/view/components/examples/parts/feature-item/feature-item.scss'
 
   import type { FeatureData } from '@/view/composables/use-features.ts'
+  import { useColorGradient } from '@/view/composables/use-color-gradient'
+
+  const { createGradient } = useColorGradient()
 
   interface Props {
     feature: FeatureData
   }
 
   defineProps<Props>()
+
+  const gradientOptions = { lightenPercent: 50 }
+
+  const getGradientStyle = (color: string) => {
+    return `background: ${createGradient(color, gradientOptions)}`
+  }
 </script>
 
 <template>
   <div class="feature-item" :data-feature-id="feature.id">
     <div class="feature-item__container">
       <div class="feature-item__header">
-        <h2 class="feature-item__title">{{ feature.title }}</h2>
-        <p class="feature-item__subtitle" :style="{ color: feature.accentColor }">
-          {{ feature.subtitle }}
-        </p>
-        <p class="feature-item__description">{{ feature.description }}</p>
+        <div class="feature-item__main-icon">
+          <span
+            class="feature-item__main-icon-background"
+            :style="getGradientStyle(feature.accentColor)"
+          />
+          <span
+            class="feature-item__main-icon-item"
+            :class="`feature-item__main-icon_${feature.icon}`"
+          />
+        </div>
+        <div class="feature-item__header-text">
+          <h2 class="feature-item__title">{{ feature.title }}</h2>
+          <p class="feature-item__subtitle" :style="{ color: feature.accentColor }">
+            {{ feature.subtitle }}
+          </p>
+          <p class="feature-item__description">{{ feature.description }}</p>
+        </div>
       </div>
 
       <div class="feature-item__content">
