@@ -1,6 +1,18 @@
 .remote-workplace {
   padding: 5rem 0 var(--spacing-2xl);
   background-color: #1b232b;
+  background-image:
+    radial-gradient(
+        ellipse 80% 50% at 50% -10%,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.05) 40%,
+        transparent 100%
+    ),
+    radial-gradient(
+        ellipse 100% 30% at 50% 105%,
+        rgba(0, 0, 0, 0.7) 0%,
+        transparent 60%
+    );
   color: var(--color-text-light);
 }
 
@@ -33,7 +45,7 @@
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
-  color: #8193aa;
+  color: #7c8fa7;
   opacity: 0.9;
 }
 
@@ -95,7 +107,7 @@
   text-align: center;
   line-height: 1.5;
   margin: 0;
-  color: #8193aa;
+  color: #7c8fa7;
   opacity: 0.8;
 }
 

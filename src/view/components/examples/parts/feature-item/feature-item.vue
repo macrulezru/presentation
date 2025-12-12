@@ -6,6 +6,10 @@
 
   const { createGradient } = useColorGradient()
 
+  interface GradientOptions {
+    shadow?: boolean
+  }
+
   interface Props {
     feature: FeatureData
   }
@@ -14,8 +18,17 @@
 
   const gradientOptions = { offsetPercent: 50 }
 
-  const getGradientStyle = (color: string) => {
-    return `background: ${createGradient(color, gradientOptions)}; filter: drop-shadow(0 10px 10px ${color})`
+  const getGradientStyle = (color: string, options: GradientOptions = {}) => {
+    const { shadow = false } = options
+
+    const gradient = createGradient(color, gradientOptions)
+    const styles = [`background: ${gradient}`]
+
+    if (shadow) {
+      styles.push(`filter: drop-shadow(0 10px 10px ${color})`)
+    }
+
+    return styles.join('; ')
   }
 </script>
 
@@ -26,7 +39,7 @@
         <div class="feature-item__main-icon">
           <span
             class="feature-item__main-icon-background"
-            :style="getGradientStyle(feature.accentColor)"
+            :style="getGradientStyle(feature.accentColor, { shadow: true })"
           />
           <span
             class="feature-item__main-icon-item"
@@ -72,7 +85,7 @@
             >
               <div
                 class="feature-item__step-number"
-                :style="{ background: feature.accentColor }"
+                :style="getGradientStyle(feature.accentColor)"
               >
                 {{ index + 1 }}
               </div>
