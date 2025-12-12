@@ -124,6 +124,7 @@ export function useScrollRouting() {
       : `/${currentLocale}/${sectionName}`
 
     router.push(path)
+    scrollToSection(sectionName)
   }
 
   // Получить текущую активную секцию
