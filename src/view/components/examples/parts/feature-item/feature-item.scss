@@ -42,7 +42,7 @@
 
 .feature-item__content {
   display: grid;
-  gap: var(--spacing-3xl);
+  gap: var(--spacing-xl);
 }
 
 .feature-item__section {
@@ -210,6 +210,10 @@
 
   .feature-item__features {
     grid-template-columns: 1fr;
+  }
+
+  .feature-item__content {
+    gap: var(--spacing-md);
   }
 
   .feature-item__benefits {
