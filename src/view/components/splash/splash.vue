@@ -8,15 +8,6 @@
 
   const { t } = useI18n()
 
-  const messages = computed(() => {
-    return {
-      welcome: t('splash.welcome'),
-      subtitle: t('splash.subtitle'),
-      description: t('splash.description'),
-      more: t('splash.more'),
-    }
-  })
-
   const splashRef = ref<HTMLElement>()
 
   const { navigateToSection } = useScrollRouting()
@@ -62,9 +53,9 @@
   <div ref="splashRef" class="splash">
     <div class="splash__animation" />
     <div class="splash__content">
-      <h1 class="splash__title">{{ messages.welcome }}</h1>
-      <p class="splash__subtitle">{{ messages.subtitle }}</p>
-      <p class="splash__description">{{ messages.description }}</p>
+      <h1 class="splash__title">{{ t('splash.welcome') }}</h1>
+      <p class="splash__subtitle">{{ t('splash.subtitle') }}</p>
+      <p class="splash__description">{{ t('splash.description') }}</p>
     </div>
     <div class="compact-chevron" @click="navigateToSection(PageSectionsEnum.ABOUT)">
       <div class="compact-chevron-group">
@@ -72,7 +63,7 @@
         <span class="compact-chevron-icon" />
         <span class="compact-chevron-icon" />
       </div>
-      <span class="compact-label">{{ messages.more }}</span>
+      <span class="compact-label">{{ t('splash.more') }}</span>
     </div>
   </div>
 </template>

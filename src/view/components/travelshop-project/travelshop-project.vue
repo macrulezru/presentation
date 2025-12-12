@@ -2,6 +2,7 @@
   import CircleChart from '@/view/ui/ui-circle-chart/ui-circle-chart.vue'
   import LoadingSpinner from '@/view/ui/ui-loading-spinner/ui-loading-spinner.vue'
   import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue'
+  import Button from '@/view/ui/ui-button/ui-button.vue'
 
   import '@/view/components/travelshop-project/travelshop-project.scss'
 
@@ -34,6 +35,24 @@
   const techStack = computed(() => tm('travelshop.tech_stack.items'))
 
   const projects = computed(() => tm('travelshop.projects.items'))
+
+  const achievementsGraphs = computed(() => [
+    {
+      value: 40,
+      color: '#dd5406',
+      text: t('travelshop.achievements.items.scalable_architecture'),
+    },
+    {
+      value: 60,
+      color: '#078e2d',
+      text: t('travelshop.achievements.items.error_reduction'),
+    },
+    {
+      value: 25,
+      color: '#048eed',
+      text: t('travelshop.achievements.items.performance_improvement'),
+    },
+  ])
 
   const toggleSwiper = () => {
     showSwiper.value = !showSwiper.value
@@ -98,22 +117,14 @@
             {{ t('travelshop.achievements.title') }}
           </h3>
           <div class="travelshop__chart">
-            <div class="travelshop__chart-item">
-              <CircleChart :value="40" :size="190" :segmentColor="`#dd5406`" />
+            <div
+              class="travelshop__chart-item"
+              v-for="(item, index) in achievementsGraphs"
+              :key="index"
+            >
+              <CircleChart :value="item.value" :size="190" :segmentColor="item.color" />
               <span class="travelshop__chart-label">
-                {{ t('travelshop.achievements.items.scalable_architecture') }}
-              </span>
-            </div>
-            <div class="travelshop__chart-item">
-              <CircleChart :value="60" :size="190" :segmentColor="`#078e2d`" />
-              <span class="travelshop__chart-label">
-                {{ t('travelshop.achievements.items.error_reduction') }}
-              </span>
-            </div>
-            <div class="travelshop__chart-item">
-              <CircleChart :value="25" :size="190" :segmentColor="`#048eed`" />
-              <span class="travelshop__chart-label">
-                {{ t('travelshop.achievements.items.performance_improvement') }}
+                {{ item.text }}
               </span>
             </div>
           </div>
@@ -154,9 +165,12 @@
         </div>
       </div>
       <div class="travelshop__section travelshop__section_images">
-        <button v-if="!showSwiper" class="travelshop__screenshots" @click="toggleSwiper">
-          {{ t('travelshop.view_screenshots') }}
-        </button>
+        <Button
+          v-if="!showSwiper"
+          fullWidth
+          :text="t('travelshop.view_screenshots')"
+          @click="toggleSwiper"
+        />
         <TravelshopImages
           v-if="showSwiper"
           size="large"

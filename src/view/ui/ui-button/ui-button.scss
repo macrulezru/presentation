@@ -1,0 +1,39 @@
+.ui-button {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background: #ffffff;
+  color: var(--color-secondary);
+  border: solid 2px var(--color-secondary);
+  border-radius: 14px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ui-button:hover {
+  color: #ffffff;
+  background: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.ui-button:active {
+  transform: translateY(0);
+}
+
+.ui-button_full-width {
+  width: 100%;
+}
+
+.ui-button_small {
+  padding: 0.5rem 1.85rem;
+  font-size: 1rem;
+}
+
+@include media-tablet {
+  .ui-button {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}

@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import FeatureItem from '@/view/components/examples/parts/feature-item/feature-item.vue'
+  import Button from '@/view/ui/ui-button/ui-button.vue'
 
   import '@/view/components/examples/examples.scss'
 
@@ -34,9 +35,11 @@
             <div class="examples__demonstration-icon" />
             <p>{{ t('demonstration.readiness') }}</p>
             <div>
-              <span class="examples__demonstration-contacts" @click="toContactSection">
-                {{ t('demonstration.contact_me_conveniently') }}
-              </span>
+              <Button
+                small
+                :text="t('demonstration.contact_me_conveniently')"
+                @click="toContactSection"
+              />
             </div>
           </div>
         </div>

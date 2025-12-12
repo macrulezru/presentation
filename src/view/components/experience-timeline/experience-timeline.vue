@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue'
+  import Button from '@/view/ui/ui-button/ui-button.vue'
 
   import '@/view/components/experience-timeline/experience-timeline.scss'
 
@@ -72,9 +73,7 @@
 
       <!-- Кнопка "Показать все компании" -->
       <div v-if="hasMore" class="experience__button-container">
-        <button @click="showAll = true" class="experience__button">
-          {{ t('experience.showAllButton') }}
-        </button>
+        <Button fullWidth :text="t('experience.showAllButton')" @click="showAll = true" />
       </div>
     </div>
   </div>

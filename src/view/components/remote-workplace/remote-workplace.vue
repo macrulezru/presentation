@@ -6,14 +6,9 @@
 
   const { t, tm } = useI18n()
 
-  const workplaceData = computed(() => ({
-    title: t('remote_workplace.title'),
-    subtitle: t('remote_workplace.subtitle'),
-    description: t('remote_workplace.description'),
-    features: tm('remote_workplace.features.items'),
-    benefitsTitle: t('remote_workplace.benefits_title'),
-    benefits: tm('remote_workplace.benefits.items'),
-  }))
+  const features = computed(() => tm('remote_workplace.features.items'))
+
+  const benefits = computed(() => tm('remote_workplace.benefits.items'))
 </script>
 
 <template>
@@ -22,13 +17,13 @@
       <!-- Заголовок -->
       <header class="remote-workplace__header">
         <h2 class="remote-workplace__title">
-          {{ workplaceData.title }}
+          {{ t('remote_workplace.title') }}
         </h2>
         <p class="remote-workplace__subtitle">
-          {{ workplaceData.subtitle }}
+          {{ t('remote_workplace.subtitle') }}
         </p>
         <p class="remote-workplace__description">
-          {{ workplaceData.description }}
+          {{ t('remote_workplace.description') }}
         </p>
       </header>
 
@@ -38,7 +33,7 @@
         <div class="remote-workplace__features-section">
           <div class="remote-workplace__features-grid">
             <div
-              v-for="(feature, index) in workplaceData.features"
+              v-for="(feature, index) in features"
               :key="index"
               class="remote-workplace__feature-item"
             >
@@ -59,11 +54,11 @@
         <!-- Преимущества -->
         <div class="remote-workplace__benefits-section">
           <h3 class="remote-workplace__section-title">
-            {{ workplaceData.benefitsTitle }}
+            {{ t('remote_workplace.benefits_title') }}
           </h3>
           <div class="remote-workplace__benefits-list">
             <div
-              v-for="(benefit, index) in workplaceData.benefits"
+              v-for="(benefit, index) in benefits"
               :key="index"
               class="remote-workplace__benefit-item"
             >
