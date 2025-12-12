@@ -30,7 +30,6 @@ export interface FeatureData {
     items: string[]
   }
   accentColor: string
-  featureIcon: string
 }
 
 export function useFeatures() {
@@ -42,35 +41,30 @@ export function useFeatures() {
       i18nKey: 'uiComponents',
       accentColor: 'var(--color-accent-ui)',
       mainIcon: 'ui',
-      featureIcon: '✓',
     },
     {
       id: 'pipeline',
       i18nKey: 'pipeline',
       accentColor: 'var(--color-secondary)',
       mainIcon: 'pipeline',
-      featureIcon: '✓',
     },
     {
       id: 'localization',
       i18nKey: 'localization',
       accentColor: 'var(--color-accent-purple)',
       mainIcon: 'localization',
-      featureIcon: '🌍',
     },
     {
       id: 'seat-map',
       i18nKey: 'seatMap',
       accentColor: 'var(--color-accent-orange)',
       mainIcon: 'seat',
-      featureIcon: '✈️',
     },
     {
       id: 'multisync',
       i18nKey: 'multisync',
       accentColor: 'var(--color-accent-blue)',
       mainIcon: 'synchronization',
-      featureIcon: '🌐',
     },
   ])
 
@@ -101,7 +95,6 @@ export function useFeatures() {
           items: tm(`${i18nKey}.benefits.items`) as string[],
         },
         accentColor: config.accentColor,
-        featureIcon: config.featureIcon,
       }
     }),
   )

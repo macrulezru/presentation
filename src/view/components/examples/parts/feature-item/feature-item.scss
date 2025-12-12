@@ -130,19 +130,13 @@
   transform: translateY(-2px);
 }
 
-.feature-item__feature-icon {
-  width: var(--icon-size-sm);
-  height: var(--icon-size-sm);
-  background: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
+.feature-item__feature-bullet {
+  position: relative;
+  top: 8px;
+  width: 8px;
+  height: 8px;
   border-radius: var(--radius-full);
   flex-shrink: 0;
-  margin-top: 0.1rem;
 }
 
 .feature-item__feature-text {

@@ -15,7 +15,7 @@
   const gradientOptions = { offsetPercent: 50 }
 
   const getGradientStyle = (color: string) => {
-    return `background: ${createGradient(color, gradientOptions)}`
+    return `background: ${createGradient(color, gradientOptions)}; filter: drop-shadow(0 10px 10px ${color})`
   }
 </script>
 
@@ -52,7 +52,10 @@
               :key="index"
               class="feature-item__feature"
             >
-              <div class="feature-item__feature-icon">{{ feature.featureIcon }}</div>
+              <div
+                class="feature-item__feature-bullet"
+                :style="{ 'background-color': feature.accentColor }"
+              />
               <div class="feature-item__feature-text">{{ item }}</div>
             </div>
           </div>
