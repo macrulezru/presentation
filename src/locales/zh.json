@@ -738,7 +738,8 @@
   "demonstration": {
     "title": "职业道德与我的技能",
     "description": "在商业项目（如TravelShop）中，代码库属于公司知识产权，因此我无权展示这些代码。",
-    "readiness": "我准备完成测试任务，通过实践展示我解决问题的方法、代码质量和专业技能。"
+    "readiness": "我准备完成测试任务，通过实践展示我解决问题的方法、代码质量和专业技能。",
+    "contact_me_conveniently": "通过方便的方式与我联系"
   },
   "contacts": {
     "title": "联系方式",

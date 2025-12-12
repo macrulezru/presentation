@@ -5,10 +5,17 @@
 
   import { useI18n } from '@/view/composables/use-i18n.ts'
   import { useFeatures } from '@/view/composables/use-features.ts'
+  import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts'
+  import { PageSectionsEnum } from '@/enums/page-sections.enum.ts'
 
   const { t } = useI18n()
 
   const { features } = useFeatures()
+  const { navigateToSection } = useScrollRouting()
+
+  const toContactSection = () => {
+    navigateToSection(PageSectionsEnum.CONTACTS)
+  }
 </script>
 
 <template>
@@ -23,9 +30,15 @@
           <p class="examples__demonstration-description">
             {{ t('demonstration.description') }}
           </p>
-          <p class="examples__demonstration-readiness">
-            {{ t('demonstration.readiness') }}
-          </p>
+          <div class="examples__demonstration-readiness">
+            <div class="examples__demonstration-icon" />
+            <p>{{ t('demonstration.readiness') }}</p>
+            <div>
+              <span class="examples__demonstration-contacts" @click="toContactSection">
+                {{ t('demonstration.contact_me_conveniently') }}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
