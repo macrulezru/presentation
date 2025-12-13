@@ -122,7 +122,12 @@
               v-for="(item, index) in achievementsGraphs"
               :key="index"
             >
-              <CircleChart :value="item.value" :size="190" :segmentColor="item.color" />
+              <CircleChart
+                autoPlay
+                :value="item.value"
+                :size="190"
+                :segmentColor="item.color"
+              />
               <span class="travelshop__chart-label">
                 {{ item.text }}
               </span>

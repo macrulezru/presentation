@@ -1,16 +1,29 @@
 <script setup lang="ts">
   import '@/view/ui/ui-button/ui-button.scss'
+  import { computed } from 'vue'
 
   interface Props {
+    /** Текст кнопки */
     text: string
+
+    /** Занимать всю доступную ширину */
     fullWidth?: boolean
+
+    /** Маленький размер */
     small?: boolean
+
+    /** Неактивное состояние */
     disabled?: boolean
+
+    /** Серая цветовая тема */
     gray?: boolean
   }
 
   const props = defineProps<Props>()
 
+  /**
+   * Вычисляемые CSS-классы для кнопки
+   */
   const classes = computed(() => {
     return {
       'ui-button_full-width': props.fullWidth,
@@ -22,5 +35,7 @@
 </script>
 
 <template>
-  <button class="ui-button" :class="classes">{{ props.text }}</button>
+  <button class="ui-button" :class="classes" :disabled="disabled">
+    {{ props.text }}
+  </button>
 </template>
