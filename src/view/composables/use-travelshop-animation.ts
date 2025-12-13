@@ -1,5 +1,5 @@
 // composables/useTravelshopCanvas.ts
-import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
 import type { Ref } from 'vue'
 
 // Импортируем изображения
@@ -22,9 +22,8 @@ interface Cloud {
 // Реактивные константы для настройки анимации
 export const useTravelshopConfig = () => {
   const config = ref({
-    // Высота канваса
+    // Базовая высота канваса
     canvasInitHeight: 560,
-    canvasHeight: 560,
 
     // Самолет
     aircraft: {
@@ -60,14 +59,37 @@ export const useTravelshopConfig = () => {
       aspectRatio: 472 / 800, // ≈ 0.59
       maxWidth: 600,
       initialMarginTop: 170,
-      marginTop: 170,
     },
     // Настройки облаков
     clouds: {
-      // Количество облаков по слоям
-      back: { count: 10, minWidth: 30, maxWidth: 60, minSpeed: 10, maxSpeed: 20 },
-      middle: { count: 5, minWidth: 60, maxWidth: 80, minSpeed: 15, maxSpeed: 25 },
-      front: { count: 3, minWidth: 100, maxWidth: 130, minSpeed: 20, maxSpeed: 30 },
+      // Статические параметры облаков по слоям
+      back: {
+        minWidth: 30,
+        maxWidth: 60,
+        minSpeed: 10,
+        maxSpeed: 20,
+        adaptiveCountRatio: 60,
+        minCount: 3,
+        maxCount: 15,
+      },
+      middle: {
+        minWidth: 60,
+        maxWidth: 80,
+        minSpeed: 15,
+        maxSpeed: 25,
+        adaptiveCountRatio: 120,
+        minCount: 2,
+        maxCount: 10,
+      },
+      front: {
+        minWidth: 100,
+        maxWidth: 130,
+        minSpeed: 20,
+        maxSpeed: 30,
+        adaptiveCountRatio: 200,
+        minCount: 1,
+        maxCount: 5,
+      },
       // Интервалы генерации новых облаков
       generationIntervals: {
         back: 10000, // 10 секунд
@@ -126,7 +148,7 @@ export function useTravelshopCanvas(
     cloud: { width: 0, height: 0, aspectRatio: config.value.cloud.aspectRatio },
   })
 
-  // Размеры контейнера
+  // Размеры контейнера (реактивные, обновляются при ресайзе)
   const containerSize = ref({ width: 0, height: 0 })
 
   // Центрированные координаты для сцены
@@ -164,6 +186,70 @@ export function useTravelshopCanvas(
   })
 
   const allImagesLoaded = ref(false)
+
+  // Адаптивная высота канваса
+  const adaptiveCanvasHeight = computed(() => {
+    if (!containerSize.value.width) return config.value.canvasInitHeight
+
+    if (config.value.airport.maxWidth > containerSize.value.width - 60) {
+      return containerSize.value.width / 1.12
+    } else {
+      return config.value.canvasInitHeight
+    }
+  })
+
+  // Адаптивный отступ аэропорта
+  const adaptiveAirportMarginTop = computed(() => {
+    if (!containerSize.value.width) return config.value.airport.initialMarginTop
+
+    if (config.value.airport.maxWidth > containerSize.value.width - 60) {
+      return containerSize.value.width / 3.2
+    } else {
+      return config.value.airport.initialMarginTop
+    }
+  })
+
+  // Адаптивное количество облаков для каждого слоя
+  const adaptiveCloudsCount = computed(() => {
+    if (!containerSize.value.width) {
+      return {
+        back: config.value.clouds.back.minCount,
+        middle: config.value.clouds.middle.minCount,
+        front: config.value.clouds.front.minCount,
+      }
+    }
+
+    const calculateCount = (
+      containerWidth: number,
+      ratio: number,
+      minCount: number,
+      maxCount: number,
+    ) => {
+      const rawCount = Math.floor(containerWidth / ratio)
+      return Math.max(minCount, Math.min(maxCount, rawCount))
+    }
+
+    return {
+      back: calculateCount(
+        containerSize.value.width,
+        config.value.clouds.back.adaptiveCountRatio,
+        config.value.clouds.back.minCount,
+        config.value.clouds.back.maxCount,
+      ),
+      middle: calculateCount(
+        containerSize.value.width,
+        config.value.clouds.middle.adaptiveCountRatio,
+        config.value.clouds.middle.minCount,
+        config.value.clouds.middle.maxCount,
+      ),
+      front: calculateCount(
+        containerSize.value.width,
+        config.value.clouds.front.adaptiveCountRatio,
+        config.value.clouds.front.minCount,
+        config.value.clouds.front.maxCount,
+      ),
+    }
+  })
 
   // Загрузка изображений
   const loadImages = async (): Promise<void> => {
@@ -245,24 +331,21 @@ export function useTravelshopCanvas(
     const rect = container.getBoundingClientRect()
     if (rect.width === 0) return false
 
-    // Используем ширину контейнера и высоту из конфига
-    const canvasWidth = rect.width
-    const canvasHeight = config.value.canvasHeight
-
+    // Обновляем размеры контейнера
     containerSize.value = {
-      width: canvasWidth,
-      height: canvasHeight,
+      width: rect.width,
+      height: adaptiveCanvasHeight.value,
     }
 
     sceneCenter.value = {
-      x: canvasWidth / 2,
-      y: canvasHeight / 2,
+      x: rect.width / 2,
+      y: adaptiveCanvasHeight.value / 2,
     }
 
     // Рассчитываем размеры и позицию аэропорта
-    const airportWidth = Math.min(config.value.airport.maxWidth, canvasWidth - 100)
+    const airportWidth = Math.min(config.value.airport.maxWidth, rect.width - 100)
     const airportX = sceneCenter.value.x - airportWidth / 2
-    const airportY = config.value.airport.marginTop
+    const airportY = adaptiveAirportMarginTop.value
 
     // Настраиваем эллиптическую траекторию самолета вокруг аэропорта
     // Большая полуось (по X) - половина ширины аэропорта плюс отступ
@@ -286,11 +369,11 @@ export function useTravelshopCanvas(
     aircraft.value.isAnimating = true
 
     const dpr = window.devicePixelRatio || 1
-    canvas.width = canvasWidth * dpr
-    canvas.height = canvasHeight * dpr
+    canvas.width = rect.width * dpr
+    canvas.height = adaptiveCanvasHeight.value * dpr
 
-    canvas.style.width = `${canvasWidth}px`
-    canvas.style.height = `${canvasHeight}px`
+    canvas.style.width = `${rect.width}px`
+    canvas.style.height = `${adaptiveCanvasHeight.value}px`
 
     ctx.value = canvas.getContext('2d', { alpha: true })
 
@@ -305,17 +388,18 @@ export function useTravelshopCanvas(
 
   // Создание начальных облаков
   const createInitialClouds = () => {
-    const { back, middle, front } = config.value.clouds
+    // Используем вычисляемые значения количества облаков
+    const { back, middle, front } = adaptiveCloudsCount.value
 
-    for (let i = 0; i < back.count; i++) {
+    for (let i = 0; i < back; i++) {
       createCloud('back', true)
     }
 
-    for (let i = 0; i < middle.count; i++) {
+    for (let i = 0; i < middle; i++) {
       createCloud('middle', true)
     }
 
-    for (let i = 0; i < front.count; i++) {
+    for (let i = 0; i < front; i++) {
       createCloud('front', true)
     }
   }
@@ -330,7 +414,7 @@ export function useTravelshopCanvas(
 
     // Проверяем, не превышено ли максимальное количество облаков в этом слое
     const currentLayerCloudsCount = clouds.value.filter(c => c.layer === layer).length
-    const maxCloudsInLayer = configCloud.count
+    const maxCloudsInLayer = adaptiveCloudsCount.value[layer]
 
     if (currentLayerCloudsCount >= maxCloudsInLayer) {
       return // Не создаем новое облако, если достигнут лимит
@@ -517,7 +601,7 @@ export function useTravelshopCanvas(
     const height = width * airportAspectRatio
 
     const x = centerX - width / 2
-    const y = config.value.airport.marginTop
+    const y = adaptiveAirportMarginTop.value
 
     ctx.value.save()
     ctx.value.shadowColor = 'rgba(131, 76, 5, 0.3)'
@@ -567,7 +651,7 @@ export function useTravelshopCanvas(
         const id = window.setInterval(() => {
           // Считаем сколько облаков сейчас в этом слое
           const currentCount = clouds.value.filter(c => c.layer === layer).length
-          const maxCount = config.value.clouds[layer as 'back' | 'middle' | 'front'].count
+          const maxCount = adaptiveCloudsCount.value[layer as 'back' | 'middle' | 'front']
 
           // Добавляем только если не достигнут максимум
           if (currentCount < maxCount) {
@@ -599,27 +683,11 @@ export function useTravelshopCanvas(
     animationId.value = requestAnimationFrame(animate)
   }
 
-  const setAdaptiveCanvasHeight = () => {
-    if (!containerRef.value) return
-
-    const containerWidth = containerRef.value.getBoundingClientRect().width
-
-    if (config.value.airport.maxWidth > containerWidth - 60) {
-      config.value.canvasHeight = containerWidth / 1.12
-      config.value.airport.marginTop = containerWidth / 3
-    } else {
-      config.value.canvasHeight = config.value.canvasInitHeight
-      config.value.airport.marginTop = config.value.airport.initialMarginTop
-    }
-  }
-
   // Пересоздание сцены при изменении размеров или конфигурации
   const recreateScene = () => {
     if (!allImagesLoaded.value) return
 
     stopAnimation()
-
-    setAdaptiveCanvasHeight()
 
     if (initCanvas()) {
       clouds.value = []
@@ -657,8 +725,6 @@ export function useTravelshopCanvas(
   // Запуск анимации
   const startAnimation = () => {
     if (!allImagesLoaded.value) return
-
-    setAdaptiveCanvasHeight()
 
     if (initCanvas()) {
       createInitialClouds()
