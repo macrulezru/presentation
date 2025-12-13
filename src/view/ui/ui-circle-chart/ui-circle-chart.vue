@@ -128,7 +128,7 @@
   })
 
   const circleRadius = computed(() => {
-    return props.size / 2 - props.lineThick / 2
+    return props.size / 2 - props.lineThick / 2 - 2
   })
 
   const circleCircumference = computed(() => {
