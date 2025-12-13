@@ -4,7 +4,6 @@ import { useNavigationStore } from '@/stores/use-navigation-store.ts'
 import { PageSectionsEnum } from '@/enums/page-sections.enum'
 import { useResponsive } from '@/view/composables/use-responsive'
 
-const SCROLL_DEBOUNCE_TIME = 50
 const HEADER_HEIGHT = 60
 const HEADER_MOBILE_HEIGHT = 50
 const SPLASH_SCROLL_THRESHOLD = 100
@@ -28,6 +27,11 @@ export function useScrollRouting() {
   const lastUrlUpdateTime = ref<number>(0)
   const ignoreNextRouteChange = ref(false)
   const targetSectionAfterScroll = ref<string | null>(null)
+
+  // RAF оптимизация
+  const rafId = ref<number | null>(null)
+  const isUserScrolling = ref<boolean>(false)
+  const lastScrollPosition = ref<number>(0)
 
   const sectionNames = Object.values(PageSectionsEnum)
 
@@ -58,30 +62,44 @@ export function useScrollRouting() {
   }
 
   // Определение текущей активной секции на основе позиции скролла
-  const getCurrentSection = (): string => {
+  const getCurrentSection = (scrollY: number): string => {
     if (navigationStore.isScrolling || isProcessingNavigation.value) {
       return navigationStore.currentSection
     }
 
-    if (window.pageYOffset < SPLASH_SCROLL_THRESHOLD) {
+    if (scrollY < SPLASH_SCROLL_THRESHOLD) {
       return PageSectionsEnum.SPLASH
     }
 
-    const { pageYOffset, innerHeight } = window
-    const scrollPosition = pageYOffset + innerHeight / 4
+    const { innerHeight } = window
+    const scrollPosition = scrollY + innerHeight / 4
+
+    // Находим секцию, которая находится в фокусе
+    let activeSection = PageSectionsEnum.SPLASH
+    let minDistance = Infinity
 
     for (const section of navigationStore.sections) {
       if (section.element) {
         const elementTop = section.element.offsetTop - headerHeight.value
         const elementBottom = elementTop + section.element.offsetHeight
 
+        // Центр элемента
+        const elementCenter = elementTop + (elementBottom - elementTop) / 2
+
+        // Расстояние от центра элемента до текущей позиции скролла
+        const distance = Math.abs(scrollPosition - elementCenter)
+
+        // Если секция видима и ближе к центру экрана
         if (scrollPosition >= elementTop && scrollPosition <= elementBottom) {
-          return section.name
+          if (distance < minDistance) {
+            minDistance = distance
+            activeSection = section.name as PageSectionsEnum
+          }
         }
       }
     }
 
-    return PageSectionsEnum.SPLASH
+    return activeSection
   }
 
   // Ожидание завершения скролла (анимации)
@@ -165,27 +183,45 @@ export function useScrollRouting() {
     }
   }
 
-  // Дебаунс-обработчик скролла для ручной навигации
-  const debouncedScrollHandler = () => {
-    if (isProgrammaticScroll.value || isProcessingNavigation.value) {
+  // Оптимизированный обработчик скролла с RAF
+  const handleScroll = () => {
+    const currentScrollY = window.pageYOffset
+
+    // Определяем, изменилась ли позиция скролла
+    if (currentScrollY === lastScrollPosition.value) {
       return
     }
 
-    const now = Date.now()
-    if (now - lastScrollTime.value < 50) {
-      return
+    lastScrollPosition.value = currentScrollY
+    isUserScrolling.value = true
+
+    // Отменяем предыдущий запланированный кадр
+    if (rafId.value) {
+      cancelAnimationFrame(rafId.value)
     }
 
-    lastScrollTime.value = now
+    // Запланировать обработку в следующем кадре анимации
+    rafId.value = requestAnimationFrame(() => {
+      if (isProgrammaticScroll.value || isProcessingNavigation.value) {
+        return
+      }
 
-    if (scrollTimeout.value) {
-      clearTimeout(scrollTimeout.value)
-    }
+      // Дебаунсим вызовы (раз в 50 мс)
+      const now = Date.now()
+      if (now - lastScrollTime.value < 50) {
+        return
+      }
 
-    scrollTimeout.value = setTimeout(() => {
-      const section = getCurrentSection()
+      lastScrollTime.value = now
+
+      const section = getCurrentSection(currentScrollY)
       updateUrl(section)
-    }, SCROLL_DEBOUNCE_TIME)
+
+      // Сбрасываем флаг скролла после небольшой задержки
+      setTimeout(() => {
+        isUserScrolling.value = false
+      }, 50)
+    })
   }
 
   // Плавный скролл к указанной секции
@@ -351,17 +387,26 @@ export function useScrollRouting() {
         setTimeout(initSections, 500)
       }
 
-      window.addEventListener('scroll', debouncedScrollHandler, { passive: true })
+      window.addEventListener('scroll', handleScroll, { passive: true })
+      window.addEventListener('resize', handleScroll, { passive: true })
 
       const initialSection = (route.params.section as string) || PageSectionsEnum.SPLASH
       if (navigationStore.currentSection !== initialSection) {
         navigationStore.setCurrentSection(initialSection)
       }
+
+      // Инициализируем позицию скролла
+      lastScrollPosition.value = window.pageYOffset
     }, 100)
   }
 
   // Очистка ресурсов композабла
   const destroy = () => {
+    if (rafId.value) {
+      cancelAnimationFrame(rafId.value)
+      rafId.value = null
+    }
+
     if (scrollTimeout.value) {
       clearTimeout(scrollTimeout.value)
       scrollTimeout.value = null
@@ -372,24 +417,25 @@ export function useScrollRouting() {
       scrollEndTimeout.value = null
     }
 
-    window.removeEventListener('scroll', debouncedScrollHandler)
+    window.removeEventListener('scroll', handleScroll)
+    window.removeEventListener('resize', handleScroll)
 
-    // Сброс всех состояний
     navigationStore.setIsScrolling(false)
     isProcessingNavigation.value = false
     isProgrammaticScroll.value = false
     pendingNavigation.value = null
     ignoreNextRouteChange.value = false
     targetSectionAfterScroll.value = null
+    isUserScrolling.value = false
   }
 
   return {
     sections: computed(() => navigationStore.sections),
     currentSection: computed(() => navigationStore.currentSection),
     isScrolling: computed(() => navigationStore.isScrolling),
+    isUserScrolling: computed(() => isUserScrolling.value),
     scrollToSection,
     navigateToSection,
-    getCurrentSection,
     getActiveSection,
     init,
     destroy,
