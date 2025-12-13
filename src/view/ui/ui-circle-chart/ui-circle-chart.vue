@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import '@/view/ui/ui-circle-chart/ui-circle-chart.scss'
 
-  import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
+  import { ref, computed, watch, onMounted, onBeforeUnmount, useSlots } from 'vue'
 
   /**
    * Пропсы компонента CircleChart
@@ -94,6 +94,12 @@
      * @default 0
      */
     autoPlayDelay?: number
+
+    /**
+     * Описание графика
+     * @default 0
+     */
+    label?: string
   }
 
   // Значения по умолчанию для пропсов
@@ -111,6 +117,8 @@
     autoPlayThreshold: 0.5,
     autoPlayDelay: 0,
   })
+
+  const slots = useSlots()
 
   // Реактивное значение для анимации
   const animatedValue = ref(0)
@@ -144,6 +152,10 @@
 
   const displayValue = computed(() => {
     return `${Math.round(animatedValue.value)}%`
+  })
+
+  const hasDefaultSlot = computed(() => {
+    return slots.default && slots.default().length > 0
   })
 
   /**
@@ -286,46 +298,51 @@
 
 <template>
   <div ref="chartContainer" class="ui-circle-chart">
-    <svg
-      :width="props.size"
-      :height="props.size"
-      :viewBox="`0 0 ${props.size} ${props.size}`"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <circle
-        :cx="circlePosition"
-        :cy="circlePosition"
-        :r="circleRadius"
-        :stroke="strokeColor"
-        :stroke-width="lineThick"
+    <div class="ui-circle-chart__graph">
+      <svg
+        :width="props.size"
+        :height="props.size"
+        :viewBox="`0 0 ${props.size} ${props.size}`"
         fill="none"
-      />
-
-      <circle
-        :cx="circlePosition"
-        :cy="circlePosition"
-        :r="circleRadius"
-        :stroke="segmentColor"
-        :stroke-width="lineThick"
-        fill="none"
-        stroke-linecap="round"
-        :stroke-dasharray="segmentDashArray"
-        :transform="`rotate(-90 ${circlePosition} ${circlePosition})`"
-      />
-
-      <text
-        v-if="showValue"
-        :x="circlePosition"
-        :y="circlePosition"
-        :font-size="valueFontSize"
-        :fill="valueColor"
-        text-anchor="middle"
-        dominant-baseline="middle"
-        class="ui-circle-chart__value"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        {{ displayValue }}
-      </text>
-    </svg>
+        <circle
+          :cx="circlePosition"
+          :cy="circlePosition"
+          :r="circleRadius"
+          :stroke="strokeColor"
+          :stroke-width="lineThick"
+          fill="none"
+        />
+
+        <circle
+          :cx="circlePosition"
+          :cy="circlePosition"
+          :r="circleRadius"
+          :stroke="segmentColor"
+          :stroke-width="lineThick"
+          fill="none"
+          stroke-linecap="round"
+          :stroke-dasharray="segmentDashArray"
+          :transform="`rotate(-90 ${circlePosition} ${circlePosition})`"
+        />
+
+        <text
+          v-if="showValue"
+          :x="circlePosition"
+          :y="circlePosition"
+          :font-size="valueFontSize"
+          :fill="valueColor"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          class="ui-circle-chart__value"
+        >
+          {{ displayValue }}
+        </text>
+      </svg>
+    </div>
+    <div v-if="hasDefaultSlot || props.label" class="ui-circle-chart__label">
+      <slot>{{ props.label }}</slot>
+    </div>
   </div>
 </template>
