@@ -11,12 +11,13 @@
   import { useResponsive } from '@/view/composables/use-responsive'
 
   const { t } = useI18n()
+
   const navigationStore = useNavigationStore()
-
-  const { navigateToSection } = useScrollRouting()
-  const isMobileMenuOpen = ref(false)
-
+  const { navigateToSection, isProcessingNavigation } = useScrollRouting()
   const { isTablet, isMobile } = useResponsive()
+
+  const isMobileMenuOpen = ref(false)
+  const isProcessingClick = ref(false)
 
   const currentSection = computed(() => navigationStore.currentSection)
 
@@ -38,20 +39,38 @@
   }
 
   // Обработчик клика по пункту меню
-  const handleMenuClick = (sectionId: string) => {
-    navigateToSection(sectionId)
-    if (isTablet.value || isMobile.value) {
-      isMobileMenuOpen.value = false
+  const handleMenuClick = async (sectionId: string) => {
+    if (isProcessingClick.value || isProcessingNavigation.value) {
+      return
+    }
+
+    isProcessingClick.value = true
+
+    try {
+      await navigateToSection(sectionId)
+
+      if (isTablet.value || isMobile.value) {
+        isMobileMenuOpen.value = false
+      }
+    } catch (error) {
+      console.error('Menu click error:', error)
+    } finally {
+      setTimeout(() => {
+        isProcessingClick.value = false
+      }, 300)
     }
   }
 
   // Переключение мобильного меню
   const toggleMobileMenu = () => {
+    if (isProcessingNavigation.value) return
     isMobileMenuOpen.value = !isMobileMenuOpen.value
   }
 
   // Закрытие мобильного меню при клике вне его
   const handleClickOutside = (event: MouseEvent) => {
+    if (isProcessingNavigation.value) return
+
     const target = event.target as HTMLElement
     if (
       !target.closest('.header__nav') &&
@@ -95,8 +114,11 @@
           class="header__nav-item"
           :class="{
             'header__nav-item--active': currentSection === item.id,
+            'header__nav-item--disabled': isProcessingNavigation,
           }"
           @click="handleMenuClick(item.id)"
+          :disabled="isProcessingNavigation"
+          :title="isProcessingNavigation ? t('navigation.processing') : ''"
         >
           {{ item.label }}
         </button>
@@ -108,8 +130,12 @@
         <button
           v-if="isTablet || isMobile"
           class="hamburger"
-          :class="{ 'hamburger--active': isMobileMenuOpen }"
+          :class="{
+            'hamburger--active': isMobileMenuOpen,
+            'hamburger--disabled': isProcessingNavigation,
+          }"
           @click="toggleMobileMenu"
+          :disabled="isProcessingNavigation"
           aria-label="Toggle menu"
         >
           <span class="hamburger__line"></span>
@@ -130,8 +156,12 @@
             v-for="item in menuItems"
             :key="item.id"
             class="mobile-menu__item"
-            :class="{ 'mobile-menu__item--active': currentSection === item.id }"
+            :class="{
+              'mobile-menu__item--active': currentSection === item.id,
+              'mobile-menu__item--disabled': isProcessingNavigation,
+            }"
             @click="handleMenuClick(item.id)"
+            :disabled="isProcessingNavigation"
           >
             {{ item.label }}
           </button>
