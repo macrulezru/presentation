@@ -268,7 +268,7 @@
       font-weight: var(--font-weight-semibold);
       color: var(--color-text-primary);
       margin-bottom: var(--spacing-xs);
-      font-size: var(--font-size-lg);
+      font-size: var(--font-size-2xl);
 
       &_tech {
         color: var(--color-accent-ui);
@@ -352,7 +352,7 @@
     }
 
     &__tech-item-title {
-      font-size: var(--font-size-md);
+      font-size: var(--font-size-lg);
     }
   }
 

@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: var(--spacing-xl);
 
   &__overlay {
     position: absolute;
@@ -24,28 +24,28 @@
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: min(1200px, 90vw);
+    max-width: min(var(--container-xl), 90vw);
     max-height: 90vh;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--spacing-xl);
   }
 
   &__close {
     position: absolute;
     top: -50px;
     right: 0;
-    width: 40px;
-    height: 40px;
+    width: var(--icon-size-lg);
+    height: var(--icon-size-lg);
     background: rgba(255, 255, 255, 0.1);
     border: none;
-    border-radius: 50%;
-    color: white;
+    border-radius: var(--radius-full);
+    color: var(--color-text-light);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: all var(--transition-fast);
     z-index: 20;
 
     &:hover {
@@ -62,13 +62,13 @@
     height: 50px;
     background: rgba(255, 255, 255, 0.1);
     border: none;
-    border-radius: 50%;
-    color: white;
+    border-radius: var(--radius-full);
+    color: var(--color-text-light);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: all var(--transition-fast);
     z-index: 15;
 
     &:hover {
@@ -116,7 +116,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     background: rgba(0, 0, 0, 0.3);
     overflow: hidden;
   }
@@ -126,7 +126,7 @@
     max-height: 75vh;
     object-fit: contain;
     opacity: v-bind('isLoading ? 0 : 1');
-    transition: opacity 0.3s ease;
+    transition: opacity var(--transition-normal);
   }
 
   &__loader {
@@ -142,11 +142,11 @@
   }
 
   &__spinner {
-    width: 40px;
-    height: 40px;
+    width: var(--icon-size-lg);
+    height: var(--icon-size-lg);
     border: 3px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    border-top-color: white;
+    border-radius: var(--radius-full);
+    border-top-color: var(--color-text-light);
     animation: ui-image-modal-spin 1s linear infinite;
   }
 
@@ -157,8 +157,8 @@
 
   &__thumbnails {
     display: flex;
-    gap: 10px;
-    padding: 10px;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
     overflow-x: auto;
     justify-content: center;
     scrollbar-width: thin;
@@ -174,7 +174,7 @@
 
     &::-webkit-scrollbar-thumb {
       background-color: rgba(255, 255, 255, 0.3);
-      border-radius: 3px;
+      border-radius: var(--radius-sm);
     }
   }
 
@@ -183,10 +183,10 @@
     width: 60px;
     height: 60px;
     border: 2px solid transparent;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     overflow: hidden;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--transition-fast);
     background: none;
     padding: 0;
 
@@ -206,10 +206,9 @@
     }
   }
 
-  // Анимации для Vue Transition
   .modal-enter-active,
   .modal-leave-active {
-    transition: opacity 0.3s ease;
+    transition: opacity var(--transition-normal);
   }
 
   .modal-enter-from,
@@ -219,7 +218,7 @@
 
   .modal-enter-active &__container,
   .modal-leave-active &__container {
-    transition: transform 0.3s ease;
+    transition: transform var(--transition-normal);
   }
 
   .modal-enter-from &__container,
@@ -235,35 +234,35 @@
     &__nav--mobile {
       display: flex;
       position: absolute;
-      width: 40px;
-      height: 40px;
+      width: var(--icon-size-lg);
+      height: var(--icon-size-lg);
       background: rgba(0, 0, 0, 0.7);
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
     &__nav--prev.ui-image-modal__nav--mobile {
-      left: 10px;
+      left: var(--spacing-md);
     }
 
     &__nav--next.ui-image-modal__nav--mobile {
-      right: 10px;
+      right: var(--spacing-md);
     }
 
     &__close {
-      top: 10px;
-      right: 10px;
+      top: var(--spacing-md);
+      right: var(--spacing-md);
       background: rgba(0, 0, 0, 0.7);
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
   }
 
   @include media-tablet {
-    padding: 10px;
+    padding: var(--spacing-md);
 
     &__container {
       max-width: 95vw;
       max-height: 95vh;
-      gap: 15px;
+      gap: var(--spacing-lg);
     }
 
     &__nav--mobile {
@@ -272,16 +271,16 @@
     }
 
     &__nav--prev.ui-image-modal__nav--mobile {
-      left: 8px;
+      left: var(--spacing-sm);
     }
 
     &__nav--next.ui-image-modal__nav--mobile {
-      right: 8px;
+      right: var(--spacing-sm);
     }
 
     &__close {
-      top: 8px;
-      right: 8px;
+      top: var(--spacing-sm);
+      right: var(--spacing-sm);
       width: 36px;
       height: 36px;
     }
@@ -302,32 +301,32 @@
     &__container {
       max-width: 100vw;
       max-height: 100vh;
-      gap: 10px;
+      gap: var(--spacing-md);
     }
 
     &__nav--mobile {
-      width: 32px;
-      height: 32px;
+      width: var(--icon-size-sm);
+      height: var(--icon-size-sm);
     }
 
     &__nav--prev.ui-image-modal__nav--mobile {
-      left: 5px;
+      left: var(--spacing-xs);
     }
 
     &__nav--next.ui-image-modal__nav--mobile {
-      right: 5px;
+      right: var(--spacing-xs);
     }
 
     &__close {
-      top: 5px;
-      right: 5px;
-      width: 32px;
-      height: 32px;
+      top: var(--spacing-xs);
+      right: var(--spacing-xs);
+      width: var(--icon-size-sm);
+      height: var(--icon-size-sm);
     }
 
     &__thumbnail {
-      width: 40px;
-      height: 40px;
+      width: var(--icon-size-sm);
+      height: var(--icon-size-sm);
     }
   }
 }

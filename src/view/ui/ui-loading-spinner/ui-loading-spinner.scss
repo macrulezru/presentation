@@ -25,7 +25,7 @@
   &__spinner {
     border: 3px solid var(--color-border-light);
     border-top-color: var(--color-secondary);
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     animation: spin 1s linear infinite;
     margin-bottom: var(--spacing-md);
   }

@@ -1,17 +1,17 @@
 .ui-button {
   display: inline-block;
-  padding: 0.75rem 2rem;
-  background: #ffffff;
+  padding: 0.75rem var(--spacing-xl);
+  background: var(--color-bg-primary);
   color: var(--color-secondary);
   border: solid 2px var(--color-secondary);
   border-radius: 14px;
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
 
   &:hover {
-    color: #ffffff;
+    color: var(--color-text-light);
     background: var(--color-secondary);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
@@ -26,8 +26,8 @@
   }
 
   &_small {
-    padding: 0.5rem 1.85rem;
-    font-size: 1rem;
+    padding: var(--spacing-sm) 1.85rem;
+    font-size: var(--font-size-md);
   }
 
   &_disabled {
@@ -46,7 +46,11 @@
   }
 
   @include media-tablet {
-    padding: 0.6rem 1.5rem;
-    font-size: 0.95rem;
+    padding: 0.6rem var(--spacing-lg);
+    font-size: var(--font-size-lg);
+
+    &_small {
+      font-size: 0.95rem;
+    }
   }
 }
