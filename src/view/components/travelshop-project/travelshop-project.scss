@@ -281,6 +281,11 @@
     }
   }
 
+  &__ts-slideshow,
+  &__ts-slideshow .ui-loading-spinner {
+    min-height: 669px;
+  }
+
   @include media-tablet {
     padding: var(--spacing-md) 0;
 

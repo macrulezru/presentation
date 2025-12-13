@@ -174,11 +174,12 @@
           :text="t('travelshop.view_screenshots')"
           @click="toggleSwiper"
         />
-        <TravelshopImages
-          v-if="showSwiper"
-          size="large"
-          :text-key="t('travelshop.loading_screenshots')"
-        />
+        <div v-if="showSwiper" class="travelshop__ts-slideshow">
+          <TravelshopImages
+            size="large"
+            :text-key="t('travelshop.loading_screenshots')"
+          />
+        </div>
       </div>
     </div>
   </div>
