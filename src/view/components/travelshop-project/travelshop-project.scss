@@ -323,7 +323,7 @@
     }
 
     &__projects {
-      flex-direction: column;
+      grid-template-columns: 1fr;
     }
 
     &__tech-stack {
