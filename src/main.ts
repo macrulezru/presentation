@@ -1,14 +1,36 @@
-import './assets/main.css'
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
-import App from './App.vue'
-import router from './router'
+import '@/view/styles/reset.scss'
+import '@/view/styles/variables.scss'
+import '@/view/styles/main.scss'
 
-const app = createApp(App)
+import App from '@/view/pages/index.vue'
+import router from '@/router'
+import i18nPlugin from '@/plugins/i18n'
+import { loadLocale, getInitialLocale } from '@/locales'
+import { LocalesEnum } from '@/enums/locales.enum'
 
-app.use(createPinia())
-app.use(router)
+// Асинхронная функция для инициализации приложения
+async function initializeApp() {
+  const initialLocale = getInitialLocale()
 
-app.mount('#app')
+  // Загружаем локаль
+  try {
+    await loadLocale(initialLocale)
+  } catch (error) {
+    console.error(`Failed to load locale ${initialLocale}:`, error)
+
+    await loadLocale(LocalesEnum.RU)
+  }
+
+  const app = createApp(App)
+
+  app.use(createPinia()).use(router).use(i18nPlugin)
+
+  app.mount('#app')
+}
+
+initializeApp().catch(error => {
+  console.error('Failed to initialize app:', error)
+})

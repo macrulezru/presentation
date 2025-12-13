@@ -1,0 +1,11 @@
+.ui-link-arrow {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  mask-image: url('@/view/assets/images/link-icon.svg');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: var(--color-secondary-hover);
+  cursor: pointer;
+}

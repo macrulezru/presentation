@@ -1,0 +1,52 @@
+.ui-button {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background: #ffffff;
+  color: var(--color-secondary);
+  border: solid 2px var(--color-secondary);
+  border-radius: 14px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #ffffff;
+    background: var(--color-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &_full-width {
+    width: 100%;
+  }
+
+  &_small {
+    padding: 0.5rem 1.85rem;
+    font-size: 1rem;
+  }
+
+  &_disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  &_gray {
+    border-color: var(--color-bg-tertiary);
+    color: var(--color-text-muted);
+
+    &:hover:not(:disabled) {
+      background: var(--color-text-muted);
+      box-shadow: 0 4px 12px rgba(150, 150, 150, 0.3);
+    }
+  }
+
+  @include media-tablet {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}

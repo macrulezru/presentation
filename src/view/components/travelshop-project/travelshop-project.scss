@@ -1,0 +1,380 @@
+.travelshop {
+  padding: var(--spacing-xl) 0;
+
+  &__container {
+    @include container-lg;
+  }
+
+  &__into {
+    position: relative;
+    overflow: hidden auto;
+  }
+
+  &__airport {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin: 100px auto var(--spacing-xl);
+  }
+
+  &__aircraft {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    width: 190px;
+    height: auto;
+    animation: fly-cycle 16s linear infinite;
+    animation-fill-mode: forwards;
+    will-change: transform;
+  }
+}
+
+@keyframes fly-cycle {
+  0% {
+    transform: translate(-520px, 0) scaleX(1);
+  }
+
+  25% {
+    transform: translate(-110px, -50px) scaleX(1);
+  }
+
+  49% {
+    transform: translate(300px, 0) scaleX(1);
+  }
+
+  50% {
+    transform: translate(300px, 0) scaleX(-1);
+  }
+
+  75% {
+    transform: translate(-110px, 50px) scaleX(-1);
+  }
+
+  99% {
+    transform: translate(-520px, 0) scaleX(-1);
+  }
+
+  100% {
+    transform: translate(-520px, 0) scaleX(1);
+  }
+}
+
+.travelshop {
+  &__header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  &__title {
+    font-size: var(--font-size-5xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+  }
+
+  &__meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+  }
+
+  &__role {
+    background: var(--color-secondary);
+    color: var(--color-text-light);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-pill);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-base);
+  }
+
+  &__period {
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+
+  &__description {
+    font-size: var(--font-size-xl);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    max-width: var(--container-sm);
+    margin: 0 auto;
+  }
+
+  &__content {
+    display: grid;
+    gap: var(--spacing-3xl);
+  }
+
+  &__section {
+    background: var(--color-bg-card);
+    border-radius: var(--radius-xl);
+
+    &_images {
+      margin-top: 2rem;
+    }
+
+    &-title {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--spacing-lg);
+      padding-bottom: var(--spacing-sm);
+      border-bottom: 2px solid var(--color-border-light);
+    }
+  }
+
+  &__features {
+    display: grid;
+    gap: var(--spacing-md);
+  }
+
+  &__feature {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+
+    &-icon {
+      width: 40px;
+      height: 30px;
+      flex-shrink: 0;
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
+
+      &_flight-search {
+        background-image: url('@/view/assets/images/flight-search-icon.svg');
+      }
+
+      &_price-tag {
+        background-image: url('@/view/assets/images/price-tag-icon.svg');
+      }
+
+      &_checklist {
+        background-image: url('@/view/assets/images/checklist-icon.svg');
+      }
+
+      &_user-management {
+        background-image: url('@/view/assets/images/user-management-icon.svg');
+      }
+
+      &_api {
+        background-image: url('@/view/assets/images/api-icon.svg');
+      }
+
+      &_luggage {
+        background-image: url('@/view/assets/images/luggage-icon.svg');
+      }
+
+      &_responsive {
+        background-image: url('@/view/assets/images/responsive-icon.svg');
+      }
+    }
+  }
+
+  &__tech {
+    &-stack {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--spacing-md);
+    }
+
+    &-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      padding: var(--spacing-md) var(--spacing-md);
+      background: var(--color-bg-secondary);
+      border-radius: var(--radius-md);
+    }
+
+    &-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: var(--color-secondary);
+      flex-shrink: 0;
+    }
+  }
+
+  &__chart {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    padding-top: var(--spacing-md);
+
+    &-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+
+    &-label {
+      line-height: 1.6;
+      text-align: center;
+      color: var(--color-text-secondary);
+    }
+  }
+
+  &__achievements {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
+    padding-top: var(--spacing-xl);
+  }
+
+  &__achievement {
+    display: flex;
+    gap: var(--spacing-lg);
+    align-items: flex-start;
+
+    &-content {
+      position: relative;
+      display: flex;
+      align-items: start;
+      gap: var(--spacing-md);
+      flex: 1;
+      padding-top: var(--spacing-sm);
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+    }
+
+    & .travelshop__tech-dot {
+      margin-top: 8px;
+    }
+  }
+
+  &__projects {
+    display: flex;
+    gap: var(--spacing-lg);
+  }
+
+  &__project {
+    display: block;
+    padding: var(--spacing-lg);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: inherit;
+    transition: all var(--transition-normal);
+    border: 1px solid transparent;
+
+    &:hover {
+      background: var(--color-bg-primary);
+      border-color: var(--color-secondary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-blue);
+    }
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-md);
+    }
+
+    &-name {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin: 0;
+    }
+
+    &-description {
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+      margin: 0;
+    }
+  }
+
+  @include media-tablet {
+    padding: var(--spacing-md) 0;
+
+    &__airport {
+      max-width: calc(100vw - 50px);
+    }
+
+    &__container {
+      padding: 0 var(--spacing-sm);
+    }
+
+    &__content {
+      gap: var(--spacing-2xl);
+    }
+
+    &__title {
+      font-size: var(--font-size-4xl);
+    }
+
+    &__meta {
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+
+    &__description {
+      padding: 0 var(--spacing-md);
+      font-size: var(--font-size-lg);
+    }
+
+    &__section {
+      padding: var(--spacing-md);
+
+      &-title {
+        font-size: var(--font-size-2xl);
+      }
+
+      &_images {
+        margin-top: 0;
+      }
+    }
+
+    &__projects {
+      flex-direction: column;
+    }
+
+    &__tech-stack {
+      grid-template-columns: 1fr;
+    }
+
+    &__chart {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    &__achievements {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+    }
+
+    &__achievement {
+      gap: var(--spacing-md);
+    }
+  }
+
+  @include media-mobile {
+    &__container {
+      padding: 0 var(--spacing-sm);
+    }
+
+    &__title {
+      font-size: var(--font-size-3xl);
+    }
+
+    &__section {
+      padding: var(--spacing-md);
+    }
+
+    &__feature {
+      padding: var(--spacing-md);
+    }
+
+    &__chart {
+      grid-template-columns: 1fr;
+    }
+  }
+}

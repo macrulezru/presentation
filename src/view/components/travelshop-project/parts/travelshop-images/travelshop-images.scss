@@ -1,0 +1,131 @@
+.clickable-image {
+  cursor: pointer;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.travelshop-images {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  padding: 0 40px;
+
+  :deep(.swiper) {
+    padding: 20px 0 0;
+  }
+
+  &__nav-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+
+    &::after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M15 18L9 12L15 6' stroke='%23333' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    &:hover {
+      background: white;
+      transform: translateY(-50%) scale(1.08);
+      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.2);
+    }
+
+    &_prev {
+      left: -6px;
+    }
+
+    &_next {
+      right: -6px;
+
+      &::after {
+        transform: rotate(180deg);
+      }
+    }
+
+    &.swiper-button-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: translateY(-50%);
+
+      &:hover {
+        transform: translateY(-50%) scale(1);
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+
+  &__description {
+    padding: 20px 0 10px;
+    font-size: 14px;
+    font-style: italic;
+    text-align: center;
+    color: var(--color-text-muted);
+  }
+
+  &__slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__image {
+    width: auto;
+    max-height: 590px;
+    border: solid 1px var(--color-text-muted);
+  }
+
+  @include media-tablet {
+    padding: 0 30px;
+
+    &__nav-control {
+      width: 36px;
+      height: 36px;
+
+      &::after {
+        width: 18px;
+        height: 18px;
+        background-size: 18px 18px;
+      }
+    }
+  }
+
+  @include media-mobile {
+    padding: 0 24px;
+
+    &__nav-control {
+      width: 32px;
+      height: 32px;
+
+      &::after {
+        width: 16px;
+        height: 16px;
+        background-size: 16px 16px;
+      }
+    }
+
+    &__image {
+      max-height: 400px;
+    }
+  }
+}
