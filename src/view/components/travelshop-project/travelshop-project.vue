@@ -127,10 +127,8 @@
                 :value="item.value"
                 :size="190"
                 :segmentColor="item.color"
+                :label="item.text"
               />
-              <span class="travelshop__chart-label">
-                {{ item.text }}
-              </span>
             </div>
           </div>
           <div class="travelshop__achievements">
