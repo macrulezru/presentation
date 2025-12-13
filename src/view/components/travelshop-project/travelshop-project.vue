@@ -6,8 +6,11 @@
 
   import '@/view/components/travelshop-project/travelshop-project.scss'
 
+  import { ref } from 'vue'
+
   import airportImage from '@/view/assets/images/airport.png'
   import aircraftImage from '@/view/assets/images/aircraft.png'
+  import cloudImage from '@/view/assets/images/cloud.png'
 
   const TravelshopImages = defineAsyncComponent({
     loader: () =>
@@ -29,6 +32,9 @@
   const { t, tm } = useI18n()
 
   const showSwiper = ref<boolean>(false)
+  const travelshopClouds = ref<HTMLElement>()
+  const clouds = ref<HTMLImageElement[]>([])
+  const cloudGenerationInterval = ref<number>()
 
   const features = computed(() => tm('travelshop.features.items'))
 
@@ -57,11 +63,115 @@
   const toggleSwiper = () => {
     showSwiper.value = !showSwiper.value
   }
+
+  // Функция для создания одного облака с возможностью предварительного позиционирования
+  const createCloud = (preWarm: boolean = false) => {
+    if (!travelshopClouds.value) return
+
+    const cloud = document.createElement('img')
+    cloud.src = cloudImage
+    cloud.classList.add('travelshop__cloud')
+
+    const minSize = 40
+    const maxSize = 120
+    const minSpeed = 30
+    const maxSpeed = 80
+    const minTop = 5
+    const maxTop = 35
+
+    const size = Math.floor(Math.random() * (maxSize - minSize)) + minSize
+    const speed = Math.floor(Math.random() * (maxSpeed - minSpeed)) + minSpeed
+    const top = Math.floor(Math.random() * (maxTop - minTop)) + minTop
+
+    cloud.style.width = `${size}px`
+    cloud.style.height = 'auto'
+    cloud.style.top = `${top}%`
+    cloud.style.opacity = `${0.4 + Math.random() * 0.8}`
+
+    // Для предварительного прогрева: случайное начальное положение в видимой области
+    if (preWarm) {
+      const parentWidth = travelshopClouds.value?.clientWidth || window.innerWidth
+      // От 0% до 100% ширины контейнера (с учетом размера облака)
+      const randomPosition = Math.random() * (parentWidth - size)
+      cloud.style.right = `${randomPosition}px`
+
+      // Рассчитываем оставшееся расстояние до левого края
+      const remainingDistance = parentWidth - randomPosition + size
+      // Рассчитываем время анимации пропорционально оставшемуся расстоянию
+      const totalDistance = parentWidth + size
+      const adjustedSpeed = speed * (remainingDistance / totalDistance)
+
+      cloud.style.transition = `transform ${adjustedSpeed}s linear`
+      cloud.style.willChange = 'transform'
+
+      travelshopClouds.value.appendChild(cloud)
+      clouds.value.push(cloud)
+
+      requestAnimationFrame(() => {
+        cloud.style.transform = `translateX(-${remainingDistance}px)`
+      })
+    } else {
+      // Обычное создание облака (начинает с правого края)
+      cloud.style.right = `-${size}px`
+      cloud.style.transition = `transform ${speed}s linear`
+      cloud.style.willChange = 'transform'
+
+      travelshopClouds.value.appendChild(cloud)
+      clouds.value.push(cloud)
+
+      requestAnimationFrame(() => {
+        const parentWidth = travelshopClouds.value?.clientWidth || window.innerWidth
+        cloud.style.transform = `translateX(-${parentWidth + size * 2}px)`
+      })
+    }
+
+    // Удаляем облако после завершения анимации
+    cloud.addEventListener('transitionend', () => {
+      cloud.remove()
+      const index = clouds.value.indexOf(cloud)
+      if (index > -1) {
+        clouds.value.splice(index, 1)
+      }
+    })
+  }
+
+  // Запуск генерации облаков с предварительным прогревом
+  const startCloudGeneration = () => {
+    // Создаем несколько облаков для предварительного прогрева
+    const preWarmCount = 5 // Количество облаков для предварительного прогрева
+    for (let i = 0; i < preWarmCount; i++) {
+      createCloud(true) // true = предварительный прогрев
+    }
+
+    // Затем создаем обычные облака с интервалом
+    cloudGenerationInterval.value = window.setInterval(() => {
+      const delay = Math.random() * 4000 + 1000
+      setTimeout(createCloud, delay) // false = обычное облако
+    }, 4000)
+  }
+
+  // Остановка генерации
+  const stopCloudGeneration = () => {
+    if (cloudGenerationInterval.value) {
+      clearInterval(cloudGenerationInterval.value)
+    }
+    clouds.value.forEach(cloud => cloud.remove())
+    clouds.value = []
+  }
+
+  onMounted(() => {
+    startCloudGeneration()
+  })
+
+  onUnmounted(() => {
+    stopCloudGeneration()
+  })
 </script>
 
 <template>
   <div class="travelshop">
-    <div class="travelshop__into">
+    <div class="travelshop__intro">
+      <div ref="travelshopClouds" class="travelshop__intro-clouds" />
       <img class="travelshop__airport" :src="airportImage" :alt="t('travelshop.title')" />
       <img class="travelshop__aircraft" :src="aircraftImage" alt="aircraft" />
     </div>
