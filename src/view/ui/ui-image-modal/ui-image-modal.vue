@@ -1,23 +1,36 @@
 <script setup lang="ts">
   import '@/view/ui/ui-image-modal/ui-image-modal.scss'
-
   import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
   import { useI18n } from 'vue-i18n'
 
   const { t } = useI18n()
 
   interface ImageObject {
+    /** Путь к превью изображения */
     preview: string
+    /** Путь к полноразмерному изображению */
     full: string
+    /** Описание изображения (alt текст) */
     description: string
   }
 
   interface Props {
+    /** Состояние открытия модального окна */
     isOpen: boolean
+
+    /** Массив изображений для отображения */
     images: ImageObject[]
+
+    /** Начальный индекс изображения */
     initialIndex?: number
+
+    /** Показывать навигационные стрелки */
     showNavigation?: boolean
+
+    /** Показывать счетчик изображений */
     showCounter?: boolean
+
+    /** Показывать панель миниатюр */
     showThumbnails?: boolean
   }
 
@@ -29,8 +42,11 @@
   })
 
   const emit = defineEmits<{
+    /** Событие обновления состояния открытия (v-model) */
     'update:isOpen': [value: boolean]
+    /** Событие закрытия модального окна */
     close: []
+    /** Событие изменения текущего изображения */
     change: [index: number]
   }>()
 
@@ -38,29 +54,56 @@
   const isLoading = ref(false)
   const imageRef = ref<HTMLImageElement | null>(null)
 
-  // Вспомогательные вычисляемые свойства
+  /**
+   * Текущее полноразмерное изображение
+   */
   const currentImage = computed(() => props.images[currentIndex.value]?.full)
+
+  /**
+   * Описание текущего изображения
+   */
   const currentAlt = computed(() => props.images[currentIndex.value]?.description)
+
+  /**
+   * Проверка наличия предыдущего изображения
+   */
   const hasPrev = computed(() => currentIndex.value > 0)
+
+  /**
+   * Проверка наличия следующего изображения
+   */
   const hasNext = computed(() => currentIndex.value < props.images.length - 1)
 
+  /**
+   * Закрывает модальное окно
+   */
   const close = () => {
     emit('update:isOpen', false)
     emit('close')
   }
 
+  /**
+   * Переходит к предыдущему изображению
+   */
   const prevImage = () => {
     if (hasPrev.value) {
       setImage(currentIndex.value - 1)
     }
   }
 
+  /**
+   * Переходит к следующему изображению
+   */
   const nextImage = () => {
     if (hasNext.value) {
       setImage(currentIndex.value + 1)
     }
   }
 
+  /**
+   * Устанавливает изображение по индексу
+   * @param index - индекс изображения
+   */
   const setImage = (index: number) => {
     if (index >= 0 && index < props.images.length) {
       isLoading.value = true
@@ -69,16 +112,24 @@
     }
   }
 
+  /**
+   * Обработчик успешной загрузки изображения
+   */
   const onImageLoad = () => {
     isLoading.value = false
   }
 
+  /**
+   * Обработчик ошибки загрузки изображения
+   */
   const onImageError = () => {
     isLoading.value = false
     console.error(`Не удалось загрузить изображение: ${currentImage.value}`)
   }
 
-  // Обработка клавиш
+  /**
+   * Обработчик нажатий клавиш
+   */
   const handleKeydown = (event: KeyboardEvent) => {
     if (!props.isOpen) return
 
@@ -95,7 +146,6 @@
     }
   }
 
-  // Инициализация
   onMounted(() => {
     document.addEventListener('keydown', handleKeydown)
   })
