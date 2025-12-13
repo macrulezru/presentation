@@ -268,8 +268,6 @@
   }
 
   @include media-tablet {
-    padding: var(--spacing-md) 0;
-
     &__container {
       padding: 0 var(--spacing-sm);
     }

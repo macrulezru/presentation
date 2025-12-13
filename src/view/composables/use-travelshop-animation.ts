@@ -58,6 +58,7 @@ export const useTravelshopConfig = () => {
       originalHeight: 472,
       aspectRatio: 472 / 800, // ≈ 0.59
       maxWidth: 600,
+      initialMarginTop: 170,
       marginTop: 170,
     },
     // Настройки облаков
@@ -597,17 +598,23 @@ export function useTravelshopCanvas(
     animationId.value = requestAnimationFrame(animate)
   }
 
+  const setAdaptiveCanvasHeight = () => {
+    if (config.value.airport.maxWidth > window.innerWidth - 60) {
+      config.value.canvasHeight = Number(window.innerWidth) / 1.12
+      config.value.airport.marginTop = Number(window.innerWidth) / 3
+    } else {
+      config.value.canvasHeight = config.value.canvasInitHeight
+      config.value.airport.marginTop = config.value.airport.initialMarginTop
+    }
+  }
+
   // Пересоздание сцены при изменении размеров или конфигурации
   const recreateScene = () => {
     if (!allImagesLoaded.value) return
 
     stopAnimation()
 
-    if (config.value.airport.maxWidth > window.innerWidth - 60) {
-      config.value.canvasHeight = Number(window.innerWidth) / 1.12
-    } else {
-      config.value.canvasHeight = config.value.canvasInitHeight
-    }
+    setAdaptiveCanvasHeight()
 
     if (initCanvas()) {
       clouds.value = []
@@ -634,6 +641,7 @@ export function useTravelshopCanvas(
     if (!allImagesLoaded.value) return
 
     if (initCanvas()) {
+      setAdaptiveCanvasHeight()
       createInitialClouds()
       startCloudGeneration()
       animate()
