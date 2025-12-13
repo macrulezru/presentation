@@ -1,8 +1,10 @@
-.circle-chart-container {
-  position: relative;
-  display: inline-block;
-}
+.circle-chart {
+  &-container {
+    position: relative;
+    display: inline-block;
+  }
 
-.circle-chart-value {
-  font-weight: bold;
+  &-value {
+    font-weight: bold;
+  }
 }

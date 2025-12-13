@@ -2,120 +2,116 @@
   position: relative;
   display: inline-block;
   min-width: 120px;
-}
 
-.dlv-select__trigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: var(--font-size-sm);
-  line-height: 1.5;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.3s ease;
-  user-select: none;
-  color: white;
-  backdrop-filter: blur(10px);
-}
+  &__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+    user-select: none;
+    color: white;
+    backdrop-filter: blur(10px);
 
-.dlv-select__trigger:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
-}
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
 
-.dlv-select__trigger:focus {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: #3498db;
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-}
+    &:focus {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #3498db;
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+  }
 
-.dlv-select__selected {
-  color: white;
-  font-weight: 500;
-}
+  &__selected {
+    color: white;
+    font-weight: 500;
+  }
 
-.dlv-select__arrow {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 10px;
-  transition: transform 0.3s ease;
-  margin-left: 8px;
-}
+  &__arrow {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 10px;
+    transition: transform 0.3s ease;
+    margin-left: 8px;
 
-.dlv-select__arrow--open {
-  transform: rotate(180deg);
-}
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
 
-.dlv-select__dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: white;
-  border: 1px solid #e1e5e9;
-  border-radius: 8px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  max-height: 300px;
-  overflow-y: auto;
-  margin-top: 4px;
-}
+  &__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 4px;
+  }
 
-.dlv-select__option {
-  padding: 12px 16px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: #2c3e50;
-  font-weight: 500;
-  border-bottom: 1px solid #f8f9fa;
-}
+  &__option {
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #2c3e50;
+    font-weight: 500;
+    border-bottom: 1px solid #f8f9fa;
 
-.dlv-select__option:hover {
-  background-color: #f8f9fa;
-  color: #3498db;
-}
+    &:hover {
+      background-color: #f8f9fa;
+      color: #3498db;
+    }
 
-.dlv-select__option--selected {
-  background-color: #3498db;
-  color: white;
-}
+    &--selected {
+      background-color: #3498db;
+      color: white;
 
-.dlv-select__option--selected:hover {
-  background-color: #2980b9;
-  color: white;
-}
+      &:hover {
+        background-color: #2980b9;
+        color: white;
+      }
+    }
 
-.dlv-select__option:last-child {
-  border-bottom: none;
-}
+    &:last-child {
+      border-bottom: none;
+    }
+  }
 
-@mixin media-tablet {
-  .dlv-select {
+  @include media-tablet {
     min-width: 100px;
+
+    &__trigger {
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+
+    &__option {
+      padding: 10px 12px;
+      font-size: 13px;
+    }
   }
 
-  .dlv-select__trigger {
-    padding: 6px 12px;
-    font-size: 13px;
-  }
-
-  .dlv-select__option {
-    padding: 10px 12px;
-    font-size: 13px;
-  }
-}
-
-@mixin media-mobile {
-  .dlv-select {
+  @include media-mobile {
     min-width: 90px;
-  }
 
-  .dlv-select__trigger {
-    padding: 5px 10px;
-    font-size: 12px;
+    &__trigger {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
   }
 }

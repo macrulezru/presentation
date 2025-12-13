@@ -14,175 +14,175 @@
         transparent 60%
     );
   color: var(--color-text-light);
-}
 
-.remote-workplace__container {
-  @include container-lg;
-}
-
-.remote-workplace__header {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.remote-workplace__title {
-  font-size: 2.25rem;
-  font-weight: var(--font-weight-bold);
-  margin-bottom: 0.75rem;
-  line-height: 1.2;
-  color: var(--color-text-light);
-}
-
-.remote-workplace__subtitle {
-  font-size: 1.25rem;
-  font-weight: var(--font-weight-medium);
-  margin-bottom: 1rem;
-  color: var(--color-text-light);
-}
-
-.remote-workplace__description {
-  font-size: 1.125rem;
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.6;
-  color: #7c8fa7;
-  opacity: 0.9;
-}
-
-.remote-workplace__features-section {
-  margin-bottom: 3rem;
-}
-
-.remote-workplace__features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-}
-
-.remote-workplace__feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.25rem;
-  padding: 1.5rem 0;
-}
-
-.remote-workplace__feature-icon {
-  margin-bottom: 1.5rem;
-  height: 5rem;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-
-.remote-workplace__feature-icon__workstation {
-  background-image: url('@/view/assets/images/workstation-icon.svg');
-}
-
-.remote-workplace__feature-icon__monitors {
-  background-image: url('@/view/assets/images/monitors-icon.svg');
-}
-
-.remote-workplace__feature-icon__internet {
-  background-image: url('@/view/assets/images/internet-icon.svg');
-}
-
-.remote-workplace__feature-icon__webcam {
-  background-image: url('@/view/assets/images/webcam-icon.svg');
-}
-
-.remote-workplace__feature-content {
-  flex: 1;
-}
-
-.remote-workplace__feature-title {
-  margin-bottom: 0.5rem;
-  font-size: 1.125rem;
-  font-weight: var(--font-weight-semibold);
-  text-align: center;
-  line-height: 1.4;
-  color: var(--color-text-light);
-}
-
-.remote-workplace__feature-description {
-  text-align: center;
-  line-height: 1.5;
-  margin: 0;
-  color: #7c8fa7;
-  opacity: 0.8;
-}
-
-.remote-workplace__benefits-section {
-  margin-bottom: 2rem;
-}
-
-.remote-workplace__section-title {
-  font-size: 1.5rem;
-  font-weight: var(--font-weight-semibold);
-  text-align: center;
-  margin-bottom: 2rem;
-  color: var(--color-text-light);
-}
-
-.remote-workplace__benefits-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1rem;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.remote-workplace__benefit-item {
-  padding: 1rem 1.5rem;
-  line-height: 1.5;
-  position: relative;
-  padding-left: 2rem;
-  color: var(--color-text-light);
-  opacity: 0.9;
-}
-
-.remote-workplace__benefit-item::before {
-  content: '—';
-  position: absolute;
-  left: 0.5rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-accent-green);
-}
-
-@include media-tablet {
-  .remote-workplace {
-    padding: 3rem 0.5rem;
+  &__container {
+    @include container-lg;
   }
 
-  .remote-workplace__title {
-    font-size: 2rem;
+  &__header {
+    text-align: center;
+    margin-bottom: 3rem;
   }
 
-  .remote-workplace__features-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+  &__title {
+    font-size: 2.25rem;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+    color: var(--color-text-light);
   }
 
-  .remote-workplace__feature-item {
-    padding: 1rem 0;
-    gap: 1rem;
-  }
-
-  .remote-workplace__benefits-list {
-    grid-template-columns: 1fr;
-  }
-
-  .remote-workplace__feature-icon {
+  &__subtitle {
+    font-size: 1.25rem;
+    font-weight: var(--font-weight-medium);
     margin-bottom: 1rem;
-    height: 4rem;
-  }
-}
-
-@include media-mobile {
-  .remote-workplace__container {
-    padding: 0 1rem;
+    color: var(--color-text-light);
   }
 
-  .remote-workplace__title {
-    font-size: 1.75rem;
+  &__description {
+    font-size: 1.125rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    color: #7c8fa7;
+    opacity: 0.9;
+  }
+
+  &__features-section {
+    margin-bottom: 3rem;
+  }
+
+  &__features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  &__feature {
+    &-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      padding: 1.5rem 0;
+    }
+
+    &-icon {
+      margin-bottom: 1.5rem;
+      height: 5rem;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+
+      &__workstation {
+        background-image: url('@/view/assets/images/workstation-icon.svg');
+      }
+
+      &__monitors {
+        background-image: url('@/view/assets/images/monitors-icon.svg');
+      }
+
+      &__internet {
+        background-image: url('@/view/assets/images/internet-icon.svg');
+      }
+
+      &__webcam {
+        background-image: url('@/view/assets/images/webcam-icon.svg');
+      }
+    }
+
+    &-content {
+      flex: 1;
+    }
+
+    &-title {
+      margin-bottom: 0.5rem;
+      font-size: 1.125rem;
+      font-weight: var(--font-weight-semibold);
+      text-align: center;
+      line-height: 1.4;
+      color: var(--color-text-light);
+    }
+
+    &-description {
+      text-align: center;
+      line-height: 1.5;
+      margin: 0;
+      color: #7c8fa7;
+      opacity: 0.8;
+    }
+  }
+
+  &__benefits-section {
+    margin-bottom: 2rem;
+  }
+
+  &__section-title {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--color-text-light);
+  }
+
+  &__benefits-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  &__benefit-item {
+    padding: 1rem 1.5rem;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 2rem;
+    color: var(--color-text-light);
+    opacity: 0.9;
+
+    &::before {
+      content: '—';
+      position: absolute;
+      left: 0.5rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-accent-green);
+    }
+  }
+
+  @include media-tablet {
+    padding: 3rem 0.5rem;
+
+    &__title {
+      font-size: 2rem;
+    }
+
+    &__features-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    &__feature-item {
+      padding: 1rem 0;
+      gap: 1rem;
+    }
+
+    &__benefits-list {
+      grid-template-columns: 1fr;
+    }
+
+    &__feature-icon {
+      margin-bottom: 1rem;
+      height: 4rem;
+    }
+  }
+
+  @include media-mobile {
+    &__container {
+      padding: 0 1rem;
+    }
+
+    &__title {
+      font-size: 1.75rem;
+    }
   }
 }

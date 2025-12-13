@@ -2,16 +2,18 @@
   position: relative;
   display: flex;
   align-items: center;
-}
 
-.lang-selector__loader--small {
-  width: 12px;
-  height: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top: 2px solid white;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-left: 8px;
+  &__loader {
+    &--small {
+      width: 12px;
+      height: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 8px;
+    }
+  }
 }
 
 @keyframes spin {

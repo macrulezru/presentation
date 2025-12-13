@@ -1,33 +1,33 @@
 .travelshop {
   padding: var(--spacing-xl) 0;
-}
 
-.travelshop__container {
-  @include container-lg;
-}
+  &__container {
+    @include container-lg;
+  }
 
-.travelshop__into {
-  position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
+  &__into {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 
-.travelshop__airport {
-  width: 100%;
-  max-width: 600px;
-  height: auto;
-  margin: 100px auto var(--spacing-xl);
-}
+  &__airport {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin: 100px auto var(--spacing-xl);
+  }
 
-.travelshop__aircraft {
-  position: absolute;
-  top: 50px;
-  left: 50%;
-  width: 190px;
-  height: auto;
-  animation: fly-cycle 16s linear infinite;
-  animation-fill-mode: forwards;
-  will-change: transform;
+  &__aircraft {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    width: 190px;
+    height: auto;
+    animation: fly-cycle 16s linear infinite;
+    animation-fill-mode: forwards;
+    will-change: transform;
+  }
 }
 
 @keyframes fly-cycle {
@@ -60,302 +60,312 @@
   }
 }
 
-.travelshop__header {
-  text-align: center;
-  margin-bottom: var(--spacing-3xl);
-}
+.travelshop {
+  &__header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
 
-.travelshop__title {
-  font-size: var(--font-size-5xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-md);
-}
+  &__title {
+    font-size: var(--font-size-5xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+  }
 
-.travelshop__meta {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-xl);
-  margin-bottom: var(--spacing-lg);
-  flex-wrap: wrap;
-}
+  &__meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+  }
 
-.travelshop__role {
-  background: var(--color-secondary);
-  color: var(--color-text-light);
-  padding: var(--spacing-sm) var(--spacing-lg);
-  border-radius: var(--radius-pill);
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-base);
-}
+  &__role {
+    background: var(--color-secondary);
+    color: var(--color-text-light);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-pill);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-base);
+  }
 
-.travelshop__period {
-  color: var(--color-text-muted);
-  font-weight: var(--font-weight-medium);
-}
+  &__period {
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
 
-.travelshop__description {
-  font-size: var(--font-size-xl);
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-  max-width: var(--container-sm);
-  margin: 0 auto;
-}
+  &__description {
+    font-size: var(--font-size-xl);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    max-width: var(--container-sm);
+    margin: 0 auto;
+  }
 
-.travelshop__content {
-  display: grid;
-  gap: var(--spacing-3xl);
-}
+  &__content {
+    display: grid;
+    gap: var(--spacing-3xl);
+  }
 
-.travelshop__section {
-  background: var(--color-bg-card);
-  border-radius: var(--radius-xl);
-}
+  &__section {
+    background: var(--color-bg-card);
+    border-radius: var(--radius-xl);
 
-.travelshop__section_images {
-  margin-top: 2rem;
-}
+    &_images {
+      margin-top: 2rem;
+    }
 
-.travelshop__section-title {
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-lg);
-  padding-bottom: var(--spacing-sm);
-  border-bottom: 2px solid var(--color-border-light);
-}
+    &-title {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--spacing-lg);
+      padding-bottom: var(--spacing-sm);
+      border-bottom: 2px solid var(--color-border-light);
+    }
+  }
 
-.travelshop__features {
-  display: grid;
-  gap: var(--spacing-md);
-}
+  &__features {
+    display: grid;
+    gap: var(--spacing-md);
+  }
 
-.travelshop__feature {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-lg);
-  padding: var(--spacing-md);
-  background: var(--color-bg-secondary);
-  border-radius: var(--radius-lg);
-}
+  &__feature {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
 
-.travelshop__feature-icon {
-  width: 40px;
-  height: 30px;
-  flex-shrink: 0;
-  background-size: contain;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
+    &-icon {
+      width: 40px;
+      height: 30px;
+      flex-shrink: 0;
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
 
-.travelshop__feature-icon_flight-search {
-  background-image: url('@/view/assets/images/flight-search-icon.svg');
-}
+      &_flight-search {
+        background-image: url('@/view/assets/images/flight-search-icon.svg');
+      }
 
-.travelshop__feature-icon_price-tag {
-  background-image: url('@/view/assets/images/price-tag-icon.svg');
-}
+      &_price-tag {
+        background-image: url('@/view/assets/images/price-tag-icon.svg');
+      }
 
-.travelshop__feature-icon_checklist {
-  background-image: url('@/view/assets/images/checklist-icon.svg');
-}
+      &_checklist {
+        background-image: url('@/view/assets/images/checklist-icon.svg');
+      }
 
-.travelshop__feature-icon_user-management {
-  background-image: url('@/view/assets/images/user-management-icon.svg');
-}
+      &_user-management {
+        background-image: url('@/view/assets/images/user-management-icon.svg');
+      }
 
-.travelshop__feature-icon_api {
-  background-image: url('@/view/assets/images/api-icon.svg');
-}
+      &_api {
+        background-image: url('@/view/assets/images/api-icon.svg');
+      }
 
-.travelshop__feature-icon_luggage {
-  background-image: url('@/view/assets/images/luggage-icon.svg');
-}
+      &_luggage {
+        background-image: url('@/view/assets/images/luggage-icon.svg');
+      }
 
-.travelshop__feature-icon_responsive {
-  background-image: url('@/view/assets/images/responsive-icon.svg');
-}
+      &_responsive {
+        background-image: url('@/view/assets/images/responsive-icon.svg');
+      }
+    }
+  }
 
-.travelshop__tech-stack {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--spacing-md);
-}
+  &__tech {
+    &-stack {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--spacing-md);
+    }
 
-.travelshop__tech-item {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-  padding: var(--spacing-md) var(--spacing-md);
-  background: var(--color-bg-secondary);
-  border-radius: var(--radius-md);
-}
+    &-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      padding: var(--spacing-md) var(--spacing-md);
+      background: var(--color-bg-secondary);
+      border-radius: var(--radius-md);
+    }
 
-.travelshop__tech-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background: var(--color-secondary);
-  flex-shrink: 0;
-}
+    &-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: var(--color-secondary);
+      flex-shrink: 0;
+    }
+  }
 
-.travelshop__chart {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-  padding-top: var(--spacing-md);
-}
+  &__chart {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    padding-top: var(--spacing-md);
 
-.travelshop__chart-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-md);
-}
+    &-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
 
-.travelshop__chart-label {
-  line-height: 1.6;
-  text-align: center;
-  color: var(--color-text-secondary);
-}
+    &-label {
+      line-height: 1.6;
+      text-align: center;
+      color: var(--color-text-secondary);
+    }
+  }
 
-.travelshop__achievements {
-  display: grid;
-  gap: var(--spacing-lg);
-  padding-top: var(--spacing-xl);
-}
+  &__achievements {
+    display: grid;
+    gap: var(--spacing-lg);
+    padding-top: var(--spacing-xl);
+  }
 
-.travelshop__achievement {
-  display: flex;
-  gap: var(--spacing-lg);
-  align-items: flex-start;
-}
+  &__achievement {
+    display: flex;
+    gap: var(--spacing-lg);
+    align-items: flex-start;
 
-.travelshop__achievement-content {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-  flex: 1;
-  padding-top: var(--spacing-sm);
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-}
+    &-content {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      flex: 1;
+      padding-top: var(--spacing-sm);
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+    }
+  }
 
-.travelshop__projects {
-  display: flex;
-  gap: var(--spacing-lg);
-}
+  &__projects {
+    display: flex;
+    gap: var(--spacing-lg);
+  }
 
-.travelshop__project {
-  display: block;
-  padding: var(--spacing-lg);
-  background: var(--color-bg-secondary);
-  border-radius: var(--radius-lg);
-  text-decoration: none;
-  color: inherit;
-  transition: all var(--transition-normal);
-  border: 1px solid transparent;
-}
+  &__project {
+    display: block;
+    padding: var(--spacing-lg);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: inherit;
+    transition: all var(--transition-normal);
+    border: 1px solid transparent;
 
-.travelshop__project:hover {
-  background: var(--color-bg-primary);
-  border-color: var(--color-secondary);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-blue);
-}
+    &:hover {
+      background: var(--color-bg-primary);
+      border-color: var(--color-secondary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-blue);
+    }
 
-.travelshop__project-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--spacing-md);
-}
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-md);
+    }
 
-.travelshop__project-name {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  margin: 0;
-}
+    &-name {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin: 0;
+    }
 
-.travelshop__project-description {
-  color: var(--color-text-secondary);
-  line-height: 1.5;
-  margin: 0;
-}
+    &-description {
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+      margin: 0;
+    }
+  }
 
-@include media-tablet {
-  .travelshop {
+  @include media-tablet {
     padding: var(--spacing-md) 0;
+
+    &__airport {
+      max-width: calc(100vw - 50px);
+    }
+
+    &__container {
+      padding: 0 var(--spacing-sm);
+    }
+
+    &__content {
+      gap: var(--spacing-2xl);
+    }
+
+    &__title {
+      font-size: var(--font-size-4xl);
+    }
+
+    &__meta {
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+
+    &__description {
+      padding: 0 var(--spacing-md);
+      font-size: var(--font-size-lg);
+    }
+
+    &__section {
+      padding: var(--spacing-md);
+
+      &-title {
+        font-size: var(--font-size-2xl);
+      }
+
+      &_images {
+        margin-top: 0;
+      }
+    }
+
+    &__projects {
+      flex-direction: column;
+    }
+
+    &__tech-stack {
+      grid-template-columns: 1fr;
+    }
+
+    &__chart {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    &__achievement {
+      gap: var(--spacing-md);
+    }
   }
 
-  .travelshop__airport {
-    max-width: calc(100vw - 50px);
-  }
+  @include media-mobile {
+    &__container {
+      padding: 0 var(--spacing-sm);
+    }
 
-  .travelshop__container {
-    padding: 0 var(--spacing-sm);
-  }
+    &__title {
+      font-size: var(--font-size-3xl);
+    }
 
-  .travelshop__title {
-    font-size: var(--font-size-4xl);
-  }
+    &__section {
+      padding: var(--spacing-md);
+    }
 
-  .travelshop__meta {
-    flex-direction: column;
-    gap: var(--spacing-md);
-  }
+    &__feature {
+      padding: var(--spacing-md);
+    }
 
-  .travelshop__description {
-    padding: 0 var(--spacing-md);
-    font-size: var(--font-size-lg);
-  }
-
-  .travelshop__section {
-    padding: var(--spacing-md);
-  }
-
-  .travelshop__projects {
-    flex-direction: column;
-  }
-
-  .travelshop__tech-stack {
-    grid-template-columns: 1fr;
-  }
-
-  .travelshop__chart {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .travelshop__achievement {
-    gap: var(--spacing-md);
-  }
-
-  .travelshop__section_images {
-    margin-top: 0;
-  }
-}
-
-@include media-mobile {
-  .travelshop__container {
-    padding: 0 var(--spacing-sm);
-  }
-
-  .travelshop__title {
-    font-size: var(--font-size-3xl);
-  }
-
-  .travelshop__section {
-    padding: var(--spacing-md);
-  }
-
-  .travelshop__feature {
-    padding: var(--spacing-md);
-  }
-
-  .travelshop__chart {
-    grid-template-columns: 1fr;
+    &__chart {
+      grid-template-columns: 1fr;
+    }
   }
 }

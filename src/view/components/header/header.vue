@@ -47,11 +47,11 @@
     isProcessingClick.value = true
 
     try {
-      await navigateToSection(sectionId)
-
       if (isTablet.value || isMobile.value) {
         isMobileMenuOpen.value = false
       }
+
+      await navigateToSection(sectionId)
     } catch (error) {
       console.error('Menu click error:', error)
     } finally {
