@@ -1,3 +1,4 @@
+// composables/useTravelshopCanvas.ts
 import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import type { Ref } from 'vue'
 
@@ -599,9 +600,13 @@ export function useTravelshopCanvas(
   }
 
   const setAdaptiveCanvasHeight = () => {
-    if (config.value.airport.maxWidth > window.innerWidth - 60) {
-      config.value.canvasHeight = Number(window.innerWidth) / 1.12
-      config.value.airport.marginTop = Number(window.innerWidth) / 3
+    if (!containerRef.value) return
+
+    const containerWidth = containerRef.value.getBoundingClientRect().width
+
+    if (config.value.airport.maxWidth > containerWidth - 60) {
+      config.value.canvasHeight = containerWidth / 1.12
+      config.value.airport.marginTop = containerWidth / 3
     } else {
       config.value.canvasHeight = config.value.canvasInitHeight
       config.value.airport.marginTop = config.value.airport.initialMarginTop
@@ -624,24 +629,38 @@ export function useTravelshopCanvas(
     }
   }
 
-  // Debounce для обработки изменения размеров
-  let resizeTimeout: number | undefined
+  // Троттлинг для обработки изменения размеров
+  let resizeThrottleTimeout: number | undefined
+  let lastResizeCall = 0
+  const RESIZE_THROTTLE_DELAY = 100 // 100ms
 
-  const debounceResize = () => {
-    if (resizeTimeout) {
-      clearTimeout(resizeTimeout)
+  const throttleResize = () => {
+    const now = Date.now()
+
+    // Если прошло меньше времени, чем задержка, откладываем вызов
+    if (now - lastResizeCall < RESIZE_THROTTLE_DELAY) {
+      if (resizeThrottleTimeout) {
+        clearTimeout(resizeThrottleTimeout)
+      }
+      resizeThrottleTimeout = window.setTimeout(() => {
+        lastResizeCall = Date.now()
+        recreateScene()
+      }, RESIZE_THROTTLE_DELAY)
+      return
     }
-    resizeTimeout = window.setTimeout(() => {
-      recreateScene()
-    }, 250)
+
+    // Иначе выполняем сразу
+    lastResizeCall = now
+    recreateScene()
   }
 
   // Запуск анимации
   const startAnimation = () => {
     if (!allImagesLoaded.value) return
 
+    setAdaptiveCanvasHeight()
+
     if (initCanvas()) {
-      setAdaptiveCanvasHeight()
       createInitialClouds()
       startCloudGeneration()
       animate()
@@ -670,12 +689,15 @@ export function useTravelshopCanvas(
       })
     }
 
-    window.addEventListener('resize', debounceResize)
+    window.addEventListener('resize', throttleResize)
   })
 
   onUnmounted(() => {
     stopAnimation()
-    window.removeEventListener('resize', debounceResize)
+    window.removeEventListener('resize', throttleResize)
+    if (resizeThrottleTimeout) {
+      clearTimeout(resizeThrottleTimeout)
+    }
   })
 
   // Watch для контейнера
