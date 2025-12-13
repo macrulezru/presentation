@@ -41,8 +41,11 @@
     {
       "files": ["*.css", "*.scss", "*.postcss"],
       "options": {
-        "parser": "css",
-        "printWidth": 100
+        "parser": "scss",
+        "printWidth": 100,
+        "cssSingleQuote": true,
+        "cssModule": false,
+        "scssBracketSameLine": false
       }
     },
     {
