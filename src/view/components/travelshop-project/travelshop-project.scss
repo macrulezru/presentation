@@ -1,31 +1,44 @@
+// travelshop-project.scss
 .travelshop {
-  padding: var(--spacing-xl) 0;
+  padding: 0 0 var(--spacing-xl);
 
   &__container {
     @include container-lg;
   }
 
-  &__into {
+  &__intro {
     position: relative;
-    overflow: hidden auto;
+    overflow: hidden;
+    background-image: linear-gradient(to bottom, #6bd1ff, #a5d9ff, #cfe3ff, #ecf0ff, #ffffff);
   }
 
-  &__airport {
-    width: 100%;
-    max-width: 600px;
-    height: auto;
-    margin: 100px auto var(--spacing-xl);
+  &__canvas {
+    z-index: 1;
+
+    &--loading {
+      opacity: 0;
+    }
   }
 
-  &__aircraft {
+  &__canvas-loading {
     position: absolute;
-    top: 50px;
+    top: 50%;
     left: 50%;
-    width: 190px;
-    height: auto;
-    animation: fly-cycle 16s linear infinite;
-    animation-fill-mode: forwards;
-    will-change: transform;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+    z-index: 2;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  // Удаляем старые стили для облаков, самолета и аэропорта
+  &__cloud,
+  &__airport,
+  &__aircraft {
+    display: none;
   }
 
   &__header {
@@ -37,7 +50,7 @@
     font-size: var(--font-size-5xl);
     font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);
-    margin-bottom: var(--spacing-md);
+    margin: var(--spacing-md) 0;
   }
 
   &__meta {
@@ -257,10 +270,6 @@
   @include media-tablet {
     padding: var(--spacing-md) 0;
 
-    &__airport {
-      max-width: calc(100vw - 50px);
-    }
-
     &__container {
       padding: 0 var(--spacing-sm);
     }
@@ -340,32 +349,3 @@
   }
 }
 
-@keyframes fly-cycle {
-  0% {
-    transform: translate(-520px, 0) scaleX(1);
-  }
-
-  25% {
-    transform: translate(-110px, -50px) scaleX(1);
-  }
-
-  49% {
-    transform: translate(300px, 0) scaleX(1);
-  }
-
-  50% {
-    transform: translate(300px, 0) scaleX(-1);
-  }
-
-  75% {
-    transform: translate(-110px, 50px) scaleX(-1);
-  }
-
-  99% {
-    transform: translate(-520px, 0) scaleX(-1);
-  }
-
-  100% {
-    transform: translate(-520px, 0) scaleX(1);
-  }
-}

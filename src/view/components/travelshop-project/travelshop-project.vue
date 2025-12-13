@@ -6,8 +6,8 @@
 
   import '@/view/components/travelshop-project/travelshop-project.scss'
 
-  import airportImage from '@/view/assets/images/airport.png'
-  import aircraftImage from '@/view/assets/images/aircraft.png'
+  import { ref, computed } from 'vue'
+  import { useTravelshopCanvas } from '@/view/composables/use-travelshop-animation'
 
   const TravelshopImages = defineAsyncComponent({
     loader: () =>
@@ -19,21 +19,22 @@
     timeout: 10000,
     errorComponent: {
       template: `
-        <div class="travelshop__error">
-          <p>{{ $t('travelshop.loading_error') }}</p>
-        </div>
-      `,
+      <div class="travelshop__error">
+        <p>{{ $t('travelshop.loading_error') }}</p>
+      </div>
+    `,
     },
   })
 
   const { t, tm } = useI18n()
 
   const showSwiper = ref<boolean>(false)
+  const canvasContainer = ref<HTMLElement>()
+
+  const { canvasRef } = useTravelshopCanvas(canvasContainer)
 
   const features = computed(() => tm('travelshop.features.items'))
-
   const techStack = computed(() => tm('travelshop.tech_stack.items'))
-
   const projects = computed(() => tm('travelshop.projects.items'))
 
   const achievementsGraphs = computed(() => [
@@ -61,10 +62,10 @@
 
 <template>
   <div class="travelshop">
-    <div class="travelshop__into">
-      <img class="travelshop__airport" :src="airportImage" :alt="t('travelshop.title')" />
-      <img class="travelshop__aircraft" :src="aircraftImage" alt="aircraft" />
+    <div class="travelshop__intro" ref="canvasContainer">
+      <canvas ref="canvasRef" class="travelshop__canvas" />
     </div>
+
     <div class="travelshop__container">
       <div class="travelshop__header">
         <h2 class="travelshop__title">{{ t('travelshop.title') }}</h2>
