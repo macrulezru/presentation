@@ -3,5 +3,5 @@
 </script>
 
 <template>
-  <span class="link-arrow" />
+  <span class="ui-link-arrow" />
 </template>

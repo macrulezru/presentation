@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import '@/view/ui/ui-circle-chart/ui-circle-chart.scss'
+
   import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 
   /**
@@ -284,7 +285,7 @@
 </script>
 
 <template>
-  <div ref="chartContainer" class="circle-chart-container">
+  <div ref="chartContainer" class="ui-circle-chart">
     <svg
       :width="props.size"
       :height="props.size"
@@ -321,7 +322,7 @@
         :fill="valueColor"
         text-anchor="middle"
         dominant-baseline="middle"
-        class="circle-chart-value"
+        class="ui-circle-chart__value"
       >
         {{ displayValue }}
       </text>

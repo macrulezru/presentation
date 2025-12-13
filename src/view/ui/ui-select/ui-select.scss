@@ -1,7 +1,11 @@
-.dlv-select {
+.ui-select {
   position: relative;
   display: inline-block;
   min-width: 120px;
+
+  &--open {
+    z-index: 1000;
+  }
 
   &__trigger {
     display: flex;
@@ -58,7 +62,7 @@
     border: 1px solid #e1e5e9;
     border-radius: 8px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
+    z-index: 1001;
     max-height: 300px;
     overflow-y: auto;
     margin-top: 4px;

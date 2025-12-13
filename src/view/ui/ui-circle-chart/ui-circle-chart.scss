@@ -1,10 +1,8 @@
-.circle-chart {
-  &-container {
-    position: relative;
-    display: inline-block;
-  }
+.ui-circle-chart {
+  position: relative;
+  display: inline-block;
 
-  &-value {
+  &__value {
     font-weight: bold;
     transition: all 0.1s ease;
   }

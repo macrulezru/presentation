@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import '@/view/ui/ui-loading-spinner/ui-loading-spinner.scss'
+
   import { useI18n } from 'vue-i18n'
 
   const { t } = useI18n()
@@ -23,12 +24,12 @@
 </script>
 
 <template>
-  <div class="dlv-loading-spinner" :class="size">
-    <div class="dlv-loading-spinner__spinner"></div>
-    <p v-if="showText" class="dlv-loading-spinner__text">
+  <div class="ui-loading-spinner" :class="size">
+    <div class="ui-loading-spinner__spinner"></div>
+    <p v-if="showText" class="ui-loading-spinner__text">
       {{ t(textKey) }}
     </p>
-    <p v-else-if="$slots.default" class="dlv-loading-spinner__text">
+    <p v-else-if="$slots.default" class="ui-loading-spinner__text">
       <slot />
     </p>
   </div>

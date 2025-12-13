@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import '@/view/ui/ui-button/ui-button.scss'
+
   import { computed } from 'vue'
 
   interface Props {

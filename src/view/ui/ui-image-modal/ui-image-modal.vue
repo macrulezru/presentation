@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import '@/view/ui/ui-image-modal/ui-image-modal.scss'
+
   import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
   import { useI18n } from 'vue-i18n'
 
@@ -178,13 +179,13 @@
 <template>
   <Teleport to="body">
     <Transition name="modal">
-      <div v-if="isOpen" class="image-modal">
-        <div class="image-modal__overlay" @click="close"></div>
+      <div v-if="isOpen" class="ui-image-modal">
+        <div class="ui-image-modal__overlay" @click="close"></div>
 
-        <div class="image-modal__container">
+        <div class="ui-image-modal__container">
           <!-- Кнопка закрытия -->
           <button
-            class="image-modal__close"
+            class="ui-image-modal__close"
             @click="close"
             :aria-label="t('common.close')"
           >
@@ -201,7 +202,7 @@
           <!-- Навигация для десктопа -->
           <button
             v-if="showNavigation && hasPrev"
-            class="image-modal__nav image-modal__nav_prev image-modal__nav_desktop"
+            class="ui-image-modal__nav ui-image-modal__nav--prev ui-image-modal__nav--desktop"
             @click="prevImage"
             :aria-label="t('common.previous_image')"
           >
@@ -217,7 +218,7 @@
 
           <button
             v-if="showNavigation && hasNext"
-            class="image-modal__nav image-modal__nav_next image-modal__nav_desktop"
+            class="ui-image-modal__nav ui-image-modal__nav--next ui-image-modal__nav--desktop"
             @click="nextImage"
             :aria-label="t('common.next_image')"
           >
@@ -232,12 +233,12 @@
           </button>
 
           <!-- Основное изображение -->
-          <div class="image-modal__content-wrapper">
-            <div class="image-modal__content">
+          <div class="ui-image-modal__content-wrapper">
+            <div class="ui-image-modal__content">
               <!-- Навигация для мобильных -->
               <button
                 v-if="showNavigation && hasPrev"
-                class="image-modal__nav image-modal__nav_prev image-modal__nav_mobile"
+                class="ui-image-modal__nav ui-image-modal__nav--prev ui-image-modal__nav--mobile"
                 @click="prevImage"
                 :aria-label="t('common.previous_image')"
               >
@@ -255,14 +256,14 @@
                 ref="imageRef"
                 :src="currentImage"
                 :alt="currentAlt"
-                class="image-modal__image"
+                class="ui-image-modal__image"
                 @load="onImageLoad"
                 @error="onImageError"
               />
 
               <button
                 v-if="showNavigation && hasNext"
-                class="image-modal__nav image-modal__nav_next image-modal__nav_mobile"
+                class="ui-image-modal__nav ui-image-modal__nav--next ui-image-modal__nav--mobile"
                 @click="nextImage"
                 :aria-label="t('common.next_image')"
               >
@@ -277,8 +278,8 @@
               </button>
 
               <!-- Индикатор загрузки -->
-              <div v-if="isLoading" class="image-modal__loader">
-                <div class="image-modal__spinner"></div>
+              <div v-if="isLoading" class="ui-image-modal__loader">
+                <div class="ui-image-modal__spinner"></div>
               </div>
             </div>
           </div>
@@ -286,14 +287,14 @@
           <!-- Миниатюры -->
           <div
             v-if="showThumbnails && images.length > 1"
-            class="image-modal__thumbnails-wrapper"
+            class="ui-image-modal__thumbnails-wrapper"
           >
-            <div class="image-modal__thumbnails">
+            <div class="ui-image-modal__thumbnails">
               <button
                 v-for="(img, index) in images"
                 :key="index"
-                class="image-modal__thumbnail"
-                :class="{ 'image-modal__thumbnail_active': index === currentIndex }"
+                class="ui-image-modal__thumbnail"
+                :class="{ 'ui-image-modal__thumbnail--active': index === currentIndex }"
                 @click="setImage(index)"
                 :aria-label="t('common.thumbnail', { number: index + 1 })"
               >

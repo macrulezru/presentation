@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import '@/view/ui/ui-select/ui-select.scss'
+
   import { ref, computed, onMounted, onUnmounted } from 'vue'
 
   interface SelectOption {
@@ -73,7 +74,7 @@
    */
   const clickOutside = (event: Event) => {
     const target = event.target as HTMLElement
-    if (!target.closest('.dlv-select')) {
+    if (!target.closest('.ui-select')) {
       closeDropdown()
     }
   }
@@ -88,9 +89,9 @@
 </script>
 
 <template>
-  <div class="dlv-select" :class="{ 'dlv-select--open': isOpen }">
+  <div class="ui-select" :class="{ 'ui-select--open': isOpen }">
     <div
-      class="dlv-select__trigger"
+      class="ui-select__trigger"
       @click="toggleDropdown"
       @blur="closeDropdown"
       tabindex="0"
@@ -98,13 +99,13 @@
       :aria-expanded="isOpen"
       :aria-haspopup="true"
     >
-      <span class="dlv-select__selected">
+      <span class="ui-select__selected">
         {{ selectedOption?.name || placeholder }}
       </span>
       <slot name="arrow">
         <div
-          class="dlv-select__arrow"
-          :class="{ 'dlv-select__arrow--open': isOpen }"
+          class="ui-select__arrow"
+          :class="{ 'ui-select__arrow--open': isOpen }"
           aria-hidden="true"
         >
           ▼
@@ -112,12 +113,12 @@
       </slot>
     </div>
 
-    <div v-if="isOpen" class="dlv-select__dropdown" role="listbox">
+    <div v-if="isOpen" class="ui-select__dropdown" role="listbox">
       <div
         v-for="option in options"
         :key="option.value"
-        class="dlv-select__option"
-        :class="{ 'dlv-select__option--selected': option.value === modelValue?.value }"
+        class="ui-select__option"
+        :class="{ 'ui-select__option--selected': option.value === modelValue?.value }"
         @click="selectOption(option)"
         @mousedown.prevent
         role="option"
