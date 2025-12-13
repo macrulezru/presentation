@@ -7,8 +7,7 @@
 
   &__into {
     position: relative;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden auto;
   }
 
   &__airport {
@@ -225,7 +224,8 @@
 
   &__achievements {
     display: grid;
-    gap: var(--spacing-lg);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
     padding-top: var(--spacing-xl);
   }
 
@@ -237,12 +237,16 @@
     &-content {
       position: relative;
       display: flex;
-      align-items: center;
+      align-items: start;
       gap: var(--spacing-md);
       flex: 1;
       padding-top: var(--spacing-sm);
       line-height: 1.6;
       color: var(--color-text-secondary);
+    }
+
+    & .travelshop__tech-dot {
+      margin-top: 8px;
     }
   }
 
@@ -340,6 +344,11 @@
 
     &__chart {
       grid-template-columns: repeat(2, 1fr);
+    }
+
+    &__achievements {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
     }
 
     &__achievement {

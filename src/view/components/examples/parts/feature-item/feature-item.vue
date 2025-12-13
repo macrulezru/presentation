@@ -83,6 +83,11 @@
               :key="index"
               class="feature-item__process-step"
             >
+              <span
+                v-if="index < feature.process.steps.length - 1"
+                class="feature-item__process-line"
+                :style="`color: ${feature.accentColor}`"
+              />
               <div
                 class="feature-item__step-number"
                 :style="getGradientStyle(feature.accentColor)"
