@@ -1,3 +1,4 @@
+// composables/useTravelshopCanvas.ts
 import { ref, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
 import type { Ref } from 'vue'
 
@@ -37,6 +38,32 @@ export const useTravelshopConfig = () => {
       aspectRatio: 163 / 433, // ≈ 0.3765
       targetWidth: 190,
       animationDuration: 16000, // 16 секунд в миллисекундах
+      // Направление вращения (по умолчанию по часовой стрелке)
+      rotationDirection: 1, // 1 = по часовой стрелке, -1 = против часовой стрелки
+      // Параметры смены направления
+      directionChange: {
+        enabled: true, // Включить автоматическую смену направления
+        // Упрощенная логика: определяем направление по движению самолета и положению курсора
+        sensitivity: 0.8, // Чувствительность (0-1), выше = быстрее реакция
+        // Минимальная скорость для определения направления (пикселей/кадр)
+        minVelocityThreshold: 0.3,
+        // Минимальное расстояние от центра для учета курсора (% от радиуса эллипса)
+        minDistanceFactor: 0.2,
+        // Гистерезис для предотвращения дребезга
+        hysteresis: {
+          enabled: true,
+          threshold: 0.15, // Пороговое значение для смены направления
+          deadZone: 0.05, // Мертвая зона где направление не меняется
+          timeDelay: 200, // Минимальное время между сменами направления (мс)
+          angleBuffer: 0.1, // Дополнительный буфер угла для стабильности (радианы)
+        },
+        // Плавное изменение направления
+        smoothing: {
+          enabled: true,
+          factor: 0.05, // Коэффициент сглаживания
+          maxChangePerFrame: 0.3, // Максимальное изменение за кадр
+        },
+      },
       // Эллиптическая траектория вокруг аэропорта
       airportEllipse: {
         horizontalRadius: 450, // Большая полуось (по X)
@@ -53,7 +80,7 @@ export const useTravelshopConfig = () => {
       // Наклон самолета
       tilt: {
         enabled: true,
-        maxAngle: 0.4, // Максимальный угол наклона в радианах (~17 градусов)
+        maxAngle: 0.3, // Максимальный угол наклона в радианах (~17 градусов)
         smoothFactor: 0.8, // Коэффициент сглаживания наклона (0-1)
       },
       // Плавный переход к курсору
@@ -197,8 +224,36 @@ export function useTravelshopCanvas(
     semiMinorAxis: config.value.aircraft.airportEllipse.verticalRadius,
   })
 
-  // Прогресс анимации самолета (0-1)
-  const aircraftProgress = ref(0)
+  // Текущий угол самолета на эллипсе (в радианах, от 0 до 2π)
+  const aircraftAngle = ref(0)
+
+  // Направление вращения (1 = по часовой, -1 = против часовой)
+  const rotationDirection = ref(config.value.aircraft.rotationDirection)
+
+  // Текущая скорость самолета
+  const aircraftVelocity = ref({ x: 0, y: 0 })
+
+  // История позиций для вычисления скорости
+  const aircraftPositionHistory = ref<{ x: number; y: number; time: number }[]>([])
+  const MAX_HISTORY_LENGTH = 10
+
+  // Для гистерезиса и стабилизации
+  const directionChangeState = ref({
+    lastDirectionChangeTime: 0,
+    currentCrossValue: 0,
+    smoothedCrossValue: 0,
+    lastStableCrossValue: 0,
+    isChanging: false,
+    changeStartTime: 0,
+    // Для предотвращения дребезга в критических точках
+    lastStableDirection: config.value.aircraft.rotationDirection,
+    // Буфер для угловых позиций
+    angleHistory: [] as number[],
+    angleBufferSize: 5,
+  })
+
+  // Время последнего обновления анимации (для дельта-времени)
+  const lastAnimationUpdateTime = ref(Date.now())
 
   // Самолет
   const aircraft = ref({
@@ -422,6 +477,244 @@ export function useTravelshopCanvas(
     }
   }
 
+  // Вычисление скорости самолета
+  const updateAircraftVelocity = () => {
+    const now = Date.now()
+
+    // Добавляем текущую позицию в историю
+    aircraftPositionHistory.value.push({
+      x: aircraft.value.x,
+      y: aircraft.value.y,
+      time: now,
+    })
+
+    // Ограничиваем длину истории
+    if (aircraftPositionHistory.value.length > MAX_HISTORY_LENGTH) {
+      aircraftPositionHistory.value.shift()
+    }
+
+    // Вычисляем скорость только если есть достаточно точек истории
+    if (aircraftPositionHistory.value.length >= 2) {
+      const oldest = aircraftPositionHistory.value[0]
+      const newest =
+        aircraftPositionHistory.value[aircraftPositionHistory.value.length - 1]
+
+      if (!oldest || !newest) return
+
+      const dt = (newest.time - oldest.time) / 1000 // в секундах
+
+      if (dt > 0) {
+        aircraftVelocity.value = {
+          x: (newest.x - oldest.x) / dt,
+          y: (newest.y - oldest.y) / dt,
+        }
+      }
+    }
+  }
+
+  // Определение направления движения самолета (вправо/влево)
+  const getAircraftMoveDirection = (): number => {
+    const velocityThreshold = config.value.aircraft.directionChange.minVelocityThreshold
+
+    if (Math.abs(aircraftVelocity.value.x) > velocityThreshold) {
+      return aircraftVelocity.value.x > 0 ? 1 : -1
+    }
+
+    // Если скорость слишком мала, используем текущее направление вращения
+    return rotationDirection.value
+  }
+
+  // Проверка, находится ли самолет в критической точке (где может произойти дребезг)
+  const isInCriticalPoint = (angle: number): boolean => {
+    // Критические точки - где угол близок к 0, π/2, π, -π/2
+    const criticalAngles = [0, Math.PI / 2, Math.PI, -Math.PI / 2, Math.PI * 2]
+    const buffer = config.value.aircraft.directionChange.hysteresis.angleBuffer
+
+    for (const criticalAngle of criticalAngles) {
+      const diff = Math.abs(angle - criticalAngle)
+      const normalizedDiff = Math.min(diff, Math.PI * 2 - diff)
+
+      if (normalizedDiff < buffer) {
+        return true
+      }
+    }
+
+    return false
+  }
+
+  // Улучшенное определение направления вращения с гистерезисом
+  const determineRotationDirection = (): number => {
+    if (!config.value.aircraft.directionChange.enabled) {
+      return rotationDirection.value
+    }
+
+    // Определяем текущее направление движения самолета
+    const moveDirection = getAircraftMoveDirection()
+
+    // Если курсор не на канвасе, используем текущее направление
+    if (!isMouseOverCanvas.value || !mousePosition.value) {
+      directionChangeState.value.lastStableDirection = rotationDirection.value
+      return rotationDirection.value
+    }
+
+    // Определяем, с какой стороны от вектора движения находится курсор
+    const aircraftPos = { x: aircraft.value.x, y: aircraft.value.y }
+    const mousePos = { x: mousePosition.value.x, y: mousePosition.value.y }
+
+    // Вычисляем вектор скорости
+    const velocity = aircraftVelocity.value
+
+    // Если скорость слишком мала, не меняем направление
+    const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y)
+    if (speed < config.value.aircraft.directionChange.minVelocityThreshold) {
+      return rotationDirection.value
+    }
+
+    // Вектор от самолета к курсору
+    const toMouse = {
+      x: mousePos.x - aircraftPos.x,
+      y: mousePos.y - aircraftPos.y,
+    }
+
+    // Вычисляем расстояние от самолета до курсора
+    const distanceToMouse = Math.sqrt(toMouse.x * toMouse.x + toMouse.y * toMouse.y)
+
+    // Если курсор слишком близко, не меняем направление
+    const minDistance =
+      currentEllipse.value.semiMajorAxis *
+      config.value.aircraft.directionChange.minDistanceFactor
+    if (distanceToMouse < minDistance) {
+      return rotationDirection.value
+    }
+
+    // Вычисляем векторное произведение (cross product) для определения стороны
+    // cross = velocity.x * toMouse.y - velocity.y * toMouse.x
+    const rawCross = velocity.x * toMouse.y - velocity.y * toMouse.x
+
+    // Нормализуем cross для лучшей стабильности
+    const normalizationFactor = speed * distanceToMouse
+    const normalizedCross = normalizationFactor > 0 ? rawCross / normalizationFactor : 0
+
+    // Обновляем историю угла
+    directionChangeState.value.angleHistory.push(aircraftAngle.value)
+    if (
+      directionChangeState.value.angleHistory.length >
+      directionChangeState.value.angleBufferSize
+    ) {
+      directionChangeState.value.angleHistory.shift()
+    }
+
+    // Проверяем, не находимся ли мы в критической точке
+    const avgAngle =
+      directionChangeState.value.angleHistory.reduce((a, b) => a + b, 0) /
+      directionChangeState.value.angleHistory.length
+    const inCriticalPoint = isInCriticalPoint(avgAngle)
+
+    // Применяем сглаживание к cross значению
+    directionChangeState.value.currentCrossValue = normalizedCross
+    const smoothingFactor = config.value.aircraft.directionChange.smoothing.factor
+    directionChangeState.value.smoothedCrossValue +=
+      (normalizedCross - directionChangeState.value.smoothedCrossValue) * smoothingFactor
+
+    // Ограничиваем максимальное изменение за кадр
+    const maxChange = config.value.aircraft.directionChange.smoothing.maxChangePerFrame
+    const diff =
+      directionChangeState.value.smoothedCrossValue -
+      directionChangeState.value.lastStableCrossValue
+    if (Math.abs(diff) > maxChange) {
+      directionChangeState.value.smoothedCrossValue =
+        directionChangeState.value.lastStableCrossValue + Math.sign(diff) * maxChange
+    }
+
+    // Применяем мертвую зону
+    const deadZone = config.value.aircraft.directionChange.hysteresis.deadZone
+    if (Math.abs(directionChangeState.value.smoothedCrossValue) < deadZone) {
+      // В мертвой зоне - сохраняем текущее направление
+      return rotationDirection.value
+    }
+
+    // Определяем желаемое направление вращения на основе знака cross и направления движения
+    let desiredDirection = rotationDirection.value
+
+    if (moveDirection === 1) {
+      // Самолет движется вправо
+      if (directionChangeState.value.smoothedCrossValue > 0) {
+        // Курсор слева - продолжаем по часовой стрелке
+        desiredDirection = 1
+      } else {
+        // Курсор справа - меняем на против часовой стрелки
+        desiredDirection = -1
+      }
+    } else {
+      // Самолет движется влево
+      if (directionChangeState.value.smoothedCrossValue < 0) {
+        // Курсор справа - продолжаем против часовой стрелки
+        desiredDirection = -1
+      } else {
+        // Курсор слева - меняем на по часовой стрелке
+        desiredDirection = 1
+      }
+    }
+
+    // Применяем гистерезис
+    const now = Date.now()
+    const timeSinceLastChange = now - directionChangeState.value.lastDirectionChangeTime
+    const minTimeBetweenChanges =
+      config.value.aircraft.directionChange.hysteresis.timeDelay
+
+    // Если находимся в критической точке, увеличиваем порог смены
+    const hysteresisThreshold = inCriticalPoint
+      ? config.value.aircraft.directionChange.hysteresis.threshold * 2
+      : config.value.aircraft.directionChange.hysteresis.threshold
+
+    // Проверяем, достаточно ли велико отклонение для смены направления
+    const crossDeviation = Math.abs(directionChangeState.value.smoothedCrossValue)
+
+    if (desiredDirection !== rotationDirection.value) {
+      // Хотим сменить направление
+      if (
+        crossDeviation > hysteresisThreshold &&
+        timeSinceLastChange > minTimeBetweenChanges
+      ) {
+        // Достаточное отклонение и прошло достаточно времени
+        directionChangeState.value.lastDirectionChangeTime = now
+        directionChangeState.value.lastStableCrossValue =
+          directionChangeState.value.smoothedCrossValue
+        directionChangeState.value.lastStableDirection = desiredDirection
+
+        // Просто меняем направление вращения без изменения угла
+        rotationDirection.value = desiredDirection
+
+        return desiredDirection
+      }
+    } else {
+      // Хотим сохранить текущее направление
+      directionChangeState.value.lastStableCrossValue =
+        directionChangeState.value.smoothedCrossValue
+    }
+
+    // Если находимся в критической точке, используем последнее стабильное направление
+    if (inCriticalPoint) {
+      return directionChangeState.value.lastStableDirection
+    }
+
+    return rotationDirection.value
+  }
+
+  // Функция для ручного установления направления вращения
+  const setRotationDirection = (direction: 1 | -1) => {
+    rotationDirection.value = direction
+    config.value.aircraft.rotationDirection = direction
+    directionChangeState.value.lastDirectionChangeTime = Date.now()
+    directionChangeState.value.lastStableDirection = direction
+  }
+
+  // Функция для переключения направления вращения
+  const toggleRotationDirection = () => {
+    const newDirection = -rotationDirection.value as 1 | -1
+    setRotationDirection(newDirection)
+  }
+
   // Обработчики событий мыши
   const handleMouseMove = (event: MouseEvent) => {
     if (!canvasRef.value) return
@@ -438,6 +731,9 @@ export function useTravelshopCanvas(
 
   const handleMouseEnter = () => {
     isMouseOverCanvas.value = true
+    // Сбрасываем некоторые состояния при входе курсора
+    directionChangeState.value.angleHistory = []
+
     // Устанавливаем целевые параметры эллипса для курсора
     updateTargetEllipseForMouse()
   }
@@ -445,6 +741,7 @@ export function useTravelshopCanvas(
   const handleMouseLeave = () => {
     isMouseOverCanvas.value = false
     mousePosition.value = null
+
     // Возвращаем целевые параметры эллипса к аэропорту
     updateTargetEllipseForAirport()
   }
@@ -611,8 +908,9 @@ export function useTravelshopCanvas(
     aircraft.value.animationStartTime = Date.now()
     aircraft.value.isAnimating = true
 
-    // Инициализация прогресса анимации
-    aircraftProgress.value = 0
+    // Инициализируем угол самолета
+    aircraftAngle.value = 0
+    lastAnimationUpdateTime.value = Date.now()
 
     const dpr = window.devicePixelRatio || 1
     canvas.width = rect.width * dpr
@@ -783,7 +1081,7 @@ export function useTravelshopCanvas(
       (targetEllipse.value.semiMinorAxis - currentEllipse.value.semiMinorAxis) * smoothing
   }
 
-  // Обновление позиции самолета
+  // Обновление позиции самолета с учетом направления вращения
   const updateAircraft = () => {
     if (!aircraft.value.isAnimating) return
 
@@ -795,22 +1093,38 @@ export function useTravelshopCanvas(
     updateEllipseCenter()
     updateEllipseParameters()
 
-    // Обновляем прогресс анимации (всегда увеличивается)
-    const elapsed = Date.now() - aircraft.value.animationStartTime
-    aircraftProgress.value =
-      (elapsed % config.value.aircraft.animationDuration) /
-      config.value.aircraft.animationDuration
+    // Обновляем угол самолета на основе времени и направления
+    const now = Date.now()
+    const deltaTime = now - lastAnimationUpdateTime.value
+    lastAnimationUpdateTime.value = now
 
-    // Угол на эллипсе (от 0 до 2π)
-    const angle = aircraftProgress.value * 2 * Math.PI
+    // Угловая скорость (радиан в миллисекунду)
+    const angularSpeed = (2 * Math.PI) / config.value.aircraft.animationDuration
 
-    // Параметрическое уравнение эллипса относительно текущего центра
+    // Обновляем угол с учетом направления
+    aircraftAngle.value += rotationDirection.value * angularSpeed * deltaTime
+
+    // Нормализуем угол в диапазон [0, 2π)
+    aircraftAngle.value =
+      ((aircraftAngle.value % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI)
+
+    // Обновляем скорость самолета
+    updateAircraftVelocity()
+
+    // Определяем направление вращения на основе положения курсора
+    if (config.value.aircraft.directionChange.enabled) {
+      rotationDirection.value = determineRotationDirection()
+    }
+
+    // Вычисляем позицию самолета на эллипсе
     aircraft.value.x =
-      currentEllipseCenter.value.x + currentEllipse.value.semiMajorAxis * Math.cos(angle)
+      currentEllipseCenter.value.x +
+      currentEllipse.value.semiMajorAxis * Math.cos(aircraftAngle.value)
     aircraft.value.y =
-      currentEllipseCenter.value.y + currentEllipse.value.semiMinorAxis * Math.sin(angle)
+      currentEllipseCenter.value.y +
+      currentEllipse.value.semiMinorAxis * Math.sin(aircraftAngle.value)
 
-    // Вычисляем скорость для определения направления
+    // Вычисляем скорость для наклона
     const velocityX = aircraft.value.x - prevX
     const velocityY = aircraft.value.y - prevY
 
@@ -818,7 +1132,7 @@ export function useTravelshopCanvas(
     const moveAngle = Math.atan2(velocityY, velocityX)
 
     // Определяем направление (отражаем если летит влево)
-    aircraft.value.flipHorizontal = velocityX < 0 ? -1 : 1
+    aircraft.value.flipHorizontal = velocityX > 0 ? 1 : -1
 
     // Вычисляем угол наклона для самолета
     let targetAngle = 0
@@ -955,6 +1269,41 @@ export function useTravelshopCanvas(
     }
     ctx.value.closePath()
     ctx.value.stroke()
+
+    // Отрисовываем направление вращения
+    ctx.value.fillStyle =
+      rotationDirection.value === 1 ? 'rgba(0, 255, 0, 0.7)' : 'rgba(255, 0, 0, 0.7)'
+    ctx.value.font = '14px Arial'
+    ctx.value.fillText(
+      rotationDirection.value === 1 ? '↻' : '↺',
+      currentEllipseCenter.value.x + 10,
+      currentEllipseCenter.value.y - 10,
+    )
+
+    // Отладочный текст
+    const speed = Math.sqrt(
+      aircraftVelocity.value.x * aircraftVelocity.value.x +
+        aircraftVelocity.value.y * aircraftVelocity.value.y,
+    )
+    const angleDeg = ((aircraftAngle.value * 180) / Math.PI).toFixed(1)
+    const isCritical = isInCriticalPoint(aircraftAngle.value)
+
+    ctx.value.fillStyle = 'white'
+    ctx.value.font = '12px Arial'
+    ctx.value.textAlign = 'left'
+    ctx.value.fillText(
+      `Направление: ${rotationDirection.value === 1 ? 'По часовой' : 'Против часовой'}`,
+      10,
+      20,
+    )
+    ctx.value.fillText(`Скорость: ${speed.toFixed(2)}`, 10, 40)
+    ctx.value.fillText(`Угол: ${angleDeg}°`, 10, 60)
+    ctx.value.fillText(
+      `Cross: ${directionChangeState.value.smoothedCrossValue.toFixed(3)}`,
+      10,
+      80,
+    )
+    ctx.value.fillText(`Крит.точка: ${isCritical ? 'ДА' : 'нет'}`, 10, 100)
 
     ctx.value.restore()
   }
@@ -1145,6 +1494,7 @@ export function useTravelshopCanvas(
     aircraft.value.isAnimating = false
     aircraft.value.tiltAngle = 0
     aircraft.value.flipHorizontal = 1
+    aircraftAngle.value = 0
   }
 
   // Инициализация
@@ -1226,6 +1576,10 @@ export function useTravelshopCanvas(
   // Функция для обновления конфигурации на лету
   const updateConfig = (newConfig: Partial<typeof config.value>) => {
     Object.assign(config.value, newConfig)
+    // Обновляем направление вращения из конфига
+    if (newConfig.aircraft?.rotationDirection !== undefined) {
+      rotationDirection.value = newConfig.aircraft.rotationDirection
+    }
   }
 
   // Функция для включения/выключения следования за мышью
@@ -1237,6 +1591,11 @@ export function useTravelshopCanvas(
     }
   }
 
+  // Функция для включения/выключения автоматического определения направления
+  const setAutoRotationDirection = (enabled: boolean) => {
+    config.value.aircraft.directionChange.enabled = enabled
+  }
+
   return {
     canvasRef,
     allImagesLoaded,
@@ -1245,6 +1604,9 @@ export function useTravelshopCanvas(
     updateConfig,
     recreateScene,
     setFollowMouseEnabled,
+    setAutoRotationDirection,
+    setRotationDirection,
+    toggleRotationDirection,
     setSafeZoneMargins,
     resetSafeZoneMargins,
     isMouseOverCanvas,
@@ -1252,6 +1614,9 @@ export function useTravelshopCanvas(
     currentEllipseCenter,
     airportEllipseCenter,
     safeZoneBounds,
+    rotationDirection,
+    aircraftAngle,
+    aircraftVelocity,
     adaptiveAirportEllipse,
     adaptiveMouseEllipse,
     responsiveAirportEllipse,
