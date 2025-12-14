@@ -1,6 +1,6 @@
-// composables/useTravelshopCanvas.ts
 import { ref, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
 import type { Ref } from 'vue'
+import { useTravelshopIntroStore } from '@/stores/use-travelshop-intro-store'
 
 // Импортируем изображения
 import airportImageSrc from '@/view/assets/images/airport.png'
@@ -19,165 +19,15 @@ interface Cloud {
   actualHeight: number
 }
 
-// Реактивные константы для настройки анимации
-export const useTravelshopConfig = () => {
-  const config = ref({
-    // Базовая высота канваса
-    canvasInitHeight: 560,
-
-    // Параметры безопасной зоны для центра эллипса (отступы от краёв канваса)
-    safeZoneMargins: {
-      horizontal: 100, // Отступ слева и справа
-      vertical: 50, // Отступ сверху и снизу
-    },
-
-    // Самолет
-    aircraft: {
-      originalWidth: 433,
-      originalHeight: 163,
-      aspectRatio: 163 / 433, // ≈ 0.3765
-      targetWidth: 190,
-      animationDuration: 16000, // 16 секунд в миллисекундах
-      // Направление вращения (по умолчанию по часовой стрелке)
-      rotationDirection: 1, // 1 = по часовой стрелке, -1 = против часовой стрелки
-      // Параметры смены направления
-      directionChange: {
-        enabled: true, // Включить автоматическую смену направления
-        // Упрощенная логика: определяем направление по движению самолета и положению курсора
-        sensitivity: 0.8, // Чувствительность (0-1), выше = быстрее реакция
-        // Минимальная скорость для определения направления (пикселей/кадр)
-        minVelocityThreshold: 0.3,
-        // Минимальное расстояние от центра для учета курсора (% от радиуса эллипса)
-        minDistanceFactor: 0.2,
-        // Гистерезис для предотвращения дребезга
-        hysteresis: {
-          enabled: true,
-          threshold: 0.15, // Пороговое значение для смены направления
-          deadZone: 0.05, // Мертвая зона где направление не меняется
-          timeDelay: 200, // Минимальное время между сменами направления (мс)
-          angleBuffer: 0.1, // Дополнительный буфер угла для стабильности (радианы)
-        },
-        // Плавное изменение направления
-        smoothing: {
-          enabled: true,
-          factor: 0.05, // Коэффициент сглаживания
-          maxChangePerFrame: 0.3, // Максимальное изменение за кадр
-        },
-      },
-      // Эллиптическая траектория вокруг аэропорта
-      airportEllipse: {
-        horizontalRadius: 450, // Большая полуось (по X)
-        verticalRadius: 80, // Малая полуось (по Y)
-        centerYOffset: 20, // Смещение центра эллипса по Y относительно аэропорта
-        centerXOffset: 0, // Смещение центра эллипса по X относительно аэропорта
-      },
-      // Эллиптическая траектория вокруг курсора
-      mouseEllipse: {
-        horizontalRadius: 200, // Большая полуось (по X) вокруг курсора
-        verticalRadius: 100, // Малая полуось (по Y) вокруг курсора
-        roundness: 0.8, // Круглость (1 = идеальный круг, <1 = эллипс)
-      },
-      // Наклон самолета
-      tilt: {
-        enabled: true,
-        maxAngle: 0.3, // Максимальный угол наклона в радианах (~17 градусов)
-        smoothFactor: 0.8, // Коэффициент сглаживания наклона (0-1)
-      },
-      // Плавный переход к курсору
-      followMouse: {
-        enabled: true, // Включить следование за курсором
-        centerSmoothing: 0.05, // Коэффициент плавности перехода центра (0-1)
-        ellipseSmoothing: 0.1, // Коэффициент плавности изменения размера эллипса (0-1)
-        returnSpeed: 0.02, // Скорость возврата к исходной траектории при уходе курсора
-      },
-    },
-    // Облако
-    cloud: {
-      originalWidth: 394,
-      originalHeight: 237,
-      aspectRatio: 237 / 394, // ≈ 0.6015
-    },
-    // Аэропорт
-    airport: {
-      originalWidth: 800,
-      originalHeight: 472,
-      aspectRatio: 472 / 800, // ≈ 0.59
-      maxWidth: 600,
-      initialMarginTop: 170,
-    },
-    // Настройки облаков
-    clouds: {
-      // Статические параметры облаков по слоям
-      back: {
-        minWidth: 30,
-        maxWidth: 60,
-        minSpeed: 10,
-        maxSpeed: 20,
-        adaptiveCountRatio: 60,
-        minCount: 3,
-        maxCount: 15,
-      },
-      middle: {
-        minWidth: 60,
-        maxWidth: 80,
-        minSpeed: 15,
-        maxSpeed: 25,
-        adaptiveCountRatio: 120,
-        minCount: 2,
-        maxCount: 10,
-      },
-      front: {
-        minWidth: 100,
-        maxWidth: 130,
-        minSpeed: 20,
-        maxSpeed: 30,
-        adaptiveCountRatio: 200,
-        minCount: 1,
-        maxCount: 5,
-      },
-      // Интервалы генерации новых облаков
-      generationIntervals: {
-        back: 10000, // 10 секунд
-        middle: 6000, // 6 секунд
-        front: 3000, // 3 секунды
-      },
-      // Диапазоны по Y для разных слоев (в процентах от высоты контейнера)
-      yRanges: {
-        back: { min: 0.05, max: 0.25 },
-        middle: { min: 0.1, max: 0.35 },
-        front: { min: 0.15, max: 0.45 },
-      },
-      // Прозрачность
-      opacity: {
-        back: { min: 0.2, max: 1 },
-        middle: { min: 0.6, max: 1 },
-        front: { min: 0.8, max: 1 },
-      },
-    },
-  })
-
-  // Функции для обновления конфигурации на лету
-  const updateConfig = (newConfig: Partial<typeof config.value>) => {
-    config.value = { ...config.value, ...newConfig }
-  }
-
-  return {
-    config,
-    updateConfig,
-  }
-}
-
-export function useTravelshopCanvas(
-  containerRef: Ref<HTMLElement | undefined>,
-  externalConfig?: ReturnType<typeof useTravelshopConfig>['config'],
-) {
+export function useTravelshopCanvas(containerRef: Ref<HTMLElement | undefined>) {
   const canvasRef = ref<HTMLCanvasElement>()
   const ctx = ref<CanvasRenderingContext2D | null>(null)
   const animationId = ref<number>()
   const intervalIds = ref<number[]>([])
 
-  // Используем внешнюю или создаем локальную конфигурацию
-  const config = externalConfig || useTravelshopConfig().config
+  // Используем Pinia стор
+  const travelshopStore = useTravelshopIntroStore()
+  const config = computed(() => travelshopStore.config)
 
   // Изображения
   const images = {
@@ -188,9 +38,9 @@ export function useTravelshopCanvas(
 
   // Реальные размеры после загрузки
   const actualImageSizes = ref({
-    airport: { width: 0, height: 0, aspectRatio: config.value.airport.aspectRatio },
-    aircraft: { width: 0, height: 0, aspectRatio: config.value.aircraft.aspectRatio },
-    cloud: { width: 0, height: 0, aspectRatio: config.value.cloud.aspectRatio },
+    airport: { width: 0, height: 0, aspectRatio: 0 },
+    aircraft: { width: 0, height: 0, aspectRatio: 0 },
+    cloud: { width: 0, height: 0, aspectRatio: 0 },
   })
 
   // Размеры контейнера (реактивные, обновляются при ресайзе)
@@ -214,21 +64,21 @@ export function useTravelshopCanvas(
 
   // Текущие параметры эллипса (плавно изменяются)
   const currentEllipse = ref({
-    semiMajorAxis: config.value.aircraft.airportEllipse.horizontalRadius,
-    semiMinorAxis: config.value.aircraft.airportEllipse.verticalRadius,
+    semiMajorAxis: 0,
+    semiMinorAxis: 0,
   })
 
   // Целевые параметры эллипса (зависят от того, есть ли курсор)
   const targetEllipse = ref({
-    semiMajorAxis: config.value.aircraft.airportEllipse.horizontalRadius,
-    semiMinorAxis: config.value.aircraft.airportEllipse.verticalRadius,
+    semiMajorAxis: 0,
+    semiMinorAxis: 0,
   })
 
   // Текущий угол самолета на эллипсе (в радианах, от 0 до 2π)
   const aircraftAngle = ref(0)
 
   // Направление вращения (1 = по часовой, -1 = против часовой)
-  const rotationDirection = ref(config.value.aircraft.rotationDirection)
+  const rotationDirection = ref(1)
 
   // Текущая скорость самолета
   const aircraftVelocity = ref({ x: 0, y: 0 })
@@ -245,9 +95,7 @@ export function useTravelshopCanvas(
     lastStableCrossValue: 0,
     isChanging: false,
     changeStartTime: 0,
-    // Для предотвращения дребезга в критических точках
-    lastStableDirection: config.value.aircraft.rotationDirection,
-    // Буфер для угловых позиций
+    lastStableDirection: 1,
     angleHistory: [] as number[],
     angleBufferSize: 5,
   })
@@ -259,16 +107,14 @@ export function useTravelshopCanvas(
   const aircraft = ref({
     x: 0,
     y: 0,
-    width: config.value.aircraft.targetWidth,
-    height: config.value.aircraft.targetWidth * config.value.aircraft.aspectRatio,
-    // Анимация
+    width: 0,
+    height: 0,
     startTime: 0,
     animationStartTime: 0,
     isAnimating: false,
-    // Наклон и отражение
-    tiltAngle: 0, // Текущий угол наклона в радианах
-    targetTiltAngle: 0, // Целевой угол наклона
-    flipHorizontal: 1, // 1 = нормально, -1 = отражено по горизонтали
+    tiltAngle: 0,
+    targetTiltAngle: 0,
+    flipHorizontal: 1,
   })
 
   // Состояние загрузки
@@ -313,15 +159,15 @@ export function useTravelshopCanvas(
       // Для мобильных устройств уменьшаем радиусы
       return {
         ...baseEllipse,
-        horizontalRadius: containerSize.value.width * 0.5, // 50% ширины экрана
-        verticalRadius: 60, // Уменьшаем вертикальный радиус
-        centerYOffset: 10, // Меньше смещение для мобильных
+        horizontalRadius: containerSize.value.width * 0.5,
+        verticalRadius: 60,
+        centerYOffset: 10,
       }
     } else if (containerSize.value.width < 1024) {
       // Для планшетов
       return {
         ...baseEllipse,
-        horizontalRadius: containerSize.value.width * 0.4, // 40% ширины экрана
+        horizontalRadius: containerSize.value.width * 0.4,
         verticalRadius: 70,
         centerYOffset: 15,
       }
@@ -341,9 +187,9 @@ export function useTravelshopCanvas(
     if (containerSize.value.width < 768) {
       return {
         ...baseEllipse,
-        horizontalRadius: 150, // Уменьшаем для мобильных
+        horizontalRadius: 150,
         verticalRadius: 75,
-        roundness: 0.7, // Делаем более круглым для маленьких экранов
+        roundness: 0.7,
       }
     } else if (containerSize.value.width < 1024) {
       return {
@@ -368,7 +214,7 @@ export function useTravelshopCanvas(
       // Для узких экранов уменьшаем траекторию
       return {
         ...baseEllipse,
-        horizontalRadius: containerSize.value.width * 0.35, // 35% ширины
+        horizontalRadius: containerSize.value.width * 0.35,
         verticalRadius: 60,
         centerYOffset: 15,
       }
@@ -419,7 +265,7 @@ export function useTravelshopCanvas(
     }
   })
 
-  // Вычисление безопасной зоны для центра эллипса (ТОЛЬКО отступы из конфига)
+  // Вычисление безопасной зоны для центра эллипса
   const safeZoneBounds = computed(() => {
     const margins = config.value.safeZoneMargins
 
@@ -455,18 +301,6 @@ export function useTravelshopCanvas(
 
     return bounds
   })
-
-  // Функция для установки отступов безопасной зоны
-  const setSafeZoneMargins = (horizontal: number, vertical: number) => {
-    config.value.safeZoneMargins.horizontal = horizontal
-    config.value.safeZoneMargins.vertical = vertical
-  }
-
-  // Функция для сброса безопасной зоны к значениям по умолчанию
-  const resetSafeZoneMargins = () => {
-    config.value.safeZoneMargins.horizontal = 0
-    config.value.safeZoneMargins.vertical = 0
-  }
 
   // Ограничение позиции центра эллипса в пределах безопасной зоны
   const clampToSafeZone = (x: number, y: number) => {
@@ -524,9 +358,8 @@ export function useTravelshopCanvas(
     return rotationDirection.value
   }
 
-  // Проверка, находится ли самолет в критической точке (где может произойти дребезг)
+  // Проверка, находится ли самолет в критической точке
   const isInCriticalPoint = (angle: number): boolean => {
-    // Критические точки - где угол близок к 0, π/2, π, -π/2
     const criticalAngles = [0, Math.PI / 2, Math.PI, -Math.PI / 2, Math.PI * 2]
     const buffer = config.value.aircraft.directionChange.hysteresis.angleBuffer
 
@@ -587,11 +420,8 @@ export function useTravelshopCanvas(
       return rotationDirection.value
     }
 
-    // Вычисляем векторное произведение (cross product) для определения стороны
-    // cross = velocity.x * toMouse.y - velocity.y * toMouse.x
+    // Вычисляем векторное произведение
     const rawCross = velocity.x * toMouse.y - velocity.y * toMouse.x
-
-    // Нормализуем cross для лучшей стабильности
     const normalizationFactor = speed * distanceToMouse
     const normalizedCross = normalizationFactor > 0 ? rawCross / normalizationFactor : 0
 
@@ -629,29 +459,24 @@ export function useTravelshopCanvas(
     // Применяем мертвую зону
     const deadZone = config.value.aircraft.directionChange.hysteresis.deadZone
     if (Math.abs(directionChangeState.value.smoothedCrossValue) < deadZone) {
-      // В мертвой зоне - сохраняем текущее направление
       return rotationDirection.value
     }
 
-    // Определяем желаемое направление вращения на основе знака cross и направления движения
+    // Определяем желаемое направление вращения
     let desiredDirection = rotationDirection.value
 
     if (moveDirection === 1) {
       // Самолет движется вправо
       if (directionChangeState.value.smoothedCrossValue > 0) {
-        // Курсор слева - продолжаем по часовой стрелке
         desiredDirection = 1
       } else {
-        // Курсор справа - меняем на против часовой стрелки
         desiredDirection = -1
       }
     } else {
       // Самолет движется влево
       if (directionChangeState.value.smoothedCrossValue < 0) {
-        // Курсор справа - продолжаем против часовой стрелки
         desiredDirection = -1
       } else {
-        // Курсор слева - меняем на по часовой стрелке
         desiredDirection = 1
       }
     }
@@ -699,20 +524,6 @@ export function useTravelshopCanvas(
     }
 
     return rotationDirection.value
-  }
-
-  // Функция для ручного установления направления вращения
-  const setRotationDirection = (direction: 1 | -1) => {
-    rotationDirection.value = direction
-    config.value.aircraft.rotationDirection = direction
-    directionChangeState.value.lastDirectionChangeTime = Date.now()
-    directionChangeState.value.lastStableDirection = direction
-  }
-
-  // Функция для переключения направления вращения
-  const toggleRotationDirection = () => {
-    const newDirection = -rotationDirection.value as 1 | -1
-    setRotationDirection(newDirection)
   }
 
   // Обработчики событий мыши
@@ -899,7 +710,10 @@ export function useTravelshopCanvas(
     targetEllipse.value.semiMajorAxis = ellipse.horizontalRadius
     targetEllipse.value.semiMinorAxis = ellipse.verticalRadius
 
-    // Обновляем размер самолета из конфига (на случай изменения на лету)
+    // Инициализируем направление вращения из конфига
+    rotationDirection.value = config.value.aircraft.rotationDirection
+
+    // Обновляем размер самолета из конфига
     aircraft.value.width = config.value.aircraft.targetWidth
     aircraft.value.height =
       aircraft.value.width * actualImageSizes.value.aircraft.aspectRatio
@@ -1169,6 +983,63 @@ export function useTravelshopCanvas(
       config.value.aircraft.tilt.smoothFactor
   }
 
+  // Вспомогательная функция для рисования стрелок
+  const drawArrow = (
+    ctx: CanvasRenderingContext2D,
+    fromX: number,
+    fromY: number,
+    toX: number,
+    toY: number,
+    options: {
+      color?: string
+      lineWidth?: number
+      arrowLength?: number
+      arrowAngle?: number
+      dash?: number[]
+    } = {},
+  ) => {
+    const {
+      color = 'white',
+      lineWidth = 1,
+      arrowLength = 10,
+      arrowAngle = Math.PI / 6,
+      dash = [],
+    } = options
+
+    ctx.save()
+    ctx.strokeStyle = color
+    ctx.fillStyle = color
+    ctx.lineWidth = lineWidth
+
+    if (dash.length > 0) {
+      ctx.setLineDash(dash)
+    }
+
+    // Линия
+    ctx.beginPath()
+    ctx.moveTo(fromX, fromY)
+    ctx.lineTo(toX, toY)
+    ctx.stroke()
+
+    // Стрелка
+    const angle = Math.atan2(toY - fromY, toX - fromX)
+
+    ctx.beginPath()
+    ctx.moveTo(toX, toY)
+    ctx.lineTo(
+      toX - arrowLength * Math.cos(angle - arrowAngle),
+      toY - arrowLength * Math.sin(angle - arrowAngle),
+    )
+    ctx.lineTo(
+      toX - arrowLength * Math.cos(angle + arrowAngle),
+      toY - arrowLength * Math.sin(angle + arrowAngle),
+    )
+    ctx.closePath()
+    ctx.fill()
+
+    ctx.restore()
+  }
+
   // Отрисовка сцены
   const drawScene = () => {
     if (!ctx.value || !allImagesLoaded.value) return
@@ -1199,18 +1070,19 @@ export function useTravelshopCanvas(
     drawCloudLayer('front')
 
     // Отладка: отрисовка текущего центра эллипса и траектории (опционально)
-    //drawDebugInfo()
+    if (travelshopStore.showDebugControls) {
+      drawDebugInfo()
+    }
   }
 
   // Отрисовка отладочной информации
-  // @ts-ignore
   const drawDebugInfo = () => {
     if (!ctx.value) return
 
     ctx.value.save()
 
-    // Отрисовываем текущий центр эллипса
-    ctx.value.fillStyle = 'rgba(255, 0, 0, 0.5)'
+    // 1. Отрисовываем текущий центр эллипса
+    ctx.value.fillStyle = 'rgba(255, 0, 0, 0.8)'
     ctx.value.beginPath()
     ctx.value.arc(
       currentEllipseCenter.value.x,
@@ -1221,8 +1093,8 @@ export function useTravelshopCanvas(
     )
     ctx.value.fill()
 
-    // Отрисовываем центр аэропорта
-    ctx.value.fillStyle = 'rgba(0, 255, 0, 0.5)'
+    // 2. Отрисовываем центр аэропорта
+    ctx.value.fillStyle = 'rgba(0, 255, 0, 0.8)'
     ctx.value.beginPath()
     ctx.value.arc(
       airportEllipseCenter.value.x,
@@ -1233,8 +1105,8 @@ export function useTravelshopCanvas(
     )
     ctx.value.fill()
 
-    // Отрисовываем безопасную зону (только отступы)
-    ctx.value.strokeStyle = 'rgba(255, 0, 255, 0.3)'
+    // 3. Отрисовываем безопасную зону
+    ctx.value.strokeStyle = 'rgba(255, 0, 255, 0.5)'
     ctx.value.lineWidth = 1
     ctx.value.setLineDash([5, 5])
     const bounds = safeZoneBounds.value
@@ -1246,8 +1118,8 @@ export function useTravelshopCanvas(
     )
     ctx.value.setLineDash([])
 
-    // Отрисовываем эллиптическую траекторию
-    ctx.value.strokeStyle = 'rgba(255, 255, 0, 0.3)'
+    // 4. Отрисовываем эллиптическую траекторию
+    ctx.value.strokeStyle = 'rgba(255, 255, 0, 0.8)'
     ctx.value.lineWidth = 1
     ctx.value.beginPath()
 
@@ -1270,7 +1142,125 @@ export function useTravelshopCanvas(
     ctx.value.closePath()
     ctx.value.stroke()
 
-    // Отрисовываем направление вращения
+    // 5. Вектор движения самолета (скорость)
+    const velocityLength = Math.sqrt(
+      aircraftVelocity.value.x * aircraftVelocity.value.x +
+        aircraftVelocity.value.y * aircraftVelocity.value.y,
+    )
+
+    if (velocityLength > 0.1) {
+      // Нормализованный вектор скорости
+      const normVX = aircraftVelocity.value.x / velocityLength
+      const normVY = aircraftVelocity.value.y / velocityLength
+
+      // Длина стрелки (пропорциональна скорости, но не меньше минимума)
+      const arrowLength = Math.max(40, Math.min(100, velocityLength * 2))
+
+      // Цвет в зависимости от скорости
+      const speedColor =
+        velocityLength > 10 ? '#ff4444' : velocityLength > 5 ? '#ffaa00' : '#44ff44'
+
+      drawArrow(
+        ctx.value,
+        aircraft.value.x,
+        aircraft.value.y,
+        aircraft.value.x + normVX * arrowLength,
+        aircraft.value.y + normVY * arrowLength,
+        {
+          color: speedColor,
+          lineWidth: 2,
+          arrowLength: 10,
+          arrowAngle: Math.PI / 6,
+        },
+      )
+
+      // Подпись скорости у стрелки
+      ctx.value.fillStyle = speedColor
+      ctx.value.font = '12px Arial'
+      ctx.value.fillText(
+        `${velocityLength.toFixed(1)} px/s`,
+        aircraft.value.x + normVX * arrowLength + 5,
+        aircraft.value.y + normVY * arrowLength - 5,
+      )
+    }
+
+    // 6. Вектор от самолета к курсору (если курсор в пределах канваса)
+    if (isMouseOverCanvas.value && mousePosition.value) {
+      const dx = mousePosition.value.x - aircraft.value.x
+      const dy = mousePosition.value.y - aircraft.value.y
+      const distance = Math.sqrt(dx * dx + dy * dy)
+
+      if (distance > 10) {
+        drawArrow(
+          ctx.value,
+          aircraft.value.x,
+          aircraft.value.y,
+          mousePosition.value.x,
+          mousePosition.value.y,
+          {
+            color: 'rgba(0, 150, 255, 0.7)',
+            lineWidth: 1.5,
+            arrowLength: 8,
+            arrowAngle: Math.PI / 6,
+            dash: [5, 3],
+          },
+        )
+
+        // Подпись расстояния
+        ctx.value.fillStyle = 'rgba(0, 150, 255, 0.9)'
+        ctx.value.font = '11px Arial'
+        ctx.value.fillText(
+          `${Math.round(distance)} px`,
+          (aircraft.value.x + mousePosition.value.x) / 2 + 10,
+          (aircraft.value.y + mousePosition.value.y) / 2 - 10,
+        )
+      }
+    }
+
+    // 7. Вектор нормали (перпендикуляр к скорости) для визуализации cross product
+    if (velocityLength > 0.1) {
+      // Нормализованный вектор скорости
+      const normVX = aircraftVelocity.value.x / velocityLength
+      const normVY = aircraftVelocity.value.y / velocityLength
+
+      // Перпендикулярный вектор (поворот на 90 градусов по часовой стрелке)
+      const perpX = normVY
+      const perpY = -normVX
+
+      // Длина нормали (пропорциональна cross значению)
+      const crossValue = directionChangeState.value.smoothedCrossValue
+      const normalLength = 30 * Math.abs(crossValue)
+
+      if (normalLength > 2) {
+        const normalColor =
+          crossValue > 0 ? 'rgba(0, 200, 0, 0.7)' : 'rgba(255, 50, 50, 0.7)'
+
+        drawArrow(
+          ctx.value,
+          aircraft.value.x,
+          aircraft.value.y,
+          aircraft.value.x + perpX * normalLength,
+          aircraft.value.y + perpY * normalLength,
+          {
+            color: normalColor,
+            lineWidth: 1.5,
+            arrowLength: 6,
+            arrowAngle: Math.PI / 6,
+          },
+        )
+
+        // Подпись cross значения
+        ctx.value.fillStyle = normalColor
+        ctx.value.font = '10px Arial'
+        ctx.value.fillText(
+          `cross: ${crossValue.toFixed(3)}`,
+          aircraft.value.x + perpX * normalLength + 5,
+          aircraft.value.y + perpY * normalLength,
+        )
+      }
+    }
+
+    // 8. Отрисовываем направление вращения
     ctx.value.fillStyle =
       rotationDirection.value === 1 ? 'rgba(0, 255, 0, 0.7)' : 'rgba(255, 0, 0, 0.7)'
     ctx.value.font = '14px Arial'
@@ -1280,13 +1270,11 @@ export function useTravelshopCanvas(
       currentEllipseCenter.value.y - 10,
     )
 
-    // Отладочный текст
-    const speed = Math.sqrt(
-      aircraftVelocity.value.x * aircraftVelocity.value.x +
-        aircraftVelocity.value.y * aircraftVelocity.value.y,
-    )
+    // 9. Отладочный текст в углу
+    const speed = velocityLength
     const angleDeg = ((aircraftAngle.value * 180) / Math.PI).toFixed(1)
     const isCritical = isInCriticalPoint(aircraftAngle.value)
+    const moveDirection = getAircraftMoveDirection()
 
     ctx.value.fillStyle = 'white'
     ctx.value.font = '12px Arial'
@@ -1296,14 +1284,42 @@ export function useTravelshopCanvas(
       10,
       20,
     )
-    ctx.value.fillText(`Скорость: ${speed.toFixed(2)}`, 10, 40)
+    ctx.value.fillText(`Скорость: ${speed.toFixed(2)} px/s`, 10, 40)
     ctx.value.fillText(`Угол: ${angleDeg}°`, 10, 60)
     ctx.value.fillText(
       `Cross: ${directionChangeState.value.smoothedCrossValue.toFixed(3)}`,
       10,
       80,
     )
-    ctx.value.fillText(`Крит.точка: ${isCritical ? 'ДА' : 'нет'}`, 10, 100)
+    ctx.value.fillText(`Движение: ${moveDirection > 0 ? 'Вправо' : 'Влево'}`, 10, 100)
+    ctx.value.fillText(`Крит.точка: ${isCritical ? 'ДА' : 'нет'}`, 10, 120)
+    ctx.value.fillText(
+      `Наклон: ${((aircraft.value.tiltAngle * 180) / Math.PI).toFixed(1)}°`,
+      10,
+      140,
+    )
+    ctx.value.fillText(
+      `Отражение: ${aircraft.value.flipHorizontal === 1 ? 'Нет' : 'Да'}`,
+      10,
+      160,
+    )
+
+    // 10. Позиция самолета
+    ctx.value.fillText(
+      `Позиция: (${Math.round(aircraft.value.x)}, ${Math.round(aircraft.value.y)})`,
+      10,
+      180,
+    )
+
+    // 11. Позиция курсора (если есть)
+    if (mousePosition.value) {
+      ctx.value.fillStyle = 'rgba(0, 150, 255, 0.9)'
+      ctx.value.fillText(
+        `Курсор: (${Math.round(mousePosition.value.x)}, ${Math.round(mousePosition.value.y)})`,
+        10,
+        200,
+      )
+    }
 
     ctx.value.restore()
   }
@@ -1451,7 +1467,7 @@ export function useTravelshopCanvas(
   // Троттлинг для обработки изменения размеров
   let resizeThrottleTimeout: number | undefined
   let lastResizeCall = 0
-  const RESIZE_THROTTLE_DELAY = 100 // 100ms
+  const RESIZE_THROTTLE_DELAY = 100
 
   const throttleResize = () => {
     const now = Date.now()
@@ -1546,6 +1562,9 @@ export function useTravelshopCanvas(
     () => config.value,
     () => {
       if (allImagesLoaded.value) {
+        // Обновляем направление вращения из конфига
+        rotationDirection.value = config.value.aircraft.rotationDirection
+
         // Обновляем целевые параметры эллипса в зависимости от состояния курсора
         if (isMouseOverCanvas.value) {
           updateTargetEllipseForMouse()
@@ -1573,42 +1592,11 @@ export function useTravelshopCanvas(
     { deep: true },
   )
 
-  // Функция для обновления конфигурации на лету
-  const updateConfig = (newConfig: Partial<typeof config.value>) => {
-    Object.assign(config.value, newConfig)
-    // Обновляем направление вращения из конфига
-    if (newConfig.aircraft?.rotationDirection !== undefined) {
-      rotationDirection.value = newConfig.aircraft.rotationDirection
-    }
-  }
-
-  // Функция для включения/выключения следования за мышью
-  const setFollowMouseEnabled = (enabled: boolean) => {
-    config.value.aircraft.followMouse.enabled = enabled
-    if (!enabled) {
-      // Возвращаем параметры к аэропорту
-      updateTargetEllipseForAirport()
-    }
-  }
-
-  // Функция для включения/выключения автоматического определения направления
-  const setAutoRotationDirection = (enabled: boolean) => {
-    config.value.aircraft.directionChange.enabled = enabled
-  }
-
   return {
     canvasRef,
     allImagesLoaded,
     loading,
-    config,
-    updateConfig,
     recreateScene,
-    setFollowMouseEnabled,
-    setAutoRotationDirection,
-    setRotationDirection,
-    toggleRotationDirection,
-    setSafeZoneMargins,
-    resetSafeZoneMargins,
     isMouseOverCanvas,
     mousePosition,
     currentEllipseCenter,
@@ -1623,5 +1611,21 @@ export function useTravelshopCanvas(
     adaptiveCanvasHeight,
     adaptiveAirportMarginTop,
     adaptiveCloudsCount,
+
+    // Дебаг-контролы из стора
+    showDebugControls: computed(() => travelshopStore.showDebugControls),
+    debugParams: computed(() => travelshopStore.debugParams),
+    debugCategories: computed(() => travelshopStore.debugCategories),
+    toggleDebugControls: travelshopStore.toggleDebugControls,
+    updateDebugParam: travelshopStore.updateDebugParam,
+    getParamsByCategory: travelshopStore.getParamsByCategory,
+    resetToDefaults: travelshopStore.resetToDefaults,
+
+    // Методы управления из стора
+    setFollowMouseEnabled: travelshopStore.setFollowMouseEnabled,
+    setAutoRotationDirection: travelshopStore.setAutoRotationDirection,
+    setRotationDirection: travelshopStore.setRotationDirection,
+    toggleRotationDirection: travelshopStore.toggleRotationDirection,
+    setSafeZoneMargins: travelshopStore.setSafeZoneMargins,
   }
 }

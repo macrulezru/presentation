@@ -790,5 +790,50 @@
       "submission_failed": "Ошибка при отправке. Письмо будет открыто в вашем почтовом клиенте."
     }
   },
+  "tshIntro": {
+    "categories": {
+      "safeZone": "Безопасная зона",
+      "airportEllipse": "Эллипс аэропорта",
+      "mouseEllipse": "Эллипс курсора",
+      "aircraft": "Самолет",
+      "smoothness": "Плавность",
+      "autoDirection": "Авто-направление",
+      "hysteresis": "Гистерезис",
+      "smoothing": "Сглаживание",
+      "tilt": "Наклон"
+    },
+    "parameters": {
+      "safeZoneHorizontal": "Безопасная зона X",
+      "safeZoneVertical": "Безопасная зона Y",
+      "airportEllipseHorizontalRadius": "Радиус X аэропорта",
+      "airportEllipseVerticalRadius": "Радиус Y аэропорта",
+      "airportEllipseCenterXOffset": "Смещение X аэропорта",
+      "airportEllipseCenterYOffset": "Смещение Y аэропорта",
+      "mouseEllipseHorizontalRadius": "Радиус X курсора",
+      "mouseEllipseVerticalRadius": "Радиус Y курсора",
+      "mouseEllipseRoundness": "Круглость курсора",
+      "animationDuration": "Скорость анимации (мс)",
+      "aircraftTargetWidth": "Ширина самолета",
+      "centerSmoothing": "Плавность центра",
+      "ellipseSmoothing": "Плавность эллипса",
+      "returnSpeed": "Скорость возврата",
+      "sensitivity": "Чувствительность",
+      "minVelocityThreshold": "Порог скорости",
+      "minDistanceFactor": "Мин. расстояние",
+      "hysteresisThreshold": "Порог гистерезиса",
+      "hysteresisDeadZone": "Мертвая зона",
+      "hysteresisTimeDelay": "Задержка времени (мс)",
+      "hysteresisAngleBuffer": "Буфер угла (рад)",
+      "smoothingFactor": "Фактор сглаживания",
+      "maxChangePerFrame": "Макс. изменение/кадр",
+      "maxTiltAngle": "Макс. угол наклона (рад)",
+      "tiltSmoothFactor": "Плавность наклона"
+    },
+    "buttons": {
+      "resetSettings": "Сбросить настройки",
+      "close": "Закрыть",
+      "settings": "Настройки анимации"
+    }
+  },
   "location": "Рабочая локация"
 }

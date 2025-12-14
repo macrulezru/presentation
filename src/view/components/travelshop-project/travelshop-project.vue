@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import TravelshopIntro from '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue'
   import CircleChart from '@/view/ui/ui-circle-chart/ui-circle-chart.vue'
   import LoadingSpinner from '@/view/ui/ui-loading-spinner/ui-loading-spinner.vue'
   import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue'
@@ -7,7 +8,6 @@
   import '@/view/components/travelshop-project/travelshop-project.scss'
 
   import { ref, computed } from 'vue'
-  import { useTravelshopCanvas } from '@/view/composables/use-travelshop-animation'
 
   const TravelshopImages = defineAsyncComponent({
     loader: () =>
@@ -29,9 +29,6 @@
   const { t, tm } = useI18n()
 
   const showSwiper = ref<boolean>(false)
-  const canvasContainer = ref<HTMLElement>()
-
-  const { canvasRef } = useTravelshopCanvas(canvasContainer)
 
   const features = computed(() => tm('travelshop.features.items'))
   const techStack = computed(() => tm('travelshop.tech_stack.items'))
@@ -62,10 +59,7 @@
 
 <template>
   <div class="travelshop">
-    <div class="travelshop__intro" ref="canvasContainer">
-      <canvas ref="canvasRef" class="travelshop__canvas" />
-    </div>
-
+    <TravelshopIntro />
     <div class="travelshop__container">
       <div class="travelshop__header">
         <h2 class="travelshop__title">{{ t('travelshop.title') }}</h2>

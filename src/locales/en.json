@@ -790,5 +790,50 @@
       "submission_failed": "Sending failed. The email will open in your mail client."
     }
   },
+  "tshIntro": {
+    "categories": {
+      "safeZone": "Safe Zone",
+      "airportEllipse": "Airport Ellipse",
+      "mouseEllipse": "Cursor Ellipse",
+      "aircraft": "Aircraft",
+      "smoothness": "Smoothness",
+      "autoDirection": "Auto-Direction",
+      "hysteresis": "Hysteresis",
+      "smoothing": "Smoothing",
+      "tilt": "Tilt"
+    },
+    "parameters": {
+      "safeZoneHorizontal": "Safe Zone X",
+      "safeZoneVertical": "Safe Zone Y",
+      "airportEllipseHorizontalRadius": "Airport Radius X",
+      "airportEllipseVerticalRadius": "Airport Radius Y",
+      "airportEllipseCenterXOffset": "Airport Offset X",
+      "airportEllipseCenterYOffset": "Airport Offset Y",
+      "mouseEllipseHorizontalRadius": "Cursor Radius X",
+      "mouseEllipseVerticalRadius": "Cursor Radius Y",
+      "mouseEllipseRoundness": "Cursor Roundness",
+      "animationDuration": "Animation Speed (ms)",
+      "aircraftTargetWidth": "Aircraft Width",
+      "centerSmoothing": "Center Smoothness",
+      "ellipseSmoothing": "Ellipse Smoothness",
+      "returnSpeed": "Return Speed",
+      "sensitivity": "Sensitivity",
+      "minVelocityThreshold": "Velocity Threshold",
+      "minDistanceFactor": "Min. Distance",
+      "hysteresisThreshold": "Hysteresis Threshold",
+      "hysteresisDeadZone": "Dead Zone",
+      "hysteresisTimeDelay": "Time Delay (ms)",
+      "hysteresisAngleBuffer": "Angle Buffer (rad)",
+      "smoothingFactor": "Smoothing Factor",
+      "maxChangePerFrame": "Max Change/Frame",
+      "maxTiltAngle": "Max Tilt Angle (rad)",
+      "tiltSmoothFactor": "Tilt Smoothness"
+    },
+    "buttons": {
+      "resetSettings": "Reset Settings",
+      "close": "Close",
+      "settings": "Animation Settings"
+    }
+  },
   "location": "Work Location"
 }

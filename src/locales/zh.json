@@ -790,5 +790,50 @@
       "submission_failed": "发送失败。邮件将在您的邮件客户端中打开。"
     }
   },
+  "tshIntro": {
+    "categories": {
+      "safeZone": "安全区域",
+      "airportEllipse": "机场椭圆",
+      "mouseEllipse": "光标椭圆",
+      "aircraft": "飞机",
+      "smoothness": "平滑度",
+      "autoDirection": "自动方向",
+      "hysteresis": "滞后",
+      "smoothing": "平滑",
+      "tilt": "倾斜"
+    },
+    "parameters": {
+      "safeZoneHorizontal": "安全区域 X",
+      "safeZoneVertical": "安全区域 Y",
+      "airportEllipseHorizontalRadius": "机场半径 X",
+      "airportEllipseVerticalRadius": "机场半径 Y",
+      "airportEllipseCenterXOffset": "机场偏移 X",
+      "airportEllipseCenterYOffset": "机场偏移 Y",
+      "mouseEllipseHorizontalRadius": "光标半径 X",
+      "mouseEllipseVerticalRadius": "光标半径 Y",
+      "mouseEllipseRoundness": "光标圆度",
+      "animationDuration": "动画速度（毫秒）",
+      "aircraftTargetWidth": "飞机宽度",
+      "centerSmoothing": "中心平滑度",
+      "ellipseSmoothing": "椭圆平滑度",
+      "returnSpeed": "返回速度",
+      "sensitivity": "灵敏度",
+      "minVelocityThreshold": "速度阈值",
+      "minDistanceFactor": "最小距离",
+      "hysteresisThreshold": "滞后阈值",
+      "hysteresisDeadZone": "死区",
+      "hysteresisTimeDelay": "时间延迟（毫秒）",
+      "hysteresisAngleBuffer": "角度缓冲（弧度）",
+      "smoothingFactor": "平滑系数",
+      "maxChangePerFrame": "最大变化/帧",
+      "maxTiltAngle": "最大倾斜角（弧度）",
+      "tiltSmoothFactor": "倾斜平滑度"
+    },
+    "buttons": {
+      "resetSettings": "重置设置",
+      "close": "关闭",
+      "settings": "动画设置"
+    }
+  },
   "location": "工作地点"
 }
