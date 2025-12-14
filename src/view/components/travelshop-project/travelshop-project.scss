@@ -6,41 +6,6 @@
     @include container-lg;
   }
 
-  &__intro {
-    position: relative;
-    overflow: hidden;
-    background-image: linear-gradient(to bottom, #6bd1ff, #a5d9ff, #cfe3ff, #ecf0ff, #ffffff);
-  }
-
-  &__canvas {
-    z-index: 1;
-
-    &--loading {
-      opacity: 0;
-    }
-  }
-
-  &__canvas-loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-md);
-    z-index: 2;
-    color: var(--color-text-muted);
-    font-size: var(--font-size-sm);
-  }
-
-  // Удаляем старые стили для облаков, самолета и аэропорта
-  &__cloud,
-  &__airport,
-  &__aircraft {
-    display: none;
-  }
-
   &__header {
     text-align: center;
     margin-bottom: var(--spacing-3xl);

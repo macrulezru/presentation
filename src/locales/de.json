@@ -790,5 +790,50 @@
       "submission_failed": "Senden fehlgeschlagen. Die E-Mail wird in Ihrem E-Mail-Programm geöffnet."
     }
   },
+  "tshIntro": {
+    "categories": {
+      "safeZone": "Sicherheitszone",
+      "airportEllipse": "Flughafen-Ellipse",
+      "mouseEllipse": "Cursor-Ellipse",
+      "aircraft": "Flugzeug",
+      "smoothness": "Glattheit",
+      "autoDirection": "Auto-Richtung",
+      "hysteresis": "Hysterese",
+      "smoothing": "Glättung",
+      "tilt": "Neigung"
+    },
+    "parameters": {
+      "safeZoneHorizontal": "Sicherheitszone X",
+      "safeZoneVertical": "Sicherheitszone Y",
+      "airportEllipseHorizontalRadius": "Flughafen-Radius X",
+      "airportEllipseVerticalRadius": "Flughafen-Radius Y",
+      "airportEllipseCenterXOffset": "Flughafen-Versatz X",
+      "airportEllipseCenterYOffset": "Flughafen-Versatz Y",
+      "mouseEllipseHorizontalRadius": "Cursor-Radius X",
+      "mouseEllipseVerticalRadius": "Cursor-Radius Y",
+      "mouseEllipseRoundness": "Cursor-Rundheit",
+      "animationDuration": "Animationsgeschwindigkeit (ms)",
+      "aircraftTargetWidth": "Flugzeugbreite",
+      "centerSmoothing": "Zentrumsglattheit",
+      "ellipseSmoothing": "Ellipsenglattheit",
+      "returnSpeed": "Rückkehrgeschwindigkeit",
+      "sensitivity": "Empfindlichkeit",
+      "minVelocityThreshold": "Geschwindigkeitsschwelle",
+      "minDistanceFactor": "Mindestabstand",
+      "hysteresisThreshold": "Hystereseschwelle",
+      "hysteresisDeadZone": "Totzone",
+      "hysteresisTimeDelay": "Zeitverzögerung (ms)",
+      "hysteresisAngleBuffer": "Winkelpuffer (rad)",
+      "smoothingFactor": "Glättungsfaktor",
+      "maxChangePerFrame": "Max. Änderung/Frame",
+      "maxTiltAngle": "Max. Neigungswinkel (rad)",
+      "tiltSmoothFactor": "Neigungsglattheit"
+    },
+    "buttons": {
+      "resetSettings": "Einstellungen zurücksetzen",
+      "close": "Schließen",
+      "settings": "Animationseinstellungen"
+    }
+  },
   "location": "Arbeitsstandort"
 }

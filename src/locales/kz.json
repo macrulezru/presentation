@@ -790,5 +790,50 @@
       "submission_failed": "Жіберу кезінде қате орын алды. Хат пошта клиентінде ашылады."
     }
   },
+  "tshIntro": {
+    "categories": {
+      "safeZone": "Қауіпсіз аймақ",
+      "airportEllipse": "Әуежайдағы эллипс",
+      "mouseEllipse": "Курсор эллипсі",
+      "aircraft": "Ұшақ",
+      "smoothness": "Тегістік",
+      "autoDirection": "Авто-бағыт",
+      "hysteresis": "Гистерезис",
+      "smoothing": "Тегістеу",
+      "tilt": "Көлбеу"
+    },
+    "parameters": {
+      "safeZoneHorizontal": "Қауіпсіз аймақ X",
+      "safeZoneVertical": "Қауіпсіз аймақ Y",
+      "airportEllipseHorizontalRadius": "Әуежай радиусы X",
+      "airportEllipseVerticalRadius": "Әуежай радиусы Y",
+      "airportEllipseCenterXOffset": "Әуежай ығысуы X",
+      "airportEllipseCenterYOffset": "Әуежай ығысуы Y",
+      "mouseEllipseHorizontalRadius": "Курсор радиусы X",
+      "mouseEllipseVerticalRadius": "Курсор радиусы Y",
+      "mouseEllipseRoundness": "Курсор дөңгелектігі",
+      "animationDuration": "Анимация жылдамдығы (мс)",
+      "aircraftTargetWidth": "Ұшақ ені",
+      "centerSmoothing": "Орталық тегістігі",
+      "ellipseSmoothing": "Эллипс тегістігі",
+      "returnSpeed": "Қайтару жылдамдығы",
+      "sensitivity": "Сезімталдық",
+      "minVelocityThreshold": "Жылдамдық шегі",
+      "minDistanceFactor": "Мин. қашықтық",
+      "hysteresisThreshold": "Гистерезис шегі",
+      "hysteresisDeadZone": "Өлі аймақ",
+      "hysteresisTimeDelay": "Уақыт кідірісі (мс)",
+      "hysteresisAngleBuffer": "Бұрыш буфері (рад)",
+      "smoothingFactor": "Тегістеу коэффициенті",
+      "maxChangePerFrame": "Макс. өзгеріс/кадр",
+      "maxTiltAngle": "Макс. көлбеу бұрышы (рад)",
+      "tiltSmoothFactor": "Көлбеу тегістігі"
+    },
+    "buttons": {
+      "resetSettings": "Параметрлерді қалпына келтіру",
+      "close": "Жабу",
+      "settings": "Анимация параметрлері"
+    }
+  },
   "location": "Жұмыс орны"
 }
