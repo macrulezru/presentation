@@ -5,7 +5,6 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import AutoImport from 'unplugin-auto-import/vite'
 import svgo from 'vite-plugin-svgo'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue({
@@ -27,7 +26,6 @@ export default defineConfig({
         enabled: true,
       },
     }),
-    // Плагин для оптимизации SVG
     svgo({
       multipass: true,
       plugins: [
@@ -63,13 +61,17 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  server: {
-    port: 3000,
-    open: true,
-  },
   build: {
     rollupOptions: {
       output: {
+        manualChunks(id) {
+          if (id.includes('locales') && /\.json$/.test(id)) {
+            const localeCode = id.match(/(ru|en|kz|de|zh)\.json$/i)?.[1]?.toLowerCase()
+            if (localeCode) {
+              return `locale-${localeCode}`
+            }
+          }
+        },
         assetFileNames: assetInfo => {
           if (assetInfo.name && /\.(svg)$/.test(assetInfo.name)) {
             return 'assets/images/icons/[name]-[hash][extname]'
@@ -84,5 +86,14 @@ export default defineConfig({
     target: 'esnext',
     minify: 'esbuild',
     assetsInlineLimit: 0,
+    sourcemap: process.env.NODE_ENV !== 'production',
+  },
+  server: {
+    port: 3000,
+    open: true,
+
+    hmr: {
+      overlay: true,
+    },
   },
 })
