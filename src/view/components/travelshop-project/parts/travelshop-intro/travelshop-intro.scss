@@ -43,6 +43,7 @@
       border: solid 1px #a3050b;
       background-color: var(--color-bg-primary);
       font-size: var(--font-size-sm);
+      color: #a3050b;
       cursor: pointer;
       z-index: 100;
       transition: all var(--transition-normal);
@@ -53,10 +54,13 @@
         background-color: #a3050b;
         border-color: #a3050b;
       }
+
+      &:hover .travelshop-intro__toggle-controls {
+        background: #ffffff;
+      }
     }
 
     &-controls {
-      background: #a3050b;
       border: none;
       border-radius: 50%;
       width: 24px;
@@ -65,11 +69,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      mask-image: url('@/view/assets/images/gear.svg');
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      background: #a3050b;
       transition: background-color 0.2s;
-
-      &:hover {
-        background: #8C009BFF;
-      }
     }
   }
 

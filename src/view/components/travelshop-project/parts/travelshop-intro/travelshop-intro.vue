@@ -32,7 +32,7 @@
         class="travelshop-intro__toggle-wrapper"
         @click="toggleDebugControls"
       >
-        <span class="travelshop-intro__toggle-controls">⚙️</span>
+        <span class="travelshop-intro__toggle-controls" />
         <span>{{ t('tshIntro.buttons.flight-control') }}</span>
       </span>
       <div v-if="showDebugControls" class="travelshop-intro__controls">
