@@ -92,6 +92,9 @@
                 "
                 class="travelshop-intro__controls-slider"
               />
+              <div class="travelshop-intro__controls-info">
+                {{ t(`tshIntro.info.${param.id}`) }}
+              </div>
             </div>
           </div>
         </div>
