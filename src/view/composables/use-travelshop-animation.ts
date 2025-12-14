@@ -1,4 +1,3 @@
-// composables/useTravelshopCanvas.ts
 import { ref, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
 import type { Ref } from 'vue'
 
@@ -25,6 +24,12 @@ export const useTravelshopConfig = () => {
     // Базовая высота канваса
     canvasInitHeight: 560,
 
+    // Параметры безопасной зоны для центра эллипса (отступы от краёв канваса)
+    safeZoneMargins: {
+      horizontal: 100, // Отступ слева и справа
+      vertical: 50, // Отступ сверху и снизу
+    },
+
     // Самолет
     aircraft: {
       originalWidth: 433,
@@ -32,18 +37,31 @@ export const useTravelshopConfig = () => {
       aspectRatio: 163 / 433, // ≈ 0.3765
       targetWidth: 190,
       animationDuration: 16000, // 16 секунд в миллисекундах
-      // Эллиптическая траектория
-      ellipse: {
-        horizontalOffset: 120, // Отступ по горизонтали от краев аэропорта
-        verticalAmplitude: 60, // Амплитуда по вертикали
-        centerYOffset: 0, // Смещение центра эллипса по Y относительно аэропорта
+      // Эллиптическая траектория вокруг аэропорта
+      airportEllipse: {
+        horizontalRadius: 450, // Большая полуось (по X)
+        verticalRadius: 80, // Малая полуось (по Y)
+        centerYOffset: 20, // Смещение центра эллипса по Y относительно аэропорта
         centerXOffset: 0, // Смещение центра эллипса по X относительно аэропорта
+      },
+      // Эллиптическая траектория вокруг курсора
+      mouseEllipse: {
+        horizontalRadius: 200, // Большая полуось (по X) вокруг курсора
+        verticalRadius: 100, // Малая полуось (по Y) вокруг курсора
+        roundness: 0.8, // Круглость (1 = идеальный круг, <1 = эллипс)
       },
       // Наклон самолета
       tilt: {
         enabled: true,
-        maxAngle: 0.3, // Максимальный угол наклона в радианах (~17 градусов)
+        maxAngle: 0.4, // Максимальный угол наклона в радианах (~17 градусов)
         smoothFactor: 0.8, // Коэффициент сглаживания наклона (0-1)
+      },
+      // Плавный переход к курсору
+      followMouse: {
+        enabled: true, // Включить следование за курсором
+        centerSmoothing: 0.05, // Коэффициент плавности перехода центра (0-1)
+        ellipseSmoothing: 0.1, // Коэффициент плавности изменения размера эллипса (0-1)
+        returnSpeed: 0.02, // Скорость возврата к исходной траектории при уходе курсора
       },
     },
     // Облако
@@ -157,17 +175,37 @@ export function useTravelshopCanvas(
   // Элементы сцены
   const clouds = ref<Cloud[]>([])
 
+  // Позиция курсора мыши
+  const mousePosition = ref<{ x: number; y: number } | null>(null)
+  const isMouseOverCanvas = ref(false)
+
+  // Текущий центр эллипса (плавно стремится к целевому)
+  const currentEllipseCenter = ref({ x: 0, y: 0 })
+
+  // Исходный центр аэропорта (для возврата при уходе курсора)
+  const airportEllipseCenter = ref({ x: 0, y: 0 })
+
+  // Текущие параметры эллипса (плавно изменяются)
+  const currentEllipse = ref({
+    semiMajorAxis: config.value.aircraft.airportEllipse.horizontalRadius,
+    semiMinorAxis: config.value.aircraft.airportEllipse.verticalRadius,
+  })
+
+  // Целевые параметры эллипса (зависят от того, есть ли курсор)
+  const targetEllipse = ref({
+    semiMajorAxis: config.value.aircraft.airportEllipse.horizontalRadius,
+    semiMinorAxis: config.value.aircraft.airportEllipse.verticalRadius,
+  })
+
+  // Прогресс анимации самолета (0-1)
+  const aircraftProgress = ref(0)
+
   // Самолет
   const aircraft = ref({
     x: 0,
     y: 0,
     width: config.value.aircraft.targetWidth,
     height: config.value.aircraft.targetWidth * config.value.aircraft.aspectRatio,
-    // Параметры эллиптической траектории
-    ellipseCenterX: 0,
-    ellipseCenterY: 0,
-    semiMajorAxis: 0,
-    semiMinorAxis: config.value.aircraft.ellipse.verticalAmplitude,
     // Анимация
     startTime: 0,
     animationStartTime: 0,
@@ -206,6 +244,81 @@ export function useTravelshopCanvas(
       return containerSize.value.width / 3.2
     } else {
       return config.value.airport.initialMarginTop
+    }
+  })
+
+  // Адаптивные параметры эллипса аэропорта
+  const adaptiveAirportEllipse = computed(() => {
+    if (!containerSize.value.width) return config.value.aircraft.airportEllipse
+
+    const baseEllipse = config.value.aircraft.airportEllipse
+
+    // Пример логики адаптации - можно настроить под свои нужды
+    if (containerSize.value.width < 768) {
+      // Для мобильных устройств уменьшаем радиусы
+      return {
+        ...baseEllipse,
+        horizontalRadius: containerSize.value.width * 0.5, // 50% ширины экрана
+        verticalRadius: 60, // Уменьшаем вертикальный радиус
+        centerYOffset: 10, // Меньше смещение для мобильных
+      }
+    } else if (containerSize.value.width < 1024) {
+      // Для планшетов
+      return {
+        ...baseEllipse,
+        horizontalRadius: containerSize.value.width * 0.4, // 40% ширины экрана
+        verticalRadius: 70,
+        centerYOffset: 15,
+      }
+    } else {
+      // Для десктопов возвращаем значения по умолчанию
+      return baseEllipse
+    }
+  })
+
+  // Адаптивные параметры эллипса курсора
+  const adaptiveMouseEllipse = computed(() => {
+    if (!containerSize.value.width) return config.value.aircraft.mouseEllipse
+
+    const baseEllipse = config.value.aircraft.mouseEllipse
+
+    // Аналогичная логика адаптации
+    if (containerSize.value.width < 768) {
+      return {
+        ...baseEllipse,
+        horizontalRadius: 150, // Уменьшаем для мобильных
+        verticalRadius: 75,
+        roundness: 0.7, // Делаем более круглым для маленьких экранов
+      }
+    } else if (containerSize.value.width < 1024) {
+      return {
+        ...baseEllipse,
+        horizontalRadius: 180,
+        verticalRadius: 90,
+        roundness: 0.8,
+      }
+    } else {
+      return baseEllipse
+    }
+  })
+
+  // Комбинированный вариант - проверка как в adaptiveCanvasHeight
+  const responsiveAirportEllipse = computed(() => {
+    if (!containerSize.value.width) return config.value.aircraft.airportEllipse
+
+    const baseEllipse = config.value.aircraft.airportEllipse
+
+    // Используем ту же логику, что и для высоты канваса
+    if (config.value.airport.maxWidth > containerSize.value.width - 60) {
+      // Для узких экранов уменьшаем траекторию
+      return {
+        ...baseEllipse,
+        horizontalRadius: containerSize.value.width * 0.35, // 35% ширины
+        verticalRadius: 60,
+        centerYOffset: 15,
+      }
+    } else {
+      return baseEllipse
     }
   })
 
@@ -250,6 +363,120 @@ export function useTravelshopCanvas(
       ),
     }
   })
+
+  // Вычисление безопасной зоны для центра эллипса (ТОЛЬКО отступы из конфига)
+  const safeZoneBounds = computed(() => {
+    const margins = config.value.safeZoneMargins
+
+    // Если канвас еще не инициализирован, возвращаем границы по умолчанию
+    if (containerSize.value.width === 0 || containerSize.value.height === 0) {
+      return {
+        minX: margins.horizontal,
+        maxX: margins.horizontal,
+        minY: margins.vertical,
+        maxY: margins.vertical,
+      }
+    }
+
+    const bounds = {
+      minX: margins.horizontal,
+      maxX: containerSize.value.width - margins.horizontal,
+      minY: margins.vertical,
+      maxY: containerSize.value.height - margins.vertical,
+    }
+
+    // Проверяем, чтобы min не было больше max (если отступы больше половины размера)
+    if (bounds.minX > bounds.maxX) {
+      const centerX = (bounds.minX + bounds.maxX) / 2
+      bounds.minX = centerX
+      bounds.maxX = centerX
+    }
+
+    if (bounds.minY > bounds.maxY) {
+      const centerY = (bounds.minY + bounds.maxY) / 2
+      bounds.minY = centerY
+      bounds.maxY = centerY
+    }
+
+    return bounds
+  })
+
+  // Функция для установки отступов безопасной зоны
+  const setSafeZoneMargins = (horizontal: number, vertical: number) => {
+    config.value.safeZoneMargins.horizontal = horizontal
+    config.value.safeZoneMargins.vertical = vertical
+  }
+
+  // Функция для сброса безопасной зоны к значениям по умолчанию
+  const resetSafeZoneMargins = () => {
+    config.value.safeZoneMargins.horizontal = 0
+    config.value.safeZoneMargins.vertical = 0
+  }
+
+  // Ограничение позиции центра эллипса в пределах безопасной зоны
+  const clampToSafeZone = (x: number, y: number) => {
+    const bounds = safeZoneBounds.value
+    return {
+      x: Math.max(bounds.minX, Math.min(bounds.maxX, x)),
+      y: Math.max(bounds.minY, Math.min(bounds.maxY, y)),
+    }
+  }
+
+  // Обработчики событий мыши
+  const handleMouseMove = (event: MouseEvent) => {
+    if (!canvasRef.value) return
+
+    const rect = canvasRef.value.getBoundingClientRect()
+    const dpr = window.devicePixelRatio || 1
+
+    // Преобразуем координаты мыши в координаты канваса
+    const x = (event.clientX - rect.left) * (canvasRef.value.width / rect.width / dpr)
+    const y = (event.clientY - rect.top) * (canvasRef.value.height / rect.height / dpr)
+
+    mousePosition.value = { x, y }
+  }
+
+  const handleMouseEnter = () => {
+    isMouseOverCanvas.value = true
+    // Устанавливаем целевые параметры эллипса для курсора
+    updateTargetEllipseForMouse()
+  }
+
+  const handleMouseLeave = () => {
+    isMouseOverCanvas.value = false
+    mousePosition.value = null
+    // Возвращаем целевые параметры эллипса к аэропорту
+    updateTargetEllipseForAirport()
+  }
+
+  // Обновление целевых параметров эллипса для курсора
+  const updateTargetEllipseForMouse = () => {
+    if (!config.value.aircraft.followMouse.enabled) return
+
+    // Получаем адаптивные параметры эллипса для курсора
+    const mouseEllipse = adaptiveMouseEllipse.value
+
+    const mouseHorizontal = mouseEllipse.horizontalRadius
+    const mouseVertical = mouseEllipse.verticalRadius
+
+    // Применяем круглость для более круглой траектории
+    const roundness = mouseEllipse.roundness
+    const baseRadius = Math.min(mouseHorizontal, mouseVertical)
+
+    targetEllipse.value.semiMajorAxis =
+      baseRadius + (mouseHorizontal - baseRadius) * roundness
+    targetEllipse.value.semiMinorAxis =
+      baseRadius + (mouseVertical - baseRadius) * roundness
+  }
+
+  // Обновление целевых параметров эллипса для аэропорта
+  const updateTargetEllipseForAirport = () => {
+    // Используем адаптивные значения эллипса аэропорта
+    const ellipse = adaptiveAirportEllipse.value
+
+    targetEllipse.value.semiMajorAxis = ellipse.horizontalRadius
+    targetEllipse.value.semiMinorAxis = ellipse.verticalRadius
+  }
 
   // Загрузка изображений
   const loadImages = async (): Promise<void> => {
@@ -347,17 +574,33 @@ export function useTravelshopCanvas(
     const airportX = sceneCenter.value.x - airportWidth / 2
     const airportY = adaptiveAirportMarginTop.value
 
-    // Настраиваем эллиптическую траекторию самолета вокруг аэропорта
-    // Большая полуось (по X) - половина ширины аэропорта плюс отступ
-    aircraft.value.semiMajorAxis =
-      airportWidth / 2 + config.value.aircraft.ellipse.horizontalOffset
+    // Используем адаптивные значения эллипса аэропорта
+    const ellipse = adaptiveAirportEllipse.value
 
     // Центр эллипса совпадает с центром аэропорта по X, с возможным смещением
-    aircraft.value.ellipseCenterX =
-      airportX + airportWidth / 2 + config.value.aircraft.ellipse.centerXOffset
+    airportEllipseCenter.value.x = airportX + airportWidth / 2 + ellipse.centerXOffset
 
     // Центр эллипса по Y - ниже аэропорта на заданное смещение
-    aircraft.value.ellipseCenterY = airportY + config.value.aircraft.ellipse.centerYOffset
+    airportEllipseCenter.value.y = airportY + ellipse.centerYOffset
+
+    // Проверяем, находится ли центр аэропорта в пределах безопасной зоны
+    // Если нет - корректируем его, но сохраняем смещение относительно аэропорта
+    const safeAirportCenter = clampToSafeZone(
+      airportEllipseCenter.value.x,
+      airportEllipseCenter.value.y,
+    )
+    airportEllipseCenter.value.x = safeAirportCenter.x
+    airportEllipseCenter.value.y = safeAirportCenter.y
+
+    // Инициализируем текущий центр как центр аэропорта
+    currentEllipseCenter.value = { ...airportEllipseCenter.value }
+
+    // Инициализируем параметры эллипса
+    currentEllipse.value.semiMajorAxis = ellipse.horizontalRadius
+    currentEllipse.value.semiMinorAxis = ellipse.verticalRadius
+
+    targetEllipse.value.semiMajorAxis = ellipse.horizontalRadius
+    targetEllipse.value.semiMinorAxis = ellipse.verticalRadius
 
     // Обновляем размер самолета из конфига (на случай изменения на лету)
     aircraft.value.width = config.value.aircraft.targetWidth
@@ -367,6 +610,9 @@ export function useTravelshopCanvas(
     // Начинаем анимацию самолета
     aircraft.value.animationStartTime = Date.now()
     aircraft.value.isAnimating = true
+
+    // Инициализация прогресса анимации
+    aircraftProgress.value = 0
 
     const dpr = window.devicePixelRatio || 1
     canvas.width = rect.width * dpr
@@ -463,34 +709,116 @@ export function useTravelshopCanvas(
     clouds.value = clouds.value.filter(cloud => !cloudsToRemove.includes(cloud))
   }
 
-  // Обновление позиции самолета (эллиптическая траектория с наклоном и отражением)
+  // Обновление центра эллипса
+  const updateEllipseCenter = () => {
+    if (!config.value.aircraft.followMouse.enabled) {
+      // Просто держим центр на аэропорте (с учётом безопасной зоны)
+      const safeAirportCenter = clampToSafeZone(
+        airportEllipseCenter.value.x,
+        airportEllipseCenter.value.y,
+      )
+      currentEllipseCenter.value = { ...safeAirportCenter }
+      return
+    }
+
+    if (isMouseOverCanvas.value && mousePosition.value) {
+      // Курсор на канвасе - плавно смещаем центр к курсору
+      // Сначала ограничиваем позицию курсора безопасной зоной
+      const safeMousePos = clampToSafeZone(mousePosition.value.x, mousePosition.value.y)
+
+      // Плавная интерполяция к безопасной позиции курсора
+      const smoothing = config.value.aircraft.followMouse.centerSmoothing
+      currentEllipseCenter.value.x +=
+        (safeMousePos.x - currentEllipseCenter.value.x) * smoothing
+      currentEllipseCenter.value.y +=
+        (safeMousePos.y - currentEllipseCenter.value.y) * smoothing
+
+      // Дополнительно ограничиваем (на всякий случай)
+      const safeCurrent = clampToSafeZone(
+        currentEllipseCenter.value.x,
+        currentEllipseCenter.value.y,
+      )
+      currentEllipseCenter.value.x = safeCurrent.x
+      currentEllipseCenter.value.y = safeCurrent.y
+    } else {
+      // Курсор ушел - плавно возвращаемся к центру аэропорта
+      const returnSpeed = config.value.aircraft.followMouse.returnSpeed
+
+      // Получаем безопасную позицию аэропорта
+      const safeAirportCenter = clampToSafeZone(
+        airportEllipseCenter.value.x,
+        airportEllipseCenter.value.y,
+      )
+
+      currentEllipseCenter.value.x +=
+        (safeAirportCenter.x - currentEllipseCenter.value.x) * returnSpeed
+      currentEllipseCenter.value.y +=
+        (safeAirportCenter.y - currentEllipseCenter.value.y) * returnSpeed
+
+      // Ограничиваем текущую позицию безопасной зоной
+      const safeCurrent = clampToSafeZone(
+        currentEllipseCenter.value.x,
+        currentEllipseCenter.value.y,
+      )
+      currentEllipseCenter.value.x = safeCurrent.x
+      currentEllipseCenter.value.y = safeCurrent.y
+    }
+  }
+
+  // Обновление параметров эллипса
+  const updateEllipseParameters = () => {
+    if (!config.value.aircraft.followMouse.enabled) {
+      // Если следование за мышью отключено, используем адаптивные параметры аэропорта
+      const ellipse = adaptiveAirportEllipse.value
+      currentEllipse.value.semiMajorAxis = ellipse.horizontalRadius
+      currentEllipse.value.semiMinorAxis = ellipse.verticalRadius
+      return
+    }
+
+    // Плавная интерполяция текущих параметров к целевым
+    const smoothing = config.value.aircraft.followMouse.ellipseSmoothing
+    currentEllipse.value.semiMajorAxis +=
+      (targetEllipse.value.semiMajorAxis - currentEllipse.value.semiMajorAxis) * smoothing
+    currentEllipse.value.semiMinorAxis +=
+      (targetEllipse.value.semiMinorAxis - currentEllipse.value.semiMinorAxis) * smoothing
+  }
+
+  // Обновление позиции самолета
   const updateAircraft = () => {
     if (!aircraft.value.isAnimating) return
 
+    // Сохраняем предыдущую позицию для вычисления скорости
+    const prevX = aircraft.value.x
+    const prevY = aircraft.value.y
+
+    // Обновляем центр и параметры эллипса
+    updateEllipseCenter()
+    updateEllipseParameters()
+
+    // Обновляем прогресс анимации (всегда увеличивается)
     const elapsed = Date.now() - aircraft.value.animationStartTime
-    const progress =
+    aircraftProgress.value =
       (elapsed % config.value.aircraft.animationDuration) /
       config.value.aircraft.animationDuration
 
     // Угол на эллипсе (от 0 до 2π)
-    const angle = progress * 2 * Math.PI
+    const angle = aircraftProgress.value * 2 * Math.PI
 
-    // Параметрическое уравнение эллипса
+    // Параметрическое уравнение эллипса относительно текущего центра
     aircraft.value.x =
-      aircraft.value.ellipseCenterX + aircraft.value.semiMajorAxis * Math.cos(angle)
+      currentEllipseCenter.value.x + currentEllipse.value.semiMajorAxis * Math.cos(angle)
     aircraft.value.y =
-      aircraft.value.ellipseCenterY + aircraft.value.semiMinorAxis * Math.sin(angle)
+      currentEllipseCenter.value.y + currentEllipse.value.semiMinorAxis * Math.sin(angle)
 
-    // Вычисляем угол касательной к эллипсу
-    // Производная: dx = -a*sin(θ), dy = b*cos(θ)
-    const dx = -aircraft.value.semiMajorAxis * Math.sin(angle)
-    const dy = aircraft.value.semiMinorAxis * Math.cos(angle)
+    // Вычисляем скорость для определения направления
+    const velocityX = aircraft.value.x - prevX
+    const velocityY = aircraft.value.y - prevY
 
-    // Угол касательной (направление движения)
-    const tangentAngle = Math.atan2(dy, dx)
+    // Вычисляем угол направления движения
+    const moveAngle = Math.atan2(velocityY, velocityX)
 
     // Определяем направление (отражаем если летит влево)
-    aircraft.value.flipHorizontal = dx < 0 ? -1 : 1
+    aircraft.value.flipHorizontal = velocityX < 0 ? -1 : 1
 
     // Вычисляем угол наклона для самолета
     let targetAngle = 0
@@ -498,10 +826,10 @@ export function useTravelshopCanvas(
       // Для отраженного самолета корректируем угол
       if (aircraft.value.flipHorizontal === -1) {
         // Когда самолет летит влево, нужно инвертировать угол
-        targetAngle = -tangentAngle
+        targetAngle = -moveAngle
       } else {
         // Когда самолет летит вправо
-        targetAngle = tangentAngle
+        targetAngle = moveAngle
       }
 
       // Корректируем угол чтобы он был в правильном диапазоне
@@ -541,20 +869,94 @@ export function useTravelshopCanvas(
       canvas.height / window.devicePixelRatio,
     )
 
-    // 1. Задний слой облаков - ДОЛЖЕН БЫТЬ САМЫМ ПЕРВЫМ
+    // 1. Задний слой облаков
     drawCloudLayer('back')
 
-    // 2. Средний слой облаков - ВТОРЫМИ
+    // 2. Средний слой облаков
     drawCloudLayer('middle')
 
-    // 3. Аэропорт - ТРЕТЬИМ
+    // 3. Аэропорт
     drawAirport()
 
-    // 4. Самолет - ЧЕТВЕРТЫМ
+    // 4. Самолет
     drawAircraft()
 
-    // 5. Передний слой облаков - ПОСЛЕДНИМ
+    // 5. Передний слой облаков
     drawCloudLayer('front')
+
+    // Отладка: отрисовка текущего центра эллипса и траектории (опционально)
+    //drawDebugInfo()
+  }
+
+  // Отрисовка отладочной информации
+  // @ts-ignore
+  const drawDebugInfo = () => {
+    if (!ctx.value) return
+
+    ctx.value.save()
+
+    // Отрисовываем текущий центр эллипса
+    ctx.value.fillStyle = 'rgba(255, 0, 0, 0.5)'
+    ctx.value.beginPath()
+    ctx.value.arc(
+      currentEllipseCenter.value.x,
+      currentEllipseCenter.value.y,
+      5,
+      0,
+      Math.PI * 2,
+    )
+    ctx.value.fill()
+
+    // Отрисовываем центр аэропорта
+    ctx.value.fillStyle = 'rgba(0, 255, 0, 0.5)'
+    ctx.value.beginPath()
+    ctx.value.arc(
+      airportEllipseCenter.value.x,
+      airportEllipseCenter.value.y,
+      3,
+      0,
+      Math.PI * 2,
+    )
+    ctx.value.fill()
+
+    // Отрисовываем безопасную зону (только отступы)
+    ctx.value.strokeStyle = 'rgba(255, 0, 255, 0.3)'
+    ctx.value.lineWidth = 1
+    ctx.value.setLineDash([5, 5])
+    const bounds = safeZoneBounds.value
+    ctx.value.strokeRect(
+      bounds.minX,
+      bounds.minY,
+      bounds.maxX - bounds.minX,
+      bounds.maxY - bounds.minY,
+    )
+    ctx.value.setLineDash([])
+
+    // Отрисовываем эллиптическую траекторию
+    ctx.value.strokeStyle = 'rgba(255, 255, 0, 0.3)'
+    ctx.value.lineWidth = 1
+    ctx.value.beginPath()
+
+    const steps = 100
+    for (let i = 0; i <= steps; i++) {
+      const angle = (i / steps) * 2 * Math.PI
+      const x =
+        currentEllipseCenter.value.x +
+        currentEllipse.value.semiMajorAxis * Math.cos(angle)
+      const y =
+        currentEllipseCenter.value.y +
+        currentEllipse.value.semiMinorAxis * Math.sin(angle)
+
+      if (i === 0) {
+        ctx.value.moveTo(x, y)
+      } else {
+        ctx.value.lineTo(x, y)
+      }
+    }
+    ctx.value.closePath()
+    ctx.value.stroke()
+
+    ctx.value.restore()
   }
 
   // Отрисовка слоя облаков
@@ -755,10 +1157,26 @@ export function useTravelshopCanvas(
       })
     }
 
+    // Добавляем обработчики событий мыши
+    const canvas = canvasRef.value
+    if (canvas) {
+      canvas.addEventListener('mousemove', handleMouseMove)
+      canvas.addEventListener('mouseenter', handleMouseEnter)
+      canvas.addEventListener('mouseleave', handleMouseLeave)
+    }
+
     window.addEventListener('resize', throttleResize)
   })
 
   onUnmounted(() => {
+    // Удаляем обработчики событий мыши
+    const canvas = canvasRef.value
+    if (canvas) {
+      canvas.removeEventListener('mousemove', handleMouseMove)
+      canvas.removeEventListener('mouseenter', handleMouseEnter)
+      canvas.removeEventListener('mouseleave', handleMouseLeave)
+    }
+
     stopAnimation()
     window.removeEventListener('resize', throttleResize)
     if (resizeThrottleTimeout) {
@@ -778,7 +1196,28 @@ export function useTravelshopCanvas(
     () => config.value,
     () => {
       if (allImagesLoaded.value) {
+        // Обновляем целевые параметры эллипса в зависимости от состояния курсора
+        if (isMouseOverCanvas.value) {
+          updateTargetEllipseForMouse()
+        } else {
+          updateTargetEllipseForAirport()
+        }
         recreateScene()
+      }
+    },
+    { deep: true },
+  )
+
+  // Watch для адаптивных эллипсов
+  watch(
+    [adaptiveAirportEllipse, adaptiveMouseEllipse],
+    () => {
+      if (allImagesLoaded.value) {
+        if (isMouseOverCanvas.value) {
+          updateTargetEllipseForMouse()
+        } else {
+          updateTargetEllipseForAirport()
+        }
       }
     },
     { deep: true },
@@ -789,6 +1228,15 @@ export function useTravelshopCanvas(
     Object.assign(config.value, newConfig)
   }
 
+  // Функция для включения/выключения следования за мышью
+  const setFollowMouseEnabled = (enabled: boolean) => {
+    config.value.aircraft.followMouse.enabled = enabled
+    if (!enabled) {
+      // Возвращаем параметры к аэропорту
+      updateTargetEllipseForAirport()
+    }
+  }
+
   return {
     canvasRef,
     allImagesLoaded,
@@ -796,5 +1244,19 @@ export function useTravelshopCanvas(
     config,
     updateConfig,
     recreateScene,
+    setFollowMouseEnabled,
+    setSafeZoneMargins,
+    resetSafeZoneMargins,
+    isMouseOverCanvas,
+    mousePosition,
+    currentEllipseCenter,
+    airportEllipseCenter,
+    safeZoneBounds,
+    adaptiveAirportEllipse,
+    adaptiveMouseEllipse,
+    responsiveAirportEllipse,
+    adaptiveCanvasHeight,
+    adaptiveAirportMarginTop,
+    adaptiveCloudsCount,
   }
 }
