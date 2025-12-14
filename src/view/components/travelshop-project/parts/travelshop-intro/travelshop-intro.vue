@@ -27,13 +27,14 @@
     </div>
 
     <template v-if="isDesktop">
-      <button
+      <span
         v-if="!showDebugControls"
-        class="travelshop-intro__toggle-controls"
+        class="travelshop-intro__toggle-wrapper"
         @click="toggleDebugControls"
       >
-        ⚙️
-      </button>
+        <span class="travelshop-intro__toggle-controls">⚙️</span>
+        <span>{{ t('tshIntro.buttons.flight-control') }}</span>
+      </span>
       <div v-if="showDebugControls" class="travelshop-intro__controls">
         <div class="travelshop-intro__controls-header">
           <div class="travelshop-intro__controls-header-title">
