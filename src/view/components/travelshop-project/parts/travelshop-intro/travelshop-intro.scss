@@ -29,26 +29,50 @@
     font-size: var(--font-size-sm);
   }
 
-  &__toggle-controls {
-    position: absolute;
-    left: 10px;
-    bottom: 10px;
-    z-index: 100;
-    background: rgb(0 0 0 / 70%);
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
+  &__toggle {
+    &-wrapper {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px 6px 6px;
+      left: 10px;
+      bottom: 10px;
+      border-radius: 27px;
+      border: solid 1px #a3050b;
+      background-color: var(--color-bg-primary);
+      font-size: var(--font-size-sm);
+      cursor: pointer;
+      z-index: 100;
+      transition: all var(--transition-normal);
 
-    &:hover {
-      background: rgb(0 0 0 / 90%);
+      &:hover {
+        color: #fff;
+        background-color: #a3050b;
+        border-color: #a3050b;
+      }
     }
+
+    &-controls {
+      background: #a3050b;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background: #8C009BFF;
+      }
+    }
+  }
+
+  &__toggle-wrapper {
+
   }
 
   &__controls {
@@ -104,7 +128,7 @@
       transition: background-color 0.2s;
 
       &:hover {
-        background-color: rgb(255 255 255 / 10%);
+        background-color: rgb(147, 0, 0);
       }
     }
 
@@ -191,7 +215,6 @@
         background: #3a4558;
       }
 
-      // Стили для Webkit (Chrome, Safari, Edge)
       &::-webkit-slider-runnable-track {
         width: 100%;
         height: 6px;

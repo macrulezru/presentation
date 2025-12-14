@@ -20,6 +20,8 @@ interface Cloud {
 }
 
 export function useTravelshopCanvas(containerRef: Ref<HTMLElement | undefined>) {
+  const { t } = useI18n()
+
   const canvasRef = ref<HTMLCanvasElement>()
   const ctx = ref<CanvasRenderingContext2D | null>(null)
   const animationId = ref<number>()
@@ -1119,7 +1121,7 @@ export function useTravelshopCanvas(containerRef: Ref<HTMLElement | undefined>) 
     ctx.value.setLineDash([])
 
     // 4. Отрисовываем эллиптическую траекторию
-    ctx.value.strokeStyle = 'rgba(255, 255, 0, 0.8)'
+    ctx.value.strokeStyle = 'rgba(6,74,250,0.8)'
     ctx.value.lineWidth = 1
     ctx.value.beginPath()
 
@@ -1270,56 +1272,126 @@ export function useTravelshopCanvas(containerRef: Ref<HTMLElement | undefined>) 
       currentEllipseCenter.value.y - 10,
     )
 
-    // 9. Отладочный текст в углу
+    // 9. Отладочный текст в углу с подложкой
     const speed = velocityLength
     const angleDeg = ((aircraftAngle.value * 180) / Math.PI).toFixed(1)
     const isCritical = isInCriticalPoint(aircraftAngle.value)
     const moveDirection = getAircraftMoveDirection()
 
-    ctx.value.fillStyle = 'white'
-    ctx.value.font = '12px Arial'
-    ctx.value.textAlign = 'left'
-    ctx.value.fillText(
-      `Направление: ${rotationDirection.value === 1 ? 'По часовой' : 'Против часовой'}`,
-      10,
-      20,
-    )
-    ctx.value.fillText(`Скорость: ${speed.toFixed(2)} px/s`, 10, 40)
-    ctx.value.fillText(`Угол: ${angleDeg}°`, 10, 60)
-    ctx.value.fillText(
+    // Собираем все строки для отладочной информации
+    const debugLines = [
+      `${t('tshIntro.panel.direction')}: ${rotationDirection.value === 1 ? t('tshIntro.panel.clockwise') : t('tshIntro.panel.counterclockwise')}`,
+      `${t('tshIntro.panel.speed')}: ${speed.toFixed(2)} px/s`,
+      `${t('tshIntro.panel.angle')}: ${angleDeg}°`,
       `Cross: ${directionChangeState.value.smoothedCrossValue.toFixed(3)}`,
-      10,
-      80,
-    )
-    ctx.value.fillText(`Движение: ${moveDirection > 0 ? 'Вправо' : 'Влево'}`, 10, 100)
-    ctx.value.fillText(`Крит.точка: ${isCritical ? 'ДА' : 'нет'}`, 10, 120)
-    ctx.value.fillText(
-      `Наклон: ${((aircraft.value.tiltAngle * 180) / Math.PI).toFixed(1)}°`,
-      10,
-      140,
-    )
-    ctx.value.fillText(
-      `Отражение: ${aircraft.value.flipHorizontal === 1 ? 'Нет' : 'Да'}`,
-      10,
-      160,
-    )
+      `${t('tshIntro.panel.movement')}: ${moveDirection > 0 ? t('tshIntro.panel.right') : t('tshIntro.panel.left')}`,
+      `${t('tshIntro.panel.critical_point')}: ${isCritical ? t('tshIntro.panel.yes') : t('tshIntro.panel.no')}`,
+      `${t('tshIntro.panel.tilt')}: ${((aircraft.value.tiltAngle * 180) / Math.PI).toFixed(1)}°`,
+      `${t('tshIntro.panel.reflection')}: ${aircraft.value.flipHorizontal === 1 ? t('tshIntro.panel.no') : t('tshIntro.panel.yes')}`,
+      `${t('tshIntro.panel.position')}: (${Math.round(aircraft.value.x)}, ${Math.round(aircraft.value.y)})`,
+    ]
 
-    // 10. Позиция самолета
-    ctx.value.fillText(
-      `Позиция: (${Math.round(aircraft.value.x)}, ${Math.round(aircraft.value.y)})`,
-      10,
-      180,
-    )
-
-    // 11. Позиция курсора (если есть)
+    // Добавляем строку с курсором если есть
     if (mousePosition.value) {
-      ctx.value.fillStyle = 'rgba(0, 150, 255, 0.9)'
-      ctx.value.fillText(
-        `Курсор: (${Math.round(mousePosition.value.x)}, ${Math.round(mousePosition.value.y)})`,
-        10,
-        200,
+      debugLines.push(
+        `${t('tshIntro.panel.cursor')}: (${Math.round(mousePosition.value.x)}, ${Math.round(mousePosition.value.y)})`,
       )
     }
+
+    // Устанавливаем стиль текста для измерения
+    ctx.value.font = '12px Arial'
+    ctx.value.textAlign = 'left'
+
+    // Вычисляем максимальную ширину текста для подложки
+    let maxWidth = 0
+    debugLines.forEach(line => {
+      const metrics = ctx.value!.measureText(line)
+      maxWidth = Math.max(maxWidth, metrics.width)
+    })
+
+    // Параметры подложки
+    const padding = 12
+    const lineHeight = 20
+    const borderRadius = 10
+    const boxX = 10
+    const boxY = 10
+
+    // Вычисляем размеры подложки
+    const boxWidth = maxWidth + padding * 2
+    const boxHeight = debugLines.length * lineHeight + padding * 2
+
+    // Рисуем подложку со скругленными углами
+    ctx.value.save()
+
+    // Сначала устанавливаем тень
+    ctx.value.shadowColor = 'rgba(0, 0, 0, 0.4)'
+    ctx.value.shadowBlur = 8
+    ctx.value.shadowOffsetX = 2
+    ctx.value.shadowOffsetY = 2
+
+    // Заливка подложки
+    ctx.value.fillStyle = 'rgba(0, 0, 0, 0.7)'
+
+    // Начинаем путь для скругленного прямоугольника
+    ctx.value.beginPath()
+    ctx.value.moveTo(boxX + borderRadius, boxY)
+    ctx.value.lineTo(boxX + boxWidth - borderRadius, boxY)
+    ctx.value.quadraticCurveTo(
+      boxX + boxWidth,
+      boxY,
+      boxX + boxWidth,
+      boxY + borderRadius,
+    )
+    ctx.value.lineTo(boxX + boxWidth, boxY + boxHeight - borderRadius)
+    ctx.value.quadraticCurveTo(
+      boxX + boxWidth,
+      boxY + boxHeight,
+      boxX + boxWidth - borderRadius,
+      boxY + boxHeight,
+    )
+    ctx.value.lineTo(boxX + borderRadius, boxY + boxHeight)
+    ctx.value.quadraticCurveTo(
+      boxX,
+      boxY + boxHeight,
+      boxX,
+      boxY + boxHeight - borderRadius,
+    )
+    ctx.value.lineTo(boxX, boxY + borderRadius)
+    ctx.value.quadraticCurveTo(boxX, boxY, boxX + borderRadius, boxY)
+    ctx.value.closePath()
+    ctx.value.fill()
+
+    // Добавляем тонкую рамку
+    ctx.value.strokeStyle = 'rgba(255, 255, 255, 0.3)'
+    ctx.value.lineWidth = 1
+    ctx.value.stroke()
+
+    ctx.value.restore()
+
+    // Сбрасываем тень для текста
+    ctx.value.shadowColor = 'transparent'
+    ctx.value.shadowBlur = 0
+    ctx.value.shadowOffsetX = 0
+    ctx.value.shadowOffsetY = 0
+
+    // Рисуем текст на подложке
+    debugLines.forEach((line, index) => {
+      if (!ctx.value) {
+        return
+      }
+
+      // Для строки с курсором используем другой цвет
+      if (line.startsWith('Курсор:')) {
+        ctx.value.fillStyle = 'rgba(0, 150, 255, 0.9)'
+      } else {
+        ctx.value.fillStyle = 'white'
+      }
+
+      // Вычисляем Y-координату для текущей строки
+      const textY = boxY + padding * 2 + index * lineHeight
+
+      ctx.value.fillText(line, boxX + padding, textY)
+    })
 
     ctx.value.restore()
   }
