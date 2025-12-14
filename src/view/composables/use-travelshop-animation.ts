@@ -1120,20 +1120,69 @@ export function useTravelshopCanvas(containerRef: Ref<HTMLElement | undefined>) 
     )
     ctx.value.setLineDash([])
 
-    // 4. Отрисовываем эллиптическую траекторию
-    ctx.value.strokeStyle = 'rgba(6,74,250,0.8)'
+    // 4. Отрисовываем все три эллиптические траектории
+    const steps = 100
+    const commonCenter = currentEllipseCenter.value
+
+    // 4.1 Траектория аэропорта
+    const airportEllipse = adaptiveAirportEllipse.value
+    ctx.value.strokeStyle = 'rgba(250,136,6,0.94)'
     ctx.value.lineWidth = 1
     ctx.value.beginPath()
 
-    const steps = 100
     for (let i = 0; i <= steps; i++) {
       const angle = (i / steps) * 2 * Math.PI
-      const x =
-        currentEllipseCenter.value.x +
-        currentEllipse.value.semiMajorAxis * Math.cos(angle)
-      const y =
-        currentEllipseCenter.value.y +
-        currentEllipse.value.semiMinorAxis * Math.sin(angle)
+      const x = commonCenter.x + airportEllipse.horizontalRadius * Math.cos(angle)
+      const y = commonCenter.y + airportEllipse.verticalRadius * Math.sin(angle)
+
+      if (i === 0) {
+        ctx.value.moveTo(x, y)
+      } else {
+        ctx.value.lineTo(x, y)
+      }
+    }
+    ctx.value.closePath()
+    ctx.value.stroke()
+
+    // 4.2 Траектория мышки
+    const mouseEllipse = adaptiveMouseEllipse.value
+    // Вычисляем полуоси с учетом круглости (как в updateTargetEllipseForMouse)
+    const baseRadius = Math.min(
+      mouseEllipse.horizontalRadius,
+      mouseEllipse.verticalRadius,
+    )
+    const mouseSemiMajorAxis =
+      baseRadius + (mouseEllipse.horizontalRadius - baseRadius) * mouseEllipse.roundness
+    const mouseSemiMinorAxis =
+      baseRadius + (mouseEllipse.verticalRadius - baseRadius) * mouseEllipse.roundness
+
+    ctx.value.strokeStyle = 'rgba(169,6,250,0.8)'
+    ctx.value.lineWidth = 1
+    ctx.value.beginPath()
+
+    for (let i = 0; i <= steps; i++) {
+      const angle = (i / steps) * 2 * Math.PI
+      const x = commonCenter.x + mouseSemiMajorAxis * Math.cos(angle)
+      const y = commonCenter.y + mouseSemiMinorAxis * Math.sin(angle)
+
+      if (i === 0) {
+        ctx.value.moveTo(x, y)
+      } else {
+        ctx.value.lineTo(x, y)
+      }
+    }
+    ctx.value.closePath()
+    ctx.value.stroke()
+
+    // 4.3 Текущая активная траектория
+    ctx.value.strokeStyle = 'rgba(6,74,250,0.8)'
+    ctx.value.lineWidth = 2 // Сделаем текущую траекторию немного толще для наглядности
+    ctx.value.beginPath()
+
+    for (let i = 0; i <= steps; i++) {
+      const angle = (i / steps) * 2 * Math.PI
+      const x = commonCenter.x + currentEllipse.value.semiMajorAxis * Math.cos(angle)
+      const y = commonCenter.y + currentEllipse.value.semiMinorAxis * Math.sin(angle)
 
       if (i === 0) {
         ctx.value.moveTo(x, y)
