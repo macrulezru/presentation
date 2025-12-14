@@ -30,6 +30,83 @@
     font-size: var(--font-size-sm);
   }
 
+  &__music-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #4a5568;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 0;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+
+    &:hover {
+      background: #5a6578;
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &:focus {
+      outline: 2px solid rgba(255, 255, 255, 0.3);
+      outline-offset: 2px;
+    }
+
+    /* Стиль для состояния "играет" */
+    &--playing {
+      background: #4CAF50;
+
+      &:hover {
+        background: #5cbf62;
+      }
+    }
+
+    /* Стиль для состояния "ошибка" */
+    &--error {
+      background: #f44336;
+      animation: pulse-error 1.5s infinite;
+
+      &:hover {
+        background: #f55a4e;
+      }
+    }
+
+    @keyframes pulse-error {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  &__music-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+  }
+
+  &__music-play-icon {
+    width: 14px;
+    height: 14px;
+    margin-left: 1px; /* Смещение для треугольничка play */
+  }
+
+  &__music-pause-icon {
+    width: 12px;
+    height: 12px;
+  }
+
   &__toggle {
     &-wrapper {
       position: absolute;
