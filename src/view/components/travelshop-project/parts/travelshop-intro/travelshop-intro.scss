@@ -144,11 +144,11 @@
       transition: background-color 0.2s;
 
       &:hover {
-        background: #5a6578;
+        background: rgb(147, 0, 0);
       }
 
       &:active {
-        background: #3a4558;
+        background-color: rgb(147, 0, 0);
       }
     }
 
