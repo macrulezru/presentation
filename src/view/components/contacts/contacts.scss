@@ -26,6 +26,20 @@
     font-weight: var(--font-weight-medium);
   }
 
+  &__avatar {
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: solid 3px #b404e3;
+    position: relative;
+    background-image: url("@/view/assets/images/me.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
   &__content {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -222,7 +236,7 @@
 
   .form-error {
     padding: var(--spacing-md);
-    background: rgba(231, 76, 60, 0.1);
+    background: rgb(231 76 60 / 10%);
     border: 1px solid var(--color-accent-red);
     border-radius: var(--radius-md);
     color: var(--color-accent-red);
@@ -231,7 +245,7 @@
 
   .form-success {
     padding: var(--spacing-md);
-    background: rgba(39, 174, 96, 0.1);
+    background: rgb(39 174 96 / 10%);
     border: 1px solid var(--color-accent-green);
     border-radius: var(--radius-md);
     color: var(--color-accent-green);
@@ -261,7 +275,7 @@
       width: 20px;
       height: 20px;
       margin: -10px 0 0 -10px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      border: 2px solid rgb(255 255 255 / 30%);
       border-top-color: var(--color-text-light);
       border-radius: 50%;
       animation: form-spinner 0.6s linear infinite;

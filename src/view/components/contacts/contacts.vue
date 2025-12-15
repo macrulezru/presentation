@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import LocationMap from '@/view/components/contacts/parts/map/location-map.vue'
   import Button from '@/view/ui/ui-button/ui-button.vue'
+  import Avatar from '@/view/assets/images/me.png'
 
   import '@/view/components/contacts/contacts.scss'
 
@@ -161,6 +162,7 @@ ${t('form.sent_from')}: ${window.location.href}
       <header class="contacts__header">
         <h2 class="contacts__title">{{ t('contacts.title') }}</h2>
         <p class="contacts__subtitle">{{ t('contacts.subtitle') }}</p>
+        <div class="contacts__avatar" />
       </header>
 
       <div class="contacts__content">
