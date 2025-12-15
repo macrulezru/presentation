@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import LocationMap from '@/view/components/contacts/parts/map/location-map.vue'
   import Button from '@/view/ui/ui-button/ui-button.vue'
-  import Avatar from '@/view/assets/images/me.png'
 
   import '@/view/components/contacts/contacts.scss'
 
