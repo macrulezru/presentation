@@ -161,6 +161,7 @@ ${t('form.sent_from')}: ${window.location.href}
       <header class="contacts__header">
         <h2 class="contacts__title">{{ t('contacts.title') }}</h2>
         <p class="contacts__subtitle">{{ t('contacts.subtitle') }}</p>
+        <div class="contacts__avatar" />
       </header>
 
       <div class="contacts__content">
