@@ -27,6 +27,7 @@
     { id: PageSectionsEnum.EXPERIENCE, label: t('navigation.experience') },
     { id: PageSectionsEnum.TRAVELSHOP, label: t('navigation.travelshop') },
     { id: PageSectionsEnum.FEATURES, label: t('navigation.features') },
+    { id: PageSectionsEnum.ARTS, label: t('navigation.arts') },
     { id: PageSectionsEnum.REMOTE_WORKPLACE, label: t('navigation.workplace') },
     { id: PageSectionsEnum.CONTACTS, label: t('navigation.contacts') },
   ])

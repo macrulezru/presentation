@@ -4,6 +4,7 @@
     "about": "Über Mich",
     "experience": "Karriere",
     "travelshop": "TravelShop",
+    "arts": "Bilder",
     "features": "Lösungen",
     "workplace": "Arbeitsplatz",
     "contacts": "Kontakte"
@@ -879,6 +880,10 @@
       "close": "Schließen",
       "settings": "Animationseinstellungen"
     }
+  },
+  "design": {
+    "title": "Design-Erbe",
+    "description": "Grafikdesign verschiedener Projekte vor dem Wechsel in den Entwicklermodus"
   },
   "location": "Arbeitsstandort"
 }

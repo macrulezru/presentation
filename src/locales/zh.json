@@ -5,6 +5,7 @@
     "experience": "职业生涯",
     "travelshop": "TravelShop",
     "features": "解决方案",
+    "arts": "图片",
     "workplace": "工作场所",
     "contacts": "联系方式"
   },
@@ -879,6 +880,10 @@
       "close": "关闭",
       "settings": "动画设置"
     }
+  },
+  "design": {
+    "title": "设计遗产",
+    "description": "转行做开发前的各种项目平面设计"
   },
   "location": "工作地点"
 }

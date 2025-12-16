@@ -1,5 +1,6 @@
+// router/index.ts
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { i18n, loadLocale } from '@/locales' // Импортируем loadLocale
+import { i18n, loadLocale } from '@/locales'
 import { PageSectionsEnum, type PageSectionsType } from '@/enums/page-sections.enum'
 import { LocalesList, LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum'
 
@@ -21,20 +22,31 @@ const router = createRouter({
   routes,
 })
 
-// Проверка на валидность секции
+const isStaticFile = (path: string): boolean => {
+  const staticPatterns = [
+    /^\/assets\//,
+    /^\/src\//,
+    /\.(png|jpe?g|gif|svg|webp|ico|css|js|woff2?|ttf|eot)$/i,
+  ]
+  return staticPatterns.some(pattern => pattern.test(path))
+}
+
 const isSupportedSection = (section: string): section is PageSectionsType => {
   return Object.values(PageSectionsEnum).includes(section as PageSectionsEnum)
 }
 
-// Глобальный хук для обработки навигации
 router.beforeEach(async to => {
+  const path = to.path
+
+  if (isStaticFile(path)) {
+    return true
+  }
+
   const toLocale = to.params.locale as string
   const toSection = to.params.section as string
 
-  // Если нет локали, используем сохраненную или русскую по умолчанию
   if (!toLocale) {
     const savedLocale = localStorage.getItem('user-locale') || LocalesEnum.RU
-    // Загружаем локаль перед редиректом
     if (savedLocale !== LocalesEnum.RU) {
       try {
         await loadLocale(savedLocale as LocalesEnumType)
@@ -48,7 +60,6 @@ router.beforeEach(async to => {
     return `/${savedLocale}`
   }
 
-  // Если локаль не поддерживается, редиректим на русскую
   if (!LocalesList.includes(toLocale as LocalesEnumType)) {
     // Устанавливаем русскую локаль
     i18n.global.locale.value = LocalesEnum.RU
@@ -60,7 +71,6 @@ router.beforeEach(async to => {
     return `/${LocalesEnum.RU}`
   }
 
-  // Загружаем локаль из URL перед установкой
   try {
     if (toLocale !== LocalesEnum.RU) {
       await loadLocale(toLocale as LocalesEnumType)
@@ -75,12 +85,10 @@ router.beforeEach(async to => {
     return `/${LocalesEnum.RU}${toSection ? '/' + toSection : ''}`
   }
 
-  // Если секция указана но не поддерживается, убираем ее
   if (toSection && !isSupportedSection(toSection)) {
     return `/${toLocale}`
   }
 
-  // Если все параметры валидны, продолжаем навигацию
   return true
 })
 
