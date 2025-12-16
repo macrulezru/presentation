@@ -59,6 +59,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@assets': fileURLToPath(new URL('./src/view/assets', import.meta.url)),
     },
   },
   build: {
@@ -73,12 +74,22 @@ export default defineConfig({
           }
         },
         assetFileNames: assetInfo => {
-          if (assetInfo.name && /\.(svg)$/.test(assetInfo.name)) {
+          const name = assetInfo.name || ''
+
+          if (/\.(svg)$/.test(name)) {
             return 'assets/images/icons/[name]-[hash][extname]'
           }
-          if (assetInfo.name && /\.(jpg|png)$/.test(assetInfo.name)) {
+
+          if (name.includes('arts/')) {
+            const parts = name.split('/')
+            const folder = parts[parts.length - 2] || 'arts'
+            return `assets/images/arts/${folder}/[name]-[hash][extname]`
+          }
+
+          if (/\.(jpg|jpeg|png|gif|webp)$/.test(name)) {
             return 'assets/images/[name]-[hash][extname]'
           }
+
           return 'assets/[name]-[hash][extname]'
         },
       },
@@ -87,11 +98,16 @@ export default defineConfig({
     minify: 'esbuild',
     assetsInlineLimit: 0,
     sourcemap: process.env.NODE_ENV !== 'production',
+    // Копируем статические файлы из src
+    copyPublicDir: false,
   },
   server: {
     port: 3000,
     open: true,
-
+    fs: {
+      // Разрешаем доступ к файлам в src
+      allow: ['..', process.cwd(), './src'],
+    },
     hmr: {
       overlay: true,
     },

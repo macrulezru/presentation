@@ -5,6 +5,7 @@
     "experience": "Career",
     "travelshop": "TravelShop",
     "features": "Solutions",
+    "arts": "Artwork",
     "workplace": "Workplace",
     "contacts": "Contacts"
   },
@@ -879,6 +880,10 @@
       "close": "Close",
       "settings": "Animation Settings"
     }
+  },
+  "design": {
+    "title": "Design Legacy",
+    "description": "Graphic design from various projects before transitioning to developer mode"
   },
   "location": "Work Location"
 }
