@@ -63,12 +63,13 @@ export type FolderData = {
 
 // Функция для получения правильного URL в зависимости от среды
 const getImageUrl = (folder: ImageFolder, filename: string): string => {
-  // В dev-режиме используем прямой доступ
+  // Для dev-режима используем абсолютный путь
   if (import.meta.env.DEV) {
-    // Алиас @assets настроен в vite.config.ts
+    // В dev-режиме Vite обслуживает файлы из src
     return `/src/view/assets/images/arts/${folder}/${filename}`
   }
-  // В production используем путь к скомпилированным ассетам
+  // Для production используем относительный путь от корня сайта
+  // Плагин viteStaticCopy скопирует файлы в dist/assets/images/arts/
   return `/assets/images/arts/${folder}/${filename}`
 }
 

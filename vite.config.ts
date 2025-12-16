@@ -4,8 +4,12 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import AutoImport from 'unplugin-auto-import/vite'
 import svgo from 'vite-plugin-svgo'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 export default defineConfig({
+  // Добавляем assetsInclude на верхнем уровне
+  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.webp'],
+
   plugins: [
     vue({
       script: {
@@ -43,6 +47,15 @@ export default defineConfig({
           },
         },
         'removeDimensions',
+      ],
+    }),
+    // Добавляем плагин для копирования статических файлов
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'src/view/assets/images/arts/**/*', // Исходная директория
+          dest: 'assets/images/arts', // Целевая директория в dist
+        },
       ],
     }),
   ],
@@ -98,14 +111,12 @@ export default defineConfig({
     minify: 'esbuild',
     assetsInlineLimit: 0,
     sourcemap: process.env.NODE_ENV !== 'production',
-    // Копируем статические файлы из src
     copyPublicDir: false,
   },
   server: {
     port: 3000,
     open: true,
     fs: {
-      // Разрешаем доступ к файлам в src
       allow: ['..', process.cwd(), './src'],
     },
     hmr: {
