@@ -111,7 +111,7 @@ export default defineConfig({
     minify: 'esbuild',
     assetsInlineLimit: 0,
     sourcemap: process.env.NODE_ENV !== 'production',
-    copyPublicDir: false,
+    copyPublicDir: true, // Изменяем на true для копирования favicon и og-image
   },
   server: {
     port: 3000,
