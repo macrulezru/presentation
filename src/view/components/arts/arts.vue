@@ -72,6 +72,7 @@
 
     <div class="arts__projects">
       <masonry-wall
+        :key="`masonry-${showAllImages ? 'all' : 'preview'}`"
         :items="filteredImages"
         :ssr-columns="1"
         :column-width="250"
