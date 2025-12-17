@@ -37,6 +37,8 @@
 
 <template>
   <button class="ui-button" :class="classes" :disabled="disabled">
-    {{ props.text }}
+    <slot>
+      {{ props.text }}
+    </slot>
   </button>
 </template>
