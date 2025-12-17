@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import ArtItem from '@/view/components/arts/parts/art-item/art-item.vue'
   import UiImageModal from '@/view/ui/ui-image-modal/ui-image-modal.vue'
+  import Button from '@/view/ui/ui-button/ui-button.vue'
 
   import '@/view/components/arts/arts.scss'
 
@@ -10,13 +11,22 @@
   import { useI18n } from '@/view/composables/use-i18n.ts'
   const { t } = useI18n()
 
-  const search = ref('')
   const isModalOpen = ref(false)
   const currentImageIndex = ref(0)
   const selectedFolder = ref<ImageFolder | null>(null)
   const selectedProject = ref<ReturnType<typeof getImageByKey> | null>(null)
+  const showAllImages = ref<boolean>(false)
 
-  const { images, getImageByKey, formatFolderName } = useArtsImages()
+  const PREVIEW_IMAGE_COUNT = 10
+
+  const { images, getImageByKey } = useArtsImages()
+
+  const filteredImages = computed(() => {
+    if (showAllImages.value) {
+      return images.value
+    }
+    return images.value.slice(0, PREVIEW_IMAGE_COUNT)
+  })
 
   const modalImages = computed(() => {
     if (!selectedProject.value) return []
@@ -27,6 +37,10 @@
       description: `${selectedProject.value?.title} - изображение ${index + 1}`,
     }))
   })
+
+  const onShowAllImages = () => {
+    showAllImages.value = true
+  }
 
   const openModal = (folder: ImageFolder) => {
     selectedFolder.value = folder
@@ -47,18 +61,6 @@
   const handleImageChange = (index: number) => {
     currentImageIndex.value = index
   }
-
-  const filteredImages = computed(() => {
-    if (!search.value.trim()) return images.value
-
-    const query = search.value.toLowerCase()
-    return images.value.filter(
-      img =>
-        formatFolderName(img.key).toLowerCase().includes(query) ||
-        img.title.toLowerCase().includes(query) ||
-        img.description.toLowerCase().includes(query),
-    )
-  })
 </script>
 
 <template>
@@ -79,6 +81,9 @@
           <ArtItem :image="item" @onImageClick="openModal(item.key)" />
         </template>
       </masonry-wall>
+    </div>
+    <div v-if="!showAllImages" class="experience__button-container">
+      <Button :text="t('design.showAll')" @click="onShowAllImages" />
     </div>
 
     <UiImageModal

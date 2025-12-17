@@ -1,7 +1,7 @@
 .arts {
-  padding: 24px;
-  margin: 0 auto;
-  background-color: #333333;
+  padding: 24px 24px 80px;
+  background-color: #1a0125;
+  background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 40%, transparent 100%), radial-gradient(ellipse 100% 30% at 50% 105%, rgba(0, 0, 0, 0.7) 0%, transparent 60%);
 
   &__header {
     text-align: center;

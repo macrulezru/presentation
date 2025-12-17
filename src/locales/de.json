@@ -883,7 +883,8 @@
   },
   "design": {
     "title": "Design-Grundlage: Von der visuellen Kommunikation zum Code",
-    "description": "Das grundlegende Verständnis für Komposition, Typografie und Farbgestaltung, das ich im Grafikdesign erworben habe, bildet die Grundlage für die Erstellung logischer, ästhetischer und effektiver digitaler Schnittstellen."
+    "description": "Das grundlegende Verständnis für Komposition, Typografie und Farbgestaltung, das ich im Grafikdesign erworben habe, bildet die Grundlage für die Erstellung logischer, ästhetischer und effektiver digitaler Schnittstellen.",
+    "showAll": "Alle Bilder anzeigen"
   },
   "location": "Arbeitsstandort"
 }

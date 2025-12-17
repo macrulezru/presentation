@@ -10,9 +10,8 @@ export interface ArtsImageData {
 }
 
 export const useArtsImages = () => {
-  // Вычисляемое свойство с готовыми объектами
   const images = computed<ArtsImageData[]>(() => {
-    return Object.entries(FOLDERS_DATA).map(([key, data]) => {
+    const items = Object.entries(FOLDERS_DATA).map(([key, data]) => {
       const folderKey = key as ImageFolder
 
       return {
@@ -23,6 +22,8 @@ export const useArtsImages = () => {
         key: folderKey,
       }
     })
+
+    return items.sort(() => Math.random() - 0.5)
   })
 
   // Форматирование имени папки
