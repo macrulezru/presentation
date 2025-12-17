@@ -30,7 +30,6 @@
         :src="props.image.preview"
         :alt="props.image.title"
         @error="handleImageError($event)"
-        loading="lazy"
         class="art-item__image"
       />
     </div>
