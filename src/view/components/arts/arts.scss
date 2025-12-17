@@ -21,22 +21,15 @@
     line-height: 1.6;
   }
 
-  @media (width <= 768px) {
+  @include media-tablet {
     padding: 16px;
 
     &__title {
-      font-size: 1.8rem;
+      font-size: var(--font-size-3xl);
     }
 
-    &__projects {
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 16px;
-    }
-  }
-
-  @media (width <= 480px) {
-    &__projects {
-      grid-template-columns: 1fr;
+    &__sub-title {
+      font-size: var(--font-size-lg);
     }
   }
 }
