@@ -1,20 +1,57 @@
 .art-item {
+  --glow-x: 50%;
+  --glow-y: 50%;
+
   border: 1px solid #e0e0e0;
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background: #fff;
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+
+  // Градиентное свечение при наведении
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        circle at var(--glow-x) var(--glow-y),
+        rgba(52, 152, 219, 0.1) 0%,
+        transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.15s linear;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 12px;
+  }
 
   &:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 25px rgb(0 0 0 / 10%);
+    box-shadow:
+      0 10px 25px rgba(0, 0, 0, 0.1),
+      0 0 40px rgba(52, 152, 219, 0.15);
     border-color: #3498db;
+
+    &::before {
+      opacity: 1;
+    }
   }
+
+  // Переходы ТОЛЬКО для немгновенных свойств
+  transition:
+    box-shadow 0.2s ease-out,
+    border-color 0.2s ease-out;
 
   &__image {
     width: 100%;
     height: auto;
+    display: block;
+    transform: translateZ(20px);
 
     &.arts__image--error {
       display: none;
