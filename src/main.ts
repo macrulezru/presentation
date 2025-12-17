@@ -10,6 +10,7 @@ import router from '@/router'
 import i18nPlugin from '@/plugins/i18n'
 import { i18n, loadLocale, getInitialLocale } from '@/locales'
 import { LocalesEnum } from '@/enums/locales.enum'
+import MasonryWall from '@yeger/vue-masonry-wall'
 
 // Асинхронная функция для инициализации приложения
 async function initializeApp() {
@@ -33,7 +34,7 @@ async function initializeApp() {
 
   const app = createApp(App)
 
-  app.use(createPinia()).use(router).use(i18nPlugin)
+  app.use(createPinia()).use(router).use(i18nPlugin).use(MasonryWall)
 
   // Добавляем обработчик ошибок загрузки переводов
   app.config.errorHandler = (err, _instance, info) => {

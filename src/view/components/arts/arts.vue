@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import ArtItem from '@/view/components/arts/parts/art-item/art-item.vue'
   import UiImageModal from '@/view/ui/ui-image-modal/ui-image-modal.vue'
 
   import '@/view/components/arts/arts.scss'
@@ -26,12 +27,6 @@
       description: `${selectedProject.value?.title} - изображение ${index + 1}`,
     }))
   })
-
-  const handleImageError = (event: Event) => {
-    const img = event.target as HTMLImageElement
-    console.warn(`Ошибка загрузки изображения: ${img.src}`)
-    img.classList.add('arts__image--error')
-  }
 
   const openModal = (folder: ImageFolder) => {
     selectedFolder.value = folder
@@ -74,23 +69,16 @@
     </div>
 
     <div class="arts__projects">
-      <div
-        v-for="image in filteredImages"
-        :key="image.key"
-        class="arts__project"
-        @click="openModal(image.key)"
+      <masonry-wall
+        :items="filteredImages"
+        :ssr-columns="1"
+        :column-width="250"
+        :gap="16"
       >
-        <div class="arts__preview">
-          <img
-            v-if="image.preview"
-            :src="image.preview"
-            :alt="image.title"
-            @error="handleImageError($event)"
-            loading="lazy"
-            class="arts__image"
-          />
-        </div>
-      </div>
+        <template #default="{ item }">
+          <ArtItem :image="item" @onImageClick="openModal(item.key)" />
+        </template>
+      </masonry-wall>
     </div>
 
     <UiImageModal

@@ -1,0 +1,21 @@
+.art-item {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #fff;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgb(0 0 0 / 10%);
+    border-color: #3498db;
+  }
+
+  &__image {
+
+    &.arts__image--error {
+      display: none;
+    }
+  }
+}
