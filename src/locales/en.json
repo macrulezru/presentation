@@ -884,7 +884,8 @@
   "design": {
     "title": "Design Foundation: From Visual Communication to Code",
     "description": "A fundamental understanding of composition, typography, and color theory, acquired through graphic design, forms the basis for creating logical, aesthetic, and effective digital interfaces.",
-    "showAll": "View all pictures"
+    "showAll": "View all pictures",
+    "loadingImages": "Loading images"
   },
   "location": "Work Location"
 }

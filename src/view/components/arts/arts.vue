@@ -5,7 +5,7 @@
 
   import '@/view/components/arts/arts.scss'
 
-  import { ref, computed } from 'vue'
+  import { ref, computed, onMounted } from 'vue'
   import { ImageFolder } from '@/enums/arts.enum'
   import { useArtsImages } from '@/view/composables/use-arts-images'
   import { useI18n } from '@/view/composables/use-i18n.ts'
@@ -15,17 +15,38 @@
   const currentImageIndex = ref(0)
   const selectedFolder = ref<ImageFolder | null>(null)
   const selectedProject = ref<ReturnType<typeof getImageByKey> | null>(null)
-  const showAllImages = ref<boolean>(false)
-
-  const PREVIEW_IMAGE_COUNT = 10
+  const isLoading = ref(false)
+  const loadingProgress = ref(0)
+  const currentMasonryKey = ref(0)
+  const showAllImages = ref(false)
+  const isPreviewLoaded = ref(false)
+  const areAllImagesLoaded = ref(false)
 
   const { images, getImageByKey } = useArtsImages()
 
-  const filteredImages = computed(() => {
-    if (showAllImages.value) {
-      return images.value
-    }
-    return images.value.slice(0, PREVIEW_IMAGE_COUNT)
+  const PREVIEW_IMAGE_COUNT = 10
+
+  // Карта для кэширования изображений (не реактивная)
+  const loadedImagesMap = new Map<string, HTMLImageElement>()
+
+  // URL всех изображений
+  const allImageUrls = computed(() => {
+    return images.value.map(img => img.preview).filter(Boolean) as string[]
+  })
+
+  // URL для превью
+  const previewImageUrls = computed(() => {
+    return allImageUrls.value.slice(0, PREVIEW_IMAGE_COUNT)
+  })
+
+  // URL оставшихся изображений
+  const remainingImageUrls = computed(() => {
+    return allImageUrls.value.slice(PREVIEW_IMAGE_COUNT)
+  })
+
+  // Изображения для отображения
+  const displayImages = computed(() => {
+    return showAllImages.value ? images.value : images.value.slice(0, PREVIEW_IMAGE_COUNT)
   })
 
   const modalImages = computed(() => {
@@ -38,8 +59,99 @@
     }))
   })
 
-  const onShowAllImages = () => {
+  // Загрузка изображения для кэширования
+  const loadImageForCache = async (url: string): Promise<void> => {
+    if (loadedImagesMap.has(url)) return
+
+    return new Promise(resolve => {
+      const img = new Image()
+      img.onload = () => {
+        loadedImagesMap.set(url, img)
+        resolve()
+      }
+      img.onerror = () => {
+        console.warn(`Не удалось предзагрузить изображение: ${url}`)
+        resolve()
+      }
+      img.src = url
+    })
+  }
+
+  // Предзагрузка превью изображений
+  const initializePreview = async () => {
+    isPreviewLoaded.value = false
+
+    const previewUrls = previewImageUrls.value
+
+    if (previewUrls.length > 0) {
+      await Promise.all(previewUrls.map(url => loadImageForCache(url)))
+    }
+
+    isPreviewLoaded.value = true
+  }
+
+  // Загрузка оставшихся изображений с прогрессом
+  const loadRemainingImages = async (): Promise<void> => {
+    isLoading.value = true
+    loadingProgress.value = 0
+
+    try {
+      const remainingUrls = remainingImageUrls.value
+
+      if (remainingUrls.length === 0) {
+        areAllImagesLoaded.value = true
+        isLoading.value = false
+        return
+      }
+
+      const total = remainingUrls.length
+      let loaded = 0
+
+      // Загружаем партиями по 3 изображения
+      const batchSize = 3
+
+      for (let i = 0; i < remainingUrls.length; i += batchSize) {
+        const batch = remainingUrls.slice(i, i + batchSize)
+
+        await Promise.all(
+          batch.map(async url => {
+            await loadImageForCache(url)
+            loaded++
+            loadingProgress.value = Math.round((loaded / total) * 100)
+          }),
+        )
+      }
+
+      areAllImagesLoaded.value = true
+    } catch (error) {
+      console.error('Ошибка загрузки:', error)
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  // Обработчик кнопки "Показать все"
+  const onShowAllImages = async () => {
+    if (isLoading.value || showAllImages.value) return
+
+    // Если все изображения уже загружены, просто показываем их
+    if (areAllImagesLoaded.value) {
+      showAllImages.value = true
+      currentMasonryKey.value += 1
+      return
+    }
+
+    // Загружаем оставшиеся изображения
+    await loadRemainingImages()
+
+    // Показываем все изображения и пересоздаем masonry
     showAllImages.value = true
+    currentMasonryKey.value += 1
+
+    // Сбрасываем прогресс
+    setTimeout(() => {
+      loadingProgress.value = 0
+    }, 300)
   }
 
   const openModal = (folder: ImageFolder) => {
@@ -61,6 +173,10 @@
   const handleImageChange = (index: number) => {
     currentImageIndex.value = index
   }
+
+  onMounted(async () => {
+    await initializePreview()
+  })
 </script>
 
 <template>
@@ -70,10 +186,14 @@
       <div class="arts__sub-title">{{ t('design.description') }}</div>
     </div>
 
-    <div class="arts__projects">
+    <div v-if="!isPreviewLoaded" class="arts__loading">
+      <div class="arts__loading-spinner"></div>
+    </div>
+
+    <div v-else class="arts__projects">
       <masonry-wall
-        :key="`masonry-${showAllImages ? 'all' : 'preview'}`"
-        :items="filteredImages"
+        :key="currentMasonryKey"
+        :items="displayImages"
         :ssr-columns="1"
         :column-width="250"
         :gap="16"
@@ -83,8 +203,39 @@
         </template>
       </masonry-wall>
     </div>
-    <div v-if="!showAllImages" class="experience__button-container">
-      <Button :text="t('design.showAll')" @click="onShowAllImages" />
+
+    <div
+      v-if="!showAllImages && images.length > PREVIEW_IMAGE_COUNT && isPreviewLoaded"
+      class="arts__button-container"
+    >
+      <Button
+        v-if="!isLoading"
+        :text="t('design.showAll')"
+        @click="onShowAllImages"
+        class="arts__show-all-button"
+      >
+        <div class="arts__button-content">
+          <span class="arts__button-text">
+            {{ t('design.showAll') }}
+          </span>
+        </div>
+      </Button>
+
+      <div v-else class="arts__progress-wrapper">
+        <div class="arts__progress-overlay">
+          <div class="arts__progress-container">
+            <div class="arts__progress-text">
+              {{ t('design.loadingImages') }}
+            </div>
+            <div class="arts__progress-bar">
+              <div
+                class="arts__progress-fill"
+                :style="{ width: `${loadingProgress}%` }"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <UiImageModal

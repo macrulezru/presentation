@@ -21,6 +21,103 @@
     line-height: 1.6;
   }
 
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    padding: 40px 0;
+  }
+
+  &__loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: arts-spin 1s linear infinite;
+  }
+
+  &__button-container {
+    margin-top: 48px;
+    text-align: center;
+  }
+
+  &__show-all-button {
+    position: relative;
+    min-width: 240px;
+    overflow: hidden;
+
+    .ui-button {
+      position: relative;
+    }
+  }
+
+  &__button-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    z-index: 2;
+  }
+
+  &__button-text {
+    transition: opacity 0.3s ease;
+  }
+
+  &__progress-wrapper {
+    display: inline-block;
+    min-width: 240px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px; // Стили кнопки
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 12px 24px;
+  }
+
+  &__progress-overlay {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    animation: arts-progress-fade-in 0.3s ease;
+  }
+
+  &__progress-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__progress-text {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  &__progress-bar {
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  &__progress-fill {
+    height: 100%;
+    background: white;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+
   @include media-tablet {
     padding: 16px;
 
@@ -31,5 +128,34 @@
     &__sub-title {
       font-size: var(--font-size-lg);
     }
+
+    &__show-all-button {
+      min-width: 200px;
+    }
+
+    &__progress-wrapper {
+      min-width: 200px;
+    }
   }
+}
+
+@keyframes arts-progress-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes arts-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ui-button_disabled .arts__progress-text {
+  opacity: 0.9;
 }
