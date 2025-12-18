@@ -33,17 +33,18 @@
     currentSections.value = sectionsConfig.value.map(section => section.id)
   }
 
-  // Переводы названий секций
-  const sectionNames: Record<PageSectionsEnum, string> = {
-    [PageSectionsEnum.SPLASH]: t('navigation.home'),
-    [PageSectionsEnum.ABOUT]: t('navigation.about'),
-    [PageSectionsEnum.EXPERIENCE]: t('navigation.experience'),
-    [PageSectionsEnum.TRAVELSHOP]: t('navigation.travelshop'),
-    [PageSectionsEnum.FEATURES]: t('navigation.features'),
-    [PageSectionsEnum.ARTS]: t('navigation.arts'),
-    [PageSectionsEnum.REMOTE_WORKPLACE]: t('navigation.workplace'),
-    [PageSectionsEnum.CONTACTS]: t('navigation.contacts'),
-  }
+  const sectionNames = computed(() => {
+    return {
+      [PageSectionsEnum.SPLASH]: t('navigation.home'),
+      [PageSectionsEnum.ABOUT]: t('navigation.about'),
+      [PageSectionsEnum.EXPERIENCE]: t('navigation.experience'),
+      [PageSectionsEnum.TRAVELSHOP]: t('navigation.travelshop'),
+      [PageSectionsEnum.FEATURES]: t('navigation.features'),
+      [PageSectionsEnum.ARTS]: t('navigation.arts'),
+      [PageSectionsEnum.REMOTE_WORKPLACE]: t('navigation.workplace'),
+      [PageSectionsEnum.CONTACTS]: t('navigation.contacts'),
+    }
+  })
 
   // Переменные для улучшенного drag-and-drop
   const draggedItem = ref<{
