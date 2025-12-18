@@ -1,52 +1,94 @@
 <script setup lang="ts">
   import Button from '@/view/ui/ui-button/ui-button.vue'
-
   import '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.scss'
-
   import Music from '@/view/assets/music/control.mp3'
-
   import { ref } from 'vue'
-  import { useTravelshopCanvas } from '@/view/composables/use-travelshop-animation'
+  import { useTravelshopCanvas } from '@/view/composables/use-travelshop-canvas'
+  import { useTravelshopIntroStore } from '@/stores/use-travelshop-intro-store'
   import { useResponsive } from '@/view/composables/use-responsive.ts'
 
   const { t } = useI18n()
-
   const { isDesktop } = useResponsive()
 
   const canvasContainer = ref<HTMLElement>()
   const audio = ref<HTMLAudioElement>()
   const isPlaying = ref(false)
-  const audioError = ref(false)
+  const isLoading = ref(false)
+  const hasAudioLoaded = ref(false)
   const configFileInput = ref<HTMLInputElement>()
 
-  const {
-    canvasRef,
-    showDebugControls,
-    debugParams,
-    toggleDebugControls,
-    updateDebugParam,
-    resetToDefaults,
-    exportConfig,
-    importConfig,
-  } = useTravelshopCanvas(canvasContainer)
+  const travelshopIntroStore = useTravelshopIntroStore()
 
-  const triggerMusic = async () => {
-    if (!audio.value) {
-      return
+  const { canvasRef, exportConfig, handleImportConfig } =
+    useTravelshopCanvas(canvasContainer)
+
+  const loadAudio = async (): Promise<HTMLAudioElement> => {
+    if (audio.value && hasAudioLoaded.value) {
+      return audio.value
     }
 
-    if (isPlaying.value) {
-      audio.value.pause()
-      isPlaying.value = false
-      audioError.value = false
-    } else {
-      try {
+    isLoading.value = true
+    const newAudio = new Audio(Music)
+
+    // Устанавливаем свойства до загрузки
+    newAudio.volume = 0.5
+    newAudio.loop = true
+
+    return new Promise((resolve, reject) => {
+      newAudio.addEventListener(
+        'canplaythrough',
+        () => {
+          audio.value = newAudio
+          hasAudioLoaded.value = true
+          isLoading.value = false
+          resolve(newAudio)
+        },
+        { once: true },
+      )
+
+      newAudio.addEventListener(
+        'error',
+        e => {
+          console.error('Ошибка загрузки аудио:', e)
+          isLoading.value = false
+          reject(new Error('Не удалось загрузить аудиофайл'))
+        },
+        { once: true },
+      )
+
+      // Начинаем загрузку
+      newAudio.load()
+    })
+  }
+
+  const triggerMusic = async () => {
+    try {
+      // Если аудио еще не загружено, загружаем его
+      if (!hasAudioLoaded.value) {
+        await loadAudio()
+      }
+
+      if (!audio.value) {
+        console.error('Аудио элемент не создан')
+        return
+      }
+
+      if (isPlaying.value) {
+        // Ставим на паузу
+        audio.value.pause()
+        isPlaying.value = false
+      } else {
+        // Воспроизводим
         await audio.value.play()
         isPlaying.value = true
-        audioError.value = false
-      } catch (error) {
-        console.error('Ошибка воспроизведения:', error)
-        audioError.value = true
+      }
+    } catch (error) {
+      console.error('Ошибка управления аудио:', error)
+      isPlaying.value = false
+      // Сбрасываем состояние загрузки при ошибке
+      if (error instanceof Error && error.message === 'Не удалось загрузить аудиофайл') {
+        hasAudioLoaded.value = false
+        audio.value = undefined
       }
     }
   }
@@ -55,33 +97,17 @@
     exportConfig()
   }
 
-  const handleImportConfig = () => {
+  const handleImportClick = () => {
     configFileInput.value?.click()
   }
-
-  onMounted(() => {
-    audio.value = new Audio(Music)
-    audio.value.volume = 0.5
-    audio.value.loop = true
-
-    setTimeout(() => {
-      if (!isPlaying.value && audio.value) {
-        audio.value
-          .play()
-          .then(() => {
-            isPlaying.value = true
-          })
-          .catch(() => {
-            // Игнорируем ошибку - пользователь включит вручную
-          })
-      }
-    }, 1000)
-  })
 
   onUnmounted(() => {
     if (audio.value) {
       audio.value.pause()
+      audio.value = undefined
     }
+    isPlaying.value = false
+    hasAudioLoaded.value = false
   })
 </script>
 
@@ -93,14 +119,17 @@
 
     <template v-if="isDesktop">
       <span
-        v-if="!showDebugControls"
+        v-if="!travelshopIntroStore.showDebugControls"
         class="travelshop-intro__toggle-wrapper"
-        @click="toggleDebugControls"
+        @click="travelshopIntroStore.toggleDebugControls"
       >
         <span class="travelshop-intro__toggle-controls" />
         <span>{{ t('tshIntro.buttons.flight-control') }}</span>
       </span>
-      <div v-if="showDebugControls" class="travelshop-intro__controls">
+      <div
+        v-if="travelshopIntroStore.showDebugControls"
+        class="travelshop-intro__controls"
+      >
         <div class="travelshop-intro__controls-header">
           <div class="travelshop-intro__controls-header-title">
             <span class="travelshop-intro__controls-title">
@@ -109,28 +138,42 @@
             <Button control @click="handleExportConfig">
               {{ t('tshIntro.buttons.export') }}
             </Button>
-            <Button control @click="handleImportConfig">
+            <Button control @click="handleImportClick">
               {{ t('tshIntro.buttons.import') }}
             </Button>
-            <Button control reset @click="resetToDefaults">
+            <Button control reset @click="travelshopIntroStore.resetToDefaults">
               {{ t('tshIntro.buttons.resetSettings') }}
             </Button>
             <button
               class="travelshop-intro__music-btn"
               @click="triggerMusic"
               :class="{
-                'travelshop-intro__music-btn--playing': isPlaying,
-                'travelshop-intro__music-btn--error': audioError,
+                'travelshop-intro__music-btn--loading': isLoading,
+                'travelshop-intro__music-btn--playing': isPlaying && !isLoading,
               }"
+              :disabled="isLoading"
               :title="
-                isPlaying
-                  ? t('tshIntro.buttons.pauseMusic')
-                  : t('tshIntro.buttons.playMusic')
+                isLoading
+                  ? t('tshIntro.buttons.loadingMusic')
+                  : isPlaying
+                    ? t('tshIntro.buttons.pauseMusic')
+                    : t('tshIntro.buttons.playMusic')
               "
             >
               <span class="travelshop-intro__music-icon">
                 <svg
-                  v-if="!isPlaying"
+                  v-if="isLoading"
+                  class="travelshop-intro__music-loading-icon"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <!-- Иконка загрузки/спиннера -->
+                  <path
+                    d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
+                  />
+                </svg>
+                <svg
+                  v-else-if="!isPlaying"
                   class="travelshop-intro__music-play-icon"
                   viewBox="0 0 24 24"
                   fill="currentColor"
@@ -150,7 +193,7 @@
           </div>
           <button
             class="travelshop-intro__controls-close"
-            @click="toggleDebugControls"
+            @click="travelshopIntroStore.toggleDebugControls"
             :title="t('tshIntro.buttons.close')"
           >
             ×
@@ -159,7 +202,7 @@
 
         <div class="travelshop-intro__controls-wrapper">
           <div
-            v-for="(params, category) in debugParams"
+            v-for="(params, category) in travelshopIntroStore.debugParams"
             :key="category"
             class="travelshop-intro__controls-category"
           >
@@ -188,7 +231,7 @@
                 :step="param.step"
                 :value="param.value"
                 @input="
-                  updateDebugParam(
+                  travelshopIntroStore.updateDebugParam(
                     param.id,
                     parseFloat(($event.target as HTMLInputElement).value),
                   )
@@ -203,13 +246,12 @@
         </div>
       </div>
     </template>
-
     <input
       type="file"
       ref="configFileInput"
       accept=".json"
       style="display: none"
-      @change="importConfig"
+      @change="handleImportConfig"
     />
   </div>
 </template>

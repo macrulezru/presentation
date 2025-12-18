@@ -882,7 +882,10 @@
       "export": "Экспорт",
       "import": "Импорт",
       "exportConfig": "Экспорт конфигурации",
-      "importConfig": "Импорт конфигурации"
+      "importConfig": "Импорт конфигурации",
+      "loadingMusic": "Загрузка музыки",
+      "pauseMusic": "Пауза",
+      "playMusic": "Включить музыку"
     }
   },
   "location": "Рабочая локация",

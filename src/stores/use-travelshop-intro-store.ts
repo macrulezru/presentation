@@ -263,7 +263,6 @@ export const useTravelshopIntroStore = defineStore('travelshopIntro', () => {
   // Импорт конфигурации
   function importConfig(newConfig: TravelshopConfig) {
     config.value = deepMerge(getDefaultConfig(), newConfig)
-
     // Переинициализируем дебаг параметры если они уже были инициализированы
     if (Object.keys(debugParams.value).length > 0) {
       initDebugParams()
@@ -633,9 +632,9 @@ export const useTravelshopIntroStore = defineStore('travelshopIntro', () => {
     resetToDefaults,
 
     // Дебаг параметры
-    debugParams: computed(() => debugParams.value),
-    showDebugControls: computed(() => showDebugControls.value),
-    debugCategories: computed(() => debugCategories.value),
+    debugParams,
+    showDebugControls,
+    debugCategories,
 
     // Методы управления
     toggleDebugControls,
