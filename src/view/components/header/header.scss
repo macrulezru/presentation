@@ -1,14 +1,12 @@
-// header.scss
 .header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: var(--color-bg-dark);
   z-index: var(--z-header);
   box-shadow: var(--shadow-lg);
   backdrop-filter: blur(10px);
-  background: rgba(27, 35, 43, 0.95);
+  background: rgb(27 35 43 / 95%);
 
   &__content {
     max-width: var(--container-xl);
@@ -19,20 +17,6 @@
     align-items: center;
     height: var(--header-height);
     position: relative;
-  }
-
-  &__logo {
-    flex-shrink: 0;
-
-    &-text {
-      font-size: var(--font-size-xl);
-      font-weight: var(--font-weight-bold);
-      color: var(--color-primary);
-      background: linear-gradient(135deg, var(--color-primary), #4facfe);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
   }
 
   &__nav {
@@ -56,16 +40,28 @@
     position: relative;
     overflow: hidden;
 
-    &:not(.header__nav-item--active):hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    &_home {
+      mask-image: url('@/view/assets/images/home-icon.svg');
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      background-color: var(--color-text-light);
     }
 
-    &--active {
+    &_home:hover {
+      background-color: #2773b1;
+    }
+
+    &:not(.header__nav-item_active, .header__nav-item_home):hover {
+      background: rgb(255 255 255 / 10%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
+    }
+
+    &_active {
       background-color: #2773b1;
       color: white;
-      box-shadow: 0 4px 16px rgba(74, 144, 226, 0.4);
+      box-shadow: 0 4px 16px rgb(74 144 226 / 40%);
       transform: translateY(-2px);
 
       &::before {
@@ -78,7 +74,7 @@
         background: linear-gradient(
             90deg,
             transparent,
-            rgba(255, 255, 255, 0.2),
+            rgb(255 255 255 / 20%),
             transparent
         );
       }
@@ -89,6 +85,28 @@
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  &__settings {
+    width: 18px;
+    height: 18px;
+    mask-image: url('@/view/assets/images/gear-icon.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    background-color: var(--color-text-light);
+    transition: all var(--transition-normal);
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--color-secondary-hover);
+    }
   }
 }
 
@@ -114,7 +132,7 @@
     transform-origin: center;
   }
 
-  &--active {
+  &_active {
     .hamburger__line {
       &:nth-child(1) {
         transform: rotate(45deg) translate(6px, 6px);
@@ -134,11 +152,8 @@
 .mobile-menu {
   &-overlay {
     position: fixed;
-    top: var(--header-height-mobile);
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
+    inset: var(--header-height-mobile) 0 0 0;
+    background: rgb(0 0 0 / 80%);
     backdrop-filter: blur(4px);
     z-index: var(--z-modal);
     animation: fadeIn 0.3s ease;
@@ -172,13 +187,13 @@
     font-family: inherit;
 
     &:not(.header__nav-item--active):hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgb(255 255 255 / 10%);
     }
 
     &--active {
       background-color: #2773b1;
       color: white;
-      box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+      box-shadow: 0 4px 12px rgb(74 144 226 / 30%);
     }
   }
 }
@@ -187,6 +202,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -197,6 +213,7 @@
     transform: translateY(-20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -253,7 +270,7 @@
   }
 }
 
-@media (min-width: 769px) {
+@media (width >= 769px) {
   .hamburger {
     display: none;
   }

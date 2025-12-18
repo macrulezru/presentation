@@ -7,6 +7,7 @@ export const useNavigationStore = defineStore('navigation', () => {
   const sections = ref<Array<{ id: string; name: string; element: HTMLElement | null }>>(
     [],
   )
+  const showSectionEditor = ref<boolean>(false)
 
   const activeSection = computed(() => currentSection.value)
 
@@ -26,6 +27,10 @@ export const useNavigationStore = defineStore('navigation', () => {
     sections.value = newSections
   }
 
+  const setShowSectionEditor = (value: boolean) => {
+    showSectionEditor.value = value
+  }
+
   const getSectionById = (id: string) => {
     return sections.value.find(s => s.id === id)
   }
@@ -33,11 +38,13 @@ export const useNavigationStore = defineStore('navigation', () => {
   return {
     currentSection,
     isScrolling,
+    showSectionEditor,
     sections,
     activeSection,
     setCurrentSection,
     setIsScrolling,
     setSections,
     getSectionById,
+    setShowSectionEditor,
   }
 })

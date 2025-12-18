@@ -12,6 +12,7 @@
 
     /** Маленький размер */
     small?: boolean
+    micro?: boolean
 
     /** Неактивное состояние */
     disabled?: boolean
@@ -29,6 +30,7 @@
     return {
       'ui-button_full-width': props.fullWidth,
       'ui-button_small': props.small,
+      'ui-button_micro': props.micro,
       'ui-button_disabled': props.disabled,
       'ui-button_gray': props.gray,
     }
