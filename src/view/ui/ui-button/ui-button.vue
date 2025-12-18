@@ -4,21 +4,14 @@
   import { computed } from 'vue'
 
   interface Props {
-    /** Текст кнопки */
     text: string
 
-    /** Занимать всю доступную ширину */
     fullWidth?: boolean
-
-    /** Маленький размер */
     small?: boolean
     micro?: boolean
-
-    /** Неактивное состояние */
     disabled?: boolean
-
-    /** Серая цветовая тема */
     gray?: boolean
+    reset?: boolean
   }
 
   const props = defineProps<Props>()
@@ -33,6 +26,7 @@
       'ui-button_micro': props.micro,
       'ui-button_disabled': props.disabled,
       'ui-button_gray': props.gray,
+      'ui-button_reset': props.reset,
     }
   })
 </script>

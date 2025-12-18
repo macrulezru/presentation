@@ -1,10 +1,13 @@
 <script setup lang="ts">
   import Button from '@/view/ui/ui-button/ui-button.vue'
+  import SectionEditorItem from './parts/section-editor-item/section-editor-item.vue'
+
   import '@/view/components/section-editor/section-editor.scss'
+
   import { ref, onMounted, onUnmounted, computed, watch, nextTick } from 'vue'
   import { useSectionsConfig } from '@/view/composables/use-sections-config'
   import { PageSectionsEnum } from '@/enums/page-sections.enum'
-  import { useI18n } from '@/view/composables/use-i18n'
+  import type { ComponentPublicInstance } from 'vue'
 
   const props = defineProps<{
     modelValue: boolean
@@ -17,18 +20,15 @@
   const { t } = useI18n()
   const { sectionsConfig, setSectionsOrder, resetToDefault } = useSectionsConfig()
 
-  // Состояние модального окна
   const showModal = computed({
     get: () => props.modelValue,
     set: value => emit('update:modelValue', value),
   })
 
-  // Текущий порядок секций (реактивный)
   const currentSections = ref<PageSectionsEnum[]>([])
   const containerRef = ref<HTMLElement>()
   const itemsRefs = ref<HTMLElement[]>([])
 
-  // Инициализируем текущий порядок
   const initializeSections = () => {
     currentSections.value = sectionsConfig.value.map(section => section.id)
   }
@@ -46,7 +46,6 @@
     }
   })
 
-  // Переменные для улучшенного drag-and-drop
   const draggedItem = ref<{
     id: PageSectionsEnum
     index: number
@@ -58,24 +57,25 @@
   const placeholderIndex = ref<number | null>(null)
   const isDragging = ref(false)
   const dragY = ref(0)
-
-  // Стили для анимации
   const itemStyles = ref<Record<number, { transform: string; transition: string }>>({})
 
-  // Инициализация рефов для элементов
-  const setItemRef = (el: HTMLElement | null, index: number) => {
+  const setItemRef = (el: Element | ComponentPublicInstance | null, index: number) => {
     if (el) {
-      itemsRefs.value[index] = el
+      // Если это экземпляр компонента Vue, получаем его корневой DOM-элемент
+      if ('$el' in el) {
+        itemsRefs.value[index] = el.$el as HTMLElement
+      } else {
+        // Иначе это уже DOM-элемент (тип Element), приводим к HTMLElement
+        itemsRefs.value[index] = el as HTMLElement
+      }
     }
   }
 
-  // Закрытие модального окна
   const closeModal = () => {
     showModal.value = false
     resetDragState()
   }
 
-  // Сброс состояния перетаскивания
   const resetDragState = () => {
     if (draggedItem.value?.clone && draggedItem.value.clone.parentNode) {
       draggedItem.value.clone.parentNode.removeChild(draggedItem.value.clone)
@@ -87,19 +87,17 @@
     dragY.value = 0
     itemStyles.value = {}
 
-    // Сбрасываем стили всех элементов
     itemsRefs.value.forEach(item => {
       if (item) {
         item.style.opacity = ''
         item.style.transform = ''
         item.style.transition = ''
         item.style.visibility = ''
-        item.classList.remove('section-editor__item--dragging-original')
+        item.classList.remove('section-editor-item--dragging-original')
       }
     })
   }
 
-  // Начало перетаскивания
   const handleDragStart = (
     event: MouseEvent | TouchEvent,
     sectionId: PageSectionsEnum,
@@ -109,7 +107,6 @@
 
     isDragging.value = true
 
-    // Безопасное получение clientY для TouchEvent и MouseEvent
     let clientY: number
     if ('touches' in event && event.touches && event.touches.length > 0) {
       clientY = event.touches[0]!.clientY
@@ -123,16 +120,14 @@
     const containerRect = containerRef.value.getBoundingClientRect()
     const elementRect = element.getBoundingClientRect()
 
-    // Создаем клон элемента для перетаскивания
     const clone = element.cloneNode(true) as HTMLElement
-    clone.classList.add('section-editor__item--dragging-clone')
+    clone.classList.add('section-editor-item--dragging-clone')
     clone.classList.remove(
-      'section-editor__item--fixed',
-      'section-editor__item--placeholder',
-      'section-editor__item--dragging',
+      'section-editor-item--fixed',
+      'section-editor-item--placeholder',
+      'section-editor-item--dragging',
     )
 
-    // Устанавливаем стили для клона
     clone.style.position = 'fixed'
     clone.style.width = `${elementRect.width}px`
     clone.style.height = `${elementRect.height}px`
@@ -147,12 +142,10 @@
 
     document.body.appendChild(clone)
 
-    // Скрываем оригинальный элемент
-    element.classList.add('section-editor__item--dragging-original')
+    element.classList.add('section-editor-item--dragging-original')
     element.style.visibility = 'hidden'
     element.style.opacity = '0'
 
-    // Запоминаем начальное состояние
     draggedItem.value = {
       id: sectionId,
       index,
@@ -164,7 +157,6 @@
     placeholderIndex.value = index
     dragY.value = clientY - containerRect.top
 
-    // Добавляем обработчики событий
     document.addEventListener('mousemove', handleDragMove)
     document.addEventListener('touchmove', handleDragMove, { passive: false })
     document.addEventListener('mouseup', handleDragEnd)
@@ -174,11 +166,9 @@
     if ('touches' in event) event.stopPropagation()
   }
 
-  // Перемещение элемента - ИСПРАВЛЕННАЯ ЛОГИКА
   const handleDragMove = (event: MouseEvent | TouchEvent) => {
     if (!draggedItem.value || !containerRef.value) return
 
-    // Безопасное получение clientY для TouchEvent и MouseEvent
     let clientY: number
     if ('touches' in event && event.touches && event.touches.length > 0) {
       clientY = event.touches[0]!.clientY
@@ -187,21 +177,17 @@
     }
 
     const containerRect = containerRef.value.getBoundingClientRect()
-
     dragY.value = clientY - containerRect.top
 
-    // Обновляем позицию клона
     const clone = draggedItem.value.clone!
     const newTop = clientY - draggedItem.value.initialRect.height / 2
 
     clone.style.left = `${draggedItem.value.initialRect.left}px`
     clone.style.top = `${newTop}px`
 
-    // Определяем новую позицию с учетом, что перетаскиваемый элемент временно удален
     const dragIndex = draggedItem.value.index
     let newIndex = 0
 
-    // Собираем актуальные позиции элементов (кроме перетаскиваемого)
     const itemPositions: Array<{ top: number; bottom: number; index: number }> = []
 
     for (let i = 0; i < itemsRefs.value.length; i++) {
@@ -218,42 +204,30 @@
       })
     }
 
-    // Сортируем по вертикальной позиции
     itemPositions.sort((a, b) => a.top - b.top)
 
-    // Находим новую позицию
     let foundIndex = -1
 
-    // Если нет элементов, кроме перетаскиваемого
     if (itemPositions.length === 0) {
       foundIndex = 0
-    }
-    // Проверяем позицию перед первым элементом
-    else if (clientY < itemPositions[0]!.top) {
+    } else if (clientY < itemPositions[0]!.top) {
       foundIndex = itemPositions[0]!.index
-      // Если пытаемся вставить перед первым элементом (не SPLASH), то нельзя
       if (foundIndex === 0 && draggedItem.value.id !== PageSectionsEnum.SPLASH) {
         foundIndex = 1
       }
-    }
-    // Проверяем позицию после последнего элемента
-    else if (clientY > itemPositions[itemPositions.length - 1]!.bottom) {
+    } else if (clientY > itemPositions[itemPositions.length - 1]!.bottom) {
       foundIndex = itemPositions[itemPositions.length - 1]!.index + 1
-    }
-    // Ищем между элементами
-    else {
+    } else {
       for (let i = 0; i < itemPositions.length - 1; i++) {
         const current = itemPositions[i]!
         const next = itemPositions[i + 1]!
 
-        // Если курсор между текущим и следующим элементом
         if (clientY > current.bottom && clientY < next.top) {
           foundIndex = current.index + 1
           break
         }
       }
 
-      // Если не нашли между, значит курсор над каким-то элементом
       if (foundIndex === -1) {
         for (let i = 0; i < itemPositions.length; i++) {
           const item = itemPositions[i]!
@@ -271,22 +245,18 @@
       }
     }
 
-    // Корректируем индекс с учетом того, что dragIndex может быть меньше foundIndex
     if (foundIndex > dragIndex) {
       newIndex = foundIndex - 1
     } else {
       newIndex = foundIndex
     }
 
-    // Ограничиваем индексы
     newIndex = Math.max(0, Math.min(newIndex, itemsRefs.value.length - 1))
 
-    // Нельзя вставить на место первой фиксированной секции
     if (newIndex === 0 && draggedItem.value.id !== PageSectionsEnum.SPLASH) {
       newIndex = 1
     }
 
-    // Обновляем placeholder позицию
     if (placeholderIndex.value !== newIndex) {
       placeholderIndex.value = newIndex
       animateItems(dragIndex, newIndex)
@@ -296,14 +266,12 @@
     if ('touches' in event) event.stopPropagation()
   }
 
-  // Анимация элементов при перемещении - ИСПРАВЛЕННАЯ ЛОГИКА
   const animateItems = (fromIndex: number, toIndex: number) => {
     if (fromIndex === toIndex) return
 
     const newStyles: Record<number, { transform: string; transition: string }> = {}
-    const gap = 12 // gap между элементами
+    const gap = 12
 
-    // Собираем реальные высоты элементов
     const itemHeights: number[] = []
     for (let i = 0; i < itemsRefs.value.length; i++) {
       const item = itemsRefs.value[i]
@@ -316,12 +284,10 @@
       let translateY = 0
 
       if (fromIndex < toIndex) {
-        // Перемещаем вниз: сдвигаем элементы между fromIndex и toIndex вверх
         if (i > fromIndex && i <= toIndex) {
           translateY = -(itemHeights[fromIndex]! + gap)
         }
       } else {
-        // Перемещаем вверх: сдвигаем элементы между toIndex и fromIndex вниз
         if (i >= toIndex && i < fromIndex) {
           translateY = itemHeights[toIndex]! + gap
         }
@@ -343,7 +309,6 @@
     itemStyles.value = newStyles
   }
 
-  // Завершение перетаскивания
   const handleDragEnd = () => {
     if (!draggedItem.value) {
       resetDragState()
@@ -353,7 +318,6 @@
     const dragIndex = draggedItem.value.index
     const dropIndex = placeholderIndex.value
 
-    // Если позиция изменилась, обновляем порядок
     if (dropIndex !== null && dragIndex !== dropIndex && dropIndex !== 0) {
       const newOrder = [...currentSections.value]
       const movedItem = newOrder.splice(dragIndex, 1)[0]!
@@ -361,18 +325,15 @@
       currentSections.value = newOrder
     }
 
-    // Анимация завершения
     finishDragAnimation()
   }
 
-  // Анимация завершения перетаскивания
   const finishDragAnimation = () => {
     if (!draggedItem.value) {
       resetDragState()
       return
     }
 
-    // Анимируем возвращение всех элементов на место
     for (let i = 0; i < itemsRefs.value.length; i++) {
       const item = itemsRefs.value[i]
       if (item) {
@@ -381,20 +342,17 @@
       }
     }
 
-    // Восстанавливаем оригинальный элемент
     const originalElement = draggedItem.value.element
     if (originalElement) {
-      originalElement.classList.remove('section-editor__item--dragging-original')
+      originalElement.classList.remove('section-editor-item--dragging-original')
       originalElement.style.visibility = ''
       originalElement.style.opacity = '1'
       originalElement.style.transition = 'opacity 0.3s ease'
     }
 
-    // Анимация клона
     if (draggedItem.value.clone) {
       const clone = draggedItem.value.clone
 
-      // Если элемент был перемещен, показываем анимацию возврата на новое место
       if (
         placeholderIndex.value !== null &&
         placeholderIndex.value !== draggedItem.value.index
@@ -410,7 +368,6 @@
           clone.style.opacity = '0'
         }
       } else {
-        // Иначе просто исчезаем
         clone.style.transition = 'opacity 0.2s ease'
         clone.style.opacity = '0'
       }
@@ -422,41 +379,34 @@
       }, 400)
     }
 
-    // Удаляем обработчики событий
     document.removeEventListener('mousemove', handleDragMove)
     document.removeEventListener('touchmove', handleDragMove)
     document.removeEventListener('mouseup', handleDragEnd)
     document.removeEventListener('touchend', handleDragEnd)
 
-    // Сбрасываем состояние через небольшой таймаут
     setTimeout(() => {
       resetDragState()
     }, 400)
   }
 
-  // Применяем новый порядок
   const applyNewOrder = () => {
     setSectionsOrder(currentSections.value)
     closeModal()
   }
 
-  // Сбрасываем к порядку по умолчанию
   const resetOrder = () => {
     resetToDefault()
     initializeSections()
     nextTick(() => {
-      // Сбрасываем стили анимации
       itemStyles.value = {}
     })
   }
 
-  // Отменяем изменения
   const cancelChanges = () => {
     initializeSections()
     closeModal()
   }
 
-  // Переместить секцию вверх
   const moveUp = (index: number) => {
     if (index <= 1) return
 
@@ -467,7 +417,6 @@
     currentSections.value = newOrder
   }
 
-  // Переместить секцию вниз
   const moveDown = (index: number) => {
     if (index >= currentSections.value.length - 1) return
 
@@ -478,18 +427,15 @@
     currentSections.value = newOrder
   }
 
-  // Проверяем, были ли изменения
   const hasChanges = computed(() => {
     const currentOrder = sectionsConfig.value.map(section => section.id)
     return JSON.stringify(currentOrder) !== JSON.stringify(currentSections.value)
   })
 
-  // Инициализация
   onMounted(() => {
     initializeSections()
   })
 
-  // Следим за открытием модального окна
   watch(
     () => props.modelValue,
     newValue => {
@@ -500,7 +446,6 @@
     },
   )
 
-  // Обработка клавиши Escape
   const handleKeydown = (event: KeyboardEvent) => {
     if (event.key === 'Escape' && showModal.value) {
       closeModal()
@@ -544,63 +489,27 @@
             </div>
 
             <div class="section-editor__list" ref="containerRef">
-              <div
+              <SectionEditorItem
                 v-for="(sectionId, index) in currentSections"
                 :key="`${sectionId}-${index}`"
-                :ref="el => setItemRef(el as HTMLElement, index)"
-                class="section-editor__item"
-                :class="{
-                  'section-editor__item--fixed': index === 0,
-                  'section-editor__item--placeholder':
-                    placeholderIndex === index && draggedItem?.id !== sectionId,
-                  'section-editor__item--dragging': draggedItem?.id === sectionId,
-                }"
-                :style="itemStyles[index] || {}"
-                @mousedown="handleDragStart($event, sectionId, index)"
-                @touchstart="handleDragStart($event, sectionId, index)"
-              >
-                <div class="section-editor__content">
-                  <div class="section-editor__info">
-                    <div class="section-editor__name">
-                      {{ sectionNames[sectionId] || sectionId }}
-                    </div>
-                    <div
-                      v-if="index === 0"
-                      class="section-editor__badge"
-                      :title="t('sectionEditor.fixedTitle')"
-                    >
-                      {{ t('sectionEditor.fixedLabel') }}
-                    </div>
-                  </div>
-
-                  <div v-if="index !== 0" class="section-editor__controls">
-                    <button
-                      class="section-editor__button section-editor__button--up"
-                      @click="moveUp(index)"
-                      :disabled="index <= 1 || isDragging"
-                      :title="t('sectionEditor.moveUp')"
-                    >
-                      <span class="section-editor__arrow-icon"></span>
-                    </button>
-                    <button
-                      class="section-editor__button section-editor__button--down"
-                      @click="moveDown(index)"
-                      :disabled="index >= currentSections.length - 1 || isDragging"
-                      :title="t('sectionEditor.moveDown')"
-                    >
-                      <span
-                        class="section-editor__arrow-icon section-editor__arrow-icon--down"
-                      ></span>
-                    </button>
-                    <div
-                      class="section-editor__handle"
-                      :title="t('sectionEditor.dragHint')"
-                    >
-                      <span class="section-editor__drag-icon"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                :ref="el => setItemRef(el, index)"
+                :sectionId="sectionId"
+                :index="index"
+                :sectionName="sectionNames[sectionId] || sectionId"
+                :isFixed="index === 0"
+                :isPlaceholder="
+                  placeholderIndex === index && draggedItem?.id !== sectionId
+                "
+                :isDragging="draggedItem?.id === sectionId"
+                :isDraggingAny="isDragging"
+                :hasChanges="hasChanges"
+                :customStyle="itemStyles[index]"
+                :hideUpButton="index === 1 || index === 0"
+                :hideDownButton="index === currentSections.length - 1"
+                @dragStart="handleDragStart($event, sectionId, index)"
+                @moveUp="moveUp(index)"
+                @moveDown="moveDown(index)"
+              />
             </div>
 
             <div class="section-editor__actions">
@@ -621,6 +530,7 @@
                 :text="t('sectionEditor.reset')"
                 fullWidth
                 micro
+                reset
                 @click="resetOrder"
               />
             </div>

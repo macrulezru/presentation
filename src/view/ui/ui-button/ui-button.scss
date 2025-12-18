@@ -14,7 +14,7 @@
     color: var(--color-text-light);
     background: var(--color-secondary);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    box-shadow: 0 4px 12px rgb(52 152 219 / 30%);
   }
 
   &:active {
@@ -46,7 +46,17 @@
 
     &:hover:not(:disabled) {
       background: var(--color-text-muted);
-      box-shadow: 0 4px 12px rgba(150, 150, 150, 0.3);
+      box-shadow: 0 4px 12px rgb(150 150 150 / 30%);
+    }
+  }
+
+  &_reset {
+    border-color: var(--color-accent-ui);
+    color: var(--color-accent-ui);
+
+    &:hover:not(:disabled) {
+      background: var(--color-accent-ui);
+      box-shadow: 0 4px 12px rgb(150 150 150 / 30%);
     }
   }
 
