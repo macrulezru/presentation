@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import LangSelector from '@/view/components/lang-selector/lang-selector.vue'
-
   import '@/view/components/header/header.scss'
 
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts'
@@ -9,6 +8,7 @@
   import { ref, onMounted, onUnmounted, computed } from 'vue'
   import { PageSectionsEnum } from '@/enums/page-sections.enum.ts'
   import { useResponsive } from '@/view/composables/use-responsive'
+  import { useSectionsConfig } from '@/view/composables/use-sections-config'
 
   const { t } = useI18n()
 
@@ -16,21 +16,35 @@
   const { navigateToSection, isProcessingNavigation } = useScrollRouting()
   const { isTablet, isMobile } = useResponsive()
 
+  // Используем реактивную конфигурацию секций
+  const { sectionsConfig } = useSectionsConfig()
+
   const isMobileMenuOpen = ref(false)
   const isProcessingClick = ref(false)
 
   const currentSection = computed(() => navigationStore.currentSection)
 
-  const menuItems = computed(() => [
-    { id: PageSectionsEnum.SPLASH, label: t('navigation.home') },
-    { id: PageSectionsEnum.ABOUT, label: t('navigation.about') },
-    { id: PageSectionsEnum.EXPERIENCE, label: t('navigation.experience') },
-    { id: PageSectionsEnum.TRAVELSHOP, label: t('navigation.travelshop') },
-    { id: PageSectionsEnum.FEATURES, label: t('navigation.features') },
-    { id: PageSectionsEnum.ARTS, label: t('navigation.arts') },
-    { id: PageSectionsEnum.REMOTE_WORKPLACE, label: t('navigation.workplace') },
-    { id: PageSectionsEnum.CONTACTS, label: t('navigation.contacts') },
-  ])
+  // Реактивное меню на основе порядка секций
+  const menuItems = computed(() => {
+    return sectionsConfig.value.map(section => {
+      // Создаем маппинг между ID секций и ключами перевода
+      const translationKeys: Record<PageSectionsEnum, string> = {
+        [PageSectionsEnum.SPLASH]: 'navigation.home',
+        [PageSectionsEnum.ABOUT]: 'navigation.about',
+        [PageSectionsEnum.EXPERIENCE]: 'navigation.experience',
+        [PageSectionsEnum.TRAVELSHOP]: 'navigation.travelshop',
+        [PageSectionsEnum.FEATURES]: 'navigation.features',
+        [PageSectionsEnum.ARTS]: 'navigation.arts',
+        [PageSectionsEnum.REMOTE_WORKPLACE]: 'navigation.workplace',
+        [PageSectionsEnum.CONTACTS]: 'navigation.contacts',
+      }
+
+      return {
+        id: section.id,
+        label: t(translationKeys[section.id] || section.id),
+      }
+    })
+  })
 
   // Проверка размера экрана
   const checkScreenSize = () => {
@@ -90,6 +104,10 @@
     }
   }
 
+  const onEditor = () => {
+    navigationStore.setShowSectionEditor(true)
+  }
+
   onMounted(() => {
     checkScreenSize()
     window.addEventListener('resize', checkScreenSize)
@@ -114,14 +132,16 @@
           :key="item.id"
           class="header__nav-item"
           :class="{
-            'header__nav-item--active': currentSection === item.id,
-            'header__nav-item--disabled': isProcessingNavigation,
+            'header__nav-item_home': item.id === PageSectionsEnum.SPLASH,
+            'header__nav-item_active': currentSection === item.id,
           }"
           @click="handleMenuClick(item.id)"
           :disabled="isProcessingNavigation"
           :title="isProcessingNavigation ? t('navigation.processing') : ''"
         >
-          {{ item.label }}
+          <template v-if="item.id !== PageSectionsEnum.SPLASH">
+            {{ item.label }}
+          </template>
         </button>
       </nav>
 
@@ -132,8 +152,7 @@
           v-if="isTablet || isMobile"
           class="hamburger"
           :class="{
-            'hamburger--active': isMobileMenuOpen,
-            'hamburger--disabled': isProcessingNavigation,
+            hamburger_active: isMobileMenuOpen,
           }"
           @click="toggleMobileMenu"
           :disabled="isProcessingNavigation"
@@ -143,7 +162,10 @@
           <span class="hamburger__line"></span>
           <span class="hamburger__line"></span>
         </button>
-        <LangSelector />
+        <div class="header__controls">
+          <button class="header__settings" @click="onEditor" />
+          <LangSelector />
+        </div>
       </div>
 
       <!-- Мобильное меню (оверлей) -->
@@ -158,8 +180,7 @@
             :key="item.id"
             class="mobile-menu__item"
             :class="{
-              'mobile-menu__item--active': currentSection === item.id,
-              'mobile-menu__item--disabled': isProcessingNavigation,
+              'mobile-menu__item_active': currentSection === item.id,
             }"
             @click="handleMenuClick(item.id)"
             :disabled="isProcessingNavigation"

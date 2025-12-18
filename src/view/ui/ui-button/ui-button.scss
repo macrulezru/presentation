@@ -30,6 +30,11 @@
     font-size: var(--font-size-md);
   }
 
+  &_micro {
+    padding: var(--spacing-sm) 1.85rem;
+    font-size: var(--font-size-sm);
+  }
+
   &_disabled {
     opacity: 0.7;
     cursor: not-allowed;
