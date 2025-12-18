@@ -1,7 +1,7 @@
 import { onUnmounted, type Ref } from 'vue'
-import { useDragState } from '@/view/composables/use-drag/use-drag-state'
-import { useDragEvents } from '@/view/composables/use-drag/use-drag-events'
-import { useDragAnimations } from '@/view/composables/use-drag/use-drag-animations'
+import { useDragState } from './use-drag-state'
+import { useDragEvents } from './use-drag-events'
+import { useDragAnimations } from './use-drag-animations'
 
 export interface UseSectionDragReturn {
   draggedItem: ReturnType<typeof useDragState>['draggedItem']

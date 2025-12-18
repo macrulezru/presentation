@@ -1,5 +1,5 @@
 import { type Ref } from 'vue'
-import type { UseDragStateReturn } from '@/view/composables/use-drag/use-drag-state'
+import type { UseDragStateReturn } from './use-drag-state'
 
 export interface DragAnimations {
   animateItems: (fromIndex: number, toIndex: number) => void

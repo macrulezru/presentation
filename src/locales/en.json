@@ -882,7 +882,10 @@
       "export": "Export",
       "import": "Import",
       "exportConfig": "Export configuration",
-      "importConfig": "Import configuration"
+      "importConfig": "Import configuration",
+      "loadingMusic": "Loading music",
+      "pauseMusic": "Pause",
+      "playMusic": "Play music"
     }
   },
   "design": {

@@ -59,7 +59,15 @@
       outline-offset: 2px;
     }
 
-    /* Стиль для состояния "играет" */
+    &--loading {
+      opacity: 0.7;
+      cursor: wait;
+
+      .travelshop-intro__music-loading-icon {
+        animation: spin 1s linear infinite;
+      }
+    }
+
     &--playing {
       background: #4CAF50;
 
@@ -68,7 +76,6 @@
       }
     }
 
-    /* Стиль для состояния "ошибка" */
     &--error {
       background: #f44336;
       animation: pulse-error 1.5s infinite;
@@ -463,4 +470,9 @@
       gap: 10px;
     }
   }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

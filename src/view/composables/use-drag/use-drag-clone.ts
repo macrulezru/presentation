@@ -1,8 +1,5 @@
 import { type Ref } from 'vue'
-import type {
-  UseDragStateReturn,
-  DraggedItem,
-} from '@/view/composables/use-drag/use-drag-state'
+import type { UseDragStateReturn, DraggedItem } from './use-drag-state'
 
 export interface DragCloneMethods {
   createDragClone: (index: number) => HTMLElement | null

@@ -882,7 +882,10 @@
       "export": "Экспорттау",
       "import": "Импорттау",
       "exportConfig": "Конфигурацияны экспорттау",
-      "importConfig": "Конфигурацияны импорттау"
+      "importConfig": "Конфигурацияны импорттау",
+      "loadingMusic": "Әуен жүктелуде",
+      "pauseMusic": "Тоқтату",
+      "playMusic": "Әуенді ойнату"
     }
   },
   "design": {
