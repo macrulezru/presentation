@@ -887,5 +887,18 @@
     "showAll": "Alle Bilder anzeigen",
     "loadingImages": "Bilder werden geladen"
   },
+  "sectionEditor": {
+    "title": "Bearbeitung der Abschnittsreihenfolge",
+    "description": "Ziehen Sie Abschnitte per Drag & Drop, um deren Reihenfolge zu ändern. Der erste Abschnitt \"Startseite\" ist festgelegt.",
+    "fixedLabel": "Fixiert",
+    "fixedTitle": "Dieser Abschnitt ist immer der erste",
+    "moveUp": "Nach oben verschieben",
+    "moveDown": "Nach unten verschieben",
+    "dragHint": "Zum Ändern der Reihenfolge ziehen",
+    "apply": "Übernehmen",
+    "cancel": "Abbrechen",
+    "reset": "Zurücksetzen",
+    "unsavedChanges": "Es gibt ungespeicherte Änderungen"
+  },
   "location": "Arbeitsstandort"
 }

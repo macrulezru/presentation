@@ -887,5 +887,18 @@
     "showAll": "查看所有图片",
     "loadingImages": "正在加载图像"
   },
+  "sectionEditor": {
+    "title": "版块顺序编辑",
+    "description": "拖拽版块以更改其顺序。第一个版块“首页”是固定的。",
+    "fixedLabel": "已固定",
+    "fixedTitle": "此版块始终排在第一位",
+    "moveUp": "上移",
+    "moveDown": "下移",
+    "dragHint": "拖拽以更改顺序",
+    "apply": "应用",
+    "cancel": "取消",
+    "reset": "重置",
+    "unsavedChanges": "存在未保存的更改"
+  },
   "location": "工作地点"
 }

@@ -887,5 +887,18 @@
     "showAll": "View all pictures",
     "loadingImages": "Loading images"
   },
+  "sectionEditor": {
+    "title": "Section Order Editing",
+    "description": "Drag and drop sections to change their order. The first section \"Home\" is fixed.",
+    "fixedLabel": "Fixed",
+    "fixedTitle": "This section is always first",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "dragHint": "Drag to change order",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "unsavedChanges": "You have unsaved changes"
+  },
   "location": "Work Location"
 }
