@@ -4,7 +4,7 @@
   import { computed } from 'vue'
 
   interface Props {
-    text: string
+    text?: string
 
     fullWidth?: boolean
     small?: boolean
@@ -12,6 +12,7 @@
     disabled?: boolean
     gray?: boolean
     reset?: boolean
+    control?: boolean
   }
 
   const props = defineProps<Props>()
@@ -27,6 +28,7 @@
       'ui-button_disabled': props.disabled,
       'ui-button_gray': props.gray,
       'ui-button_reset': props.reset,
+      'ui-button_control': props.control,
     }
   })
 </script>

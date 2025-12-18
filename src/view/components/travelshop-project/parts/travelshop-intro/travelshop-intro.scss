@@ -456,4 +456,11 @@
       grid-template-columns: repeat(2, 1fr);
     }
   }
+
+  @media (width <= 768px) {
+    &__controls-header-title {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  }
 }

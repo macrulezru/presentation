@@ -878,7 +878,11 @@
       "flight-control": "control the aircraft",
       "resetSettings": "Reset Settings",
       "close": "Close",
-      "settings": "Animation Settings"
+      "settings": "Animation Settings",
+      "export": "Export",
+      "import": "Import",
+      "exportConfig": "Export configuration",
+      "importConfig": "Import configuration"
     }
   },
   "design": {
