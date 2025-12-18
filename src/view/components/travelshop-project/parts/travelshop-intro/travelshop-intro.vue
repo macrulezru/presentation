@@ -1,7 +1,10 @@
 <script setup lang="ts">
+  import Button from '@/view/ui/ui-button/ui-button.vue'
+
   import '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.scss'
 
   import Music from '@/view/assets/music/control.mp3'
+
   import { ref } from 'vue'
   import { useTravelshopCanvas } from '@/view/composables/use-travelshop-animation'
   import { useResponsive } from '@/view/composables/use-responsive.ts'
@@ -14,6 +17,7 @@
   const audio = ref<HTMLAudioElement>()
   const isPlaying = ref(false)
   const audioError = ref(false)
+  const configFileInput = ref<HTMLInputElement>()
 
   const {
     canvasRef,
@@ -22,6 +26,8 @@
     toggleDebugControls,
     updateDebugParam,
     resetToDefaults,
+    exportConfig,
+    importConfig,
   } = useTravelshopCanvas(canvasContainer)
 
   const triggerMusic = async () => {
@@ -43,6 +49,14 @@
         audioError.value = true
       }
     }
+  }
+
+  const handleExportConfig = () => {
+    exportConfig()
+  }
+
+  const handleImportConfig = () => {
+    configFileInput.value?.click()
   }
 
   onMounted(() => {
@@ -92,10 +106,15 @@
             <span class="travelshop-intro__controls-title">
               {{ t('tshIntro.buttons.settings') }}
             </span>
-            <button class="travelshop-intro__controls-reset" @click="resetToDefaults">
+            <Button control @click="handleExportConfig">
+              {{ t('tshIntro.buttons.export') }}
+            </Button>
+            <Button control @click="handleImportConfig">
+              {{ t('tshIntro.buttons.import') }}
+            </Button>
+            <Button control reset @click="resetToDefaults">
               {{ t('tshIntro.buttons.resetSettings') }}
-            </button>
-            <!-- Кнопка управления музыкой -->
+            </Button>
             <button
               class="travelshop-intro__music-btn"
               @click="triggerMusic"
@@ -184,5 +203,13 @@
         </div>
       </div>
     </template>
+
+    <input
+      type="file"
+      ref="configFileInput"
+      accept=".json"
+      style="display: none"
+      @change="importConfig"
+    />
   </div>
 </template>

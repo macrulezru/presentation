@@ -255,9 +255,41 @@ export const useTravelshopIntroStore = defineStore('travelshopIntro', () => {
     }
   }
 
-  // Обновление конфигурации (без изменений)
+  // Обновление конфигурации
   function updateConfig(newConfig: Partial<TravelshopConfig>) {
     config.value = { ...config.value, ...newConfig }
+  }
+
+  // Импорт конфигурации
+  function importConfig(newConfig: TravelshopConfig) {
+    config.value = deepMerge(getDefaultConfig(), newConfig)
+
+    // Переинициализируем дебаг параметры если они уже были инициализированы
+    if (Object.keys(debugParams.value).length > 0) {
+      initDebugParams()
+    }
+  }
+
+  // Глубокое слияние объектов
+  function deepMerge<T extends Record<string, any>>(target: T, source: T): T {
+    const output = { ...target }
+
+    for (const key in source) {
+      if (source.hasOwnProperty(key)) {
+        if (isObject(source[key]) && isObject(target[key])) {
+          output[key as keyof T] = deepMerge(target[key], source[key])
+        } else {
+          output[key as keyof T] = source[key]
+        }
+      }
+    }
+
+    return output
+  }
+
+  // Проверка, является ли значение объектом
+  function isObject(item: any): boolean {
+    return item && typeof item === 'object' && !Array.isArray(item)
   }
 
   // Сброс к значениям по умолчанию
@@ -570,7 +602,7 @@ export const useTravelshopIntroStore = defineStore('travelshopIntro', () => {
     return debugParams.value[category] || []
   }
 
-  // Вспомогательные методы для работы с конфигом (без изменений)
+  // Вспомогательные методы для работы с конфигом
   function setSafeZoneMargins(horizontal: number, vertical: number) {
     config.value.safeZoneMargins.horizontal = horizontal
     config.value.safeZoneMargins.vertical = vertical
@@ -597,6 +629,7 @@ export const useTravelshopIntroStore = defineStore('travelshopIntro', () => {
     // Конфигурация
     config,
     updateConfig,
+    importConfig,
     resetToDefaults,
 
     // Дебаг параметры

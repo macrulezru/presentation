@@ -60,6 +60,12 @@
     }
   }
 
+  &_control {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    background: transparent;
+  }
+
   @include media-tablet {
     padding: 0.6rem var(--spacing-lg);
     font-size: var(--font-size-lg);

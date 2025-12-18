@@ -878,7 +878,11 @@
       "flight-control": "das Flugzeug steuern",
       "resetSettings": "Einstellungen zurücksetzen",
       "close": "Schließen",
-      "settings": "Animationseinstellungen"
+      "settings": "Animationseinstellungen",
+      "export": "Exportieren",
+      "import": "Importieren",
+      "exportConfig": "Konfiguration exportieren",
+      "importConfig": "Konfiguration importieren"
     }
   },
   "design": {

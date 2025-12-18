@@ -1634,6 +1634,81 @@ export function useTravelshopCanvas(containerRef: Ref<HTMLElement | undefined>) 
     aircraftAngle.value = 0
   }
 
+  // Функция для экспорта конфигурации
+  const exportConfig = () => {
+    const configData = {
+      version: '1.0',
+      timestamp: new Date().toISOString(),
+      config: travelshopStore.config,
+      debugParams: travelshopStore.debugParams,
+    }
+
+    const jsonString = JSON.stringify(configData, null, 2)
+    const blob = new Blob([jsonString], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+
+    const link = document.createElement('a')
+    link.href = url
+    link.download = 'tsh-config.json'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+
+    URL.revokeObjectURL(url)
+  }
+
+  // Функция для импорта конфигурации
+  const importConfig = (event: Event) => {
+    const input = event.target as HTMLInputElement
+    if (!input.files || input.files.length === 0) return
+
+    const file = input.files[0]
+    if (!file) return
+
+    const reader = new FileReader()
+
+    reader.onload = e => {
+      try {
+        const content = e.target?.result as string
+        const configData = JSON.parse(content)
+
+        // Валидация импортируемого файла
+        if (!configData.config || !configData.debugParams) {
+          throw new Error('Некорректный формат файла конфигурации')
+        }
+
+        // Восстанавливаем конфигурацию через стор
+        travelshopStore.importConfig(configData.config)
+
+        // Восстанавливаем debug параметры
+        Object.entries(configData.debugParams).forEach(([_category, params]) => {
+          if (Array.isArray(params)) {
+            params.forEach((param: any) => {
+              if (param.id && param.value !== undefined) {
+                travelshopStore.updateDebugParam(param.id, param.value)
+              }
+            })
+          }
+        })
+
+        // Сбрасываем input чтобы можно было загрузить тот же файл снова
+        input.value = ''
+
+        // Показываем уведомление об успешной загрузке
+        console.log('Конфигурация успешно загружена')
+
+        // Пересоздаем сцену с новыми параметрами
+        recreateScene()
+      } catch (error) {
+        console.error('Ошибка при импорте конфигурации:', error)
+        alert('Ошибка при загрузке конфигурации. Проверьте формат файла.')
+        input.value = ''
+      }
+    }
+
+    reader.readAsText(file)
+  }
+
   // Инициализация
   onMounted(async () => {
     await loadImages()
@@ -1735,7 +1810,7 @@ export function useTravelshopCanvas(containerRef: Ref<HTMLElement | undefined>) 
 
     // Дебаг-контролы из стора
     showDebugControls: computed(() => travelshopStore.showDebugControls),
-    debugParams: computed(() => travelshopStore.debugParams),
+    debugParams: computed(() => travelshopStore.debugParams), // Исправлено
     debugCategories: computed(() => travelshopStore.debugCategories),
     toggleDebugControls: travelshopStore.toggleDebugControls,
     updateDebugParam: travelshopStore.updateDebugParam,
@@ -1748,5 +1823,9 @@ export function useTravelshopCanvas(containerRef: Ref<HTMLElement | undefined>) 
     setRotationDirection: travelshopStore.setRotationDirection,
     toggleRotationDirection: travelshopStore.toggleRotationDirection,
     setSafeZoneMargins: travelshopStore.setSafeZoneMargins,
+
+    // Новые методы для экспорта/импорта
+    exportConfig,
+    importConfig,
   }
 }
