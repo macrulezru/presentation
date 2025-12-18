@@ -1,23 +1,5 @@
-import { ref, type Ref } from 'vue'
-
-export interface DraggedItem {
-  index: number
-  element: HTMLElement
-  clone: HTMLElement
-  initialRect: DOMRect
-}
-
-export interface DragState {
-  draggedItem: Ref<DraggedItem | null>
-  placeholderIndex: Ref<number | null>
-  isDragging: Ref<boolean>
-  dragY: Ref<number>
-  itemStyles: Ref<Record<number, { transform: string; transition: string }>>
-}
-
-export interface UseDragStateReturn extends DragState {
-  reset: () => void
-}
+import { ref } from 'vue'
+import type { DraggedItem, UseDragStateReturn } from './types'
 
 export function useDragState(): UseDragStateReturn {
   const draggedItem = ref<DraggedItem | null>(null)

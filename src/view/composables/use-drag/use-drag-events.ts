@@ -1,13 +1,7 @@
 import { type Ref } from 'vue'
-import type { UseDragStateReturn } from './use-drag-state'
+import type { DragEventHandlers, UseDragStateReturn } from './types'
 import { useDragAnimations } from './use-drag-animations'
 import { useDragClone } from './use-drag-clone'
-
-export interface DragEventHandlers {
-  handleDragStart: (event: MouseEvent | TouchEvent, index: number) => void
-  handleDragMove: (event: MouseEvent | TouchEvent) => void
-  handleDragEnd: () => void
-}
 
 export function useDragEvents(
   itemsRefs: Ref<HTMLElement[]>,

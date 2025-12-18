@@ -1,15 +1,5 @@
 import { type Ref } from 'vue'
-import type { UseDragStateReturn } from './use-drag-state'
-
-export interface DragAnimations {
-  animateItems: (fromIndex: number, toIndex: number) => void
-  resetItemStyles: () => void
-  finishDragAnimation: (
-    itemsRefs: Ref<HTMLElement[]>,
-    draggedItem: UseDragStateReturn['draggedItem'],
-    placeholderIndex: UseDragStateReturn['placeholderIndex'],
-  ) => void
-}
+import type { DragAnimations, UseDragStateReturn } from './types'
 
 export function useDragAnimations(
   itemsRefs: Ref<HTMLElement[]>,

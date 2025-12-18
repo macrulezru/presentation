@@ -1,18 +1,8 @@
 import { onUnmounted, type Ref } from 'vue'
+import type { UseSectionDragReturn } from './types'
 import { useDragState } from './use-drag-state'
 import { useDragEvents } from './use-drag-events'
 import { useDragAnimations } from './use-drag-animations'
-
-export interface UseSectionDragReturn {
-  draggedItem: ReturnType<typeof useDragState>['draggedItem']
-  placeholderIndex: ReturnType<typeof useDragState>['placeholderIndex']
-  isDragging: ReturnType<typeof useDragState>['isDragging']
-  dragY: ReturnType<typeof useDragState>['dragY']
-  itemStyles: ReturnType<typeof useDragState>['itemStyles']
-  handleDragStart: (event: MouseEvent | TouchEvent, index: number) => void
-  resetDragState: () => void
-  cleanupEventListeners: () => void
-}
 
 export function useSectionDrag(
   itemsRefs: Ref<HTMLElement[]>,
@@ -24,7 +14,7 @@ export function useSectionDrag(
   const { handleDragStart, handleDragMove, handleDragEnd } = useDragEvents(
     itemsRefs,
     containerRef,
-    dragState, // Передаем UseDragStateReturn
+    dragState,
     onOrderChange,
   )
 
