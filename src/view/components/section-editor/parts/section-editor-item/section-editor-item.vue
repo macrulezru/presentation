@@ -38,26 +38,26 @@
   )
 
   const emit = defineEmits<{
-    'drag-start': [event: MouseEvent | TouchEvent]
-    'move-up': []
-    'move-down': []
+    dragStart: [event: MouseEvent | TouchEvent]
+    moveUp: []
+    moveDown: []
   }>()
 
   const handleDragStart = (event: MouseEvent | TouchEvent) => {
     if (!props.isFixed) {
-      emit('drag-start', event)
+      emit('dragStart', event)
     }
   }
 
   const handleMoveUp = () => {
     if (!props.isFixed && !props.isDraggingAny) {
-      emit('move-up')
+      emit('moveUp')
     }
   }
 
   const handleMoveDown = () => {
     if (!props.isFixed && !props.isDraggingAny) {
-      emit('move-down')
+      emit('moveDown')
     }
   }
 </script>
@@ -69,8 +69,6 @@
       'section-editor-item--fixed': isFixed,
       'section-editor-item--placeholder': isPlaceholder,
       'section-editor-item--dragging': isDragging,
-      'section-editor-item--dragging-original': isDraggingOriginal,
-      'section-editor-item--dragging-clone': isDraggingClone,
     }"
     :style="customStyle"
   >
