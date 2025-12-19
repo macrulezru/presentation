@@ -2,7 +2,7 @@
   import '@/view/components/splash/splash.scss'
 
   import { onMounted, onUnmounted, ref } from 'vue'
-  import { usePlasmaBackground } from '@/view/composables/use-three-splash.ts'
+  import { usePlasmaBackground } from '@/view/composables/use-plasma-background'
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts'
   import { PageSectionsEnum } from '@/enums/page-sections.enum.ts'
 
