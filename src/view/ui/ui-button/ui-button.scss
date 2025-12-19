@@ -67,8 +67,10 @@
   }
 
   @include media-tablet {
-    padding: 0.6rem var(--spacing-lg);
-    font-size: var(--font-size-lg);
+    &:not(.ui-button_micro) {
+      padding: 0.6rem var(--spacing-lg);
+      font-size: var(--font-size-lg);
+    }
 
     &_small {
       font-size: 0.95rem;
