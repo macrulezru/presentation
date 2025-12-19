@@ -70,9 +70,12 @@ export function usePlasmaBackground(
     sceneContext.plasmaParticles = plasmaParticles
     sceneContext.glowParticles = glowParticles
 
-    // Настройка обработчиков ввода для мыши (только на десктопе)
     if (!isMobileDevice) {
       inputHandlers.setupMouseHandlers(config, isMobileDevice)
+    }
+
+    if (isMobileDevice) {
+      await inputHandlers.initGyroscope(config)
     }
 
     // Создание цикла анимации

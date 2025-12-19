@@ -7,7 +7,6 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
   let scene: THREE.Scene | null = null
   let camera: THREE.PerspectiveCamera | null = null
   let renderer: THREE.WebGLRenderer | null = null
-  let resizeObserver: ResizeObserver | null = null
 
   const config = createDefaultConfig()
   const cameraState: CameraState = {
@@ -127,8 +126,8 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
     const handleResize = () => {
       if (!camera || !renderer || !containerRef.value) return
 
-      const width = containerRef.value.clientWidth
-      const height = containerRef.value.clientHeight
+      const width = window.innerWidth
+      const height = window.innerHeight
 
       // Обновляем размеры canvas
       canvas.style.width = width + 'px'
@@ -143,15 +142,6 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     }
 
-    // Инициализируем ResizeObserver для отслеживания изменений контейнера
-    resizeObserver = new ResizeObserver(() => {
-      handleResize()
-    })
-
-    if (containerRef.value) {
-      resizeObserver.observe(containerRef.value)
-    }
-
     window.addEventListener('resize', handleResize)
 
     // Вызываем один раз для начальной установки
@@ -164,10 +154,6 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
       deviceInfo, // Обычный объект
       cleanup: () => {
         window.removeEventListener('resize', handleResize)
-        if (resizeObserver) {
-          resizeObserver.disconnect()
-          resizeObserver = null
-        }
         renderer?.dispose()
         scene?.clear()
         // Удаляем canvas из DOM
