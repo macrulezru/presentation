@@ -23,10 +23,12 @@ export function useInputHandlers(containerRef: Ref<HTMLElement | undefined>) {
     targetDeviceBeta: 0,
     targetDeviceGamma: 0,
     isGyroInitialized: false,
+    isGyroEnabled: false,
   }
 
   // Добавьте состояние для хранения обработчика
   let mouseMoveHandler: ((event: MouseEvent) => void) | null = null
+  let gyroHandler: ((event: DeviceOrientationEvent) => void) | null = null
 
   const requestGyroPermission = async (): Promise<boolean> => {
     if (
@@ -52,13 +54,13 @@ export function useInputHandlers(containerRef: Ref<HTMLElement | undefined>) {
       return false
     }
 
-    const handleDeviceOrientation = (event: DeviceOrientationEvent) => {
-      if (!config.enableGyroParallax) return
+    gyroHandler = (event: DeviceOrientationEvent) => {
+      if (!inputState.isGyroEnabled || !config.enableGyroParallax) return
 
       if (event.alpha !== null && event.beta !== null && event.gamma !== null) {
         inputState.targetDeviceAlpha = event.alpha || 0
-        inputState.targetDeviceBeta = event.beta || 0
-        inputState.targetDeviceGamma = event.gamma || 0
+        inputState.targetDeviceBeta = event.beta - 30 || 0
+        inputState.targetDeviceGamma = event.gamma / 5 || 0
 
         if (inputState.targetDeviceBeta > 90) inputState.targetDeviceBeta = 90
         if (inputState.targetDeviceBeta < -90) inputState.targetDeviceBeta = -90
@@ -67,9 +69,9 @@ export function useInputHandlers(containerRef: Ref<HTMLElement | undefined>) {
       }
     }
 
-    window.addEventListener('deviceorientation', handleDeviceOrientation)
-    ;(window as any).__gyroHandler = handleDeviceOrientation
+    window.addEventListener('deviceorientation', gyroHandler)
     inputState.isGyroInitialized = true
+    inputState.isGyroEnabled = true
 
     return true
   }
@@ -109,7 +111,6 @@ export function useInputHandlers(containerRef: Ref<HTMLElement | undefined>) {
       (state.targetMouseY - state.normalizedMouseY) * PARALLAX_SMOOTHING
   }
 
-  // Добавьте эту функцию для обновления камеры на основе мыши
   const updateCameraForMouse = (
     camera: THREE.PerspectiveCamera,
     config: PlasmaConfig,
@@ -148,8 +149,8 @@ export function useInputHandlers(containerRef: Ref<HTMLElement | undefined>) {
     GYRO_SMOOTHING: number = 0.05,
   ) => {
     const state = inputState
-    if (!state.isGyroInitialized || !config.enableGyroParallax || !isMobileDevice) return
 
+    if (!state.isGyroInitialized || !config.enableGyroParallax || !isMobileDevice) return
     const targetRotationY = -state.deviceGamma * GYRO_INTENSITY * 2
     const targetRotationX = -state.deviceBeta * GYRO_INTENSITY
     const targetRotationZ = -state.deviceAlpha * GYRO_INTENSITY * 0.1
@@ -171,7 +172,6 @@ export function useInputHandlers(containerRef: Ref<HTMLElement | undefined>) {
     camera.rotation.copy(cameraState.currentRotation)
   }
 
-  // Добавьте метод для установки обработчика мыши
   const setupMouseHandlers = (config: PlasmaConfig, isMobileDevice: boolean) => {
     if (isMobileDevice || mouseMoveHandler) return
 
@@ -190,9 +190,11 @@ export function useInputHandlers(containerRef: Ref<HTMLElement | undefined>) {
     }
 
     // Удаляем обработчик гироскопа
-    if ((window as any).__gyroHandler) {
-      window.removeEventListener('deviceorientation', (window as any).__gyroHandler)
-      delete (window as any).__gyroHandler
+    if (gyroHandler) {
+      window.removeEventListener('deviceorientation', gyroHandler)
+      gyroHandler = null
+      inputState.isGyroInitialized = false
+      inputState.isGyroEnabled = false
     }
   }
 
@@ -202,9 +204,9 @@ export function useInputHandlers(containerRef: Ref<HTMLElement | undefined>) {
     updateMousePosition,
     smoothGyroUpdate,
     smoothMouseUpdate,
-    updateCameraForMouse, // Добавьте эту функцию
+    updateCameraForMouse,
     updateCameraForGyro,
-    setupMouseHandlers, // Добавьте этот метод
+    setupMouseHandlers,
     cleanup,
   }
 }

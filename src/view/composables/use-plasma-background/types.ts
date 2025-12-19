@@ -75,6 +75,7 @@ export interface InputState {
   targetDeviceBeta: number
   targetDeviceGamma: number
   isGyroInitialized: boolean
+  isGyroEnabled: boolean
 }
 
 export interface CameraState {
