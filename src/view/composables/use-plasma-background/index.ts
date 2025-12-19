@@ -5,6 +5,7 @@ import { useParticles } from './use-particles'
 import { useInputHandlers } from './use-input-handlers'
 import { useAnimationLoop } from './use-animation-loop'
 import { useVisibility } from './use-visibility'
+import { useResponsive } from '@/view/composables/use-responsive'
 import {
   PARALLAX_INTENSITY,
   GYRO_INTENSITY,
@@ -28,6 +29,8 @@ export function usePlasmaBackground(
   const inputHandlers = useInputHandlers(containerRef)
   const animationLoop = useAnimationLoop()
   const visibility = useVisibility(containerRef)
+  // Используем ваш существующий хук
+  const responsive = useResponsive()
 
   let controls: any = null
   let sceneContext: any = null // Сохраняем ссылку на контекст сцены
@@ -47,10 +50,16 @@ export function usePlasmaBackground(
 
     sceneContext = ctx // Сохраняем для доступа из методов
 
-    // Создание эффектов
-    const plasmaField = plasmaEffects.createPlasmaField(config)
-    const plasmaParticles = particles.createPlasmaParticles(config)
-    const glowParticles = particles.createGlowParticles(config)
+    // Определяем тип устройства с учетом размера экрана
+    // Если пользователь на десктопном браузере, но с мобильного разрешения,
+    // считаем это мобильным режимом для оптимизации
+    const isMobileSize = responsive.isMobile.value
+    const isMobileDevice = deviceInfo.isMobileDevice || isMobileSize
+
+    // Создание эффектов с учетом типа устройства
+    const plasmaField = plasmaEffects.createPlasmaField(config, isMobileDevice)
+    const plasmaParticles = particles.createPlasmaParticles(config, isMobileDevice)
+    const glowParticles = particles.createGlowParticles(config, isMobileDevice)
 
     // Добавление объектов в сцену
     sceneContext.scene.add(plasmaField)
@@ -61,9 +70,9 @@ export function usePlasmaBackground(
     sceneContext.plasmaParticles = plasmaParticles
     sceneContext.glowParticles = glowParticles
 
-    // Настройка обработчиков ввода для мыши
-    if (!deviceInfo.isMobileDevice) {
-      inputHandlers.setupMouseHandlers(config, deviceInfo.isMobileDevice)
+    // Настройка обработчиков ввода для мыши (только на десктопе)
+    if (!isMobileDevice) {
+      inputHandlers.setupMouseHandlers(config, isMobileDevice)
     }
 
     // Создание цикла анимации
@@ -72,26 +81,37 @@ export function usePlasmaBackground(
       config, // Обычный объект
       cameraState, // Обычный объект
       inputHandlers.inputState, // Используем inputState из inputHandlers
-      deviceInfo,
+      // Передаем обновленный deviceInfo с учетом размера экрана
+      {
+        ...deviceInfo,
+        isMobileDevice: isMobileDevice,
+      },
       inputHandlers.smoothGyroUpdate,
       inputHandlers.smoothMouseUpdate,
       camera =>
         inputHandlers.updateCameraForGyro(
           camera,
           config,
-          deviceInfo.isMobileDevice,
+          isMobileDevice,
           cameraState,
           GYRO_INTENSITY,
           GYRO_SMOOTHING,
         ),
-      camera =>
+      camera => {
+        // Используем адаптивную интенсивность параллакса
+        // Для мобильных размеров уменьшаем интенсивность даже на десктопном устройстве
+        const adaptiveParallaxIntensity = isMobileDevice
+          ? config.mobileParallaxIntensity || PARALLAX_INTENSITY * 0.3
+          : PARALLAX_INTENSITY
+
         inputHandlers.updateCameraForMouse(
           camera,
           config,
-          deviceInfo.isMobileDevice,
+          isMobileDevice,
           cameraState,
-          PARALLAX_INTENSITY,
-        ),
+          adaptiveParallaxIntensity,
+        )
+      },
     )
 
     // Инициализация наблюдения за видимостью
@@ -133,19 +153,10 @@ export function usePlasmaBackground(
       },
       toggleGyroParallax: async (enabled: boolean) => {
         config.enableGyroParallax = enabled
-        if (
-          enabled &&
-          deviceInfo.isMobileDevice &&
-          !inputHandlers.inputState.isGyroInitialized
-        ) {
+        if (enabled && isMobileDevice && !inputHandlers.inputState.isGyroInitialized) {
           await inputHandlers.initGyroscope(config)
         }
-        if (
-          !enabled &&
-          deviceInfo.isMobileDevice &&
-          sceneContext &&
-          sceneContext.camera
-        ) {
+        if (!enabled && isMobileDevice && sceneContext && sceneContext.camera) {
           cameraState.targetRotation.set(0, 0, 0, 'YXZ')
           cameraState.currentRotation.set(0, 0, 0, 'YXZ')
           sceneContext.camera.rotation.set(0, 0, 0, 'YXZ')
@@ -154,7 +165,7 @@ export function usePlasmaBackground(
       startAnimation,
       stopAnimation,
       getDeviceInfo: () => ({
-        isMobile: deviceInfo.isMobileDevice,
+        isMobile: isMobileDevice,
         hasGyro: deviceInfo.isGyroAvailable,
         hasCompass: deviceInfo.isCompassAvailable,
         isGyroEnabled:
@@ -167,6 +178,7 @@ export function usePlasmaBackground(
         maxBrightness: MAX_BRIGHTNESS,
         parallaxIntensity: PARALLAX_INTENSITY,
         gyroIntensity: GYRO_INTENSITY,
+        mobileParallaxIntensity: config.mobileParallaxIntensity,
       }),
       updateMouseParallaxIntensity: (x: number, y: number, z: number) => {
         config.mouseParallaxIntensityX = x

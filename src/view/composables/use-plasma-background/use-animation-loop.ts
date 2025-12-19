@@ -178,11 +178,18 @@ export function useAnimationLoop() {
 
       // Анимация плазменного поля
       if (plasmaField) {
-        plasmaField.rotation.y += 0.0002 * config.fieldSpeed
-        plasmaField.rotation.z += 0.0001 * config.fieldSpeed
+        // Адаптивная скорость для мобильных устройств
+        const adaptiveSpeed = deviceInfo.isMobileDevice
+          ? config.fieldSpeed * 0.8
+          : config.fieldSpeed
+
+        plasmaField.rotation.y += 0.0002 * adaptiveSpeed
+        plasmaField.rotation.z += 0.0001 * adaptiveSpeed
 
         if (config.enablePulse) {
-          const pulse = Math.sin(internalState.time * 0.8) * 0.02 + 1
+          // Адаптивная амплитуда пульсации для мобильных
+          const pulseAmplitude = deviceInfo.isMobileDevice ? 0.01 : 0.02
+          const pulse = Math.sin(internalState.time * 0.8) * pulseAmplitude + 1
           plasmaField.scale.setScalar(pulse)
         }
       }
@@ -193,32 +200,68 @@ export function useAnimationLoop() {
         !config.enableMouseParallax &&
         !(deviceInfo.isMobileDevice && config.enableGyroParallax)
       ) {
+        // Адаптивная амплитуда для мобильных устройств
+        const adaptiveAmplitudeX = deviceInfo.isMobileDevice
+          ? config.cameraAutoAmplitudeX * 0.6
+          : config.cameraAutoAmplitudeX
+        const adaptiveAmplitudeY = deviceInfo.isMobileDevice
+          ? config.cameraAutoAmplitudeY * 0.6
+          : config.cameraAutoAmplitudeY
+        const adaptiveAmplitudeZ = deviceInfo.isMobileDevice
+          ? config.cameraAutoAmplitudeZ * 0.6
+          : config.cameraAutoAmplitudeZ
+
         cameraState.basePosition.x =
-          Math.sin(internalState.time * config.cameraAutoSpeedX) *
-          config.cameraAutoAmplitudeX
+          Math.sin(internalState.time * config.cameraAutoSpeedX) * adaptiveAmplitudeX
         cameraState.basePosition.y =
           config.cameraAutoOffsetY +
-          Math.cos(internalState.time * config.cameraAutoSpeedY) *
-            config.cameraAutoAmplitudeY
+          Math.cos(internalState.time * config.cameraAutoSpeedY) * adaptiveAmplitudeY
         cameraState.basePosition.z =
           config.cameraAutoOffsetZ +
-          Math.sin(internalState.time * config.cameraAutoSpeedZ) *
-            config.cameraAutoAmplitudeZ
+          Math.sin(internalState.time * config.cameraAutoSpeedZ) * adaptiveAmplitudeZ
         cameraState.targetPosition.copy(cameraState.basePosition)
       }
 
       // Направление взгляда камеры
       if (!(deviceInfo.isMobileDevice && config.enableGyroParallax)) {
-        camera.lookAt(0, -5, 0)
+        // Адаптивная точка фокусировки для мобильных
+        const lookAtY = deviceInfo.isMobileDevice ? -3 : -5
+        camera.lookAt(0, lookAtY, 0)
       }
 
       // Анимация света
       const pointLight = scene.getObjectByName('mainPointLight') as THREE.PointLight
       if (pointLight && config.enablePulse) {
-        pointLight.intensity = 0.4 + Math.sin(internalState.time * 0.6) * 0.08
-        pointLight.position.x = Math.sin(internalState.time * 0.04) * 4
-        pointLight.position.y = 4 + Math.cos(internalState.time * 0.03) * 1.5
-        pointLight.position.z = Math.cos(internalState.time * 0.035) * 4
+        // Адаптивная интенсивность для мобильных
+        const intensityBase = deviceInfo.isMobileDevice ? 0.3 : 0.4
+        const intensityVariation = deviceInfo.isMobileDevice ? 0.05 : 0.08
+
+        pointLight.intensity =
+          intensityBase + Math.sin(internalState.time * 0.6) * intensityVariation
+
+        // Адаптивная амплитуда движения света
+        const lightAmplitudeX = deviceInfo.isMobileDevice ? 2 : 4
+        const lightAmplitudeY = deviceInfo.isMobileDevice ? 0.8 : 1.5
+        const lightAmplitudeZ = deviceInfo.isMobileDevice ? 2 : 4
+
+        pointLight.position.x = Math.sin(internalState.time * 0.04) * lightAmplitudeX
+        pointLight.position.y = 4 + Math.cos(internalState.time * 0.03) * lightAmplitudeY
+        pointLight.position.z = Math.cos(internalState.time * 0.035) * lightAmplitudeZ
+      }
+
+      // Адаптивная анимация для частиц на мобильных устройствах
+      if (deviceInfo.isMobileDevice) {
+        // Медленнее вращение частиц на мобильных для экономии батареи
+        if (plasmaParticles) {
+          const rotationSpeed = 0.0001 // Уменьшенная скорость вращения
+          plasmaParticles.rotation.y += rotationSpeed
+          plasmaParticles.rotation.x += rotationSpeed * 0.5
+        }
+
+        if (glowParticles) {
+          const glowRotationSpeed = 0.00005 // Еще более медленное вращение
+          glowParticles.rotation.z += glowRotationSpeed
+        }
       }
 
       // Рендеринг сцены

@@ -2,8 +2,12 @@ import * as THREE from 'three'
 import type { PlasmaConfig } from './types'
 
 export function useParticles() {
-  const createPlasmaParticles = (config: PlasmaConfig) => {
-    const particleCount = config.particleCount
+  const createPlasmaParticles = (config: PlasmaConfig, isMobile: boolean = false) => {
+    // Используем адаптивное количество частиц
+    const particleCount = isMobile
+      ? config.mobileParticleCount || Math.floor(config.particleCount * 0.5)
+      : config.particleCount
+
     const positions = new Float32Array(particleCount * 3)
     const colorsArray = new Float32Array(particleCount * 3)
     const sizes = new Float32Array(particleCount)
@@ -191,8 +195,12 @@ export function useParticles() {
     return new THREE.Points(geometry, material)
   }
 
-  const createGlowParticles = (config: PlasmaConfig) => {
-    const particleCount = config.glowParticleCount
+  const createGlowParticles = (config: PlasmaConfig, isMobile: boolean = false) => {
+    // Используем адаптивное количество частиц
+    const particleCount = isMobile
+      ? config.mobileGlowParticleCount || Math.floor(config.glowParticleCount * 0.5)
+      : config.glowParticleCount
+
     const positions = new Float32Array(particleCount * 3)
     const colorsArray = new Float32Array(particleCount * 3)
     const sizes = new Float32Array(particleCount)

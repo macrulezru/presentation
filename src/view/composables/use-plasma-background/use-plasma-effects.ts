@@ -3,12 +3,20 @@ import { MIN_BRIGHTNESS, MAX_BRIGHTNESS } from './config'
 import type { PlasmaConfig } from './types'
 
 export function usePlasmaEffects() {
-  const createPlasmaField = (config: PlasmaConfig) => {
+  const createPlasmaField = (config: PlasmaConfig, isMobile: boolean = false) => {
+    // Используем адаптивные параметры для мобильных устройств
+    const fieldSize = isMobile
+      ? config.mobileFieldSize || config.fieldSize * 0.5
+      : config.fieldSize
+    const fieldDetail = isMobile
+      ? config.mobileFieldDetail || Math.floor(config.fieldDetail * 0.7)
+      : config.fieldDetail
+
     const geometry = new THREE.PlaneGeometry(
-      config.fieldSize,
-      config.fieldSize,
-      config.fieldDetail,
-      config.fieldDetail,
+      fieldSize,
+      fieldSize,
+      fieldDetail,
+      fieldDetail,
     )
 
     const vertexShader = `
@@ -172,7 +180,7 @@ export function usePlasmaEffects() {
     })
 
     const mesh = new THREE.Mesh(geometry, material)
-    mesh.position.y = -8
+    mesh.position.y = isMobile ? -4 : -8 // Адаптивная позиция для мобильных
     return mesh
   }
 

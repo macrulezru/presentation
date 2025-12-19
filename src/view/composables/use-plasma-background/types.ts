@@ -4,21 +4,37 @@ import type { Ref } from 'vue'
 export interface PlasmaConfig {
   baseColors: THREE.Color[]
   currentColors: (THREE.Color | undefined)[]
+
+  // Десктоп параметры
   fieldSize: number
   fieldDetail: number
+
+  // Мобильные параметры
+  mobileFieldSize: number
+  mobileFieldDetail: number
+
   fieldSpeed: number
   fieldAmplitude: number
+
+  // Десктоп параметры частиц
   particleCount: number
+  glowParticleCount: number
+
+  // Мобильные параметры частиц
+  mobileParticleCount: number
+  mobileGlowParticleCount: number
+
   particleSize: number
   particleSpeed: number
   particleBrightness: number
-  glowParticleCount: number
   glowParticleSize: number
   glowParticleSpeed: number
   glowParticleBrightness: number
+
   brightness: number
   pulseIntensity: number
   fogDensity: number
+
   enableWaves: boolean
   enablePulse: boolean
   enableFlow: boolean
@@ -27,6 +43,10 @@ export interface PlasmaConfig {
   enableMouseParallax: boolean
   enableGyroParallax: boolean
   enableCameraAutoMovement: boolean
+
+  // Адаптивные параметры
+  mobileParallaxIntensity: number
+
   cameraAutoSpeedX: number
   cameraAutoSpeedY: number
   cameraAutoSpeedZ: number
@@ -35,6 +55,7 @@ export interface PlasmaConfig {
   cameraAutoAmplitudeZ: number
   cameraAutoOffsetY: number
   cameraAutoOffsetZ: number
+
   mouseParallaxIntensityX: number
   mouseParallaxIntensityY: number
   mouseParallaxIntensityZ: number

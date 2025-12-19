@@ -7,6 +7,7 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
   let scene: THREE.Scene | null = null
   let camera: THREE.PerspectiveCamera | null = null
   let renderer: THREE.WebGLRenderer | null = null
+  let resizeObserver: ResizeObserver | null = null
 
   const config = createDefaultConfig()
   const cameraState: CameraState = {
@@ -38,7 +39,7 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
     return { isMobileDevice, isGyroAvailable, isCompassAvailable }
   }
 
-  const createRenderer = (canvas: HTMLCanvasElement) => {
+  const createRenderer = (canvas: HTMLCanvasElement, width: number, height: number) => {
     const renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: true,
@@ -46,20 +47,15 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
       powerPreference: 'high-performance',
     })
 
-    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setSize(width, height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.setClearColor(0x000011, 1)
 
     return renderer
   }
 
-  const createCamera = () => {
-    const camera = new THREE.PerspectiveCamera(
-      110,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000,
-    )
+  const createCamera = (width: number, height: number) => {
+    const camera = new THREE.PerspectiveCamera(110, width / height, 0.1, 1000)
 
     // Исправлено: убрали .value, так как cameraState - обычный объект
     camera.position.copy(cameraState.basePosition)
@@ -92,21 +88,25 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
     initColors(config)
     const deviceInfo = detectDeviceAndSensors()
 
+    // Получаем размеры контейнера
+    const containerWidth = containerRef.value.clientWidth
+    const containerHeight = containerRef.value.clientHeight
+
     // Создаем canvas элемент
     const canvas = document.createElement('canvas')
     canvas.style.position = 'absolute'
     canvas.style.top = '0'
     canvas.style.left = '0'
     canvas.style.width = '100%'
-    canvas.style.height = '100dvh' // Динамическая высота viewport
+    canvas.style.height = '100%'
     canvas.style.zIndex = '0'
-    canvas.style.pointerEvents = 'auto' // Разрешаем события мыши
+    canvas.style.pointerEvents = 'auto'
     containerRef.value.prepend(canvas)
 
-    // Создаем объекты
+    // Создаем объекты с учетом текущих размеров
     scene = createScene()
-    camera = createCamera()
-    renderer = createRenderer(canvas)
+    camera = createCamera(containerWidth, containerHeight)
+    renderer = createRenderer(canvas, containerWidth, containerHeight)
     createLighting(scene)
 
     // Для мобильных устройств с гироскопом не смотрим в центр
@@ -125,14 +125,37 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
     }
 
     const handleResize = () => {
-      if (!camera || !renderer) return
+      if (!camera || !renderer || !containerRef.value) return
 
-      camera.aspect = window.innerWidth / window.innerHeight
+      const width = containerRef.value.clientWidth
+      const height = containerRef.value.clientHeight
+
+      // Обновляем размеры canvas
+      canvas.style.width = width + 'px'
+      canvas.style.height = height + 'px'
+
+      // Обновляем камеру
+      camera.aspect = width / height
       camera.updateProjectionMatrix()
-      renderer.setSize(window.innerWidth, window.innerHeight)
+
+      // Обновляем рендерер
+      renderer.setSize(width, height, false)
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    }
+
+    // Инициализируем ResizeObserver для отслеживания изменений контейнера
+    resizeObserver = new ResizeObserver(() => {
+      handleResize()
+    })
+
+    if (containerRef.value) {
+      resizeObserver.observe(containerRef.value)
     }
 
     window.addEventListener('resize', handleResize)
+
+    // Вызываем один раз для начальной установки
+    handleResize()
 
     return {
       sceneContext, // Обычный объект
@@ -141,6 +164,10 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
       deviceInfo, // Обычный объект
       cleanup: () => {
         window.removeEventListener('resize', handleResize)
+        if (resizeObserver) {
+          resizeObserver.disconnect()
+          resizeObserver = null
+        }
         renderer?.dispose()
         scene?.clear()
         // Удаляем canvas из DOM
