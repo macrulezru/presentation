@@ -58,6 +58,12 @@
       background: var(--color-accent-ui);
       box-shadow: 0 4px 12px rgb(150 150 150 / 30%);
     }
+
+    &:hover:disabled {
+      border-color: var(--color-accent-ui);
+      color: var(--color-accent-ui);
+      background: transparent;
+    }
   }
 
   &_control {

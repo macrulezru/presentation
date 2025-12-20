@@ -1,0 +1,87 @@
+.request-info-column {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &__title {
+    margin-top: 0;
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-md);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-semibold);
+    flex-shrink: 0;
+  }
+
+  &__card {
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+    max-height: var(--response-card-max-height);
+    min-height: var(--response-card-min-height);
+    gap: var(--spacing-md);
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    flex-shrink: 0;
+
+    strong {
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+    }
+
+    code {
+      background-color: var(--color-bg-secondary);
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: var(--radius-sm);
+      font-family: 'Courier New', monospace;
+      font-size: var(--font-size-sm);
+      color: var(--color-accent-purple);
+      word-break: break-all;
+      line-height: 1.4;
+    }
+  }
+
+  &__status {
+    font-weight: var(--font-weight-medium);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    display: inline-block;
+    width: fit-content;
+
+    &_loading {
+      color: var(--color-warning);
+      background-color: rgb(255 193 7 / 10%);
+    }
+
+    &_success {
+      color: var(--color-success);
+      background-color: rgb(40 167 69 / 10%);
+    }
+
+    &_error {
+      color: var(--color-error-text);
+      background-color: var(--color-error-bg);
+    }
+
+    &_idle {
+      color: var(--color-text-muted);
+      background-color: var(--color-bg-tertiary);
+    }
+  }
+
+  @media (width <= 768px) {
+    &__card {
+      max-height: var(--response-card-max-height-mobile);
+    }
+  }
+}

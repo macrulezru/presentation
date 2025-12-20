@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import Header from '@/view/components/header/header.vue'
   import SectionEditor from '@/view/components/section-editor/section-editor.vue'
+  import RestApi from '@/view/components/rest-api/rest-api.vue'
+
   import '@/view/pages/index.scss'
 
   import { onBeforeMount, onMounted, onUnmounted } from 'vue'
@@ -38,5 +40,6 @@
     <section v-for="section in sectionsConfig" :key="section.id" :id="section.id">
       <component :is="section.component" />
     </section>
+    <RestApi />
   </div>
 </template>
