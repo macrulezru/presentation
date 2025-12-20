@@ -942,6 +942,7 @@
     "status": "Статус:",
     "jokeApiTitle": "Анекдот API",
     "personApiTitle": "Колдонуучу API",
+    "productApiTitle": "Тауарлар API",
     "unknownError": "Белгисиз ката кетти",
     "readyStatus": "Даяр",
     "loadingStatus": "Жүктөлүүдө...",

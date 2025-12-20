@@ -942,6 +942,7 @@
     "status": "Статус:",
     "jokeApiTitle": "API шуток",
     "personApiTitle": "API пользователей",
+    "productApiTitle": "API товаров",
     "unknownError": "Произошла неизвестная ошибка",
     "readyStatus": "Готов",
     "loadingStatus": "Загрузка...",

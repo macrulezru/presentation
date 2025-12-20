@@ -942,6 +942,7 @@
     "status": "状态:",
     "jokeApiTitle": "笑话API",
     "personApiTitle": "用户API",
+    "productApiTitle": "商品API",
     "unknownError": "发生未知错误",
     "readyStatus": "就绪",
     "loadingStatus": "正在加载...",

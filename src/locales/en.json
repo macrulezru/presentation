@@ -942,6 +942,7 @@
     "status": "Status:",
     "jokeApiTitle": "Joke API",
     "personApiTitle": "Person API",
+    "productApiTitle": "Product API",
     "unknownError": "An unknown error occurred",
     "readyStatus": "Ready",
     "loadingStatus": "Loading...",

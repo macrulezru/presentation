@@ -2,6 +2,7 @@
   import ApiDemoBlock from '@/view/components/rest-api/parts/api-demo-block/api-demo-block.vue'
   import JokeFormattedColumn from '@/view/components/rest-api/parts/joke-formatted-column/joke-formatted-column.vue'
   import PersonFormattedColumn from '@/view/components/rest-api/parts/person-formatted-column/person-formatted-column.vue'
+  import ProductFormattedColumn from '@/view/components/rest-api/parts/product-formatted-column/product-formatted-column.vue'
   import Tabs from '@/view/ui/ui-tabs/ui-tabs.vue'
   import Tab from '@/view/ui/ui-tabs/parts/ui-tab/ui-tab.vue'
 
@@ -10,10 +11,11 @@
   import { ref } from 'vue'
   import { jokeCommand } from '@/core/commands/joke.command'
   import { personCommand } from '@/core/commands/person.command'
+  import { productCommand } from '@/core/commands/product.command'
   import type { JokeModel } from '@/models/joke.model'
   import { PersonResponseModel } from '@/models/person-response.model'
-  import { jokeConfig } from '@/core/config'
-  import { personConfig } from '@/core/config'
+  import { ProductModel } from '@/models/product.model'
+  import { jokeConfig, personConfig, productConfig } from '@/core/config'
   import { RestApiCommandEnum } from '@/enums/rest-api.enum'
   import { useI18n } from '@/view/composables/use-i18n.ts'
 
@@ -31,6 +33,13 @@
     endpoint: `/${RestApiCommandEnum.PERSON}`,
     method: 'GET',
     fullUrl: `${personConfig.baseURL}/${RestApiCommandEnum.PERSON}`,
+  }
+
+  const productApiInfo = {
+    baseUrl: productConfig.baseURL,
+    endpoint: `/${RestApiCommandEnum.PRODUCT}`,
+    method: 'GET',
+    fullUrl: `${productConfig.baseURL}/${RestApiCommandEnum.PRODUCT}`,
   }
 
   const jokeState = ref({
@@ -52,6 +61,17 @@
     },
     rawResponse: null as any,
     formattedData: null as PersonResponseModel | null,
+    error: null as string | null,
+  })
+
+  const productState = ref({
+    loading: false,
+    requestInfo: {
+      url: productApiInfo.fullUrl,
+      method: productApiInfo.method,
+    },
+    rawResponse: null as any,
+    formattedData: null as ProductModel | null,
     error: null as string | null,
   })
 
@@ -97,6 +117,28 @@
     }
   }
 
+  const fetchProduct = async () => {
+    productState.value = {
+      ...productState.value,
+      loading: true,
+      rawResponse: null,
+      formattedData: null,
+      error: null,
+    }
+
+    try {
+      const command = productCommand.getRandomProduct()
+      const result = await command.execute()
+
+      productState.value.rawResponse = result
+      productState.value.formattedData = result
+    } catch (error: any) {
+      productState.value.error = error.message || t('rest-api.unknownError')
+    } finally {
+      productState.value.loading = false
+    }
+  }
+
   const clearJokeData = () => {
     jokeState.value = {
       ...jokeState.value,
@@ -110,6 +152,16 @@
   const clearPersonData = () => {
     personState.value = {
       ...personState.value,
+      loading: false,
+      rawResponse: null,
+      formattedData: null,
+      error: null,
+    }
+  }
+
+  const clearProductData = () => {
+    productState.value = {
+      ...productState.value,
       loading: false,
       rawResponse: null,
       formattedData: null,
@@ -136,6 +188,25 @@
               :formatted-data="jokeState.formattedData"
               :loading="jokeState.loading"
               :error="jokeState.error"
+            />
+          </template>
+        </ApiDemoBlock>
+      </Tab>
+      <Tab :title="t('rest-api.productApiTitle')">
+        <ApiDemoBlock
+          :loading="productState.loading"
+          :error="productState.error"
+          :request-info="productState.requestInfo"
+          :raw-response="productState.rawResponse"
+          :api-info="productApiInfo"
+          @fetch="fetchProduct"
+          @clear="clearProductData"
+        >
+          <template #formatted-data>
+            <ProductFormattedColumn
+              :formatted-data="productState.formattedData"
+              :loading="productState.loading"
+              :error="productState.error"
             />
           </template>
         </ApiDemoBlock>
