@@ -1,0 +1,48 @@
+import { RestApiEnum } from '@/enums/rest-api.enum'
+
+/**
+ * Конфигурация для HTTP-клиента
+ */
+export interface HttpConfig {
+  baseURL: string;
+  timeout?: number;
+  headers?: Record<string, string>;
+  withCredentials?: boolean;
+}
+
+export const jokeConfig: HttpConfig = {
+  baseURL: RestApiEnum.JOKE,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  },
+  withCredentials: false,
+};
+
+export const personConfig: HttpConfig = {
+  baseURL: RestApiEnum.PERSON,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  },
+  withCredentials: false,
+};
+
+/**
+ * Типизированный ответ от API ошибок
+ */
+export interface ApiError {
+  message: string;
+  code?: string | number;
+  status?: number;
+  timestamp?: Date;
+}
+
+export interface ApiResponse<T = unknown> {
+  data: T;
+  status: number;
+  statusText: string;
+  headers: Record<string, string>;
+}

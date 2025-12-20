@@ -1,0 +1,34 @@
+.rest-api {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  margin-bottom: -2rem;
+  padding: var(--spacing-5xl) var(--spacing-md);
+  align-items: center;
+  background-color: #1b232b;
+  background-image:
+    radial-gradient(
+      ellipse 80% 50% at 50% -10%,
+      rgb(255 255 255 / 20%) 0%,
+      rgb(255 255 255 / 5%) 40%,
+      transparent 100%
+    ),
+    radial-gradient(ellipse 100% 30% at 50% 105%, rgb(0 0 0 / 70%) 0%, transparent 60%);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @include media-mobile {
+    padding: var(--spacing-3xl) var(--spacing-md);
+  }
+}

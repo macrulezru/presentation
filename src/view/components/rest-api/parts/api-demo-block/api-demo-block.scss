@@ -1,0 +1,88 @@
+.api-demo-block {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  background-color: var(--color-bg-secondary);
+  margin-bottom: var(--spacing-xl);
+  max-width: 1300px;
+  width: 100%;
+  filter: drop-shadow(0 5px 15px rgb(0 0 0 / 70%));
+
+  &__controls {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+  }
+
+  &__error-message {
+    padding: var(--spacing-md);
+    background-color: var(--color-error-bg);
+    border: 1px solid var(--color-error-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-error-text);
+    margin-bottom: var(--spacing-md);
+
+    h3 {
+      margin-top: 0;
+      margin-bottom: var(--spacing-sm);
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      font-size: var(--font-size-sm);
+      overflow: auto;
+    }
+  }
+
+  &__response-columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+
+    @media (width <= 1200px) {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+    }
+  }
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+  }
+
+  &__column-title {
+    margin-top: 0;
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-md);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-semibold);
+    flex-shrink: 0;
+  }
+
+  &__formatted-card {
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+    max-height: var(--response-card-max-height);
+    min-height: var(--response-card-min-height);
+  }
+
+  @media (width <= 1200px) {
+    &__response-columns {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+    }
+  }
+}

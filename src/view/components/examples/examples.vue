@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import FeatureItem from '@/view/components/examples/parts/feature-item/feature-item.vue'
   import Button from '@/view/ui/ui-button/ui-button.vue'
+  import LoadingSpinner from '@/view/ui/ui-loading-spinner/ui-loading-spinner.vue'
 
   import '@/view/components/examples/examples.scss'
 
@@ -8,14 +9,38 @@
   import { useFeatures } from '@/view/composables/use-features.ts'
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts'
   import { PageSectionsEnum } from '@/enums/page-sections.enum.ts'
+  import { FeanuresEnum } from '@/enums/features.enum'
+
+  const RestApi = defineAsyncComponent({
+    loader: () =>
+      import(
+        '@/view/components/rest-api/rest-api.vue'
+      ),
+    loadingComponent: LoadingSpinner,
+    delay: 200,
+    timeout: 10000,
+    errorComponent: {
+      template: `
+      <div class="travelshop__error">
+        <p>{{ $t('travelshop.loading_error') }}</p>
+      </div>
+    `,
+    },
+  })
 
   const { t } = useI18n()
 
   const { features } = useFeatures()
   const { navigateToSection } = useScrollRouting()
 
+  const isShowRestApi = ref<boolean>(false)
+
   const toContactSection = () => {
     navigateToSection(PageSectionsEnum.CONTACTS)
+  }
+
+  const showRestApi = () => {
+    isShowRestApi.value = true
   }
 </script>
 
@@ -48,7 +73,16 @@
     <div class="examples__features">
       <div class="examples__features-container">
         <div class="examples__features-list">
-          <FeatureItem v-for="feature in features" :key="feature.id" :feature="feature" />
+          <template v-for="feature in features" :key="feature.id">
+            <FeatureItem :feature="feature">
+              <template v-if="feature.id === FeanuresEnum.PIPLINE">
+                <div v-if="!isShowRestApi" class="examples__rest-api">
+                  <Button :text="t('rest-api.button')" @click="showRestApi" />
+                </div>
+                <RestApi v-if="isShowRestApi" />
+              </template>
+            </FeatureItem>
+          </template>
         </div>
       </div>
     </div>

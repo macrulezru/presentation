@@ -257,7 +257,7 @@
     padding: var(--spacing-lg) 0;
 
     &__container {
-      padding: 0 var(--spacing-sm);
+      padding: 0 var(--spacing-lg);
     }
 
     &__title {
@@ -307,7 +307,7 @@
 
   @include media-mobile {
     &__container {
-      padding: 0 var(--spacing-sm);
+      padding: 0 var(--spacing-md);
     }
 
     &__title {

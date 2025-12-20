@@ -1,0 +1,67 @@
+.ui-tabs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &__wrapper {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+  }
+
+  &__navbar {
+    display: flex;
+    margin-bottom: 32px;
+    overflow: hidden;
+
+    &-item {
+      padding: 14px 30px;
+      border-right: solid 1px var(--color-bg-tertiary);
+      background-color: var(--color-bg-tertiary);
+      font-size: 16px;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      transition:
+        background-color var(--transition-fast),
+        color var(--transition-fast);
+
+      &:not(&_active):hover {
+        background-color: var(--color-bg-tertiary);
+      }
+
+      &:first-child {
+        border-radius: var(--radius-md) 0 0 var(--radius-md);
+      }
+
+      &:last-child {
+        border-right: none;
+        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      }
+
+      &_active {
+        border-right-color: transparent;
+        background-color: var(--color-secondary);
+        color: var(--color-text-light);
+        pointer-events: none;
+      }
+    }
+  }
+
+  &__content {
+    flex-grow: 2;
+  }
+
+  @include media-tablet {
+    &__navbar-item {
+      font-size: 14px;
+    }
+  }
+
+  @include media-mobile {
+    &__navbar-item {
+      padding: 14px 10px;
+      font-size: 12px;
+    }
+  }
+}
