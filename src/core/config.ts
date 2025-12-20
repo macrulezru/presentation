@@ -30,6 +30,16 @@ export const personConfig: HttpConfig = {
   withCredentials: false,
 };
 
+export const productConfig: HttpConfig = {
+  baseURL: RestApiEnum.PRODUCT,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  },
+  withCredentials: false,
+};
+
 /**
  * Типизированный ответ от API ошибок
  */
