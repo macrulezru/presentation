@@ -40,7 +40,7 @@
 
   &__response-columns {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 0.6fr repeat(2, 1fr);
     gap: var(--spacing-md);
     margin-top: var(--spacing-md);
 
