@@ -38,3 +38,6 @@ __screenshots__/
 #SCSS
 *.css.map
 *.css
+
+.vercel
+.env*.local
