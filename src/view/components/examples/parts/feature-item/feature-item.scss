@@ -163,7 +163,7 @@
       height: calc(100% + 20px);
       width: 1px;
       border-left: 2px solid currentcolor;
-      opacity: .4;
+      opacity: 0.4;
     }
   }
 
@@ -307,7 +307,7 @@
 
   @include media-mobile {
     &__container {
-      padding: 0 var(--spacing-md);
+      padding: 0 var(--spacing-lg);
     }
 
     &__title {
