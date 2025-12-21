@@ -14,7 +14,7 @@ export class GetRandomProductCommand {
         `${this.endpoint}/${Math.floor(Math.random() * 30) + 1}`,
       )
 
-      return new ProductModel(response.data.product)
+      return new ProductModel(response.data)
     } catch (error) {
       const apiError = error as ApiError
       throw new Error(`Failed to fetch product: ${apiError.message}`)
