@@ -910,7 +910,7 @@
   },
   "rest-api": {
     "button": "Попробовать REST API",
-    "loadingFormattedData": "Загрузка форматированных данных...",
+    "loadingFormattedData": "Вывод форматированных данных...",
     "setup": "Подготовка:",
     "punchline": "Кульминация:",
     "fullJoke": "Полный анекдот:",

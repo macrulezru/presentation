@@ -910,7 +910,7 @@
   "location": "工作地点",
   "rest-api": {
     "button": "尝试REST API",
-    "loadingFormattedData": "正在加载格式化数据...",
+    "loadingFormattedData": "输出格式化数据...",
     "setup": "准备:",
     "punchline": "笑点:",
     "fullJoke": "完整笑话:",

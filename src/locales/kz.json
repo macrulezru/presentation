@@ -910,7 +910,7 @@
   "location": "Жұмыс орны",
   "rest-api": {
     "button": "REST API сынап көрүү",
-    "loadingFormattedData": "Форматталган маалымат жүктөлүүдө...",
+    "loadingFormattedData": "Пішімделген деректерді шығару...",
     "setup": "Даярдоо:",
     "punchline": "Кулпу сөз:",
     "fullJoke": "Толук анекдот:",

@@ -910,7 +910,7 @@
   "location": "Arbeitsstandort",
   "rest-api": {
     "button": "REST-API ausprobieren",
-    "loadingFormattedData": "Formatierte Daten werden geladen...",
+    "loadingFormattedData": "Ausgabe formatierter Daten...",
     "setup": "Vorbereitung:",
     "punchline": "Pointe:",
     "fullJoke": "Voller Witz:",

@@ -910,7 +910,7 @@
   "location": "Work Location",
   "rest-api": {
     "button": "Try REST API",
-    "loadingFormattedData": "Loading formatted data...",
+    "loadingFormattedData": "Output of formatted data...",
     "setup": "Setup:",
     "punchline": "Punchline:",
     "fullJoke": "Full joke:",
