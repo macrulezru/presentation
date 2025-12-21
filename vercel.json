@@ -21,5 +21,10 @@
       "source": "/(.*)",
       "destination": "/"
     }
-  ]
+  ],
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "api/**"
+    }
+  }
 }
