@@ -102,11 +102,11 @@
       <!-- Product Meta Info -->
       <div class="product-formatted-column__meta-grid">
         <div class="product-formatted-column__meta-item">
-          <strong>{{ t('product.sku') }}</strong>
+          <strong>{{ t('rest-api.product.sku') }}</strong>
           {{ formattedData.Sku }}
         </div>
         <div class="product-formatted-column__meta-item">
-          <strong>{{ t('product.stock') }}</strong>
+          <strong>{{ t('rest-api.product.stock') }}</strong>
           <span
             :class="{
               'product-formatted-column__in-stock': formattedData.IsInStock,
@@ -114,28 +114,32 @@
             }"
           >
             {{ formattedData.Stock }}
-            {{ formattedData.IsInStock ? t('product.inStock') : t('product.outOfStock') }}
+            {{
+              formattedData.IsInStock
+                ? t('rest-api.product.inStock')
+                : t('product.outOfStock')
+            }}
           </span>
         </div>
         <div class="product-formatted-column__meta-item">
-          <strong>{{ t('product.weight') }}</strong>
+          <strong>{{ t('rest-api.product.weight') }}</strong>
           {{ formattedData.WeightFormatted }}
         </div>
         <div class="product-formatted-column__meta-item">
-          <strong>{{ t('product.dimensions') }}</strong>
+          <strong>{{ t('rest-api.product.dimensions') }}</strong>
           {{ formattedData.DimensionsFormatted }}
         </div>
       </div>
 
       <!-- Description -->
       <div class="product-formatted-column__description">
-        <h5>{{ t('product.description') }}</h5>
+        <h5>{{ t('rest-api.product.description') }}</h5>
         <p>{{ formattedData.Description }}</p>
       </div>
 
       <!-- Tags -->
       <div v-if="formattedData.Tags.length > 0" class="product-formatted-column__tags">
-        <h5>{{ t('product.tags') }}</h5>
+        <h5>{{ t('rest-api.product.tags') }}</h5>
         <div class="product-formatted-column__tags-list">
           <span
             v-for="tag in formattedData.Tags"
@@ -150,19 +154,19 @@
       <!-- Additional Info -->
       <div class="product-formatted-column__additional-info">
         <div class="product-formatted-column__info-item">
-          <strong>{{ t('product.warranty') }}</strong>
+          <strong>{{ t('rest-api.product.warranty') }}</strong>
           {{ formattedData.WarrantyInfo }}
         </div>
         <div class="product-formatted-column__info-item">
-          <strong>{{ t('product.shipping') }}</strong>
+          <strong>{{ t('rest-api.product.shipping') }}</strong>
           {{ formattedData.ShippingInfo }}
         </div>
         <div class="product-formatted-column__info-item">
-          <strong>{{ t('product.returnPolicy') }}</strong>
+          <strong>{{ t('rest-api.product.returnPolicy') }}</strong>
           {{ formattedData.ReturnPolicy }}
         </div>
         <div class="product-formatted-column__info-item">
-          <strong>{{ t('product.minOrder') }}</strong>
+          <strong>{{ t('rest-api.product.minOrder') }}</strong>
           {{ formattedData.minimumOrderQuantity }} units
         </div>
       </div>
@@ -172,7 +176,7 @@
         v-if="formattedData.Reviews.length > 0"
         class="product-formatted-column__reviews"
       >
-        <h5>{{ t('product.reviews') }} ({{ formattedData.ReviewCount }})</h5>
+        <h5>{{ t('rest-api.product.reviews') }} ({{ formattedData.ReviewCount }})</h5>
         <div
           v-for="review in formattedData.Reviews"
           :key="review.reviewerEmail + review.date"

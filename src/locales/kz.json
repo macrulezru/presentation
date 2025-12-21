@@ -948,6 +948,21 @@
     "loadingStatus": "Жүктөлүүдө...",
     "successStatus": "Ийгиликтүү",
     "errorStatus": "Ката",
-    "noDataGetRandom": "Жүктөө үчүн 'Маалымат алуу' баскычын басыңыз"
+    "noDataGetRandom": "Жүктөө үчүн 'Маалымат алуу' баскычын басыңыз",
+    "product": {
+      "sku": "Артикул",
+      "stock": "Қор",
+      "weight": "Салмақ",
+      "dimensions": "Өлшемдер",
+      "description": "Сипаттама",
+      "tags": "Тегтер",
+      "warranty": "Кепілдік",
+      "shipping": "Жеткізу",
+      "returnPolicy": "Қайтару саясаты",
+      "minOrder": "Минималды тапсырыс",
+      "inStock": "қол жетімді",
+      "outOfStock": "қол жетімсіз",
+      "reviews": "Пікірлер"
+    }
   }
 }

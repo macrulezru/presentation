@@ -139,6 +139,8 @@
   }
 
   &__meta-item {
+    display: flex;
+    flex-direction: column;
     font-size: var(--font-size-sm);
     line-height: 1.5;
 

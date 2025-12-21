@@ -948,6 +948,21 @@
     "loadingStatus": "Loading...",
     "successStatus": "Success",
     "errorStatus": "Error",
-    "noDataGetRandom": "Click 'Get data' to load"
+    "noDataGetRandom": "Click 'Get data' to load",
+    "product": {
+      "sku": "SKU",
+      "stock": "Stock",
+      "weight": "Weight",
+      "dimensions": "Dimensions",
+      "description": "Description",
+      "tags": "Tags",
+      "warranty": "Warranty",
+      "shipping": "Shipping",
+      "returnPolicy": "Return Policy",
+      "minOrder": "Minimum Order",
+      "inStock": "in stock",
+      "outOfStock": "out of stock",
+      "reviews": "Reviews"
+    }
   }
 }

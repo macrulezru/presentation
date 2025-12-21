@@ -948,6 +948,21 @@
     "loadingStatus": "Laden...",
     "successStatus": "Erfolgreich",
     "errorStatus": "Fehler",
-    "noDataGetRandom": "Klicken Sie 'Daten abrufen' zum Laden"
+    "noDataGetRandom": "Klicken Sie 'Daten abrufen' zum Laden",
+    "product": {
+      "sku": "Artikelnummer",
+      "stock": "Bestand",
+      "weight": "Gewicht",
+      "dimensions": "Abmessungen",
+      "description": "Beschreibung",
+      "tags": "Tags",
+      "warranty": "Garantie",
+      "shipping": "Versand",
+      "returnPolicy": "Rückgaberecht",
+      "minOrder": "Mindestbestellmenge",
+      "inStock": "auf Lager",
+      "outOfStock": "nicht auf Lager",
+      "reviews": "Bewertungen"
+    }
   }
 }

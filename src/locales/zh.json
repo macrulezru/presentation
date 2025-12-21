@@ -948,6 +948,21 @@
     "loadingStatus": "正在加载...",
     "successStatus": "成功",
     "errorStatus": "错误",
-    "noDataGetRandom": "点击'获取数据'进行加载"
+    "noDataGetRandom": "点击'获取数据'进行加载",
+    "product": {
+      "sku": "商品编号",
+      "stock": "库存",
+      "weight": "重量",
+      "dimensions": "尺寸",
+      "description": "描述",
+      "tags": "标签",
+      "warranty": "保修",
+      "shipping": "配送",
+      "returnPolicy": "退货政策",
+      "minOrder": "最低订购量",
+      "inStock": "有货",
+      "outOfStock": "缺货",
+      "reviews": "评价"
+    }
   }
 }

@@ -948,6 +948,21 @@
     "loadingStatus": "Загрузка...",
     "successStatus": "Успешно",
     "errorStatus": "Ошибка",
-    "noDataGetRandom": "Нажмите 'Получить данные' для загрузки"
+    "noDataGetRandom": "Нажмите 'Получить данные' для загрузки",
+    "product": {
+      "sku": "Артикул",
+      "stock": "Наличие",
+      "weight": "Вес",
+      "dimensions": "Размеры",
+      "description": "Описание",
+      "tags": "Теги",
+      "warranty": "Гарантия",
+      "shipping": "Доставка",
+      "returnPolicy": "Политика возврата",
+      "minOrder": "Минимальный заказ",
+      "inStock": "в наличии",
+      "outOfStock": "нет в наличии",
+      "reviews": "Отзывы"
+    }
   }
 }

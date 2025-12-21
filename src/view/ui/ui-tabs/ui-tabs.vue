@@ -1,56 +1,57 @@
 <script setup lang="ts">
-import '@/view/ui/ui-tabs/ui-tabs.scss'
-import { ref, provide, type Ref, onMounted } from 'vue'
+  import '@/view/ui/ui-tabs/ui-tabs.scss'
 
-interface Tab {
-  title: string
-  id?: string
-  hash: string
-}
+  import { ref, provide, type Ref, onMounted } from 'vue'
 
-const emit = defineEmits<{
-  mounted: []
-}>()
-
-const activeTabHash = ref('')
-const tabs: Ref<Array<Tab>> = ref([])
-
-const setActiveTab = (tab: Tab) => {
-  activeTabHash.value = tab.hash
-}
-
-const preselectTab = (id: string) => {
-  const foundTab = tabs.value.find(tab => tab.id === id)
-  if (foundTab) {
-    setActiveTab(foundTab)
+  interface Tab {
+    title: string
+    id?: string
+    hash: string
   }
-}
 
-provide('tshTabsAddTab', (tab: Tab) => {
-  const count = tabs.value.push(tab)
-  if (count === 1) {
+  const emit = defineEmits<{
+    mounted: []
+  }>()
+
+  const activeTabHash = ref('')
+  const tabs: Ref<Array<Tab>> = ref([])
+
+  const setActiveTab = (tab: Tab) => {
     activeTabHash.value = tab.hash
   }
-})
 
-provide('tshTabsUpdateTab', (oldHash: string, updatedTab: Tab) => {
-  const index = tabs.value.findIndex(tab => tab.hash === oldHash)
-  if (index !== -1) {
-    tabs.value[index] = updatedTab
-
-    if (activeTabHash.value === oldHash) {
-      activeTabHash.value = updatedTab.hash
+  const preselectTab = (id: string) => {
+    const foundTab = tabs.value.find(tab => tab.id === id)
+    if (foundTab) {
+      setActiveTab(foundTab)
     }
   }
-})
 
-provide('tshTabsActiveHash', activeTabHash)
+  provide('tshTabsAddTab', (tab: Tab) => {
+    const count = tabs.value.push(tab)
+    if (count === 1) {
+      activeTabHash.value = tab.hash
+    }
+  })
 
-defineExpose({ preselectTab })
+  provide('tshTabsUpdateTab', (oldHash: string, updatedTab: Tab) => {
+    const index = tabs.value.findIndex(tab => tab.hash === oldHash)
+    if (index !== -1) {
+      tabs.value[index] = updatedTab
 
-onMounted(() => {
-  emit('mounted')
-})
+      if (activeTabHash.value === oldHash) {
+        activeTabHash.value = updatedTab.hash
+      }
+    }
+  })
+
+  provide('tshTabsActiveHash', activeTabHash)
+
+  defineExpose({ preselectTab })
+
+  onMounted(() => {
+    emit('mounted')
+  })
 </script>
 
 <template>
