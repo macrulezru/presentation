@@ -7,6 +7,8 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
   let scene: THREE.Scene | null = null
   let camera: THREE.PerspectiveCamera | null = null
   let renderer: THREE.WebGLRenderer | null = null
+  let canvas: HTMLCanvasElement | null = null
+  let resizeObserver: ResizeObserver | null = null
 
   const config = createDefaultConfig()
   const cameraState: CameraState = {
@@ -46,8 +48,8 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
       powerPreference: 'high-performance',
     })
 
-    renderer.setSize(width, height)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    // Устанавливаем размеры без учета pixelRatio
+    renderer.setSize(width, height, false)
     renderer.setClearColor(0x000011, 1)
 
     return renderer
@@ -55,8 +57,6 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
 
   const createCamera = (width: number, height: number) => {
     const camera = new THREE.PerspectiveCamera(110, width / height, 0.1, 1000)
-
-    // Исправлено: убрали .value, так как cameraState - обычный объект
     camera.position.copy(cameraState.basePosition)
     return camera
   }
@@ -81,6 +81,26 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
     scene.add(pointLight)
   }
 
+  const handleResize = () => {
+    if (!camera || !renderer || !containerRef.value) return
+
+    const width = containerRef.value.clientWidth
+    const height = containerRef.value.clientHeight
+
+    // Устанавливаем CSS размеры
+    if (canvas) {
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
+    }
+
+    // Обновляем камеру
+    camera.aspect = width / height
+    camera.updateProjectionMatrix()
+
+    // Обновляем рендерер (без учета pixelRatio)
+    renderer.setSize(width, height, false)
+  }
+
   const init = async () => {
     if (!containerRef.value) return
 
@@ -92,14 +112,21 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
     const containerHeight = containerRef.value.clientHeight
 
     // Создаем canvas элемент
-    const canvas = document.createElement('canvas')
+    canvas = document.createElement('canvas')
     canvas.style.position = 'absolute'
     canvas.style.top = '0'
     canvas.style.left = '0'
-    canvas.style.width = '100%'
-    canvas.style.height = '100%'
+    canvas.style.width = `${containerWidth}px`
+    canvas.style.height = `${containerHeight}px`
     canvas.style.zIndex = '0'
     canvas.style.pointerEvents = 'auto'
+    canvas.style.maxWidth = '100%'
+    canvas.style.maxHeight = '100%'
+
+    // Устанавливаем атрибуты width/height равными CSS размерам
+    canvas.width = containerWidth
+    canvas.height = containerHeight
+
     containerRef.value.prepend(canvas)
 
     // Создаем объекты с учетом текущих размеров
@@ -123,43 +150,50 @@ export function useThreeScene(containerRef: Ref<HTMLElement | undefined>) {
       glowParticles: null,
     }
 
-    const handleResize = () => {
-      if (!camera || !renderer || !containerRef.value) return
+    // Создаем ResizeObserver для отслеживания изменений размера контейнера
+    resizeObserver = new ResizeObserver(() => {
+      handleResize()
+    })
 
-      const width = window.innerWidth
-      const height = window.innerHeight
+    resizeObserver.observe(containerRef.value)
 
-      // Обновляем размеры canvas
-      canvas.style.width = width + 'px'
-      canvas.style.height = height + 'px'
-
-      // Обновляем камеру
-      camera.aspect = width / height
-      camera.updateProjectionMatrix()
-
-      // Обновляем рендерер
-      renderer.setSize(width, height, false)
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    }
-
+    // Также обрабатываем изменение размера окна
     window.addEventListener('resize', handleResize)
 
     // Вызываем один раз для начальной установки
     handleResize()
 
     return {
-      sceneContext, // Обычный объект
-      config, // Обычный объект
-      cameraState, // Обычный объект
-      deviceInfo, // Обычный объект
+      sceneContext,
+      config,
+      cameraState,
+      deviceInfo,
       cleanup: () => {
+        if (resizeObserver) {
+          resizeObserver.disconnect()
+          resizeObserver = null
+        }
+
         window.removeEventListener('resize', handleResize)
-        renderer?.dispose()
-        scene?.clear()
+
         // Удаляем canvas из DOM
         if (canvas && canvas.parentNode) {
           canvas.parentNode.removeChild(canvas)
+          canvas = null
         }
+
+        // Освобождаем ресурсы Three.js
+        if (renderer) {
+          renderer.dispose()
+          renderer = null
+        }
+
+        if (scene) {
+          scene.clear()
+          scene = null
+        }
+
+        camera = null
       },
     }
   }
