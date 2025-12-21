@@ -173,25 +173,6 @@
 <template>
   <div class="rest-api">
     <Tabs>
-      <Tab :title="t('rest-api.jokeApiTitle')">
-        <ApiDemoBlock
-          :loading="jokeState.loading"
-          :error="jokeState.error"
-          :request-info="jokeState.requestInfo"
-          :raw-response="jokeState.rawResponse"
-          :api-info="jokeApiInfo"
-          @fetch="fetchJoke"
-          @clear="clearJokeData"
-        >
-          <template #formatted-data>
-            <JokeFormattedColumn
-              :formatted-data="jokeState.formattedData"
-              :loading="jokeState.loading"
-              :error="jokeState.error"
-            />
-          </template>
-        </ApiDemoBlock>
-      </Tab>
       <Tab :title="t('rest-api.productApiTitle')">
         <ApiDemoBlock
           :loading="productState.loading"
@@ -207,6 +188,25 @@
               :formatted-data="productState.formattedData"
               :loading="productState.loading"
               :error="productState.error"
+            />
+          </template>
+        </ApiDemoBlock>
+      </Tab>
+      <Tab :title="t('rest-api.jokeApiTitle')">
+        <ApiDemoBlock
+          :loading="jokeState.loading"
+          :error="jokeState.error"
+          :request-info="jokeState.requestInfo"
+          :raw-response="jokeState.rawResponse"
+          :api-info="jokeApiInfo"
+          @fetch="fetchJoke"
+          @clear="clearJokeData"
+        >
+          <template #formatted-data>
+            <JokeFormattedColumn
+              :formatted-data="jokeState.formattedData"
+              :loading="jokeState.loading"
+              :error="jokeState.error"
             />
           </template>
         </ApiDemoBlock>

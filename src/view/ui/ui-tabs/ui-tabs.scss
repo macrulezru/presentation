@@ -27,7 +27,7 @@
         color var(--transition-fast);
 
       &:not(&_active):hover {
-        background-color: var(--color-bg-tertiary);
+        background-color: #cce1f0;
       }
 
       &:first-child {

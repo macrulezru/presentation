@@ -37,8 +37,12 @@
           <div class="product-formatted-column__title-info">
             <h4 class="product-formatted-column__title">{{ formattedData.Title }}</h4>
             <p class="product-formatted-column__brand-category">
-              <span class="product-formatted-column__brand">{{ formattedData.Brand }}</span>
-              <span class="product-formatted-column__category">{{ formattedData.Category }}</span>
+              <span v-if="formattedData.Brand" class="product-formatted-column__brand">
+                {{ formattedData.Brand }}
+              </span>
+              <span class="product-formatted-column__category">
+                {{ formattedData.Category }}
+              </span>
             </p>
 
             <!-- Rating -->
@@ -48,19 +52,28 @@
                   v-for="n in formattedData.RatingStars.full"
                   :key="'full-' + n"
                   class="product-formatted-column__star-full"
-                >★</span>
+                >
+                  ★
+                </span>
                 <span
                   v-if="formattedData.RatingStars.half"
                   class="product-formatted-column__star-half"
-                >★</span>
+                >
+                  ★
+                </span>
                 <span
                   v-for="n in formattedData.RatingStars.empty"
                   :key="'empty-' + n"
                   class="product-formatted-column__star-empty"
-                >★</span>
+                >
+                  ★
+                </span>
               </div>
               <span class="product-formatted-column__rating-value">
-                {{ formattedData.AverageRating.toFixed(1) }} ({{ formattedData.ReviewCount }} reviews)
+                {{ formattedData.AverageRating.toFixed(1) }} ({{
+                  formattedData.ReviewCount
+                }}
+                reviews)
               </span>
             </div>
           </div>
@@ -71,10 +84,16 @@
           <div class="product-formatted-column__current-price">
             {{ formattedData.FormattedDiscountedPrice }}
           </div>
-          <div v-if="formattedData.DiscountPercentage > 0" class="product-formatted-column__original-price">
+          <div
+            v-if="formattedData.DiscountPercentage > 0"
+            class="product-formatted-column__original-price"
+          >
             {{ formattedData.FormattedPrice }}
           </div>
-          <div v-if="formattedData.DiscountPercentage > 0" class="product-formatted-column__discount-badge">
+          <div
+            v-if="formattedData.DiscountPercentage > 0"
+            class="product-formatted-column__discount-badge"
+          >
             -{{ formattedData.DiscountPercentage.toFixed(1) }}%
           </div>
         </div>
@@ -88,11 +107,14 @@
         </div>
         <div class="product-formatted-column__meta-item">
           <strong>{{ t('product.stock') }}</strong>
-          <span :class="{
-            'product-formatted-column__in-stock': formattedData.IsInStock,
-            'product-formatted-column__out-of-stock': !formattedData.IsInStock
-          }">
-            {{ formattedData.Stock }} {{ formattedData.IsInStock ? t('product.inStock') : t('product.outOfStock') }}
+          <span
+            :class="{
+              'product-formatted-column__in-stock': formattedData.IsInStock,
+              'product-formatted-column__out-of-stock': !formattedData.IsInStock,
+            }"
+          >
+            {{ formattedData.Stock }}
+            {{ formattedData.IsInStock ? t('product.inStock') : t('product.outOfStock') }}
           </span>
         </div>
         <div class="product-formatted-column__meta-item">
@@ -146,7 +168,10 @@
       </div>
 
       <!-- Reviews Section -->
-      <div v-if="formattedData.Reviews.length > 0" class="product-formatted-column__reviews">
+      <div
+        v-if="formattedData.Reviews.length > 0"
+        class="product-formatted-column__reviews"
+      >
         <h5>{{ t('product.reviews') }} ({{ formattedData.ReviewCount }})</h5>
         <div
           v-for="review in formattedData.Reviews"
@@ -154,7 +179,9 @@
           class="product-formatted-column__review"
         >
           <div class="product-formatted-column__review-header">
-            <span class="product-formatted-column__reviewer">{{ review.reviewerName }}</span>
+            <span class="product-formatted-column__reviewer">
+              {{ review.reviewerName }}
+            </span>
             <span class="product-formatted-column__review-rating">
               {{ '★'.repeat(review.rating) }}{{ '☆'.repeat(5 - review.rating) }}
             </span>

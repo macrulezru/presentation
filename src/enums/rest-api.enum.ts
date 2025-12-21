@@ -8,8 +8,9 @@ export type RestApiType = (typeof RestApiEnum)[keyof typeof RestApiEnum]
 
 export enum RestApiCommandEnum {
   RANDOM_JOKE = 'random_joke',
-  PRODUCT = 'products/1',
+  PRODUCT = 'products',
   PERSON = 'api',
 }
 
-export type RestApiCommandType = (typeof RestApiCommandEnum)[keyof typeof RestApiCommandEnum]
+export type RestApiCommandType =
+  (typeof RestApiCommandEnum)[keyof typeof RestApiCommandEnum]
