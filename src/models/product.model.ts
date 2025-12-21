@@ -1,5 +1,10 @@
 import { BaseModel } from '@/models/base-model'
-import type { ProductInterface, ProductDimensions, ProductReview, ProductMeta } from '@/core/rest-interface/product'
+import type {
+  ProductInterface,
+  ProductDimensions,
+  ProductReview,
+  ProductMeta,
+} from '@/core/rest-interface/product'
 
 export class ProductModel extends BaseModel {
   readonly id: number
@@ -50,13 +55,14 @@ export class ProductModel extends BaseModel {
     this.meta = raw.meta
     this.images = raw.images
     this.thumbnail = raw.thumbnail
+    console.log(raw)
   }
 
   public formatPrice(price: number): string {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
-      minimumFractionDigits: 2
+      minimumFractionDigits: 2,
     }).format(price)
   }
 
@@ -199,7 +205,7 @@ export class ProductModel extends BaseModel {
     return {
       full: fullStars,
       half: hasHalfStar,
-      empty: emptyStars
+      empty: emptyStars,
     }
   }
 
