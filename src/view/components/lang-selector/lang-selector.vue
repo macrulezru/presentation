@@ -22,7 +22,7 @@
   const languageOptions: LanguageOption[] = (
     Object.keys(LocalesEnum) as Array<keyof typeof LocalesEnum>
   )
-    .filter(key => LocalesEnum[key] !== 'gop') // Фильтруем гоп-локали
+    .filter(key => LocalesEnum[key] !== 'gop' && LocalesEnum[key] !== 'literal') // Фильтруем гоп-локали
     .map(key => ({
       value: LocalesEnum[key],
       name: LocalesToView[key],
