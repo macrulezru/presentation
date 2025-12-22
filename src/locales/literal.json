@@ -1,13 +1,13 @@
 {
   "navigation": {
-    "home": "Исток",
-    "about": "Повесть о себе",
-    "experience": "Летопись пути",
-    "travelshop": "Лавка странствий",
-    "features": "Кристаллы решений",
-    "arts": "Акварели кода",
-    "workplace": "Вселенная за стеклом",
-    "contacts": "Нити связи"
+    "home": "Главная",
+    "about": "Обо мне",
+    "experience": "Карьера",
+    "travelshop": "TravelShop",
+    "features": "Решения",
+    "arts": "Картинки",
+    "workplace": "Рабочее место",
+    "contacts": "Контакты"
   },
   "splash": {
     "welcome": "Данил Лисин",

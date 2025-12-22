@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import LocationMap from '@/view/components/contacts/parts/map/location-map.vue'
+  import { LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum.ts'
   import Button from '@/view/ui/ui-button/ui-button.vue'
 
   import '@/view/components/contacts/contacts.scss'
@@ -8,7 +9,7 @@
   import { useI18n } from '@/view/composables/use-i18n.ts'
   import emailjs from 'emailjs-com'
 
-  const { t, tm } = useI18n()
+  const { t, tm, changeLocale } = useI18n()
 
   const contacts = computed(() => [
     {
@@ -153,6 +154,15 @@ ${t('form.sent_from')}: ${window.location.href}
     errorMessage.value = ''
     isSuccess.value = false
   }
+
+  const changeMode = (locale: LocalesEnumType) => {
+    changeLocale(locale as LocalesEnumType)
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'auto',
+    })
+  }
 </script>
 
 <template>
@@ -295,6 +305,10 @@ ${t('form.sent_from')}: ${window.location.href}
         </a>
       </div>
       <LocationMap />
+      <div class="contacts__mode-wrapper">
+        <Button text="Гоп режим" micro @click="changeMode(LocalesEnum.GOP)" />
+        <Button text="Режим поэта" micro @click="changeMode(LocalesEnum.LITERAL)" />
+      </div>
     </div>
   </div>
 </template>
