@@ -28,20 +28,20 @@
   const { canvasRef, exportConfig, handleImportConfig } =
     useTravelshopCanvas(canvasContainer)
 
+  const newAudio = computed(() => {
+    if (useLocaleStore().currentLocale === LocalesEnum.GOP) {
+      return new Audio(GopMusic)
+    }
+
+    return new Audio(Music)
+  })
+
   const loadAudio = async (): Promise<HTMLAudioElement> => {
     if (audio.value && hasAudioLoaded.value) {
       return audio.value
     }
 
     isLoading.value = true
-
-    const newAudio = computed(() => {
-      if (useLocaleStore().currentLocale === LocalesEnum.GOP) {
-        return new Audio(GopMusic)
-      }
-
-      return new Audio(Music)
-    })
 
     // Устанавливаем свойства до загрузки
     newAudio.value.volume = 0.5
