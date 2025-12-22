@@ -4,6 +4,7 @@ export const LocalesEnum = {
   KZ: 'kz',
   DE: 'de',
   ZH: 'zh',
+  GOP: 'gop',
 } as const
 
 export type LocalesEnumType = (typeof LocalesEnum)[keyof typeof LocalesEnum]
@@ -14,6 +15,7 @@ export const LocalesToView = {
   KZ: 'Қазақша',
   DE: 'Deutsch',
   ZH: '中文',
+  GOP: 'По пацански',
 } as const
 
 export type LocalesToViewType = (typeof LocalesToView)[keyof typeof LocalesToView]
