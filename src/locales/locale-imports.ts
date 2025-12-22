@@ -13,6 +13,7 @@ export const localeImportMap: LocaleImportMap = {
   [LocalesEnum.DE]: () => import('./de.json'),
   [LocalesEnum.ZH]: () => import('./zh.json'),
   [LocalesEnum.GOP]: () => import('./gop.json'),
+  [LocalesEnum.LITERAL]: () => import('./literal.json'),
 }
 
 // Функция для предварительной загрузки локали
