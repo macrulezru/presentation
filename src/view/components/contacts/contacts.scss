@@ -297,6 +297,13 @@
     background-size: contain;
   }
 
+  &__mode-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    padding-top: var(--spacing-2xl);
+  }
+
   @include media-tablet {
     padding: var(--spacing-xl) 0;
 
