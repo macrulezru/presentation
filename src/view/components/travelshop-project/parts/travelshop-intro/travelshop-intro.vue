@@ -1,11 +1,17 @@
 <script setup lang="ts">
   import Button from '@/view/ui/ui-button/ui-button.vue'
+
   import '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.scss'
+
   import Music from '@/view/assets/music/control.mp3'
+  import GopMusic from '@/view/assets/music/gop.mp3'
+
   import { ref } from 'vue'
   import { useTravelshopCanvas } from '@/view/composables/use-travelshop-canvas'
   import { useTravelshopIntroStore } from '@/stores/use-travelshop-intro-store'
   import { useResponsive } from '@/view/composables/use-responsive.ts'
+  import { useLocaleStore } from '@/stores/use-locale-store'
+  import { LocalesEnum } from '@/enums/locales.enum.ts'
 
   const { t } = useI18n()
   const { isDesktop } = useResponsive()
@@ -28,25 +34,32 @@
     }
 
     isLoading.value = true
-    const newAudio = new Audio(Music)
+
+    const newAudio = computed(() => {
+      if (useLocaleStore().currentLocale === LocalesEnum.GOP) {
+        return new Audio(GopMusic)
+      }
+
+      return new Audio(Music)
+    })
 
     // Устанавливаем свойства до загрузки
-    newAudio.volume = 0.5
-    newAudio.loop = true
+    newAudio.value.volume = 0.5
+    newAudio.value.loop = true
 
     return new Promise((resolve, reject) => {
-      newAudio.addEventListener(
+      newAudio.value.addEventListener(
         'canplaythrough',
         () => {
-          audio.value = newAudio
+          audio.value = newAudio.value
           hasAudioLoaded.value = true
           isLoading.value = false
-          resolve(newAudio)
+          resolve(newAudio.value)
         },
         { once: true },
       )
 
-      newAudio.addEventListener(
+      newAudio.value.addEventListener(
         'error',
         e => {
           console.error('Ошибка загрузки аудио:', e)
@@ -57,7 +70,7 @@
       )
 
       // Начинаем загрузку
-      newAudio.load()
+      newAudio.value.load()
     })
   }
 
