@@ -11,7 +11,7 @@ export class GetRandomProductCommand {
   async execute(): Promise<ProductModel> {
     try {
       const response: ApiResponse<ProductModel> = await this.httpClient.get<ProductModel>(
-        `${this.endpoint}/${Math.floor(Math.random() * 30) + 1}`,
+        `${this.endpoint}`,
       )
 
       return new ProductModel(response.data)
