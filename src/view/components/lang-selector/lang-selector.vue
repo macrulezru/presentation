@@ -3,13 +3,13 @@
 
   import '@/view/components/lang-selector/lang-selector.scss'
 
-  import { computed } from 'vue'
-  import { useNavigationStore } from '@/stores/use-navigation-store.ts'
   import {
     LocalesEnum,
     type LocalesEnumType,
     LocalesToView,
   } from '@/enums/locales.enum.ts'
+  import { useNavigationStore } from '@/stores/use-navigation-store.ts'
+  import { computed } from 'vue'
 
   const { changeLocale, locale, isLoading } = useI18n()
   const navigationStore = useNavigationStore()
@@ -22,7 +22,7 @@
   const languageOptions: LanguageOption[] = (
     Object.keys(LocalesEnum) as Array<keyof typeof LocalesEnum>
   )
-    .filter(key => LocalesEnum[key] !== 'gop' && LocalesEnum[key] !== 'literal') // Фильтруем гоп-локали
+    .filter(key => LocalesEnum[key] !== 'gop' && LocalesEnum[key] !== 'literal')
     .map(key => ({
       value: LocalesEnum[key],
       name: LocalesToView[key],

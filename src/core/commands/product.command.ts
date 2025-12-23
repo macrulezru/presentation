@@ -1,8 +1,8 @@
+import type { ApiError, ApiResponse } from '@/core/config'
+import { productConfig } from '@/core/config'
 import { createRestClient } from '@/core/rest'
 import { RestApiCommandEnum } from '@/enums/rest-api.enum'
 import { ProductModel } from '@/models/product.model'
-import type { ApiResponse, ApiError } from '@/core/config'
-import { productConfig } from '@/core/config'
 
 export class GetRandomProductCommand {
   private endpoint = `/${RestApiCommandEnum.PRODUCT}`
@@ -11,7 +11,7 @@ export class GetRandomProductCommand {
   async execute(): Promise<ProductModel> {
     try {
       const response: ApiResponse<ProductModel> = await this.httpClient.get<ProductModel>(
-        `${this.endpoint}`,
+        `${this.endpoint}/${Math.floor(Math.random() * 30) + 1}`,
       )
 
       return new ProductModel(response.data)
