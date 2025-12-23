@@ -3,6 +3,11 @@
     "Vue.volar",
     "dbaeumer.vscode-eslint",
     "EditorConfig.EditorConfig",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "mhutchie.git-graph",
+    "usernamehw.errorlens",
+    "wix.vscode-import-cost",
+    "antfu.iconify",
+    "antfu.goto-alias"
   ]
 }

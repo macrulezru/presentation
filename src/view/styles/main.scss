@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Gidole&family=Roboto&display=swap');
+@import 'https://fonts.googleapis.com/css2?family=Gidole&family=Roboto&display=swap';
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 400;
   font-style: normal;
 
@@ -66,6 +66,6 @@ body {
   .feature-description,
   .section-title,
   .benefit-item {
-    color: #000000 !important;
+    color: #000 !important;
   }
 }
