@@ -25,9 +25,38 @@
     margin: var(--spacing-md) 0;
   }
 
+  &__status-container {
+    position: relative;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: var(--spacing-sm) 0;
+  }
+
   &__status {
     font-size: var(--font-size-md);
     color: var(--color-text-light);
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
+    pointer-events: none;
+    white-space: nowrap;
+
+    &--active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    &--exiting {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
   }
 
   &__description {
@@ -41,5 +70,29 @@
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-out-up {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
   }
 }

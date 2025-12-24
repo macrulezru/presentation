@@ -11,7 +11,11 @@
   const { setWarmupStatus } = useWarmupStore()
 
   const currentIndex = ref<number>(0)
-  let intervalId: number | NodeJS.Timeout
+  const isTransitioning = ref<boolean>(false)
+  const visibleMessageIndex = ref<number>(0)
+
+  let intervalId: number | NodeJS.Timeout | null = null
+  let messageChangeTimer: number | NodeJS.Timeout | null = null
 
   const waitingMessages = computed(() => [
     t('rest-api.warmup.status.serverWaking'),
@@ -20,8 +24,8 @@
     t('rest-api.warmup.status.startingServices'),
   ])
 
-  const statusMessage = computed(() => {
-    return waitingMessages.value[currentIndex.value]
+  const visibleMessage = computed(() => {
+    return waitingMessages.value[visibleMessageIndex.value]
   })
 
   const checkWarmupApi = async () => {
@@ -40,15 +44,32 @@
     }
   }
 
+  const changeMessage = () => {
+    isTransitioning.value = true
+
+    messageChangeTimer = setTimeout(() => {
+      currentIndex.value = (currentIndex.value + 1) % waitingMessages.value.length
+      visibleMessageIndex.value = currentIndex.value
+
+      setTimeout(() => {
+        isTransitioning.value = false
+      }, 50)
+    }, 500)
+  }
+
   onMounted(() => {
     checkWarmupApi()
+
+    visibleMessageIndex.value = currentIndex.value
+
     intervalId = setInterval(() => {
-      currentIndex.value = (currentIndex.value + 1) % waitingMessages.value.length
-    }, 3000)
+      changeMessage()
+    }, 4000)
   })
 
   onUnmounted(() => {
     if (intervalId) clearInterval(intervalId)
+    if (messageChangeTimer) clearTimeout(messageChangeTimer)
   })
 </script>
 
@@ -56,7 +77,19 @@
   <div class="warmup-api">
     <div class="warmup-api__title">{{ t('rest-api.warmup.title') }}</div>
     <div class="warmup-api__spinner"></div>
-    <div class="warmup-api__status">{{ statusMessage }}</div>
+
+    <div class="warmup-api__status-container">
+      <div
+        class="warmup-api__status"
+        :class="{
+          'warmup-api__status--active': !isTransitioning,
+          'warmup-api__status--exiting': isTransitioning,
+        }"
+      >
+        {{ visibleMessage }}
+      </div>
+    </div>
+
     <div class="warmup-api__description">{{ t('rest-api.warmup.description') }}</div>
   </div>
 </template>
