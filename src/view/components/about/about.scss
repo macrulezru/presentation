@@ -1,4 +1,3 @@
-// about.scss
 .about {
   padding: var(--spacing-4xl) 0 var(--spacing-xl);
 
@@ -111,18 +110,20 @@
     }
   }
 
-  &__skill-title {
-    display: block;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-sm);
-  }
+  &__skill {
+    &-title {
+      display: block;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--spacing-sm);
+    }
 
-  &__skill-description {
-    display: block;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-sm);
-    line-height: 1.4;
+    &-description {
+      display: block;
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-md);
+      line-height: 1.4;
+    }
   }
 
   &__tech {
@@ -214,6 +215,11 @@
         font-size: var(--font-size-sm);
         color: var(--color-text-secondary);
         line-height: 1.3;
+
+        &_big {
+          font-size: var(--font-size-md);
+          color: var(--color-text-secondary);
+        }
       }
     }
 
@@ -240,8 +246,8 @@
       }
 
       &-title {
-        font-size: var(--font-size-xl);
-        font-weight: var(--font-weight-normal);
+        font-size: var(--font-size-2xl);
+        font-weight: var(--font-weight-bold);
         color: var(--color-text-secondary);
         margin-bottom: var(--spacing-lg);
       }
@@ -305,6 +311,13 @@
       margin: var(--spacing-lg) 0;
     }
 
+    &__skill-description {
+      display: block;
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-sm);
+      line-height: 1.4;
+    }
+
     &__tech {
       &-title {
         font-size: var(--font-size-2xl);
@@ -359,6 +372,10 @@
 
       &-stack-details {
         padding: var(--spacing-md);
+      }
+
+      &-item-description_big {
+        font-size: var(--font-size-sm);
       }
     }
   }
