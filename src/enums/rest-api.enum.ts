@@ -1,15 +1,17 @@
 export enum RestApiEnum {
   JOKE = 'https://official-joke-api.appspot.com',
-  PRODUCT = 'https://dummyjson.com',
-  PERSON = 'https://randomuser.me',
+  PRODUCT = 'https://presentation-api-njrj.onrender.com/api/v1',
+  PERSON = 'https://presentation-api-njrj.onrender.com/api/v1',
+  MY_API = 'https://presentation-api-njrj.onrender.com/',
 }
 
 export type RestApiType = (typeof RestApiEnum)[keyof typeof RestApiEnum]
 
 export enum RestApiCommandEnum {
   RANDOM_JOKE = 'random_joke',
-  PRODUCT = 'products',
-  PERSON = 'api',
+  PRODUCT = 'randomProduct',
+  PERSON = 'randomPerson',
+  HEALTH = 'health',
 }
 
 export type RestApiCommandType =

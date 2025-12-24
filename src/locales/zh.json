@@ -963,6 +963,10 @@
       "inStock": "有货",
       "outOfStock": "缺货",
       "reviews": "评价"
+    },
+    "warmup": {
+      "title": "正在检查 API 服务器可用性...",
+      "description": "演示使用的是部署在 Render.com 平台上的自定义 API 服务。由于服务器需要启动，首次请求可能需要一些时间。"
     }
   }
 }

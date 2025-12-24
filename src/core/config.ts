@@ -37,6 +37,16 @@ export const productConfig: HttpConfig = {
   withCredentials: false,
 }
 
+export const healthConfig: HttpConfig = {
+  baseURL: RestApiEnum.MY_API,
+  timeout: 20000,
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
+  withCredentials: false,
+}
+
 /**
  * Типизированный ответ от API ошибок
  */
