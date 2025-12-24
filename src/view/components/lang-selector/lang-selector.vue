@@ -3,13 +3,14 @@
 
   import '@/view/components/lang-selector/lang-selector.scss'
 
+  import { computed } from 'vue'
   import {
     LocalesEnum,
     type LocalesEnumType,
     LocalesToView,
   } from '@/enums/locales.enum.ts'
   import { useNavigationStore } from '@/stores/use-navigation-store.ts'
-  import { computed } from 'vue'
+  import { useI18n } from '@/view/composables/use-i18n.ts'
 
   const { changeLocale, locale, isLoading } = useI18n()
   const navigationStore = useNavigationStore()

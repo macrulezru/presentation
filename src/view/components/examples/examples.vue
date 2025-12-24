@@ -5,6 +5,7 @@
 
   import '@/view/components/examples/examples.scss'
 
+  import { ref, defineAsyncComponent } from 'vue'
   import { useI18n } from '@/view/composables/use-i18n.ts'
   import { useFeatures } from '@/view/composables/use-features.ts'
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts'
@@ -12,10 +13,7 @@
   import { FeanuresEnum } from '@/enums/features.enum'
 
   const RestApi = defineAsyncComponent({
-    loader: () =>
-      import(
-        '@/view/components/rest-api/rest-api.vue'
-      ),
+    loader: () => import('@/view/components/rest-api/rest-api.vue'),
     loadingComponent: LoadingSpinner,
     delay: 200,
     timeout: 10000,

@@ -6,12 +6,13 @@
   import Music from '@/view/assets/music/control.mp3'
   import GopMusic from '@/view/assets/music/gop.mp3'
 
-  import { ref } from 'vue'
+  import { computed, ref, onUnmounted } from 'vue'
   import { useTravelshopCanvas } from '@/view/composables/use-travelshop-canvas'
   import { useTravelshopIntroStore } from '@/stores/use-travelshop-intro-store'
   import { useResponsive } from '@/view/composables/use-responsive.ts'
   import { useLocaleStore } from '@/stores/use-locale-store'
   import { LocalesEnum } from '@/enums/locales.enum.ts'
+  import { useI18n } from '@/view/composables/use-i18n'
 
   const { t } = useI18n()
   const { isDesktop } = useResponsive()

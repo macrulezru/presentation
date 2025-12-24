@@ -1,5 +1,6 @@
 import { type Ref, ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import { useTravelshopIntroStore } from '@/stores/use-travelshop-intro-store'
+import { useI18n } from '@/view/composables/use-i18n'
 
 // Импортируем декомпозированные модули
 import { useImageManager } from './use-image-manager'

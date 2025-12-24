@@ -1,11 +1,11 @@
 <script setup lang="ts">
   import LocationMap from '@/view/components/contacts/parts/map/location-map.vue'
-  import { LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum.ts'
   import Button from '@/view/ui/ui-button/ui-button.vue'
 
   import '@/view/components/contacts/contacts.scss'
 
   import { ref, computed } from 'vue'
+  import { LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum.ts'
   import { useI18n } from '@/view/composables/use-i18n.ts'
   import emailjs from 'emailjs-com'
 

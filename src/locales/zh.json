@@ -966,7 +966,13 @@
     },
     "warmup": {
       "title": "正在检查 API 服务器可用性...",
-      "description": "演示使用的是部署在 Render.com 平台上的自定义 API 服务。由于服务器需要启动，首次请求可能需要一些时间。"
+      "description": "演示使用的是部署在 Render.com 平台上的自定义 API 服务。由于服务器需要启动，首次请求可能需要一些时间。",
+      "status": {
+        "serverWaking": "服务器正在启动...",
+        "waitALittle": "请稍等片刻...",
+        "almostReady": "即将完成启动...",
+        "startingServices": "正在启动服务..."
+      }
     }
   }
 }

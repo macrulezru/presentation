@@ -1,7 +1,8 @@
 <script setup lang="ts">
   import '@/view/components/about/about.scss'
 
-  import { ref } from 'vue'
+  import { computed, ref } from 'vue'
+  import { useI18n } from '@/view/composables/use-i18n'
 
   const { t, tm } = useI18n()
 
@@ -116,7 +117,7 @@
               <span class="about__tech-item-title about__tech-item-title_tech">
                 {{ item.title }}
               </span>
-              <span class="about__tech-item-description">{{ item.description }}</span>
+              <span class="about__tech-item-description_big">{{ item.description }}</span>
             </li>
           </ul>
         </div>
@@ -132,7 +133,7 @@
               <span class="about__tech-item-title about__tech-item-title_tool">
                 {{ item.title }}
               </span>
-              <span class="about__tech-item-description">{{ item.description }}</span>
+              <span class="about__tech-item-description_big">{{ item.description }}</span>
             </li>
           </ul>
         </div>
@@ -148,13 +149,12 @@
               <span class="about__tech-item-title about__tech-item-title_style">
                 {{ item.title }}
               </span>
-              <span class="about__tech-item-description">{{ item.description }}</span>
+              <span class="about__tech-item-description_big">{{ item.description }}</span>
             </li>
           </ul>
         </div>
       </div>
 
-      <!-- Блок про Bitrix опыт -->
       <div class="about__bitrix">
         <h3 class="about__bitrix-title">{{ t('about.bitrix_title') }}</h3>
         <p class="about__bitrix-description">{{ t('about.bitrix_description') }}</p>

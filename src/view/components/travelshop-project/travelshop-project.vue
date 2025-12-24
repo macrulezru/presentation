@@ -7,7 +7,8 @@
 
   import '@/view/components/travelshop-project/travelshop-project.scss'
 
-  import { ref, computed } from 'vue'
+  import { ref, computed, defineAsyncComponent } from 'vue'
+  import { useI18n } from '@/view/composables/use-i18n'
 
   const TravelshopImages = defineAsyncComponent({
     loader: () =>
