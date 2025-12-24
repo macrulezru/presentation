@@ -3,23 +3,29 @@
   import JokeFormattedColumn from '@/view/components/rest-api/parts/joke-formatted-column/joke-formatted-column.vue'
   import PersonFormattedColumn from '@/view/components/rest-api/parts/person-formatted-column/person-formatted-column.vue'
   import ProductFormattedColumn from '@/view/components/rest-api/parts/product-formatted-column/product-formatted-column.vue'
-  import Tabs from '@/view/ui/ui-tabs/ui-tabs.vue'
+  import WarmupApi from '@/view/components/rest-api/parts/warmup-api/warmup-api.vue'
   import Tab from '@/view/ui/ui-tabs/parts/ui-tab/ui-tab.vue'
+  import Tabs from '@/view/ui/ui-tabs/ui-tabs.vue'
 
-  import './rest-api.scss'
+  import '@/view/components/rest-api/rest-api.scss'
 
-  import { ref } from 'vue'
   import { jokeCommand } from '@/core/commands/joke.command'
   import { personCommand } from '@/core/commands/person.command'
   import { productCommand } from '@/core/commands/product.command'
+  import { jokeConfig, personConfig, productConfig } from '@/core/config'
+  import { RestApiCommandEnum } from '@/enums/rest-api.enum'
   import type { JokeModel } from '@/models/joke.model'
   import { PersonResponseModel } from '@/models/person-response.model'
   import { ProductModel } from '@/models/product.model'
-  import { jokeConfig, personConfig, productConfig } from '@/core/config'
-  import { RestApiCommandEnum } from '@/enums/rest-api.enum'
+  import { storeToRefs } from 'pinia'
+  import { useWarmupStore } from '@/stores/use-warmup-store'
   import { useI18n } from '@/view/composables/use-i18n.ts'
+  import { ref } from 'vue'
 
   const { t } = useI18n()
+
+  const warmupStore = useWarmupStore()
+  const { warmupStatus } = storeToRefs(warmupStore)
 
   const jokeApiInfo = {
     baseUrl: jokeConfig.baseURL,
@@ -172,7 +178,8 @@
 
 <template>
   <div class="rest-api">
-    <Tabs>
+    <WarmupApi v-if="!warmupStatus" />
+    <Tabs v-else>
       <Tab :title="t('rest-api.productApiTitle')">
         <ApiDemoBlock
           :loading="productState.loading"
