@@ -33,6 +33,9 @@
 
     /** Показывать панель миниатюр */
     showThumbnails?: boolean
+
+    /** Разрешить открытие изображения в новой вкладке */
+    allowOpenInNewTab?: boolean
   }
 
   const props = withDefaults(defineProps<Props>(), {
@@ -40,6 +43,7 @@
     showNavigation: true,
     showCounter: true,
     showThumbnails: true,
+    allowOpenInNewTab: true,
   })
 
   const emit = defineEmits<{
@@ -49,6 +53,8 @@
     close: []
     /** Событие изменения текущего изображения */
     change: [index: number]
+    /** Событие открытия изображения в новой вкладке */
+    openInNewTab: [imageUrl: string]
   }>()
 
   const currentIndex = ref(props.initialIndex)
@@ -114,6 +120,19 @@
   }
 
   /**
+   * Обработчик клика по изображению для открытия в новой вкладке
+   */
+  const openImageInNewTab = () => {
+    if (!props.allowOpenInNewTab || !currentImage.value) return
+
+    // Открываем изображение в новой вкладке
+    window.open(currentImage.value, '_blank', 'noopener,noreferrer')
+
+    // Эмитим событие для родительского компонента
+    emit('openInNewTab', currentImage.value)
+  }
+
+  /**
    * Обработчик успешной загрузки изображения
    */
   const onImageLoad = () => {
@@ -143,6 +162,13 @@
         break
       case 'ArrowRight':
         nextImage()
+        break
+      case 'o':
+      case 'O':
+        if (props.allowOpenInNewTab && (event.ctrlKey || event.metaKey)) {
+          event.preventDefault()
+          openImageInNewTab()
+        }
         break
     }
   }
@@ -192,6 +218,36 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
                 d="M18 6L6 18M6 6L18 18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+
+          <!-- Кнопка открытия в новой вкладке -->
+          <button
+            v-if="allowOpenInNewTab"
+            class="ui-image-modal__open-new-tab"
+            @click="openImageInNewTab"
+            :aria-label="t('common.openInNewTab')"
+            :title="t('common.openInNewTab')"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M18 13V19C18 20.1046 17.1046 21 16 21H5C3.89543 21 3 20.1046 3 19V8C3 6.89543 3.89543 6 5 6H11"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M15 3H21V9"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M10 14L21 3"
                 stroke="currentColor"
                 stroke-width="2"
                 stroke-linecap="round"
@@ -252,14 +308,20 @@
                 </svg>
               </button>
 
-              <img
-                ref="imageRef"
-                :src="currentImage"
-                :alt="currentAlt"
-                class="ui-image-modal__image"
-                @load="onImageLoad"
-                @error="onImageError"
-              />
+              <!-- Обернем изображение в кликабельный элемент -->
+              <div class="ui-image-modal__image-wrapper">
+                <img
+                  ref="imageRef"
+                  :src="currentImage"
+                  :alt="currentAlt"
+                  class="ui-image-modal__image"
+                  :class="{ 'ui-image-modal__image--clickable': allowOpenInNewTab }"
+                  @load="onImageLoad"
+                  @error="onImageError"
+                  @click="allowOpenInNewTab ? openImageInNewTab() : null"
+                  :title="allowOpenInNewTab ? t('common.clickToOpenInNewTab') : ''"
+                />
+              </div>
 
               <button
                 v-if="showNavigation && hasNext"

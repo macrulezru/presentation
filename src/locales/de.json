@@ -317,7 +317,9 @@
     "previous_image": "Vorheriges Bild",
     "next_image": "Nächstes Bild",
     "close": "Schließen",
-    "thumbnail": "Miniaturansicht {number}"
+    "thumbnail": "Miniaturansicht {number}",
+    "openInNewTab": "In neuem Tab öffnen",
+    "clickToOpenInNewTab": "Klicken Sie, um in neuem Tab zu öffnen"
   },
   "pipeline": {
     "title": "REST API Pipeline-System",

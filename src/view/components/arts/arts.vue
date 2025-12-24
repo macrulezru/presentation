@@ -54,7 +54,7 @@
     if (!selectedProject.value) return []
 
     return selectedProject.value.images.map((img, index) => ({
-      preview: selectedProject.value?.preview || img,
+      preview: img,
       full: img,
       description: `${selectedProject.value?.title} - изображение ${index + 1}`,
     }))
@@ -182,6 +182,7 @@
 
 <template>
   <div class="arts">
+    {{ modalImages }}
     <div class="arts__header">
       <h1 class="arts__title">{{ t('design.title') }}</h1>
       <div class="arts__sub-title">{{ t('design.description') }}</div>
@@ -244,7 +245,6 @@
       :images="modalImages"
       :initialIndex="currentImageIndex"
       :showCounter="modalImages.length > 1"
-      :showThumbnails="false"
       @close="closeModal"
       @change="handleImageChange"
     />

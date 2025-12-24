@@ -317,7 +317,9 @@
     "previous_image": "Алдыңғы сурет",
     "next_image": "Келесі сурет",
     "close": "Жабу",
-    "thumbnail": "{number} миниатюрасы"
+    "thumbnail": "{number} миниатюрасы",
+    "openInNewTab": "Жаңа қойындыда ашу",
+    "clickToOpenInNewTab": "Жаңа қойындыда ашу үшін басыңыз"
   },
   "pipeline": {
     "title": "REST API сұраулардың конвейерлік жүйесі",

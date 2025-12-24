@@ -327,7 +327,9 @@
     "previous_image": "Давай назад",
     "next_image": "Давай дальше",
     "close": "Закрой это",
-    "thumbnail": "Маленькая {number}"
+    "thumbnail": "Маленькая {number}",
+    "openInNewTab": "Зашвырнуть на новую вкладку",
+    "clickToOpenInNewTab": "Тыкай сюда, братан, картинка откроется отдельно"
   },
   "pipeline": {
     "title": "Конвейер для АПИ-запросов",
