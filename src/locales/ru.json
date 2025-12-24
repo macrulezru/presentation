@@ -317,7 +317,9 @@
     "previous_image": "Предыдущее изображение",
     "next_image": "Следующее изображение",
     "close": "Закрыть",
-    "thumbnail": "Миниатюра {number}"
+    "thumbnail": "Миниатюра {number}",
+    "openInNewTab": "Открыть в новой вкладке",
+    "clickToOpenInNewTab": "Нажмите, чтобы открыть в новой вкладке"
   },
   "pipeline": {
     "title": "Конвейерная система REST API запросов",
