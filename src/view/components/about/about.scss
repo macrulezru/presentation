@@ -136,7 +136,7 @@
 
     &-wrapper {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       border-radius: 10px;
       border: solid 1px var(--color-border-muted);
       padding: var(--spacing-lg);
@@ -305,48 +305,45 @@
       margin: var(--spacing-lg) 0;
     }
 
-    &__tech-title {
-      font-size: var(--font-size-2xl);
-      margin: var(--spacing-xl) 0 var(--spacing-md) 0;
-    }
+    &__tech {
+      &-title {
+        font-size: var(--font-size-2xl);
+        margin: var(--spacing-xl) 0 var(--spacing-md) 0;
+      }
 
-    &__tech-wrapper {
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      padding: var(--spacing-md);
-    }
+      &-list {
+        grid-template-columns: 1fr;
+      }
 
-    &__tech-list {
-      grid-template-columns: 1fr;
-    }
+      &-item {
+        &-description {
+          font-size: var(--font-size-sm);
+        }
 
-    &__tech-item {
-      padding: var(--spacing-sm);
-    }
+        &-title {
+          font-size: var(--font-size-lg);
+        }
+      }
 
-    &__tech-item-description {
-      font-size: var(--font-size-sm);
-    }
+      &-stack {
+        &-details {
+          padding: var(--spacing-lg);
+          margin: var(--spacing-lg) 0;
+        }
 
-    &__tech-stack-details {
-      padding: var(--spacing-lg);
-      margin: var(--spacing-lg) 0;
-    }
+        &-title {
+          font-size: var(--font-size-2xl);
+          margin-bottom: var(--spacing-lg);
+        }
+      }
 
-    &__tech-stack-title {
-      font-size: var(--font-size-2xl);
-      margin-bottom: var(--spacing-lg);
-    }
+      &-category-title {
+        font-size: var(--font-size-lg);
+      }
 
-    &__tech-category-title {
-      font-size: var(--font-size-lg);
-    }
-
-    &__tech-list-item {
-      padding: var(--spacing-sm);
-    }
-
-    &__tech-item-title {
-      font-size: var(--font-size-lg);
+      &-list-item {
+        padding: var(--spacing-sm);
+      }
     }
   }
 
@@ -355,16 +352,14 @@
       padding: 0 var(--spacing-lg);
     }
 
-    &__tech-wrapper {
-      padding: var(--spacing-sm);
-    }
+    &__tech {
+      &-wrapper {
+        padding: var(--spacing-sm);
+      }
 
-    &__tech-item {
-      padding: var(--spacing-xs);
-    }
-
-    &__tech-stack-details {
-      padding: var(--spacing-md);
+      &-stack-details {
+        padding: var(--spacing-md);
+      }
     }
   }
 }

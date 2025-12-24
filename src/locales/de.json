@@ -966,7 +966,13 @@
     },
     "warmup": {
       "title": "Überprüfe die Verfügbarkeit des API-Servers...",
-      "description": "Für die Demonstration wird ein eigener API-Dienst verwendet, der auf der Render.com-Plattform bereitgestellt ist. Die erste Anfrage kann aufgrund des Server-Starts etwas Zeit in Anspruch nehmen."
+      "description": "Für die Demonstration wird ein eigener API-Dienst verwendet, der auf der Render.com-Plattform bereitgestellt ist. Die erste Anfrage kann aufgrund des Server-Starts etwas Zeit in Anspruch nehmen.",
+      "status": {
+        "serverWaking": "Server erwacht...",
+        "waitALittle": "Noch einen Moment Geduld...",
+        "almostReady": "Fast gestartet...",
+        "startingServices": "Dienste werden gestartet..."
+      }
     }
   }
 }

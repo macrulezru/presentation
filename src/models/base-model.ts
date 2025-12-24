@@ -1,5 +1,5 @@
 interface IRaw {
-  [key: string]: any;
+  [key: string]: any
 }
 
 export class BaseModel {

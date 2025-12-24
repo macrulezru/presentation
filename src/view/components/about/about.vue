@@ -1,7 +1,8 @@
 <script setup lang="ts">
   import '@/view/components/about/about.scss'
 
-  import { ref } from 'vue'
+  import { computed, ref } from 'vue'
+  import { useI18n } from '@/view/composables/use-i18n'
 
   const { t, tm } = useI18n()
 

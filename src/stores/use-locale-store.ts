@@ -1,3 +1,4 @@
+import { readonly, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum'
 

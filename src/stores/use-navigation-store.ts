@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { defineStore } from 'pinia'
 
 export const useNavigationStore = defineStore('navigation', () => {
   const currentSection = ref<string>('splash')

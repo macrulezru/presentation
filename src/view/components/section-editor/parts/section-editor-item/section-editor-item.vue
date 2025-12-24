@@ -2,6 +2,7 @@
   import '@/view/components/section-editor/parts/section-editor-item/section-editor-item.scss'
 
   import { PageSectionsEnum } from '@/enums/page-sections.enum'
+  import { useI18n } from '@/view/composables/use-i18n'
 
   const { t } = useI18n()
 
