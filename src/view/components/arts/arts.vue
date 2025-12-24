@@ -9,6 +9,7 @@
   import { ImageFolder } from '@/enums/arts.enum'
   import { useArtsImages } from '@/view/composables/use-arts-images'
   import { useI18n } from '@/view/composables/use-i18n.ts'
+
   const { t } = useI18n()
 
   const isModalOpen = ref(false)

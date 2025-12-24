@@ -3,13 +3,13 @@
 
   import '@/view/components/header/header.scss'
 
+  import { computed, onMounted, onUnmounted, ref } from 'vue'
   import { PageSectionsEnum } from '@/enums/page-sections.enum.ts'
   import { useNavigationStore } from '@/stores/use-navigation-store.ts'
   import { useI18n } from '@/view/composables/use-i18n.ts'
   import { useResponsive } from '@/view/composables/use-responsive'
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts'
   import { useSectionsConfig } from '@/view/composables/use-sections-config'
-  import { computed, onMounted, onUnmounted, ref } from 'vue'
 
   const { t } = useI18n()
 

@@ -2,7 +2,6 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
-import AutoImport from 'unplugin-auto-import/vite'
 import svgo from 'vite-plugin-svgo'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 
@@ -18,18 +17,6 @@ export default defineConfig({
       },
     }),
     vueDevTools(),
-    AutoImport({
-      imports: [
-        'vue',
-        {
-          '@/view/composables/use-i18n': ['useI18n'],
-        },
-      ],
-      dts: 'src/auto-imports.d.ts',
-      eslintrc: {
-        enabled: true,
-      },
-    }),
     svgo({
       multipass: true,
       plugins: [

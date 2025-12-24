@@ -1,10 +1,11 @@
 <script setup lang="ts">
   import '@/view/components/splash/splash.scss'
 
-  import { onMounted, onUnmounted, ref } from 'vue'
+  import { onMounted, onUnmounted, ref, nextTick } from 'vue'
   import { usePlasmaBackground } from '@/view/composables/use-plasma-background'
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts'
   import { PageSectionsEnum } from '@/enums/page-sections.enum.ts'
+  import { useI18n } from '@/view/composables/use-i18n'
 
   const { t } = useI18n()
 

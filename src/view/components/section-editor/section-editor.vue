@@ -9,6 +9,7 @@
   import { PageSectionsEnum } from '@/enums/page-sections.enum'
   import type { ComponentPublicInstance } from 'vue'
   import { useSectionDrag } from '@/view/composables/use-section-drag'
+  import { useI18n } from '@/view/composables/use-i18n'
 
   const props = defineProps<{
     modelValue: boolean

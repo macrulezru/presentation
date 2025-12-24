@@ -966,7 +966,13 @@
     },
     "warmup": {
       "title": "Checking API server availability...",
-      "description": "For demonstration purposes, a custom API service deployed on the Render.com platform is used. The first request may take some time due to server warm-up."
+      "description": "For demonstration purposes, a custom API service deployed on the Render.com platform is used. The first request may take some time due to server warm-up.",
+      "status": {
+        "serverWaking": "Server is waking up...",
+        "waitALittle": "Just a little longer...",
+        "almostReady": "Almost started...",
+        "startingServices": "Starting services..."
+      }
     }
   }
 }

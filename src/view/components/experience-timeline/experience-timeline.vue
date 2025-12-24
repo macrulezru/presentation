@@ -5,6 +5,8 @@
   import '@/view/components/experience-timeline/experience-timeline.scss'
 
   import { ref, computed } from 'vue'
+  import { useI18n } from '@/view/composables/use-i18n'
+
   const { t, tm } = useI18n()
 
   const experienceItems = computed(() => tm('experience.items'))
