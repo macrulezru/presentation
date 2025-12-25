@@ -1,4 +1,3 @@
-// use-ellipse-manager.ts (полностью исправленная версия)
 import { ref, type Ref, computed, watch } from 'vue'
 import type { Point, EllipseParams, EllipseCenter, Size } from './types'
 import { useTravelshopIntroStore } from '@/stores/use-travelshop-intro-store'

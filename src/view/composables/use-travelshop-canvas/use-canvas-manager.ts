@@ -1,4 +1,3 @@
-// use-canvas-manager.ts
 import { ref, type Ref, computed } from 'vue'
 import type { Size, Point } from './types'
 import { useTravelshopIntroStore } from '@/stores/use-travelshop-intro-store'
