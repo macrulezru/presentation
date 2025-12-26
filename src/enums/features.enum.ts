@@ -1,10 +1,9 @@
-export enum FeanuresEnum {
+export enum FeaturesEnum {
   UI_COMPONENTS = 'ui-components',
-  PIPLINE = 'pipeline',
+  PIPELINE = 'pipeline',
   LOCALIZATION = 'localization',
   SEAT_MAP = 'seat-map',
   MULTISYNC = 'multisync',
-
 }
 
-export type FeanuresType = (typeof FeanuresEnum)[keyof typeof FeanuresEnum]
+export type FeaturesType = (typeof FeaturesEnum)[keyof typeof FeaturesEnum]

@@ -6,7 +6,7 @@
 
   import '@/view/components/rest-api/parts/api-demo-block/api-demo-block.scss'
 
-  import { computed } from 'vue'
+  import { computed, useSlots } from 'vue'
   import { useI18n } from '@/view/composables/use-i18n.ts'
   import { useResponsive } from '@/view/composables/use-responsive'
 
@@ -36,9 +36,14 @@
 
   const emit = defineEmits<Emits>()
 
+  const slots = useSlots()
   const { isMobile } = useResponsive()
 
   const hasData = computed(() => props.rawResponse || props.error)
+
+  const isHasApiDescription = computed(() => {
+    return slots['api-description']
+  })
 </script>
 
 <template>
@@ -81,6 +86,9 @@
           </slot>
         </div>
       </div>
+    </div>
+    <div v-if="isHasApiDescription" class="api-demo-block__api-description">
+      <slot name="api-description" />
     </div>
   </div>
 </template>

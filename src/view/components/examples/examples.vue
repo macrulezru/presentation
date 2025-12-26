@@ -10,7 +10,7 @@
   import { useFeatures } from '@/view/composables/use-features.ts'
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts'
   import { PageSectionsEnum } from '@/enums/page-sections.enum.ts'
-  import { FeanuresEnum } from '@/enums/features.enum'
+  import { FeaturesEnum } from '@/enums/features.enum'
 
   const RestApi = defineAsyncComponent({
     loader: () => import('@/view/components/rest-api/rest-api.vue'),
@@ -73,7 +73,7 @@
         <div class="examples__features-list">
           <template v-for="feature in features" :key="feature.id">
             <FeatureItem :feature="feature">
-              <template v-if="feature.id === FeanuresEnum.PIPLINE">
+              <template v-if="feature.id === FeaturesEnum.PIPELINE">
                 <div v-if="!isShowRestApi" class="examples__rest-api">
                   <Button :text="t('rest-api.button')" @click="showRestApi" />
                 </div>

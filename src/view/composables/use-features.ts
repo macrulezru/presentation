@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import { useI18n } from '@/view/composables/use-i18n.ts'
-import { FeanuresEnum } from '@/enums/features.enum'
+import { FeaturesEnum } from '@/enums/features.enum'
 
 export interface SectionItem {
   name?: string
@@ -38,31 +38,31 @@ export function useFeatures() {
 
   const featuresConfig = computed(() => [
     {
-      id: FeanuresEnum.UI_COMPONENTS,
+      id: FeaturesEnum.UI_COMPONENTS,
       i18nKey: 'uiComponents',
       accentColor: 'var(--color-accent-ui)',
       mainIcon: 'ui',
     },
     {
-      id: FeanuresEnum.PIPLINE,
+      id: FeaturesEnum.PIPELINE,
       i18nKey: 'pipeline',
       accentColor: 'var(--color-secondary)',
       mainIcon: 'pipeline',
     },
     {
-      id: FeanuresEnum.LOCALIZATION,
+      id: FeaturesEnum.LOCALIZATION,
       i18nKey: 'localization',
       accentColor: 'var(--color-accent-purple)',
       mainIcon: 'localization',
     },
     {
-      id: FeanuresEnum.SEAT_MAP,
+      id: FeaturesEnum.SEAT_MAP,
       i18nKey: 'seatMap',
       accentColor: 'var(--color-accent-orange)',
       mainIcon: 'seat',
     },
     {
-      id: FeanuresEnum.MULTISYNC,
+      id: FeaturesEnum.MULTISYNC,
       i18nKey: 'multisync',
       accentColor: 'var(--color-accent-blue)',
       mainIcon: 'synchronization',
