@@ -71,15 +71,9 @@
     }
   }
 
-  &__features {
-    padding: var(--spacing-2xl) 0;
-    background: var(--color-bg-primary);
-
-    &-list {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-3xl);
-    }
+  &__features-list {
+    display: flex;
+    flex-direction: column;
   }
 
   &__rest-api {
@@ -109,14 +103,6 @@
         padding: var(--spacing-md);
       }
     }
-
-    &__features {
-      padding: var(--spacing-xl) 0;
-
-      &-list {
-        gap: var(--spacing-2xl);
-      }
-    }
   }
 
   @include media-mobile {
@@ -127,12 +113,6 @@
 
       &-title {
         font-size: var(--font-size-xl);
-      }
-    }
-
-    &__features {
-      &-list {
-        gap: var(--spacing-xl);
       }
     }
   }
