@@ -1,42 +1,11 @@
 <script setup lang="ts">
-  import '@/view/ui/ui-image-modal/ui-image-modal.scss'
+  import '@/view/ui/ui-image-modal/ui-image-modal.scss';
 
-  import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
-  import { useI18n } from 'vue-i18n'
+  import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
+  import type { Props } from './types';
+  import { useI18n } from 'vue-i18n';
 
-  const { t } = useI18n()
-
-  interface ImageObject {
-    /** Путь к превью изображения */
-    preview: string
-    /** Путь к полноразмерному изображению */
-    full: string
-    /** Описание изображения (alt текст) */
-    description: string
-  }
-
-  interface Props {
-    /** Состояние открытия модального окна */
-    isOpen: boolean
-
-    /** Массив изображений для отображения */
-    images: ImageObject[]
-
-    /** Начальный индекс изображения */
-    initialIndex?: number
-
-    /** Показывать навигационные стрелки */
-    showNavigation?: boolean
-
-    /** Показывать счетчик изображений */
-    showCounter?: boolean
-
-    /** Показывать панель миниатюр */
-    showThumbnails?: boolean
-
-    /** Разрешить открытие изображения в новой вкладке */
-    allowOpenInNewTab?: boolean
-  }
+  const { t } = useI18n();
 
   const props = withDefaults(defineProps<Props>(), {
     initialIndex: 0,
@@ -44,68 +13,68 @@
     showCounter: true,
     showThumbnails: true,
     allowOpenInNewTab: true,
-  })
+  });
 
   const emit = defineEmits<{
     /** Событие обновления состояния открытия (v-model) */
-    'update:isOpen': [value: boolean]
+    'update:isOpen': [value: boolean];
     /** Событие закрытия модального окна */
-    close: []
+    close: [];
     /** Событие изменения текущего изображения */
-    change: [index: number]
+    change: [index: number];
     /** Событие открытия изображения в новой вкладке */
-    openInNewTab: [imageUrl: string]
-  }>()
+    openInNewTab: [imageUrl: string];
+  }>();
 
-  const currentIndex = ref(props.initialIndex)
-  const isLoading = ref(false)
-  const imageRef = ref<HTMLImageElement | null>(null)
+  const currentIndex = ref(props.initialIndex);
+  const isLoading = ref(false);
+  const imageRef = ref<HTMLImageElement | null>(null);
 
   /**
    * Текущее полноразмерное изображение
    */
-  const currentImage = computed(() => props.images[currentIndex.value]?.full)
+  const currentImage = computed(() => props.images[currentIndex.value]?.full);
 
   /**
    * Описание текущего изображения
    */
-  const currentAlt = computed(() => props.images[currentIndex.value]?.description)
+  const currentAlt = computed(() => props.images[currentIndex.value]?.description);
 
   /**
    * Проверка наличия предыдущего изображения
    */
-  const hasPrev = computed(() => currentIndex.value > 0)
+  const hasPrev = computed(() => currentIndex.value > 0);
 
   /**
    * Проверка наличия следующего изображения
    */
-  const hasNext = computed(() => currentIndex.value < props.images.length - 1)
+  const hasNext = computed(() => currentIndex.value < props.images.length - 1);
 
   /**
    * Закрывает модальное окно
    */
   const close = () => {
-    emit('update:isOpen', false)
-    emit('close')
-  }
+    emit('update:isOpen', false);
+    emit('close');
+  };
 
   /**
    * Переходит к предыдущему изображению
    */
   const prevImage = () => {
     if (hasPrev.value) {
-      setImage(currentIndex.value - 1)
+      setImage(currentIndex.value - 1);
     }
-  }
+  };
 
   /**
    * Переходит к следующему изображению
    */
   const nextImage = () => {
     if (hasNext.value) {
-      setImage(currentIndex.value + 1)
+      setImage(currentIndex.value + 1);
     }
-  }
+  };
 
   /**
    * Устанавливает изображение по индексу
@@ -113,93 +82,93 @@
    */
   const setImage = (index: number) => {
     if (index >= 0 && index < props.images.length) {
-      isLoading.value = true
-      currentIndex.value = index
-      emit('change', index)
+      isLoading.value = true;
+      currentIndex.value = index;
+      emit('change', index);
     }
-  }
+  };
 
   /**
    * Обработчик клика по изображению для открытия в новой вкладке
    */
   const openImageInNewTab = () => {
-    if (!props.allowOpenInNewTab || !currentImage.value) return
+    if (!props.allowOpenInNewTab || !currentImage.value) return;
 
     // Открываем изображение в новой вкладке
-    window.open(currentImage.value, '_blank', 'noopener,noreferrer')
+    window.open(currentImage.value, '_blank', 'noopener,noreferrer');
 
     // Эмитим событие для родительского компонента
-    emit('openInNewTab', currentImage.value)
-  }
+    emit('openInNewTab', currentImage.value);
+  };
 
   /**
    * Обработчик успешной загрузки изображения
    */
   const onImageLoad = () => {
-    isLoading.value = false
-  }
+    isLoading.value = false;
+  };
 
   /**
    * Обработчик ошибки загрузки изображения
    */
   const onImageError = () => {
-    isLoading.value = false
-    console.error(`Не удалось загрузить изображение: ${currentImage.value}`)
-  }
+    isLoading.value = false;
+    console.error(`Не удалось загрузить изображение: ${currentImage.value}`);
+  };
 
   /**
    * Обработчик нажатий клавиш
    */
   const handleKeydown = (event: KeyboardEvent) => {
-    if (!props.isOpen) return
+    if (!props.isOpen) return;
 
     switch (event.key) {
       case 'Escape':
-        close()
-        break
+        close();
+        break;
       case 'ArrowLeft':
-        prevImage()
-        break
+        prevImage();
+        break;
       case 'ArrowRight':
-        nextImage()
-        break
+        nextImage();
+        break;
       case 'o':
       case 'O':
         if (props.allowOpenInNewTab && (event.ctrlKey || event.metaKey)) {
-          event.preventDefault()
-          openImageInNewTab()
+          event.preventDefault();
+          openImageInNewTab();
         }
-        break
+        break;
     }
-  }
+  };
 
   onMounted(() => {
-    document.addEventListener('keydown', handleKeydown)
-  })
+    document.addEventListener('keydown', handleKeydown);
+  });
 
   onUnmounted(() => {
-    document.removeEventListener('keydown', handleKeydown)
-  })
+    document.removeEventListener('keydown', handleKeydown);
+  });
 
   // Сброс индекса при открытии
   watch(
     () => props.isOpen,
     isOpen => {
       if (isOpen) {
-        currentIndex.value = props.initialIndex
+        currentIndex.value = props.initialIndex;
       }
     },
-  )
+  );
 
   // Следим за изменением initialIndex
   watch(
     () => props.initialIndex,
     index => {
       if (props.isOpen) {
-        setImage(index)
+        setImage(index);
       }
     },
-  )
+  );
 </script>
 
 <template>

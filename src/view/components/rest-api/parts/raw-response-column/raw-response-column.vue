@@ -1,26 +1,21 @@
 <script setup lang="ts">
-  import '@/view/components/rest-api/parts/raw-response-column/raw-response-column.scss'
+  import '@/view/components/rest-api/parts/raw-response-column/raw-response-column.scss';
 
-  import { useI18n } from '@/view/composables/use-i18n.ts'
+  import type { Props } from './types';
+  import { useI18n } from '@/view/composables/use-i18n.ts';
 
-  const { t } = useI18n()
+  const { t } = useI18n();
 
-  interface Props {
-    loading: boolean
-    error: string | null
-    rawResponse: any
-  }
-
-  defineProps<Props>()
+  defineProps<Props>();
 
   const formatJson = (data: any) => {
-    if (!data) return ''
+    if (!data) return '';
     try {
-      return JSON.stringify(data, null, 2)
+      return JSON.stringify(data, null, 2);
     } catch {
-      return String(data)
+      return String(data);
     }
-  }
+  };
 </script>
 
 <template>

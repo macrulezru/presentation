@@ -1,20 +1,14 @@
 <script setup lang="ts">
-  import EmptyState from '@/view/components/rest-api/parts/empty-state/empty-state.vue'
+  import EmptyState from '@/view/components/rest-api/parts/empty-state/empty-state.vue';
 
-  import '@/view/components/rest-api/parts/person-formatted-column/person-formatted-column.scss'
+  import '@/view/components/rest-api/parts/person-formatted-column/person-formatted-column.scss';
 
-  import type { PersonResponseModel } from '@/models/person-response.model'
-  import { useI18n } from '@/view/composables/use-i18n.ts'
+  import type { Props } from './types';
+  import { useI18n } from '@/view/composables/use-i18n.ts';
 
-  const { t } = useI18n()
+  const { t } = useI18n();
 
-  interface Props {
-    formattedData: PersonResponseModel | null
-    loading: boolean
-    error: string | null
-  }
-
-  defineProps<Props>()
+  defineProps<Props>();
 </script>
 
 <template>

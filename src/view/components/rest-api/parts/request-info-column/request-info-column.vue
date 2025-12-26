@@ -1,24 +1,12 @@
 <script setup lang="ts">
-  import '@/view/components/rest-api/parts/request-info-column/request-info-column.scss'
+  import '@/view/components/rest-api/parts/request-info-column/request-info-column.scss';
 
-  import { useI18n } from '@/view/composables/use-i18n.ts'
+  import type { Props } from './types';
+  import { useI18n } from '@/view/composables/use-i18n.ts';
 
-  const { t } = useI18n()
+  const { t } = useI18n();
 
-  interface ApiInfo {
-    baseUrl: string
-    endpoint: string
-    method: string
-    fullUrl: string
-  }
-
-  interface Props {
-    apiInfo: ApiInfo
-    loading: boolean
-    error: string | null
-  }
-
-  defineProps<Props>()
+  defineProps<Props>();
 </script>
 
 <template>

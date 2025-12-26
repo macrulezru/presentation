@@ -1,20 +1,14 @@
 <script setup lang="ts">
-  import EmptyState from '@/view/components/rest-api/parts/empty-state/empty-state.vue'
+  import EmptyState from '@/view/components/rest-api/parts/empty-state/empty-state.vue';
 
-  import '@/view/components/rest-api/parts/product-formatted-column/product-formatted-column.scss'
+  import '@/view/components/rest-api/parts/product-formatted-column/product-formatted-column.scss';
 
-  import type { ProductModel } from '@/models/product.model.ts'
-  import { useI18n } from '@/view/composables/use-i18n.ts'
+  import type { Props } from './types';
+  import { useI18n } from '@/view/composables/use-i18n.ts';
 
-  const { t } = useI18n()
+  const { t } = useI18n();
 
-  interface Props {
-    formattedData: ProductModel | null
-    loading: boolean
-    error: string | null
-  }
-
-  defineProps<Props>()
+  defineProps<Props>();
 </script>
 
 <template>

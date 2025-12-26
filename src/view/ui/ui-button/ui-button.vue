@@ -1,21 +1,10 @@
 <script setup lang="ts">
-  import '@/view/ui/ui-button/ui-button.scss'
+  import '@/view/ui/ui-button/ui-button.scss';
 
-  import { computed } from 'vue'
+  import { computed } from 'vue';
+  import type { Props } from './types';
 
-  interface Props {
-    text?: string
-
-    fullWidth?: boolean
-    small?: boolean
-    micro?: boolean
-    disabled?: boolean
-    gray?: boolean
-    reset?: boolean
-    control?: boolean
-  }
-
-  const props = defineProps<Props>()
+  const props = defineProps<Props>();
 
   /**
    * Вычисляемые CSS-классы для кнопки
@@ -29,8 +18,8 @@
       'ui-button_gray': props.gray,
       'ui-button_reset': props.reset,
       'ui-button_control': props.control,
-    }
-  })
+    };
+  });
 </script>
 
 <template>
