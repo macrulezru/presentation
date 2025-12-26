@@ -86,10 +86,10 @@
             {{ t('about.intro.web') }}
           </span>
         </div>
-        <p>{{ t('about.approach') }}</p>
+        <div>{{ t('about.approach') }}</div>
 
         <div class="about__skills">
-          <p class="about__skills-title">{{ t('about.skills_title') }}</p>
+          <div class="about__skills-title">{{ t('about.skills_title') }}</div>
           <div class="about__skills-list">
             <div
               v-for="(skill, index) in skillsList"
@@ -100,7 +100,7 @@
               <span class="about__skill-description">{{ skill.description }}</span>
             </div>
           </div>
-          <p class="about__skills-conclusion">{{ t('about.conclusion') }}</p>
+          <div class="about__skills-conclusion">{{ t('about.conclusion') }}</div>
         </div>
       </div>
 
