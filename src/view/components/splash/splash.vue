@@ -35,11 +35,19 @@
     observer.observe(element)
   }
 
+  const hidePreloader = () => {
+    const loader = document.getElementById('app-loader')
+    if (loader) {
+      loader.remove()
+    }
+  }
+
   onMounted(() => {
     nextTick(() => {
       createObserver()
     })
     startAnimation()
+    hidePreloader()
   })
 
   onUnmounted(() => {
