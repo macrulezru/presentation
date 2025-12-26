@@ -1,52 +1,52 @@
 <script setup lang="ts">
-  import ApiDemoBlock from '@/view/components/rest-api/parts/api-demo-block/api-demo-block.vue'
-  import JokeFormattedColumn from '@/view/components/rest-api/parts/joke-formatted-column/joke-formatted-column.vue'
-  import PersonFormattedColumn from '@/view/components/rest-api/parts/person-formatted-column/person-formatted-column.vue'
-  import ProductFormattedColumn from '@/view/components/rest-api/parts/product-formatted-column/product-formatted-column.vue'
-  import WarmupApi from '@/view/components/rest-api/parts/warmup-api/warmup-api.vue'
-  import Tab from '@/view/ui/ui-tabs/parts/ui-tab/ui-tab.vue'
-  import Tabs from '@/view/ui/ui-tabs/ui-tabs.vue'
+  import ApiDemoBlock from '@/view/components/rest-api/parts/api-demo-block/api-demo-block.vue';
+  import JokeFormattedColumn from '@/view/components/rest-api/parts/joke-formatted-column/joke-formatted-column.vue';
+  import PersonFormattedColumn from '@/view/components/rest-api/parts/person-formatted-column/person-formatted-column.vue';
+  import ProductFormattedColumn from '@/view/components/rest-api/parts/product-formatted-column/product-formatted-column.vue';
+  import WarmupApi from '@/view/components/rest-api/parts/warmup-api/warmup-api.vue';
+  import Tab from '@/view/ui/ui-tabs/parts/ui-tab/ui-tab.vue';
+  import Tabs from '@/view/ui/ui-tabs/ui-tabs.vue';
 
-  import '@/view/components/rest-api/rest-api.scss'
+  import '@/view/components/rest-api/rest-api.scss';
 
-  import { jokeCommand } from '@/core/commands/joke.command'
-  import { personCommand } from '@/core/commands/person.command'
-  import { productCommand } from '@/core/commands/product.command'
-  import { jokeConfig, personConfig, productConfig } from '@/core/config'
-  import { RestApiCommandEnum } from '@/enums/rest-api.enum'
-  import type { JokeModel } from '@/models/joke.model'
-  import { PersonResponseModel } from '@/models/person-response.model'
-  import { ProductModel } from '@/models/product.model'
-  import { storeToRefs } from 'pinia'
-  import { useWarmupStore } from '@/stores/use-warmup-store'
-  import { useI18n } from '@/view/composables/use-i18n.ts'
-  import { ref } from 'vue'
+  import { ref } from 'vue';
+  import { jokeCommand } from '@/core/commands/joke.command';
+  import { personCommand } from '@/core/commands/person.command';
+  import { productCommand } from '@/core/commands/product.command';
+  import { jokeConfig, personConfig, productConfig } from '@/core/config';
+  import { RestApiCommandEnum } from '@/enums/rest-api.enum';
+  import type { JokeModel } from '@/models/joke.model';
+  import { PersonResponseModel } from '@/models/person-response.model';
+  import { ProductModel } from '@/models/product.model';
+  import { storeToRefs } from 'pinia';
+  import { useWarmupStore } from '@/stores/use-warmup-store';
+  import { useI18n } from '@/view/composables/use-i18n.ts';
 
-  const { t } = useI18n()
+  const { t } = useI18n();
 
-  const warmupStore = useWarmupStore()
-  const { warmupStatus } = storeToRefs(warmupStore)
+  const warmupStore = useWarmupStore();
+  const { warmupStatus } = storeToRefs(warmupStore);
 
   const jokeApiInfo = {
     baseUrl: jokeConfig.baseURL,
     endpoint: `/${RestApiCommandEnum.RANDOM_JOKE}`,
     method: 'GET',
     fullUrl: `${jokeConfig.baseURL}/${RestApiCommandEnum.RANDOM_JOKE}`,
-  }
+  };
 
   const personApiInfo = {
     baseUrl: personConfig.baseURL,
     endpoint: `/${RestApiCommandEnum.PERSON}`,
     method: 'GET',
     fullUrl: `${personConfig.baseURL}/${RestApiCommandEnum.PERSON}`,
-  }
+  };
 
   const productApiInfo = {
     baseUrl: productConfig.baseURL,
     endpoint: `/${RestApiCommandEnum.PRODUCT}`,
     method: 'GET',
     fullUrl: `${productConfig.baseURL}/${RestApiCommandEnum.PRODUCT}`,
-  }
+  };
 
   const jokeState = ref({
     loading: false,
@@ -57,7 +57,7 @@
     rawResponse: null as any,
     formattedData: null as JokeModel | null,
     error: null as string | null,
-  })
+  });
 
   const personState = ref({
     loading: false,
@@ -68,7 +68,7 @@
     rawResponse: null as any,
     formattedData: null as PersonResponseModel | null,
     error: null as string | null,
-  })
+  });
 
   const productState = ref({
     loading: false,
@@ -79,7 +79,7 @@
     rawResponse: null as any,
     formattedData: null as ProductModel | null,
     error: null as string | null,
-  })
+  });
 
   const fetchJoke = async () => {
     jokeState.value = {
@@ -88,19 +88,19 @@
       rawResponse: null,
       formattedData: null,
       error: null,
-    }
+    };
 
     try {
-      const command = jokeCommand.getRandomJoke()
-      const result = await command.execute()
-      jokeState.value.rawResponse = result
-      jokeState.value.formattedData = result
+      const command = jokeCommand.getRandomJoke();
+      const result = await command.execute();
+      jokeState.value.rawResponse = result;
+      jokeState.value.formattedData = result;
     } catch (error: any) {
-      jokeState.value.error = error.message || t('rest-api.unknownError')
+      jokeState.value.error = error.message || t('rest-api.unknownError');
     } finally {
-      jokeState.value.loading = false
+      jokeState.value.loading = false;
     }
-  }
+  };
 
   const fetchRandomPerson = async () => {
     personState.value = {
@@ -109,19 +109,19 @@
       rawResponse: null,
       formattedData: null,
       error: null,
-    }
+    };
 
     try {
-      const command = personCommand.getRandomPerson()
-      const result = await command.execute()
-      personState.value.rawResponse = result
-      personState.value.formattedData = result
+      const command = personCommand.getRandomPerson();
+      const result = await command.execute();
+      personState.value.rawResponse = result;
+      personState.value.formattedData = result;
     } catch (error: any) {
-      personState.value.error = error.message || t('rest-api.unknownError')
+      personState.value.error = error.message || t('rest-api.unknownError');
     } finally {
-      personState.value.loading = false
+      personState.value.loading = false;
     }
-  }
+  };
 
   const fetchProduct = async () => {
     productState.value = {
@@ -130,20 +130,20 @@
       rawResponse: null,
       formattedData: null,
       error: null,
-    }
+    };
 
     try {
-      const command = productCommand.getRandomProduct()
-      const result = await command.execute()
+      const command = productCommand.getRandomProduct();
+      const result = await command.execute();
 
-      productState.value.rawResponse = result
-      productState.value.formattedData = result
+      productState.value.rawResponse = result;
+      productState.value.formattedData = result;
     } catch (error: any) {
-      productState.value.error = error.message || t('rest-api.unknownError')
+      productState.value.error = error.message || t('rest-api.unknownError');
     } finally {
-      productState.value.loading = false
+      productState.value.loading = false;
     }
-  }
+  };
 
   const clearJokeData = () => {
     jokeState.value = {
@@ -152,8 +152,8 @@
       rawResponse: null,
       formattedData: null,
       error: null,
-    }
-  }
+    };
+  };
 
   const clearPersonData = () => {
     personState.value = {
@@ -162,8 +162,8 @@
       rawResponse: null,
       formattedData: null,
       error: null,
-    }
-  }
+    };
+  };
 
   const clearProductData = () => {
     productState.value = {
@@ -172,8 +172,8 @@
       rawResponse: null,
       formattedData: null,
       error: null,
-    }
-  }
+    };
+  };
 </script>
 
 <template>

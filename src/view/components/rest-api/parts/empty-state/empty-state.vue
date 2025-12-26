@@ -1,15 +1,12 @@
 <script setup lang="ts">
-  import '@/view/components/rest-api/parts/empty-state/empty-state.scss'
+  import '@/view/components/rest-api/parts/empty-state/empty-state.scss';
 
-  import { useI18n } from '@/view/composables/use-i18n.ts'
+  import type { Props } from './types';
+  import { useI18n } from '@/view/composables/use-i18n.ts';
 
-  const { t } = useI18n()
+  const { t } = useI18n();
 
-  interface Props {
-    loading?: boolean
-  }
-
-  defineProps<Props>()
+  defineProps<Props>();
 </script>
 
 <template>

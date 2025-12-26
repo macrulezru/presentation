@@ -1,66 +1,46 @@
 <script setup lang="ts">
-  import '@/view/components/section-editor/parts/section-editor-item/section-editor-item.scss'
+  import '@/view/components/section-editor/parts/section-editor-item/section-editor-item.scss';
 
-  import { PageSectionsEnum } from '@/enums/page-sections.enum'
-  import { useI18n } from '@/view/composables/use-i18n'
+  import type { Props } from './types';
+  import { useI18n } from '@/view/composables/use-i18n';
 
-  const { t } = useI18n()
+  const { t } = useI18n();
 
-  const props = withDefaults(
-    defineProps<{
-      sectionId: PageSectionsEnum
-      index: number
-      sectionName: string
-      isFixed?: boolean
-      isPlaceholder?: boolean
-      isDragging?: boolean
-      isDraggingOriginal?: boolean
-      isDraggingClone?: boolean
-      isDraggingAny?: boolean
-      hasChanges?: boolean
-      customStyle?: {
-        transform: string
-        transition: string
-      }
-      hideUpButton?: boolean
-      hideDownButton?: boolean
-    }>(),
-    {
-      isFixed: false,
-      isPlaceholder: false,
-      isDragging: false,
-      isDraggingOriginal: false,
-      isDraggingClone: false,
-      isDraggingAny: false,
-      hasChanges: false,
-      hideUpButton: false,
-      hideDownButton: false,
-    },
-  )
+  const props = withDefaults(defineProps<Props>(), {
+    isFixed: false,
+    isPlaceholder: false,
+    isDragging: false,
+    isDraggingOriginal: false,
+    isDraggingClone: false,
+    isDraggingAny: false,
+    hasChanges: false,
+    hideUpButton: false,
+    hideDownButton: false,
+  });
 
   const emit = defineEmits<{
-    dragStart: [event: MouseEvent | TouchEvent]
-    moveUp: []
-    moveDown: []
-  }>()
+    dragStart: [event: MouseEvent | TouchEvent];
+    moveUp: [];
+    moveDown: [];
+  }>();
 
   const handleDragStart = (event: MouseEvent | TouchEvent) => {
     if (!props.isFixed) {
-      emit('dragStart', event)
+      emit('dragStart', event);
     }
-  }
+  };
 
   const handleMoveUp = () => {
     if (!props.isFixed && !props.isDraggingAny) {
-      emit('moveUp')
+      emit('moveUp');
     }
-  }
+  };
 
   const handleMoveDown = () => {
     if (!props.isFixed && !props.isDraggingAny) {
-      emit('moveDown')
+      emit('moveDown');
     }
-  }
+  };
 </script>
 
 <template>

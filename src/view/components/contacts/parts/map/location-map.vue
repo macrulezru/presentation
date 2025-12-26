@@ -1,32 +1,30 @@
 <script setup lang="ts">
-  import '@/view/components/contacts/parts/map/location-map.scss'
+  import '@/view/components/contacts/parts/map/location-map.scss';
 
-  import locationPin from '@/view/assets/images/location-pin.svg?url'
+  import locationPin from '@/view/assets/images/location-pin.svg?url';
 
-  import { onMounted, onUnmounted, ref } from 'vue'
-  import { useI18n } from '@/view/composables/use-i18n.ts'
+  import { onMounted, onUnmounted, ref } from 'vue';
+  import type { YMap, YPlacemark } from './types';
+  import { useI18n } from '@/view/composables/use-i18n.ts';
 
-  const { t } = useI18n()
+  const { t } = useI18n();
 
-  interface YMap extends ymaps.Map {}
-  interface YPlacemark extends ymaps.Placemark {}
+  const mapContainer = ref<HTMLElement | null>(null);
+  const map = ref<ymaps.Map | null>(null);
 
-  const mapContainer = ref<HTMLElement | null>(null)
-  const map = ref<ymaps.Map | null>(null)
-
-  const mapCenter: [number, number] = [44.895, 37.316]
-  const mapZoom = 10
+  const mapCenter: [number, number] = [44.895, 37.316];
+  const mapZoom = 10;
 
   const loadYandexMap = () => {
-    const ymapsGlobal = (window as any).ymaps
+    const ymapsGlobal = (window as any).ymaps;
 
     if (!ymapsGlobal) {
-      console.error('Yandex Maps API не загружена')
-      return
+      console.error('Yandex Maps API не загружена');
+      return;
     }
 
     ymapsGlobal.ready(() => {
-      if (!mapContainer.value) return
+      if (!mapContainer.value) return;
 
       map.value = new (ymapsGlobal as any).Map(mapContainer.value, {
         center: mapCenter,
@@ -34,7 +32,7 @@
         controls: ['zoomControl', 'fullscreenControl'],
 
         behaviors: ['drag', 'multiTouch', 'dblClickZoom', 'rightMouseButtonMagnifier'],
-      }) as YMap
+      }) as YMap;
 
       const myPlacemark = new (ymapsGlobal as any).Placemark(
         mapCenter,
@@ -45,22 +43,22 @@
           iconImageSize: [50, 50],
           iconImageOffset: [-25, -60],
         },
-      ) as YPlacemark
+      ) as YPlacemark;
 
-      map.value.geoObjects.add(myPlacemark)
-    })
-  }
+      map.value.geoObjects.add(myPlacemark);
+    });
+  };
 
   onMounted(() => {
-    loadYandexMap()
-  })
+    loadYandexMap();
+  });
 
   onUnmounted(() => {
     if (map.value) {
-      map.value.destroy()
-      map.value = null
+      map.value.destroy();
+      map.value = null;
     }
-  })
+  });
 </script>
 
 <template>

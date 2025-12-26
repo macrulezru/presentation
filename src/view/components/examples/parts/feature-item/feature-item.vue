@@ -3,20 +3,9 @@
 
   import type { FeatureData } from '@/view/composables/use-features.ts';
   import { useColorGradient } from '@/view/composables/use-color-gradient';
+  import type { GradientOptions, GradientColors, headerGradientOptions } from './types';
 
   const { createGradient, createRadialGradient } = useColorGradient();
-
-  interface GradientOptions {
-    shadow?: boolean;
-  }
-
-  interface headerGradientOptions {
-    useCustomColors: boolean;
-    shape: 'ellipse' | 'circle';
-    size: { width: string; height: string };
-    position: string;
-    colors?: Array<{ color: string; opacity: number; position: string }>;
-  }
 
   interface Props {
     feature: FeatureData;
@@ -48,7 +37,7 @@
 
   const getHeaderGradientStyle = (
     color: string,
-    customColors?: Array<{ color: string; opacity: number; position: string }>,
+    customColors?: Array<GradientColors>,
   ) => {
     const options: headerGradientOptions = {
       ...headerGradientOptions,

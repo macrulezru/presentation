@@ -1,57 +1,52 @@
 <script setup lang="ts">
-  import '@/view/ui/ui-tabs/ui-tabs.scss'
+  import '@/view/ui/ui-tabs/ui-tabs.scss';
 
-  import { ref, provide, type Ref, onMounted } from 'vue'
-
-  interface Tab {
-    title: string
-    id?: string
-    hash: string
-  }
+  import { ref, provide, type Ref, onMounted } from 'vue';
+  import type { Tab } from './types';
 
   const emit = defineEmits<{
-    mounted: []
-  }>()
+    mounted: [];
+  }>();
 
-  const activeTabHash = ref('')
-  const tabs: Ref<Array<Tab>> = ref([])
+  const activeTabHash = ref('');
+  const tabs: Ref<Array<Tab>> = ref([]);
 
   const setActiveTab = (tab: Tab) => {
-    activeTabHash.value = tab.hash
-  }
+    activeTabHash.value = tab.hash;
+  };
 
   const preselectTab = (id: string) => {
-    const foundTab = tabs.value.find(tab => tab.id === id)
+    const foundTab = tabs.value.find(tab => tab.id === id);
     if (foundTab) {
-      setActiveTab(foundTab)
+      setActiveTab(foundTab);
     }
-  }
+  };
 
   provide('tshTabsAddTab', (tab: Tab) => {
-    const count = tabs.value.push(tab)
+    const count = tabs.value.push(tab);
     if (count === 1) {
-      activeTabHash.value = tab.hash
+      activeTabHash.value = tab.hash;
     }
-  })
+  });
 
   provide('tshTabsUpdateTab', (oldHash: string, updatedTab: Tab) => {
-    const index = tabs.value.findIndex(tab => tab.hash === oldHash)
+    const index = tabs.value.findIndex(tab => tab.hash === oldHash);
     if (index !== -1) {
-      tabs.value[index] = updatedTab
+      tabs.value[index] = updatedTab;
 
       if (activeTabHash.value === oldHash) {
-        activeTabHash.value = updatedTab.hash
+        activeTabHash.value = updatedTab.hash;
       }
     }
-  })
+  });
 
-  provide('tshTabsActiveHash', activeTabHash)
+  provide('tshTabsActiveHash', activeTabHash);
 
-  defineExpose({ preselectTab })
+  defineExpose({ preselectTab });
 
   onMounted(() => {
-    emit('mounted')
-  })
+    emit('mounted');
+  });
 </script>
 
 <template>

@@ -1,49 +1,30 @@
 <script setup lang="ts">
-  import RequestInfoColumn from '@/view/components/rest-api/parts/request-info-column/request-info-column.vue'
-  import RawResponseColumn from '@/view/components/rest-api/parts/raw-response-column/raw-response-column.vue'
-  import EmptyState from '@/view/components/rest-api/parts/empty-state/empty-state.vue'
-  import Button from '@/view/ui/ui-button/ui-button.vue'
+  import RequestInfoColumn from '@/view/components/rest-api/parts/request-info-column/request-info-column.vue';
+  import RawResponseColumn from '@/view/components/rest-api/parts/raw-response-column/raw-response-column.vue';
+  import EmptyState from '@/view/components/rest-api/parts/empty-state/empty-state.vue';
+  import Button from '@/view/ui/ui-button/ui-button.vue';
 
-  import '@/view/components/rest-api/parts/api-demo-block/api-demo-block.scss'
+  import '@/view/components/rest-api/parts/api-demo-block/api-demo-block.scss';
 
-  import { computed, useSlots } from 'vue'
-  import { useI18n } from '@/view/composables/use-i18n.ts'
-  import { useResponsive } from '@/view/composables/use-responsive'
+  import { computed, useSlots } from 'vue';
+  import { useI18n } from '@/view/composables/use-i18n.ts';
+  import { useResponsive } from '@/view/composables/use-responsive';
+  import type { Props, Emits } from './types';
 
-  const { t } = useI18n()
+  const { t } = useI18n();
 
-  interface ApiInfo {
-    baseUrl: string
-    endpoint: string
-    method: string
-    fullUrl: string
-  }
+  const props = defineProps<Props>();
 
-  interface Props {
-    loading: boolean
-    error: string | null
-    requestInfo: { url: string; method: string }
-    rawResponse: any
-    apiInfo: ApiInfo
-  }
+  const emit = defineEmits<Emits>();
 
-  interface Emits {
-    (e: 'fetch'): void
-    (e: 'clear'): void
-  }
+  const slots = useSlots();
+  const { isMobile } = useResponsive();
 
-  const props = defineProps<Props>()
-
-  const emit = defineEmits<Emits>()
-
-  const slots = useSlots()
-  const { isMobile } = useResponsive()
-
-  const hasData = computed(() => props.rawResponse || props.error)
+  const hasData = computed(() => props.rawResponse || props.error);
 
   const isHasApiDescription = computed(() => {
-    return slots['api-description']
-  })
+    return slots['api-description'];
+  });
 </script>
 
 <template>
