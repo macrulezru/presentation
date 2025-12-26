@@ -52,6 +52,7 @@ export default defineConfig({
         additionalData: `
           @use "@/view/styles/mixins/layout.scss" as *;
           @use "@/view/styles/mixins/media.scss" as *;
+          @use "@/view/styles/mixins/element.scss" as *;
         `,
       },
     },
