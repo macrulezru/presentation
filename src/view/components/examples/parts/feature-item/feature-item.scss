@@ -1,5 +1,5 @@
 .feature-item {
-  padding: var(--spacing-xl) 0;
+  padding: var(--spacing-4xl) 0 var(--spacing-xl);
   border-bottom: 1px dashed var(--color-border-muted);
   scroll-margin-top: var(--spacing-lg);
 
@@ -204,22 +204,26 @@
     display: grid;
 
     &-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xl);
       padding: var(--spacing-md) 0;
       border-bottom: 1px solid var(--color-border-light);
 
       &:last-child {
         border-bottom: none;
       }
-    }
-  }
 
-  &__arch-content {
-    flex: 1;
-    line-height: 1.5;
-    color: var(--color-text-primary);
+      &-title {
+        flex-shrink: 0;
+        width: 260px;
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-semibold);
+      }
 
-    strong {
-      color: var(--color-text-primary);
+      &-description {
+        color: var(--color-text-primary);
+      }
     }
   }
 
@@ -251,7 +255,7 @@
   }
 
   @include media-tablet {
-    padding: var(--spacing-lg) 0;
+    padding: var(--spacing-3xl) 0 var(--spacing-lg);
 
     &__container {
       padding: 0 var(--spacing-lg);
@@ -299,6 +303,12 @@
       p {
         font-size: var(--font-size-sm);
       }
+    }
+
+    &__architecture-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--spacing-xs);
     }
   }
 

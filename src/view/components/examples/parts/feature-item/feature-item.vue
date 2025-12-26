@@ -1,39 +1,74 @@
 <script setup lang="ts">
-  import '@/view/components/examples/parts/feature-item/feature-item.scss'
+  import '@/view/components/examples/parts/feature-item/feature-item.scss';
 
-  import type { FeatureData } from '@/view/composables/use-features.ts'
-  import { useColorGradient } from '@/view/composables/use-color-gradient'
+  import type { FeatureData } from '@/view/composables/use-features.ts';
+  import { useColorGradient } from '@/view/composables/use-color-gradient';
 
-  const { createGradient } = useColorGradient()
+  const { createGradient, createRadialGradient } = useColorGradient();
 
   interface GradientOptions {
-    shadow?: boolean
+    shadow?: boolean;
+  }
+
+  interface headerGradientOptions {
+    useCustomColors: boolean;
+    shape: 'ellipse' | 'circle';
+    size: { width: string; height: string };
+    position: string;
+    colors?: Array<{ color: string; opacity: number; position: string }>;
   }
 
   interface Props {
-    feature: FeatureData
+    feature: FeatureData;
   }
 
-  defineProps<Props>()
+  defineProps<Props>();
 
-  const gradientOptions = { offsetPercent: 50 }
+  const gradientOptions = { offsetPercent: 50 };
 
   const getGradientStyle = (color: string, options: GradientOptions = {}) => {
-    const { shadow = false } = options
+    const { shadow = false } = options;
 
-    const gradient = createGradient(color, gradientOptions)
-    const styles = [`background: ${gradient}`]
+    const gradient = createGradient(color, gradientOptions);
+    const styles = [`background: ${gradient}`];
 
     if (shadow) {
-      styles.push(`filter: drop-shadow(0 10px 10px ${color})`)
+      styles.push(`filter: drop-shadow(0 10px 10px ${color})`);
     }
 
-    return styles.join('; ')
-  }
+    return styles.join('; ');
+  };
+
+  const headerGradientOptions: headerGradientOptions = {
+    useCustomColors: true,
+    shape: 'ellipse',
+    size: { width: '80%', height: '400px' },
+    position: '50% -50px',
+  };
+
+  const getHeaderGradientStyle = (
+    color: string,
+    customColors?: Array<{ color: string; opacity: number; position: string }>,
+  ) => {
+    const options: headerGradientOptions = {
+      ...headerGradientOptions,
+      colors: customColors || [
+        { color: color, opacity: 0.3, position: '0%' },
+        { color: color, opacity: 0, position: '100%' },
+      ],
+    };
+
+    const gradient = createRadialGradient(color, options);
+    return `background-image: ${gradient}`;
+  };
 </script>
 
 <template>
-  <div class="feature-item" :data-feature-id="feature.id">
+  <div
+    class="feature-item"
+    :style="getHeaderGradientStyle(feature.accentColor)"
+    :data-feature-id="feature.id"
+  >
     <div class="feature-item__container">
       <div class="feature-item__header">
         <div class="feature-item__main-icon">
@@ -111,10 +146,10 @@
               :key="index"
               class="feature-item__architecture-item"
             >
-              <div class="feature-item__arch-content">
-                <strong>{{ item.name }}</strong>
-                - {{ item.description }}
-              </div>
+              <span class="feature-item__architecture-item-title">{{ item.name }}</span>
+              <span class="feature-item__architecture-item-description">
+                {{ item.description }}
+              </span>
             </div>
           </div>
         </div>
