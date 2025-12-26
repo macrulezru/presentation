@@ -1,12 +1,6 @@
 .examples {
   &__title {
-    margin: 0 auto;
-    padding: var(--spacing-3xl) var(--spacing-md) var(--spacing-xl);
-    font-size: var(--font-size-5xl);
-    font-weight: 600;
-    text-align: center;
-    color: #2c3e50;
-    max-width: 1200px;
+    @include section-title;
   }
 
   &__demonstration {
@@ -70,7 +64,7 @@
     &-icon {
       display: block;
       height: 130px;
-      background-image: url("@/view/assets/images/testing-icon.svg");
+      background-image: url('@/view/assets/images/testing-icon.svg');
       background-repeat: no-repeat;
       background-position: center center;
       background-size: contain;
@@ -95,11 +89,6 @@
   }
 
   @include media-tablet {
-    &__title {
-      font-size: var(--font-size-3xl);
-      padding: var(--spacing-xl) var(--spacing-sm) var(--spacing-md);
-    }
-
     &__demonstration {
       padding: var(--spacing-lg) 0;
 

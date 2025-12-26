@@ -71,12 +71,7 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(
-            90deg,
-            transparent,
-            rgb(255 255 255 / 20%),
-            transparent
-        );
+        background: linear-gradient(90deg, transparent, rgb(255 255 255 / 20%), transparent);
       }
     }
   }
@@ -150,27 +145,25 @@
 }
 
 .mobile-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-bg-dark);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  animation: slide-down 0.3s ease;
+  z-index: var(--z-modal);
+
   &-overlay {
     position: fixed;
     inset: var(--header-height-mobile) 0 0 0;
     background: rgb(0 0 0 / 80%);
     backdrop-filter: blur(4px);
     z-index: var(--z-modal);
-    animation: fadeIn 0.3s ease;
-  }
-
-  & {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: var(--color-bg-dark);
-    padding: var(--spacing-md);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xs);
-    animation: slideDown 0.3s ease;
-    z-index: var(--z-modal);
+    animation: fade-in 0.3s ease;
   }
 
   &__item {
@@ -186,11 +179,7 @@
     text-align: left;
     font-family: inherit;
 
-    &:not(.header__nav-item--active):hover {
-      background: rgb(255 255 255 / 10%);
-    }
-
-    &--active {
+    &_active {
       background-color: #2773b1;
       color: white;
       box-shadow: 0 4px 12px rgb(74 144 226 / 30%);
@@ -198,7 +187,7 @@
   }
 }
 
-@keyframes fadeIn {
+@keyframes fade-in {
   from {
     opacity: 0;
   }
@@ -208,7 +197,7 @@
   }
 }
 
-@keyframes slideDown {
+@keyframes slide-down {
   from {
     transform: translateY(-20px);
     opacity: 0;

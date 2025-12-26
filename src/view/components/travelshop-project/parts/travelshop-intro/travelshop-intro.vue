@@ -127,7 +127,12 @@
 
 <template>
   <div class="travelshop-intro" ref="canvasContainer">
-    <div class="travelshop-intro__wrapper">
+    <div
+      class="travelshop-intro__wrapper"
+      :class="{
+        'travelshop-intro__wrapper_dev-mode': travelshopIntroStore.showDebugControls,
+      }"
+    >
       <canvas ref="canvasRef" class="travelshop-intro__canvas" />
     </div>
 
