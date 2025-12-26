@@ -19,7 +19,11 @@
     "examples_title": "Architektonische Lösungen in Vue"
   },
   "about": {
-    "intro": "Frontend-Entwickler (Vue.js) • 6+ Jahre Berufserfahrung mit Vue • 20+ Jahre in Webentwicklung und Design",
+    "intro": {
+      "front-end": "Frontend-Entwickler (Vue.js)",
+      "vue": "6+ Jahre Berufserfahrung mit Vue",
+      "web": "20+ Jahre in Webentwicklung und Design"
+    },
     "approach": "Ich entwickle komplexe, leistungsstarke und benutzerfreundliche SPA-Anwendungen mit Vue.js 3. Ich verbinde ein tiefes Verständnis der Frontend-Architektur mit einem geschulten Auge für Design und UX, wodurch ich Schnittstellen gestalten kann, die nicht nur effizient funktionieren, sondern auch den Nutzern Freude bereiten.",
     "bitrix_title": "Bitrix-Erfahrung",
     "bitrix_description": "Beschäftigte mich mit der Wartung und Entwicklung neuer TravelShop 1.0-Vorlagen für verschiedene Fluggesellschaften. Beherrsche dafür sicher PHP. Verstehe die Besonderheiten von Bitrix.",

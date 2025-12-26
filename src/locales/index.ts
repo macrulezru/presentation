@@ -6,7 +6,7 @@ const messages = {}
 
 export const i18n = createI18n({
   legacy: false,
-  locale: LocalesEnum.RU, // Это начальное значение, но оно будет сразу переопределено
+  locale: LocalesEnum.RU,
   fallbackLocale: LocalesEnum.RU,
   messages,
   missingWarn: false,

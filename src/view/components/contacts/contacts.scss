@@ -34,7 +34,7 @@
     overflow: hidden;
     border: solid 3px #b404e3;
     position: relative;
-    background-image: url("@/view/assets/images/me.png");
+    background-image: url('@/view/assets/images/me.png');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -295,13 +295,6 @@
     background-image: url('@/view/assets/images/github-logo.svg');
     background-repeat: no-repeat;
     background-size: contain;
-  }
-
-  &__mode-wrapper {
-    display: flex;
-    justify-content: center;
-    gap: var(--spacing-lg);
-    padding-top: var(--spacing-2xl);
   }
 
   @include media-tablet {

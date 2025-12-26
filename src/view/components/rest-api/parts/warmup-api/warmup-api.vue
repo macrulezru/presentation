@@ -10,6 +10,8 @@
 
   const { setWarmupStatus } = useWarmupStore()
 
+  const CHANGE_LOADING_MESSAGE_INTERVAL = 8000
+
   const currentIndex = ref<number>(0)
   const isTransitioning = ref<boolean>(false)
   const visibleMessageIndex = ref<number>(0)
@@ -64,7 +66,7 @@
 
     intervalId = setInterval(() => {
       changeMessage()
-    }, 4000)
+    }, CHANGE_LOADING_MESSAGE_INTERVAL)
   })
 
   onUnmounted(() => {

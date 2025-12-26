@@ -72,21 +72,34 @@
   <div ref="container" class="about">
     <div class="about__container">
       <div class="about__intro">
-        <p class="about__intro-lead">{{ t('about.intro') }}</p>
+        <div class="about__intro-lead">
+          <span class="about__intro-lead-item about__intro-lead_front-end">
+            <span class="about__intro-lead-icon about__intro-lead-icon_front-end"></span>
+            {{ t('about.intro.front-end') }}
+          </span>
+          <span class="about__intro-lead-item about__intro-lead_vue">
+            <span class="about__intro-lead-icon about__intro-lead-icon_vue"></span>
+            {{ t('about.intro.vue') }}
+          </span>
+          <span class="about__intro-lead-item about__intro-lead_web">
+            <span class="about__intro-lead-icon about__intro-lead-icon_web"></span>
+            {{ t('about.intro.web') }}
+          </span>
+        </div>
         <p>{{ t('about.approach') }}</p>
 
         <div class="about__skills">
           <p class="about__skills-title">{{ t('about.skills_title') }}</p>
-          <ul class="about__skills-list">
-            <li
+          <div class="about__skills-list">
+            <div
               v-for="(skill, index) in skillsList"
               :key="index"
-              class="about__skills-item"
+              class="about__skills-list-item"
             >
               <span class="about__skill-title">{{ skill.title }}</span>
               <span class="about__skill-description">{{ skill.description }}</span>
-            </li>
-          </ul>
+            </div>
+          </div>
           <p class="about__skills-conclusion">{{ t('about.conclusion') }}</p>
         </div>
       </div>
