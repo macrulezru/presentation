@@ -20,7 +20,7 @@
       padding-bottom: var(--spacing-4xl);
       font-weight: var(--font-weight-extra-bold);
       line-height: 1;
-      font-size: var(--font-size-4xl);
+      font-size: var(--font-size-3xl);
       text-align: center;
 
       &-item {
@@ -407,6 +407,12 @@
 
     &__intro-lead {
       gap: var(--spacing-3xl);
+      font-size: var(--font-size-2xl);
+
+      &-icon {
+        width: 70px;
+        height: 70px;
+      }
     }
 
     &__tech {
