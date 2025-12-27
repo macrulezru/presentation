@@ -7,9 +7,9 @@
 
   const { t, tm } = useI18n();
 
-  const features = computed(() => tm('remote_workplace.features.items'));
+  const features = computed(() => (tm('remote_workplace.features.items') as any[]) || []);
 
-  const benefits = computed(() => tm('remote_workplace.benefits.items'));
+  const benefits = computed(() => (tm('remote_workplace.benefits.items') as any[]) || []);
 </script>
 
 <template>

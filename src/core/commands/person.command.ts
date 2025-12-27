@@ -15,7 +15,11 @@ export class GetRandomPersonCommand {
       const response: ApiResponse<PersonApiResponse> =
         await this.httpClient.get<PersonApiResponse>(this.endpoint);
 
-      return new PersonResponseModel(response.data);
+      return new PersonResponseModel(
+        response.data as unknown as import('@/core/rest-interface/person').PersonInterface<
+          import('@/core/rest-interface/person').Person
+        >,
+      );
     } catch (error) {
       const apiError = error as ApiError;
       throw new Error(`Failed to fetch person data: ${apiError.message}`);
@@ -27,7 +31,11 @@ export class GetRandomPersonCommand {
       key,
       this.endpoint,
     );
-    return new PersonResponseModel(response.data);
+    return new PersonResponseModel(
+      response.data as unknown as import('@/core/rest-interface/person').PersonInterface<
+        import('@/core/rest-interface/person').Person
+      >,
+    );
   }
 }
 

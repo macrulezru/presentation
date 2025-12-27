@@ -31,9 +31,9 @@
 
   const showSwiper = ref<boolean>(false);
 
-  const features = computed(() => tm('travelshop.features.items'));
-  const techStack = computed(() => tm('travelshop.tech_stack.items'));
-  const projects = computed(() => tm('travelshop.projects.items'));
+  const features = computed(() => (tm('travelshop.features.items') as any[]) || []);
+  const techStack = computed(() => (tm('travelshop.tech_stack.items') as any[]) || []);
+  const projects = computed(() => (tm('travelshop.projects.items') as any[]) || []);
 
   const achievementsGraphs = computed(() => [
     {

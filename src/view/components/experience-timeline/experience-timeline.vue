@@ -9,7 +9,7 @@
 
   const { t, tm } = useI18n();
 
-  const experienceItems = computed(() => tm('experience.items'));
+  const experienceItems = computed(() => (tm('experience.items') as any[]) || []);
 
   const showAll = ref(false);
 
