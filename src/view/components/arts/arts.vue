@@ -1,14 +1,14 @@
 <script setup lang="ts">
-  import ArtItem from '@/view/components/arts/parts/art-item/art-item.vue';
-  import UiImageModal from '@/view/ui/ui-image-modal/ui-image-modal.vue';
-  import Button from '@/view/ui/ui-button/ui-button.vue';
-
-  import '@/view/components/arts/arts.scss';
-
   import { ref, computed, onMounted } from 'vue';
+
   import { ImageFolder } from '@/enums/arts.enum';
+  import ArtItem from '@/view/components/arts/parts/art-item/art-item.vue';
   import { useArtsImages } from '@/view/composables/use-arts-images';
   import { useI18n } from '@/view/composables/use-i18n.ts';
+  import Button from '@/view/ui/ui-button/ui-button.vue';
+  import UiImageModal from '@/view/ui/ui-image-modal/ui-image-modal.vue';
+
+  import '@/view/components/arts/arts.scss';
 
   const { t } = useI18n();
 
@@ -197,12 +197,12 @@
       <masonry-wall
         :key="currentMasonryKey"
         :items="displayImages"
-        :ssr-columns="1"
-        :column-width="250"
+        :ssrColumns="1"
+        :columnWidth="250"
         :gap="16"
       >
         <template #default="{ item }">
-          <ArtItem :image="item" @onImageClick="openModal(item.key)" />
+          <ArtItem :image="item" @on-image-click="openModal(item.key)" />
         </template>
       </masonry-wall>
     </div>
@@ -214,8 +214,8 @@
       <Button
         v-if="!isLoading"
         :text="t('design.showAll')"
-        @click="onShowAllImages"
         class="arts__show-all-button"
+        @click="onShowAllImages"
       >
         <div class="arts__button-content">
           <span class="arts__button-text">

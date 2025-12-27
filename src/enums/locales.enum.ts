@@ -6,9 +6,9 @@ export const LocalesEnum = {
   ZH: 'zh',
   GOP: 'gop',
   LITERAL: 'literal',
-} as const
+} as const;
 
-export type LocalesEnumType = (typeof LocalesEnum)[keyof typeof LocalesEnum]
+export type LocalesEnumType = (typeof LocalesEnum)[keyof typeof LocalesEnum];
 
 export const LocalesToView = {
   RU: 'Русский',
@@ -18,8 +18,8 @@ export const LocalesToView = {
   ZH: '中文',
   GOP: 'По пацански',
   LITERAL: 'Душевно',
-} as const
+} as const;
 
-export type LocalesToViewType = (typeof LocalesToView)[keyof typeof LocalesToView]
+export type LocalesToViewType = (typeof LocalesToView)[keyof typeof LocalesToView];
 
-export const LocalesList = Object.values(LocalesEnum)
+export const LocalesList = Object.values(LocalesEnum);

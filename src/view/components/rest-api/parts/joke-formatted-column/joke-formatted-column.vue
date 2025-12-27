@@ -1,10 +1,9 @@
 <script setup lang="ts">
-  import EmptyState from '@/view/components/rest-api/parts/empty-state/empty-state.vue';
-
-  import '@/view/components/rest-api/parts/joke-formatted-column/joke-formatted-column.scss';
-
   import type { Props } from './types';
+
+  import EmptyState from '@/view/components/rest-api/parts/empty-state/empty-state.vue';
   import { useI18n } from '@/view/composables/use-i18n.ts';
+  import '@/view/components/rest-api/parts/joke-formatted-column/joke-formatted-column.scss';
 
   const { t } = useI18n();
 

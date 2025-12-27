@@ -1,39 +1,40 @@
 <script setup lang="ts">
-  import Button from '@/view/ui/ui-button/ui-button.vue'
-  import SectionEditorItem from '@/view/components/section-editor/parts/section-editor-item/section-editor-item.vue'
+  import { ref, onMounted, onUnmounted, computed, watch, nextTick } from 'vue';
 
-  import '@/view/components/section-editor/section-editor.scss'
+  import type { ComponentPublicInstance } from 'vue';
 
-  import { ref, onMounted, onUnmounted, computed, watch, nextTick } from 'vue'
-  import { useSectionsConfig } from '@/view/composables/use-sections-config'
-  import { PageSectionsEnum } from '@/enums/page-sections.enum'
-  import type { ComponentPublicInstance } from 'vue'
-  import { useSectionDrag } from '@/view/composables/use-section-drag'
-  import { useI18n } from '@/view/composables/use-i18n'
+  import { PageSectionsEnum } from '@/enums/page-sections.enum';
+  import SectionEditorItem from '@/view/components/section-editor/parts/section-editor-item/section-editor-item.vue';
+  import { useI18n } from '@/view/composables/use-i18n';
+  import { useSectionDrag } from '@/view/composables/use-section-drag';
+  import { useSectionsConfig } from '@/view/composables/use-sections-config';
+  import Button from '@/view/ui/ui-button/ui-button.vue';
+
+  import '@/view/components/section-editor/section-editor.scss';
 
   const props = defineProps<{
-    modelValue: boolean
-  }>()
+    modelValue: boolean;
+  }>();
 
   const emit = defineEmits<{
-    'update:modelValue': [value: boolean]
-  }>()
+    'update:modelValue': [value: boolean];
+  }>();
 
-  const { t } = useI18n()
-  const { sectionsConfig, setSectionsOrder, resetToDefault } = useSectionsConfig()
+  const { t } = useI18n();
+  const { sectionsConfig, setSectionsOrder, resetToDefault } = useSectionsConfig();
 
   const showModal = computed({
     get: () => props.modelValue,
     set: value => emit('update:modelValue', value),
-  })
+  });
 
-  const currentSections = ref<PageSectionsEnum[]>([])
-  const containerRef = ref<HTMLElement>()
-  const itemsRefs = ref<HTMLElement[]>([])
+  const currentSections = ref<PageSectionsEnum[]>([]);
+  const containerRef = ref<HTMLElement>();
+  const itemsRefs = ref<HTMLElement[]>([]);
 
   const initializeSections = () => {
-    currentSections.value = sectionsConfig.value.map(section => section.id)
-  }
+    currentSections.value = sectionsConfig.value.map(section => section.id);
+  };
 
   const sectionNames = computed(() => {
     return {
@@ -45,25 +46,25 @@
       [PageSectionsEnum.ARTS]: t('navigation.arts'),
       [PageSectionsEnum.REMOTE_WORKPLACE]: t('navigation.workplace'),
       [PageSectionsEnum.CONTACTS]: t('navigation.contacts'),
-    }
-  })
+    };
+  });
 
   const setItemRef = (el: Element | ComponentPublicInstance | null, index: number) => {
     if (el) {
       if ('$el' in el) {
-        itemsRefs.value[index] = el.$el as HTMLElement
+        itemsRefs.value[index] = el.$el as HTMLElement;
       } else {
-        itemsRefs.value[index] = el as HTMLElement
+        itemsRefs.value[index] = el as HTMLElement;
       }
     }
-  }
+  };
 
   const handleOrderChange = (fromIndex: number, toIndex: number) => {
-    const newOrder = [...currentSections.value]
-    const movedItem = newOrder.splice(fromIndex, 1)[0]!
-    newOrder.splice(toIndex, 0, movedItem)
-    currentSections.value = newOrder
-  }
+    const newOrder = [...currentSections.value];
+    const movedItem = newOrder.splice(fromIndex, 1)[0]!;
+    newOrder.splice(toIndex, 0, movedItem);
+    currentSections.value = newOrder;
+  };
 
   const {
     itemStyles,
@@ -71,93 +72,93 @@
     isDragging,
     handleDragStart: dragStart,
     resetDragState,
-  } = useSectionDrag(itemsRefs, containerRef, handleOrderChange)
+  } = useSectionDrag(itemsRefs, containerRef, handleOrderChange);
 
   const closeModal = () => {
-    showModal.value = false
-    resetDragState()
-  }
+    showModal.value = false;
+    resetDragState();
+  };
 
   const handleDragStart = (
     event: MouseEvent | TouchEvent,
     sectionId: PageSectionsEnum,
     index: number,
   ) => {
-    if (sectionId === PageSectionsEnum.SPLASH || isDragging.value) return
-    dragStart(event, index)
-  }
+    if (sectionId === PageSectionsEnum.SPLASH || isDragging.value) return;
+    dragStart(event, index);
+  };
 
   const applyNewOrder = () => {
-    setSectionsOrder(currentSections.value)
-    closeModal()
-  }
+    setSectionsOrder(currentSections.value);
+    closeModal();
+  };
 
   const resetOrder = () => {
-    resetToDefault()
-    initializeSections()
+    resetToDefault();
+    initializeSections();
     nextTick(() => {
-      resetDragState()
-    })
-  }
+      resetDragState();
+    });
+  };
 
   const cancelChanges = () => {
-    initializeSections()
-    closeModal()
-  }
+    initializeSections();
+    closeModal();
+  };
 
   const moveUp = (index: number) => {
-    if (index <= 1) return
+    if (index <= 1) return;
 
-    const newOrder = [...currentSections.value]
-    const temp = newOrder[index]!
-    newOrder[index] = newOrder[index - 1]!
-    newOrder[index - 1] = temp
-    currentSections.value = newOrder
-  }
+    const newOrder = [...currentSections.value];
+    const temp = newOrder[index]!;
+    newOrder[index] = newOrder[index - 1]!;
+    newOrder[index - 1] = temp;
+    currentSections.value = newOrder;
+  };
 
   const moveDown = (index: number) => {
-    if (index >= currentSections.value.length - 1) return
+    if (index >= currentSections.value.length - 1) return;
 
-    const newOrder = [...currentSections.value]
-    const temp = newOrder[index]!
-    newOrder[index] = newOrder[index + 1]!
-    newOrder[index + 1] = temp
-    currentSections.value = newOrder
-  }
+    const newOrder = [...currentSections.value];
+    const temp = newOrder[index]!;
+    newOrder[index] = newOrder[index + 1]!;
+    newOrder[index + 1] = temp;
+    currentSections.value = newOrder;
+  };
 
   const hasChanges = computed(() => {
-    const currentOrder = sectionsConfig.value.map(section => section.id)
-    return JSON.stringify(currentOrder) !== JSON.stringify(currentSections.value)
-  })
+    const currentOrder = sectionsConfig.value.map(section => section.id);
+    return JSON.stringify(currentOrder) !== JSON.stringify(currentSections.value);
+  });
 
   onMounted(() => {
-    initializeSections()
-  })
+    initializeSections();
+  });
 
   watch(
     () => props.modelValue,
     newValue => {
       if (newValue) {
-        initializeSections()
-        resetDragState()
+        initializeSections();
+        resetDragState();
       }
     },
-  )
+  );
 
   const handleKeydown = (event: KeyboardEvent) => {
     if (event.key === 'Escape' && showModal.value) {
-      closeModal()
+      closeModal();
     }
-  }
+  };
 
   onMounted(() => {
-    document.addEventListener('keydown', handleKeydown)
-  })
+    document.addEventListener('keydown', handleKeydown);
+  });
 
   onUnmounted(() => {
-    document.removeEventListener('keydown', handleKeydown)
-    resetDragState()
-  })
+    document.removeEventListener('keydown', handleKeydown);
+    resetDragState();
+  });
 </script>
 
 <template>
@@ -175,8 +176,8 @@
                 </h3>
                 <button
                   class="section-editor__close"
-                  @click="closeModal"
                   aria-label="Закрыть"
+                  @click="closeModal"
                 >
                   <span class="section-editor__close-icon"></span>
                 </button>
@@ -186,7 +187,7 @@
               </p>
             </div>
 
-            <div class="section-editor__list" ref="containerRef">
+            <div ref="containerRef" class="section-editor__list">
               <SectionEditorItem
                 v-for="(sectionId, index) in currentSections"
                 :key="`${sectionId}-${index}`"
@@ -202,9 +203,9 @@
                 :customStyle="itemStyles[index]"
                 :hideUpButton="index === 1 || index === 0"
                 :hideDownButton="index === currentSections.length - 1"
-                @dragStart="handleDragStart($event, sectionId, index)"
-                @moveUp="moveUp(index)"
-                @moveDown="moveDown(index)"
+                @drag-start="handleDragStart($event, sectionId, index)"
+                @move-up="moveUp(index)"
+                @move-down="moveDown(index)"
               />
             </div>
 

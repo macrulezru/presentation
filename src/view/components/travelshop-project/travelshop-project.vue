@@ -1,14 +1,14 @@
 <script setup lang="ts">
-  import TravelshopIntro from '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue'
-  import CircleChart from '@/view/ui/ui-circle-chart/ui-circle-chart.vue'
-  import LoadingSpinner from '@/view/ui/ui-loading-spinner/ui-loading-spinner.vue'
-  import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue'
-  import Button from '@/view/ui/ui-button/ui-button.vue'
+  import { ref, computed, defineAsyncComponent } from 'vue';
 
-  import '@/view/components/travelshop-project/travelshop-project.scss'
+  import TravelshopIntro from '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue';
+  import { useI18n } from '@/view/composables/use-i18n';
+  import Button from '@/view/ui/ui-button/ui-button.vue';
+  import CircleChart from '@/view/ui/ui-circle-chart/ui-circle-chart.vue';
+  import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
+  import LoadingSpinner from '@/view/ui/ui-loading-spinner/ui-loading-spinner.vue';
 
-  import { ref, computed, defineAsyncComponent } from 'vue'
-  import { useI18n } from '@/view/composables/use-i18n'
+  import '@/view/components/travelshop-project/travelshop-project.scss';
 
   const TravelshopImages = defineAsyncComponent({
     loader: () =>
@@ -25,15 +25,15 @@
       </div>
     `,
     },
-  })
+  });
 
-  const { t, tm } = useI18n()
+  const { t, tm } = useI18n();
 
-  const showSwiper = ref<boolean>(false)
+  const showSwiper = ref<boolean>(false);
 
-  const features = computed(() => tm('travelshop.features.items'))
-  const techStack = computed(() => tm('travelshop.tech_stack.items'))
-  const projects = computed(() => tm('travelshop.projects.items'))
+  const features = computed(() => (tm('travelshop.features.items') as any[]) || []);
+  const techStack = computed(() => (tm('travelshop.tech_stack.items') as any[]) || []);
+  const projects = computed(() => (tm('travelshop.projects.items') as any[]) || []);
 
   const achievementsGraphs = computed(() => [
     {
@@ -51,11 +51,11 @@
       color: '#048eed',
       text: t('travelshop.achievements.items.performance_improvement'),
     },
-  ])
+  ]);
 
   const toggleSwiper = () => {
-    showSwiper.value = !showSwiper.value
-  }
+    showSwiper.value = !showSwiper.value;
+  };
 </script>
 
 <template>
@@ -114,9 +114,9 @@
           </h3>
           <div class="travelshop__chart">
             <div
-              class="travelshop__chart-item"
               v-for="(item, index) in achievementsGraphs"
               :key="index"
+              class="travelshop__chart-item"
             >
               <CircleChart
                 autoPlay
@@ -171,10 +171,7 @@
           @click="toggleSwiper"
         />
         <div v-if="showSwiper" class="travelshop__ts-slideshow">
-          <TravelshopImages
-            size="large"
-            :text-key="t('travelshop.loading_screenshots')"
-          />
+          <TravelshopImages size="large" :textKey="t('travelshop.loading_screenshots')" />
         </div>
       </div>
     </div>

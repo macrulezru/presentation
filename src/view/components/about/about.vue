@@ -1,12 +1,13 @@
 <script setup lang="ts">
-  import '@/view/components/about/about.scss'
+  import '@/view/components/about/about.scss';
 
-  import { computed, ref } from 'vue'
-  import { useI18n } from '@/view/composables/use-i18n'
+  import { computed, ref } from 'vue';
 
-  const { t, tm } = useI18n()
+  import { useI18n } from '@/view/composables/use-i18n';
 
-  const container = ref<HTMLElement>()
+  const { t, tm } = useI18n();
+
+  const container = ref<HTMLElement>();
 
   const technologies = computed(() => [
     {
@@ -61,11 +62,15 @@
       icon: 'svn',
       description: t('tech.svn'),
     },
-  ])
+  ]);
 
-  const skillsList = computed(() => tm('about.skills_list'))
+  const skillsList = computed(() => (tm('about.skills_list') as any[]) || []);
+  const mainTechList = computed(() => (tm('about.main_tech_list') as any[]) || []);
+  const infraTechList = computed(() => (tm('about.infra_tech_list') as any[]) || []);
+  const layoutTechList = computed(() => (tm('about.layout_tech_list') as any[]) || []);
+  const bitrixSkills = computed(() => (tm('about.bitrix_skills') as any[]) || []);
 
-  defineExpose({ container })
+  defineExpose({ container });
 </script>
 
 <template>
@@ -123,7 +128,7 @@
           <h4 class="about__tech-category-title">{{ t('about.main_tech_title') }}</h4>
           <ul class="about__tech-list">
             <li
-              v-for="(item, index) in tm('about.main_tech_list')"
+              v-for="(item, index) in mainTechList"
               :key="index"
               class="about__tech-list-item"
             >
@@ -139,7 +144,7 @@
           <h4 class="about__tech-category-title">{{ t('about.infra_tech_title') }}</h4>
           <ul class="about__tech-list">
             <li
-              v-for="(item, index) in tm('about.infra_tech_list')"
+              v-for="(item, index) in infraTechList"
               :key="index"
               class="about__tech-list-item"
             >
@@ -155,7 +160,7 @@
           <h4 class="about__tech-category-title">{{ t('about.layout_tech_title') }}</h4>
           <ul class="about__tech-list">
             <li
-              v-for="(item, index) in tm('about.layout_tech_list')"
+              v-for="(item, index) in layoutTechList"
               :key="index"
               class="about__tech-list-item"
             >
@@ -173,7 +178,7 @@
         <p class="about__bitrix-description">{{ t('about.bitrix_description') }}</p>
         <ul class="about__bitrix-skills">
           <li
-            v-for="(skill, index) in tm('about.bitrix_skills')"
+            v-for="(skill, index) in bitrixSkills"
             :key="index"
             class="about__bitrix-skill"
           >

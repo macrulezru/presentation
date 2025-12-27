@@ -1,25 +1,28 @@
-import * as THREE from 'three'
-import { MIN_BRIGHTNESS, MAX_BRIGHTNESS } from './config'
-import type { PlasmaConfig } from './types'
+import * as THREE from 'three';
+
+import { MIN_BRIGHTNESS, MAX_BRIGHTNESS } from './config';
+
+import type { PlasmaConfig } from './types';
 
 export function usePlasmaEffects() {
   const createPlasmaField = (config: PlasmaConfig, isMobile: boolean = false) => {
     // Используем адаптивные параметры для мобильных устройств
     const fieldSize = isMobile
       ? config.mobileFieldSize || config.fieldSize * 0.5
-      : config.fieldSize
+      : config.fieldSize;
     const fieldDetail = isMobile
       ? config.mobileFieldDetail || Math.floor(config.fieldDetail * 0.7)
-      : config.fieldDetail
+      : config.fieldDetail;
 
     const geometry = new THREE.PlaneGeometry(
       fieldSize,
       fieldSize,
       fieldDetail,
       fieldDetail,
-    )
+    );
 
     const vertexShader = `
+      precision mediump float;
       varying vec2 vUv;
       varying vec3 vPosition;
       varying float vWave;
@@ -59,9 +62,10 @@ export function usePlasmaEffects() {
 
         gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
       }
-    `
+    `;
 
     const fragmentShader = `
+      precision mediump float;
       varying vec2 vUv;
       varying vec3 vPosition;
       varying float vWave;
@@ -94,7 +98,7 @@ export function usePlasmaEffects() {
         float amplitude = 0.5;
         float frequency = 0.7;
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
           value += smoothNoise(p * frequency) * amplitude;
           amplitude *= 0.6;
           frequency *= 1.8;
@@ -147,7 +151,7 @@ export function usePlasmaEffects() {
 
         gl_FragColor = vec4(color, alpha);
       }
-    `
+    `;
 
     // Безопасные цвета
     const safeColors = [
@@ -155,7 +159,7 @@ export function usePlasmaEffects() {
       config.currentColors[1] || new THREE.Color(0x0044aa),
       config.currentColors[2] || new THREE.Color(0x0088bb),
       config.currentColors[3] || new THREE.Color(0x00aa88),
-    ]
+    ];
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
@@ -177,30 +181,30 @@ export function usePlasmaEffects() {
       side: THREE.DoubleSide,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
-    })
+    });
 
-    const mesh = new THREE.Mesh(geometry, material)
-    mesh.position.y = isMobile ? -4 : -8 // Адаптивная позиция для мобильных
-    return mesh
-  }
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.y = isMobile ? -4 : -8; // Адаптивная позиция для мобильных
+    return mesh;
+  };
 
   const updateBrightness = (
     config: PlasmaConfig,
     plasmaField: THREE.Mesh | null,
     brightness: number,
   ) => {
-    config.brightness = Math.max(MIN_BRIGHTNESS, Math.min(MAX_BRIGHTNESS, brightness))
+    config.brightness = Math.max(MIN_BRIGHTNESS, Math.min(MAX_BRIGHTNESS, brightness));
 
     if (plasmaField?.material instanceof THREE.ShaderMaterial) {
-      const uniforms = plasmaField.material.uniforms
+      const { uniforms } = plasmaField.material;
       if (uniforms.uBrightness) {
-        uniforms.uBrightness.value = config.brightness
+        uniforms.uBrightness.value = config.brightness;
       }
     }
-  }
+  };
 
   return {
     createPlasmaField,
     updateBrightness,
-  }
+  };
 }

@@ -1,10 +1,10 @@
-import { RestApiEnum } from '@/enums/rest-api.enum'
+import { RestApiEnum } from '@/enums/rest-api.enum';
 
 export interface HttpConfig {
-  baseURL: string
-  timeout?: number
-  headers?: Record<string, string>
-  withCredentials?: boolean
+  baseURL: string;
+  timeout?: number;
+  headers?: Record<string, string>;
+  withCredentials?: boolean;
 }
 
 export const jokeConfig: HttpConfig = {
@@ -15,7 +15,7 @@ export const jokeConfig: HttpConfig = {
     Accept: 'application/json',
   },
   withCredentials: false,
-}
+};
 
 export const personConfig: HttpConfig = {
   baseURL: RestApiEnum.PERSON,
@@ -25,7 +25,7 @@ export const personConfig: HttpConfig = {
     Accept: 'application/json',
   },
   withCredentials: false,
-}
+};
 
 export const productConfig: HttpConfig = {
   baseURL: RestApiEnum.PRODUCT,
@@ -35,7 +35,7 @@ export const productConfig: HttpConfig = {
     Accept: 'application/json',
   },
   withCredentials: false,
-}
+};
 
 export const healthConfig: HttpConfig = {
   baseURL: RestApiEnum.MY_API,
@@ -45,21 +45,21 @@ export const healthConfig: HttpConfig = {
     Accept: 'application/json',
   },
   withCredentials: false,
-}
+};
 
 /**
  * Типизированный ответ от API ошибок
  */
 export interface ApiError {
-  message: string
-  code?: string | number
-  status?: number
-  timestamp?: Date
+  message: string;
+  code?: string | number;
+  status?: number;
+  timestamp?: Date;
 }
 
 export interface ApiResponse<T = unknown> {
-  data: T
-  status: number
-  statusText: string
-  headers: Record<string, string>
+  data: T;
+  status: number;
+  statusText: string;
+  headers: Record<string, string>;
 }

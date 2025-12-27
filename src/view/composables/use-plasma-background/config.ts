@@ -1,17 +1,18 @@
-import * as THREE from 'three'
-import type { PlasmaConfig } from './types'
+import * as THREE from 'three';
 
-export const COLOR_CYCLE_DURATION = 30
-export const MIN_BRIGHTNESS = 0.05
-export const MAX_BRIGHTNESS = 0.3
-export const PARALLAX_INTENSITY = 0.5
-export const PARALLAX_SMOOTHING = 0.08
-export const GYRO_INTENSITY = 0.015
-export const GYRO_SMOOTHING = 0.05
-export const GYRO_DEAD_ZONE = 0.02
-export const MOUSE_PARALLAX_INTENSITY_X = 8.0
-export const MOUSE_PARALLAX_INTENSITY_Y = 5
-export const MOUSE_PARALLAX_INTENSITY_Z = 1.5
+import type { PlasmaConfig } from './types';
+
+export const COLOR_CYCLE_DURATION = 30;
+export const MIN_BRIGHTNESS = 0.05;
+export const MAX_BRIGHTNESS = 0.3;
+export const PARALLAX_INTENSITY = 0.5;
+export const PARALLAX_SMOOTHING = 0.08;
+export const GYRO_INTENSITY = 0.015;
+export const GYRO_SMOOTHING = 0.05;
+export const GYRO_DEAD_ZONE = 0.02;
+export const MOUSE_PARALLAX_INTENSITY_X = 8.0;
+export const MOUSE_PARALLAX_INTENSITY_Y = 5;
+export const MOUSE_PARALLAX_INTENSITY_Z = 1.5;
 
 export const createDefaultConfig = (): PlasmaConfig => ({
   // Цветовая палитра
@@ -94,31 +95,31 @@ export const createDefaultConfig = (): PlasmaConfig => ({
   mouseParallaxIntensityX: MOUSE_PARALLAX_INTENSITY_X, // Интенсивность по оси X (8.0)
   mouseParallaxIntensityY: MOUSE_PARALLAX_INTENSITY_Y, // Интенсивность по оси Y (5.0)
   mouseParallaxIntensityZ: MOUSE_PARALLAX_INTENSITY_Z, // Интенсивность по оси Z (1.5)
-})
+});
 
 export const initColors = (config: PlasmaConfig) => {
   if (!config.baseColors || config.baseColors.length === 0) {
-    console.error('Base colors array is empty or undefined')
+    console.error('Base colors array is empty or undefined');
     config.currentColors = [
       new THREE.Color(0x000a99),
       new THREE.Color(0x0044aa),
       new THREE.Color(0x0088bb),
       new THREE.Color(0x00aa88),
-    ]
-    return
+    ];
+    return;
   }
 
   const getColor = (index: number): THREE.Color => {
-    const safeIndex = index % config.baseColors.length
+    const safeIndex = index % config.baseColors.length;
 
-    const color = config.baseColors[safeIndex]
+    const color = config.baseColors[safeIndex];
     if (!color) {
-      console.warn(`Color at index ${safeIndex} is undefined, using default`)
-      return new THREE.Color(0x000a99)
+      console.warn(`Color at index ${safeIndex} is undefined, using default`);
+      return new THREE.Color(0x000a99);
     }
 
-    return color.clone()
-  }
+    return color.clone();
+  };
 
-  config.currentColors = [getColor(0), getColor(3), getColor(6), getColor(9)]
-}
+  config.currentColors = [getColor(0), getColor(3), getColor(6), getColor(9)];
+};

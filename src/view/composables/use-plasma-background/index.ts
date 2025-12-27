@@ -1,11 +1,5 @@
-import { onMounted, onUnmounted, type Ref } from 'vue'
-import { useThreeScene } from './use-three-scene'
-import { usePlasmaEffects } from './use-plasma-effects'
-import { useParticles } from './use-particles'
-import { useInputHandlers } from './use-input-handlers'
-import { useAnimationLoop } from './use-animation-loop'
-import { useVisibility } from './use-visibility'
-import { useResponsive } from '@/view/composables/use-responsive'
+import { onMounted, onUnmounted, type Ref } from 'vue';
+
 import {
   PARALLAX_INTENSITY,
   GYRO_INTENSITY,
@@ -16,29 +10,43 @@ import {
   MOUSE_PARALLAX_INTENSITY_X,
   MOUSE_PARALLAX_INTENSITY_Y,
   MOUSE_PARALLAX_INTENSITY_Z,
-} from './config'
-import type { UsePlasmaBackgroundReturn } from './types'
+} from './config';
+import { useAnimationLoop } from './use-animation-loop';
+import { useInputHandlers } from './use-input-handlers';
+import { useParticles } from './use-particles';
+import { usePlasmaEffects } from './use-plasma-effects';
+import { useThreeScene } from './use-three-scene';
+
+import type { UsePlasmaBackgroundReturn, ThreeSceneContext } from './types';
+
+import { useResponsive } from '@/view/composables/use-responsive';
+import { useVisibility } from '@/view/composables/use-visibility';
 
 export function usePlasmaBackground(
   containerRef: Ref<HTMLElement | undefined>,
 ): UsePlasmaBackgroundReturn {
   // Инициализация модулей
-  const threeScene = useThreeScene(containerRef)
-  const plasmaEffects = usePlasmaEffects()
-  const particles = useParticles()
-  const inputHandlers = useInputHandlers(containerRef)
-  const animationLoop = useAnimationLoop()
-  const visibility = useVisibility(containerRef)
+  const threeScene = useThreeScene(containerRef);
+  const plasmaEffects = usePlasmaEffects();
+  const particles = useParticles();
+  const inputHandlers = useInputHandlers(containerRef);
+  const animationLoop = useAnimationLoop();
+  const visibility = useVisibility(containerRef, {
+    rootMargin: '0px',
+    threshold: 0.1,
+    callOnInitIfHidden: false, // Не вызываем callback при инициализации, так как есть задержка
+  });
   // Используем ваш существующий хук
-  const responsive = useResponsive()
+  const responsive = useResponsive();
 
-  let controls: any = null
-  let sceneContext: any = null // Сохраняем ссылку на контекст сцены
+  type ControlsWithCleanup = UsePlasmaBackgroundReturn & { cleanup: () => void };
+  let controls: ControlsWithCleanup | null = null;
+  let sceneContext: ThreeSceneContext | null = null; // Сохраняем ссылку на контекст сцены
 
-  const init = async () => {
+  const init = async (): Promise<ControlsWithCleanup | null> => {
     // Инициализация Three.js сцены
-    const sceneResult = await threeScene.init()
-    if (!sceneResult) return
+    const sceneResult = await threeScene.init();
+    if (!sceneResult) return null;
 
     const {
       sceneContext: ctx,
@@ -46,48 +54,131 @@ export function usePlasmaBackground(
       cameraState,
       deviceInfo,
       cleanup: sceneCleanup,
-    } = sceneResult
+    } = sceneResult;
 
-    sceneContext = ctx // Сохраняем для доступа из методов
+    sceneContext = ctx; // Сохраняем для доступа из методов
+    const sc = ctx; // локальная, гарантированно не-null ссылка для этой функции
 
     // Определяем тип устройства с учетом размера экрана
     // Если пользователь на десктопном браузере, но с мобильного разрешения,
     // считаем это мобильным режимом для оптимизации
-    const isMobileSize = responsive.isMobile.value
-    const isMobileDevice = deviceInfo.isMobileDevice || isMobileSize
+    const isMobileSize = responsive.isMobile.value;
+    const isMobileDevice = deviceInfo.isMobileDevice || isMobileSize;
 
     // Создание эффектов с учетом типа устройства
-    const plasmaField = plasmaEffects.createPlasmaField(config, isMobileDevice)
-    const plasmaParticles = particles.createPlasmaParticles(config, isMobileDevice)
-    const glowParticles = particles.createGlowParticles(config, isMobileDevice)
+    const plasmaField = plasmaEffects.createPlasmaField(config, isMobileDevice);
+    const plasmaParticles = particles.createPlasmaParticles(config, isMobileDevice);
+    const glowParticles = particles.createGlowParticles(config, isMobileDevice);
 
     // Добавление объектов в сцену
-    sceneContext.scene.add(plasmaField)
-    sceneContext.scene.add(plasmaParticles)
-    sceneContext.scene.add(glowParticles)
+    sceneContext.scene.add(plasmaField);
+    sceneContext.scene.add(plasmaParticles);
+    sceneContext.scene.add(glowParticles);
 
-    sceneContext.plasmaField = plasmaField
-    sceneContext.plasmaParticles = plasmaParticles
-    sceneContext.glowParticles = glowParticles
+    sceneContext.plasmaField = plasmaField;
+    sceneContext.plasmaParticles = plasmaParticles;
+    sceneContext.glowParticles = glowParticles;
+
+    let qualityDegraded = false;
+
+    const degradeQuality = () => {
+      if (qualityDegraded) return;
+      qualityDegraded = true;
+
+      config.particleCount = Math.max(1000, Math.floor(config.particleCount * 0.6));
+      config.glowParticleCount = Math.max(
+        100,
+        Math.floor(config.glowParticleCount * 0.6),
+      );
+      config.fieldDetail = Math.max(8, Math.floor(config.fieldDetail * 0.6));
+
+      try {
+        if (sc.plasmaParticles) {
+          sc.scene.remove(sc.plasmaParticles);
+
+          const geom = sc.plasmaParticles.geometry as { dispose?: unknown } | null;
+          if (geom && typeof (geom as any).dispose === 'function') {
+            (geom as any).dispose();
+          }
+
+          const mat = sc.plasmaParticles.material as
+            | { dispose?: unknown }
+            | Array<{ dispose?: unknown }>
+            | null;
+          if (mat) {
+            if (Array.isArray(mat)) {
+              for (const matItem of mat) {
+                if (matItem && typeof (matItem as any).dispose === 'function') {
+                  (matItem as any).dispose();
+                }
+              }
+            } else if (typeof (mat as any).dispose === 'function') {
+              (mat as any).dispose();
+            }
+          }
+
+          sc.plasmaParticles = null;
+        }
+
+        if (sc.glowParticles) {
+          sc.scene.remove(sc.glowParticles);
+
+          const geom = sc.glowParticles.geometry as { dispose?: unknown } | null;
+          if (geom && typeof (geom as any).dispose === 'function') {
+            (geom as any).dispose();
+          }
+
+          const mat = sc.glowParticles.material as
+            | { dispose?: unknown }
+            | Array<{ dispose?: unknown }>
+            | null;
+          if (mat) {
+            if (Array.isArray(mat)) {
+              for (const matItem of mat) {
+                if (matItem && typeof (matItem as any).dispose === 'function') {
+                  (matItem as any).dispose();
+                }
+              }
+            } else if (typeof (mat as any).dispose === 'function') {
+              (mat as any).dispose();
+            }
+          }
+
+          sc.glowParticles = null;
+        }
+
+        const newPlasmaParticles = particles.createPlasmaParticles(
+          config,
+          isMobileDevice,
+        );
+        const newGlowParticles = particles.createGlowParticles(config, isMobileDevice);
+        sc.scene.add(newPlasmaParticles);
+        sc.scene.add(newGlowParticles);
+        sc.plasmaParticles = newPlasmaParticles;
+        sc.glowParticles = newGlowParticles;
+      } catch {
+        // ignore
+      }
+    };
 
     if (!isMobileDevice) {
-      inputHandlers.setupMouseHandlers(config, isMobileDevice)
+      inputHandlers.setupMouseHandlers(config, isMobileDevice);
     }
 
     if (isMobileDevice) {
-      await inputHandlers.initGyroscope(config)
+      await inputHandlers.initGyroscope(config);
     }
 
     // Создание цикла анимации
     const { startAnimation, stopAnimation, isActive } = animationLoop.createAnimationLoop(
-      sceneContext, // Обычный объект
+      sc, // Обычный объект
       config, // Обычный объект
       cameraState, // Обычный объект
       inputHandlers.inputState, // Используем inputState из inputHandlers
       // Передаем обновленный deviceInfo с учетом размера экрана
       {
         ...deviceInfo,
-        isMobileDevice: isMobileDevice,
+        isMobileDevice,
       },
       inputHandlers.smoothGyroUpdate,
       inputHandlers.smoothMouseUpdate,
@@ -105,7 +196,7 @@ export function usePlasmaBackground(
         // Для мобильных размеров уменьшаем интенсивность даже на десктопном устройстве
         const adaptiveParallaxIntensity = isMobileDevice
           ? config.mobileParallaxIntensity || PARALLAX_INTENSITY * 0.3
-          : PARALLAX_INTENSITY
+          : PARALLAX_INTENSITY;
 
         inputHandlers.updateCameraForMouse(
           camera,
@@ -113,60 +204,75 @@ export function usePlasmaBackground(
           isMobileDevice,
           cameraState,
           adaptiveParallaxIntensity,
-        )
+        );
       },
-    )
+      degradeQuality,
+    );
 
     // Инициализация наблюдения за видимостью
-    visibility.initIntersectionObserver(startAnimation, stopAnimation)
+    visibility.initVisibilityObserver(startAnimation, stopAnimation);
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        stopAnimation();
+      } else {
+        if (visibility.isElementInViewport()) {
+          startAnimation();
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', onVisibilityChange);
 
     // Задержка перед началом анимации
     setTimeout(() => {
       if (visibility.isElementInViewport()) {
-        startAnimation()
+        startAnimation();
       }
-    }, 150)
+    }, 150);
 
     // Создание публичного API
-    controls = {
+    const ctrl = {
       cleanup: () => {
-        sceneCleanup()
-        inputHandlers.cleanup()
-        visibility.cleanup()
-        stopAnimation()
+        document.removeEventListener('visibilitychange', onVisibilityChange);
+        sceneCleanup();
+        inputHandlers.cleanup();
+        visibility.cleanup();
+        stopAnimation();
       },
       updateBrightness: (value: number) => {
-        plasmaEffects.updateBrightness(config, plasmaField, value)
+        plasmaEffects.updateBrightness(config, plasmaField, value);
       },
       updateParticleBrightness: (value: number) => {
-        particles.updateParticleBrightness(config, plasmaParticles, glowParticles, value)
+        particles.updateParticleBrightness(config, plasmaParticles, glowParticles, value);
       },
       updateSpeed: (value: number) => {
-        config.fieldSpeed = value * 0.6
-        config.particleSpeed = value * 0.8
-        config.glowParticleSpeed = value * 0.5
+        config.fieldSpeed = value * 0.6;
+        config.particleSpeed = value * 0.8;
+        config.glowParticleSpeed = value * 0.5;
       },
       toggleMouseParallax: (enabled: boolean) => {
-        config.enableMouseParallax = enabled
+        config.enableMouseParallax = enabled;
         if (!enabled && sceneContext && sceneContext.camera) {
           // Сбрасываем позицию камеры к базовой
-          cameraState.targetPosition.copy(cameraState.basePosition)
-          sceneContext.camera.position.copy(cameraState.basePosition)
+          cameraState.targetPosition.copy(cameraState.basePosition);
+          sceneContext.camera.position.copy(cameraState.basePosition);
         }
       },
       toggleGyroParallax: async (enabled: boolean) => {
-        config.enableGyroParallax = enabled
+        config.enableGyroParallax = enabled;
         if (enabled && isMobileDevice && !inputHandlers.inputState.isGyroInitialized) {
-          await inputHandlers.initGyroscope(config)
+          await inputHandlers.initGyroscope(config);
         }
         if (!enabled && isMobileDevice && sceneContext && sceneContext.camera) {
-          cameraState.targetRotation.set(0, 0, 0, 'YXZ')
-          cameraState.currentRotation.set(0, 0, 0, 'YXZ')
-          sceneContext.camera.rotation.set(0, 0, 0, 'YXZ')
+          cameraState.targetRotation.set(0, 0, 0, 'YXZ');
+          cameraState.currentRotation.set(0, 0, 0, 'YXZ');
+          sceneContext.camera.rotation.set(0, 0, 0, 'YXZ');
         }
       },
       startAnimation,
       stopAnimation,
+      isAnimationActive: isActive,
       getDeviceInfo: () => ({
         isMobile: isMobileDevice,
         hasGyro: deviceInfo.isGyroAvailable,
@@ -184,9 +290,9 @@ export function usePlasmaBackground(
         mobileParallaxIntensity: config.mobileParallaxIntensity,
       }),
       updateMouseParallaxIntensity: (x: number, y: number, z: number) => {
-        config.mouseParallaxIntensityX = x
-        config.mouseParallaxIntensityY = y
-        config.mouseParallaxIntensityZ = z
+        config.mouseParallaxIntensityX = x;
+        config.mouseParallaxIntensityY = y;
+        config.mouseParallaxIntensityZ = z;
       },
 
       getMouseParallaxIntensity: () => ({
@@ -196,15 +302,15 @@ export function usePlasmaBackground(
       }),
 
       resetMouseParallaxIntensity: () => {
-        config.mouseParallaxIntensityX = MOUSE_PARALLAX_INTENSITY_X
-        config.mouseParallaxIntensityY = MOUSE_PARALLAX_INTENSITY_Y
-        config.mouseParallaxIntensityZ = MOUSE_PARALLAX_INTENSITY_Z
+        config.mouseParallaxIntensityX = MOUSE_PARALLAX_INTENSITY_X;
+        config.mouseParallaxIntensityY = MOUSE_PARALLAX_INTENSITY_Y;
+        config.mouseParallaxIntensityZ = MOUSE_PARALLAX_INTENSITY_Z;
       },
 
       updateCameraAutoMovement: (speedX: number, speedY: number, speedZ: number) => {
-        config.cameraAutoSpeedX = speedX
-        config.cameraAutoSpeedY = speedY
-        config.cameraAutoSpeedZ = speedZ
+        config.cameraAutoSpeedX = speedX;
+        config.cameraAutoSpeedY = speedY;
+        config.cameraAutoSpeedZ = speedZ;
       },
 
       updateCameraAutoAmplitude: (
@@ -212,14 +318,14 @@ export function usePlasmaBackground(
         amplitudeY: number,
         amplitudeZ: number,
       ) => {
-        config.cameraAutoAmplitudeX = amplitudeX
-        config.cameraAutoAmplitudeY = amplitudeY
-        config.cameraAutoAmplitudeZ = amplitudeZ
+        config.cameraAutoAmplitudeX = amplitudeX;
+        config.cameraAutoAmplitudeY = amplitudeY;
+        config.cameraAutoAmplitudeZ = amplitudeZ;
       },
 
       updateCameraAutoOffset: (offsetY: number, offsetZ: number) => {
-        config.cameraAutoOffsetY = offsetY
-        config.cameraAutoOffsetZ = offsetZ
+        config.cameraAutoOffsetY = offsetY;
+        config.cameraAutoOffsetZ = offsetZ;
       },
 
       getCameraAutoMovement: () => ({
@@ -235,33 +341,30 @@ export function usePlasmaBackground(
       }),
 
       toggleCameraAutoMovement: (enabled: boolean) => {
-        config.enableCameraAutoMovement = enabled
+        config.enableCameraAutoMovement = enabled;
         if (!enabled && sceneContext && sceneContext.camera) {
           // Сбрасываем позицию камеры к базовой
-          cameraState.basePosition.set(0, 5, 15)
-          cameraState.targetPosition.copy(cameraState.basePosition)
-          sceneContext.camera.position.copy(cameraState.basePosition)
+          cameraState.basePosition.set(0, 5, 15);
+          cameraState.targetPosition.copy(cameraState.basePosition);
+          sceneContext.camera.position.copy(cameraState.basePosition);
         }
       },
-    }
+    } as ControlsWithCleanup;
 
-    return {
-      controls,
-      startAnimation,
-      stopAnimation,
-      isAnimationActive: isActive,
-    }
-  }
+    controls = ctrl;
+
+    return controls;
+  };
 
   onMounted(async () => {
-    controls = await init()
-  })
+    controls = await init();
+  });
 
   onUnmounted(() => {
     if (controls) {
-      controls.cleanup()
+      controls.cleanup();
     }
-  })
+  });
 
   return {
     updateBrightness: (value: number) => controls?.updateBrightness(value),
@@ -270,7 +373,7 @@ export function usePlasmaBackground(
     updateSpeed: (value: number) => controls?.updateSpeed(value),
     toggleMouseParallax: (enabled: boolean) => controls?.toggleMouseParallax(enabled),
     toggleGyroParallax: async (enabled: boolean) => {
-      if (controls) await controls.toggleGyroParallax(enabled)
+      if (controls) await controls.toggleGyroParallax(enabled);
     },
     startAnimation: () => controls?.startAnimation(),
     stopAnimation: () => controls?.stopAnimation(),
@@ -322,5 +425,5 @@ export function usePlasmaBackground(
 
     toggleCameraAutoMovement: (enabled: boolean) =>
       controls?.toggleCameraAutoMovement(enabled),
-  }
+  };
 }

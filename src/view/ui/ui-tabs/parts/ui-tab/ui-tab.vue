@@ -2,6 +2,7 @@
   import '@/view/ui/ui-tabs/parts/ui-tab/ui-tab.scss';
 
   import { onBeforeMount, watch, inject, ref, type Ref, computed } from 'vue';
+
   import type { Props } from './types';
 
   const props = defineProps<Props>();

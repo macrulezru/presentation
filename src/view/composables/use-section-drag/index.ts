@@ -1,22 +1,24 @@
-import { onUnmounted, type Ref } from 'vue'
-import type { UseSectionDragReturn } from './types'
-import { useDragState } from './use-drag-state'
-import { useDragEvents } from './use-drag-events'
-import { useDragAnimations } from './use-drag-animations'
+import { onUnmounted, type Ref } from 'vue';
+
+import { useDragAnimations } from './use-drag-animations';
+import { useDragEvents } from './use-drag-events';
+import { useDragState } from './use-drag-state';
+
+import type { UseSectionDragReturn } from './types';
 
 export function useSectionDrag(
   itemsRefs: Ref<HTMLElement[]>,
   containerRef: Ref<HTMLElement | undefined>,
   onOrderChange: (fromIndex: number, toIndex: number) => void,
 ): UseSectionDragReturn {
-  const dragState = useDragState() // Это возвращает UseDragStateReturn (с методом reset)
-  const { resetItemStyles } = useDragAnimations(itemsRefs, dragState)
+  const dragState = useDragState(); // Это возвращает UseDragStateReturn (с методом reset)
+  const { resetItemStyles } = useDragAnimations(itemsRefs, dragState);
   const { handleDragStart, handleDragMove, handleDragEnd } = useDragEvents(
     itemsRefs,
     containerRef,
     dragState,
     onOrderChange,
-  )
+  );
 
   /**
    * Полный сброс состояния перетаскивания
@@ -29,55 +31,55 @@ export function useSectionDrag(
     ) {
       dragState.draggedItem.value.clone.parentNode.removeChild(
         dragState.draggedItem.value.clone,
-      )
+      );
     }
 
     // Сбрасываем стили элементов
-    resetItemStyles()
+    resetItemStyles();
 
     // Сбрасываем состояние
-    dragState.reset()
+    dragState.reset();
 
     // Сбрасываем рефы
     itemsRefs.value.forEach(item => {
       if (item) {
-        item.style.opacity = ''
-        item.style.transform = ''
-        item.style.transition = ''
-        item.style.visibility = ''
-        item.classList.remove('section-editor-item--dragging-original')
+        item.style.opacity = '';
+        item.style.transform = '';
+        item.style.transition = '';
+        item.style.visibility = '';
+        item.classList.remove('section-editor-item--dragging-original');
       }
-    })
-  }
+    });
+  };
 
   /**
    * Начинает перетаскивание элемента
    */
   const startDrag = (event: MouseEvent | TouchEvent, index: number): void => {
-    handleDragStart(event, index)
+    handleDragStart(event, index);
 
     // Добавляем глобальные обработчики
-    document.addEventListener('mousemove', handleDragMove)
-    document.addEventListener('touchmove', handleDragMove, { passive: false })
-    document.addEventListener('mouseup', handleDragEnd)
-    document.addEventListener('touchend', handleDragEnd)
-  }
+    document.addEventListener('mousemove', handleDragMove);
+    document.addEventListener('touchmove', handleDragMove, { passive: false });
+    document.addEventListener('mouseup', handleDragEnd);
+    document.addEventListener('touchend', handleDragEnd);
+  };
 
   /**
    * Удаляет глобальные обработчики событий
    */
   const cleanupEventListeners = (): void => {
-    document.removeEventListener('mousemove', handleDragMove)
-    document.removeEventListener('touchmove', handleDragMove)
-    document.removeEventListener('mouseup', handleDragEnd)
-    document.removeEventListener('touchend', handleDragEnd)
-  }
+    document.removeEventListener('mousemove', handleDragMove);
+    document.removeEventListener('touchmove', handleDragMove);
+    document.removeEventListener('mouseup', handleDragEnd);
+    document.removeEventListener('touchend', handleDragEnd);
+  };
 
   // Автоматическая очистка при уничтожении компонента
   onUnmounted(() => {
-    cleanupEventListeners()
-    resetDragState()
-  })
+    cleanupEventListeners();
+    resetDragState();
+  });
 
   return {
     // Состояние
@@ -91,5 +93,5 @@ export function useSectionDrag(
     handleDragStart: startDrag,
     resetDragState,
     cleanupEventListeners,
-  }
+  };
 }

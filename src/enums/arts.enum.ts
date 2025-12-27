@@ -57,21 +57,21 @@ export enum ImageFolder {
 }
 
 export type FolderData = {
-  preview: string | null
-  images: string[]
-}
+  preview: string | null;
+  images: string[];
+};
 
 // Функция для получения правильного URL в зависимости от среды
 const getImageUrl = (folder: ImageFolder, filename: string): string => {
   // Для dev-режима используем абсолютный путь
   if (import.meta.env.DEV) {
     // В dev-режиме Vite обслуживает файлы из src
-    return `/src/view/assets/images/arts/${folder}/${filename}`
+    return `/src/view/assets/images/arts/${folder}/${filename}`;
   }
   // Для production используем относительный путь от корня сайта
   // Плагин viteStaticCopy скопирует файлы в dist/assets/images/arts/
-  return `/assets/images/arts/${folder}/${filename}`
-}
+  return `/assets/images/arts/${folder}/${filename}`;
+};
 
 export const FOLDERS_DATA: Record<ImageFolder, FolderData> = {
   [ImageFolder.ION_SAMSUNG_NV_10]: {
@@ -433,4 +433,4 @@ export const FOLDERS_DATA: Record<ImageFolder, FolderData> = {
     preview: getImageUrl(ImageFolder.WEBCAB_SITE, 'mini.png'),
     images: [getImageUrl(ImageFolder.WEBCAB_SITE, '1_big.png')],
   },
-}
+};

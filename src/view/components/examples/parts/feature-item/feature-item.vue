@@ -1,9 +1,10 @@
 <script setup lang="ts">
   import '@/view/components/examples/parts/feature-item/feature-item.scss';
 
-  import type { FeatureData } from '@/view/composables/use-features.ts';
-  import { useColorGradient } from '@/view/composables/use-color-gradient';
   import type { GradientOptions, GradientColors, headerGradientOptions } from './types';
+  import type { FeatureData } from '@/view/composables/use-features.ts';
+
+  import { useColorGradient } from '@/view/composables/use-color-gradient';
 
   const { createGradient, createRadialGradient } = useColorGradient();
 
@@ -42,8 +43,8 @@
     const options: headerGradientOptions = {
       ...headerGradientOptions,
       colors: customColors || [
-        { color: color, opacity: 0.3, position: '0%' },
-        { color: color, opacity: 0, position: '100%' },
+        { color, opacity: 0.3, position: '0%' },
+        { color, opacity: 0, position: '100%' },
       ],
     };
 

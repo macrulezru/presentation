@@ -88,7 +88,9 @@
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg) var(--spacing-xl);
     box-shadow: var(--shadow-lg);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
     will-change: transform, left, top;
     transform-origin: center center;
 
@@ -151,9 +153,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg,
-        rgb(77 171 247 / 8%) 0%,
-        rgb(77 171 247 / 4%) 100%);
+      background: linear-gradient(135deg, rgb(77 171 247 / 8%) 0%, rgb(77 171 247 / 4%) 100%);
       border-radius: 10px;
       z-index: -1;
     }

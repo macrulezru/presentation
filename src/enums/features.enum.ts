@@ -6,4 +6,4 @@ export enum FeaturesEnum {
   MULTISYNC = 'multisync',
 }
 
-export type FeaturesType = (typeof FeaturesEnum)[keyof typeof FeaturesEnum]
+export type FeaturesType = (typeof FeaturesEnum)[keyof typeof FeaturesEnum];

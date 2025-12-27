@@ -1,26 +1,27 @@
-import { BaseModel } from '@/models/base-model'
-import type { JokeInterface } from '@/core/rest-interface/joke'
+import type { JokeInterface } from '@/core/rest-interface/joke';
+
+import { BaseModel } from '@/models/base-model';
 
 export class JokeModel extends BaseModel {
-  readonly id: number
-  readonly type: string
-  readonly setup: string
-  readonly punchline: string
+  readonly id: number;
+  readonly type: string;
+  readonly setup: string;
+  readonly punchline: string;
 
   constructor(raw: JokeInterface) {
-    super(raw)
+    super(raw);
 
-    this.id = raw.id
-    this.type = raw.type
-    this.setup = raw.setup
-    this.punchline = raw.punchline
+    this.id = raw.id;
+    this.type = raw.type;
+    this.setup = raw.setup;
+    this.punchline = raw.punchline;
   }
 
   get Setup(): string {
-    return this.setup
+    return this.setup;
   }
 
   get Punchline(): string {
-    return this.punchline
+    return this.punchline;
   }
 }

@@ -1,8 +1,8 @@
-import { globalIgnores } from 'eslint/config'
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
-import pluginVue from 'eslint-plugin-vue'
-import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
-import pluginImport from 'eslint-plugin-import'
+import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
+import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
+import { globalIgnores } from 'eslint/config';
+import pluginImport from 'eslint-plugin-import';
+import pluginVue from 'eslint-plugin-vue';
 
 export default defineConfigWithVueTs(
   {
@@ -100,7 +100,6 @@ export default defineConfigWithVueTs(
 
       // Composition API лучшие практики
       'vue/prefer-import-from-vue': 'error',
-      'vue/no-ref-object-destructure': 'error',
 
       // TypeScript
       '@typescript-eslint/no-unused-vars': [
@@ -112,7 +111,6 @@ export default defineConfigWithVueTs(
       ],
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/prefer-const': 'error',
 
       // Правила для деструктуризации
       'object-curly-spacing': ['error', 'always'],
@@ -164,4 +162,4 @@ export default defineConfigWithVueTs(
   },
 
   skipFormatting,
-)
+);

@@ -2,6 +2,7 @@
   import '@/view/components/section-editor/parts/section-editor-item/section-editor-item.scss';
 
   import type { Props } from './types';
+
   import { useI18n } from '@/view/composables/use-i18n';
 
   const { t } = useI18n();
@@ -71,18 +72,18 @@
         <button
           v-if="!hideUpButton"
           class="section-editor-item__button section-editor-item__button--up"
-          @click.stop="handleMoveUp"
           :disabled="isDraggingAny"
           :title="t('sectionEditor.moveUp')"
+          @click.stop="handleMoveUp"
         >
           <span class="section-editor-item__arrow-icon"></span>
         </button>
         <button
           v-if="!hideDownButton"
           class="section-editor-item__button section-editor-item__button--down"
-          @click.stop="handleMoveDown"
           :disabled="isDraggingAny"
           :title="t('sectionEditor.moveDown')"
+          @click.stop="handleMoveDown"
         >
           <span
             class="section-editor-item__arrow-icon section-editor-item__arrow-icon--down"

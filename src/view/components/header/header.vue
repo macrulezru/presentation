@@ -1,29 +1,29 @@
 <script setup lang="ts">
-  import LangSelector from '@/view/components/lang-selector/lang-selector.vue'
+  import { computed, onMounted, onUnmounted, ref } from 'vue';
 
-  import '@/view/components/header/header.scss'
+  import { PageSectionsEnum } from '@/enums/page-sections.enum.ts';
+  import { useNavigationStore } from '@/stores/use-navigation-store.ts';
+  import LangSelector from '@/view/components/lang-selector/lang-selector.vue';
+  import { useI18n } from '@/view/composables/use-i18n.ts';
+  import { useResponsive } from '@/view/composables/use-responsive';
+  import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
+  import { useSectionsConfig } from '@/view/composables/use-sections-config';
 
-  import { computed, onMounted, onUnmounted, ref } from 'vue'
-  import { PageSectionsEnum } from '@/enums/page-sections.enum.ts'
-  import { useNavigationStore } from '@/stores/use-navigation-store.ts'
-  import { useI18n } from '@/view/composables/use-i18n.ts'
-  import { useResponsive } from '@/view/composables/use-responsive'
-  import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts'
-  import { useSectionsConfig } from '@/view/composables/use-sections-config'
+  import '@/view/components/header/header.scss';
 
-  const { t } = useI18n()
+  const { t } = useI18n();
 
-  const navigationStore = useNavigationStore()
-  const { navigateToSection, isProcessingNavigation } = useScrollRouting()
-  const { isTablet, isMobile } = useResponsive()
+  const navigationStore = useNavigationStore();
+  const { navigateToSection, isProcessingNavigation } = useScrollRouting();
+  const { isTablet, isMobile } = useResponsive();
 
   // Используем реактивную конфигурацию секций
-  const { sectionsConfig } = useSectionsConfig()
+  const { sectionsConfig } = useSectionsConfig();
 
-  const isMobileMenuOpen = ref(false)
-  const isProcessingClick = ref(false)
+  const isMobileMenuOpen = ref(false);
+  const isProcessingClick = ref(false);
 
-  const currentSection = computed(() => navigationStore.currentSection)
+  const currentSection = computed(() => navigationStore.currentSection);
 
   // Реактивное меню на основе порядка секций
   const menuItems = computed(() => {
@@ -38,89 +38,89 @@
         [PageSectionsEnum.ARTS]: 'navigation.arts',
         [PageSectionsEnum.REMOTE_WORKPLACE]: 'navigation.workplace',
         [PageSectionsEnum.CONTACTS]: 'navigation.contacts',
-      }
+      };
 
       return {
         id: section.id,
         label: t(translationKeys[section.id] || section.id),
-      }
-    })
-  })
+      };
+    });
+  });
 
   // Проверка размера экрана
   const checkScreenSize = () => {
     if (!isTablet.value && !isMobile.value) {
-      isMobileMenuOpen.value = false
+      isMobileMenuOpen.value = false;
     }
-  }
+  };
 
   // Обработчик клика по пункту меню
   const handleMenuClick = async (sectionId: string) => {
     if (isProcessingClick.value || isProcessingNavigation.value) {
-      return
+      return;
     }
 
-    isProcessingClick.value = true
+    isProcessingClick.value = true;
 
     try {
       if (isTablet.value || isMobile.value) {
-        isMobileMenuOpen.value = false
+        isMobileMenuOpen.value = false;
       }
 
-      await navigateToSection(sectionId)
+      await navigateToSection(sectionId);
     } catch (error) {
-      console.error('Menu click error:', error)
+      console.error('Menu click error:', error);
     } finally {
       setTimeout(() => {
-        isProcessingClick.value = false
-      }, 300)
+        isProcessingClick.value = false;
+      }, 300);
     }
-  }
+  };
 
   // Переключение мобильного меню
   const toggleMobileMenu = () => {
-    if (isProcessingNavigation.value) return
-    isMobileMenuOpen.value = !isMobileMenuOpen.value
-  }
+    if (isProcessingNavigation.value) return;
+    isMobileMenuOpen.value = !isMobileMenuOpen.value;
+  };
 
   // Закрытие мобильного меню при клике вне его
   const handleClickOutside = (event: MouseEvent) => {
-    if (isProcessingNavigation.value) return
+    if (isProcessingNavigation.value) return;
 
-    const target = event.target as HTMLElement
+    const target = event.target as HTMLElement;
     if (
       !target.closest('.header__nav') &&
       !target.closest('.hamburger') &&
       !target.closest('.mobile-menu') &&
       !target.closest('.mobile-menu-overlay')
     ) {
-      isMobileMenuOpen.value = false
+      isMobileMenuOpen.value = false;
     }
-  }
+  };
 
   // Закрытие меню при нажатии ESC
   const handleEscapeKey = (event: KeyboardEvent) => {
     if (event.key === 'Escape' && isMobileMenuOpen.value) {
-      isMobileMenuOpen.value = false
+      isMobileMenuOpen.value = false;
     }
-  }
+  };
 
   const onEditor = () => {
-    navigationStore.setShowSectionEditor(true)
-  }
+    navigationStore.setShowSectionEditor(true);
+  };
 
   onMounted(() => {
-    checkScreenSize()
-    window.addEventListener('resize', checkScreenSize)
-    document.addEventListener('click', handleClickOutside)
-    document.addEventListener('keydown', handleEscapeKey)
-  })
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('keydown', handleEscapeKey);
+  });
 
   onUnmounted(() => {
-    window.removeEventListener('resize', checkScreenSize)
-    document.removeEventListener('click', handleClickOutside)
-    document.removeEventListener('keydown', handleEscapeKey)
-  })
+    window.removeEventListener('resize', checkScreenSize);
+    document.removeEventListener('click', handleClickOutside);
+    document.removeEventListener('keydown', handleEscapeKey);
+  });
 </script>
 
 <template>
@@ -136,9 +136,9 @@
             'header__nav-item_home': item.id === PageSectionsEnum.SPLASH,
             'header__nav-item_active': currentSection === item.id,
           }"
-          @click="handleMenuClick(item.id)"
           :disabled="isProcessingNavigation"
           :title="isProcessingNavigation ? t('navigation.processing') : ''"
+          @click="handleMenuClick(item.id)"
         >
           <template v-if="item.id !== PageSectionsEnum.SPLASH">
             {{ item.label }}
@@ -155,9 +155,9 @@
           :class="{
             hamburger_active: isMobileMenuOpen,
           }"
-          @click="toggleMobileMenu"
           :disabled="isProcessingNavigation"
           aria-label="Toggle menu"
+          @click="toggleMobileMenu"
         >
           <span class="hamburger__line"></span>
           <span class="hamburger__line"></span>
@@ -183,8 +183,8 @@
             :class="{
               'mobile-menu__item_active': currentSection === item.id,
             }"
-            @click="handleMenuClick(item.id)"
             :disabled="isProcessingNavigation"
+            @click="handleMenuClick(item.id)"
           >
             {{ item.label }}
           </button>

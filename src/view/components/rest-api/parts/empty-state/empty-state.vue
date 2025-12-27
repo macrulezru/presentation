@@ -2,6 +2,7 @@
   import '@/view/components/rest-api/parts/empty-state/empty-state.scss';
 
   import type { Props } from './types';
+
   import { useI18n } from '@/view/composables/use-i18n.ts';
 
   const { t } = useI18n();

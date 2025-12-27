@@ -2,6 +2,7 @@
   import '@/view/ui/ui-tabs/ui-tabs.scss';
 
   import { ref, provide, type Ref, onMounted } from 'vue';
+
   import type { Tab } from './types';
 
   const emit = defineEmits<{

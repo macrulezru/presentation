@@ -1,25 +1,26 @@
 // @/composables/useApi.ts
-import { ref, computed } from 'vue'
-import type { ApiResponse, ApiError } from '@/core/config'
+import { ref, computed } from 'vue';
+
+import type { ApiResponse, ApiError } from '@/core/config';
 
 export function useApi<T>() {
   // Состояние
-  const data = ref<T | null>(null)
-  const loading = ref<boolean>(false)
-  const error = ref<ApiError | null>(null)
-  const rawResponse = ref<ApiResponse<T> | null>(null)
+  const data = ref<T | null>(null);
+  const loading = ref<boolean>(false);
+  const error = ref<ApiError | null>(null);
+  const rawResponse = ref<ApiResponse<T> | null>(null);
 
   // Статистика
-  const requestCount = ref(0)
-  const successCount = ref(0)
-  const errorCount = ref(0)
+  const requestCount = ref(0);
+  const successCount = ref(0);
+  const errorCount = ref(0);
 
   // Компьютед свойства
-  const hasData = computed(() => data.value !== null)
-  const hasError = computed(() => error.value !== null)
+  const hasData = computed(() => data.value !== null);
+  const hasError = computed(() => error.value !== null);
   const isEmpty = computed(
     () => hasData.value && (Array.isArray(data.value) ? data.value.length === 0 : false),
-  )
+  );
 
   /**
    * Выполнение запроса
@@ -27,44 +28,44 @@ export function useApi<T>() {
   const execute = async (
     requestFn: () => Promise<ApiResponse<T>>,
     options: {
-      onSuccess?: (data: T) => void
-      onError?: (error: ApiError) => void
-      resetBefore?: boolean
+      onSuccess?: (data: T) => void;
+      onError?: (error: ApiError) => void;
+      resetBefore?: boolean;
     } = {},
   ) => {
-    const { onSuccess, onError, resetBefore = true } = options
+    const { onSuccess, onError, resetBefore = true } = options;
 
     // Сброс состояния перед новым запросом
     if (resetBefore) {
-      reset()
+      reset();
     }
 
-    loading.value = true
-    requestCount.value++
+    loading.value = true;
+    requestCount.value++;
 
     try {
-      const response = await requestFn()
+      const response = await requestFn();
 
-      data.value = response.data
-      rawResponse.value = response
-      error.value = null
-      successCount.value++
+      data.value = response.data;
+      rawResponse.value = response;
+      error.value = null;
+      successCount.value++;
 
-      onSuccess?.(response.data)
-      return response
+      onSuccess?.(response.data);
+      return response;
     } catch (err: any) {
-      const apiError = err as ApiError
-      error.value = apiError
-      data.value = null
-      rawResponse.value = null
-      errorCount.value++
+      const apiError = err as ApiError;
+      error.value = apiError;
+      data.value = null;
+      rawResponse.value = null;
+      errorCount.value++;
 
-      onError?.(apiError)
-      throw apiError
+      onError?.(apiError);
+      throw apiError;
     } finally {
-      loading.value = false
+      loading.value = false;
     }
-  }
+  };
 
   /**
    * Удобный метод для GET запросов
@@ -74,8 +75,8 @@ export function useApi<T>() {
     endpoint: string,
     options?: Parameters<typeof execute>[1],
   ) => {
-    return execute(() => fetcher.get<T>(endpoint), options)
-  }
+    return execute(() => fetcher.get<T>(endpoint), options);
+  };
 
   /**
    * Удобный метод для POST запросов
@@ -86,26 +87,26 @@ export function useApi<T>() {
     payload?: any,
     options?: Parameters<typeof execute>[1],
   ) => {
-    return execute(() => fetcher.post<T>(endpoint, payload), options)
-  }
+    return execute(() => fetcher.post<T>(endpoint, payload), options);
+  };
 
   /**
    * Сброс состояния
    */
   const reset = () => {
-    data.value = null
-    error.value = null
-    rawResponse.value = null
-  }
+    data.value = null;
+    error.value = null;
+    rawResponse.value = null;
+  };
 
   /**
    * Ручная установка данных (например, из кэша)
    */
   const setData = (newData: T) => {
-    data.value = newData
-    error.value = null
-    loading.value = false
-  }
+    data.value = newData;
+    error.value = null;
+    loading.value = false;
+  };
 
   return {
     // Состояние
@@ -130,5 +131,5 @@ export function useApi<T>() {
     post,
     reset,
     setData,
-  }
+  };
 }

@@ -1,17 +1,18 @@
 <script setup lang="ts">
-  import Select from '@/view/ui/ui-select/ui-select.vue';
-
-  import '@/view/components/lang-selector/lang-selector.scss';
-
   import { computed } from 'vue';
+
+  import type { LanguageOption } from './types';
+
   import {
     LocalesEnum,
     type LocalesEnumType,
     LocalesToView,
   } from '@/enums/locales.enum.ts';
   import { useNavigationStore } from '@/stores/use-navigation-store.ts';
-  import type { LanguageOption } from './types';
   import { useI18n } from '@/view/composables/use-i18n.ts';
+  import Select from '@/view/ui/ui-select/ui-select.vue';
+
+  import '@/view/components/lang-selector/lang-selector.scss';
 
   const { changeLocale, locale, isLoading } = useI18n();
   const navigationStore = useNavigationStore();
@@ -55,7 +56,7 @@
       :disabled="isLoading"
       @change="handleLanguageChange"
     >
-      <template #arrow v-if="isLoading">
+      <template v-if="isLoading" #arrow>
         <div class="lang-selector__loader--small"></div>
       </template>
     </Select>

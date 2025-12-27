@@ -191,18 +191,16 @@ export function useColorGradient() {
     let cleanHex = hex.trim();
 
     if (!cleanHex.startsWith('#')) {
-      cleanHex = '#' + cleanHex;
+      cleanHex = `#${cleanHex}`;
     }
 
     // Если короткая форма (#RGB), расширяем до #RRGGBB
     if (cleanHex.length === 4) {
-      cleanHex =
-        '#' +
-        cleanHex
-          .slice(1)
-          .split('')
-          .map(c => c + c)
-          .join('');
+      cleanHex = `#${cleanHex
+        .slice(1)
+        .split('')
+        .map(c => c + c)
+        .join('')}`;
     }
 
     // Проверяем валидность
@@ -239,8 +237,8 @@ export function useColorGradient() {
     const max = Math.max(red, green, blue);
     const min = Math.min(red, green, blue);
     let h = 0,
-      s = 0,
-      l = (max + min) / 2;
+      s = 0;
+    const l = (max + min) / 2;
 
     if (max !== min) {
       const d = max - min;

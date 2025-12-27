@@ -1,8 +1,9 @@
 <script setup lang="ts">
   import '@/view/ui/ui-loading-spinner/ui-loading-spinner.scss';
 
-  import type { Props } from './types';
   import { useI18n } from 'vue-i18n';
+
+  import type { Props } from './types';
 
   const { t } = useI18n();
 

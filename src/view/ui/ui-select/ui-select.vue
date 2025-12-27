@@ -2,6 +2,7 @@
   import '@/view/ui/ui-select/ui-select.scss';
 
   import { ref, computed, onMounted, onUnmounted } from 'vue';
+
   import type { SelectOption, Props, Emits } from './types';
 
   const props = withDefaults(defineProps<Props>(), {
@@ -67,12 +68,12 @@
   <div class="ui-select" :class="{ 'ui-select--open': isOpen }">
     <div
       class="ui-select__trigger"
-      @click="toggleDropdown"
-      @blur="closeDropdown"
       tabindex="0"
       role="button"
       :aria-expanded="isOpen"
       :aria-haspopup="true"
+      @click="toggleDropdown"
+      @blur="closeDropdown"
     >
       <span class="ui-select__selected">
         {{ selectedOption?.name || placeholder }}
@@ -94,10 +95,10 @@
         :key="option.value"
         class="ui-select__option"
         :class="{ 'ui-select__option--selected': option.value === modelValue?.value }"
-        @click="selectOption(option)"
-        @mousedown.prevent
         role="option"
         :aria-selected="option.value === modelValue?.value"
+        @click="selectOption(option)"
+        @mousedown.prevent
       >
         {{ option.name }}
       </div>
