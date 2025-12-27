@@ -14,21 +14,6 @@
     display: flex;
     gap: var(--spacing-4xl);
     animation: fade-up 1s ease-out both;
-
-    @media (width <= 1024px) {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: var(--spacing-3xl);
-    }
-
-    @media (width <= 768px) {
-      gap: var(--spacing-2xl);
-    }
-
-    @media (width <= 480px) {
-      gap: var(--spacing-xl);
-    }
   }
 
   &__animation {
@@ -38,21 +23,6 @@
     background: url('@/view/assets/images/face.svg') center / contain no-repeat;
     filter: drop-shadow(0 0 24px rgb(66 184 131 / 25%));
     animation: float-soft 8s ease-in-out infinite;
-
-    @media (width <= 768px) {
-      width: 200px;
-      height: 200px;
-    }
-
-    @media (width <= 580px) {
-      width: 160px;
-      height: 160px;
-    }
-
-    @media (width <= 380px) {
-      width: 140px;
-      height: 140px;
-    }
   }
 
   &__content {
@@ -62,37 +32,12 @@
     max-width: 800px;
     color: rgb(255 255 255 / 95%);
     animation: fade-up 1s ease-out 0.15s both;
-
-    @media (width <= 1024px) {
-      align-items: center;
-    }
-
-    @media (width <= 768px) {
-      gap: var(--spacing-sm);
-    }
   }
 
   &__title {
     font-size: 50px;
     font-weight: 500;
     line-height: 1.05;
-
-    @media (width <= 1200px) {
-      font-size: 42px;
-    }
-
-    @media (width <= 768px) {
-      font-size: clamp(28px, 5vw, 36px); // Адаптивный шрифт для планшетов
-    }
-
-    @media (width <= 580px) {
-      font-size: clamp(24px, 4.5vw, 32px); // Для узких экранов
-      line-height: 1.1;
-    }
-
-    @media (width <= 380px) {
-      font-size: 22px;
-    }
   }
 
   &__subtitle {
@@ -101,17 +46,6 @@
     gap: var(--spacing-lg);
     letter-spacing: -0.04em;
     line-height: 1;
-
-    @media (width <= 768px) {
-      gap: var(--spacing-md);
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    @media (width <= 580px) {
-      gap: var(--spacing-sm);
-      letter-spacing: -0.02em;
-    }
   }
 
   &__vue {
@@ -122,22 +56,6 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: subtle-gradient 6s ease infinite;
-
-    @media (width <= 1200px) {
-      font-size: 70px;
-    }
-
-    @media (width <= 768px) {
-      font-size: clamp(40px, 8vw, 56px); // Адаптивный шрифт
-    }
-
-    @media (width <= 580px) {
-      font-size: clamp(36px, 7vw, 44px); // Меньше для узких экранов
-    }
-
-    @media (width <= 380px) {
-      font-size: 32px;
-    }
   }
 
   &__dot {
@@ -146,78 +64,22 @@
     height: 16px;
     background: #fff;
     border-radius: 50%;
-
-    @media (width <= 768px) {
-      width: 12px;
-      height: 12px;
-    }
-
-    @media (width <= 580px) {
-      width: 10px;
-      height: 10px;
-    }
-
-    @media (width <= 380px) {
-      width: 8px;
-      height: 8px;
-    }
   }
 
   &__developer {
     font-size: 80px;
     font-weight: 200;
     color: #fff;
-
-    @media (width <= 1200px) {
-      font-size: 70px;
-    }
-
-    @media (width <= 768px) {
-      font-size: clamp(40px, 8vw, 56px); // Адаптивный шрифт
-    }
-
-    @media (width <= 580px) {
-      font-size: clamp(36px, 7vw, 44px); // Меньше для узких экранов
-      font-weight: 250; // Чуть жирнее для лучшей читаемости
-    }
-
-    @media (width <= 380px) {
-      font-size: 32px;
-    }
   }
 
   &__description {
     font-size: 24px;
     font-weight: 300;
     line-height: 1.7;
-
-    @media (width <= 1200px) {
-      font-size: 22px;
-      line-height: 1.6;
-    }
-
-    @media (width <= 768px) {
-      font-size: clamp(18px, 3.5vw, 20px); // Адаптивный шрифт
-      line-height: 1.5;
-    }
-
-    @media (width <= 580px) {
-      font-size: clamp(16px, 3vw, 18px); // Меньше для узких экранов
-      line-height: 1.4;
-    }
-
-    @media (width <= 380px) {
-      font-size: 15px;
-      line-height: 1.35;
-    }
   }
 
   &__content-footer {
     padding-top: var(--spacing-md);
-
-    @media (width <= 580px) {
-      padding-top: var(--spacing-sm);
-    }
   }
 
   &__button {
@@ -229,19 +91,173 @@
       background: #a50073;
     }
 
-    @media (width <= 768px) {
+    &.ui-button {
+      color: #fff;
+      border-color: #fff;
+      background: transparent;
+
+      &:hover {
+        background: #a50073;
+      }
+    }
+  }
+
+  @media (width <= 1200px) {
+    &__main {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--spacing-3xl);
+    }
+
+    &__content {
+      align-items: center;
+    }
+
+    &__title {
+      font-size: 42px;
+    }
+
+    &__vue {
+      font-size: 70px;
+    }
+
+    &__developer {
+      font-size: 70px;
+    }
+
+    &__description {
+      font-size: 22px;
+      line-height: 1.6;
+    }
+  }
+
+  @media (width <= 768px) {
+    &__main {
+      gap: var(--spacing-2xl);
+    }
+
+    &__animation {
+      width: 200px;
+      height: 200px;
+    }
+
+    &__title {
+      font-size: clamp(28px, 5vw, 36px);
+    }
+
+    &__subtitle {
+      gap: var(--spacing-md);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    &__vue {
+      font-size: clamp(50px, 10vw, 70px);
+    }
+
+    &__dot {
+      width: 12px;
+      height: 12px;
+    }
+
+    &__developer {
+      font-size: clamp(40px, 8vw, 56px);
+    }
+
+    &__description {
+      font-size: clamp(18px, 3.5vw, 20px);
+      line-height: 1.5;
+    }
+
+    &__button.ui-button {
       font-size: 16px;
       padding: 12px 24px;
     }
+  }
 
-    @media (width <= 580px) {
+  @media (width <= 580px) {
+    &__animation {
+      width: 160px;
+      height: 160px;
+    }
+
+    &__title {
+      font-size: clamp(24px, 4.5vw, 32px);
+      line-height: 1.1;
+    }
+
+    &__subtitle {
+      gap: var(--spacing-sm);
+      letter-spacing: -0.02em;
+    }
+
+    &__vue {
+      font-size: clamp(36px, 7vw, 44px);
+    }
+
+    &__dot {
+      width: 10px;
+      height: 10px;
+    }
+
+    &__developer {
+      font-size: clamp(36px, 7vw, 44px);
+      font-weight: 250;
+    }
+
+    &__description {
+      font-size: clamp(16px, 3vw, 18px);
+      line-height: 1.4;
+    }
+
+    &__content-footer {
+      padding-top: var(--spacing-sm);
+    }
+
+    &__button.ui-button {
       width: 100%;
       max-width: 280px;
       padding: 10px 20px;
       font-size: 15px;
     }
+  }
 
-    @media (width <= 380px) {
+  @media (width <= 480px) {
+    &__main {
+      gap: var(--spacing-xl);
+    }
+  }
+
+  @media (width <= 380px) {
+    &__animation {
+      width: 140px;
+      height: 140px;
+    }
+
+    &__title {
+      font-size: 22px;
+    }
+
+    &__vue {
+      font-size: 32px;
+    }
+
+    &__dot {
+      width: 8px;
+      height: 8px;
+    }
+
+    &__developer {
+      font-size: 32px;
+    }
+
+    &__description {
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    &__button.ui-button {
       max-width: 240px;
       padding: 9px 18px;
     }
