@@ -11,7 +11,8 @@
   },
   "splash": {
     "welcome": "Danil Lisin",
-    "subtitle": "Vue.js Entwickler",
+    "vue": "VUE JS",
+    "developer": "Entwickler",
     "description": "Verwandle komplexe Aufgaben in elegante Lösungen. Spezialisiert auf Vue 3, TypeScript und die Erstellung skalierbarer Anwendungen mit durchdachter Architektur.",
     "more": "Lebenslauf ansehen"
   },

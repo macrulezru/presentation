@@ -11,7 +11,8 @@
   },
   "splash": {
     "welcome": "李辛·丹尼尔·弗拉基米罗维奇",
-    "subtitle": "Vue.js 开发工程师",
+    "vue": "VUE JS",
+    "developer": "开发工程师",
     "description": "将复杂任务转化为优雅的解决方案。专注于 Vue 3、TypeScript 和构建具有深思熟虑架构的可扩展应用程序。",
     "more": "查看简历"
   },

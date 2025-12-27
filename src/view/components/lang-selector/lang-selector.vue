@@ -19,12 +19,10 @@
 
   const languageOptions: LanguageOption[] = (
     Object.keys(LocalesEnum) as Array<keyof typeof LocalesEnum>
-  )
-    .filter(key => LocalesEnum[key] !== 'gop' && LocalesEnum[key] !== 'literal')
-    .map(key => ({
-      value: LocalesEnum[key],
-      name: LocalesToView[key],
-    }));
+  ).map(key => ({
+    value: LocalesEnum[key],
+    name: LocalesToView[key],
+  }));
 
   const currentLanguage = computed({
     get: () =>
