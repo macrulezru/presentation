@@ -1,25 +1,25 @@
 <script setup lang="ts">
-  import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue'
-  import Button from '@/view/ui/ui-button/ui-button.vue'
+  import { ref, computed } from 'vue';
 
-  import '@/view/components/experience-timeline/experience-timeline.scss'
+  import { useI18n } from '@/view/composables/use-i18n';
+  import Button from '@/view/ui/ui-button/ui-button.vue';
+  import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
 
-  import { ref, computed } from 'vue'
-  import { useI18n } from '@/view/composables/use-i18n'
+  import '@/view/components/experience-timeline/experience-timeline.scss';
 
-  const { t, tm } = useI18n()
+  const { t, tm } = useI18n();
 
-  const experienceItems = computed(() => tm('experience.items'))
+  const experienceItems = computed(() => tm('experience.items'));
 
-  const showAll = ref(false)
+  const showAll = ref(false);
 
   // Показываем только первые 4 компании, если не нажата кнопка "Показать все"
   const displayedItems = computed(() => {
-    return showAll.value ? experienceItems.value : experienceItems.value.slice(0, 4)
-  })
+    return showAll.value ? experienceItems.value : experienceItems.value.slice(0, 4);
+  });
 
   // Проверяем, есть ли скрытые элементы
-  const hasMore = computed(() => experienceItems.value.length > 4 && !showAll.value)
+  const hasMore = computed(() => experienceItems.value.length > 4 && !showAll.value);
 </script>
 
 <template>
@@ -45,8 +45,8 @@
                 <h3 class="experience__company">
                   <template v-if="item.url">
                     <a
-                      class="experience__link"
                       v-if="item.url"
+                      class="experience__link"
                       :href="item.url"
                       target="_blank"
                     >

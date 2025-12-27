@@ -1,7 +1,8 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import { i18n, loadLocale } from '@/locales'
-import { PageSectionsEnum, type PageSectionsType } from '@/enums/page-sections.enum'
-import { LocalesList, LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum'
+import { createRouter, createWebHashHistory } from 'vue-router';
+
+import { LocalesList, LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum';
+import { PageSectionsEnum, type PageSectionsType } from '@/enums/page-sections.enum';
+import { i18n, loadLocale } from '@/locales';
 
 const routes = [
   {
@@ -14,81 +15,81 @@ const routes = [
     name: 'section',
     component: () => import('@/view/pages/index.vue'),
   },
-]
+];
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
-})
+});
 
 const isStaticFile = (path: string): boolean => {
   const staticPatterns = [
     /^\/assets\//,
     /^\/src\//,
     /\.(png|jpe?g|gif|svg|webp|ico|css|js|woff2?|ttf|eot)$/i,
-  ]
-  return staticPatterns.some(pattern => pattern.test(path))
-}
+  ];
+  return staticPatterns.some(pattern => pattern.test(path));
+};
 
 const isSupportedSection = (section: string): section is PageSectionsType => {
-  return Object.values(PageSectionsEnum).includes(section as PageSectionsEnum)
-}
+  return Object.values(PageSectionsEnum).includes(section as PageSectionsEnum);
+};
 
 router.beforeEach(async to => {
-  const path = to.path
+  const { path } = to;
 
   if (isStaticFile(path)) {
-    return true
+    return true;
   }
 
-  const toLocale = to.params.locale as string
-  const toSection = to.params.section as string
+  const toLocale = to.params.locale as string;
+  const toSection = to.params.section as string;
 
   if (!toLocale) {
-    const savedLocale = localStorage.getItem('user-locale') || LocalesEnum.RU
+    const savedLocale = localStorage.getItem('user-locale') || LocalesEnum.RU;
     if (savedLocale !== LocalesEnum.RU) {
       try {
-        await loadLocale(savedLocale as LocalesEnumType)
+        await loadLocale(savedLocale as LocalesEnumType);
       } catch (error) {
-        console.error(`Failed to load locale ${savedLocale}:`, error)
+        console.error(`Failed to load locale ${savedLocale}:`, error);
         // Fallback на русский
-        localStorage.setItem('user-locale', LocalesEnum.RU)
-        return `/${LocalesEnum.RU}`
+        localStorage.setItem('user-locale', LocalesEnum.RU);
+        return `/${LocalesEnum.RU}`;
       }
     }
-    return `/${savedLocale}`
+    return `/${savedLocale}`;
   }
 
   if (!LocalesList.includes(toLocale as LocalesEnumType)) {
     // Устанавливаем русскую локаль
-    i18n.global.locale.value = LocalesEnum.RU
-    localStorage.setItem('user-locale', LocalesEnum.RU)
+    i18n.global.locale.value = LocalesEnum.RU;
+    localStorage.setItem('user-locale', LocalesEnum.RU);
 
     if (toSection && isSupportedSection(toSection)) {
-      return `/${LocalesEnum.RU}/${toSection}`
+      return `/${LocalesEnum.RU}/${toSection}`;
     }
-    return `/${LocalesEnum.RU}`
+    return `/${LocalesEnum.RU}`;
   }
 
   try {
     if (toLocale !== LocalesEnum.RU) {
-      await loadLocale(toLocale as LocalesEnumType)
+      await loadLocale(toLocale as LocalesEnumType);
     }
     // Устанавливаем локаль только после успешной загрузки
-    i18n.global.locale.value = toLocale
-    localStorage.setItem('user-locale', toLocale)
+    i18n.global.locale.value = toLocale;
+    localStorage.setItem('user-locale', toLocale);
   } catch (error) {
-    console.error(`Failed to load locale ${toLocale}:`, error)
-    i18n.global.locale.value = LocalesEnum.RU
-    localStorage.setItem('user-locale', LocalesEnum.RU)
-    return `/${LocalesEnum.RU}${toSection ? '/' + toSection : ''}`
+    console.error(`Failed to load locale ${toLocale}:`, error);
+    i18n.global.locale.value = LocalesEnum.RU;
+    localStorage.setItem('user-locale', LocalesEnum.RU);
+    return `/${LocalesEnum.RU}${toSection ? `/${toSection}` : ''}`;
   }
 
   if (toSection && !isSupportedSection(toSection)) {
-    return `/${toLocale}`
+    return `/${toLocale}`;
   }
 
-  return true
-})
+  return true;
+});
 
-export default router
+export default router;

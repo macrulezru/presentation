@@ -1,81 +1,81 @@
 export interface PersonInterface<T = unknown> {
-  results: T[]
-  info: ResponseInfo
+  results: T[];
+  info: ResponseInfo;
 }
 
 export interface Person {
-  gender: Gender
-  name: UserName
-  location: Location
-  email: string
-  login: Login
-  dob: DateInfo
-  registered: DateInfo
-  phone: string
-  cell: string
-  id: UserId
-  picture: Picture
-  nat: Nationality
+  gender: Gender;
+  name: UserName;
+  location: Location;
+  email: string;
+  login: Login;
+  dob: DateInfo;
+  registered: DateInfo;
+  phone: string;
+  cell: string;
+  id: UserId;
+  picture: Picture;
+  nat: Nationality;
 }
 
 export interface UserName {
-  title: string
-  first: string
-  last: string
+  title: string;
+  first: string;
+  last: string;
 }
 
 export interface Location {
-  street: Street
-  city: string
-  state: string
-  country: Country
-  postcode: string | number
-  coordinates: Coordinates
-  timezone: Timezone
+  street: Street;
+  city: string;
+  state: string;
+  country: Country;
+  postcode: string | number;
+  coordinates: Coordinates;
+  timezone: Timezone;
 }
 
 export interface Street {
-  number: number
-  name: string
+  number: number;
+  name: string;
 }
 
 export interface Coordinates {
-  latitude: string
-  longitude: string
+  latitude: string;
+  longitude: string;
 }
 
 export interface Timezone {
-  offset: string
-  description: string
+  offset: string;
+  description: string;
 }
 
 export interface Login {
-  uuid: string
-  username: string
-  password: string
-  salt: string
-  md5: string
-  sha1: string
-  sha256: string
+  uuid: string;
+  username: string;
+  password: string;
+  salt: string;
+  md5: string;
+  sha1: string;
+  sha256: string;
 }
 
 export interface DateInfo {
-  date: string
-  age: number
+  date: string;
+  age: number;
 }
 
 export interface UserId {
-  name: string
-  value: string
+  name: string;
+  value: string;
 }
 
 export interface Picture {
-  large: string
-  medium: string
-  thumbnail: string
+  large: string;
+  medium: string;
+  thumbnail: string;
 }
 
-export type Gender = 'male' | 'female'
+export type Gender = 'male' | 'female';
 
 export type Nationality =
   | 'AU'
@@ -99,7 +99,7 @@ export type Nationality =
   | 'TR'
   | 'UA'
   | 'US'
-  | string
+  | string;
 
 export type Country =
   | 'United Kingdom'
@@ -108,14 +108,14 @@ export type Country =
   | 'Canada'
   | 'Germany'
   | 'France'
-  | string
+  | string;
 
 export interface ResponseInfo {
-  seed: string
-  results: number
-  page: number
-  version: string
+  seed: string;
+  results: number;
+  page: number;
+  version: string;
 }
 
 // Типы для удобства
-export type FullName = `${string} ${string}`
+export type FullName = `${string} ${string}`;

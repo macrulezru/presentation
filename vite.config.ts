@@ -1,9 +1,10 @@
-import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
-import svgo from 'vite-plugin-svgo'
-import { viteStaticCopy } from 'vite-plugin-static-copy'
+import { fileURLToPath, URL } from 'node:url';
+
+import vue from '@vitejs/plugin-vue';
+import { defineConfig } from 'vite';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
+import svgo from 'vite-plugin-svgo';
+import vueDevTools from 'vite-plugin-vue-devtools';
 
 export default defineConfig({
   // Добавляем assetsInclude на верхнем уровне
@@ -68,30 +69,30 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('locales') && /\.json$/.test(id)) {
-            const localeCode = id.match(/(ru|en|kz|de|zh)\.json$/i)?.[1]?.toLowerCase()
+            const localeCode = id.match(/(ru|en|kz|de|zh)\.json$/i)?.[1]?.toLowerCase();
             if (localeCode) {
-              return `locale-${localeCode}`
+              return `locale-${localeCode}`;
             }
           }
         },
         assetFileNames: assetInfo => {
-          const name = assetInfo.name || ''
+          const name = assetInfo.name || '';
 
           if (/\.(svg)$/.test(name)) {
-            return 'assets/images/icons/[name]-[hash][extname]'
+            return 'assets/images/icons/[name]-[hash][extname]';
           }
 
           if (name.includes('arts/')) {
-            const parts = name.split('/')
-            const folder = parts[parts.length - 2] || 'arts'
-            return `assets/images/arts/${folder}/[name]-[hash][extname]`
+            const parts = name.split('/');
+            const folder = parts[parts.length - 2] || 'arts';
+            return `assets/images/arts/${folder}/[name]-[hash][extname]`;
           }
 
           if (/\.(jpg|jpeg|png|gif|webp)$/.test(name)) {
-            return 'assets/images/[name]-[hash][extname]'
+            return 'assets/images/[name]-[hash][extname]';
           }
 
-          return 'assets/[name]-[hash][extname]'
+          return 'assets/[name]-[hash][extname]';
         },
       },
     },
@@ -111,4 +112,4 @@ export default defineConfig({
       overlay: true,
     },
   },
-})
+});

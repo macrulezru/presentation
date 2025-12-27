@@ -1,12 +1,13 @@
 <script setup lang="ts">
-  import '@/view/components/about/about.scss'
+  import '@/view/components/about/about.scss';
 
-  import { computed, ref } from 'vue'
-  import { useI18n } from '@/view/composables/use-i18n'
+  import { computed, ref } from 'vue';
 
-  const { t, tm } = useI18n()
+  import { useI18n } from '@/view/composables/use-i18n';
 
-  const container = ref<HTMLElement>()
+  const { t, tm } = useI18n();
+
+  const container = ref<HTMLElement>();
 
   const technologies = computed(() => [
     {
@@ -61,11 +62,11 @@
       icon: 'svn',
       description: t('tech.svn'),
     },
-  ])
+  ]);
 
-  const skillsList = computed(() => tm('about.skills_list'))
+  const skillsList = computed(() => tm('about.skills_list'));
 
-  defineExpose({ container })
+  defineExpose({ container });
 </script>
 
 <template>

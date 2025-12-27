@@ -1,3 +1,3 @@
-export interface YMap extends ymaps.Map {}
+export type YMap = ymaps.Map;
 
-export interface YPlacemark extends ymaps.Placemark {}
+export type YPlacemark = ymaps.Placemark;

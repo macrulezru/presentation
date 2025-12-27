@@ -1,11 +1,11 @@
 interface IRaw {
-  [key: string]: any
+  [key: string]: unknown;
 }
 
 export class BaseModel {
-  readonly raw: IRaw
+  readonly raw: IRaw;
 
   constructor(raw: IRaw) {
-    this.raw = raw
+    this.raw = raw;
   }
 }

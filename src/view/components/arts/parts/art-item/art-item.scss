@@ -20,9 +20,9 @@
     right: 0;
     bottom: 0;
     background: radial-gradient(
-        circle at var(--glow-x) var(--glow-y),
-        rgba(52, 152, 219, 0.1) 0%,
-        transparent 60%
+      circle at var(--glow-x) var(--glow-y),
+      rgba(52, 152, 219, 0.1) 0%,
+      transparent 60%
     );
     opacity: 0;
     transition: opacity 0.15s linear;

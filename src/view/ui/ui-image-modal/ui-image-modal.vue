@@ -2,8 +2,9 @@
   import '@/view/ui/ui-image-modal/ui-image-modal.scss';
 
   import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
-  import type { Props } from './types';
   import { useI18n } from 'vue-i18n';
+
+  import type { Props } from './types';
 
   const { t } = useI18n();
 
@@ -181,8 +182,8 @@
           <!-- Кнопка закрытия -->
           <button
             class="ui-image-modal__close"
-            @click="close"
             :aria-label="t('common.close')"
+            @click="close"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
@@ -198,9 +199,9 @@
           <button
             v-if="allowOpenInNewTab"
             class="ui-image-modal__open-new-tab"
-            @click="openImageInNewTab"
             :aria-label="t('common.openInNewTab')"
             :title="t('common.openInNewTab')"
+            @click="openImageInNewTab"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
@@ -228,8 +229,8 @@
           <button
             v-if="showNavigation && hasPrev"
             class="ui-image-modal__nav ui-image-modal__nav--prev ui-image-modal__nav--desktop"
-            @click="prevImage"
             :aria-label="t('common.previous_image')"
+            @click="prevImage"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
@@ -244,8 +245,8 @@
           <button
             v-if="showNavigation && hasNext"
             class="ui-image-modal__nav ui-image-modal__nav--next ui-image-modal__nav--desktop"
-            @click="nextImage"
             :aria-label="t('common.next_image')"
+            @click="nextImage"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
@@ -264,8 +265,8 @@
               <button
                 v-if="showNavigation && hasPrev"
                 class="ui-image-modal__nav ui-image-modal__nav--prev ui-image-modal__nav--mobile"
-                @click="prevImage"
                 :aria-label="t('common.previous_image')"
+                @click="prevImage"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path
@@ -285,18 +286,18 @@
                   :alt="currentAlt"
                   class="ui-image-modal__image"
                   :class="{ 'ui-image-modal__image--clickable': allowOpenInNewTab }"
+                  :title="allowOpenInNewTab ? t('common.clickToOpenInNewTab') : ''"
                   @load="onImageLoad"
                   @error="onImageError"
                   @click="allowOpenInNewTab ? openImageInNewTab() : null"
-                  :title="allowOpenInNewTab ? t('common.clickToOpenInNewTab') : ''"
                 />
               </div>
 
               <button
                 v-if="showNavigation && hasNext"
                 class="ui-image-modal__nav ui-image-modal__nav--next ui-image-modal__nav--mobile"
-                @click="nextImage"
                 :aria-label="t('common.next_image')"
+                @click="nextImage"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path
@@ -326,8 +327,8 @@
                 :key="index"
                 class="ui-image-modal__thumbnail"
                 :class="{ 'ui-image-modal__thumbnail--active': index === currentIndex }"
-                @click="setImage(index)"
                 :aria-label="t('common.thumbnail', { number: index + 1 })"
+                @click="setImage(index)"
               >
                 <img :src="img.preview" :alt="img.description" />
               </button>

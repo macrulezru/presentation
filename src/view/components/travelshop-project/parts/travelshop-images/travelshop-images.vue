@@ -1,19 +1,17 @@
 <script setup lang="ts">
-  import ImageModal from '@/view/ui/ui-image-modal/ui-image-modal.vue'
+  import 'swiper/css';
+  import { Pagination, Navigation, Mousewheel, Keyboard } from 'swiper/modules';
+  import { Swiper, SwiperSlide } from 'swiper/vue';
+  import { ref } from 'vue';
 
-  import '@/view/components/travelshop-project/parts/travelshop-images/travelshop-images.scss'
+  import { useTravelshopImages } from '@/view/composables/use-travelshop-images.ts';
+  import ImageModal from '@/view/ui/ui-image-modal/ui-image-modal.vue';
+  import '@/view/components/travelshop-project/parts/travelshop-images/travelshop-images.scss';
 
-  import 'swiper/css'
+  const { images } = useTravelshopImages();
 
-  import { ref } from 'vue'
-  import { Swiper, SwiperSlide } from 'swiper/vue'
-  import { Pagination, Navigation, Mousewheel, Keyboard } from 'swiper/modules'
-  import { useTravelshopImages } from '@/view/composables/use-travelshop-images.ts'
-
-  const { images } = useTravelshopImages()
-
-  const modalOpen = ref(false)
-  const currentImageIndex = ref(0)
+  const modalOpen = ref(false);
+  const currentImageIndex = ref(0);
 
   const swiperOptions: any = {
     modules: [Pagination, Navigation, Mousewheel, Keyboard],
@@ -29,28 +27,28 @@
       enabled: true,
       onlyInViewport: true,
     },
-  }
+  };
 
   const openModal = (index: number) => {
-    currentImageIndex.value = index
-    modalOpen.value = true
-  }
+    currentImageIndex.value = index;
+    modalOpen.value = true;
+  };
 
   const onModalClose = () => {
-    modalOpen.value = false
-  }
+    modalOpen.value = false;
+  };
 
   const onModalChange = (index: number) => {
-    currentImageIndex.value = index
-  }
+    currentImageIndex.value = index;
+  };
 </script>
 
 <template>
   <div class="travelshop-images">
     <swiper
       class="travelshop-images__swiper"
-      :slides-per-view="1"
-      :space-between="50"
+      :slidesPerView="1"
+      :spaceBetween="50"
       v-bind="swiperOptions"
     >
       <swiper-slide v-for="(slide, index) in images" :key="index">
@@ -58,8 +56,8 @@
           <img
             :src="slide.preview"
             :alt="slide.description"
-            @click.stop="openModal(index)"
             class="travelshop-images__image clickable-image"
+            @click.stop="openModal(index)"
           />
           <span class="travelshop-images__description">{{ slide.description }}</span>
         </div>
@@ -70,7 +68,7 @@
 
     <ImageModal
       v-model:isOpen="modalOpen"
-      :initial-index="currentImageIndex"
+      :initialIndex="currentImageIndex"
       :images="images"
       @close="onModalClose"
       @change="onModalChange"

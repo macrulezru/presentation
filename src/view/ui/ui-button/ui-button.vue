@@ -2,6 +2,7 @@
   import '@/view/ui/ui-button/ui-button.scss';
 
   import { computed } from 'vue';
+
   import type { Props } from './types';
 
   const props = defineProps<Props>();

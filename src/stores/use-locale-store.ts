@@ -1,16 +1,17 @@
-import { readonly, ref } from 'vue'
-import { defineStore } from 'pinia'
-import { LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum'
+import { defineStore } from 'pinia';
+import { readonly, ref } from 'vue';
+
+import { LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum';
 
 export const useLocaleStore = defineStore('locale', () => {
-  const currentLocale = ref<LocalesEnumType>(LocalesEnum.RU)
+  const currentLocale = ref<LocalesEnumType>(LocalesEnum.RU);
 
   const setLocale = (locale: LocalesEnumType) => {
-    currentLocale.value = locale
-  }
+    currentLocale.value = locale;
+  };
 
   return {
     currentLocale: readonly(currentLocale),
     setLocale,
-  }
-})
+  };
+});

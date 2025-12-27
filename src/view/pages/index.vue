@@ -1,42 +1,42 @@
 <script setup lang="ts">
-  import Header from '@/view/components/header/header.vue'
-  import SectionEditor from '@/view/components/section-editor/section-editor.vue'
+  import { storeToRefs } from 'pinia';
+  import { onBeforeMount, onMounted, onUnmounted } from 'vue';
 
-  import '@/view/pages/index.scss'
+  import { useNavigationStore } from '@/stores/use-navigation-store.ts';
+  import Header from '@/view/components/header/header.vue';
+  import SectionEditor from '@/view/components/section-editor/section-editor.vue';
+  import { useI18n } from '@/view/composables/use-i18n.ts';
+  import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
+  import { useSectionsConfig } from '@/view/composables/use-sections-config';
 
-  import { onBeforeMount, onMounted, onUnmounted } from 'vue'
-  import { useI18n } from '@/view/composables/use-i18n.ts'
-  import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts'
-  import { useSectionsConfig } from '@/view/composables/use-sections-config'
-  import { useNavigationStore } from '@/stores/use-navigation-store.ts'
-  import { storeToRefs } from 'pinia'
+  import '@/view/pages/index.scss';
 
-  const { initLocale } = useI18n()
-  const { init, destroy } = useScrollRouting()
+  const { initLocale } = useI18n();
+  const { init, destroy } = useScrollRouting();
 
-  const { sectionsConfig } = useSectionsConfig()
+  const { sectionsConfig } = useSectionsConfig();
 
-  const navigationStore = useNavigationStore()
-  const { showSectionEditor } = storeToRefs(navigationStore)
+  const navigationStore = useNavigationStore();
+  const { showSectionEditor } = storeToRefs(navigationStore);
 
   onBeforeMount(() => {
-    initLocale()
-  })
+    initLocale();
+  });
 
   onMounted(() => {
-    init()
-  })
+    init();
+  });
 
   onUnmounted(() => {
-    destroy()
-  })
+    destroy();
+  });
 </script>
 
 <template>
   <div class="app">
     <Header />
     <SectionEditor v-model="showSectionEditor" />
-    <section v-for="section in sectionsConfig" :key="section.id" :id="section.id">
+    <section v-for="section in sectionsConfig" :id="section.id" :key="section.id">
       <component :is="section.component" />
     </section>
   </div>

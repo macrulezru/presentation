@@ -2,6 +2,7 @@
   import '@/view/ui/ui-circle-chart/ui-circle-chart.scss';
 
   import { ref, computed, watch, onMounted, onBeforeUnmount, useSlots } from 'vue';
+
   import type { Props } from './types';
 
   // Значения по умолчанию для пропсов

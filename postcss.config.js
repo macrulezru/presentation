@@ -7,4 +7,4 @@ export default {
     'postcss-combine-media-query': {},
     autoprefixer: {},
   },
-}
+};

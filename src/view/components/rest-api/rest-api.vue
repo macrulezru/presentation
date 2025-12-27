@@ -1,26 +1,27 @@
 <script setup lang="ts">
-  import ApiDemoBlock from '@/view/components/rest-api/parts/api-demo-block/api-demo-block.vue';
-  import JokeFormattedColumn from '@/view/components/rest-api/parts/joke-formatted-column/joke-formatted-column.vue';
-  import PersonFormattedColumn from '@/view/components/rest-api/parts/person-formatted-column/person-formatted-column.vue';
-  import ProductFormattedColumn from '@/view/components/rest-api/parts/product-formatted-column/product-formatted-column.vue';
-  import WarmupApi from '@/view/components/rest-api/parts/warmup-api/warmup-api.vue';
-  import Tab from '@/view/ui/ui-tabs/parts/ui-tab/ui-tab.vue';
-  import Tabs from '@/view/ui/ui-tabs/ui-tabs.vue';
-
-  import '@/view/components/rest-api/rest-api.scss';
-
+  import { storeToRefs } from 'pinia';
   import { ref } from 'vue';
+
+  import type { JokeModel } from '@/models/joke.model';
+
   import { jokeCommand } from '@/core/commands/joke.command';
   import { personCommand } from '@/core/commands/person.command';
   import { productCommand } from '@/core/commands/product.command';
   import { jokeConfig, personConfig, productConfig } from '@/core/config';
   import { RestApiCommandEnum } from '@/enums/rest-api.enum';
-  import type { JokeModel } from '@/models/joke.model';
   import { PersonResponseModel } from '@/models/person-response.model';
   import { ProductModel } from '@/models/product.model';
-  import { storeToRefs } from 'pinia';
   import { useWarmupStore } from '@/stores/use-warmup-store';
+  import ApiDemoBlock from '@/view/components/rest-api/parts/api-demo-block/api-demo-block.vue';
+  import JokeFormattedColumn from '@/view/components/rest-api/parts/joke-formatted-column/joke-formatted-column.vue';
+  import PersonFormattedColumn from '@/view/components/rest-api/parts/person-formatted-column/person-formatted-column.vue';
+  import ProductFormattedColumn from '@/view/components/rest-api/parts/product-formatted-column/product-formatted-column.vue';
+  import WarmupApi from '@/view/components/rest-api/parts/warmup-api/warmup-api.vue';
   import { useI18n } from '@/view/composables/use-i18n.ts';
+  import Tab from '@/view/ui/ui-tabs/parts/ui-tab/ui-tab.vue';
+  import Tabs from '@/view/ui/ui-tabs/ui-tabs.vue';
+
+  import '@/view/components/rest-api/rest-api.scss';
 
   const { t } = useI18n();
 
@@ -54,7 +55,7 @@
       url: jokeApiInfo.fullUrl,
       method: jokeApiInfo.method,
     },
-    rawResponse: null as any,
+    rawResponse: null as unknown,
     formattedData: null as JokeModel | null,
     error: null as string | null,
   });
@@ -65,7 +66,7 @@
       url: personApiInfo.fullUrl,
       method: personApiInfo.method,
     },
-    rawResponse: null as any,
+    rawResponse: null as unknown,
     formattedData: null as PersonResponseModel | null,
     error: null as string | null,
   });
@@ -76,7 +77,7 @@
       url: productApiInfo.fullUrl,
       method: productApiInfo.method,
     },
-    rawResponse: null as any,
+    rawResponse: null as unknown,
     formattedData: null as ProductModel | null,
     error: null as string | null,
   });
@@ -95,8 +96,12 @@
       const result = await command.execute();
       jokeState.value.rawResponse = result;
       jokeState.value.formattedData = result;
-    } catch (error: any) {
-      jokeState.value.error = error.message || t('rest-api.unknownError');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        jokeState.value.error = error.message || t('rest-api.unknownError');
+      } else {
+        jokeState.value.error = t('rest-api.unknownError');
+      }
     } finally {
       jokeState.value.loading = false;
     }
@@ -116,8 +121,12 @@
       const result = await command.execute();
       personState.value.rawResponse = result;
       personState.value.formattedData = result;
-    } catch (error: any) {
-      personState.value.error = error.message || t('rest-api.unknownError');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        personState.value.error = error.message || t('rest-api.unknownError');
+      } else {
+        personState.value.error = t('rest-api.unknownError');
+      }
     } finally {
       personState.value.loading = false;
     }
@@ -138,8 +147,12 @@
 
       productState.value.rawResponse = result;
       productState.value.formattedData = result;
-    } catch (error: any) {
-      productState.value.error = error.message || t('rest-api.unknownError');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        productState.value.error = error.message || t('rest-api.unknownError');
+      } else {
+        productState.value.error = t('rest-api.unknownError');
+      }
     } finally {
       productState.value.loading = false;
     }
@@ -184,15 +197,15 @@
         <ApiDemoBlock
           :loading="productState.loading"
           :error="productState.error"
-          :request-info="productState.requestInfo"
-          :raw-response="productState.rawResponse"
-          :api-info="productApiInfo"
+          :requestInfo="productState.requestInfo"
+          :rawResponse="productState.rawResponse"
+          :apiInfo="productApiInfo"
           @fetch="fetchProduct"
           @clear="clearProductData"
         >
           <template #formatted-data>
             <ProductFormattedColumn
-              :formatted-data="productState.formattedData"
+              :formattedData="productState.formattedData"
               :loading="productState.loading"
               :error="productState.error"
             />
@@ -203,15 +216,15 @@
         <ApiDemoBlock
           :loading="jokeState.loading"
           :error="jokeState.error"
-          :request-info="jokeState.requestInfo"
-          :raw-response="jokeState.rawResponse"
-          :api-info="jokeApiInfo"
+          :requestInfo="jokeState.requestInfo"
+          :rawResponse="jokeState.rawResponse"
+          :apiInfo="jokeApiInfo"
           @fetch="fetchJoke"
           @clear="clearJokeData"
         >
           <template #formatted-data>
             <JokeFormattedColumn
-              :formatted-data="jokeState.formattedData"
+              :formattedData="jokeState.formattedData"
               :loading="jokeState.loading"
               :error="jokeState.error"
             />
@@ -222,15 +235,15 @@
         <ApiDemoBlock
           :loading="personState.loading"
           :error="personState.error"
-          :request-info="personState.requestInfo"
-          :raw-response="personState.rawResponse"
-          :api-info="personApiInfo"
+          :requestInfo="personState.requestInfo"
+          :rawResponse="personState.rawResponse"
+          :apiInfo="personApiInfo"
           @fetch="fetchRandomPerson"
           @clear="clearPersonData"
         >
           <template #formatted-data>
             <PersonFormattedColumn
-              :formatted-data="personState.formattedData"
+              :formattedData="personState.formattedData"
               :loading="personState.loading"
               :error="personState.error"
             />

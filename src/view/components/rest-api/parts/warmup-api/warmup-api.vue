@@ -1,78 +1,79 @@
 <script setup lang="ts">
-  import '@/view/components/rest-api/parts/warmup-api/warmup-api.scss'
+  import '@/view/components/rest-api/parts/warmup-api/warmup-api.scss';
 
-  import { computed, onMounted, onUnmounted, ref } from 'vue'
-  import { healthCommand } from '@/core/commands/health.command'
-  import { useWarmupStore } from '@/stores/use-warmup-store'
-  import { useI18n } from '@/view/composables/use-i18n'
+  import { computed, onMounted, onUnmounted, ref } from 'vue';
 
-  const { t } = useI18n()
+  import { healthCommand } from '@/core/commands/health.command';
+  import { useWarmupStore } from '@/stores/use-warmup-store';
+  import { useI18n } from '@/view/composables/use-i18n';
 
-  const { setWarmupStatus } = useWarmupStore()
+  const { t } = useI18n();
 
-  const CHANGE_LOADING_MESSAGE_INTERVAL = 8000
+  const { setWarmupStatus } = useWarmupStore();
 
-  const currentIndex = ref<number>(0)
-  const isTransitioning = ref<boolean>(false)
-  const visibleMessageIndex = ref<number>(0)
+  const CHANGE_LOADING_MESSAGE_INTERVAL = 8000;
 
-  let intervalId: number | NodeJS.Timeout | null = null
-  let messageChangeTimer: number | NodeJS.Timeout | null = null
+  const currentIndex = ref<number>(0);
+  const isTransitioning = ref<boolean>(false);
+  const visibleMessageIndex = ref<number>(0);
+
+  let intervalId: number | NodeJS.Timeout | null = null;
+  let messageChangeTimer: number | NodeJS.Timeout | null = null;
 
   const waitingMessages = computed(() => [
     t('rest-api.warmup.status.serverWaking'),
     t('rest-api.warmup.status.waitALittle'),
     t('rest-api.warmup.status.almostReady'),
     t('rest-api.warmup.status.startingServices'),
-  ])
+  ]);
 
   const visibleMessage = computed(() => {
-    return waitingMessages.value[visibleMessageIndex.value]
-  })
+    return waitingMessages.value[visibleMessageIndex.value];
+  });
 
   const checkWarmupApi = async () => {
     try {
-      setWarmupStatus(false)
-      const command = healthCommand.getHealth()
-      const result = await command.execute()
-      console.log(result)
+      setWarmupStatus(false);
+      const command = healthCommand.getHealth();
+      const result = await command.execute();
+      console.log(result);
       if (result.status === 'OK') {
-        setWarmupStatus(true)
+        setWarmupStatus(true);
       } else {
-        checkWarmupApi()
+        checkWarmupApi();
       }
-    } catch (error: any) {
-      checkWarmupApi()
+    } catch {
+      checkWarmupApi();
     }
-  }
+  };
 
   const changeMessage = () => {
-    isTransitioning.value = true
+    isTransitioning.value = true;
 
     messageChangeTimer = setTimeout(() => {
-      currentIndex.value = (currentIndex.value + 1) % waitingMessages.value.length
-      visibleMessageIndex.value = currentIndex.value
+      currentIndex.value = (currentIndex.value + 1) % waitingMessages.value.length;
+      visibleMessageIndex.value = currentIndex.value;
 
       setTimeout(() => {
-        isTransitioning.value = false
-      }, 50)
-    }, 500)
-  }
+        isTransitioning.value = false;
+      }, 50);
+    }, 500);
+  };
 
   onMounted(() => {
-    checkWarmupApi()
+    checkWarmupApi();
 
-    visibleMessageIndex.value = currentIndex.value
+    visibleMessageIndex.value = currentIndex.value;
 
     intervalId = setInterval(() => {
-      changeMessage()
-    }, CHANGE_LOADING_MESSAGE_INTERVAL)
-  })
+      changeMessage();
+    }, CHANGE_LOADING_MESSAGE_INTERVAL);
+  });
 
   onUnmounted(() => {
-    if (intervalId) clearInterval(intervalId)
-    if (messageChangeTimer) clearTimeout(messageChangeTimer)
-  })
+    if (intervalId) clearInterval(intervalId);
+    if (messageChangeTimer) clearTimeout(messageChangeTimer);
+  });
 </script>
 
 <template>

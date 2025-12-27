@@ -1,14 +1,15 @@
 <script setup lang="ts">
-  import '@/view/components/remote-workplace/remote-workplace.scss'
+  import '@/view/components/remote-workplace/remote-workplace.scss';
 
-  import { computed } from 'vue'
-  import { useI18n } from '@/view/composables/use-i18n.ts'
+  import { computed } from 'vue';
 
-  const { t, tm } = useI18n()
+  import { useI18n } from '@/view/composables/use-i18n.ts';
 
-  const features = computed(() => tm('remote_workplace.features.items'))
+  const { t, tm } = useI18n();
 
-  const benefits = computed(() => tm('remote_workplace.benefits.items'))
+  const features = computed(() => tm('remote_workplace.features.items'));
+
+  const benefits = computed(() => tm('remote_workplace.benefits.items'));
 </script>
 
 <template>

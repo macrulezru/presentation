@@ -1,18 +1,19 @@
-import * as THREE from 'three'
-import type { PlasmaConfig } from './types'
+import * as THREE from 'three';
+
+import type { PlasmaConfig } from './types';
 
 export function useParticles() {
   const createPlasmaParticles = (config: PlasmaConfig, isMobile: boolean = false) => {
     // Используем адаптивное количество частиц
     const particleCount = isMobile
       ? config.mobileParticleCount || Math.floor(config.particleCount * 0.5)
-      : config.particleCount
+      : config.particleCount;
 
-    const positions = new Float32Array(particleCount * 3)
-    const colorsArray = new Float32Array(particleCount * 3)
-    const sizes = new Float32Array(particleCount)
-    const phases = new Float32Array(particleCount)
-    const colorPhases = new Float32Array(particleCount)
+    const positions = new Float32Array(particleCount * 3);
+    const colorsArray = new Float32Array(particleCount * 3);
+    const sizes = new Float32Array(particleCount);
+    const phases = new Float32Array(particleCount);
+    const colorPhases = new Float32Array(particleCount);
 
     const getSafeColors = (): [THREE.Color, THREE.Color, THREE.Color, THREE.Color] => {
       const defaultColors: [THREE.Color, THREE.Color, THREE.Color, THREE.Color] = [
@@ -20,10 +21,10 @@ export function useParticles() {
         new THREE.Color(0x0044aa),
         new THREE.Color(0x0088bb),
         new THREE.Color(0x00aa88),
-      ]
+      ];
 
       if (!config.currentColors || !Array.isArray(config.currentColors)) {
-        return defaultColors
+        return defaultColors;
       }
 
       const colors: [THREE.Color, THREE.Color, THREE.Color, THREE.Color] = [
@@ -31,79 +32,79 @@ export function useParticles() {
         defaultColors[1],
         defaultColors[2],
         defaultColors[3],
-      ]
+      ];
 
-      const maxColors = Math.min(4, config.currentColors.length)
+      const maxColors = Math.min(4, config.currentColors.length);
       for (let i = 0; i < maxColors; i++) {
-        const configColor = config.currentColors[i]
+        const configColor = config.currentColors[i];
         if (configColor && configColor instanceof THREE.Color) {
-          colors[i] = configColor
+          colors[i] = configColor;
         }
       }
 
-      return colors
-    }
+      return colors;
+    };
 
-    const safeColors = getSafeColors()
+    const safeColors = getSafeColors();
 
     for (let i = 0; i < particleCount; i++) {
-      const isFrontZone = Math.random() < 0.65
+      const isFrontZone = Math.random() < 0.65;
 
       let x = 0,
         y = 0,
-        z = 0
+        z = 0;
 
       if (isFrontZone) {
-        const radius = 12 + Math.random() * 28
-        const phi = Math.acos(1 - Math.random() * 1.6)
-        const theta = Math.random() * Math.PI * 2
-        x = radius * Math.sin(phi) * Math.cos(theta) * 0.9
-        y = radius * Math.sin(phi) * Math.sin(theta) * 0.9
-        z = radius * Math.cos(phi) * (1.3 + Math.random() * 0.4)
+        const radius = 12 + Math.random() * 28;
+        const phi = Math.acos(1 - Math.random() * 1.6);
+        const theta = Math.random() * Math.PI * 2;
+        x = radius * Math.sin(phi) * Math.cos(theta) * 0.9;
+        y = radius * Math.sin(phi) * Math.sin(theta) * 0.9;
+        z = radius * Math.cos(phi) * (1.3 + Math.random() * 0.4);
       } else {
-        const radius = 22 + Math.random() * 40
-        const theta = Math.random() * Math.PI * 2
-        const phi = Math.acos(Math.random() * 2 - 1)
-        x = radius * Math.sin(phi) * Math.cos(theta)
-        y = radius * Math.sin(phi) * Math.sin(theta)
-        z = radius * Math.cos(phi)
+        const radius = 22 + Math.random() * 40;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(Math.random() * 2 - 1);
+        x = radius * Math.sin(phi) * Math.cos(theta);
+        y = radius * Math.sin(phi) * Math.sin(theta);
+        z = radius * Math.cos(phi);
       }
 
-      positions[i * 3] = x
-      positions[i * 3 + 1] = y
-      positions[i * 3 + 2] = z
+      positions[i * 3] = x;
+      positions[i * 3 + 1] = y;
+      positions[i * 3 + 2] = z;
 
-      const colorProgress = Math.random()
-      const color = new THREE.Color()
+      const colorProgress = Math.random();
+      const color = new THREE.Color();
 
       if (colorProgress < 0.25) {
-        color.copy(safeColors[0]).lerp(safeColors[1], colorProgress * 4)
+        color.copy(safeColors[0]).lerp(safeColors[1], colorProgress * 4);
       } else if (colorProgress < 0.5) {
-        color.copy(safeColors[1]).lerp(safeColors[2], (colorProgress - 0.25) * 4)
+        color.copy(safeColors[1]).lerp(safeColors[2], (colorProgress - 0.25) * 4);
       } else if (colorProgress < 0.75) {
-        color.copy(safeColors[2]).lerp(safeColors[3], (colorProgress - 0.5) * 4)
+        color.copy(safeColors[2]).lerp(safeColors[3], (colorProgress - 0.5) * 4);
       } else {
-        color.copy(safeColors[3]).lerp(safeColors[0], (colorProgress - 0.75) * 4)
+        color.copy(safeColors[3]).lerp(safeColors[0], (colorProgress - 0.75) * 4);
       }
 
-      color.multiplyScalar(0.78)
-      colorsArray[i * 3] = color.r
-      colorsArray[i * 3 + 1] = color.g
-      colorsArray[i * 3 + 2] = color.b
+      color.multiplyScalar(0.78);
+      colorsArray[i * 3] = color.r;
+      colorsArray[i * 3 + 1] = color.g;
+      colorsArray[i * 3 + 2] = color.b;
 
-      const distanceFromCenter = Math.sqrt(x ** 2 + y ** 2 + z ** 2)
-      const sizeMultiplier = Math.max(0.6, 1.1 - distanceFromCenter / 80)
-      sizes[i] = config.particleSize * (0.7 + Math.random() * 1.0) * sizeMultiplier
-      phases[i] = Math.random() * Math.PI * 2
-      colorPhases[i] = Math.random()
+      const distanceFromCenter = Math.sqrt(x ** 2 + y ** 2 + z ** 2);
+      const sizeMultiplier = Math.max(0.6, 1.1 - distanceFromCenter / 80);
+      sizes[i] = config.particleSize * (0.7 + Math.random() * 1.0) * sizeMultiplier;
+      phases[i] = Math.random() * Math.PI * 2;
+      colorPhases[i] = Math.random();
     }
 
-    const geometry = new THREE.BufferGeometry()
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-    geometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3))
-    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
-    geometry.setAttribute('phase', new THREE.BufferAttribute(phases, 1))
-    geometry.setAttribute('colorPhase', new THREE.BufferAttribute(colorPhases, 1))
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
+    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+    geometry.setAttribute('phase', new THREE.BufferAttribute(phases, 1));
+    geometry.setAttribute('colorPhase', new THREE.BufferAttribute(colorPhases, 1));
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
@@ -117,6 +118,7 @@ export function useParticles() {
         uFrontBias: { value: 1.5 },
       },
       vertexShader: `
+        precision mediump float;
         attribute float size;
         attribute vec3 color;
         attribute float phase;
@@ -171,6 +173,7 @@ export function useParticles() {
         }
       `,
       fragmentShader: `
+        precision mediump float;
         varying vec3 vColor;
 
         void main() {
@@ -190,21 +193,21 @@ export function useParticles() {
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
-    })
+    });
 
-    return new THREE.Points(geometry, material)
-  }
+    return new THREE.Points(geometry, material);
+  };
 
   const createGlowParticles = (config: PlasmaConfig, isMobile: boolean = false) => {
     // Используем адаптивное количество частиц
     const particleCount = isMobile
       ? config.mobileGlowParticleCount || Math.floor(config.glowParticleCount * 0.5)
-      : config.glowParticleCount
+      : config.glowParticleCount;
 
-    const positions = new Float32Array(particleCount * 3)
-    const colorsArray = new Float32Array(particleCount * 3)
-    const sizes = new Float32Array(particleCount)
-    const colorPhases = new Float32Array(particleCount)
+    const positions = new Float32Array(particleCount * 3);
+    const colorsArray = new Float32Array(particleCount * 3);
+    const sizes = new Float32Array(particleCount);
+    const colorPhases = new Float32Array(particleCount);
 
     const getSafeColors = (): [THREE.Color, THREE.Color, THREE.Color, THREE.Color] => {
       const defaultColors: [THREE.Color, THREE.Color, THREE.Color, THREE.Color] = [
@@ -212,10 +215,10 @@ export function useParticles() {
         new THREE.Color(0x0044aa),
         new THREE.Color(0x0088bb),
         new THREE.Color(0x00aa88),
-      ]
+      ];
 
       if (!config.currentColors || !Array.isArray(config.currentColors)) {
-        return defaultColors
+        return defaultColors;
       }
 
       const colors: [THREE.Color, THREE.Color, THREE.Color, THREE.Color] = [
@@ -223,66 +226,66 @@ export function useParticles() {
         defaultColors[1],
         defaultColors[2],
         defaultColors[3],
-      ]
+      ];
 
-      const maxColors = Math.min(4, config.currentColors.length)
+      const maxColors = Math.min(4, config.currentColors.length);
       for (let i = 0; i < maxColors; i++) {
-        const configColor = config.currentColors[i]
+        const configColor = config.currentColors[i];
         if (configColor && configColor instanceof THREE.Color) {
-          colors[i] = configColor
+          colors[i] = configColor;
         }
       }
 
-      return colors
-    }
+      return colors;
+    };
 
-    const safeColors = getSafeColors()
+    const safeColors = getSafeColors();
 
     for (let i = 0; i < particleCount; i++) {
-      const isFrontZone = Math.random() < 0.7
+      const isFrontZone = Math.random() < 0.7;
 
       let x = 0,
         y = 0,
-        z = 0
+        z = 0;
 
       if (isFrontZone) {
-        const radius = 6 + Math.random() * 18
-        const phi = Math.acos(1 - Math.random() * 1.4)
-        const theta = Math.random() * Math.PI * 2
-        x = radius * Math.sin(phi) * Math.cos(theta) * 0.7
-        y = radius * Math.sin(phi) * Math.sin(theta) * 0.7
-        z = radius * Math.cos(phi) * (1.3 + Math.random() * 0.3)
+        const radius = 6 + Math.random() * 18;
+        const phi = Math.acos(1 - Math.random() * 1.4);
+        const theta = Math.random() * Math.PI * 2;
+        x = radius * Math.sin(phi) * Math.cos(theta) * 0.7;
+        y = radius * Math.sin(phi) * Math.sin(theta) * 0.7;
+        z = radius * Math.cos(phi) * (1.3 + Math.random() * 0.3);
       } else {
-        const radius = 12 + Math.random() * 25
-        const theta = Math.random() * Math.PI * 2
-        const phi = Math.acos(Math.random() * 2 - 1)
-        x = radius * Math.sin(phi) * Math.cos(theta)
-        y = radius * Math.sin(phi) * Math.sin(theta)
-        z = radius * Math.cos(phi)
+        const radius = 12 + Math.random() * 25;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(Math.random() * 2 - 1);
+        x = radius * Math.sin(phi) * Math.cos(theta);
+        y = radius * Math.sin(phi) * Math.sin(theta);
+        z = radius * Math.cos(phi);
       }
 
-      positions[i * 3] = x
-      positions[i * 3 + 1] = y
-      positions[i * 3 + 2] = z
+      positions[i * 3] = x;
+      positions[i * 3 + 1] = y;
+      positions[i * 3 + 2] = z;
 
-      const colorIndex = Math.floor(Math.random() * 4) as 0 | 1 | 2 | 3
-      const color = safeColors[colorIndex].clone()
-      color.multiplyScalar(1.04)
-      colorsArray[i * 3] = color.r
-      colorsArray[i * 3 + 1] = color.g
-      colorsArray[i * 3 + 2] = color.b
+      const colorIndex = Math.floor(Math.random() * 4) as 0 | 1 | 2 | 3;
+      const color = safeColors[colorIndex].clone();
+      color.multiplyScalar(1.04);
+      colorsArray[i * 3] = color.r;
+      colorsArray[i * 3 + 1] = color.g;
+      colorsArray[i * 3 + 2] = color.b;
 
-      const zPos = Math.abs(z)
-      const sizeMultiplier = zPos < 15 ? 1.4 : 0.9
-      sizes[i] = config.glowParticleSize * (0.8 + Math.random() * 1.0) * sizeMultiplier
-      colorPhases[i] = Math.random()
+      const zPos = Math.abs(z);
+      const sizeMultiplier = zPos < 15 ? 1.4 : 0.9;
+      sizes[i] = config.glowParticleSize * (0.8 + Math.random() * 1.0) * sizeMultiplier;
+      colorPhases[i] = Math.random();
     }
 
-    const geometry = new THREE.BufferGeometry()
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-    geometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3))
-    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
-    geometry.setAttribute('colorPhase', new THREE.BufferAttribute(colorPhases, 1))
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
+    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+    geometry.setAttribute('colorPhase', new THREE.BufferAttribute(colorPhases, 1));
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
@@ -292,6 +295,7 @@ export function useParticles() {
         uGlowBrightness: { value: config.glowParticleBrightness },
       },
       vertexShader: `
+        precision mediump float;
         attribute float size;
         attribute vec3 color;
         attribute float colorPhase;
@@ -316,6 +320,7 @@ export function useParticles() {
         }
       `,
       fragmentShader: `
+        precision mediump float;
         varying vec3 vColor;
 
         void main() {
@@ -335,10 +340,10 @@ export function useParticles() {
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
-    })
+    });
 
-    return new THREE.Points(geometry, material)
-  }
+    return new THREE.Points(geometry, material);
+  };
 
   const updateParticleBrightness = (
     config: PlasmaConfig,
@@ -346,26 +351,26 @@ export function useParticles() {
     glowParticles: THREE.Points | null,
     brightness: number,
   ) => {
-    config.particleBrightness = brightness
-    config.glowParticleBrightness = brightness
+    config.particleBrightness = brightness;
+    config.glowParticleBrightness = brightness;
 
     if (plasmaParticles?.material instanceof THREE.ShaderMaterial) {
-      const uniforms = plasmaParticles.material.uniforms
+      const { uniforms } = plasmaParticles.material;
       if (uniforms.uParticleBrightness) {
-        uniforms.uParticleBrightness.value = brightness
+        uniforms.uParticleBrightness.value = brightness;
       }
     }
     if (glowParticles?.material instanceof THREE.ShaderMaterial) {
-      const uniforms = glowParticles.material.uniforms
+      const { uniforms } = glowParticles.material;
       if (uniforms.uGlowBrightness) {
-        uniforms.uGlowBrightness.value = brightness
+        uniforms.uGlowBrightness.value = brightness;
       }
     }
-  }
+  };
 
   return {
     createPlasmaParticles,
     createGlowParticles,
     updateParticleBrightness,
-  }
+  };
 }

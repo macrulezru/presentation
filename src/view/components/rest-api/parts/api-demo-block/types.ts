@@ -9,7 +9,7 @@ export interface Props {
   loading: boolean;
   error: string | null;
   requestInfo: { url: string; method: string };
-  rawResponse: any;
+  rawResponse: unknown;
   apiInfo: ApiInfo;
 }
 

@@ -1,132 +1,131 @@
 <script setup lang="ts">
-  import Button from '@/view/ui/ui-button/ui-button.vue'
+  import { computed, ref, onUnmounted } from 'vue';
 
-  import '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.scss'
+  import { LocalesEnum } from '@/enums/locales.enum.ts';
+  import { useLocaleStore } from '@/stores/use-locale-store';
+  import { useTravelshopIntroStore } from '@/stores/use-travelshop-intro-store';
+  import Music from '@/view/assets/music/control.mp3';
+  import GopMusic from '@/view/assets/music/gop.mp3';
+  import { useI18n } from '@/view/composables/use-i18n';
+  import { useResponsive } from '@/view/composables/use-responsive.ts';
+  import { useTravelshopCanvas } from '@/view/composables/use-travelshop-canvas';
+  import Button from '@/view/ui/ui-button/ui-button.vue';
 
-  import Music from '@/view/assets/music/control.mp3'
-  import GopMusic from '@/view/assets/music/gop.mp3'
+  import '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.scss';
 
-  import { computed, ref, onUnmounted } from 'vue'
-  import { useTravelshopCanvas } from '@/view/composables/use-travelshop-canvas'
-  import { useTravelshopIntroStore } from '@/stores/use-travelshop-intro-store'
-  import { useResponsive } from '@/view/composables/use-responsive.ts'
-  import { useLocaleStore } from '@/stores/use-locale-store'
-  import { LocalesEnum } from '@/enums/locales.enum.ts'
-  import { useI18n } from '@/view/composables/use-i18n'
+  const { t } = useI18n();
+  const { isDesktop } = useResponsive();
 
-  const { t } = useI18n()
-  const { isDesktop } = useResponsive()
+  const canvasContainer = ref<HTMLElement>();
+  const audio = ref<HTMLAudioElement>();
+  const isPlaying = ref(false);
+  const isLoading = ref(false);
+  const hasAudioLoaded = ref(false);
+  const configFileInput = ref<HTMLInputElement>();
 
-  const canvasContainer = ref<HTMLElement>()
-  const audio = ref<HTMLAudioElement>()
-  const isPlaying = ref(false)
-  const isLoading = ref(false)
-  const hasAudioLoaded = ref(false)
-  const configFileInput = ref<HTMLInputElement>()
-
-  const travelshopIntroStore = useTravelshopIntroStore()
+  const travelshopIntroStore = useTravelshopIntroStore();
 
   const { canvasRef, exportConfig, handleImportConfig } =
-    useTravelshopCanvas(canvasContainer)
+    useTravelshopCanvas(canvasContainer);
 
   const newAudio = computed(() => {
     if (useLocaleStore().currentLocale === LocalesEnum.GOP) {
-      return new Audio(GopMusic)
+      return new Audio(GopMusic);
     }
 
-    return new Audio(Music)
-  })
+    return new Audio(Music);
+  });
 
   const loadAudio = async (): Promise<HTMLAudioElement> => {
     if (audio.value && hasAudioLoaded.value) {
-      return audio.value
+      return audio.value;
     }
 
-    isLoading.value = true
+    isLoading.value = true;
 
     // Устанавливаем свойства до загрузки
-    newAudio.value.volume = 0.5
-    newAudio.value.loop = true
+    newAudio.value.volume = 0.5;
+    newAudio.value.loop = true;
 
     return new Promise((resolve, reject) => {
       newAudio.value.addEventListener(
         'canplaythrough',
         () => {
-          audio.value = newAudio.value
-          hasAudioLoaded.value = true
-          isLoading.value = false
-          resolve(newAudio.value)
+          audio.value = newAudio.value;
+          hasAudioLoaded.value = true;
+          isLoading.value = false;
+          resolve(newAudio.value);
         },
         { once: true },
-      )
+      );
 
       newAudio.value.addEventListener(
         'error',
         e => {
-          console.error('Ошибка загрузки аудио:', e)
-          isLoading.value = false
-          reject(new Error('Не удалось загрузить аудиофайл'))
+          console.error('Ошибка загрузки аудио:', e);
+          isLoading.value = false;
+          reject(new Error('Не удалось загрузить аудиофайл'));
         },
         { once: true },
-      )
+      );
 
       // Начинаем загрузку
-      newAudio.value.load()
-    })
-  }
+      newAudio.value.load();
+    });
+  };
 
   const triggerMusic = async () => {
     try {
       // Если аудио еще не загружено, загружаем его
       if (!hasAudioLoaded.value) {
-        await loadAudio()
+        await loadAudio();
       }
 
       if (!audio.value) {
-        console.error('Аудио элемент не создан')
-        return
+        console.error('Аудио элемент не создан');
+        return;
       }
 
       if (isPlaying.value) {
         // Ставим на паузу
-        audio.value.pause()
-        isPlaying.value = false
+        audio.value.pause();
+        isPlaying.value = false;
       } else {
         // Воспроизводим
-        await audio.value.play()
-        isPlaying.value = true
+        await audio.value.play();
+        isPlaying.value = true;
       }
     } catch (error) {
-      console.error('Ошибка управления аудио:', error)
-      isPlaying.value = false
+      console.error('Ошибка управления аудио:', error);
+      isPlaying.value = false;
       // Сбрасываем состояние загрузки при ошибке
       if (error instanceof Error && error.message === 'Не удалось загрузить аудиофайл') {
-        hasAudioLoaded.value = false
-        audio.value = undefined
+        hasAudioLoaded.value = false;
+        audio.value = undefined;
       }
     }
-  }
+  };
 
   const handleExportConfig = () => {
-    exportConfig()
-  }
+    exportConfig();
+  };
 
   const handleImportClick = () => {
-    configFileInput.value?.click()
-  }
+    configFileInput.value?.click();
+  };
 
   onUnmounted(() => {
     if (audio.value) {
-      audio.value.pause()
-      audio.value = undefined
+      audio.value.pause();
+      audio.value = undefined;
     }
-    isPlaying.value = false
-    hasAudioLoaded.value = false
-  })
+    isPlaying.value = false;
+    hasAudioLoaded.value = false;
+  });
 </script>
 
 <template>
-  <div class="travelshop-intro" ref="canvasContainer">
+  <div ref="canvasContainer" class="travelshop-intro">
     <div
       class="travelshop-intro__wrapper"
       :class="{
@@ -165,7 +164,6 @@
             </Button>
             <button
               class="travelshop-intro__music-btn"
-              @click="triggerMusic"
               :class="{
                 'travelshop-intro__music-btn--loading': isLoading,
                 'travelshop-intro__music-btn--playing': isPlaying && !isLoading,
@@ -178,6 +176,7 @@
                     ? t('tshIntro.buttons.pauseMusic')
                     : t('tshIntro.buttons.playMusic')
               "
+              @click="triggerMusic"
             >
               <span class="travelshop-intro__music-icon">
                 <svg
@@ -212,8 +211,8 @@
           </div>
           <button
             class="travelshop-intro__controls-close"
-            @click="travelshopIntroStore.toggleDebugControls"
             :title="t('tshIntro.buttons.close')"
+            @click="travelshopIntroStore.toggleDebugControls"
           >
             ×
           </button>
@@ -249,13 +248,13 @@
                 :max="param.max"
                 :step="param.step"
                 :value="param.value"
+                class="travelshop-intro__controls-slider"
                 @input="
                   travelshopIntroStore.updateDebugParam(
                     param.id,
                     parseFloat(($event.target as HTMLInputElement).value),
                   )
                 "
-                class="travelshop-intro__controls-slider"
               />
               <div class="travelshop-intro__controls-info">
                 {{ t(`tshIntro.info.${param.id}`) }}
@@ -266,8 +265,8 @@
       </div>
     </template>
     <input
-      type="file"
       ref="configFileInput"
+      type="file"
       accept=".json"
       style="display: none"
       @change="handleImportConfig"

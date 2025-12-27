@@ -9,4 +9,4 @@ export enum PageSectionsEnum {
   CONTACTS = 'contacts',
 }
 
-export type PageSectionsType = (typeof PageSectionsEnum)[keyof typeof PageSectionsEnum]
+export type PageSectionsType = (typeof PageSectionsEnum)[keyof typeof PageSectionsEnum];

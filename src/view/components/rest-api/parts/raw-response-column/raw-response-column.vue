@@ -2,6 +2,7 @@
   import '@/view/components/rest-api/parts/raw-response-column/raw-response-column.scss';
 
   import type { Props } from './types';
+
   import { useI18n } from '@/view/composables/use-i18n.ts';
 
   const { t } = useI18n();

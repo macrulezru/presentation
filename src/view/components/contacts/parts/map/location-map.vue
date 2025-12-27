@@ -1,10 +1,11 @@
 <script setup lang="ts">
   import '@/view/components/contacts/parts/map/location-map.scss';
 
-  import locationPin from '@/view/assets/images/location-pin.svg?url';
-
   import { onMounted, onUnmounted, ref } from 'vue';
+
   import type { YMap, YPlacemark } from './types';
+
+  import locationPin from '@/view/assets/images/location-pin.svg?url';
   import { useI18n } from '@/view/composables/use-i18n.ts';
 
   const { t } = useI18n();

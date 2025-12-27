@@ -2,20 +2,20 @@ export const ResponsiveBreakpoints = {
   mobile: 480,
   tablet: 768,
   desktop: 1199,
-} as const
+} as const;
 
-export type Breakpoint = keyof typeof ResponsiveBreakpoints
+export type Breakpoint = keyof typeof ResponsiveBreakpoints;
 
 export enum MediaQueryEnum {
   MAX_WIDTH = 'max-width',
   MIN_WIDTH = 'min-width',
 }
 
-export type MediaQueryType = (typeof MediaQueryEnum)[keyof typeof MediaQueryEnum]
+export type MediaQueryType = (typeof MediaQueryEnum)[keyof typeof MediaQueryEnum];
 
 export interface MediaQueryConfig {
-  type: MediaQueryType
-  value: number
+  type: MediaQueryType;
+  value: number;
 }
 
 export const ResponsiveConfig: Record<Breakpoint, MediaQueryConfig> = {
@@ -31,4 +31,4 @@ export const ResponsiveConfig: Record<Breakpoint, MediaQueryConfig> = {
     type: MediaQueryEnum.MIN_WIDTH,
     value: ResponsiveBreakpoints.tablet + 1,
   },
-} as const
+} as const;

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-  import LocationMap from '@/view/components/contacts/parts/map/location-map.vue'
-  import Button from '@/view/ui/ui-button/ui-button.vue'
+  import emailjs from 'emailjs-com';
+  import { ref, computed } from 'vue';
 
-  import '@/view/components/contacts/contacts.scss'
+  import LocationMap from '@/view/components/contacts/parts/map/location-map.vue';
+  import { useI18n } from '@/view/composables/use-i18n.ts';
+  import Button from '@/view/ui/ui-button/ui-button.vue';
 
-  import { ref, computed } from 'vue'
-  import { useI18n } from '@/view/composables/use-i18n.ts'
-  import emailjs from 'emailjs-com'
+  import '@/view/components/contacts/contacts.scss';
 
-  const { t, tm } = useI18n()
+  const { t, tm } = useI18n();
 
   const contacts = computed(() => [
     {
@@ -34,22 +34,22 @@
       value: `@${t('contacts.ya-messenger.value')}`,
       href: 'https://yandex.ru/chat/p/41a53011-0ac3-4de7-b032-918fabf51dae?utm_source=invite',
     },
-  ])
+  ]);
 
   // Данные формы
   const formData = ref({
     name: '',
     email: '',
     message: '',
-  })
+  });
 
   // Фиксированная тема
-  const formSubject = computed(() => t('form.default_subject'))
+  const formSubject = computed(() => t('form.default_subject'));
 
   // Состояние формы
-  const isSubmitting = ref(false)
-  const isSuccess = ref(false)
-  const errorMessage = ref('')
+  const isSubmitting = ref(false);
+  const isSuccess = ref(false);
+  const errorMessage = ref('');
 
   // Конфигурация EmailJS
   const EMAILJS_CONFIG = {
@@ -57,36 +57,36 @@
     templateId: 'template_8hit7kl',
     publicKey: 'S-DbEWH7CYmFUekVS',
     recipientEmail: 'macrulezru@gmail.com',
-  }
+  };
 
   // Валидация формы
   const validateForm = () => {
     if (!formData.value.name.trim()) {
-      return t('form.errors.name_required')
+      return t('form.errors.name_required');
     }
     if (!formData.value.email.trim()) {
-      return t('form.errors.email_required')
+      return t('form.errors.email_required');
     }
     if (!/^\S+@\S+\.\S+$/.test(formData.value.email)) {
-      return t('form.errors.email_invalid')
+      return t('form.errors.email_invalid');
     }
     if (!formData.value.message.trim()) {
-      return t('form.errors.message_required')
+      return t('form.errors.message_required');
     }
-    return null
-  }
+    return null;
+  };
 
   // Отправка формы через EmailJS
   const submitForm = async () => {
-    const validationError = validateForm()
+    const validationError = validateForm();
     if (validationError) {
-      errorMessage.value = validationError
-      return
+      errorMessage.value = validationError;
+      return;
     }
 
-    isSubmitting.value = true
-    errorMessage.value = ''
-    isSuccess.value = false
+    isSubmitting.value = true;
+    errorMessage.value = '';
+    isSuccess.value = false;
 
     try {
       const templateParams = {
@@ -98,34 +98,34 @@
         reply_to: formData.value.email,
         date: new Date().toLocaleString('ru-RU'),
         page_url: window.location.href,
-      }
+      };
 
       const result = await emailjs.send(
         EMAILJS_CONFIG.serviceId,
         EMAILJS_CONFIG.templateId,
         templateParams,
         EMAILJS_CONFIG.publicKey,
-      )
+      );
 
       if (result.status === 200) {
-        isSuccess.value = true
+        isSuccess.value = true;
         setTimeout(() => {
-          formData.value = { name: '', email: '', message: '' }
-          isSuccess.value = false
-        }, 3000)
+          formData.value = { name: '', email: '', message: '' };
+          isSuccess.value = false;
+        }, 3000);
       } else {
-        throw new Error('EmailJS returned non-200 status')
+        throw new Error('EmailJS returned non-200 status');
       }
     } catch (error) {
-      console.error('EmailJS error:', error)
-      errorMessage.value = t('form.errors.submission_failed')
+      console.error('EmailJS error:', error);
+      errorMessage.value = t('form.errors.submission_failed');
 
       // Fallback через mailto
       setTimeout(() => {
         if (errorMessage.value === t('form.errors.submission_failed')) {
           const subject = encodeURIComponent(
             `${formSubject.value} от ${formData.value.name}`,
-          )
+          );
 
           const body = encodeURIComponent(`
 ${t('form.fields.name')}: ${formData.value.name}
@@ -137,22 +137,22 @@ ${formData.value.message}
 
 ---
 ${t('form.sent_from')}: ${window.location.href}
-        `)
+        `);
 
-          window.location.href = `mailto:${EMAILJS_CONFIG.recipientEmail}?subject=${subject}&body=${body}`
+          window.location.href = `mailto:${EMAILJS_CONFIG.recipientEmail}?subject=${subject}&body=${body}`;
         }
-      }, 1000)
+      }, 1000);
     } finally {
-      isSubmitting.value = false
+      isSubmitting.value = false;
     }
-  }
+  };
 
   // Сброс формы
   const resetForm = () => {
-    formData.value = { name: '', email: '', message: '' }
-    errorMessage.value = ''
-    isSuccess.value = false
-  }
+    formData.value = { name: '', email: '', message: '' };
+    errorMessage.value = '';
+    isSuccess.value = false;
+  };
 </script>
 
 <template>
@@ -208,7 +208,7 @@ ${t('form.sent_from')}: ${window.location.href}
           <h3 class="contacts__form-title">{{ t('form.title') }}</h3>
           <p class="contacts__form-description">{{ t('form.description') }}</p>
 
-          <form @submit.prevent="submitForm" class="contacts__form">
+          <form class="contacts__form" @submit.prevent="submitForm">
             <div class="form-group">
               <label for="name" class="form-label">
                 {{ t('form.fields.name') }}

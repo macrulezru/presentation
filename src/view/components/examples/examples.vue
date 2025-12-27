@@ -1,16 +1,16 @@
 <script setup lang="ts">
-  import FeatureItem from '@/view/components/examples/parts/feature-item/feature-item.vue'
-  import Button from '@/view/ui/ui-button/ui-button.vue'
-  import LoadingSpinner from '@/view/ui/ui-loading-spinner/ui-loading-spinner.vue'
+  import { ref, defineAsyncComponent } from 'vue';
 
-  import '@/view/components/examples/examples.scss'
+  import { FeaturesEnum } from '@/enums/features.enum';
+  import { PageSectionsEnum } from '@/enums/page-sections.enum.ts';
+  import FeatureItem from '@/view/components/examples/parts/feature-item/feature-item.vue';
+  import { useFeatures } from '@/view/composables/use-features.ts';
+  import { useI18n } from '@/view/composables/use-i18n.ts';
+  import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
+  import Button from '@/view/ui/ui-button/ui-button.vue';
+  import LoadingSpinner from '@/view/ui/ui-loading-spinner/ui-loading-spinner.vue';
 
-  import { ref, defineAsyncComponent } from 'vue'
-  import { useI18n } from '@/view/composables/use-i18n.ts'
-  import { useFeatures } from '@/view/composables/use-features.ts'
-  import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts'
-  import { PageSectionsEnum } from '@/enums/page-sections.enum.ts'
-  import { FeaturesEnum } from '@/enums/features.enum'
+  import '@/view/components/examples/examples.scss';
 
   const RestApi = defineAsyncComponent({
     loader: () => import('@/view/components/rest-api/rest-api.vue'),
@@ -24,22 +24,22 @@
       </div>
     `,
     },
-  })
+  });
 
-  const { t } = useI18n()
+  const { t } = useI18n();
 
-  const { features } = useFeatures()
-  const { navigateToSection } = useScrollRouting()
+  const { features } = useFeatures();
+  const { navigateToSection } = useScrollRouting();
 
-  const isShowRestApi = ref<boolean>(false)
+  const isShowRestApi = ref<boolean>(false);
 
   const toContactSection = () => {
-    navigateToSection(PageSectionsEnum.CONTACTS)
-  }
+    navigateToSection(PageSectionsEnum.CONTACTS);
+  };
 
   const showRestApi = () => {
-    isShowRestApi.value = true
-  }
+    isShowRestApi.value = true;
+  };
 </script>
 
 <template>

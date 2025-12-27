@@ -1,9 +1,9 @@
-import { LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum'
+import { LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum';
 
 // Экспортируем тип для импортов
 export type LocaleImportMap = {
-  [K in LocalesEnumType]: () => Promise<{ default: any }>
-}
+  [K in LocalesEnumType]: () => Promise<{ default: any }>;
+};
 
 // Карта импортов
 export const localeImportMap: LocaleImportMap = {
@@ -14,9 +14,9 @@ export const localeImportMap: LocaleImportMap = {
   [LocalesEnum.ZH]: () => import('./zh.json'),
   [LocalesEnum.GOP]: () => import('./gop.json'),
   [LocalesEnum.LITERAL]: () => import('./literal.json'),
-}
+};
 
 // Функция для предварительной загрузки локали
 export const preloadLocale = async (locale: LocalesEnumType): Promise<void> => {
-  await localeImportMap[locale]()
-}
+  await localeImportMap[locale]();
+};

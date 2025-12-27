@@ -19,9 +19,9 @@ export enum TravelshopImage {
 
 // Интерфейс для конфигурации изображения
 export interface TravelshopImageConfig {
-  enum: TravelshopImage
-  fileName: string
-  order?: number
+  enum: TravelshopImage;
+  fileName: string;
+  order?: number;
 }
 
 // Массив конфигураций в нужном порядке
@@ -42,12 +42,12 @@ export const TRAVELSHOP_IMAGE_CONFIGS: TravelshopImageConfig[] = [
   { enum: TravelshopImage.DESKTOP_8, fileName: 'mobile-7' },
   { enum: TravelshopImage.DESKTOP_7, fileName: 'desktop-7' },
   { enum: TravelshopImage.DESKTOP_7, fileName: 'mobile-8' },
-]
+];
 
 // Тип для объекта изображения
 export interface TravelshopImageData {
-  preview: string
-  full: string
-  description: string
-  key: TravelshopImage
+  preview: string;
+  full: string;
+  description: string;
+  key: TravelshopImage;
 }

@@ -1,15 +1,16 @@
 <script setup lang="ts">
-  import RequestInfoColumn from '@/view/components/rest-api/parts/request-info-column/request-info-column.vue';
-  import RawResponseColumn from '@/view/components/rest-api/parts/raw-response-column/raw-response-column.vue';
+  import { computed, useSlots } from 'vue';
+
+  import type { Props, Emits } from './types';
+
   import EmptyState from '@/view/components/rest-api/parts/empty-state/empty-state.vue';
+  import RawResponseColumn from '@/view/components/rest-api/parts/raw-response-column/raw-response-column.vue';
+  import RequestInfoColumn from '@/view/components/rest-api/parts/request-info-column/request-info-column.vue';
+  import { useI18n } from '@/view/composables/use-i18n.ts';
+  import { useResponsive } from '@/view/composables/use-responsive';
   import Button from '@/view/ui/ui-button/ui-button.vue';
 
   import '@/view/components/rest-api/parts/api-demo-block/api-demo-block.scss';
-
-  import { computed, useSlots } from 'vue';
-  import { useI18n } from '@/view/composables/use-i18n.ts';
-  import { useResponsive } from '@/view/composables/use-responsive';
-  import type { Props, Emits } from './types';
 
   const { t } = useI18n();
 
@@ -55,9 +56,9 @@
     </div>
 
     <div class="api-demo-block__response-columns">
-      <RequestInfoColumn :api-info="apiInfo" :loading="loading" :error="error" />
+      <RequestInfoColumn :apiInfo="apiInfo" :loading="loading" :error="error" />
 
-      <RawResponseColumn :loading="loading" :error="error" :raw-response="rawResponse" />
+      <RawResponseColumn :loading="loading" :error="error" :rawResponse="rawResponse" />
 
       <div class="api-demo-block__column api-demo-block__formatted-data">
         <h3 class="api-demo-block__column-title">{{ t('rest-api.formattedData') }}</h3>
