@@ -11,7 +11,8 @@
   },
   "splash": {
     "welcome": "Danil Lisin",
-    "subtitle": "Vue.js Developer",
+    "vue": "VUE JS",
+    "developer": "Developer",
     "description": "Transforming complex tasks into elegant solutions. Specializing in Vue 3, TypeScript and creating scalable applications with well-thought-out architecture.",
     "more": "view resume"
   },

@@ -1,11 +1,8 @@
 <script setup lang="ts">
   import { computed, ref, onUnmounted } from 'vue';
 
-  import { LocalesEnum } from '@/enums/locales.enum.ts';
-  import { useLocaleStore } from '@/stores/use-locale-store';
   import { useTravelshopIntroStore } from '@/stores/use-travelshop-intro-store';
   import Music from '@/view/assets/music/control.mp3';
-  import GopMusic from '@/view/assets/music/gop.mp3';
   import { useI18n } from '@/view/composables/use-i18n';
   import { useResponsive } from '@/view/composables/use-responsive.ts';
   import { useTravelshopCanvas } from '@/view/composables/use-travelshop-canvas';
@@ -29,10 +26,6 @@
     useTravelshopCanvas(canvasContainer);
 
   const newAudio = computed(() => {
-    if (useLocaleStore().currentLocale === LocalesEnum.GOP) {
-      return new Audio(GopMusic);
-    }
-
     return new Audio(Music);
   });
 

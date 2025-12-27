@@ -7,6 +7,7 @@
   import { useI18n } from '@/view/composables/use-i18n';
   import { usePlasmaBackground } from '@/view/composables/use-plasma-background';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
+  import Button from '@/view/ui/ui-button/ui-button.vue';
 
   const { t } = useI18n();
 
@@ -15,24 +16,18 @@
   const { navigateToSection } = useScrollRouting();
   const { startAnimation, stopAnimation } = usePlasmaBackground(splashRef);
 
-  let observer: IntersectionObserver;
+  let observer: IntersectionObserver | undefined;
 
   const createObserver = () => {
     const element = splashRef.value;
-    if (!element || observer) return; // предотвращаем создание нескольких observer'ов
+    if (!element || observer) return;
 
     observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry) return;
-        if (entry.isIntersecting) {
-          startAnimation();
-        } else {
-          stopAnimation();
-        }
+        (entry.isIntersecting ? startAnimation : stopAnimation)();
       },
       {
-        root: null,
-        rootMargin: '0px',
         threshold: 0,
       },
     );
@@ -42,42 +37,48 @@
 
   const hidePreloader = () => {
     const loader = document.getElementById('app-loader');
-    if (loader) {
-      loader.remove();
-    }
+    if (loader) loader.remove();
   };
 
   onMounted(() => {
-    nextTick(() => {
-      createObserver();
-    });
+    nextTick(createObserver);
     startAnimation();
     hidePreloader();
   });
 
   onUnmounted(() => {
-    if (observer) {
-      observer.disconnect();
-    }
+    observer?.disconnect();
     stopAnimation();
   });
 </script>
 
 <template>
-  <div ref="splashRef" class="splash">
-    <div class="splash__animation" />
-    <div class="splash__content">
-      <h1 class="splash__title">{{ t('splash.welcome') }}</h1>
-      <p class="splash__subtitle">{{ t('splash.subtitle') }}</p>
-      <p class="splash__description">{{ t('splash.description') }}</p>
-    </div>
-    <div class="compact-chevron" @click="navigateToSection(PageSectionsEnum.ABOUT)">
-      <div class="compact-chevron-group">
-        <span class="compact-chevron-icon" />
-        <span class="compact-chevron-icon" />
-        <span class="compact-chevron-icon" />
+  <section ref="splashRef" class="splash">
+    <div class="splash__main">
+      <div class="splash__animation" />
+
+      <div class="splash__content">
+        <div class="splash__title">
+          {{ t('splash.welcome') }}
+        </div>
+
+        <div class="splash__subtitle">
+          <span class="splash__vue">{{ t('splash.vue') }}</span>
+          <span class="splash__dot" />
+          <span class="splash__developer">{{ t('splash.developer') }}</span>
+        </div>
+
+        <div class="splash__description">
+          {{ t('splash.description') }}
+        </div>
+        <div class="splash__content-footer">
+          <Button
+            class="splash__button"
+            :text="t('splash.more')"
+            @click="navigateToSection(PageSectionsEnum.ABOUT)"
+          />
+        </div>
       </div>
-      <span class="compact-label">{{ t('splash.more') }}</span>
     </div>
-  </div>
+  </section>
 </template>
