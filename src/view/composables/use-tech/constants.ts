@@ -9,6 +9,18 @@ export const DEFAULT_TRAJECTORY_MODE = 'infinity'; // 'infinity' или 'circle'
 // Параметры круговой траектории
 export const CIRCLE_MAX_RADIUS = 200; // максимальный радиус окружности для режима circle
 
+// Параметры инерции при отпускании иконок
+export const DRAG_INERTIA_DECELERATION = 0.95; // коэффициент затухания скорости (0-1, меньше = быстрее затухает)
+export const DRAG_INERTIA_MIN_VELOCITY = 0.00001; // минимальная скорость, ниже которой инерция считается нулевой
+
+// Множители для синхронизации драга с курсором
+export const DRAG_SYNC_MULTIPLIER_INFINITY = 0.5; // множитель для траектории infinity (больше из-за нелинейности)
+export const DRAG_SYNC_MULTIPLIER_CIRCLE = 1.0; // множитель для круговой траектории
+
+// Минимальное расстояние (в пикселях) перед началом драга
+// Если палец/мышь сместились меньше, чем на это значение, то это считается тапом, а не драгом
+export const DRAG_START_THRESHOLD = 10; // пиксели
+
 // Масштабы глубины для эффекта переднего/заднего плана
 export const DEPTH_SCALE_MIN = 0.5; // минимальный масштаб (задний план)
 export const DEPTH_SCALE_MAX = 1.5; // максимальный масштаб (передний план)
@@ -162,6 +174,10 @@ export const MOBILE_ICON_SIZE_CONFIG = {
 } as const;
 // Размер растрового спрайта для логотипов (для HiDPI экранов)
 export const ICON_RASTER_HEIGHT = 200; // Высокое разрешение для четкости на Retina дисплеях
+
+// Множитель разрешения для растровых элементов UI (подложки, кнопки)
+// 3x для очень четкого отображения на HiDPI дисплеях
+export const UI_RASTER_SCALE = 3;
 
 // Параметры частиц с шлейфом
 export const PARTICLE_CONFIG = {

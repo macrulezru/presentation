@@ -40,6 +40,14 @@ export interface AnimationState {
   canvasHeight: number;
   centerX: number;
   centerY: number;
+  // Состояние для ручного управления иконками
+  isDragging: boolean; // идет ли драг иконки
+  draggedItem: TechItem | null; // какая иконка зажата
+  dragStartX: number; // начальная X координата мыши при зажатии
+  dragStartOffset: number; // начальное значение globalPathOffset при зажатии
+  dragVelocity: number; // текущая скорость инерции при отпускании
+  dragLastX: number; // последняя X позиция мыши для расчета скорости
+  dragLastTime: number; // последнее время обновления для расчета скорости
 }
 
 export interface DrawConfig {
