@@ -10,6 +10,10 @@ import {
   ORBIT_ICON_SIZE,
   PARTICLE_CONFIG,
   DEFAULT_TRAJECTORY_MODE,
+  DRAG_INERTIA_DECELERATION,
+  DRAG_INERTIA_MIN_VELOCITY,
+  DRAG_SYNC_MULTIPLIER_INFINITY,
+  DRAG_START_THRESHOLD,
 } from './constants';
 import {
   drawPathIcon,
@@ -101,6 +105,13 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
     canvasHeight: 0,
     centerX: 0,
     centerY: 0,
+    isDragging: false,
+    draggedItem: null,
+    dragStartX: 0,
+    dragStartOffset: 0,
+    dragVelocity: 0,
+    dragLastX: 0,
+    dragLastTime: 0,
   };
 
   const stateManager = new StateManager(initialState);
@@ -295,6 +306,12 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
 
     const state = stateManager.getState();
 
+    // Сначала проверяем драг
+    if (state.isDragging) {
+      handleMouseMoveForDrag(event);
+      return;
+    }
+
     // Если есть выбранный элемент, не обрабатываем ховер на остальных иконках
     if (state.selectedItem) {
       // Обнуляем ховер для всех элементов кроме выбранного
@@ -344,9 +361,9 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
     // Обновляем hover состояния
     const anyItemHovered = updateHoverStates(items.value, mouseX, mouseY);
 
-    // Обновляем курсор
+    // Обновляем курсор - показываем grab при наведении на иконку
     if (canvasRef.value) {
-      canvasRef.value.style.cursor = anyItemHovered ? 'pointer' : 'default';
+      canvasRef.value.style.cursor = anyItemHovered ? 'grab' : 'default';
     }
   };
 
@@ -453,9 +470,458 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
     }
   };
 
+  // Обработчик mousedown - начало драга иконки
+  const handleMouseDown = (event: MouseEvent) => {
+    if (!canvasRef.value) return;
+
+    const state = stateManager.getState();
+
+    // Не начинаем драг если идет анимация детального вида или уже выбран элемент
+    if (state.isAnimatingDetail || state.selectedItem) return;
+
+    const rect = canvasRef.value.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    // Проверяем, попали ли мы по иконке на траектории
+    const clickedItem = getItemAtPosition(items.value, mouseX, mouseY, 'path');
+
+    if (clickedItem && clickedItem.state === 'path') {
+      techDebug('[TechAnimation] Drag started on item:', clickedItem.id);
+
+      // Запоминаем начальные координаты иконки на холсте
+      const itemStartX = clickedItem.x;
+      const itemStartY = clickedItem.y;
+
+      // Для круговой траектории запоминаем начальный угол
+      let dragStartAngle = 0;
+      if (state.trajectoryMode === 'circle') {
+        dragStartAngle = calculateAngle(mouseX, mouseY, state.centerX, state.centerY);
+      }
+
+      // Начинаем драг
+      stateManager.setState({
+        isDragging: true,
+        draggedItem: clickedItem,
+        dragStartX: mouseX, // X курсора относительно canvas
+        dragStartOffset: state.globalPathOffset,
+        dragVelocity: 0,
+        dragLastX: event.clientX, // для расчета скорости
+        dragLastTime: Date.now(),
+      });
+
+      // Сохраняем начальную позицию иконки в самом объекте для удобства
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (clickedItem as any).dragStartItemX = itemStartX;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (clickedItem as any).dragStartItemY = itemStartY;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (clickedItem as any).dragStartAngle = dragStartAngle;
+
+      // Добавляем визуальный эффект зажатия (небольшое увеличение)
+      clickedItem.hoverScale = 1.1;
+
+      // Меняем курсор
+      if (canvasRef.value) {
+        canvasRef.value.style.cursor = 'grabbing';
+      }
+    }
+  };
+
+  // Вспомогательная функция для получения координат из события (mouse или touch)
+  // Вспомогательная функция для вычисления угла
+  const calculateAngle = (
+    x: number,
+    y: number,
+    centerX: number,
+    centerY: number,
+  ): number => {
+    return Math.atan2(y - centerY, x - centerX);
+  };
+
+  // Обработчик mousemove для драга (расширяем существующий)
+  const handleMouseMoveForDrag = (event: MouseEvent) => {
+    if (!canvasRef.value) return;
+
+    const state = stateManager.getState();
+
+    // Если идет драг - обновляем позицию траектории
+    if (state.isDragging && state.draggedItem) {
+      const rect = canvasRef.value.getBoundingClientRect();
+      const currentMouseX = event.clientX - rect.left;
+      const currentMouseY = event.clientY - rect.top;
+
+      let trajectoryDelta = 0;
+
+      if (state.trajectoryMode === 'circle') {
+        // Для круга используем угловую логику
+        // Вычисляем угол от центра до текущей позиции курсора
+        const currentAngle = calculateAngle(
+          currentMouseX,
+          currentMouseY,
+          state.centerX,
+          state.centerY,
+        );
+
+        // Получаем начальный угол из draggedItem (сохранили при mousedown)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const dragStartAngle = (state.draggedItem as any).dragStartAngle || 0;
+
+        // Вычисляем изменение угла
+        let angleDelta = currentAngle - dragStartAngle;
+
+        // Нормализуем дельту для правильной работы через 0/2π границу
+        if (angleDelta > Math.PI) angleDelta -= Math.PI * 2;
+        if (angleDelta < -Math.PI) angleDelta += Math.PI * 2;
+
+        // Конвертируем угол в параметр траектории (0-1)
+        // Угол 2π = полный оборот = 1.0 в параметре траектории
+        trajectoryDelta = angleDelta / (Math.PI * 2);
+
+        techDebug('[TechAnimation] Circle drag sync', {
+          currentAngle: `${((currentAngle * 180) / Math.PI).toFixed(2)}°`,
+          dragStartAngle: `${((dragStartAngle * 180) / Math.PI).toFixed(2)}°`,
+          angleDelta: `${((angleDelta * 180) / Math.PI).toFixed(2)}°`,
+          trajectoryDelta: trajectoryDelta.toFixed(4),
+        });
+      } else {
+        // Для infinity используем линейную логику по X
+        const mouseDeltaX = currentMouseX - state.dragStartX;
+        const multiplier = DRAG_SYNC_MULTIPLIER_INFINITY;
+        trajectoryDelta = (mouseDeltaX / state.canvasWidth) * multiplier;
+
+        techDebug('[TechAnimation] Infinity drag sync', {
+          mouseX: currentMouseX,
+          mouseDeltaX: mouseDeltaX.toFixed(2),
+          trajectoryDelta: trajectoryDelta.toFixed(4),
+        });
+      }
+
+      // Новый offset относительно начального
+      const newOffset = state.dragStartOffset + trajectoryDelta;
+
+      // Расчитываем текущую скорость (пиксели/мс в units/мс)
+      const currentTime = Date.now();
+      const deltaTime = Math.max(currentTime - state.dragLastTime, 1); // избегаем деления на 0
+      const pixelsDeltaSinceLastFrame = event.clientX - state.dragLastX;
+
+      // Чувствительность для расчета скорости (примерно)
+      const sensitivity =
+        state.trajectoryMode === 'infinity'
+          ? 0.0005 // меньшая чувствительность для бесконечности
+          : 0.0008; // большая для круга
+
+      const currentVelocity = (pixelsDeltaSinceLastFrame * sensitivity) / deltaTime;
+
+      // Обновляем globalPathOffset и сохраняем текущую скорость
+      stateManager.setState({
+        globalPathOffset: newOffset,
+        dragVelocity: currentVelocity,
+        dragLastX: event.clientX,
+        dragLastTime: currentTime,
+      });
+
+      return;
+    }
+  };
+
+  // Обработчик touchstart
+  const handleTouchStart = (event: TouchEvent) => {
+    if (!canvasRef.value || event.touches.length === 0) return;
+
+    // Предотвращаем скролл при касании canvas
+    event.preventDefault();
+
+    const state = stateManager.getState();
+    const rect = canvasRef.value.getBoundingClientRect();
+    const touch = event.touches[0]!;
+    const touchX = touch.clientX - rect.left;
+    const touchY = touch.clientY - rect.top;
+
+    // Сохраняем координаты касания для использования в touchend
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).__lastTouchX = touch.clientX;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).__lastTouchY = touch.clientY;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).__lastTouchCanvasX = touchX;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).__lastTouchCanvasY = touchY;
+
+    // Не начинаем драг если идет анимация детального вида
+    if (state.isAnimatingDetail) return;
+
+    const rect2 = canvasRef.value.getBoundingClientRect();
+    const touch2 = event.touches[0]!;
+    const touchX2 = touch2.clientX - rect2.left;
+    const touchY2 = touch2.clientY - rect2.top;
+
+    // Проверяем, попали ли мы по иконке на траектории
+    const clickedItem = getItemAtPosition(items.value, touchX2, touchY2, 'path');
+
+    if (clickedItem && clickedItem.state === 'path' && !state.selectedItem) {
+      techDebug('[TechAnimation] Touch started on item:', clickedItem.id);
+
+      // Запоминаем начальные координаты для проверки порога драга
+      const itemStartX = clickedItem.x;
+      const itemStartY = clickedItem.y;
+
+      // Для круговой траектории запоминаем начальный угол
+      let dragStartAngle = 0;
+      if (state.trajectoryMode === 'circle') {
+        dragStartAngle = calculateAngle(touchX2, touchY2, state.centerX, state.centerY);
+      }
+
+      // Сохраняем потенциальное начало драга, но не начинаем реальный драг до превышения порога
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (clickedItem as any).touchStartX = touch2.clientX;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (clickedItem as any).touchStartY = touch2.clientY;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (clickedItem as any).dragStartItemX = itemStartX;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (clickedItem as any).dragStartItemY = itemStartY;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (clickedItem as any).dragStartAngle = dragStartAngle;
+
+      // Отмечаем, что у нас есть потенциальный драг
+      stateManager.setState({
+        draggedItem: clickedItem,
+        dragStartX: touchX2,
+        dragStartOffset: state.globalPathOffset,
+        dragVelocity: 0,
+        dragLastX: touch2.clientX,
+        dragLastTime: Date.now(),
+      });
+
+      // Добавляем визуальный эффект зажатия
+      clickedItem.hoverScale = 1.1;
+    }
+  };
+
+  // Обработчик touchmove
+  const handleTouchMove = (event: TouchEvent) => {
+    if (!canvasRef.value || event.touches.length === 0) return;
+
+    const state = stateManager.getState();
+    const touch = event.touches[0]!;
+
+    // Если есть потенциальный драг, проверяем, превышен ли порог
+    if (state.draggedItem && !state.isDragging) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const touchStartX = (state.draggedItem as any).touchStartX || touch.clientX;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const touchStartY = (state.draggedItem as any).touchStartY || touch.clientY;
+
+      const distX = touch.clientX - touchStartX;
+      const distY = touch.clientY - touchStartY;
+      const distance = Math.sqrt(distX * distX + distY * distY);
+
+      // Если превышен порог - начинаем реальный драг
+      if (distance > DRAG_START_THRESHOLD) {
+        event.preventDefault();
+        techDebug('[TechAnimation] Touch drag threshold exceeded, starting drag');
+
+        stateManager.setState({
+          isDragging: true,
+        });
+      } else {
+        // Еще не превышен порог, не предотвращаем скролл
+        return;
+      }
+    }
+
+    // Если идет реальный драг - предотвращаем скролл и обновляем позицию
+    if (state.isDragging && state.draggedItem) {
+      event.preventDefault();
+
+      const rect = canvasRef.value.getBoundingClientRect();
+      const currentTouchX = touch.clientX - rect.left;
+      const currentTouchY = touch.clientY - rect.top;
+
+      let trajectoryDelta = 0;
+
+      if (state.trajectoryMode === 'circle') {
+        // Для круга используем угловую логику
+        const currentAngle = calculateAngle(
+          currentTouchX,
+          currentTouchY,
+          state.centerX,
+          state.centerY,
+        );
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const dragStartAngle = (state.draggedItem as any).dragStartAngle || 0;
+
+        let angleDelta = currentAngle - dragStartAngle;
+        if (angleDelta > Math.PI) angleDelta -= Math.PI * 2;
+        if (angleDelta < -Math.PI) angleDelta += Math.PI * 2;
+
+        trajectoryDelta = angleDelta / (Math.PI * 2);
+      } else {
+        // Для infinity используем линейную логику по X
+        const touchDeltaX = currentTouchX - state.dragStartX;
+        const multiplier = DRAG_SYNC_MULTIPLIER_INFINITY;
+        trajectoryDelta = (touchDeltaX / state.canvasWidth) * multiplier;
+      }
+
+      const newOffset = state.dragStartOffset + trajectoryDelta;
+
+      // Расчитываем скорость
+      const currentTime = Date.now();
+      const deltaTime = Math.max(currentTime - state.dragLastTime, 1);
+      const pixelsDeltaSinceLastFrame = touch.clientX - state.dragLastX;
+
+      const sensitivity = state.trajectoryMode === 'infinity' ? 0.0005 : 0.0008;
+      const currentVelocity = (pixelsDeltaSinceLastFrame * sensitivity) / deltaTime;
+
+      // Обновляем состояние
+      stateManager.setState({
+        globalPathOffset: newOffset,
+        dragVelocity: currentVelocity,
+        dragLastX: touch.clientX,
+        dragLastTime: currentTime,
+      });
+    }
+  };
+
+  // Обработчик touchend/touchcancel
+  const handleTouchEnd = () => {
+    const state = stateManager.getState();
+    const rect = canvasRef.value?.getBoundingClientRect();
+
+    // Получаем сохраненные координаты касания
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const touchCanvasX = (window as any).__lastTouchCanvasX || 0;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const touchCanvasY = (window as any).__lastTouchCanvasY || 0;
+
+    if (state.draggedItem) {
+      // Если это был реальный драг
+      if (state.isDragging) {
+        techDebug('[TechAnimation] Touch drag ended');
+        state.draggedItem.hoverScale = 1.0;
+      } else {
+        // Если это был просто тап (под порогом) - обрабатываем как клик
+        techDebug('[TechAnimation] Touch tap detected on item');
+
+        // Проверяем, попали ли мы по кнопке закрытия (если открана детальная панель)
+        if (state.selectedItem && rect) {
+          const angle = -35 * (Math.PI / 180);
+          const baseEndDiameter = Math.min(DETAIL_ITEM_WIDTH, DETAIL_ITEM_HEIGHT);
+          const radius =
+            calculateDetailEndDiameter(
+              state.trajectoryMode,
+              state.canvasWidth,
+              baseEndDiameter,
+            ) / 2;
+          const buttonSize = calculateCloseButtonSize(radius * 2);
+          const closeButtonX = state.centerX + radius * Math.cos(angle);
+          const closeButtonY = state.centerY + radius * Math.sin(angle);
+
+          const dx = touchCanvasX - closeButtonX;
+          const dy = touchCanvasY - closeButtonY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          techDebug('[TechAnimation] Touch close button check on item', {
+            touchCanvasX: touchCanvasX.toFixed(2),
+            touchCanvasY: touchCanvasY.toFixed(2),
+            closeButtonX: closeButtonX.toFixed(2),
+            closeButtonY: closeButtonY.toFixed(2),
+            distance: dist.toFixed(2),
+            buttonRadius: (buttonSize / 2).toFixed(2),
+            hit: dist <= buttonSize / 2,
+          });
+
+          if (dist <= buttonSize / 2) {
+            stateManager.exitDetailedView(items.value);
+          }
+        } else if (state.draggedItem.state === 'path' && !state.selectedItem) {
+          // Просто тап на иконке - открываем детальный вид
+          stateManager.enterDetailedView(state.draggedItem, items.value);
+        }
+      }
+
+      state.draggedItem.hoverScale = 1.0;
+    } else if (state.selectedItem && rect) {
+      // Даже если не было draggedItem, проверяем клик на крестик закрытия
+      techDebug('[TechAnimation] Touch tap detected, checking close button');
+
+      const angle = -35 * (Math.PI / 180);
+      const baseEndDiameter = Math.min(DETAIL_ITEM_WIDTH, DETAIL_ITEM_HEIGHT);
+      const radius =
+        calculateDetailEndDiameter(
+          state.trajectoryMode,
+          state.canvasWidth,
+          baseEndDiameter,
+        ) / 2;
+      const buttonSize = calculateCloseButtonSize(radius * 2);
+      const closeButtonX = state.centerX + radius * Math.cos(angle);
+      const closeButtonY = state.centerY + radius * Math.sin(angle);
+
+      const dx = touchCanvasX - closeButtonX;
+      const dy = touchCanvasY - closeButtonY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      techDebug('[TechAnimation] Touch close button check (no item)', {
+        touchCanvasX: touchCanvasX.toFixed(2),
+        touchCanvasY: touchCanvasY.toFixed(2),
+        closeButtonX: closeButtonX.toFixed(2),
+        closeButtonY: closeButtonY.toFixed(2),
+        distance: dist.toFixed(2),
+        buttonRadius: (buttonSize / 2).toFixed(2),
+        hit: dist <= buttonSize / 2,
+      });
+
+      if (dist <= buttonSize / 2) {
+        stateManager.exitDetailedView(items.value);
+      }
+    }
+
+    // Очищаем состояние драга
+    stateManager.setState({
+      isDragging: false,
+      draggedItem: null,
+    });
+
+    // Очищаем временные переменные
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).__lastTouchX = null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).__lastTouchY = null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).__lastTouchCanvasX = null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).__lastTouchCanvasY = null;
+  };
+
+  // Обработчик mouseup - конец драга
+  const handleMouseUp = () => {
+    const state = stateManager.getState();
+
+    if (state.isDragging) {
+      techDebug('[TechAnimation] Drag ended');
+
+      // Убираем визуальный эффект зажатия
+      if (state.draggedItem) {
+        state.draggedItem.hoverScale = 1.0;
+      }
+
+      // Заканчиваем драг
+      stateManager.setState({
+        isDragging: false,
+        draggedItem: null,
+      });
+
+      // Восстанавливаем курсор
+      if (canvasRef.value) {
+        canvasRef.value.style.cursor = 'default';
+      }
+    }
+  };
+
   // Обновление позиций элементов на траектории
   const updateItemsPositions = (state: AnimationState) => {
-    items.value.forEach(item => {
+    items.value.forEach((item, index) => {
       if (item.state === 'path') {
         // Все элементы движутся по траектории непрерывно
         const currentPosition = (item.pathPosition + state.globalPathOffset) % 1;
@@ -502,6 +968,16 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
 
         item.targetX = point.x;
         item.targetY = point.y;
+
+        // Отладка при драге
+        if (index === 0 && state.isDragging) {
+          techDebug('[UpdatePositions] Item 0', {
+            offset: state.globalPathOffset.toFixed(4),
+            currentPosition: currentPosition.toFixed(4),
+            targetX: item.targetX.toFixed(1),
+            targetY: item.targetY.toFixed(1),
+          });
+        }
 
         // НЕ обновляем pathPosition для элементов на траектории - она фиксирована
       } else if (item.state === 'transition') {
@@ -604,10 +1080,31 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
     // Очищаем холст
     ctx.value.clearRect(0, 0, state.canvasWidth, state.canvasHeight);
 
-    // ВСЕГДА обновляем глобальное смещение (все элементы движутся по траектории)
-    stateManager.setState({
-      globalPathOffset: state.globalPathOffset + INFINITY_MOVEMENT_SPEED * deltaTime,
-    });
+    // Обновляем глобальное смещение
+    if (!state.isDragging) {
+      // Если есть инерция после отпускания мыши - применяем её с затуханием
+      if (Math.abs(state.dragVelocity) > DRAG_INERTIA_MIN_VELOCITY) {
+        // Применяем инерцию и постепенно её затухаем к стандартной скорости
+        const newOffset = state.globalPathOffset + state.dragVelocity * deltaTime;
+        let newVelocity = state.dragVelocity * DRAG_INERTIA_DECELERATION;
+
+        // Если скорость стала достаточно близка к стандартной - переходим обратно к обычной анимации
+        if (Math.abs(newVelocity - INFINITY_MOVEMENT_SPEED) < DRAG_INERTIA_MIN_VELOCITY) {
+          newVelocity = 0; // Обнуляем инерцию, чтобы вернуться к обычной анимации
+        }
+
+        stateManager.setState({
+          globalPathOffset: newOffset,
+          dragVelocity: newVelocity,
+        });
+      } else {
+        // Обычное вращение со стандартной скоростью, когда нет инерции
+        stateManager.setState({
+          globalPathOffset: state.globalPathOffset + INFINITY_MOVEMENT_SPEED * deltaTime,
+          dragVelocity: 0,
+        });
+      }
+    }
 
     // Обновляем анимацию детализации
     stateManager.updateDetailAnimation(deltaTime, items.value);
@@ -654,7 +1151,18 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
 
     // Плавное движение к целевой позиции
     items.value.forEach(item => {
-      const speed = item.state === 'transition' ? 0.3 : 0.1;
+      // Во время драга или инерции делаем движение мгновенным для элементов на траектории
+      const state = stateManager.getState();
+      const isDraggingActive = state.isDragging;
+      const isInertiaActive = Math.abs(state.dragVelocity) > DRAG_INERTIA_MIN_VELOCITY;
+
+      const speed =
+        (isDraggingActive || isInertiaActive) && item.state === 'path'
+          ? 1.0 // мгновенное обновление при драге или инерции
+          : item.state === 'transition'
+            ? 0.3
+            : 0.1;
+
       item.x += (item.targetX - item.x) * speed;
       item.y += (item.targetY - item.y) * speed;
 
@@ -818,6 +1326,15 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
     // Добавляем обработчики событий
     canvasRef.value.addEventListener('mousemove', handleMouseMove);
     canvasRef.value.addEventListener('click', handleClick);
+    canvasRef.value.addEventListener('mousedown', handleMouseDown);
+    // mouseup вешаем на document, чтобы ловить отпускание мыши вне canvas
+    document.addEventListener('mouseup', handleMouseUp);
+
+    // Touch события для мобильных устройств
+    canvasRef.value.addEventListener('touchstart', handleTouchStart, { passive: false });
+    canvasRef.value.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('touchend', handleTouchEnd);
+    document.addEventListener('touchcancel', handleTouchEnd);
   };
 
   // Остановка анимации
@@ -830,7 +1347,15 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
     if (canvasRef.value) {
       canvasRef.value.removeEventListener('mousemove', handleMouseMove);
       canvasRef.value.removeEventListener('click', handleClick);
+      canvasRef.value.removeEventListener('mousedown', handleMouseDown);
+      canvasRef.value.removeEventListener('touchstart', handleTouchStart);
+      canvasRef.value.removeEventListener('touchmove', handleTouchMove);
     }
+
+    // Удаляем слушатели с document
+    document.removeEventListener('mouseup', handleMouseUp);
+    document.removeEventListener('touchend', handleTouchEnd);
+    document.removeEventListener('touchcancel', handleTouchEnd);
   };
 
   // Пауза анимации (при скрытии из viewport)

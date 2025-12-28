@@ -19,6 +19,7 @@ import {
   CLOSE_BUTTON_CROSS_LINE_WIDTH_RATIO,
   DETAIL_TEXT_SIDE_PADDING_RATIO,
   ENABLE_TECH_DEBUG,
+  UI_RASTER_SCALE,
 } from './constants';
 import { iconPaths } from './icon-imports';
 
@@ -97,6 +98,54 @@ export function isPointInRect(
   return x >= rectX && x <= rectX + rectWidth && y >= rectY && y <= rectY + rectHeight;
 }
 
+// Поиск позиции на траектории по X координате курсора
+export function findTrajectoryParameterByXCoordinate(
+  targetX: number,
+  trajectoryMode: 'infinity' | 'circle',
+  centerX: number,
+  centerY: number,
+  infinityScale: number,
+  calculateInfinityPoint: (
+    t: number,
+    scale: number,
+    centerX: number,
+    centerY: number,
+  ) => { x: number; y: number },
+  calculateCirclePoint: (
+    t: number,
+    radius: number,
+    centerX: number,
+    centerY: number,
+  ) => { x: number; y: number },
+  currentParam?: number,
+): number {
+  // Простой и надёжный подход - сканируем всю кривую один раз
+  const samples = 1000;
+
+  let bestParam = currentParam || 0;
+  let bestDiff = Infinity;
+
+  // Сканируем полный диапазон
+  for (let i = 0; i <= samples; i++) {
+    const t = i / samples;
+
+    let point;
+    if (trajectoryMode === 'infinity') {
+      point = calculateInfinityPoint(t, infinityScale, centerX, centerY);
+    } else {
+      point = calculateCirclePoint(t, infinityScale, centerX, centerY);
+    }
+
+    const diff = Math.abs(point.x - targetX);
+
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      bestParam = t;
+    }
+  }
+
+  return bestParam;
+}
 export function wrapText(
   ctx: CanvasRenderingContext2D,
   text: string,
@@ -428,9 +477,10 @@ export function rasterizeCloseButton(
     return closeButtonCache.get(cacheKey)!;
   }
 
-  // Создаем canvas с запасом для тени
-  const shadowPadding = 10;
-  const canvasSize = buttonSize + shadowPadding * 2;
+  // Создаем canvas в высоком разрешении (3x для четкости)
+  const shadowPadding = 10 * UI_RASTER_SCALE;
+  const scaledButtonSize = buttonSize * UI_RASTER_SCALE;
+  const canvasSize = scaledButtonSize + shadowPadding * 2;
   const canvas = document.createElement('canvas');
   canvas.width = canvasSize;
   canvas.height = canvasSize;
@@ -441,7 +491,7 @@ export function rasterizeCloseButton(
   // Центр кнопки на canvas
   const centerX = canvasSize / 2;
   const centerY = canvasSize / 2;
-  const radius = buttonSize / 2;
+  const radius = scaledButtonSize / 2;
 
   // Цвета для кнопки
   const red = '#e53935';
@@ -458,25 +508,25 @@ export function rasterizeCloseButton(
   // Бордюр кнопки (масштабируем толщину относительно размера)
   ctx.strokeStyle = borderColor;
   ctx.lineWidth = Math.max(
-    1,
-    Math.round(buttonSize * CLOSE_BUTTON_CROSS_LINE_WIDTH_RATIO),
+    UI_RASTER_SCALE,
+    Math.round(scaledButtonSize * CLOSE_BUTTON_CROSS_LINE_WIDTH_RATIO),
   );
   ctx.stroke();
 
-  // Тень
+  // Тень (масштабируем для высокого разрешения)
   ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
-  ctx.shadowBlur = 4;
-  ctx.shadowOffsetY = 2;
+  ctx.shadowBlur = 4 * UI_RASTER_SCALE;
+  ctx.shadowOffsetY = 2 * UI_RASTER_SCALE;
 
   // Крестик (масштабируем размер и толщину линий)
   ctx.strokeStyle = crossColor;
   ctx.lineWidth = Math.max(
-    1,
-    Math.round(buttonSize * CLOSE_BUTTON_CROSS_LINE_WIDTH_RATIO),
+    UI_RASTER_SCALE,
+    Math.round(scaledButtonSize * CLOSE_BUTTON_CROSS_LINE_WIDTH_RATIO),
   );
   ctx.lineCap = 'round';
 
-  const crossSize = Math.round(buttonSize * CLOSE_BUTTON_CROSS_SIZE_RATIO);
+  const crossSize = Math.round(scaledButtonSize * CLOSE_BUTTON_CROSS_SIZE_RATIO);
   ctx.beginPath();
   ctx.moveTo(centerX - crossSize, centerY - crossSize);
   ctx.lineTo(centerX + crossSize, centerY + crossSize);
@@ -507,9 +557,10 @@ export function rasterizeCircleBackground(diameter: number): HTMLCanvasElement {
     return circleBackgroundCache.get(cacheKey)!;
   }
 
-  // Создаем canvas с запасом для тени
-  const padding = 12 + 3 + 10; // shadowBlur + shadowOffsetY + запас
-  const canvasSize = diameter + padding * 2;
+  // Создаем canvas в высоком разрешении (3x для четкости)
+  const padding = (12 + 3 + 10) * UI_RASTER_SCALE; // shadowBlur + shadowOffsetY + запас
+  const scaledDiameter = diameter * UI_RASTER_SCALE;
+  const canvasSize = scaledDiameter + padding * 2;
   const canvas = document.createElement('canvas');
   canvas.width = canvasSize;
   canvas.height = canvasSize;
@@ -520,12 +571,12 @@ export function rasterizeCircleBackground(diameter: number): HTMLCanvasElement {
   // Центр круга на canvas
   const centerX = canvasSize / 2;
   const centerY = canvasSize / 2;
-  const radius = diameter / 2;
+  const radius = scaledDiameter / 2;
 
-  // Настройка тени (постоянные значения)
+  // Настройка тени (масштабируем для высокого разрешения)
   ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
-  ctx.shadowBlur = 12;
-  ctx.shadowOffsetY = 3;
+  ctx.shadowBlur = 12 * UI_RASTER_SCALE;
+  ctx.shadowOffsetY = 3 * UI_RASTER_SCALE;
 
   // Рисуем круг с белым фоном
   ctx.fillStyle = 'rgba(255, 255, 255, 1)';
@@ -538,10 +589,10 @@ export function rasterizeCircleBackground(diameter: number): HTMLCanvasElement {
   ctx.shadowBlur = 0;
   ctx.shadowOffsetY = 0;
 
-  // Рисуем красную обводку
+  // Рисуем красную обводку (масштабируем толщину)
   ctx.beginPath();
   ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-  ctx.lineWidth = 2; // Максимальная толщина обводки
+  ctx.lineWidth = 2 * UI_RASTER_SCALE; // Масштабируем толщину обводки
   ctx.strokeStyle = 'rgba(229, 57, 53, 1)'; // Красный цвет
   ctx.stroke();
 

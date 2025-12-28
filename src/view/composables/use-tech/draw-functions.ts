@@ -286,15 +286,17 @@ export function drawCloseButton(
   const animatedScale = progress * progress; // квадратичная кривая для более плавного появления
   ctx.scale(animatedScale, animatedScale);
 
-  // Получаем растрированную кнопку из кэша
+  // Получаем растрированную кнопку из кэша (в высоком разрешении)
   const buttonSprite = rasterizeCloseButton(size, isHovered);
 
-  // Вычисляем позицию для отрисовки (центр спрайта = центр кнопки)
-  const spriteX = -buttonSprite.width / 2;
-  const spriteY = -buttonSprite.height / 2;
+  // Вычисляем размер для отрисовки (компенсируем UI_RASTER_SCALE)
+  const displayWidth = buttonSprite.width / 3; // делим на UI_RASTER_SCALE
+  const displayHeight = buttonSprite.height / 3;
+  const spriteX = -displayWidth / 2;
+  const spriteY = -displayHeight / 2;
 
-  // Рисуем растрированную кнопку
-  ctx.drawImage(buttonSprite, spriteX, spriteY);
+  // Рисуем растрированную кнопку с масштабированием для четкости
+  ctx.drawImage(buttonSprite, spriteX, spriteY, displayWidth, displayHeight);
 
   ctx.restore();
 }
@@ -331,18 +333,20 @@ export function drawDetailedItem(
 
   // Фон элемента (только если есть прогресс)
   if (progress > 0) {
-    // Получаем растрированный спрайт круга с тенью и обводкой
+    // Получаем растрированный спрайт круга с тенью и обводкой (в высоком разрешении)
     const circleSprite = rasterizeCircleBackground(diameter);
 
-    // Вычисляем позицию для отрисовки (центр спрайта = центр элемента)
-    const spriteX = -circleSprite.width / 2;
-    const spriteY = -circleSprite.height / 2;
+    // Вычисляем размер для отрисовки (компенсируем UI_RASTER_SCALE)
+    const displayWidth = circleSprite.width / 3; // делим на UI_RASTER_SCALE
+    const displayHeight = circleSprite.height / 3;
+    const spriteX = -displayWidth / 2;
+    const spriteY = -displayHeight / 2;
 
     // Применяем анимацию прозрачности: плавно от 0 до 1
     ctx.globalAlpha = progress;
 
-    // Рисуем растрированный круг с тенью и обводкой
-    ctx.drawImage(circleSprite, spriteX, spriteY);
+    // Рисуем растрированный круг с масштабированием для четкости
+    ctx.drawImage(circleSprite, spriteX, spriteY, displayWidth, displayHeight);
 
     // Восстанавливаем прозрачность
     ctx.globalAlpha = 1.0;
