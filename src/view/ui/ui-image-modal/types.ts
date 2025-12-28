@@ -26,6 +26,9 @@ export interface Props {
   /** Показывать панель миниатюр */
   showThumbnails?: boolean;
 
+  /** Загружать миниатюры лениво */
+  lazyThumbnails?: boolean;
+
   /** Разрешить открытие изображения в новой вкладке */
   allowOpenInNewTab?: boolean;
 }

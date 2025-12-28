@@ -14,6 +14,7 @@
     showCounter: true,
     showThumbnails: true,
     allowOpenInNewTab: true,
+    lazyThumbnails: true,
   });
 
   const emit = defineEmits<{
@@ -330,7 +331,11 @@
                 :aria-label="t('common.thumbnail', { number: index + 1 })"
                 @click="setImage(index)"
               >
-                <img :src="img.preview" :alt="img.description" />
+                <img
+                  :src="img.preview"
+                  :alt="img.description"
+                  :loading="lazyThumbnails ? 'lazy' : 'eager'"
+                />
               </button>
             </div>
           </div>
