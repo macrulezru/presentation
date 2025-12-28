@@ -3,72 +3,40 @@
 
   import { computed, ref } from 'vue';
 
+  import type { ListItem } from '@/view/components/about/types';
+
+  import AboutTech from '@/view/components/about/parts/about-tech/about-tech.vue';
   import { useI18n } from '@/view/composables/use-i18n';
 
   const { t, tm } = useI18n();
 
   const container = ref<HTMLElement>();
 
-  const technologies = computed(() => [
-    {
-      icon: 'js',
-      description: t('tech.javascript'),
-    },
-    {
-      icon: 'vue',
-      description: t('tech.vue'),
-    },
-    {
-      icon: 'ts',
-      description: t('tech.typescript'),
-    },
-    {
-      icon: 'pinia',
-      description: t('tech.pinia'),
-    },
-    {
-      icon: 'vite',
-      description: t('tech.vite'),
-    },
-    {
-      icon: 'i18n',
-      description: t('tech.i18n'),
-    },
-    {
-      icon: 'html',
-      description: t('tech.html'),
-    },
-    {
-      icon: 'css',
-      description: t('tech.css'),
-    },
-    {
-      icon: 'figma',
-      description: t('tech.figma'),
-    },
-    {
-      icon: 'php',
-      description: t('tech.php'),
-    },
-    {
-      icon: 'bitrix',
-      description: t('tech.bitrix'),
-    },
-    {
-      icon: 'git',
-      description: t('tech.git'),
-    },
-    {
-      icon: 'svn',
-      description: t('tech.svn'),
-    },
-  ]);
+  const getListItem = (key: string): ListItem[] => {
+    const items = tm(key);
+    if (!Array.isArray(items)) return [];
 
-  const skillsList = computed(() => (tm('about.skills_list') as any[]) || []);
-  const mainTechList = computed(() => (tm('about.main_tech_list') as any[]) || []);
-  const infraTechList = computed(() => (tm('about.infra_tech_list') as any[]) || []);
-  const layoutTechList = computed(() => (tm('about.layout_tech_list') as any[]) || []);
-  const bitrixSkills = computed(() => (tm('about.bitrix_skills') as any[]) || []);
+    return items.filter(
+      (item): item is ListItem =>
+        item &&
+        typeof item === 'object' &&
+        typeof item.title === 'string' &&
+        typeof item.description === 'string',
+    );
+  };
+
+  const getStringList = (key: string): string[] => {
+    const items = tm(key);
+    if (!Array.isArray(items)) return [];
+
+    return items.filter((item): item is string => typeof item === 'string');
+  };
+
+  const skillsList = computed(() => getListItem('about.skills_list'));
+  const mainTechList = computed(() => getListItem('about.main_tech_list'));
+  const infraTechList = computed(() => getListItem('about.infra_tech_list'));
+  const layoutTechList = computed(() => getListItem('about.layout_tech_list'));
+  const bitrixSkills = computed(() => getStringList('about.bitrix_skills'));
 
   defineExpose({ container });
 </script>
@@ -109,17 +77,8 @@
         </div>
       </div>
 
-      <h3 class="about__tech-title">{{ t('about.tech_title') }}</h3>
-
-      <div class="about__tech-wrapper">
-        <div v-for="tech in technologies" :key="tech.icon" class="about__tech-item">
-          <div
-            class="about__tech-item-icon"
-            :class="`about__tech-item-icon_${tech.icon}`"
-          />
-          <div class="about__tech-item-description">{{ tech.description }}</div>
-        </div>
-      </div>
+      <!-- Секция технологий вынесена в отдельный компонент -->
+      <AboutTech />
 
       <div class="about__tech-stack-details">
         <h3 class="about__tech-stack-title">{{ t('about.tech_stack_title') }}</h3>

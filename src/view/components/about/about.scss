@@ -230,102 +230,6 @@
   }
 
   &__tech {
-    &-title {
-      text-align: center;
-      margin: var(--spacing-3xl) 0 var(--spacing-lg) 0;
-      color: var(--color-text-primary);
-      font-size: var(--font-size-3xl);
-      font-weight: var(--font-weight-semibold);
-    }
-
-    &-wrapper {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      border-radius: 10px;
-      border: solid 1px var(--color-border-muted);
-      padding: var(--spacing-lg);
-    }
-
-    &-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: var(--spacing-md);
-
-      &-icon {
-        margin-bottom: var(--spacing-sm);
-        width: var(--icon-size-xl);
-        height: var(--icon-size-xl);
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center center;
-
-        &_js {
-          background-image: url('@/view/assets/images/javascript-logo.svg');
-        }
-
-        &_vue {
-          background-image: url('@/view/assets/images/vue-logo.svg');
-        }
-
-        &_ts {
-          background-image: url('@/view/assets/images/ts-logo.svg');
-        }
-
-        &_pinia {
-          background-image: url('@/view/assets/images/pinia-logo.svg');
-        }
-
-        &_vite {
-          background-image: url('@/view/assets/images/vite-logo.svg');
-        }
-
-        &_i18n {
-          background-image: url('@/view/assets/images/i18n-logo.svg');
-        }
-
-        &_html {
-          background-image: url('@/view/assets/images/html-logo.svg');
-        }
-
-        &_css {
-          background-image: url('@/view/assets/images/css-logo.svg');
-        }
-
-        &_php {
-          background-image: url('@/view/assets/images/php-logo.svg');
-        }
-
-        &_bitrix {
-          background-image: url('@/view/assets/images/bitrix-logo.svg');
-        }
-
-        &_git {
-          background-image: url('@/view/assets/images/git-logo.svg');
-        }
-
-        &_svn {
-          background-image: url('@/view/assets/images/svn-logo.svg');
-        }
-
-        &_figma {
-          background-image: url('@/view/assets/images/figma-logo.svg');
-        }
-      }
-
-      &-description {
-        font-size: var(--font-size-sm);
-        color: var(--color-text-secondary);
-        line-height: 1.3;
-
-        &_big {
-          font-size: var(--font-size-md);
-          color: var(--color-text-secondary);
-        }
-      }
-    }
-
     &-stack-details {
       background: var(--color-bg-secondary);
       padding: var(--spacing-xl);
@@ -467,20 +371,11 @@
     }
 
     &__tech {
-      &-title {
-        font-size: var(--font-size-2xl);
-        margin: var(--spacing-xl) 0 var(--spacing-md) 0;
-      }
-
       &-list {
         grid-template-columns: 1fr;
       }
 
       &-item {
-        &-description {
-          font-size: var(--font-size-sm);
-        }
-
         &-title {
           font-size: var(--font-size-lg);
         }
@@ -514,10 +409,6 @@
     }
 
     &__tech {
-      &-wrapper {
-        padding: var(--spacing-sm);
-      }
-
       &-stack-details {
         padding: var(--spacing-md);
       }
