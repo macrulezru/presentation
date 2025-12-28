@@ -1,4 +1,3 @@
-// @/view/composables/use-tech/use-tech-animation.ts
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
 
 import {

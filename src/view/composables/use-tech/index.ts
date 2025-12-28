@@ -1,4 +1,3 @@
-// @/view/composables/use-tech/index.ts
 export { useTechAnimation } from './use-tech-animation';
 export type {
   TechItem,

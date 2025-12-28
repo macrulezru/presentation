@@ -1,4 +1,3 @@
-// @/view/composables/use-tech/types.ts
 import type { Ref } from 'vue';
 
 export type TrajectoryMode = 'infinity' | 'circle';
