@@ -48,8 +48,8 @@ export function getImagePath(iconName: string): string {
   if (import.meta.env.DEV) {
     return `/src/view/assets/images/${iconName}-logo.svg`;
   }
-  // В production используем путь от корня
-  return `/assets/images/${iconName}-logo.svg`;
+  // В production используем путь, который настроен в vite.config.ts для SVG
+  return `/assets/images/icons/${iconName}-logo.svg`;
 }
 
 export function createFallbackImage(iconName: string): HTMLImageElement {
