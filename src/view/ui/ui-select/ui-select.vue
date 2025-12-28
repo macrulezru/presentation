@@ -13,6 +13,7 @@
   const emit = defineEmits<Emits>();
 
   const isOpen = ref(false);
+  const highlightedIndex = ref(-1);
 
   /**
    * Текущая выбранная опция
@@ -24,8 +25,29 @@
   /**
    * Переключает состояние выпадающего списка
    */
+  const selectedIndex = computed(() =>
+    props.options.findIndex(option => option.value === props.modelValue?.value),
+  );
+
+  const setHighlighted = (index: number) => {
+    if (index < 0 || index >= props.options.length) {
+      highlightedIndex.value = -1;
+    } else {
+      highlightedIndex.value = index;
+    }
+  };
+
+  const openDropdown = () => {
+    isOpen.value = true;
+    setHighlighted(selectedIndex.value >= 0 ? selectedIndex.value : 0);
+  };
+
   const toggleDropdown = () => {
-    isOpen.value = !isOpen.value;
+    if (isOpen.value) {
+      closeDropdown();
+    } else {
+      openDropdown();
+    }
   };
 
   /**
@@ -33,6 +55,7 @@
    */
   const closeDropdown = () => {
     isOpen.value = false;
+    highlightedIndex.value = -1;
   };
 
   /**
@@ -43,6 +66,59 @@
     emit('update:modelValue', option);
     emit('change', option);
     closeDropdown();
+  };
+
+  const getOptionId = (index: number) => `ui-select-option-${index}`;
+
+  const onTriggerKeydown = (event: KeyboardEvent) => {
+    switch (event.key) {
+      case 'ArrowDown':
+      case 'Down':
+        event.preventDefault();
+        if (!isOpen.value) {
+          openDropdown();
+        } else {
+          setHighlighted(
+            highlightedIndex.value === -1
+              ? 0
+              : (highlightedIndex.value + 1) % props.options.length,
+          );
+        }
+        break;
+      case 'ArrowUp':
+      case 'Up':
+        event.preventDefault();
+        if (!isOpen.value) {
+          openDropdown();
+        } else {
+          setHighlighted(
+            highlightedIndex.value <= 0
+              ? props.options.length - 1
+              : highlightedIndex.value - 1,
+          );
+        }
+        break;
+      case 'Enter':
+      case ' ': {
+        if (!isOpen.value) {
+          event.preventDefault();
+          openDropdown();
+        } else if (
+          highlightedIndex.value >= 0 &&
+          highlightedIndex.value < props.options.length
+        ) {
+          event.preventDefault();
+          const option = props.options[highlightedIndex.value];
+          if (option) selectOption(option);
+        }
+        break;
+      }
+      case 'Escape':
+        closeDropdown();
+        break;
+      default:
+        break;
+    }
   };
 
   /**
@@ -73,6 +149,7 @@
       :aria-expanded="isOpen"
       :aria-haspopup="true"
       @click="toggleDropdown"
+      @keydown="onTriggerKeydown"
       @blur="closeDropdown"
     >
       <span class="ui-select__selected">
@@ -89,15 +166,25 @@
       </slot>
     </div>
 
-    <div v-if="isOpen" class="ui-select__dropdown" role="listbox">
+    <div
+      v-if="isOpen"
+      class="ui-select__dropdown"
+      role="listbox"
+      :aria-activedescendant="
+        highlightedIndex >= 0 ? getOptionId(highlightedIndex) : undefined
+      "
+      tabindex="-1"
+    >
       <div
-        v-for="option in options"
+        v-for="(option, index) in options"
+        :id="getOptionId(index)"
         :key="option.value"
         class="ui-select__option"
         :class="{ 'ui-select__option--selected': option.value === modelValue?.value }"
         role="option"
         :aria-selected="option.value === modelValue?.value"
         @click="selectOption(option)"
+        @mouseenter="setHighlighted(index)"
         @mousedown.prevent
       >
         {{ option.name }}

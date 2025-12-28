@@ -72,6 +72,36 @@
     background: transparent;
   }
 
+  &_variant-primary {
+    background: var(--color-bg-primary);
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+  }
+
+  &_variant-secondary {
+    background: transparent;
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+
+    &:hover:not(:disabled) {
+      background: var(--color-secondary);
+      color: var(--color-text-light);
+      box-shadow: 0 4px 12px rgb(52 152 219 / 30%);
+    }
+  }
+
+  &_variant-ghost {
+    background: transparent;
+    border-color: transparent;
+    color: var(--color-secondary);
+
+    &:hover:not(:disabled) {
+      background: var(--color-bg-tertiary);
+      box-shadow: none;
+      transform: none;
+    }
+  }
+
   @include media-tablet {
     &:not(.ui-button_micro) {
       padding: 0.6rem var(--spacing-lg);

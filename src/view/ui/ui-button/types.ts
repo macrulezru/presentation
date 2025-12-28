@@ -7,4 +7,5 @@ export interface Props {
   gray?: boolean;
   reset?: boolean;
   control?: boolean;
+  variant?: 'primary' | 'secondary' | 'ghost';
 }

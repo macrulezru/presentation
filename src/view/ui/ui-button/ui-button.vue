@@ -19,6 +19,7 @@
       'ui-button_gray': props.gray,
       'ui-button_reset': props.reset,
       'ui-button_control': props.control,
+      [`ui-button_variant-${props.variant}`]: Boolean(props.variant),
     };
   });
 </script>
