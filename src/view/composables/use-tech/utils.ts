@@ -1,4 +1,3 @@
-// @/view/composables/use-tech/utils.ts
 import {
   ICON_DIMENSIONS,
   ORBIT_ICON_SIZE,
@@ -21,17 +20,9 @@ import {
   DETAIL_TEXT_SIDE_PADDING_RATIO,
   ENABLE_TECH_DEBUG,
 } from './constants';
+import { iconPaths } from './icon-imports';
 
 import type { TechItem } from './types';
-
-// Загружаем все SVG иконки через import.meta.glob для правильной обработки Vite
-const iconModules = import.meta.glob('@/view/assets/images/*-logo.svg', {
-  eager: true,
-  import: 'default',
-}) as Record<string, string>;
-
-// Создаём кэш путей для быстрого доступа
-const iconPathCache = new Map<string, string>();
 
 // Lightweight gated logger for use-tech composable
 export const techDebug = (...args: unknown[]) => {
@@ -53,23 +44,15 @@ export const techError = (...args: unknown[]) => {
 };
 
 export function getImagePath(iconName: string): string {
-  // Проверяем кэш
-  if (iconPathCache.has(iconName)) {
-    return iconPathCache.get(iconName)!;
-  }
-
-  // Ищем путь к иконке в загруженных модулях
-  const iconKey = `/src/view/assets/images/${iconName}-logo.svg`;
-  const path = iconModules[iconKey];
+  const path = iconPaths[iconName];
 
   if (path) {
-    iconPathCache.set(iconName, path);
     return path;
   }
 
-  // Фоллбэк: возвращаем путь для dev-режима
-  techWarn(`Icon not found in modules: ${iconName}`);
-  return `/src/view/assets/images/${iconName}-logo.svg`;
+  // Фоллбэк для неизвестных иконок
+  techWarn(`Icon not found: ${iconName}`);
+  return iconPaths.git || ''; // возвращаем какую-то существующую иконку как fallback
 }
 
 export function createFallbackImage(iconName: string): HTMLImageElement {
