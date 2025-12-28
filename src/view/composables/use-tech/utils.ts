@@ -24,6 +24,15 @@ import {
 
 import type { TechItem } from './types';
 
+// Загружаем все SVG иконки через import.meta.glob для правильной обработки Vite
+const iconModules = import.meta.glob('@/view/assets/images/*-logo.svg', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>;
+
+// Создаём кэш путей для быстрого доступа
+const iconPathCache = new Map<string, string>();
+
 // Lightweight gated logger for use-tech composable
 export const techDebug = (...args: unknown[]) => {
   if (import.meta.env.DEV && ENABLE_TECH_DEBUG) {
@@ -44,12 +53,23 @@ export const techError = (...args: unknown[]) => {
 };
 
 export function getImagePath(iconName: string): string {
-  // В dev-режиме Vite обслуживает файлы из src
-  if (import.meta.env.DEV) {
-    return `/src/view/assets/images/${iconName}-logo.svg`;
+  // Проверяем кэш
+  if (iconPathCache.has(iconName)) {
+    return iconPathCache.get(iconName)!;
   }
-  // В production используем путь, который настроен в vite.config.ts для SVG
-  return `/assets/images/icons/${iconName}-logo.svg`;
+
+  // Ищем путь к иконке в загруженных модулях
+  const iconKey = `/src/view/assets/images/${iconName}-logo.svg`;
+  const path = iconModules[iconKey];
+
+  if (path) {
+    iconPathCache.set(iconName, path);
+    return path;
+  }
+
+  // Фоллбэк: возвращаем путь для dev-режима
+  techWarn(`Icon not found in modules: ${iconName}`);
+  return `/src/view/assets/images/${iconName}-logo.svg`;
 }
 
 export function createFallbackImage(iconName: string): HTMLImageElement {
