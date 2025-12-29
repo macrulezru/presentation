@@ -916,6 +916,12 @@
     "unsavedChanges": "Есть несохраненные изменения"
   },
   "rest-api": {
+    "metricsCallout": {
+      "title": "Открыть панель метрики",
+      "shortcut": "Горячая клавиша",
+      "button": "Открыть мышкой",
+      "aria": "Открыть панель HTTP-метрик"
+    },
     "button": "Попробовать REST API",
     "loadingFormattedData": "Вывод форматированных данных...",
     "setup": "Подготовка:",
@@ -980,6 +986,82 @@
         "almostReady": "Уже почти запустился...",
         "startingServices": "Поднимаем сервисы..."
       }
+    }
+  },
+  "metrics": {
+    "title": "HTTP Метрики",
+    "filters": {
+      "method": "Метод",
+      "status": "Статус",
+      "url": "URL",
+      "urlPlaceholder": "подстрока",
+      "limit": "Лимит"
+    },
+    "methods": {
+      "all": "ВСЕ",
+      "get": "GET",
+      "post": "POST",
+      "put": "PUT",
+      "delete": "DELETE",
+      "patch": "PATCH",
+      "options": "OPTIONS",
+      "head": "HEAD"
+    },
+    "statuses": {
+      "all": "ВСЕ",
+      "2xx": "2xx",
+      "3xx": "3xx",
+      "4xx": "4xx",
+      "5xx": "5xx",
+      "errors": "Ошибки"
+    },
+    "stats": {
+      "shown": "Показано",
+      "avg": "Средн."
+    },
+    "tabs": {
+      "rps": "RPS",
+      "latency": "Задержка",
+      "status": "Статусы",
+      "bytes": "Байты"
+    },
+    "legend": {
+      "now": "Сейчас",
+      "peak": "Пик",
+      "window": "Окно",
+      "latencyAvg": "Среднее мс (линия)",
+      "latencyP95": "p95 мс (штрих)",
+      "status2xx": "2xx зелёный",
+      "status3xx": "3xx синий",
+      "status4xx": "4xx жёлтый",
+      "status5xx": "5xx красный",
+      "bytesPerWindow": "Байты за окно"
+    },
+    "actions": {
+      "export": "Экспорт JSON",
+      "clear": "Очистить",
+      "toggleCharts": "Показать графики"
+    },
+    "table": {
+      "time": "Время",
+      "method": "Метод",
+      "url": "URL",
+      "duration": "мс",
+      "status": "Статус",
+      "bytes": "Байты",
+      "error": "Ошибка"
+    },
+    "details": {
+      "requestBody": "Тело запроса",
+      "params": "Параметры",
+      "headers": "Заголовки",
+      "response": "Тело ответа / ошибка"
+    },
+    "aria": {
+      "requests": "Запросы за окно",
+      "latency": "Задержка среднее и p95",
+      "status": "Коды статусов",
+      "bytes": "Байты за окно"
     }
   }
 }

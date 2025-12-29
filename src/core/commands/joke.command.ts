@@ -1,33 +1,19 @@
-import type { ApiResponse, ApiError } from '@/core/config';
+import type { JokeInterface } from '@/core/rest-interface/joke';
 
+import { BaseCommand } from '@/core/commands/base.command';
 import { jokeConfig } from '@/core/config';
-import { createRestClient } from '@/core/rest';
+import { getRestClient } from '@/core/rest';
 import { RestApiCommandEnum } from '@/enums/rest-api.enum';
 import { JokeModel } from '@/models/joke.model';
 
-export class GetRandomJokeCommand {
-  private endpoint = `/${RestApiCommandEnum.RANDOM_JOKE}`;
-  private httpClient = createRestClient(jokeConfig);
-
-  async execute(): Promise<JokeModel> {
-    try {
-      const response: ApiResponse<JokeModel> = await this.httpClient.get<JokeModel>(
-        this.endpoint,
-      );
-
-      return new JokeModel(response.data);
-    } catch (error) {
-      const apiError = error as ApiError;
-      throw new Error(`Failed to fetch joke: ${apiError.message}`);
-    }
-  }
-
-  async executeWithCancel(key: string): Promise<JokeModel> {
-    const response = await this.httpClient.cancellableRequest<JokeModel>(
-      key,
-      this.endpoint,
+export class GetRandomJokeCommand extends BaseCommand<JokeInterface, JokeModel> {
+  constructor() {
+    super(
+      `/${RestApiCommandEnum.RANDOM_JOKE}`,
+      getRestClient(jokeConfig),
+      data => new JokeModel(data),
+      'joke',
     );
-    return response.data;
   }
 }
 

@@ -916,6 +916,12 @@
   },
   "location": "工作地点",
   "rest-api": {
+    "metricsCallout": {
+      "title": "打开指标面板",
+      "shortcut": "快捷键",
+      "button": "用鼠标打开",
+      "aria": "打开 HTTP 指标面板"
+    },
     "button": "尝试REST API",
     "loadingFormattedData": "输出格式化数据...",
     "setup": "准备:",
@@ -980,6 +986,82 @@
         "almostReady": "即将完成启动...",
         "startingServices": "正在启动服务..."
       }
+    }
+  },
+  "metrics": {
+    "title": "HTTP 指标",
+    "filters": {
+      "method": "方法",
+      "status": "状态",
+      "url": "URL",
+      "urlPlaceholder": "子字符串",
+      "limit": "限制"
+    },
+    "methods": {
+      "all": "全部",
+      "get": "GET",
+      "post": "POST",
+      "put": "PUT",
+      "delete": "DELETE",
+      "patch": "PATCH",
+      "options": "OPTIONS",
+      "head": "HEAD"
+    },
+    "statuses": {
+      "all": "全部",
+      "2xx": "2xx",
+      "3xx": "3xx",
+      "4xx": "4xx",
+      "5xx": "5xx",
+      "errors": "错误"
+    },
+    "stats": {
+      "shown": "显示",
+      "avg": "平均"
+    },
+    "tabs": {
+      "rps": "RPS",
+      "latency": "延迟",
+      "status": "状态",
+      "bytes": "字节"
+    },
+    "legend": {
+      "now": "当前",
+      "peak": "峰值",
+      "window": "窗口",
+      "latencyAvg": "平均毫秒（线）",
+      "latencyP95": "p95 毫秒（虚线）",
+      "status2xx": "2xx 绿色",
+      "status3xx": "3xx 蓝色",
+      "status4xx": "4xx 黄色",
+      "status5xx": "5xx 红色",
+      "bytesPerWindow": "每窗口字节数"
+    },
+    "actions": {
+      "export": "导出 JSON",
+      "clear": "清除",
+      "toggleCharts": "切换图表"
+    },
+    "table": {
+      "time": "时间",
+      "method": "方法",
+      "url": "URL",
+      "duration": "毫秒",
+      "status": "状态",
+      "bytes": "字节",
+      "error": "错误"
+    },
+    "details": {
+      "requestBody": "请求体",
+      "params": "参数",
+      "headers": "请求头",
+      "response": "响应体 / 错误"
+    },
+    "aria": {
+      "requests": "每个窗口的请求数",
+      "latency": "延迟平均值和 p95",
+      "status": "状态码",
+      "bytes": "每个窗口的字节数"
     }
   }
 }

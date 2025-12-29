@@ -882,7 +882,7 @@
       "cursor": "Cursor:"
     },
     "buttons": {
-      "flight-control": "das Flugzeug steuern",
+      "flight-control": "Flugzeug steuern",
       "resetSettings": "Einstellungen zurücksetzen",
       "close": "Schließen",
       "settings": "Animationseinstellungen",
@@ -916,6 +916,12 @@
   },
   "location": "Arbeitsstandort",
   "rest-api": {
+    "metricsCallout": {
+      "title": "Metrik-Panel öffnen",
+      "shortcut": "Tastenkürzel",
+      "button": "Mit Maus öffnen",
+      "aria": "HTTP-Metrik-Panel öffnen"
+    },
     "button": "REST-API ausprobieren",
     "loadingFormattedData": "Ausgabe formatierter Daten...",
     "setup": "Vorbereitung:",
@@ -980,6 +986,82 @@
         "almostReady": "Fast gestartet...",
         "startingServices": "Dienste werden gestartet..."
       }
+    }
+  },
+  "metrics": {
+    "title": "HTTP-Metriken",
+    "filters": {
+      "method": "Methode",
+      "status": "Status",
+      "url": "URL",
+      "urlPlaceholder": "Teilstring",
+      "limit": "Limit"
+    },
+    "methods": {
+      "all": "ALLE",
+      "get": "GET",
+      "post": "POST",
+      "put": "PUT",
+      "delete": "DELETE",
+      "patch": "PATCH",
+      "options": "OPTIONS",
+      "head": "HEAD"
+    },
+    "statuses": {
+      "all": "ALLE",
+      "2xx": "2xx",
+      "3xx": "3xx",
+      "4xx": "4xx",
+      "5xx": "5xx",
+      "errors": "Fehler"
+    },
+    "stats": {
+      "shown": "Angezeigt",
+      "avg": "Durchschn."
+    },
+    "actions": {
+      "export": "JSON exportieren",
+      "clear": "Löschen",
+      "toggleCharts": "Diagramme umschalten"
+    },
+    "tabs": {
+      "rps": "RPS",
+      "latency": "Latenz",
+      "status": "Status",
+      "bytes": "Bytes"
+    },
+    "legend": {
+      "now": "Aktuell",
+      "peak": "Spitze",
+      "window": "Zeitfenster",
+      "latencyAvg": "Durchschn. ms (Linie)",
+      "latencyP95": "p95 ms (gestrichelt)",
+      "status2xx": "2xx grün",
+      "status3xx": "3xx blau",
+      "status4xx": "4xx gelb",
+      "status5xx": "5xx rot",
+      "bytesPerWindow": "Bytes pro Zeitfenster"
+    },
+    "table": {
+      "time": "Zeit",
+      "method": "Methode",
+      "url": "URL",
+      "duration": "ms",
+      "status": "Status",
+      "bytes": "Bytes",
+      "error": "Fehler"
+    },
+    "details": {
+      "requestBody": "Request-Body",
+      "params": "Parameter",
+      "headers": "Headers",
+      "response": "Response-Body / Fehler"
+    },
+    "aria": {
+      "requests": "Anfragen pro Fenster",
+      "latency": "Latenz Mittelwert und p95",
+      "status": "Statuscodes",
+      "bytes": "Bytes pro Fenster"
     }
   }
 }

@@ -916,6 +916,12 @@
   },
   "location": "Жұмыс орны",
   "rest-api": {
+    "metricsCallout": {
+      "title": "Метрика панелін ашу",
+      "shortcut": "Пернелер тіркесі",
+      "button": "Тышқымен ашу",
+      "aria": "HTTP метрикалар панелін ашу"
+    },
     "button": "REST API сынап көрүү",
     "loadingFormattedData": "Пішімделген деректерді шығару...",
     "setup": "Даярдоо:",
@@ -980,6 +986,82 @@
         "almostReady": "Іске қосылуға жақын...",
         "startingServices": "Қызметтер іске қосуда..."
       }
+    }
+  },
+  "metrics": {
+    "title": "HTTP Метрикалар",
+    "filters": {
+      "method": "Әдіс",
+      "status": "Статус",
+      "url": "URL",
+      "urlPlaceholder": "ішкі жол",
+      "limit": "Шек"
+    },
+    "methods": {
+      "all": "БАРЛЫҒЫ",
+      "get": "GET",
+      "post": "POST",
+      "put": "PUT",
+      "delete": "DELETE",
+      "patch": "PATCH",
+      "options": "OPTIONS",
+      "head": "HEAD"
+    },
+    "statuses": {
+      "all": "БАРЛЫҒЫ",
+      "2xx": "2xx",
+      "3xx": "3xx",
+      "4xx": "4xx",
+      "5xx": "5xx",
+      "errors": "Қателер"
+    },
+    "stats": {
+      "shown": "Көрсетілген",
+      "avg": "Орташа"
+    },
+    "tabs": {
+      "rps": "RPS",
+      "latency": "Кідіріс",
+      "status": "Статус",
+      "bytes": "Байттар"
+    },
+    "legend": {
+      "now": "Қазір",
+      "peak": "Шың",
+      "window": "Терезе",
+      "latencyAvg": "Орташа мс (сызық)",
+      "latencyP95": "p95 мс (штрих)",
+      "status2xx": "2xx жасыл",
+      "status3xx": "3xx көк",
+      "status4xx": "4xx сары",
+      "status5xx": "5xx қызыл",
+      "bytesPerWindow": "Терезе сайын байт"
+    },
+    "actions": {
+      "export": "JSON экспорт",
+      "clear": "Тазарту",
+      "toggleCharts": "Графиктерді ауыстыру"
+    },
+    "table": {
+      "time": "Уақыт",
+      "method": "Әдіс",
+      "url": "URL",
+      "duration": "мс",
+      "status": "Статус",
+      "bytes": "Байттар",
+      "error": "Қате"
+    },
+    "details": {
+      "requestBody": "Сұрау денесі",
+      "params": "Параметрлер",
+      "headers": "Тақырыптар",
+      "response": "Жауап денесі / қате"
+    },
+    "aria": {
+      "requests": "Терезе сайын сұраулар",
+      "latency": "Кідіріс орташа және p95",
+      "status": "Статус кодтары",
+      "bytes": "Терезе сайын байт"
     }
   }
 }

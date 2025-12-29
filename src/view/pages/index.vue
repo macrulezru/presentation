@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { storeToRefs } from 'pinia';
-  import { onBeforeMount, onMounted, onUnmounted } from 'vue';
+  import { onBeforeMount, onMounted, onUnmounted, defineAsyncComponent } from 'vue';
 
   import { useNavigationStore } from '@/stores/use-navigation-store.ts';
   import Header from '@/view/components/header/header.vue';
@@ -10,6 +10,10 @@
   import { useSectionsConfig } from '@/view/composables/use-sections-config';
 
   import '@/view/pages/index.scss';
+
+  const MetricsPanel = defineAsyncComponent(
+    () => import('@/view/components/metrics/metrics-panel.vue'),
+  );
 
   const { initLocale } = useI18n();
   const { init, destroy } = useScrollRouting();
@@ -40,4 +44,5 @@
       <component :is="section.component" />
     </section>
   </div>
+  <component :is="MetricsPanel" />
 </template>
