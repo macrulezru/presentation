@@ -40,6 +40,7 @@
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
+  transition: box-shadow 0.2s ease;
 
   &--charts {
     max-height: 520px;
@@ -52,6 +53,7 @@
   &__header {
     background: #111;
     border-bottom: 1px solid #2a2a2a;
+    position: relative;
   }
 
   &__header-row {
@@ -205,6 +207,7 @@
     border-top: 1px solid #1a1a1a;
     background: #0f0f0f;
     padding: 8px 10px 4px;
+    position: relative;
   }
 
   &__chart-tabs {
@@ -242,12 +245,64 @@
     border: 1px solid #1a1a1a;
     border-radius: 6px;
     padding: 6px 8px 4px;
+    position: relative;
 
     svg {
       width: 100%;
       height: 56px;
       overflow: visible;
+      cursor: crosshair;
     }
+  }
+
+  &__chart-point {
+    transition:
+      r 0.15s ease,
+      fill 0.15s ease,
+      opacity 0.15s ease;
+  }
+
+  &__tooltip {
+    position: absolute;
+    background: rgb(0 0 0 / 90%);
+    border: 1px solid #6ad1ff;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 11px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 80%);
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+
+    &.is-visible {
+      opacity: 1;
+      animation: metrics-panel-tooltip-in 0.15s ease forwards;
+    }
+
+    @keyframes metrics-panel-tooltip-in {
+      from {
+        transform: translateX(-50%) translateY(-4px);
+      }
+
+      to {
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+  }
+
+  &__tooltip-label {
+    color: #aaa;
+    font-size: 10px;
+    margin-bottom: 2px;
+  }
+
+  &__tooltip-value {
+    color: #6ad1ff;
+    font-weight: bold;
+    font-size: 12px;
 
     &--bars {
       svg {
