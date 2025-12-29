@@ -916,6 +916,12 @@
   },
   "location": "Work Location",
   "rest-api": {
+    "metricsCallout": {
+      "title": "Open the metrics panel",
+      "shortcut": "Shortcut",
+      "button": "Open with mouse",
+      "aria": "Open the HTTP metrics panel"
+    },
     "button": "Try REST API",
     "loadingFormattedData": "Output of formatted data...",
     "setup": "Setup:",
@@ -980,6 +986,82 @@
         "almostReady": "Almost started...",
         "startingServices": "Starting services..."
       }
+    }
+  },
+  "metrics": {
+    "title": "HTTP Metrics",
+    "filters": {
+      "method": "Method",
+      "status": "Status",
+      "url": "URL",
+      "urlPlaceholder": "substring",
+      "limit": "Limit"
+    },
+    "methods": {
+      "all": "ALL",
+      "get": "GET",
+      "post": "POST",
+      "put": "PUT",
+      "delete": "DELETE",
+      "patch": "PATCH",
+      "options": "OPTIONS",
+      "head": "HEAD"
+    },
+    "statuses": {
+      "all": "ALL",
+      "2xx": "2xx",
+      "3xx": "3xx",
+      "4xx": "4xx",
+      "5xx": "5xx",
+      "errors": "Errors"
+    },
+    "stats": {
+      "shown": "Shown",
+      "avg": "Avg."
+    },
+    "tabs": {
+      "rps": "RPS",
+      "latency": "Latency",
+      "status": "Status",
+      "bytes": "Bytes"
+    },
+    "legend": {
+      "now": "Now",
+      "peak": "Peak",
+      "window": "Window",
+      "latencyAvg": "Avg ms (line)",
+      "latencyP95": "p95 ms (dashed)",
+      "status2xx": "2xx green",
+      "status3xx": "3xx blue",
+      "status4xx": "4xx yellow",
+      "status5xx": "5xx red",
+      "bytesPerWindow": "Bytes per window"
+    },
+    "actions": {
+      "export": "Export JSON",
+      "clear": "Clear",
+      "toggleCharts": "Toggle charts"
+    },
+    "table": {
+      "time": "Time",
+      "method": "Method",
+      "url": "URL",
+      "duration": "ms",
+      "status": "Status",
+      "bytes": "Bytes",
+      "error": "Error"
+    },
+    "details": {
+      "requestBody": "Request body",
+      "params": "Params",
+      "headers": "Headers",
+      "response": "Response body / error"
+    },
+    "aria": {
+      "requests": "Requests per window",
+      "latency": "Latency average and p95",
+      "status": "Status codes",
+      "bytes": "Bytes per window"
     }
   }
 }
