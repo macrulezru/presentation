@@ -1,0 +1,73 @@
+.metrics-table {
+  overflow: hidden auto;
+  max-height: 240px;
+
+  &__thead,
+  &__row {
+    display: grid;
+    grid-template-columns: 96px 70px 1fr 70px 70px 90px minmax(100px, 0.6fr);
+    gap: 8px;
+    align-items: center;
+    padding: 6px 10px;
+    border-bottom: 1px solid #2a2a2a;
+  }
+
+  &__thead {
+    position: sticky;
+    top: 0;
+    background: #141414;
+    font-weight: 600;
+    font-size: 12px;
+  }
+
+  &__row {
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: rgb(255 255 255 / 6%);
+    }
+
+    &--slow {
+      background: rgb(255 208 0 / 8%);
+
+      &:hover {
+        background: rgb(255 208 0 / 14%);
+      }
+    }
+
+    &--error {
+      background: rgb(255 60 60 / 8%);
+
+      &:hover {
+        background: rgb(255 60 60 / 14%);
+      }
+    }
+
+    &--active {
+      outline: 1px solid #6ad1ff;
+      background: rgb(110 200 255 / 12%);
+
+      &:hover {
+        background: rgb(110 200 255 / 16%);
+      }
+    }
+  }
+
+  &__cell {
+    &--url {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &--num {
+      text-align: right;
+    }
+
+    &--error {
+      color: #ff7a7a;
+    }
+  }
+}

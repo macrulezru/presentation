@@ -1,0 +1,42 @@
+.metrics-tooltip {
+  position: absolute;
+  background: rgb(0 0 0 / 90%);
+  border: 1px solid #6ad1ff;
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 11px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 80%);
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+
+  &.is-visible {
+    opacity: 1;
+    animation: metrics-tooltip-in 0.15s ease forwards;
+  }
+
+  @keyframes metrics-tooltip-in {
+    from {
+      transform: translateX(-50%) translateY(-4px);
+    }
+
+    to {
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  &__label {
+    color: #aaa;
+    font-size: 10px;
+    margin-bottom: 2px;
+  }
+
+  &__value {
+    color: #6ad1ff;
+    font-weight: bold;
+    font-size: 12px;
+  }
+}

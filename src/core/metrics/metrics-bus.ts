@@ -1,4 +1,4 @@
-import type { MetricsHandler, ApiError } from '@/core/config';
+import type { MetricsHandler, ApiError } from '@/core/rest/types';
 
 export interface RequestStart {
   id: string;

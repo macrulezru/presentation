@@ -259,10 +259,11 @@ export function createRestClient(config: HttpConfig) {
       }
     }
 
+    const fullUrl = `${config.baseURL}${command}`;
     config.metrics?.onRequestStart?.({
       id: reqId,
       method: methodUpper,
-      url: command,
+      url: fullUrl,
       timestamp: Date.now(),
       requestBody: serializePayload(req?.data),
       requestParams: req?.params,

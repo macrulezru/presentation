@@ -1,0 +1,29 @@
+.metrics-chart-tabs {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+
+  &__pill {
+    border: 1px solid #333;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #1a1a1a;
+    color: #ddd;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover {
+      background: #222;
+      color: #7fd7ff;
+    }
+
+    &.is-active {
+      background: #123142;
+      border-color: #225a7a;
+      color: #8ad7ff;
+      box-shadow: 0 0 0 1px rgb(122 215 255 / 25%);
+    }
+  }
+}

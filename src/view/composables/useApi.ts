@@ -1,7 +1,7 @@
 // @/composables/useApi.ts
 import { ref, computed } from 'vue';
 
-import type { ApiResponse, ApiError } from '@/core/config';
+import type { ApiResponse, ApiError } from '@/core/rest/types';
 
 export function useApi<T>() {
   // Состояние

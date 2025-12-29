@@ -1,35 +1,12 @@
-.metrics-panel-slide-enter-active,
-.metrics-panel-slide-leave-active {
-  transition: all 0.3s ease;
-}
-
-.metrics-panel-slide-enter-from {
-  transform: translateY(calc(100% + 12px));
-  opacity: 0;
-}
-
-.metrics-panel-slide-leave-to {
-  transform: translateY(calc(100% + 12px));
-  opacity: 0;
-}
-
-.metrics-panel-chart-enter-active,
-.metrics-panel-chart-leave-active {
-  transition: all 0.2s ease;
-}
-
-.metrics-panel-chart-enter-from,
-.metrics-panel-chart-leave-to {
-  opacity: 0;
-  transform: translateY(-4px);
-}
-
 .metrics-panel {
   position: fixed;
-  right: 12px;
   bottom: 12px;
-  width: 750px;
-  max-height: 300px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: fit-content;
+  max-width: min(1300px, calc(100vw - 40px));
+  max-height: 90vh;
   background: rgb(20 20 20 / 94%);
   color: #eaeaea;
   border: 1px solid #333;
@@ -79,6 +56,10 @@
 
   &--details {
     max-height: 800px;
+
+    .metrics-table {
+      max-height: 600px;
+    }
   }
 
   &__header {
@@ -88,150 +69,9 @@
   }
 
   &__header-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 10px;
-    gap: 12px;
-
     &:not(:last-child) {
       border-bottom: 1px solid #1a1a1a;
     }
-  }
-
-  &__title {
-    font-weight: 700;
-    letter-spacing: 0.2px;
-  }
-
-  &__controls {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-
-    label {
-      display: inline-flex;
-      gap: 6px;
-      align-items: center;
-      font-size: 12px;
-    }
-
-    select {
-      background: #1c1c1c;
-      color: #ddd;
-      border: 1px solid #333;
-      border-radius: 4px;
-      padding: 2px 6px;
-      font-size: 12px;
-      cursor: pointer;
-
-      option {
-        background: #1c1c1c;
-        color: #ddd;
-      }
-
-      &:hover {
-        background: #222;
-      }
-    }
-  }
-
-  &__actions {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-
-  &__stats {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    font-size: 12px;
-  }
-
-  &__icon-btn {
-    width: 24px;
-    height: 24px;
-    border: 1px solid #444;
-    border-radius: 4px;
-    background: #1c1c1c;
-    color: #ddd;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    cursor: pointer;
-    transition: all 0.15s ease;
-
-    &:hover {
-      background: #222;
-      color: #7fd7ff;
-      border-color: #555;
-    }
-
-    &.is-active {
-      background: #123142;
-      border-color: #225a7a;
-      color: #8ad7ff;
-      box-shadow: 0 0 0 1px rgb(122 215 255 / 25%);
-    }
-  }
-
-  &__input {
-    background: #1c1c1c;
-    color: #ddd;
-    border: 1px solid #333;
-    border-radius: 4px;
-    padding: 2px 6px;
-
-    &--limit {
-      width: 72px;
-    }
-  }
-
-  &__btn {
-    border: 1px solid #444;
-    padding: 2px 8px;
-    border-radius: 4px;
-    background: #1c1c1c;
-    color: #ddd;
-    cursor: pointer;
-    font-size: 12px;
-
-    &:hover {
-      background: #222;
-    }
-  }
-
-  &__close {
-    border: 1px solid #444;
-    width: 18px;
-    height: 18px;
-    padding: 0;
-    border-radius: 50%;
-    background: #1c1c1c;
-    color: #ddd;
-    cursor: pointer;
-    font-size: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: #f44;
-      color: #fff;
-      border-color: #f66;
-    }
-  }
-
-  &__table {
-    overflow: auto;
-    max-height: 240px;
-  }
-
-  &--details &__table {
-    max-height: 600px;
   }
 
   &__charts {
@@ -239,250 +79,28 @@
     background: #0f0f0f;
     padding: 8px 10px 4px;
     position: relative;
+    max-width: 100%;
   }
 
-  &__chart-tabs {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 6px;
+  &-slide-enter-active,
+  &-slide-leave-active {
+    transition: all 0.3s ease;
   }
 
-  &__pill {
-    border: 1px solid #333;
-    padding: 2px 8px;
-    border-radius: 999px;
-    background: #1a1a1a;
-    color: #ddd;
-    font-size: 11px;
-    cursor: pointer;
-    transition: all 0.15s ease;
-
-    &:hover {
-      background: #222;
-      color: #7fd7ff;
-    }
-
-    &.is-active {
-      background: #123142;
-      border-color: #225a7a;
-      color: #8ad7ff;
-      box-shadow: 0 0 0 1px rgb(122 215 255 / 25%);
-    }
-  }
-
-  &__chart {
-    background: #0b0b0b;
-    border: 1px solid #1a1a1a;
-    border-radius: 6px;
-    padding: 6px 8px 4px;
-    position: relative;
-
-    svg {
-      width: 100%;
-      height: 56px;
-      overflow: visible;
-      cursor: crosshair;
-    }
-  }
-
-  &__chart-point {
-    transition:
-      r 0.15s ease,
-      fill 0.15s ease,
-      opacity 0.15s ease;
-  }
-
-  &__tooltip {
-    position: absolute;
-    background: rgb(0 0 0 / 90%);
-    border: 1px solid #6ad1ff;
-    border-radius: 6px;
-    padding: 6px 8px;
-    font-size: 11px;
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 1000;
-    box-shadow: 0 4px 12px rgb(0 0 0 / 80%);
-    transform: translateX(-50%);
+  &-slide-enter-from,
+  &-slide-leave-to {
+    transform: translateY(calc(100% + 12px));
     opacity: 0;
-    transition: opacity 0.15s ease;
-
-    &.is-visible {
-      opacity: 1;
-      animation: metrics-panel-tooltip-in 0.15s ease forwards;
-    }
-
-    @keyframes metrics-panel-tooltip-in {
-      from {
-        transform: translateX(-50%) translateY(-4px);
-      }
-
-      to {
-        transform: translateX(-50%) translateY(0);
-      }
-    }
   }
 
-  &__tooltip-label {
-    color: #aaa;
-    font-size: 10px;
-    margin-bottom: 2px;
+  &-chart-enter-active,
+  &-chart-leave-active {
+    transition: all 0.2s ease;
   }
 
-  &__tooltip-value {
-    color: #6ad1ff;
-    font-weight: bold;
-    font-size: 12px;
-
-    &--bars {
-      svg {
-        height: 64px;
-      }
-    }
-  }
-
-  &__chart-legend {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    font-size: 11px;
-    color: #cfd4d8;
-    margin-top: 4px;
-  }
-
-  &__thead,
-  &__row {
-    display: grid;
-    grid-template-columns: 96px 70px 1fr 70px 70px 90px 1.2fr;
-    gap: 8px;
-    align-items: center;
-    padding: 6px 10px;
-    border-bottom: 1px solid #2a2a2a;
-  }
-
-  &__thead {
-    position: sticky;
-    top: 0;
-    background: #141414;
-    font-weight: 600;
-    font-size: 12px;
-  }
-
-  &__row {
-    font-size: 12px;
-    cursor: pointer;
-    transition: background 0.15s ease;
-
-    &:hover {
-      background: rgb(255 255 255 / 6%);
-    }
-
-    &--slow {
-      background: rgb(255 208 0 / 8%);
-
-      &:hover {
-        background: rgb(255 208 0 / 14%);
-      }
-    }
-
-    &--error {
-      background: rgb(255 60 60 / 8%);
-
-      &:hover {
-        background: rgb(255 60 60 / 14%);
-      }
-    }
-
-    &--active {
-      outline: 1px solid #6ad1ff;
-      background: rgb(110 200 255 / 12%);
-
-      &:hover {
-        background: rgb(110 200 255 / 16%);
-      }
-    }
-  }
-
-  &__cell {
-    &--url {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    &--num {
-      text-align: right;
-    }
-
-    &--error {
-      color: #ff7a7a;
-    }
-  }
-
-  &__details-row {
-    grid-column: 1 / -1;
-    border-top: 1px solid #1a1a1a;
-    background: #0f0f0f;
-    padding: 8px 10px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  &__details-head {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &__details-title {
-    font-weight: 700;
-    font-size: 13px;
-  }
-
-  &__details-meta {
-    display: flex;
-    gap: 10px;
-    font-size: 11px;
-    color: #cfd4d8;
-    flex: 1;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-  }
-
-  &__details-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 10px;
-  }
-
-  &__details-block {
-    background: #0b0b0b;
-    border: 1px solid #1a1a1a;
-    border-radius: 6px;
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  &__details-label {
-    font-size: 11px;
-    color: #9ca3af;
-  }
-
-  &__details-pre {
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-    background: #050505;
-    border: 1px solid #131313;
-    border-radius: 4px;
-    padding: 6px;
-    font-size: 12px;
-    color: #d5d5d5;
-    max-height: 250px;
-    overflow: auto;
+  &-chart-enter-from,
+  &-chart-leave-to {
+    opacity: 0;
+    transform: translateY(-4px);
   }
 }

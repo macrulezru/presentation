@@ -1,0 +1,83 @@
+.metrics-panel-filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  gap: 12px;
+  flex-grow: 1;
+
+  &__title {
+    font-weight: 700;
+    letter-spacing: 0.2px;
+  }
+
+  &__controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    label {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    select {
+      background: #1c1c1c;
+      color: #ddd;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 12px;
+      cursor: pointer;
+
+      option {
+        background: #1c1c1c;
+        color: #ddd;
+      }
+
+      &:hover {
+        background: #222;
+      }
+    }
+  }
+
+  &__input {
+    background: #1c1c1c;
+    color: #ddd;
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: 2px 6px;
+
+    &--limit {
+      width: 72px;
+    }
+  }
+
+  &__close {
+    border: 1px solid #444;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border-radius: 50%;
+    background: #1c1c1c;
+    color: #ddd;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+
+    svg {
+      display: block;
+      flex-shrink: 0;
+    }
+
+    &:hover {
+      background: #f44;
+      color: #fff;
+      border-color: #f66;
+    }
+  }
+}

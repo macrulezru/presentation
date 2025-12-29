@@ -1,8 +1,8 @@
 import type { ProductInterface } from '@/core/rest-interface/product';
 
 import { BaseCommand } from '@/core/commands/base.command';
-import { productConfig } from '@/core/config';
-import { getRestClient } from '@/core/rest';
+import { getRestClient } from '@/core/rest/rest';
+import { productConfig } from '@/core/rest/types';
 import { RestApiCommandEnum } from '@/enums/rest-api.enum';
 import { ProductModel } from '@/models/product.model';
 
