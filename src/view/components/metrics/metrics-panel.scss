@@ -40,7 +40,38 @@
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
-  transition: box-shadow 0.2s ease;
+
+  // Custom scrollbar styles
+  scrollbar-width: thin;
+  scrollbar-color: #444 #1a1a1a;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #555;
+    }
+
+    &:active {
+      background: #666;
+    }
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: #1a1a1a;
+  }
 
   &--charts {
     max-height: 520px;
