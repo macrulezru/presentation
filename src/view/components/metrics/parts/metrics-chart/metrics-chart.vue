@@ -135,6 +135,7 @@
       :viewBox="`0 0 ${chartWidth} 48`"
       role="img"
       :aria-label="ariaLabel"
+      style="width: 100%; max-width: 100%; height: auto"
       @mousemove="emit('chart-mousemove', $event)"
       @mouseleave="emit('chart-mouseleave')"
     >
@@ -156,6 +157,7 @@
       :viewBox="`0 0 ${chartWidth} 48`"
       role="img"
       :aria-label="ariaLabel"
+      style="width: 100%; max-width: 100%; height: auto"
       @mousemove="emit('chart-mousemove', $event)"
       @mouseleave="emit('chart-mouseleave')"
     >
@@ -187,6 +189,7 @@
     <svg
       v-else-if="type === 'status'"
       :viewBox="`0 0 ${chartWidth} 48`"
+      style="width: 100%; max-width: 100%; height: auto"
       role="img"
       :aria-label="ariaLabel"
     >
@@ -238,6 +241,7 @@
       :viewBox="`0 0 ${chartWidth} 48`"
       role="img"
       :aria-label="ariaLabel"
+      style="width: 100%; max-width: 100%; height: auto"
       @mousemove="emit('chart-mousemove', $event)"
       @mouseleave="emit('chart-mouseleave')"
     >
