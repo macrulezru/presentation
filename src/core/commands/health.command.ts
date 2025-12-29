@@ -1,8 +1,8 @@
 import type { HealthInterface } from '@/core/rest-interface/health';
 
 import { BaseCommand } from '@/core/commands/base.command';
+import { healthConfig } from '@/core/commands/types';
 import { getRestClient } from '@/core/rest/rest';
-import { healthConfig } from '@/core/rest/types';
 import { RestApiCommandEnum } from '@/enums/rest-api.enum';
 import { HealthModel } from '@/models/health.model';
 

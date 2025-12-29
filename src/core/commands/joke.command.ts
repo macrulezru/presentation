@@ -1,8 +1,8 @@
 import type { JokeInterface } from '@/core/rest-interface/joke';
 
 import { BaseCommand } from '@/core/commands/base.command';
+import { jokeConfig } from '@/core/commands/types';
 import { getRestClient } from '@/core/rest/rest';
-import { jokeConfig } from '@/core/rest/types';
 import { RestApiCommandEnum } from '@/enums/rest-api.enum';
 import { JokeModel } from '@/models/joke.model';
 
