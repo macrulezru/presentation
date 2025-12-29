@@ -1,8 +1,8 @@
 import type { Person, PersonInterface } from '@/core/rest-interface/person';
 
 import { BaseCommand } from '@/core/commands/base.command';
-import { personConfig } from '@/core/config';
-import { getRestClient } from '@/core/rest';
+import { getRestClient } from '@/core/rest/rest';
+import { personConfig } from '@/core/rest/types';
 import { RestApiCommandEnum } from '@/enums/rest-api.enum';
 import { PersonResponseModel } from '@/models/person-response.model';
 

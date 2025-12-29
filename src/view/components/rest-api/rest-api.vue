@@ -7,7 +7,7 @@
   import { jokeCommand } from '@/core/commands/joke.command';
   import { personCommand } from '@/core/commands/person.command';
   import { productCommand } from '@/core/commands/product.command';
-  import { jokeConfig, personConfig, productConfig } from '@/core/config';
+  import { jokeConfig, personConfig, productConfig } from '@/core/rest/types';
   import { RestApiCommandEnum } from '@/enums/rest-api.enum';
   import { PersonResponseModel } from '@/models/person-response.model';
   import { ProductModel } from '@/models/product.model';

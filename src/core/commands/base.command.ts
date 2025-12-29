@@ -1,6 +1,6 @@
-import type { ApiError } from '@/core/config';
+import type { ApiError } from '@/core/rest/types';
 
-import { getRestClient, toApiError } from '@/core/rest';
+import { getRestClient, toApiError } from '@/core/rest/rest';
 
 export type RestCommandClient = ReturnType<typeof getRestClient>;
 
