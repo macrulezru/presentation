@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { storeToRefs } from 'pinia';
-  import { onMounted, onUnmounted, reactive, computed, ref, watch } from 'vue';
+  import { onMounted, onUnmounted, reactive, computed, ref, watch, nextTick } from 'vue';
 
   import type { RequestRecord } from '@/core/metrics/metrics-bus';
 
@@ -67,6 +67,7 @@
       METRICS_PANEL_TOGGLE_EVENT,
       handleExternalToggle as EventListener,
     );
+    // Панель фиксирована; отдельные обработчики не нужны
   });
 
   onUnmounted(() => {
@@ -210,6 +211,10 @@
     Math.round(buckets.value[buckets.value.length - 1]?.bytes || 0),
   );
 
+  const bytesTotal = computed(() =>
+    Math.round(buckets.value.reduce((sum, b) => sum + (b.bytes || 0), 0)),
+  );
+
   // Removed fmtNum; using fmtBytes for display
 
   function fmtBytes(n: number): string {
@@ -280,6 +285,179 @@
     } catch {
       return String(value);
     }
+  }
+
+  // Tooltip state for interactive charts
+  const tooltipState = ref<{
+    visible: boolean;
+    ready: boolean;
+    x: number;
+    y: number;
+    value: string;
+    label: string;
+  }>({
+    visible: false,
+    ready: false,
+    x: 0,
+    y: 0,
+    value: '',
+    label: '',
+  });
+
+  const tooltipElement = ref<HTMLElement | null>(null);
+  const hoveredPointIndex = ref<number | null>(null);
+  const tooltipInitialized = ref(false);
+
+  // Adjust tooltip position to keep it within the container bounds
+  function adjustTooltipPosition(chartsContainer: HTMLElement, initialX: number): number {
+    if (!tooltipElement.value) return initialX;
+
+    const tooltipWidth = tooltipElement.value.offsetWidth;
+    const containerWidth = chartsContainer.offsetWidth;
+    const padding = 8; // Padding from edges
+
+    let adjustedX = initialX;
+
+    // Tooltip will be positioned at x - width/2 to x + width/2 (due to translateX(-50%))
+    const tooltipLeft = initialX - tooltipWidth / 2;
+    const tooltipRight = initialX + tooltipWidth / 2;
+
+    // Check if tooltip goes beyond right edge
+    if (tooltipRight > containerWidth - padding) {
+      adjustedX = containerWidth - tooltipWidth / 2 - padding;
+    }
+    // Check if tooltip goes beyond left edge
+    else if (tooltipLeft < padding) {
+      adjustedX = tooltipWidth / 2 + padding;
+    }
+
+    return adjustedX;
+  }
+
+  // Watch for ready state and make tooltip visible after positioning
+  watch(
+    () => tooltipState.value.ready,
+    isReady => {
+      if (isReady && tooltipElement.value) {
+        const chartsContainer = tooltipElement.value.closest(
+          '.metrics-panel__charts',
+        ) as HTMLElement;
+        if (chartsContainer) {
+          const adjustedX = adjustTooltipPosition(chartsContainer, tooltipState.value.x);
+          // Update position if it was adjusted
+          if (adjustedX !== tooltipState.value.x) {
+            tooltipState.value.x = adjustedX;
+          }
+          // Mark as initialized after first adjustment
+          tooltipInitialized.value = true;
+          // Make visible after adjustment
+          tooltipState.value.visible = true;
+        }
+      }
+    },
+  );
+
+  // Watch for x coordinate changes and ensure tooltip stays within bounds
+  watch(
+    () => tooltipState.value.x,
+    newX => {
+      // Only check bounds after initialization and if tooltip is visible
+      if (
+        tooltipInitialized.value &&
+        tooltipState.value.visible &&
+        tooltipElement.value
+      ) {
+        const chartsContainer = tooltipElement.value.closest(
+          '.metrics-panel__charts',
+        ) as HTMLElement;
+        if (chartsContainer) {
+          const adjustedX = adjustTooltipPosition(chartsContainer, newX);
+          // Only update if adjustment is needed
+          if (adjustedX !== newX) {
+            tooltipState.value.x = adjustedX;
+          }
+        }
+      }
+    },
+  );
+
+  function handleChartMouseMove(
+    event: MouseEvent,
+    values: number[],
+    formatter: (val: number) => string = v => Math.round(v).toString(),
+    label: string = 'Value',
+  ) {
+    const svg = event.currentTarget as SVGSVGElement;
+    if (!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
+
+    const rect = svg.getBoundingClientRect();
+    const svgX = event.clientX - rect.left;
+
+    // Convert screen coordinates to SVG coordinates
+    const scale = svg.viewBox.baseVal.width / rect.width;
+    const svgCoordX = svgX * scale;
+
+    // Find closest point
+    const step = svg.viewBox.baseVal.width / Math.max(1, values.length - 1);
+    let closestIdx = 0;
+    let minDist = Math.abs(svgCoordX - 0);
+
+    for (let i = 0; i < values.length; i++) {
+      const x = i * step;
+      const dist = Math.abs(svgCoordX - x);
+      if (dist < minDist) {
+        minDist = dist;
+        closestIdx = i;
+      }
+    }
+
+    if (minDist < step * 0.3) {
+      const value = values[closestIdx] ?? 0;
+      hoveredPointIndex.value = closestIdx;
+
+      // Get position relative to .metrics-panel__charts (the positioned ancestor)
+      const chartsContainer = svg.closest('.metrics-panel__charts') as HTMLElement;
+      const chartsRect = chartsContainer?.getBoundingClientRect();
+      const x = chartsRect ? event.clientX - chartsRect.left : event.clientX - rect.left;
+      const y = chartsRect
+        ? event.clientY - chartsRect.top - 75
+        : event.clientY - rect.top - 75;
+
+      // If tooltip is not visible yet, initialize it
+      if (!tooltipState.value.visible) {
+        tooltipState.value = {
+          visible: false,
+          ready: false,
+          x,
+          y,
+          value: formatter(value),
+          label,
+        };
+
+        // Trigger rendering in hidden state first
+        nextTick(() => {
+          tooltipState.value.ready = true;
+        });
+      } else {
+        // Tooltip is already visible, just update position
+        tooltipState.value.x = x;
+        tooltipState.value.y = y;
+        tooltipState.value.value = formatter(value);
+        tooltipState.value.label = label;
+      }
+    } else {
+      hoveredPointIndex.value = null;
+      tooltipState.value.visible = false;
+      tooltipState.value.ready = false;
+      tooltipInitialized.value = false;
+    }
+  }
+
+  function handleChartMouseLeave() {
+    hoveredPointIndex.value = null;
+    tooltipState.value.visible = false;
+    tooltipState.value.ready = false;
+    tooltipInitialized.value = false;
   }
 </script>
 
@@ -382,6 +560,18 @@
 
       <Transition name="metrics-panel-chart">
         <div v-if="chartsVisible" class="metrics-panel__charts">
+          <div
+            ref="tooltipElement"
+            class="metrics-panel__tooltip"
+            :class="{ 'is-visible': tooltipState.visible }"
+            :style="{
+              left: `${tooltipState.x}px`,
+              top: `${tooltipState.y}px`,
+            }"
+          >
+            <div class="metrics-panel__tooltip-label">{{ tooltipState.label }}</div>
+            <div class="metrics-panel__tooltip-value">{{ tooltipState.value }}</div>
+          </div>
           <div class="metrics-panel__chart-tabs">
             <button
               class="metrics-panel__pill"
@@ -409,7 +599,7 @@
               :class="{ 'is-active': activeChart === 'bytes' }"
               @click="activeChart = 'bytes'"
             >
-              {{ t('metrics.tabs.bytes') }} · {{ fmtBytes(bytesCurrent) }}
+              {{ t('metrics.tabs.bytes') }} · {{ fmtBytes(bytesTotal) }}
             </button>
           </div>
 
@@ -418,12 +608,30 @@
               :viewBox="`0 0 ${chartWidth} 48`"
               role="img"
               :aria-label="t('metrics.aria.requests')"
+              @mousemove="
+                handleChartMouseMove(
+                  $event,
+                  buckets.map(b => b.count),
+                  v => `${Math.round(v)} req/s`,
+                  'RPS',
+                )
+              "
+              @mouseleave="handleChartMouseLeave"
             >
               <polyline
                 :points="rpsPoints"
                 fill="none"
                 stroke="#6ad1ff"
                 stroke-width="2"
+              />
+              <circle
+                v-for="(b, i) in buckets"
+                :key="`rps-${i}`"
+                :cx="(i * chartWidth) / (bucketCount - 1)"
+                :cy="48 - (b.count / (rpsMax || 1)) * 48"
+                :r="hoveredPointIndex === i ? 4 : 2"
+                :fill="hoveredPointIndex === i ? '#6ad1ff' : 'transparent'"
+                class="metrics-panel__chart-point"
               />
             </svg>
             <div class="metrics-panel__chart-legend">
@@ -440,6 +648,15 @@
               :viewBox="`0 0 ${chartWidth} 48`"
               role="img"
               :aria-label="t('metrics.aria.latency')"
+              @mousemove="
+                handleChartMouseMove(
+                  $event,
+                  latencyAvg,
+                  v => `${Math.round(v)}ms`,
+                  'Latency (avg)',
+                )
+              "
+              @mouseleave="handleChartMouseLeave"
             >
               <polyline
                 :points="latencyAvgPoints"
@@ -453,6 +670,17 @@
                 stroke="#c58bff"
                 stroke-width="2"
                 stroke-dasharray="4 2"
+              />
+              <circle
+                v-for="(val, i) in latencyAvg"
+                :key="`latency-${i}`"
+                :cx="(i * chartWidth) / Math.max(1, latencyAvg.length - 1)"
+                :cy="
+                  48 - ((val ?? 0) / Math.max(1, ...latencyAvg.concat(latencyP95))) * 48
+                "
+                :r="hoveredPointIndex === i ? 4 : 2"
+                :fill="hoveredPointIndex === i ? '#7fd7ff' : 'transparent'"
+                class="metrics-panel__chart-point"
               />
             </svg>
             <div class="metrics-panel__chart-legend">
@@ -527,6 +755,15 @@
               :viewBox="`0 0 ${chartWidth} 48`"
               role="img"
               :aria-label="t('metrics.aria.bytes')"
+              @mousemove="
+                handleChartMouseMove(
+                  $event,
+                  buckets.map(b => Math.round(b.bytes || 0)),
+                  fmtBytes,
+                  'Bytes',
+                )
+              "
+              @mouseleave="handleChartMouseLeave"
             >
               <polyline
                 :points="bytesPoints"
@@ -539,9 +776,10 @@
                 :key="i"
                 :cx="pt.x"
                 :cy="pt.y"
-                r="2"
-                fill="#c9f28d"
-                opacity="0.9"
+                :r="hoveredPointIndex === i ? 4 : 2"
+                :fill="hoveredPointIndex === i ? '#c9f28d' : '#c9f28d'"
+                :opacity="hoveredPointIndex === i ? 1 : 0.9"
+                class="metrics-panel__chart-point"
               />
             </svg>
             <div class="metrics-panel__chart-legend">
