@@ -129,8 +129,8 @@
   "experience": {
     "title": "Karriere",
     "showAllButton": "Alle Unternehmen",
-    "items": [
-      {
+    "items": {
+      "company-online-reservation-system": {
         "company": "Online Reservation System",
         "duration": "4 Jahre und 11 Monate",
         "position": "Leitender HTML-Entwickler / Frontend-Entwickler",
@@ -138,91 +138,91 @@
         "description": "Design und Entwicklung von Vue 3-Komponenten für TWx und TravelShop-Produkte. Erstellung von UI-Architektur, Entwicklung interaktiver Elemente und komplexer SPA-Anwendungen für Flugbuchungssysteme. Unterstützung und Anpassung von TravelShop-Vorlagen auf Bitrix für verschiedene Fluggesellschaften.",
         "url": "https://ors-aero.ru/"
       },
-      {
+      "company-tais": {
         "company": "Tais",
         "duration": "3 Jahre und 3 Monate",
-        "position": "Webentwickler",
+        "position": "Leitender HTML-Entwickler / Frontend-Entwickler",
         "period": "Oktober 2017 — Dezember 2020",
         "description": "Entwicklung von Frontend-Schnittstellen für Online-Buchungs- und Flugregistrierungssysteme. Erstellung intuitiver Benutzeroberflächen, Arbeit mit Formularen und Datenvalidierung, Integration mit Backend-Systemen und APIs."
       },
-      {
+      "company-tnt-telekompaniya": {
         "company": "TNT, Fernsehgesellschaft",
         "position": "Webdesigner",
         "description": "Erstellung animierter und interaktiver Werbebanner für Fernsehprojekte. Vollständiger Entwicklungszyklus: von Konzept und Design bis zur Umsetzung mit HTML5, CSS3 und JavaScript. Erstellung responsiver Banner mit Unterstützung verschiedener Größen und Geräte.",
         "url": "https://tnt-online.ru/"
       },
-      {
+      "company-publicis-united": {
         "company": "Publicis United",
         "position": "Webdesigner",
         "description": "Design und Entwicklung von Websites für große Werbeagenturkunden. Erstellung interaktiver Schnittstellen, Arbeit an der Verbesserung des Benutzererlebnisses. Beteiligung an der Erstellung umfassender digitaler Lösungen für Marken. Arbeit nach Unternehmensstandards und Kundenrichtlinien.",
         "url": "https://www.publicisgroupe.com/en/splash-en"
       },
-      {
+      "company-evropeyskaya-mediagruppa-emg": {
         "company": "European Media Group (EMG)",
         "position": "Webdesigner / Webentwickler",
         "description": "Entwicklung und Unterstützung von Websites für Medienprojekte des Unternehmens. Erstellung von Benutzeroberflächen, Design von Promotionsseiten und Landingpages. Integration des Designs mit Content-Management-Systemen, Optimierung der Webseitenleistung.",
         "url": "https://emg.fm/"
       },
-      {
+      "company-bauservice-ooo": {
         "company": "Bauservice GmbH",
         "position": "Webdesigner",
         "description": "Entwicklung von Unternehmenswebsite-Designs, Erstellung von Werbebannern und Ikonographie. Vollständiger Interface-Design-Zyklus: von Prototyping und visuellem Design bis zum adaptiven Layout. Grafikoptimierung und Sicherstellung der Cross-Browser-Kompatibilität.",
         "url": "https://bauservice.ru/"
       },
-      {
+      "company-advego": {
         "company": "Advego",
         "position": "Webdesigner / Webentwickler",
         "description": "Vollständiger Zyklus der Webprojekterstellung: vom Benutzeroberflächendesign und visuellem Design bis zur Frontend-Entwicklung. Erstellung intuitiver Schnittstellen für Content-Börsen, Entwicklung von Administrationspanels und Benutzerkabinetten. Optimierung des Benutzererlebnisses und der Interaktion.",
         "url": "https://advego.com/"
       },
-      {
+      "company-nikita-online": {
         "company": "NIKITA ONLINE",
         "position": "Webdesigner",
         "description": "Entwicklung von Unternehmenswebsite-Designs und Promotionsseiten für Spielprojekte des Unternehmens. Erstellung visueller Konzepte, Design von Seitenlayouts und Interface-Elementen. Vorbereitung grafischer Materialien für Webpublikationen.",
         "url": "https://www.gamexp.com/ru/"
       },
-      {
+      "company-nettrader": {
         "company": "Nettrader",
         "position": "Webdesigner",
         "description": "Design von Benutzeroberflächen für Finanz- und Handelsplattformen. Erstellung intuitiver und funktionaler Schnittstellen für die Arbeit mit Finanzdaten. Entwicklung von visuellen Kommunikationssystemen und Branding-Elementen."
       },
-      {
+      "company-soldis": {
         "company": "SOLDIS Kommunikationsagentur",
         "position": "Webdesigner",
         "description": "Erstellung von Website-Designs für Agenturkunden. Entwicklung visueller Konzepte, Vorbereitung von Layouts und grafischen Elementen. Arbeit an der Verbesserung des Benutzererlebnisses und der Navigation auf Webressourcen.",
         "url": "https://soldis.ru/"
       },
-      {
+      "company-yutinet-ru": {
         "company": "Yutinet.Ru",
         "position": "Webdesigner",
         "description": "Design und Entwicklung von Webschnittstellen für Internetportale. Erstellung von Benutzeroberflächen, Arbeit an der Verbesserung von Navigation und Inhaltsstruktur. Entwicklung grafischer Elemente und visueller Identitätssysteme."
       },
-      {
+      "company-cifrovoy-centr-ion": {
         "company": "ION Digital Center",
         "position": "Webdesigner",
         "description": "Design und Entwicklung von Websites für verschiedene Geschäftssegmente. Vollständiger Interface-Erstellungszyklus: von Zielgruppenforschung und Prototyping bis zur finalen Umsetzung. Entwicklung adaptiver Designs und Sicherstellung der Cross-Browser-Kompatibilität."
       },
-      {
+      "company-adt-web-solutions": {
         "company": "ADT Web Solutions",
         "position": "Webdesigner",
         "description": "Erstellung von Unternehmenswebsite- und Online-Shop-Designs. Entwicklung von Benutzeroberflächen, Navigationsdesign und Inhaltsstruktur. Arbeit am Branding und Erstellung einheitlicher visueller Systeme für Webprojekte."
       },
-      {
+      "company-freelance": {
         "company": "Freelance",
         "position": "Webdesigner",
         "description": "Ausführung von Website-Design- und Entwicklungsaufträgen für verschiedene Kunden. Erstellung einzigartiger Designkonzepte, Entwicklung von Seitenlayouts, Vorbereitung grafischer Elemente. Arbeit am vollständigen Webprojekterstellungszyklus von der Idee bis zur Umsetzung."
       },
-      {
+      "company-artez-prodakshen": {
         "company": "Artez Production",
         "position": "Webdesigner",
         "description": "Website-Design für Kunden der Produktionsfirma. Erstellung visueller Konzepte, Entwicklung von Schnittstellen und Navigationssystemen. Vorbereitung von Grafiken für Webpublikationen und Sicherstellung der Designkonformität mit technischen Anforderungen."
       },
-      {
+      "company-avm-new-wave-inc": {
         "company": "AVM New Wave Inc.",
         "position": "Webdesigner",
         "description": "Design früher Websites zu Beginn der Internetentwicklung in Russland. Etablierung grundlegender Prinzipien des Webdesigns und der Navigation. Arbeit mit begrenzten technischen Möglichkeiten dieser Zeit, Optimierung von Grafiken für langsame Internetverbindungen."
       }
-    ]
+    }
   },
   "travelshop": {
     "title": "TravelShop 2.0 - Flugbuchungssystem",
