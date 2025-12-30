@@ -1,7 +1,8 @@
 <script setup lang="ts">
-  import { ref, computed, onMounted } from 'vue';
+  import { ref, computed, onMounted, onUnmounted } from 'vue';
 
   import { ImageFolder } from '@/enums/arts.enum';
+  import artCursor from '@/view/assets/images/art-cursor.svg?url';
   import ArtItem from '@/view/components/arts/parts/art-item/art-item.vue';
   import { useArtsImages } from '@/view/composables/use-arts-images';
   import { useI18n } from '@/view/composables/use-i18n.ts';
@@ -22,30 +23,30 @@
   const showAllImages = ref(false);
   const isPreviewLoaded = ref(false);
   const areAllImagesLoaded = ref(false);
+  const cursorVisible = ref(false);
+  const cursorX = ref(0);
+  const cursorY = ref(0);
+  const cursorAngle = ref(0);
+  const targetCursorAngle = ref(0);
 
   const { images, getImageByKey } = useArtsImages();
 
   const PREVIEW_IMAGE_COUNT = 10;
 
-  // Карта для кэширования изображений (не реактивная)
   const loadedImagesMap = new Map<string, HTMLImageElement>();
 
-  // URL всех изображений
   const allImageUrls = computed(() => {
     return images.value.map(img => img.preview).filter(Boolean) as string[];
   });
 
-  // URL для превью
   const previewImageUrls = computed(() => {
     return allImageUrls.value.slice(0, PREVIEW_IMAGE_COUNT);
   });
 
-  // URL оставшихся изображений
   const remainingImageUrls = computed(() => {
     return allImageUrls.value.slice(PREVIEW_IMAGE_COUNT);
   });
 
-  // Изображения для отображения
   const displayImages = computed(() => {
     return showAllImages.value
       ? images.value
@@ -62,7 +63,6 @@
     }));
   });
 
-  // Загрузка изображения для кэширования
   const loadImageForCache = async (url: string): Promise<void> => {
     if (loadedImagesMap.has(url)) return;
 
@@ -80,7 +80,6 @@
     });
   };
 
-  // Предзагрузка превью изображений
   const initializePreview = async () => {
     isPreviewLoaded.value = false;
 
@@ -93,7 +92,6 @@
     isPreviewLoaded.value = true;
   };
 
-  // Загрузка оставшихся изображений с прогрессом
   const loadRemainingImages = async (): Promise<void> => {
     isLoading.value = true;
     loadingProgress.value = 0;
@@ -110,7 +108,6 @@
       const total = remainingUrls.length;
       let loaded = 0;
 
-      // Загружаем партиями по 3 изображения
       const batchSize = 3;
 
       for (let i = 0; i < remainingUrls.length; i += batchSize) {
@@ -133,25 +130,20 @@
     }
   };
 
-  // Обработчик кнопки "Показать все"
   const onShowAllImages = async () => {
     if (isLoading.value || showAllImages.value) return;
 
-    // Если все изображения уже загружены, просто показываем их
     if (areAllImagesLoaded.value) {
       showAllImages.value = true;
       currentMasonryKey.value += 1;
       return;
     }
 
-    // Загружаем оставшиеся изображения
     await loadRemainingImages();
 
-    // Показываем все изображения и пересоздаем masonry
     showAllImages.value = true;
     currentMasonryKey.value += 1;
 
-    // Сбрасываем прогресс
     setTimeout(() => {
       loadingProgress.value = 0;
     }, 300);
@@ -177,13 +169,95 @@
     currentImageIndex.value = index;
   };
 
+  const CURSOR_OFFSET_X = 40;
+  const CURSOR_OFFSET_Y = 10;
+  const CURSOR_MAX_ROTATE = 40;
+  const CURSOR_ROTATE_SMOOTH = 0.15;
+  const STILL_TICKS_LIMIT = 6;
+
+  let lastX = 0;
+  let lastTime = 0;
+  let animationFrame: number | null = null;
+  let stillTicks = 0;
+  let lastCursorX = 0;
+
+  const onMouseMove = (e: MouseEvent) => {
+    const now = performance.now();
+    const dx = e.clientX - lastX;
+    const dt = now - lastTime || 16;
+    const speed = dx / dt;
+    const clampedSpeed = Math.max(-1, Math.min(1, speed));
+    targetCursorAngle.value = clampedSpeed * CURSOR_MAX_ROTATE;
+    lastX = e.clientX;
+    lastTime = now;
+    cursorX.value = e.clientX;
+    cursorY.value = e.clientY;
+    cursorVisible.value = true;
+    lastCursorX = e.clientX;
+    stillTicks = 0;
+    if (!animationFrame) {
+      animateCursorRotation();
+    }
+  };
+
+  const animateCursorRotation = () => {
+    animationFrame = requestAnimationFrame(() => {
+      cursorAngle.value +=
+        (targetCursorAngle.value - cursorAngle.value) * CURSOR_ROTATE_SMOOTH;
+
+      if (Math.abs(cursorX.value - lastCursorX) < 1) {
+        stillTicks++;
+      } else {
+        stillTicks = 0;
+        lastCursorX = cursorX.value;
+      }
+      if (stillTicks > STILL_TICKS_LIMIT) {
+        targetCursorAngle.value = 0;
+      }
+      if (
+        Math.abs(targetCursorAngle.value - cursorAngle.value) > 0.1 ||
+        Math.abs(cursorAngle.value) > 0.1
+      ) {
+        animateCursorRotation();
+      } else {
+        cursorAngle.value = 0;
+        targetCursorAngle.value = 0;
+        animationFrame = null;
+        stillTicks = 0;
+      }
+    });
+  };
+
+  const removeCursorHandlers = () => {
+    cursorVisible.value = false;
+    if (animationFrame) {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = null;
+    }
+    cursorAngle.value = 0;
+    targetCursorAngle.value = 0;
+  };
+
+  const onMouseLeave = () => {
+    removeCursorHandlers();
+  };
+
   onMounted(async () => {
     await initializePreview();
+  });
+
+  onUnmounted(() => {
+    removeCursorHandlers();
   });
 </script>
 
 <template>
-  <div class="arts">
+  <div
+    class="arts"
+    style="position: relative"
+    @mousemove="onMouseMove"
+    @mouseleave="onMouseLeave"
+  >
     <div class="arts__header">
       <h1 class="arts__title">{{ t('design.title') }}</h1>
       <div class="arts__sub-title">{{ t('design.description') }}</div>
@@ -249,5 +323,17 @@
       @close="closeModal"
       @change="handleImageChange"
     />
+
+    <div
+      v-if="cursorVisible"
+      :style="{
+        left: cursorX - CURSOR_OFFSET_X + 'px',
+        top: cursorY - CURSOR_OFFSET_Y + 'px',
+        transform: `rotate(${cursorAngle}deg)`,
+      }"
+      class="arts__custom-cursor"
+    >
+      <img :src="artCursor" alt="cursor" />
+    </div>
   </div>
 </template>
