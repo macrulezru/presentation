@@ -1,10 +1,12 @@
 <script setup lang="ts">
   import '@/view/ui/ui-image-modal/ui-image-modal.scss';
 
-  import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
+  import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue';
   import { useI18n } from 'vue-i18n';
 
   import type { Props } from './types';
+
+  import { useResponsive } from '@/view/composables/use-responsive';
 
   const { t } = useI18n();
 
@@ -28,9 +30,14 @@
     openInNewTab: [imageUrl: string];
   }>();
 
+  const { isDesktop } = useResponsive();
+
   const currentIndex = ref(props.initialIndex);
   const isLoading = ref(false);
-  const imageRef = ref<HTMLImageElement | null>(null);
+  const imageWrapperRef = ref<HTMLElement | null>(null);
+  const thumbnailsWrapperRef = ref<HTMLElement | null>(null);
+  const hasEnoughSpace = ref(true);
+  const thumbnailsHeight = ref(0);
 
   /**
    * Текущее полноразмерное изображение
@@ -51,6 +58,10 @@
    * Проверка наличия следующего изображения
    */
   const hasNext = computed(() => currentIndex.value < props.images.length - 1);
+
+  const imageOffset = computed(() => {
+    return isDesktop.value ? 160 : 60;
+  });
 
   /**
    * Закрывает модальное окно
@@ -106,6 +117,7 @@
   /**
    * Обработчик успешной загрузки изображения
    */
+
   const onImageLoad = () => {
     isLoading.value = false;
   };
@@ -113,8 +125,9 @@
   /**
    * Обработчик ошибки загрузки изображения
    */
+
   const onImageError = () => {
-    isLoading.value = false;
+    // Не сбрасываем isLoading, чтобы лоадер не исчезал при ошибке (можно добавить отдельный error state при необходимости)
     console.error(`Не удалось загрузить изображение: ${currentImage.value}`);
   };
 
@@ -144,20 +157,52 @@
     }
   };
 
+  const checkSpace = () => {
+    nextTick(() => {
+      const wrapper = imageWrapperRef.value;
+      if (!wrapper) return;
+      const parent = wrapper.parentElement;
+      if (!parent) return;
+      const parentRect = parent.getBoundingClientRect();
+      const wrapperRect = wrapper.getBoundingClientRect();
+      // Если по бокам есть хотя бы 80px свободного места — считаем, что места достаточно
+      hasEnoughSpace.value =
+        wrapperRect.left - parentRect.left > 80 &&
+        parentRect.right - wrapperRect.right > 80;
+    });
+  };
+
+  const updateThumbnailsHeight = () => {
+    nextTick(() => {
+      if (thumbnailsWrapperRef.value) {
+        thumbnailsHeight.value = thumbnailsWrapperRef.value.offsetHeight;
+      } else {
+        thumbnailsHeight.value = 0;
+      }
+    });
+  };
+
   onMounted(() => {
     document.addEventListener('keydown', handleKeydown);
+    window.addEventListener('resize', checkSpace);
+    window.addEventListener('resize', updateThumbnailsHeight);
+    checkSpace();
+    updateThumbnailsHeight();
   });
 
   onUnmounted(() => {
     document.removeEventListener('keydown', handleKeydown);
+    window.removeEventListener('resize', checkSpace);
+    window.removeEventListener('resize', updateThumbnailsHeight);
   });
 
-  // Сброс индекса при открытии
+  // Сброс индекса и состояния загрузки при открытии
   watch(
     () => props.isOpen,
     isOpen => {
       if (isOpen) {
         currentIndex.value = props.initialIndex;
+        isLoading.value = true;
       }
     },
   );
@@ -171,6 +216,16 @@
       }
     },
   );
+
+  watch(
+    () => props.isOpen,
+    isOpen => {
+      if (isOpen) {
+        nextTick(checkSpace);
+        nextTick(updateThumbnailsHeight);
+      }
+    },
+  );
 </script>
 
 <template>
@@ -179,165 +234,145 @@
       <div v-if="isOpen" class="ui-image-modal">
         <div class="ui-image-modal__overlay" @click="close"></div>
 
-        <div class="ui-image-modal__container">
-          <!-- Кнопка закрытия -->
-          <button
-            class="ui-image-modal__close"
-            :aria-label="t('common.close')"
-            @click="close"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M18 6L6 18M6 6L18 18"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
+        <!-- Кнопка закрытия -->
+        <button
+          class="ui-image-modal__close"
+          :aria-label="t('common.close')"
+          @click="close"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M18 6L6 18M6 6L18 18"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+
+        <!-- Кнопка открытия в новой вкладке -->
+        <button
+          v-if="allowOpenInNewTab"
+          class="ui-image-modal__open-new-tab"
+          :aria-label="t('common.openInNewTab')"
+          :title="t('common.openInNewTab')"
+          @click="openImageInNewTab"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M18 13V19C18 20.1046 17.1046 21 16 21H5C3.89543 21 3 20.1046 3 19V8C3 6.89543 3.89543 6 5 6H11"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M15 3H21V9"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M10 14L21 3"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+
+        <!-- Кнопки навигации -->
+        <button
+          v-if="showNavigation && hasPrev"
+          class="ui-image-modal__nav ui-image-modal__nav--prev"
+          :aria-label="t('common.previous_image')"
+          @click="prevImage"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M15 18L9 12L15 6"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+        <button
+          v-if="showNavigation && hasNext"
+          class="ui-image-modal__nav ui-image-modal__nav--next"
+          :aria-label="t('common.next_image')"
+          @click="nextImage"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M9 18L15 12L9 6"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+
+        <!-- Основное изображение -->
+        <div
+          class="ui-image-modal__image-area"
+          :style="
+            showThumbnails && images.length > 1
+              ? { paddingBottom: thumbnailsHeight + 'px' }
+              : {}
+          "
+        >
+          <div class="ui-image-modal__image-wrapper">
+            <Transition name="image-fade">
+              <img
+                v-if="currentImage"
+                :key="currentImage"
+                :src="currentImage"
+                :alt="currentAlt"
+                class="ui-image-modal__image"
+                :class="{ 'ui-image-modal__image--clickable': allowOpenInNewTab }"
+                :title="allowOpenInNewTab ? t('common.clickToOpenInNewTab') : ''"
+                :style="{
+                  maxWidth: `calc(100vw - ${imageOffset}px)`,
+                  maxHeight:
+                    showThumbnails && images.length > 1
+                      ? `calc(100vh - ${imageOffset}px - ${thumbnailsHeight - 100}px)`
+                      : `calc(100vh - ${imageOffset}px)`,
+                  objectFit: 'contain',
+                  display: 'block',
+                  margin: '0 auto',
+                }"
+                @load="onImageLoad"
+                @error="onImageError"
+                @click="allowOpenInNewTab ? openImageInNewTab() : null"
               />
-            </svg>
-          </button>
-
-          <!-- Кнопка открытия в новой вкладке -->
-          <button
-            v-if="allowOpenInNewTab"
-            class="ui-image-modal__open-new-tab"
-            :aria-label="t('common.openInNewTab')"
-            :title="t('common.openInNewTab')"
-            @click="openImageInNewTab"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M18 13V19C18 20.1046 17.1046 21 16 21H5C3.89543 21 3 20.1046 3 19V8C3 6.89543 3.89543 6 5 6H11"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <path
-                d="M15 3H21V9"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <path
-                d="M10 14L21 3"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-          </button>
-
-          <!-- Навигация для десктопа -->
-          <button
-            v-if="showNavigation && hasPrev"
-            class="ui-image-modal__nav ui-image-modal__nav--prev ui-image-modal__nav--desktop"
-            :aria-label="t('common.previous_image')"
-            @click="prevImage"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M15 18L9 12L15 6"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-          </button>
-
-          <button
-            v-if="showNavigation && hasNext"
-            class="ui-image-modal__nav ui-image-modal__nav--next ui-image-modal__nav--desktop"
-            :aria-label="t('common.next_image')"
-            @click="nextImage"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M9 18L15 12L9 6"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-          </button>
-
-          <!-- Основное изображение -->
-          <div class="ui-image-modal__content-wrapper">
-            <div class="ui-image-modal__content">
-              <!-- Навигация для мобильных -->
-              <button
-                v-if="showNavigation && hasPrev"
-                class="ui-image-modal__nav ui-image-modal__nav--prev ui-image-modal__nav--mobile"
-                :aria-label="t('common.previous_image')"
-                @click="prevImage"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M15 18L9 12L15 6"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                  />
-                </svg>
-              </button>
-
-              <!-- Обернем изображение в кликабельный элемент -->
-              <div class="ui-image-modal__image-wrapper">
-                <img
-                  ref="imageRef"
-                  :src="currentImage"
-                  :alt="currentAlt"
-                  class="ui-image-modal__image"
-                  :class="{ 'ui-image-modal__image--clickable': allowOpenInNewTab }"
-                  :title="allowOpenInNewTab ? t('common.clickToOpenInNewTab') : ''"
-                  @load="onImageLoad"
-                  @error="onImageError"
-                  @click="allowOpenInNewTab ? openImageInNewTab() : null"
-                />
-              </div>
-
-              <button
-                v-if="showNavigation && hasNext"
-                class="ui-image-modal__nav ui-image-modal__nav--next ui-image-modal__nav--mobile"
-                :aria-label="t('common.next_image')"
-                @click="nextImage"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M9 18L15 12L9 6"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                  />
-                </svg>
-              </button>
-
-              <!-- Индикатор загрузки -->
-              <div v-if="isLoading" class="ui-image-modal__loader">
-                <div class="ui-image-modal__spinner"></div>
-              </div>
-            </div>
+            </Transition>
           </div>
-
-          <!-- Миниатюры -->
-          <div
-            v-if="showThumbnails && images.length > 1"
-            class="ui-image-modal__thumbnails-wrapper"
-          >
-            <div class="ui-image-modal__thumbnails">
-              <button
-                v-for="(img, index) in images"
-                :key="index"
-                class="ui-image-modal__thumbnail"
-                :class="{ 'ui-image-modal__thumbnail--active': index === currentIndex }"
-                :aria-label="t('common.thumbnail', { number: index + 1 })"
-                @click="setImage(index)"
-              >
-                <img
-                  :src="img.preview"
-                  :alt="img.description"
-                  :loading="lazyThumbnails ? 'lazy' : 'eager'"
-                />
-              </button>
-            </div>
+          <!-- Индикатор загрузки -->
+          <div v-if="isLoading" class="ui-image-modal__loader">
+            <div class="ui-image-modal__spinner"></div>
+          </div>
+        </div>
+        <!-- Миниатюры вынесены из image-area -->
+        <div
+          v-if="showThumbnails && images.length > 1"
+          ref="thumbnailsWrapperRef"
+          class="ui-image-modal__thumbnails-wrapper"
+        >
+          <div class="ui-image-modal__thumbnails">
+            <button
+              v-for="(img, index) in images"
+              :key="index"
+              class="ui-image-modal__thumbnail"
+              :class="{ 'ui-image-modal__thumbnail--active': index === currentIndex }"
+              :aria-label="t('common.thumbnail', { number: index + 1 })"
+              @click="setImage(index)"
+            >
+              <img
+                :src="img.preview"
+                :alt="img.description"
+                :loading="lazyThumbnails ? 'lazy' : 'eager'"
+              />
+            </button>
           </div>
         </div>
       </div>
