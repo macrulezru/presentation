@@ -56,6 +56,13 @@
   const closeDropdown = () => {
     isOpen.value = false;
     highlightedIndex.value = -1;
+    // Снимаем фокус с триггера после выбора
+    setTimeout(() => {
+      const el = document.activeElement as HTMLElement;
+      if (el && el.classList.contains('ui-select__trigger')) {
+        el.blur();
+      }
+    }, 0);
   };
 
   /**
@@ -161,34 +168,50 @@
           :class="{ 'ui-select__arrow--open': isOpen }"
           aria-hidden="true"
         >
-          ▼
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4.5 6.5L8 10L11.5 6.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </div>
       </slot>
     </div>
 
-    <div
-      v-if="isOpen"
-      class="ui-select__dropdown"
-      role="listbox"
-      :aria-activedescendant="
-        highlightedIndex >= 0 ? getOptionId(highlightedIndex) : undefined
-      "
-      tabindex="-1"
-    >
+    <transition name="ui-select-dropdown-fade">
       <div
-        v-for="(option, index) in options"
-        :id="getOptionId(index)"
-        :key="option.value"
-        class="ui-select__option"
-        :class="{ 'ui-select__option--selected': option.value === modelValue?.value }"
-        role="option"
-        :aria-selected="option.value === modelValue?.value"
-        @click="selectOption(option)"
-        @mouseenter="setHighlighted(index)"
-        @mousedown.prevent
+        v-if="isOpen"
+        class="ui-select__dropdown"
+        role="listbox"
+        :aria-activedescendant="
+          highlightedIndex >= 0 ? getOptionId(highlightedIndex) : undefined
+        "
+        tabindex="-1"
       >
-        {{ option.name }}
+        <div
+          v-for="(option, index) in options"
+          :id="getOptionId(index)"
+          :key="option.value"
+          class="ui-select__option"
+          :class="{ 'ui-select__option--selected': option.value === modelValue?.value }"
+          role="option"
+          :aria-selected="option.value === modelValue?.value"
+          @click="selectOption(option)"
+          @mouseenter="setHighlighted(index)"
+          @mousedown.prevent
+        >
+          {{ option.name }}
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
