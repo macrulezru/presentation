@@ -22,77 +22,66 @@
     overflow: auto;
   }
 
-  &__joke-header {
+  &__joke-visual {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: var(--spacing-md);
-    padding-bottom: var(--spacing-sm);
-    border-bottom: 1px solid var(--color-border);
-    flex-shrink: 0;
+    justify-content: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg) var(--spacing-md);
+    min-height: 320px;
+    flex: 1;
   }
 
-  &__joke-type {
-    background-color: var(--color-bg-tertiary);
-    color: var(--color-text-secondary);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--radius-sm);
-    font-size: var(--font-size-xs);
+  &__joke-emoji {
+    font-size: 7.5rem;
+    line-height: 1;
+    margin-bottom: var(--spacing-sm);
+    filter: drop-shadow(0 2px 8px rgb(0 0 0 / 10%));
+    user-select: none;
+    transition: transform 0.2s;
+    will-change: transform;
+  }
+
+  &__joke-type-title {
+    font-size: 1.25rem;
+    font-weight: var(--font-weight-normal);
+    color: var(--color-bg-dark);
+    letter-spacing: 0.02em;
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border: solid 1px var(--color-border-muted);
+    border-radius: 40px;
+    text-shadow: 0 1px 0 var(--color-bg-card);
+    text-transform: capitalize;
+  }
+
+  &__joke-setup {
+    font-size: 1.1rem;
+    color: var(--color-text-primary);
+    text-align: center;
+    margin-bottom: var(--spacing-xs);
     font-weight: var(--font-weight-semibold);
-    text-transform: uppercase;
+  }
+
+  &__joke-punchline {
+    font-size: 1.35rem;
+    color: var(--color-accent-purple-dark);
+    font-weight: var(--font-weight-bold);
+    background: linear-gradient(90deg, var(--color-bg-tertiary) 0%, var(--color-bg-card) 100%);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
+    box-shadow: 0 2px 8px rgb(80 0 120 / 7%);
+    text-align: center;
+    letter-spacing: 0.01em;
   }
 
   &__joke-id {
     color: var(--color-text-muted);
     font-size: var(--font-size-xs);
-  }
-
-  &__joke-body {
-    margin-bottom: var(--spacing-md);
-    flex-shrink: 0;
-  }
-
-  &__setup {
-    font-size: var(--font-size-md);
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-sm);
-  }
-
-  &__punchline {
-    font-size: var(--font-size-md);
-    color: var(--color-text-secondary);
-    font-style: italic;
-  }
-
-  &__joke-full {
-    padding-top: var(--spacing-md);
-    border-top: 1px solid var(--color-border);
-    flex-shrink: 0;
-
-    strong {
-      color: var(--color-text-primary);
-      display: block;
-      margin-bottom: var(--spacing-sm);
-    }
-
-    &-setup {
-      color: var(--color-text-primary);
-    }
-
-    &-punchline {
-      color: var(--color-accent-purple-dark);
-      font-weight: var(--font-weight-bold);
-    }
-
-    p {
-      margin-top: var(--spacing-sm);
-      line-height: 1.5;
-      margin-bottom: var(--spacing-xs);
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
+    margin-bottom: var(--spacing-xs);
+    letter-spacing: 0.04em;
   }
 
   &__error-container {

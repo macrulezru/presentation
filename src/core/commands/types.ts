@@ -11,7 +11,7 @@ const defaultRetry: RetryConfig = {
 };
 
 export const jokeConfig: HttpConfig = {
-  baseURL: RestApiEnum.JOKE,
+  baseURL: RestApiEnum.MAIN_API,
   timeout: 20000,
   headers: {
     'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export const jokeConfig: HttpConfig = {
 };
 
 export const personConfig: HttpConfig = {
-  baseURL: RestApiEnum.PERSON,
+  baseURL: RestApiEnum.MAIN_API,
   timeout: 20000,
   headers: {
     'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ export const personConfig: HttpConfig = {
 };
 
 export const productConfig: HttpConfig = {
-  baseURL: RestApiEnum.PRODUCT,
+  baseURL: RestApiEnum.MAIN_API,
   timeout: 20000,
   headers: {
     'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export const productConfig: HttpConfig = {
 };
 
 export const healthConfig: HttpConfig = {
-  baseURL: RestApiEnum.MY_API,
+  baseURL: RestApiEnum.MAIN_API,
   timeout: 20000,
   headers: {
     'Content-Type': 'application/json',

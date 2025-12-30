@@ -36,8 +36,8 @@
       setWarmupStatus(false);
       const command = healthCommand.getHealth();
       const result = await command.execute();
-      console.log(result);
-      if (result.status === 'OK') {
+      console.log(result.status);
+      if (result.status === 'ok') {
         setWarmupStatus(true);
       } else {
         checkWarmupApi();

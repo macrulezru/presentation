@@ -1,8 +1,21 @@
+// Fade transition for API warmup -> main content
+.fade-api-enter-active,
+.fade-api-leave-active {
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-api-enter-from,
+.fade-api-leave-to {
+  opacity: 0;
+}
+
+.fade-api-enter-to,
+.fade-api-leave-from {
+  opacity: 1;
+}
+
 .rest-api {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xl);
   margin-bottom: -2rem;
   padding: var(--spacing-5xl) var(--spacing-md);
   align-items: center;
@@ -27,6 +40,13 @@
     opacity: 0.3;
     pointer-events: none;
     z-index: 1;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xl);
   }
 
   @include media-mobile {
