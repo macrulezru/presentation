@@ -1183,9 +1183,11 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
       drawParticleWithTrail(ctx.value!, particle);
     });
 
-    // Рисуем траекторию и остальное с эффектом блюра
+    // Определяем, применять ли блюр (только для десктопа)
+    const blurEnabled = isDesktop.value;
+
     ctx.value.save();
-    ctx.value.filter = `blur(${backgroundBlur.value}px)`;
+    ctx.value.filter = blurEnabled ? `blur(${backgroundBlur.value}px)` : 'none';
 
     drawInfinityPath(
       ctx.value,
@@ -1218,7 +1220,14 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
       const title = t('about.tech_title');
       const mode = state.trajectoryMode;
       const radius = mode === 'circle' ? state.infinityScale : undefined;
-      drawSceneTitle(ctx.value!, state.centerX, state.centerY, title, { mode, radius });
+      // Для мобильного режима не применяем блюр к надписи
+      if (blurEnabled) {
+        drawSceneTitle(ctx.value!, state.centerX, state.centerY, title, { mode, radius });
+      } else {
+        ctx.value.filter = 'none';
+        drawSceneTitle(ctx.value!, state.centerX, state.centerY, title, { mode, radius });
+        ctx.value.filter = 'none';
+      }
     }
 
     // Рисуем передний план — свечение только в режиме десктоп (infinity)
