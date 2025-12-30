@@ -8,6 +8,32 @@
   const { t } = useI18n();
 
   defineProps<Props>();
+
+  // Эмодзи по типу шутки
+  function getJokeEmoji(type: string) {
+    switch (type) {
+      case 'программисты':
+        return '💻';
+      case 'тестировщики':
+        return '🧪';
+      case 'баги':
+        return '🐞';
+      case 'офис':
+        return '🏢';
+      case 'геймдев':
+        return '🎮';
+      case 'фриланс':
+        return '🌍';
+      case 'ИИ':
+        return '🤖';
+      case 'дедлайны':
+        return '⏰';
+      case 'админы':
+        return '🛡️';
+      default:
+        return '😂';
+    }
+  }
 </script>
 
 <template>
@@ -18,26 +44,20 @@
     </div>
     <div v-else-if="formattedData" class="joke-formatted-column__content">
       <div class="joke-formatted-column__joke-card">
-        <div class="joke-formatted-column__joke-header">
-          <span class="joke-formatted-column__joke-type">{{ formattedData.type }}</span>
-          <span class="joke-formatted-column__joke-id">ID: {{ formattedData.id }}</span>
-        </div>
-        <div class="joke-formatted-column__joke-body">
-          <p class="joke-formatted-column__setup">
-            <strong>{{ t('rest-api.setup') }}</strong>
+        <div class="joke-formatted-column__joke-visual">
+          <div class="joke-formatted-column__joke-emoji">
+            {{ getJokeEmoji(formattedData.type) }}
+          </div>
+          <div class="joke-formatted-column__joke-type-title">
+            {{ t('rest-api.jokeType.' + formattedData.type) }}
+          </div>
+          <div class="joke-formatted-column__joke-setup">
             {{ formattedData.setup }}
-          </p>
-          <p class="joke-formatted-column__punchline">
-            <strong>{{ t('rest-api.punchline') }}</strong>
+          </div>
+          <div class="joke-formatted-column__joke-punchline">
             {{ formattedData.punchline }}
-          </p>
-        </div>
-        <div class="joke-formatted-column__joke-full">
-          <strong>{{ t('rest-api.fullJoke') }}</strong>
-          <p class="joke-formatted-column__joke-full-setup">{{ formattedData.Setup }}</p>
-          <p class="joke-formatted-column__joke-full-punchline">
-            {{ formattedData.Punchline }}
-          </p>
+          </div>
+          <div class="joke-formatted-column__joke-id">#{{ formattedData.id }}</div>
         </div>
       </div>
     </div>

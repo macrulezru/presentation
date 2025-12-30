@@ -17,28 +17,6 @@
       <pre>{{ error }}</pre>
     </div>
     <div v-else-if="formattedData" class="person-formatted-column__content">
-      <div class="person-formatted-column__info-section">
-        <h4>{{ t('rest-api.responseInfo') }}</h4>
-        <div class="person-formatted-column__info-grid">
-          <div>
-            <strong>{{ t('rest-api.seed') }}</strong>
-            {{ formattedData.seed }}
-          </div>
-          <div>
-            <strong>{{ t('rest-api.results') }}</strong>
-            {{ formattedData.count }}
-          </div>
-          <div>
-            <strong>{{ t('rest-api.page') }}</strong>
-            {{ formattedData.page }}
-          </div>
-          <div>
-            <strong>{{ t('rest-api.version') }}</strong>
-            {{ formattedData.version }}
-          </div>
-        </div>
-      </div>
-
       <div
         v-for="(person, index) in formattedData.persons"
         :key="index"
@@ -91,6 +69,30 @@
           <div class="person-formatted-column__detail-item">
             <strong>{{ t('rest-api.registrationAge') }}</strong>
             {{ person.registrationAge }} {{ t('rest-api.years') }}
+          </div>
+          <div class="person-formatted-column__detail-item">
+            <strong>{{ t('rest-api.country') }}</strong>
+            {{ person.location.country }}
+          </div>
+          <div class="person-formatted-column__detail-item">
+            <strong>{{ t('rest-api.city') }}</strong>
+            {{ person.location.city }}
+          </div>
+          <div class="person-formatted-column__detail-item">
+            <strong>{{ t('rest-api.postcode') }}</strong>
+            {{ person.location.postcode }}
+          </div>
+          <div class="person-formatted-column__detail-item">
+            <strong>{{ t('rest-api.timezone') }}</strong>
+            {{ person.location.timezone.description }}
+          </div>
+          <div class="person-formatted-column__detail-item">
+            <strong>{{ t('rest-api.uuid') }}</strong>
+            {{ person.login.uuid }}
+          </div>
+          <div class="person-formatted-column__detail-item">
+            <strong>{{ t('rest-api.idDoc') }}</strong>
+            {{ person.id.name }}: {{ person.id.value }}
           </div>
         </div>
       </div>

@@ -12,21 +12,6 @@
     overflow: auto;
   }
 
-  &__info-section {
-    background-color: var(--color-bg-secondary);
-    border-radius: var(--radius-md);
-    padding: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
-    flex-shrink: 0;
-
-    h4 {
-      margin-top: 0;
-      margin-bottom: var(--spacing-md);
-      color: var(--color-text-secondary);
-      font-size: var(--font-size-md);
-    }
-  }
-
   &__info-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

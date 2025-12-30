@@ -222,78 +222,84 @@
 
 <template>
   <div class="rest-api">
-    <WarmupApi v-if="!warmupStatus" />
-    <template v-else>
-      <div v-if="isDesktop" class="rest-api__metrics-row">
-        <div class="rest-api__metrics-title">
-          {{ t('rest-api.metricsCallout.title') }}
+    <transition name="fade-api" mode="out-in">
+      <div v-if="!warmupStatus" key="warmup" class="rest-api__warmup">
+        <div>
+          <WarmupApi />
         </div>
-        <UiTumbler
-          :active="metricsOpen"
-          :aria-label="t('rest-api.metricsCallout.aria')"
-          @toggle="toggleMetricsPanel"
-        />
-        <span class="rest-api__metrics-key">{{ metricsShortcut }}</span>
       </div>
-      <Tabs>
-        <Tab :title="t('rest-api.productApiTitle')">
-          <ApiDemoBlock
-            :loading="productState.loading"
-            :error="productState.error"
-            :requestInfo="productState.requestInfo"
-            :rawResponse="productState.rawResponse"
-            :apiInfo="productApiInfo"
-            @fetch="fetchProduct"
-            @clear="clearProductData"
-          >
-            <template #formatted-data>
-              <ProductFormattedColumn
-                :formattedData="productState.formattedData"
-                :loading="productState.loading"
-                :error="productState.error"
-              />
-            </template>
-          </ApiDemoBlock>
-        </Tab>
-        <Tab :title="t('rest-api.jokeApiTitle')">
-          <ApiDemoBlock
-            :loading="jokeState.loading"
-            :error="jokeState.error"
-            :requestInfo="jokeState.requestInfo"
-            :rawResponse="jokeState.rawResponse"
-            :apiInfo="jokeApiInfo"
-            @fetch="fetchJoke"
-            @clear="clearJokeData"
-          >
-            <template #formatted-data>
-              <JokeFormattedColumn
-                :formattedData="jokeState.formattedData"
-                :loading="jokeState.loading"
-                :error="jokeState.error"
-              />
-            </template>
-          </ApiDemoBlock>
-        </Tab>
-        <Tab :title="t('rest-api.personApiTitle')">
-          <ApiDemoBlock
-            :loading="personState.loading"
-            :error="personState.error"
-            :requestInfo="personState.requestInfo"
-            :rawResponse="personState.rawResponse"
-            :apiInfo="personApiInfo"
-            @fetch="fetchRandomPerson"
-            @clear="clearPersonData"
-          >
-            <template #formatted-data>
-              <PersonFormattedColumn
-                :formattedData="personState.formattedData"
-                :loading="personState.loading"
-                :error="personState.error"
-              />
-            </template>
-          </ApiDemoBlock>
-        </Tab>
-      </Tabs>
-    </template>
+      <div v-else key="main" class="rest-api__content">
+        <div v-if="isDesktop" class="rest-api__metrics-row">
+          <div class="rest-api__metrics-title">
+            {{ t('rest-api.metricsCallout.title') }}
+          </div>
+          <UiTumbler
+            :active="metricsOpen"
+            :aria-label="t('rest-api.metricsCallout.aria')"
+            @toggle="toggleMetricsPanel"
+          />
+          <span class="rest-api__metrics-key">{{ metricsShortcut }}</span>
+        </div>
+        <Tabs>
+          <Tab :title="t('rest-api.productApiTitle')">
+            <ApiDemoBlock
+              :loading="productState.loading"
+              :error="productState.error"
+              :requestInfo="productState.requestInfo"
+              :rawResponse="productState.rawResponse"
+              :apiInfo="productApiInfo"
+              @fetch="fetchProduct"
+              @clear="clearProductData"
+            >
+              <template #formatted-data>
+                <ProductFormattedColumn
+                  :formattedData="productState.formattedData"
+                  :loading="productState.loading"
+                  :error="productState.error"
+                />
+              </template>
+            </ApiDemoBlock>
+          </Tab>
+          <Tab :title="t('rest-api.personApiTitle')">
+            <ApiDemoBlock
+              :loading="personState.loading"
+              :error="personState.error"
+              :requestInfo="personState.requestInfo"
+              :rawResponse="personState.rawResponse"
+              :apiInfo="personApiInfo"
+              @fetch="fetchRandomPerson"
+              @clear="clearPersonData"
+            >
+              <template #formatted-data>
+                <PersonFormattedColumn
+                  :formattedData="personState.formattedData"
+                  :loading="personState.loading"
+                  :error="personState.error"
+                />
+              </template>
+            </ApiDemoBlock>
+          </Tab>
+          <Tab :title="t('rest-api.jokeApiTitle')">
+            <ApiDemoBlock
+              :loading="jokeState.loading"
+              :error="jokeState.error"
+              :requestInfo="jokeState.requestInfo"
+              :rawResponse="jokeState.rawResponse"
+              :apiInfo="jokeApiInfo"
+              @fetch="fetchJoke"
+              @clear="clearJokeData"
+            >
+              <template #formatted-data>
+                <JokeFormattedColumn
+                  :formattedData="jokeState.formattedData"
+                  :loading="jokeState.loading"
+                  :error="jokeState.error"
+                />
+              </template>
+            </ApiDemoBlock>
+          </Tab>
+        </Tabs>
+      </div>
+    </transition>
   </div>
 </template>
