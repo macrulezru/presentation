@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, computed, onMounted, onUnmounted } from 'vue';
+  import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 
   import { ImageFolder } from '@/enums/arts.enum';
   import artCursor from '@/view/assets/images/art-cursor.svg?url';
@@ -28,6 +28,8 @@
   const cursorY = ref(0);
   const cursorAngle = ref(0);
   const targetCursorAngle = ref(0);
+  const cursorScaleY = ref(1);
+  const cursorScale = ref(1);
 
   const { images, getImageByKey } = useArtsImages();
 
@@ -62,6 +64,12 @@
       description: `${selectedProject.value?.title} - изображение ${index + 1}`,
     }));
   });
+
+  const cursorStyle = computed(() => ({
+    left: `${cursorX.value - CURSOR_OFFSET_X}px`,
+    top: `${cursorY.value - CURSOR_OFFSET_Y}px`,
+    transform: `rotate(${cursorAngle.value}deg) scaleY(${cursorScaleY.value}) scale(${cursorScale.value})`,
+  }));
 
   const loadImageForCache = async (url: string): Promise<void> => {
     if (loadedImagesMap.has(url)) return;
@@ -184,6 +192,7 @@
   const onMouseMove = (e: MouseEvent) => {
     const now = performance.now();
     const dx = e.clientX - lastX;
+    const dy = e.clientY - cursorY.value;
     const dt = now - lastTime || 16;
     const speed = dx / dt;
     const clampedSpeed = Math.max(-1, Math.min(1, speed));
@@ -195,9 +204,22 @@
     cursorVisible.value = true;
     lastCursorX = e.clientX;
     stillTicks = 0;
+
+    if (Math.abs(dy) > 1) {
+      cursorScaleY.value = Math.max(0.7, Math.min(1.3, 1 + dy / 60));
+    } else {
+      cursorScaleY.value = 1;
+    }
     if (!animationFrame) {
       animateCursorRotation();
     }
+  };
+
+  const onMouseDown = () => {
+    cursorScale.value = 0.85;
+  };
+  const onMouseUp = () => {
+    cursorScale.value = 1;
   };
 
   const animateCursorRotation = () => {
@@ -242,12 +264,24 @@
     removeCursorHandlers();
   };
 
+  watch(isModalOpen, val => {
+    if (val) {
+      cursorVisible.value = false;
+    }
+  });
+
   onMounted(async () => {
+    const img = new window.Image();
+    img.src = artCursor;
     await initializePreview();
+    window.addEventListener('mouseup', onMouseUp);
+    window.addEventListener('mousedown', onMouseDown);
   });
 
   onUnmounted(() => {
     removeCursorHandlers();
+    window.removeEventListener('mouseup', onMouseUp);
+    window.removeEventListener('mousedown', onMouseDown);
   });
 </script>
 
@@ -324,16 +358,8 @@
       @change="handleImageChange"
     />
 
-    <div
-      v-if="cursorVisible"
-      :style="{
-        left: cursorX - CURSOR_OFFSET_X + 'px',
-        top: cursorY - CURSOR_OFFSET_Y + 'px',
-        transform: `rotate(${cursorAngle}deg)`,
-      }"
-      class="arts__custom-cursor"
-    >
-      <img :src="artCursor" alt="cursor" />
+    <div v-if="cursorVisible" :style="cursorStyle" class="arts__custom-cursor">
+      <img :src="artCursor" alt="cursor" draggable="false" />
     </div>
   </div>
 </template>
