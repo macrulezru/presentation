@@ -150,7 +150,7 @@
 
   &__thumbnails-wrapper {
     width: 100%;
-    overflow: hidden;
+    overflow: auto hidden;
     margin-top: 0;
     z-index: 2;
     position: absolute;
@@ -158,20 +158,9 @@
     bottom: 0;
     background: none;
     padding-bottom: 0;
-
-    @include media-tablet {
-      margin-top: var(--spacing-sm);
-    }
-  }
-
-  &__thumbnails {
-    display: flex;
-    gap: var(--spacing-lg);
-    padding: var(--spacing-md) var(--spacing-md) 30px;
-    overflow-x: auto;
-    justify-content: center;
     scrollbar-width: thin;
     scrollbar-color: rgb(255 255 255 / 30%) transparent;
+    text-align: center;
 
     &::-webkit-scrollbar {
       height: 6px;
@@ -181,12 +170,25 @@
       background: rgb(255 255 255 / 30%);
       border-radius: var(--radius-sm);
     }
+
+    @include media-tablet {
+      margin-top: var(--spacing-sm);
+    }
+  }
+
+  &__thumbnails {
+    display: inline-flex;
+    justify-content: flex-start;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-md) 30px;
+    min-width: unset;
+    margin: 0;
   }
 
   &__thumbnail {
     flex: 0 0 auto;
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
     border: 3px solid transparent;
     border-radius: var(--radius-md);
     overflow: hidden;
@@ -198,8 +200,8 @@
       transform var(--transition-fast);
 
     @include media-tablet {
-      width: 40px;
-      height: 40px;
+      width: 60px;
+      height: 60px;
     }
 
     &:not(&--active):hover {

@@ -37,6 +37,7 @@
   const isLoading = ref(false);
   const imageWrapperRef = ref<HTMLElement | null>(null);
   const thumbnailsWrapperRef = ref<HTMLElement | null>(null);
+  const thumbnailsRef = ref<HTMLElement | null>(null);
   const hasEnoughSpace = ref(true);
   const thumbnailsHeight = ref(0);
 
@@ -112,6 +113,20 @@
       isLoading.value = true;
       currentIndex.value = index;
       emit('change', index);
+      nextTick(() => scrollActiveThumbnailIntoView());
+    }
+  };
+
+  /**
+   * Скроллит активную превьюшку в зону видимости
+   */
+  const scrollActiveThumbnailIntoView = () => {
+    if (!thumbnailsRef.value || !thumbnailsWrapperRef.value) return;
+    const active = thumbnailsRef.value.querySelector(
+      '.ui-image-modal__thumbnail--active',
+    );
+    if (active && typeof active.scrollIntoView === 'function') {
+      active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
   };
 
@@ -200,14 +215,17 @@
     document.addEventListener('keydown', handleKeydown);
     window.addEventListener('resize', checkSpace);
     window.addEventListener('resize', updateThumbnailsHeight);
+    window.addEventListener('resize', scrollActiveThumbnailIntoView);
     checkSpace();
     updateThumbnailsHeight();
+    nextTick(() => scrollActiveThumbnailIntoView());
   });
 
   onUnmounted(() => {
     document.removeEventListener('keydown', handleKeydown);
     window.removeEventListener('resize', checkSpace);
     window.removeEventListener('resize', updateThumbnailsHeight);
+    window.removeEventListener('resize', scrollActiveThumbnailIntoView);
   });
 
   // Сброс индекса и состояния загрузки при открытии + блокировка body
@@ -240,9 +258,14 @@
       if (isOpen) {
         nextTick(checkSpace);
         nextTick(updateThumbnailsHeight);
+        nextTick(() => scrollActiveThumbnailIntoView());
       }
     },
   );
+
+  watch(currentIndex, () => {
+    nextTick(() => scrollActiveThumbnailIntoView());
+  });
 </script>
 
 <template>
@@ -363,7 +386,7 @@
           ref="thumbnailsWrapperRef"
           class="ui-image-modal__thumbnails-wrapper"
         >
-          <div class="ui-image-modal__thumbnails">
+          <div ref="thumbnailsRef" class="ui-image-modal__thumbnails">
             <button
               v-for="(img, index) in images"
               :key="index"
