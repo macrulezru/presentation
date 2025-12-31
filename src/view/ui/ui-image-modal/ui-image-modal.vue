@@ -160,9 +160,6 @@
     console.error(`Не удалось загрузить изображение: ${currentImage.value}`);
   };
 
-  /**
-   * Обработчик нажатий клавиш
-   */
   const handleKeydown = (event: KeyboardEvent) => {
     if (!props.isOpen) return;
 
@@ -211,6 +208,57 @@
     });
   };
 
+  let isDragging = false;
+  let dragStartX = 0;
+  let scrollStartX = 0;
+
+  const onThumbsDragStart = (e: MouseEvent) => {
+    if (e.button !== 0 || !thumbnailsWrapperRef.value) return;
+    isDragging = true;
+    dragStartX = e.clientX;
+    scrollStartX = thumbnailsWrapperRef.value.scrollLeft;
+    document.body.style.userSelect = 'none';
+  };
+
+  const onThumbsDragMove = (e: MouseEvent) => {
+    if (!isDragging || !thumbnailsWrapperRef.value) return;
+    const dx = e.clientX - dragStartX;
+    thumbnailsWrapperRef.value.scrollLeft = scrollStartX - dx;
+  };
+
+  const onThumbsDragEnd = () => {
+    isDragging = false;
+    document.body.style.userSelect = '';
+  };
+
+  const onThumbnailsWheel = (e: WheelEvent) => {
+    if (!thumbnailsWrapperRef.value) return;
+    if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
+      thumbnailsWrapperRef.value.scrollLeft += e.deltaY;
+      e.preventDefault();
+    }
+  };
+
+  const addThumbsListeners = () => {
+    if (thumbnailsWrapperRef.value) {
+      thumbnailsWrapperRef.value.addEventListener('wheel', onThumbnailsWheel, {
+        passive: false,
+      });
+      thumbnailsWrapperRef.value.addEventListener('mousedown', onThumbsDragStart);
+    }
+    window.addEventListener('mousemove', onThumbsDragMove);
+    window.addEventListener('mouseup', onThumbsDragEnd);
+  };
+
+  const removeThumbsListeners = () => {
+    if (thumbnailsWrapperRef.value) {
+      thumbnailsWrapperRef.value.removeEventListener('wheel', onThumbnailsWheel);
+      thumbnailsWrapperRef.value.removeEventListener('mousedown', onThumbsDragStart);
+    }
+    window.removeEventListener('mousemove', onThumbsDragMove);
+    window.removeEventListener('mouseup', onThumbsDragEnd);
+  };
+
   onMounted(() => {
     document.addEventListener('keydown', handleKeydown);
     window.addEventListener('resize', checkSpace);
@@ -226,9 +274,9 @@
     window.removeEventListener('resize', checkSpace);
     window.removeEventListener('resize', updateThumbnailsHeight);
     window.removeEventListener('resize', scrollActiveThumbnailIntoView);
+    removeThumbsListeners();
   });
 
-  // Сброс индекса и состояния загрузки при открытии + блокировка body
   watch(
     () => props.isOpen,
     isOpen => {
@@ -236,29 +284,24 @@
         currentIndex.value = props.initialIndex;
         isLoading.value = true;
         bodyLock();
+        nextTick(() => {
+          addThumbsListeners();
+          checkSpace();
+          updateThumbnailsHeight();
+          scrollActiveThumbnailIntoView();
+        });
       } else {
         bodyUnlock();
+        removeThumbsListeners();
       }
     },
   );
 
-  // Следим за изменением initialIndex
   watch(
     () => props.initialIndex,
     index => {
       if (props.isOpen) {
         setImage(index);
-      }
-    },
-  );
-
-  watch(
-    () => props.isOpen,
-    isOpen => {
-      if (isOpen) {
-        nextTick(checkSpace);
-        nextTick(updateThumbnailsHeight);
-        nextTick(() => scrollActiveThumbnailIntoView());
       }
     },
   );
