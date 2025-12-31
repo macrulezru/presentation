@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  // Настройки шлейфа
   import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 
   import { ImageFolder } from '@/enums/arts.enum';
@@ -30,6 +31,18 @@
   const targetCursorAngle = ref(0);
   const cursorScaleY = ref(1);
   const cursorScale = ref(1);
+
+  // Массив слепков для motion blur
+  const cursorTrails = ref<
+    Array<{
+      x: number;
+      y: number;
+      angle: number;
+      scaleY: number;
+      scale: number;
+      created: number;
+    }>
+  >([]);
 
   const { images, getImageByKey } = useArtsImages();
 
@@ -182,14 +195,34 @@
   const CURSOR_MAX_ROTATE = 40;
   const CURSOR_ROTATE_SMOOTH = 0.15;
   const STILL_TICKS_LIMIT = 6;
+  const TRAIL_INTERVAL = 33;
+  const TRAIL_MAX_COUNT = 8;
 
   let lastX = 0;
   let lastTime = 0;
   let animationFrame: number | null = null;
   let stillTicks = 0;
   let lastCursorX = 0;
+  let lastTrailTime = 0;
 
   const onMouseMove = (e: MouseEvent) => {
+    const nowTs = Date.now();
+    // Добавляем слепок только если прошло достаточно времени
+    if (nowTs - lastTrailTime > TRAIL_INTERVAL) {
+      cursorTrails.value.push({
+        x: cursorX.value,
+        y: cursorY.value,
+        angle: cursorAngle.value,
+        scaleY: cursorScaleY.value,
+        scale: cursorScale.value,
+        created: nowTs,
+      });
+      // Ограничиваем количество слепков
+      if (cursorTrails.value.length > TRAIL_MAX_COUNT) {
+        cursorTrails.value.splice(0, cursorTrails.value.length - TRAIL_MAX_COUNT);
+      }
+      lastTrailTime = nowTs;
+    }
     const now = performance.now();
     const dx = e.clientX - lastX;
     const dy = e.clientY - cursorY.value;
@@ -206,7 +239,7 @@
     stillTicks = 0;
 
     if (Math.abs(dy) > 1) {
-      cursorScaleY.value = Math.max(0.7, Math.min(1.3, 1 + dy / 60));
+      cursorScaleY.value = Math.max(0.7, Math.min(1.3, 1 - dy / 60));
     } else {
       cursorScaleY.value = 1;
     }
@@ -270,18 +303,29 @@
     }
   });
 
+  let trailCleanupTimer: number | null = null;
+
   onMounted(async () => {
     const img = new window.Image();
     img.src = artCursor;
     await initializePreview();
     window.addEventListener('mouseup', onMouseUp);
     window.addEventListener('mousedown', onMouseDown);
+    // Таймер для очистки слепков
+    trailCleanupTimer = window.setInterval(() => {
+      const now = Date.now();
+      cursorTrails.value = cursorTrails.value.filter(trail => now - trail.created < 200);
+    }, 32);
   });
 
   onUnmounted(() => {
     removeCursorHandlers();
     window.removeEventListener('mouseup', onMouseUp);
     window.removeEventListener('mousedown', onMouseDown);
+    if (trailCleanupTimer) {
+      clearInterval(trailCleanupTimer);
+      trailCleanupTimer = null;
+    }
   });
 </script>
 
@@ -357,6 +401,25 @@
       @close="closeModal"
       @change="handleImageChange"
     />
+
+    <template v-for="trail in cursorTrails" :key="trail.created">
+      <div
+        class="arts__custom-cursor"
+        :style="{
+          left: `${trail.x - CURSOR_OFFSET_X}px`,
+          top: `${trail.y - CURSOR_OFFSET_Y}px`,
+          transform: `rotate(${trail.angle}deg) scaleY(${trail.scaleY}) scale(${trail.scale})`,
+          opacity: Math.max(
+            0,
+            Math.min(1, 1 - (Date.now() - trail.created) / 200),
+          ).toFixed(2),
+          pointerEvents: 'none',
+          position: 'fixed',
+        }"
+      >
+        <img :src="artCursor" alt="cursor" draggable="false" />
+      </div>
+    </template>
 
     <div v-if="cursorVisible" :style="cursorStyle" class="arts__custom-cursor">
       <img :src="artCursor" alt="cursor" draggable="false" />
