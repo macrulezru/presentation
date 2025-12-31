@@ -6,6 +6,7 @@
 
   import type { Props } from './types';
 
+  import { bodyLock, bodyUnlock } from '@/view/composables/use-body-fix';
   import { useResponsive } from '@/view/composables/use-responsive';
 
   const { t } = useI18n();
@@ -60,7 +61,20 @@
   const hasNext = computed(() => currentIndex.value < props.images.length - 1);
 
   const imageOffset = computed(() => {
-    return isDesktop.value ? 160 : 60;
+    return isDesktop.value ? { width: 160, height: 160 } : { width: 60, height: 140 };
+  });
+
+  const imageStyle = computed(() => {
+    return {
+      maxWidth: `calc(100vw - ${imageOffset.value.width}px)`,
+      maxHeight:
+        props.showThumbnails && props.images.length > 1
+          ? `calc(100vh - ${imageOffset.value.height}px - ${thumbnailsHeight.value - 100}px)`
+          : `calc(100vh - ${imageOffset.value.height}px)`,
+      objectFit: 'contain' as const,
+      display: 'block',
+      margin: '0 auto',
+    };
   });
 
   /**
@@ -196,13 +210,16 @@
     window.removeEventListener('resize', updateThumbnailsHeight);
   });
 
-  // Сброс индекса и состояния загрузки при открытии
+  // Сброс индекса и состояния загрузки при открытии + блокировка body
   watch(
     () => props.isOpen,
     isOpen => {
       if (isOpen) {
         currentIndex.value = props.initialIndex;
         isLoading.value = true;
+        bodyLock();
+      } else {
+        bodyUnlock();
       }
     },
   );
@@ -230,10 +247,9 @@
 
 <template>
   <Teleport to="body">
-    <Transition name="modal">
+    <Transition name="ui-image-modal">
       <div v-if="isOpen" class="ui-image-modal">
         <div class="ui-image-modal__overlay" @click="close"></div>
-
         <!-- Кнопка закрытия -->
         <button
           class="ui-image-modal__close"
@@ -318,35 +334,24 @@
           :style="
             showThumbnails && images.length > 1
               ? { paddingBottom: thumbnailsHeight + 'px' }
-              : {}
+              : undefined
           "
         >
-          <div class="ui-image-modal__image-wrapper">
-            <Transition name="image-fade">
-              <img
-                v-if="currentImage"
-                :key="currentImage"
-                :src="currentImage"
-                :alt="currentAlt"
-                class="ui-image-modal__image"
-                :class="{ 'ui-image-modal__image--clickable': allowOpenInNewTab }"
-                :title="allowOpenInNewTab ? t('common.clickToOpenInNewTab') : ''"
-                :style="{
-                  maxWidth: `calc(100vw - ${imageOffset}px)`,
-                  maxHeight:
-                    showThumbnails && images.length > 1
-                      ? `calc(100vh - ${imageOffset}px - ${thumbnailsHeight - 100}px)`
-                      : `calc(100vh - ${imageOffset}px)`,
-                  objectFit: 'contain',
-                  display: 'block',
-                  margin: '0 auto',
-                }"
-                @load="onImageLoad"
-                @error="onImageError"
-                @click="allowOpenInNewTab ? openImageInNewTab() : null"
-              />
-            </Transition>
-          </div>
+          <transition name="ui-image-modal-image" mode="out-in">
+            <img
+              v-if="currentImage"
+              :key="currentImage"
+              :src="currentImage"
+              :alt="currentAlt"
+              class="ui-image-modal__image"
+              :class="{ 'ui-image-modal__image--clickable': allowOpenInNewTab }"
+              :title="allowOpenInNewTab ? t('common.clickToOpenInNewTab') : ''"
+              :style="imageStyle"
+              @load="onImageLoad"
+              @error="onImageError"
+              @click="allowOpenInNewTab ? openImageInNewTab() : null"
+            />
+          </transition>
           <!-- Индикатор загрузки -->
           <div v-if="isLoading" class="ui-image-modal__loader">
             <div class="ui-image-modal__spinner"></div>

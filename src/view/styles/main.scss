@@ -10,6 +10,11 @@ body {
   }
 }
 
+body.body-locked {
+  overflow: hidden !important;
+  touch-action: none !important;
+}
+
 .swiper {
   &-wrapper {
     align-items: center;
