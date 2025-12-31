@@ -1,5 +1,5 @@
 export enum RestApiEnum {
-  MAIN_API = 'https://presentation-backend-neon.vercel.app/api',
+  MAIN_API = 'https://api.macrulez.ru/v1',
 }
 
 export type RestApiType = (typeof RestApiEnum)[keyof typeof RestApiEnum];
