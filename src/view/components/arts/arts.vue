@@ -31,6 +31,7 @@
   const targetCursorAngle = ref(0);
   const cursorScaleY = ref(1);
   const cursorScale = ref(1);
+  const lastMousePosition = ref<{ x: number; y: number } | null>(null);
 
   // Массив слепков для motion blur
   const cursorTrails = ref<
@@ -170,6 +171,10 @@
     }, 300);
   };
 
+  const mouseMoveTracker = (e: MouseEvent) => {
+    lastMousePosition.value = { x: e.clientX, y: e.clientY };
+  };
+
   const openModal = (folder: ImageFolder) => {
     selectedFolder.value = folder;
     selectedProject.value = getImageByKey(folder);
@@ -177,6 +182,10 @@
     if (selectedProject.value) {
       isModalOpen.value = true;
       currentImageIndex.value = 0;
+
+      lastMousePosition.value = { x: cursorX.value, y: cursorY.value };
+
+      window.addEventListener('mousemove', mouseMoveTracker);
     }
   };
 
@@ -184,6 +193,18 @@
     isModalOpen.value = false;
     selectedFolder.value = null;
     selectedProject.value = null;
+
+    if (mouseMoveTracker) {
+      window.removeEventListener('mousemove', mouseMoveTracker);
+    }
+
+    if (lastMousePosition.value) {
+      cursorX.value = lastMousePosition.value.x;
+      cursorY.value = lastMousePosition.value.y;
+    }
+
+    lastMousePosition.value = null;
+    cursorVisible.value = true;
   };
 
   const handleImageChange = (index: number) => {
