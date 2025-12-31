@@ -8,6 +8,7 @@ import ionLogo from '@/view/assets/images/company-logo/ion.png';
 import nikitaLogo from '@/view/assets/images/company-logo/nikita.png';
 import orsLogo from '@/view/assets/images/company-logo/ors.svg?url';
 import publicisLogo from '@/view/assets/images/company-logo/publicis.svg?url';
+import solisLogo from '@/view/assets/images/company-logo/soldis.svg?url';
 import taisLogo from '@/view/assets/images/company-logo/tais.svg?url';
 import tntLogo from '@/view/assets/images/company-logo/tnt.png';
 import utinetLogo from '@/view/assets/images/company-logo/utinet.png';
@@ -110,7 +111,6 @@ export const experienceItemsMap: Record<string, ExperienceItemKeys & { id: strin
     company: 'experience.items.company-nettrader.company',
     position: 'experience.items.company-nettrader.position',
     description: 'experience.items.company-nettrader.description',
-    logo: '',
   },
   'company-soldis': {
     id: 'company-soldis',
@@ -118,7 +118,7 @@ export const experienceItemsMap: Record<string, ExperienceItemKeys & { id: strin
     position: 'experience.items.company-soldis.position',
     description: 'experience.items.company-soldis.description',
     url: 'https://soldis.ru/',
-    logo: '',
+    logo: solisLogo,
   },
   'company-yutinet-ru': {
     id: 'company-yutinet-ru',
@@ -139,21 +139,18 @@ export const experienceItemsMap: Record<string, ExperienceItemKeys & { id: strin
     company: 'experience.items.company-adt-web-solutions.company',
     position: 'experience.items.company-adt-web-solutions.position',
     description: 'experience.items.company-adt-web-solutions.description',
-    logo: '',
   },
   'company-freelance': {
     id: 'company-freelance',
     company: 'experience.items.company-freelance.company',
     position: 'experience.items.company-freelance.position',
     description: 'experience.items.company-freelance.description',
-    logo: '',
   },
   'company-artez-prodakshen': {
     id: 'company-artez-prodakshen',
     company: 'experience.items.company-artez-prodakshen.company',
     position: 'experience.items.company-artez-prodakshen.position',
     description: 'experience.items.company-artez-prodakshen.description',
-    logo: '',
   },
   'company-avm-new-wave-inc': {
     id: 'company-avm-new-wave-inc',
