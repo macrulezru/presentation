@@ -69,3 +69,27 @@ body {
     color: #000 !important;
   }
 }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb-bg) var(--scrollbar-track-bg);
+}
+
+*::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  background: var(--scrollbar-track-bg);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-bg);
+  border-radius: var(--scrollbar-radius);
+  transition: background 0.2s;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover-bg);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track-bg);
+}
