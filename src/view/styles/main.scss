@@ -15,39 +15,6 @@ body.body-locked {
   touch-action: none !important;
 }
 
-.swiper {
-  &-wrapper {
-    align-items: center;
-  }
-
-  &-slide {
-    display: flex !important;
-    min-height: 100% !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  &-pagination {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    padding: 14px 0 5px;
-
-    &-bullet {
-      display: block;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      border: solid 1px var(--color-primary);
-      cursor: pointer;
-
-      &-active {
-        background-color: var(--color-primary);
-      }
-    }
-  }
-}
-
 @media print {
   .header,
   #splash,

@@ -1,33 +1,16 @@
 <script setup lang="ts">
-  import 'swiper/css';
-  import { Pagination, Navigation, Mousewheel, Keyboard } from 'swiper/modules';
-  import { Swiper, SwiperSlide } from 'swiper/vue';
+  import '@/view/components/travelshop-project/parts/travelshop-images/travelshop-images.scss';
+
   import { ref } from 'vue';
 
   import { useTravelshopImages } from '@/view/composables/use-travelshop-images.ts';
-  import ImageModal from '@/view/ui/ui-image-modal/ui-image-modal.vue';
-  import '@/view/components/travelshop-project/parts/travelshop-images/travelshop-images.scss';
+  import UiImageModal from '@/view/ui/ui-image-modal/ui-image-modal.vue';
+  import UiSwiper from '@/view/ui/ui-swiper/ui-swiper.vue';
 
   const { images } = useTravelshopImages();
 
   const modalOpen = ref(false);
   const currentImageIndex = ref(0);
-
-  const swiperOptions: any = {
-    modules: [Pagination, Navigation, Mousewheel, Keyboard],
-    pagination: { clickable: true },
-    navigation: {
-      nextEl: '.travelshop-images__nav-control_next',
-      prevEl: '.travelshop-images__nav-control_prev',
-    },
-    mousewheel: {
-      releaseOnEdges: true,
-    },
-    keyboard: {
-      enabled: true,
-      onlyInViewport: true,
-    },
-  };
 
   const openModal = (index: number) => {
     currentImageIndex.value = index;
@@ -45,28 +28,9 @@
 
 <template>
   <div class="travelshop-images">
-    <swiper
-      class="travelshop-images__swiper"
-      :slidesPerView="1"
-      :spaceBetween="50"
-      v-bind="swiperOptions"
-    >
-      <swiper-slide v-for="(slide, index) in images" :key="index">
-        <div class="travelshop-images__slide">
-          <img
-            :src="slide.preview"
-            :alt="slide.description"
-            class="travelshop-images__image clickable-image"
-            @click.stop="openModal(index)"
-          />
-          <span class="travelshop-images__description">{{ slide.description }}</span>
-        </div>
-      </swiper-slide>
-    </swiper>
-    <span class="travelshop-images__nav-control travelshop-images__nav-control_prev" />
-    <span class="travelshop-images__nav-control travelshop-images__nav-control_next" />
+    <UiSwiper :slides="images" @slide-click="openModal" />
 
-    <ImageModal
+    <UiImageModal
       v-model:isOpen="modalOpen"
       :initialIndex="currentImageIndex"
       :images="images"

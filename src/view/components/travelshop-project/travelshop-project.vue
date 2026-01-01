@@ -1,41 +1,66 @@
 <script setup lang="ts">
-  import { ref, computed, defineAsyncComponent } from 'vue';
+  import '@/view/components/travelshop-project/travelshop-project.scss';
+
+  import { ref, computed, defineAsyncComponent, h } from 'vue';
+
+  import type {
+    Feature,
+    Project,
+    AchievementGraph,
+  } from '@/view/components/travelshop-project/types';
 
   import TravelshopIntro from '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue';
   import { useI18n } from '@/view/composables/use-i18n';
   import Button from '@/view/ui/ui-button/ui-button.vue';
   import CircleChart from '@/view/ui/ui-circle-chart/ui-circle-chart.vue';
   import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
-  import LoadingSpinner from '@/view/ui/ui-loading-spinner/ui-loading-spinner.vue';
-
-  import '@/view/components/travelshop-project/travelshop-project.scss';
+  import UiLoading from '@/view/ui/ui-loading/ui-loading.vue';
 
   const TravelshopImages = defineAsyncComponent({
     loader: () =>
       import(
         '@/view/components/travelshop-project/parts/travelshop-images/travelshop-images.vue'
       ),
-    loadingComponent: LoadingSpinner,
-    delay: 200,
-    timeout: 10000,
-    errorComponent: {
-      template: `
-      <div class="travelshop__error">
-        <p>{{ $t('travelshop.loading_error') }}</p>
-      </div>
-    `,
-    },
+    loadingComponent: () =>
+      h('div', { class: 'travelshop__gallery-loader' }, [
+        h(UiLoading, { type: 'circle', circleRadius: 60, thickness: 8 }),
+      ]),
+    delay: 0,
   });
 
   const { t, tm } = useI18n();
 
   const showSwiper = ref<boolean>(false);
 
-  const features = computed(() => (tm('travelshop.features.items') as any[]) || []);
-  const techStack = computed(() => (tm('travelshop.tech_stack.items') as any[]) || []);
-  const projects = computed(() => (tm('travelshop.projects.items') as any[]) || []);
+  const features = computed<Feature[]>(() => {
+    const items = tm('travelshop.features.items') as Record<string, unknown>[];
+    return Array.isArray(items)
+      ? items.map(item => ({
+          icon: typeof item?.icon === 'string' ? item.icon : '',
+          text: typeof item?.text === 'string' ? item.text : '',
+        }))
+      : [];
+  });
 
-  const achievementsGraphs = computed(() => [
+  const techStack = computed<string[]>(() => {
+    const items = tm('travelshop.tech_stack.items') as unknown;
+    return Array.isArray(items)
+      ? items.filter((item): item is string => typeof item === 'string')
+      : [];
+  });
+
+  const projects = computed<Project[]>(() => {
+    const items = tm('travelshop.projects.items') as Record<string, unknown>[];
+    return Array.isArray(items)
+      ? items.map(item => ({
+          name: typeof item?.name === 'string' ? item.name : '',
+          url: typeof item?.url === 'string' ? item.url : '',
+          description: typeof item?.description === 'string' ? item.description : '',
+        }))
+      : [];
+  });
+
+  const achievementsGraphs = computed<AchievementGraph[]>(() => [
     {
       value: 40,
       color: '#dd5406',
