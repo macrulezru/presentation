@@ -13,7 +13,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
     "storybook": "cross-env STORYBOOK=true storybook dev -p 6006",
-    "storybook:build": "cross-env STORYBOOK=true storybook build",
+    "storybook:build": "cross-env STORYBOOK=true storybook build --output-dir storybook-static",
     "lint": "eslint . --fix --cache",
     "format": "prettier --write .",
     "lint:check": "eslint .",
