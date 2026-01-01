@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Serve Storybook assets (and let missing ones 404) instead of rewriting to index.html
+  RewriteRule ^(assets|sb-common-assets|sb-addons|sb-manager|sb-static)/ - [L]
+
+  # If the requested path exists as file or dir, serve it
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Fallback for anything else
+  RewriteRule . /index.html [L]
+</IfModule>

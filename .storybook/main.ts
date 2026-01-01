@@ -18,6 +18,7 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag',
   },
+  staticDirs: ['../public', { from: './public', to: '/' }],
   viteFinal: async baseConfig => {
     baseConfig.plugins = (baseConfig.plugins || []).filter(
       plugin =>
