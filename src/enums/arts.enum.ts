@@ -54,6 +54,15 @@ export enum ImageFolder {
   NIKITA_RAPPLEZ = 'Nikita_Rapplez',
   FAKTORIJA_STILJA_MAKET_STRANICY = 'Faktorija_stilja_maket_stranicy',
   WEBCAB_SITE = 'Webcab_site',
+  THREE_D_ARTS = '3d_arts',
+  AVANGER_BRANDING = 'avanger_branding',
+  BAUPARTNER_LANDING = 'baupartner_landing',
+  BRANDING_GIDE = 'branding_gide',
+  EP_NEW_YEAR_2015 = 'ep_new_year_2015',
+  EUROPA_PLUS_BUNNERS = 'europa-plus-bunners',
+  RASH = 'rash',
+  TESSER_MOBILE = 'tesser_mobile',
+  VHOME = 'vhome',
 }
 
 export type FolderData = {
@@ -432,5 +441,87 @@ export const FOLDERS_DATA: Record<ImageFolder, FolderData> = {
   [ImageFolder.WEBCAB_SITE]: {
     preview: getImageUrl(ImageFolder.WEBCAB_SITE, 'mini.png'),
     images: [getImageUrl(ImageFolder.WEBCAB_SITE, '1_big.png')],
+  },
+  [ImageFolder.THREE_D_ARTS]: {
+    preview: getImageUrl(ImageFolder.THREE_D_ARTS, '3d_exp_mini.jpg'),
+    images: [
+      getImageUrl(ImageFolder.THREE_D_ARTS, '3d_exp_1.jpg'),
+      getImageUrl(ImageFolder.THREE_D_ARTS, '3d_exp_2.jpg'),
+      getImageUrl(ImageFolder.THREE_D_ARTS, '3d_exp_3.jpg'),
+      getImageUrl(ImageFolder.THREE_D_ARTS, '3d_exp_4.jpg'),
+      getImageUrl(ImageFolder.THREE_D_ARTS, '3d_exp_5.jpg'),
+    ],
+  },
+  [ImageFolder.AVANGER_BRANDING]: {
+    preview: getImageUrl(ImageFolder.AVANGER_BRANDING, 'avanger_branding_mini.jpg'),
+    images: [getImageUrl(ImageFolder.AVANGER_BRANDING, 'avanger_branding.jpg')],
+  },
+  [ImageFolder.BAUPARTNER_LANDING]: {
+    preview: getImageUrl(ImageFolder.BAUPARTNER_LANDING, 'baupartner_landing_mini.jpg'),
+    images: [getImageUrl(ImageFolder.BAUPARTNER_LANDING, 'baupartner_landing_big.jpg')],
+  },
+  [ImageFolder.BRANDING_GIDE]: {
+    preview: getImageUrl(ImageFolder.BRANDING_GIDE, 'branding_gide_mini.jpg'),
+    images: [
+      getImageUrl(ImageFolder.BRANDING_GIDE, 'branding_gide_1.jpg'),
+      getImageUrl(ImageFolder.BRANDING_GIDE, 'branding_gide_2.jpg'),
+      getImageUrl(ImageFolder.BRANDING_GIDE, 'branding_gide_3.jpg'),
+    ],
+  },
+  [ImageFolder.EP_NEW_YEAR_2015]: {
+    preview: getImageUrl(ImageFolder.EP_NEW_YEAR_2015, 'ep_new_year_2015_mini.jpg'),
+    images: [
+      getImageUrl(ImageFolder.EP_NEW_YEAR_2015, 'ep_new_year_2015_1.jpg'),
+      getImageUrl(ImageFolder.EP_NEW_YEAR_2015, 'ep_new_year_2015_2.jpg'),
+      getImageUrl(ImageFolder.EP_NEW_YEAR_2015, 'ep_new_year_2015_3.jpg'),
+    ],
+  },
+  [ImageFolder.EUROPA_PLUS_BUNNERS]: {
+    preview: getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_preview.jpg'),
+    images: [
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_1.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_2.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_3.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_4.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_5.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_6.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_7.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_8.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_9.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_10.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_11.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_12.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_13.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_14.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_15.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_16.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_17.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_18.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_19.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_20.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_21.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_22.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_23.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_24.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_25.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_26.jpg'),
+      getImageUrl(ImageFolder.EUROPA_PLUS_BUNNERS, '600x300_banners_27.jpg'),
+    ],
+  },
+  [ImageFolder.RASH]: {
+    preview: getImageUrl(ImageFolder.RASH, 'rash_1_mini.jpg'),
+    images: [
+      getImageUrl(ImageFolder.RASH, 'rash_1.jpg'),
+      getImageUrl(ImageFolder.RASH, 'rash_2.jpg'),
+      getImageUrl(ImageFolder.RASH, 'rash_3.jpg'),
+    ],
+  },
+  [ImageFolder.TESSER_MOBILE]: {
+    preview: getImageUrl(ImageFolder.TESSER_MOBILE, 'tesser_mobile_mini.jpg'),
+    images: [getImageUrl(ImageFolder.TESSER_MOBILE, 'tesser_mobile_big.jpg')],
+  },
+  [ImageFolder.VHOME]: {
+    preview: getImageUrl(ImageFolder.VHOME, 'vihome_mini.jpg'),
+    images: [getImageUrl(ImageFolder.VHOME, 'vihome_big.jpg')],
   },
 };
