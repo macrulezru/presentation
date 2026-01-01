@@ -1,33 +1,56 @@
 <script setup lang="ts">
   import '@/view/ui/ui-button/ui-button.scss';
 
-  import { computed } from 'vue';
+  import type { Props, Emits } from './types';
 
-  import type { Props } from './types';
-
-  const props = defineProps<Props>();
-
-  /**
-   * Вычисляемые CSS-классы для кнопки
-   */
-  const classes = computed(() => {
-    return {
-      'ui-button_full-width': props.fullWidth,
-      'ui-button_small': props.small,
-      'ui-button_micro': props.micro,
-      'ui-button_disabled': props.disabled,
-      'ui-button_gray': props.gray,
-      'ui-button_reset': props.reset,
-      'ui-button_control': props.control,
-      [`ui-button_variant-${props.variant}`]: Boolean(props.variant),
-    };
+  const props = withDefaults(defineProps<Props>(), {
+    disabled: false,
+    active: false,
+    focused: false,
+    size: 'md',
   });
+
+  const emit = defineEmits<Emits>();
+
+  const handleClick = (event: MouseEvent) => {
+    if (!props.disabled) {
+      emit('click', event);
+    }
+  };
+
+  const handleFocus = () => {
+    emit('focus');
+  };
+
+  const handleBlur = () => {
+    emit('blur');
+  };
+
+  const handleKeydown = (event: KeyboardEvent) => {
+    emit('keydown', event);
+  };
 </script>
 
 <template>
-  <button class="ui-button" :class="classes" :disabled="disabled">
+  <button
+    class="ui-button"
+    :class="{
+      'ui-button_disabled': disabled,
+      'ui-button_active': active,
+      'ui-button_focused': focused,
+      [`ui-button_size-${size}`]: true,
+    }"
+    :disabled="disabled"
+    :title="title"
+    :aria-disabled="ariaDisabled ?? disabled"
+    @click="handleClick"
+    @focus="handleFocus"
+    @blur="handleBlur"
+    @keydown="handleKeydown"
+  >
     <slot>
-      {{ props.text }}
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <span v-if="label" v-html="label"></span>
     </slot>
   </button>
 </template>

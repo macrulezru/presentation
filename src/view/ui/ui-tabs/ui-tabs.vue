@@ -13,6 +13,9 @@
   import { TABS_ADD_KEY, TABS_ACTIVE_HASH_KEY, TABS_UPDATE_KEY } from './tokens';
 
   import type { Tab } from './types';
+  import type { ButtonConfig } from '@/view/ui/ui-button-group/types';
+
+  import UiButtonGroup from '@/view/ui/ui-button-group/ui-button-group.vue';
 
   const emit = defineEmits<{
     mounted: [];
@@ -54,6 +57,16 @@
 
   const activeIndex = computed(() =>
     tabs.value.findIndex(tab => tab.hash === activeTabHash.value),
+  );
+
+  const buttonConfigs = computed<ButtonConfig[]>(() =>
+    tabs.value.map(tab => ({
+      id: tab.tabId,
+      label: tab.title,
+      action: () => setActiveTab(tab),
+      active: tab.hash === activeTabHash.value,
+      title: tab.title,
+    })),
   );
 
   const tabRefs = ref<HTMLElement[]>([]);
@@ -116,25 +129,14 @@
 <template>
   <div class="ui-tabs">
     <div class="ui-tabs__wrapper">
-      <div class="ui-tabs__navbar" role="tablist" @keydown="handleKeydown">
-        <div
-          v-for="(tab, index) in tabs"
-          :id="tab.tabId"
-          :key="tab.hash"
-          :ref="el => setTabRef(el, index)"
-          class="ui-tabs__navbar-item"
-          :class="{
-            'ui-tabs__navbar-item_active': tab.hash === activeTabHash,
-          }"
-          role="tab"
-          :aria-selected="tab.hash === activeTabHash"
-          :tabindex="tab.hash === activeTabHash ? 0 : -1"
-          :aria-controls="tab.panelId"
-          @click="setActiveTab(tab)"
-        >
-          {{ tab.title }}
-        </div>
-      </div>
+      <UiButtonGroup
+        :buttons="buttonConfigs"
+        mode="row"
+        :radius="8"
+        class="ui-tabs__navbar"
+        role="tablist"
+        @keydown="handleKeydown"
+      />
     </div>
     <div class="ui-tabs__content">
       <slot />

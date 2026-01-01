@@ -1,0 +1,162 @@
+// ============================================================================
+// UI Button Group Component Styles
+// ============================================================================
+
+// Light theme (default)
+.ui-button-group_theme-light {
+  --btn-group-bg: #fff;
+  --btn-group-text: #333;
+  --btn-group-text-hover: #06c;
+  --btn-group-bg-hover: #f0f0f0;
+  --btn-group-bg-active: #e6e6e6;
+  --btn-group-border: #ccc;
+  --btn-group-divider: #ccc;
+  --btn-group-focus: #06c;
+  --btn-group-disabled: #999;
+  --btn-group-active-bg: #d0d0d0;
+  --btn-group-active-text: #06c;
+}
+
+// Dark theme
+.ui-button-group_theme-dark {
+  --btn-group-bg: #1a1a1a;
+  --btn-group-text: #e0e0e0;
+  --btn-group-text-hover: #64b5f6;
+  --btn-group-bg-hover: #2d2d2d;
+  --btn-group-bg-active: #3d3d3d;
+  --btn-group-border: #404040;
+  --btn-group-divider: #505050;
+  --btn-group-focus: #64b5f6;
+  --btn-group-disabled: #666;
+  --btn-group-active-bg: #4a4a4a;
+  --btn-group-active-text: #64b5f6;
+}
+
+.ui-button-group {
+  display: inline-flex;
+  background: var(--btn-group-bg, var(--color-bg-primary));
+  border: solid 1px var(--btn-group-border, var(--color-border, var(--color-text-muted)));
+  border-radius: var(--btn-group-radius, 4px);
+  overflow: hidden;
+
+  &_row {
+    flex-direction: row;
+  }
+
+  &_column {
+    flex-direction: column;
+  }
+
+  &_no-border {
+    border: none;
+  }
+}
+
+// ============================================================================
+// Button Styles
+// ============================================================================
+
+.ui-button-group__button {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+
+  --ui-button-bg: var(--btn-group-bg, white);
+  --ui-button-color: var(--btn-group-text, var(--color-secondary));
+  --ui-button-border: 1px solid var(--btn-group-divider, #ccc);
+  --ui-button-border-radius: 0;
+  --ui-button-bg-hover: var(--btn-group-bg-hover, #f0f0f0);
+  --ui-button-color-hover: var(--btn-group-text-hover, var(--btn-group-text));
+  --ui-button-bg-active: var(--btn-group-bg-active, #e6e6e6);
+  --ui-button-color-active: var(--btn-group-text, var(--color-secondary));
+  --ui-button-bg-disabled: var(--btn-group-bg, white);
+  --ui-button-color-disabled: var(--btn-group-disabled, #999);
+
+  // ===== Row mode divider =====
+  .ui-button-group_row & {
+    margin-right: -1px;
+
+    &:first-child {
+      margin-right: -1px;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  // ===== Column mode divider =====
+  .ui-button-group_column & {
+    margin-bottom: -1px;
+
+    &:first-child {
+      margin-bottom: -1px;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // ===== Hover state =====
+  &:not(:disabled):hover {
+    // Handled by ui-button through CSS variables
+
+    position: relative;
+    z-index: 2;
+  }
+
+  // ===== Active state =====
+  &:not(:disabled):active {
+    // Handled by ui-button through CSS variables
+
+    position: relative;
+    z-index: 2;
+  }
+
+  &.ui-button_active:not(:disabled) {
+    --ui-button-bg-active: var(--btn-group-active-bg);
+    --ui-button-color-active: var(--btn-group-active-text);
+
+    position: relative;
+    z-index: 2;
+  }
+
+  // ===== Focus state =====
+  &.ui-button_focused:not(:disabled) {
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--btn-group-focus);
+    z-index: 3;
+  }
+
+  // ===== Disabled state =====
+  &:disabled,
+  &.ui-button_disabled {
+    // Handled by ui-button through CSS variables
+  }
+}
+
+// ============================================================================
+// Accessibility - Reduced motion support
+// ============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-button-group__button {
+    transition: none;
+  }
+}
+
+// ============================================================================
+// Responsive behavior
+// ============================================================================
+
+@media (width <= 640px) {
+  .ui-button-group_row {
+    flex-wrap: wrap;
+  }
+
+  .ui-button-group__button {
+    padding: 0.5rem var(--spacing-lg);
+    font-size: var(--font-size-sm);
+  }
+}

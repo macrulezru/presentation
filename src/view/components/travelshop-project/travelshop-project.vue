@@ -11,7 +11,7 @@
 
   import TravelshopIntro from '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue';
   import { useI18n } from '@/view/composables/use-i18n';
-  import Button from '@/view/ui/ui-button/ui-button.vue';
+  import uiButton from '@/view/ui/ui-button/ui-button.vue';
   import CircleChart from '@/view/ui/ui-circle-chart/ui-circle-chart.vue';
   import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
   import UiLoading from '@/view/ui/ui-loading/ui-loading.vue';
@@ -189,10 +189,9 @@
         </div>
       </div>
       <div class="travelshop__section travelshop__section_images">
-        <Button
+        <uiButton
           v-if="!showSwiper"
-          fullWidth
-          :text="t('travelshop.view_screenshots')"
+          :label="t('travelshop.view_screenshots')"
           @click="toggleSwiper"
         />
         <div v-if="showSwiper" class="travelshop__ts-slideshow">
