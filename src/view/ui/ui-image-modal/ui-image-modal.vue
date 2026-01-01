@@ -2,14 +2,16 @@
   import '@/view/ui/ui-image-modal/ui-image-modal.scss';
 
   import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue';
-  import { useI18n } from 'vue-i18n';
 
   import type { Props } from './types';
 
+  import { i18n } from '@/locales';
   import { bodyLock, bodyUnlock } from '@/view/composables/use-body-fix';
   import { useResponsive } from '@/view/composables/use-responsive';
 
-  const { t } = useI18n();
+  // Используем глобальный i18n напрямую, чтобы избежать проблем с инъекцией в Storybook
+  const t = (key: string, values?: Record<string, unknown>) =>
+    values ? i18n.global.t(key, values) : i18n.global.t(key);
 
   const props = withDefaults(defineProps<Props>(), {
     initialIndex: 0,

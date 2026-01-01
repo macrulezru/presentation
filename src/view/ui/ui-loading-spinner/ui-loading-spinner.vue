@@ -1,11 +1,13 @@
 <script setup lang="ts">
   import '@/view/ui/ui-loading-spinner/ui-loading-spinner.scss';
 
-  import { useI18n } from 'vue-i18n';
-
   import type { Props } from './types';
 
-  const { t } = useI18n();
+  import { i18n } from '@/locales';
+
+  // Используем глобальный i18n напрямую, чтобы не зависеть от инъекций
+  const t = (key: string, values?: Record<string, unknown>) =>
+    values ? i18n.global.t(key, values) : i18n.global.t(key);
 
   withDefaults(defineProps<Props>(), {
     size: 'medium',

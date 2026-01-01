@@ -6,6 +6,8 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 import svgo from 'vite-plugin-svgo';
 import vueDevTools from 'vite-plugin-vue-devtools';
 
+const isStorybook = process.env.STORYBOOK === 'true';
+
 export default defineConfig({
   // Добавляем assetsInclude на верхнем уровне
   assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.webp'],
@@ -17,7 +19,8 @@ export default defineConfig({
         propsDestructure: true,
       },
     }),
-    vueDevTools(),
+    // Disable Vue DevTools/inspect when running Storybook to avoid inspector context errors
+    ...(!isStorybook ? [vueDevTools()] : []),
     svgo({
       multipass: true,
       plugins: [
