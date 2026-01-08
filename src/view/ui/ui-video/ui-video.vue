@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue';
 
-  import { PictureResponsiveBreakpoints } from '@/enums/responsive.enum';
+  import { useResponsive } from '@/view/composables/use-responsive';
 
   export interface UiVideoSource {
     src: string;
@@ -39,29 +39,55 @@
   const fullscreen = ref(false);
   const videoRef = ref<HTMLVideoElement | null>(null);
 
+  const { isMobile, isTablet } = useResponsive();
+
   const currentSource = computed(() => {
-    if (
-      props.video.mobile &&
-      window.matchMedia(PictureResponsiveBreakpoints.mobile).matches
-    ) {
-      return props.video.mobile;
+    const { src, tablet, mobile } = props.video;
+
+    if (src && !tablet && !mobile) {
+      return src;
     }
-    if (
-      props.video.tablet &&
-      window.matchMedia(PictureResponsiveBreakpoints.tablet).matches
-    ) {
-      return props.video.tablet;
+
+    if (src && mobile && !tablet) {
+      if (isMobile.value) return mobile;
+      return src;
     }
-    return props.video.src;
+
+    if (src && tablet && !mobile) {
+      if (isMobile.value) return tablet;
+      if (isTablet.value) return tablet;
+      return src;
+    }
+
+    if (src && tablet && mobile) {
+      if (isMobile.value) return mobile;
+      if (isTablet.value) return tablet;
+      return src;
+    }
+
+    return src;
   });
 
-  const videoStyle = computed(() => getAspectRatioStyle(currentSource.value));
+  const videoStyle = computed(() => {
+    const { src, tablet, mobile } = props.video;
+
+    if (src && tablet && !mobile) {
+      if (isMobile.value || isTablet.value) {
+        return getAspectRatioStyle(tablet);
+      }
+      return getAspectRatioStyle(src);
+    }
+
+    return getAspectRatioStyle(currentSource.value);
+  });
 
   const getAspectRatioStyle = (s?: UiVideoSource): Record<string, string> => {
     const style: Record<string, string> = {};
+
     if (s?.width) {
       style.width = typeof s.width === 'number' ? `${s.width}px` : s.width;
     }
+
     if (s?.width && s?.height) {
       const w = typeof s.width === 'number' ? s.width : parseFloat(s.width);
       const h = typeof s.height === 'number' ? s.height : parseFloat(s.height);
@@ -69,6 +95,7 @@
         style.aspectRatio = `${w} / ${h}`;
       }
     }
+
     return style;
   };
 
