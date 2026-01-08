@@ -85,8 +85,8 @@
           <UiVideo
             v-if="examplesStore.videoStatus"
             :video="{
-              src: feature.video,
-              tablet: feature.videoHorizontal,
+              src: { src: feature.video, width: '416px', height: '752px' },
+              tablet: { src: feature.videoHorizontal, width: '752px', height: '416px' },
             }"
             :controls="false"
             :autoplay="true"
@@ -98,8 +98,8 @@
           <UiImage
             v-else
             :image="{
-              src: feature.image,
-              tablet: feature.imageHorizontal,
+              src: { src: feature.image, width: '720px', height: '1235px' },
+              tablet: { src: feature.imageHorizontal, width: '1400px', height: '700px' },
               alt: '',
             }"
             class="feature-item__image"

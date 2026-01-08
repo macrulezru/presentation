@@ -3,10 +3,16 @@
 
   import { PictureResponsiveBreakpoints } from '@/enums/responsive.enum';
 
-  export interface UiVideoProps {
+  export interface UiVideoSource {
     src: string;
-    tablet?: string;
-    mobile?: string;
+    width?: string | number;
+    height?: string | number;
+  }
+
+  export interface UiVideoProps {
+    src: UiVideoSource;
+    tablet?: UiVideoSource;
+    mobile?: UiVideoSource;
     poster?: string;
   }
 
@@ -33,8 +39,7 @@
   const fullscreen = ref(false);
   const videoRef = ref<HTMLVideoElement | null>(null);
 
-  // Определяем текущий src для видео по media query
-  const currentSrc = computed(() => {
+  const currentSource = computed(() => {
     if (
       props.video.mobile &&
       window.matchMedia(PictureResponsiveBreakpoints.mobile).matches
@@ -50,7 +55,24 @@
     return props.video.src;
   });
 
-  function toggleFullscreen() {
+  const videoStyle = computed(() => getAspectRatioStyle(currentSource.value));
+
+  const getAspectRatioStyle = (s?: UiVideoSource): Record<string, string> => {
+    const style: Record<string, string> = {};
+    if (s?.width) {
+      style.width = typeof s.width === 'number' ? `${s.width}px` : s.width;
+    }
+    if (s?.width && s?.height) {
+      const w = typeof s.width === 'number' ? s.width : parseFloat(s.width);
+      const h = typeof s.height === 'number' ? s.height : parseFloat(s.height);
+      if (w && h) {
+        style.aspectRatio = `${w} / ${h}`;
+      }
+    }
+    return style;
+  };
+
+  const toggleFullscreen = () => {
     if (!fullscreen.value) {
       if (videoRef.value?.requestFullscreen) {
         videoRef.value.requestFullscreen();
@@ -64,33 +86,45 @@
       fullscreen.value = false;
       emits('fullscreen', false);
     }
-  }
+  };
 
-  function onPlay() {
+  const handleLoadedMetadata = () => {
+    const video = videoRef.value;
+    if (video) {
+      video.style.removeProperty('width');
+      video.style.removeProperty('aspect-ratio');
+    }
+  };
+
+  const onPlay = () => {
     emits('play');
-  }
-  function onPause() {
+  };
+
+  const onPause = () => {
     emits('pause');
-  }
-  function onEnded() {
+  };
+
+  const onEnded = () => {
     emits('ended');
-  }
+  };
 </script>
 
 <template>
   <div class="ui-video" :class="{ 'is-fullscreen': fullscreen }">
     <video
       ref="videoRef"
-      :src="currentSrc"
+      :src="currentSource.src"
       :poster="video.poster"
       :controls="controls"
       :autoplay="autoplay"
       :loop="loop"
       :muted="muted"
       class="ui-video__element"
+      :style="videoStyle"
       @play="onPlay"
       @pause="onPause"
       @ended="onEnded"
+      @loadedmetadata="handleLoadedMetadata"
     />
     <button
       v-if="showFullscreen"

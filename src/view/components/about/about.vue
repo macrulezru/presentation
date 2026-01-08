@@ -158,9 +158,9 @@
           <div class="about__tech-stack-side-wrapper">
             <UiImage
               :image="{
-                src: TechStackArt,
-                tablet: TechStackArtHorizontal,
-                mobile: TechStackArt,
+                src: { src: TechStackArt, width: '718px', height: '477px' },
+                tablet: { src: TechStackArtHorizontal, width: '1808px', height: '576px' },
+                mobile: { src: TechStackArt, width: '718px', height: '477px' },
                 alt: 'Tech stack',
               }"
               class="about__tech-art"

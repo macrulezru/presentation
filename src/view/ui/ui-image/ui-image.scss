@@ -1,10 +1,8 @@
 .ui-image {
-  background: url("data:image/svg+xml,%3Csvg width='339' height='339' viewBox='0 0 339 339' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='339' height='339' rx='10' fill='%23201D1F' fill-opacity='0.5'/%3E%3C/svg%3E");
+  background: url("data:image/svg+xml;utf8,<svg width='339' height='339' viewBox='0 0 339 339' fill='none' xmlns='http://www.w3.org/2000/svg'><rect width='339' height='339' fill='%23201D1F'/></svg>");
   background-size: cover;
-  min-height: 300px;
 
   &.is-loaded {
     background: none;
-    min-height: unset;
   }
 }

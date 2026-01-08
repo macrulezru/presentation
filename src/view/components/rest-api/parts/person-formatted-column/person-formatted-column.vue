@@ -26,7 +26,7 @@
         <div class="person-formatted-column__person-header">
           <UiImage
             :image="{
-              src: person.profilePicture,
+              src: { src: person.profilePicture },
               alt: person.fullName,
             }"
             class="person-formatted-column__avatar"

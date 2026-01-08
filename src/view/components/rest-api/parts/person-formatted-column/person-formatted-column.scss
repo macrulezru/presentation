@@ -80,6 +80,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);
+    color: var(--color-8);
   }
 
   &__detail-item {
