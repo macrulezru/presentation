@@ -31,11 +31,11 @@ export function useResponsive() {
         responsiveState[key] = e.matches;
       };
 
-      query.addListener(handler);
+      query.addEventListener('change', handler);
       responsiveState[key] = query.matches;
 
       cleanupFunctions.push(() => {
-        query.removeListener(handler);
+        query.removeEventListener('change', handler);
       });
     });
   });

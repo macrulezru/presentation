@@ -9,6 +9,9 @@
   "scripts": {
     "css:variables:check": "node ./utils/css-variables-check.js",
     "dev": "vite",
+    "dev:network": "vite --host 0.0.0.0 --port 3000",
+    "open:android": "powershell -Command \"$adbPath = Join-Path -Path (Resolve-Path .) -ChildPath 'adb/adb.exe'; $ips = @(Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -like '192.168.*' } | Select-Object -ExpandProperty IPAddress); $defaultPort = 3000; $port = $defaultPort; try { $viteProc = Get-Process -Name node -ErrorAction SilentlyContinue | Where-Object { $_.MainWindowTitle -like '*VITE*' }; if ($viteProc) { $cmdLine = (Get-CimInstance Win32_Process -Filter \"ProcessId = $($viteProc.Id)\").CommandLine; if ($cmdLine -match '--port (\\d+)') { $port = $matches[1] } } } catch {} if ($ips.Count -eq 1) { $ip = $ips[0]; Write-Host 'Selected IP:' $ip; Write-Host 'Selected Port:' $port; & $adbPath shell am start -a android.intent.action.VIEW -d http://${ip}:${port}/ } elseif ($ips.Count -gt 1) { Write-Warning 'Multiple IP addresses found: ' $ips; Write-Warning 'Please specify the required IP in the script.' } else { Write-Error 'IP address not found' }\"",
+    "dev:network:android": "npm-run-all -p dev:network open:android",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",

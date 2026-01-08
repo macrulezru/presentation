@@ -102,17 +102,11 @@
       v-if="image.mobile"
       :srcset="image.mobile.src"
       :media="PictureResponsiveBreakpoints.mobile"
-      :width="image.mobile.width"
-      :height="image.mobile.height"
-      :style="getAspectRatioStyle(image.mobile)"
     />
     <source
       v-if="image.tablet"
       :srcset="image.tablet.src"
       :media="PictureResponsiveBreakpoints.tablet"
-      :width="image.tablet.width"
-      :height="image.tablet.height"
-      :style="getAspectRatioStyle(image.tablet)"
     />
     <img
       ref="imgRef"
