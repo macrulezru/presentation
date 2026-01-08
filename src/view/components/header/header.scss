@@ -51,6 +51,7 @@
       background-color: var(--color-text-light);
     }
 
+    &_home.header__nav-item_active,
     &_home:hover {
       background-color: var(--color-1);
     }
@@ -83,7 +84,12 @@
     transition: all var(--transition-normal);
     cursor: pointer;
 
-    &:hover,
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: var(--color-1);
+      }
+    }
+
     &_active {
       background-color: var(--color-1);
     }

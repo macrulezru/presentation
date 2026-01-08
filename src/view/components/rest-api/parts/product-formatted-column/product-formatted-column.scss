@@ -133,6 +133,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);
+    color: var(--color-8);
     background-color: var(--color-bg-secondary);
     border-radius: var(--radius-md);
     padding: var(--spacing-md);
@@ -167,6 +168,7 @@
     background-color: var(--color-bg-secondary);
     border-radius: var(--radius-md);
     padding: var(--spacing-md);
+    color: var(--color-8);
   }
 
   &__description h5,

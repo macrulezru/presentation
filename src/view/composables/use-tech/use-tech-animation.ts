@@ -628,9 +628,6 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
   const handleTouchStart = (event: TouchEvent) => {
     if (!canvasRef.value || event.touches.length === 0) return;
 
-    // Предотвращаем скролл при касании canvas
-    event.preventDefault();
-
     const state = stateManager.getState();
     const rect = canvasRef.value.getBoundingClientRect();
     const touch = event.touches[0]!;
@@ -659,6 +656,7 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
     const clickedItem = getItemAtPosition(items.value, touchX2, touchY2, 'path');
 
     if (clickedItem && clickedItem.state === 'path' && !state.selectedItem) {
+      event.preventDefault(); // Только если по иконке
       techDebug('[TechAnimation] Touch started on item:', clickedItem.id);
 
       // Запоминаем начальные координаты для проверки порога драга
@@ -696,6 +694,7 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
       // Добавляем визуальный эффект зажатия
       clickedItem.hoverScale = 1.1;
     }
+    // Если не по иконке — не мешаем скроллу
   };
 
   // Обработчик touchmove

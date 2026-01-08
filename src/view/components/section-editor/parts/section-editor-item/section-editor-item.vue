@@ -80,13 +80,13 @@
         </button>
         <button
           v-if="!hideDownButton"
-          class="section-editor-item__button section-editor-item__button--down"
+          class="section-editor-item__button section-editor-item__button_down"
           :disabled="isDraggingAny"
           :title="t('sectionEditor.moveDown')"
           @click.stop="handleMoveDown"
         >
           <span
-            class="section-editor-item__arrow-icon section-editor-item__arrow-icon--down"
+            class="section-editor-item__arrow-icon section-editor-item__arrow-icon_down"
           ></span>
         </button>
         <div

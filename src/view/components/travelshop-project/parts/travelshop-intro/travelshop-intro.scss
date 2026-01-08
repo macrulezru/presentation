@@ -210,8 +210,6 @@
     &-close {
       background: none;
       border: none;
-      color: white;
-      font-size: 20px;
       cursor: pointer;
       line-height: 1;
       padding: 0;
@@ -221,10 +219,15 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
+      mask-image: url('@/view/assets/images/icon-close.svg');
+      mask-position: center center;
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      background-color: var(--color-4);
       transition: background-color 0.2s;
 
       &:hover {
-        background-color: rgb(147 0 0);
+        background-color: var(--color-5);
       }
     }
 

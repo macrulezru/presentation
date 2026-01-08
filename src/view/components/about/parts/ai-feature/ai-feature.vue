@@ -45,8 +45,8 @@
         <div class="ai-feature__image-wrapper">
           <UiImage
             :image="{
-              src: AiImage,
-              tablet: AiImageHorizontal,
+              src: { src: AiImage, width: '587px', height: '454px' },
+              tablet: { src: AiImageHorizontal, width: '1536px', height: '759px' },
               alt: 'AI Feature Image',
             }"
             class="about__tech-art"

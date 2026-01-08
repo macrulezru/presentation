@@ -125,8 +125,12 @@
             <div>
               <UiImage
                 :image="{
-                  src: TravelshopImage,
-                  tablet: TravelshopImageHorizontal,
+                  src: { src: TravelshopImage, width: '720px', height: '1237px' },
+                  tablet: {
+                    src: TravelshopImageHorizontal,
+                    width: '1400px',
+                    height: '700px',
+                  },
                   alt: 'TravelShop 2.0',
                 }"
                 class="travelshop__tsh-image"

@@ -25,7 +25,7 @@
         <div class="product-formatted-column__header">
           <UiImage
             :image="{
-              src: formattedData.MainImage,
+              src: { src: formattedData.MainImage },
               alt: formattedData.Title,
             }"
             class="product-formatted-column__main-image"

@@ -206,9 +206,7 @@
             class="travelshop-intro__controls-close"
             :title="t('tshIntro.buttons.close')"
             @click="travelshopIntroStore.toggleDebugControls"
-          >
-            ×
-          </button>
+          />
         </div>
 
         <div class="travelshop-intro__controls-wrapper">
