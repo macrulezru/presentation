@@ -1,42 +1,129 @@
 <script setup lang="ts">
   import '@/view/components/about/about.scss';
 
-  import { computed, ref } from 'vue';
+  import {
+    computed,
+    onMounted,
+    onUnmounted,
+    ref,
+    type ComponentPublicInstance,
+  } from 'vue';
 
   import type { ListItem } from '@/view/components/about/types';
 
+  import TechStackArtHorizontal from '@/view/assets/images/tech-stack-art-horizontal.jpg';
+  import TechStackArt from '@/view/assets/images/tech-stack-art.jpg';
   import AboutTech from '@/view/components/about/parts/about-tech/about-tech.vue';
+  import AiFeature from '@/view/components/about/parts/ai-feature/ai-feature.vue';
   import { useI18n } from '@/view/composables/use-i18n';
+  import { useResponsive } from '@/view/composables/use-responsive';
+  import UiImage from '@/view/ui/ui-image/ui-image.vue';
 
   const { t, tm } = useI18n();
 
+  const { isDesktop } = useResponsive();
   const container = ref<HTMLElement>();
 
   const getListItem = (key: string): ListItem[] => {
     const items = tm(key);
-    if (!Array.isArray(items)) return [];
 
-    return items.filter(
-      (item): item is ListItem =>
-        item &&
-        typeof item === 'object' &&
-        typeof item.title === 'string' &&
-        typeof item.description === 'string',
-    );
+    if (!items || typeof items !== 'object' || Array.isArray(items)) {
+      return [];
+    }
+
+    return Object.entries(items)
+      .filter(([, item]) => {
+        return (
+          item &&
+          typeof item === 'object' &&
+          typeof (item as Record<string, unknown>).title === 'string' &&
+          typeof (item as Record<string, unknown>).description === 'string'
+        );
+      })
+      .map(([itemKey, item]) => ({
+        ...(item as Omit<ListItem, 'key'>),
+        key: itemKey,
+      }));
   };
 
-  const getStringList = (key: string): string[] => {
-    const items = tm(key);
-    if (!Array.isArray(items)) return [];
-
-    return items.filter((item): item is string => typeof item === 'string');
-  };
+  interface TechCategory {
+    key: string;
+    title: string;
+    items: ListItem[];
+    iconClass?: string;
+  }
 
   const skillsList = computed(() => getListItem('about.skills_list'));
-  const mainTechList = computed(() => getListItem('about.main_tech_list'));
-  const infraTechList = computed(() => getListItem('about.infra_tech_list'));
-  const layoutTechList = computed(() => getListItem('about.layout_tech_list'));
-  const bitrixSkills = computed(() => getStringList('about.bitrix_skills'));
+
+  const techCategories = computed<TechCategory[]>(() => {
+    const techStack = tm('about.tech_stack');
+    if (!techStack || typeof techStack !== 'object' || Array.isArray(techStack)) {
+      return [];
+    }
+
+    return Object.entries(techStack)
+      .filter(([, category]) => {
+        return (
+          category &&
+          typeof category === 'object' &&
+          typeof (category as Record<string, unknown>).title === 'string' &&
+          typeof (category as Record<string, unknown>).items === 'object'
+        );
+      })
+      .map(([categoryKey, category]) => ({
+        key: categoryKey,
+        title: (category as Record<string, unknown>).title as string,
+        items: getListItem(`about.tech_stack.${categoryKey}.items`),
+      }));
+  });
+
+  const activeTipIndex = ref(0);
+  const categoryRefs = ref<Record<string, HTMLElement>>({});
+
+  const techTips = computed<string[]>(() => {
+    const keys = ['main', 'infra', 'layout'];
+    return keys.map(key => {
+      const desc = tm(`about.tech_stack.${key}.description`);
+      return typeof desc === 'string' ? desc : '';
+    });
+  });
+
+  const activeTip = computed(() => techTips.value[activeTipIndex.value] || '');
+
+  const setCategoryRef = (key: string, el: Element | ComponentPublicInstance | null) => {
+    if (el && el instanceof HTMLElement) {
+      categoryRefs.value[key] = el;
+    }
+  };
+
+  const handleCategoryIntersection = () => {
+    if (Object.keys(categoryRefs.value).length === 0) return;
+
+    const visibleCategories = Object.entries(categoryRefs.value).map(([key, el]) => {
+      const rect = el?.getBoundingClientRect();
+      const isVisible = rect && rect.top < window.innerHeight * 0.5 && rect.bottom > 0;
+      return { key, isVisible, top: rect?.top || 0 };
+    });
+
+    const visibleCategory = visibleCategories
+      .filter(({ isVisible }) => isVisible)
+      .sort((a, b) => b.top - a.top)[0];
+
+    if (visibleCategory) {
+      const newIndex = techCategories.value.findIndex(c => c.key === visibleCategory.key);
+      if (newIndex !== -1) {
+        activeTipIndex.value = newIndex;
+      }
+    }
+  };
+
+  onMounted(() => {
+    window.addEventListener('scroll', handleCategoryIntersection, { passive: true });
+  });
+
+  onUnmounted(() => {
+    window.removeEventListener('scroll', handleCategoryIntersection);
+  });
 
   defineExpose({ container });
 </script>
@@ -44,107 +131,114 @@
 <template>
   <div ref="container" class="about">
     <div class="about__container">
-      <div class="about__intro">
-        <div class="about__intro-lead">
-          <span class="about__intro-lead-item about__intro-lead_front-end">
-            <span class="about__intro-lead-icon about__intro-lead-icon_front-end"></span>
-            {{ t('about.intro.front-end') }}
-          </span>
-          <span class="about__intro-lead-item about__intro-lead_vue">
-            <span class="about__intro-lead-icon about__intro-lead-icon_vue"></span>
-            {{ t('about.intro.vue') }}
-          </span>
-          <span class="about__intro-lead-item about__intro-lead_web">
-            <span class="about__intro-lead-icon about__intro-lead-icon_web"></span>
-            {{ t('about.intro.web') }}
-          </span>
-        </div>
-        <div>{{ t('about.approach') }}</div>
-
-        <div class="about__skills">
-          <div class="about__skills-title">{{ t('about.skills_title') }}</div>
-          <div class="about__skills-list">
-            <div
-              v-for="(skill, index) in skillsList"
-              :key="index"
-              class="about__skills-list-item"
-            >
-              <span class="about__skill-title">{{ skill.title }}</span>
-              <span class="about__skill-description">{{ skill.description }}</span>
-            </div>
+      <div class="about__top">
+        <div class="about__top-background about__top-background_top" />
+        <div class="about__top-content">
+          <div class="about__top-title">{{ t('about.top_title') }}</div>
+          <div class="about__top-sub-title">{{ t('about.top_sub_title') }}</div>
+          <div class="about__top-description">
+            {{ t('about.top_description') }}
           </div>
-          <div class="about__skills-conclusion">{{ t('about.conclusion') }}</div>
+        </div>
+        <div class="about__top-background about__top-background_bottom" />
+      </div>
+      <div class="about__skills">
+        <div v-for="skill in skillsList" :key="skill.key" class="about__skills-item">
+          <span class="about__skill-icon" :class="`about__skill-icon_${skill.key}`" />
+          <span class="about__skill-title">{{ skill.title }}</span>
+          <span class="about__skill-description">{{ skill.description }}</span>
+        </div>
+        <div class="about__skills-conclusion">
+          <div class="about__skills-conclusion-text">{{ t('about.conclusion') }}</div>
         </div>
       </div>
-
-      <!-- Секция технологий вынесена в отдельный компонент -->
       <AboutTech />
-
-      <div class="about__tech-stack-details">
-        <h3 class="about__tech-stack-title">{{ t('about.tech_stack_title') }}</h3>
-
-        <div class="about__tech-category">
-          <h4 class="about__tech-category-title">{{ t('about.main_tech_title') }}</h4>
-          <ul class="about__tech-list">
-            <li
-              v-for="(item, index) in mainTechList"
-              :key="index"
-              class="about__tech-list-item"
-            >
-              <span class="about__tech-item-title about__tech-item-title_tech">
-                {{ item.title }}
-              </span>
-              <span class="about__tech-item-description_big">{{ item.description }}</span>
-            </li>
-          </ul>
+      <div class="about__tech-stack">
+        <div class="about__tech-stack-side">
+          <div class="about__tech-stack-side-wrapper">
+            <UiImage
+              :image="{
+                src: TechStackArt,
+                tablet: TechStackArtHorizontal,
+                mobile: TechStackArt,
+                alt: 'Tech stack',
+              }"
+              class="about__tech-art"
+            />
+            <template v-if="isDesktop">
+              <Transition name="tech-tip-fade" mode="out-in">
+                <div
+                  v-if="activeTip"
+                  :key="activeTipIndex"
+                  class="about__tech-tip"
+                  :class="{ 'about__tech-tip_active': activeTip }"
+                >
+                  <!-- eslint-disable-next-line vue/no-v-html -->
+                  <div class="about__tech-tip-wrapper" v-html="activeTip" />
+                </div>
+              </Transition>
+            </template>
+          </div>
         </div>
+        <div class="about__tech-stack-wrapper">
+          <div class="about__tech-stack-title">{{ t('about.tech_stack_title') }}</div>
 
-        <div class="about__tech-category">
-          <h4 class="about__tech-category-title">{{ t('about.infra_tech_title') }}</h4>
-          <ul class="about__tech-list">
-            <li
-              v-for="(item, index) in infraTechList"
-              :key="index"
-              class="about__tech-list-item"
-            >
-              <span class="about__tech-item-title about__tech-item-title_tool">
-                {{ item.title }}
-              </span>
-              <span class="about__tech-item-description_big">{{ item.description }}</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="about__tech-category">
-          <h4 class="about__tech-category-title">{{ t('about.layout_tech_title') }}</h4>
-          <ul class="about__tech-list">
-            <li
-              v-for="(item, index) in layoutTechList"
-              :key="index"
-              class="about__tech-list-item"
-            >
-              <span class="about__tech-item-title about__tech-item-title_style">
-                {{ item.title }}
-              </span>
-              <span class="about__tech-item-description_big">{{ item.description }}</span>
-            </li>
-          </ul>
+          <div class="about__tech-stack-content">
+            <template v-for="(category, index) in techCategories" :key="category.key">
+              <div
+                :ref="el => setCategoryRef(category.key, el)"
+                class="about__tech-category"
+              >
+                <div class="about__tech-category-title">
+                  {{ category.title }}
+                </div>
+                <div class="about__tech-list">
+                  <div
+                    v-for="item in category.items"
+                    :key="item.key"
+                    class="about__tech-list-item"
+                  >
+                    <div class="about__tech-item-title">
+                      {{ item.title }}
+                    </div>
+                    <div class="about__tech-item-description">
+                      {{ item.description }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span
+                v-if="index !== techCategories.length - 1"
+                class="about__tech-category-separator"
+              />
+            </template>
+          </div>
         </div>
       </div>
-
-      <div class="about__bitrix">
-        <h3 class="about__bitrix-title">{{ t('about.bitrix_title') }}</h3>
-        <p class="about__bitrix-description">{{ t('about.bitrix_description') }}</p>
-        <ul class="about__bitrix-skills">
-          <li
-            v-for="(skill, index) in bitrixSkills"
-            :key="index"
-            class="about__bitrix-skill"
-          >
-            {{ skill }}
-          </li>
-        </ul>
+      <div class="about__bitrix-experience">
+        <div class="about__bitrix-title">{{ t('about.bitrix_title') }}</div>
+        <div class="about__bitrix-subtitle">
+          {{ t('about.bitrix_description') }}
+        </div>
+        <div class="about__bitrix-features">
+          <div class="about__bitrix-feature">
+            {{ t('about.bitrix_skills.travelshop_development') }}
+          </div>
+          <div class="about__bitrix-feature">
+            {{ t('about.bitrix_skills.booking_integration') }}
+          </div>
+          <div class="about__bitrix-feature">
+            {{ t('about.bitrix_skills.customization') }}
+          </div>
+          <div class="about__bitrix-feature">
+            {{ t('about.bitrix_skills.php_experience') }}
+          </div>
+          <div class="about__bitrix-feature">
+            {{ t('about.bitrix_skills.architecture_knowledge') }}
+          </div>
+        </div>
       </div>
     </div>
+    <AiFeature />
   </div>
 </template>

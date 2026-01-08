@@ -3,35 +3,54 @@
 
   import { computed } from 'vue';
 
+  import RemoveWorkplaceImageHorizontal from '@/view/assets/images/remote-workstation-horizontal.jpg';
+  import RemoveWorkplaceImage from '@/view/assets/images/remote-workstation.jpg';
   import { useI18n } from '@/view/composables/use-i18n.ts';
+  import UiImage from '@/view/ui/ui-image/ui-image.vue';
 
   const { t, tm } = useI18n();
 
-  const features = computed(() => (tm('remote_workplace.features.items') as any[]) || []);
+  type WorkplaceFeature = { icon?: string; title?: string; description?: string };
 
-  const benefits = computed(() => (tm('remote_workplace.benefits.items') as any[]) || []);
+  const features = computed<WorkplaceFeature[]>(
+    () => (tm('remote_workplace.features.items') as WorkplaceFeature[]) || [],
+  );
+
+  const benefits = computed<string[]>(
+    () => (tm('remote_workplace.benefits.items') as string[]) || [],
+  );
 </script>
 
 <template>
   <div class="remote-workplace">
     <div class="remote-workplace__container">
       <!-- Заголовок -->
-      <header class="remote-workplace__header">
-        <h2 class="remote-workplace__title">
+      <div class="remote-workplace__header">
+        <div class="remote-workplace__title">
           {{ t('remote_workplace.title') }}
-        </h2>
-        <p class="remote-workplace__subtitle">
+        </div>
+        <div class="remote-workplace__subtitle">
           {{ t('remote_workplace.subtitle') }}
-        </p>
-        <p class="remote-workplace__description">
+        </div>
+        <div class="remote-workplace__description">
           {{ t('remote_workplace.description') }}
-        </p>
-      </header>
+        </div>
+      </div>
 
       <!-- Основной контент -->
       <div class="remote-workplace__content">
         <!-- Особенности -->
         <div class="remote-workplace__features-section">
+          <div class="remote-workplace__features-image-container">
+            <UiImage
+              :image="{
+                src: RemoveWorkplaceImage,
+                tablet: RemoveWorkplaceImageHorizontal,
+                alt: 'Workstation',
+              }"
+              class="feature-item__image"
+            />
+          </div>
           <div class="remote-workplace__features-grid">
             <div
               v-for="(feature, index) in features"
@@ -43,10 +62,10 @@
                   class="remote-workplace__feature-icon"
                   :class="`remote-workplace__feature-icon__${feature.icon}`"
                 />
-                <h3 class="remote-workplace__feature-title">{{ feature.title }}</h3>
-                <p class="remote-workplace__feature-description">
+                <div class="remote-workplace__feature-title">{{ feature.title }}</div>
+                <div class="remote-workplace__feature-description">
                   {{ feature.description }}
-                </p>
+                </div>
               </div>
             </div>
           </div>
@@ -54,9 +73,9 @@
 
         <!-- Преимущества -->
         <div class="remote-workplace__benefits-section">
-          <h3 class="remote-workplace__section-title">
+          <div class="remote-workplace__section-title">
             {{ t('remote_workplace.benefits_title') }}
-          </h3>
+          </div>
           <div class="remote-workplace__benefits-list">
             <div
               v-for="(benefit, index) in benefits"

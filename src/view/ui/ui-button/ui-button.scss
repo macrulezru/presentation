@@ -1,20 +1,18 @@
 .ui-button {
   display: inline-block;
   padding: 0.75rem var(--spacing-xl);
-  background: var(--color-bg-primary);
-  color: var(--color-secondary);
-  border: solid 2px var(--color-secondary);
+  background: transparent;
+  color: var(--color-1);
+  border: solid 1px var(--color-1);
   border-radius: 14px;
   font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-medium);
+  font-weight: 300;
   cursor: pointer;
   transition: all var(--transition-fast);
 
   &:hover {
-    color: var(--color-text-light);
-    background: var(--color-secondary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgb(52 152 219 / 30%);
+    color: var(--color-background);
+    background: var(--color-2);
   }
 
   &:active {
@@ -46,7 +44,6 @@
 
     &:hover:not(:disabled) {
       background: var(--color-text-muted);
-      box-shadow: 0 4px 12px rgb(150 150 150 / 30%);
     }
   }
 
@@ -56,7 +53,6 @@
 
     &:hover:not(:disabled) {
       background: var(--color-accent-ui);
-      box-shadow: 0 4px 12px rgb(150 150 150 / 30%);
     }
 
     &:hover:disabled {
@@ -86,7 +82,6 @@
     &:hover:not(:disabled) {
       background: var(--color-secondary);
       color: var(--color-text-light);
-      box-shadow: 0 4px 12px rgb(52 152 219 / 30%);
     }
   }
 
@@ -97,7 +92,6 @@
 
     &:hover:not(:disabled) {
       background: var(--color-bg-tertiary);
-      box-shadow: none;
       transform: none;
     }
   }

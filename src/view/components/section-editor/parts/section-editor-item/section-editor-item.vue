@@ -48,9 +48,9 @@
   <div
     class="section-editor-item"
     :class="{
-      'section-editor-item--fixed': isFixed,
-      'section-editor-item--placeholder': isPlaceholder,
-      'section-editor-item--dragging': isDragging,
+      'section-editor-item_fixed': isFixed,
+      'section-editor-item_placeholder': isPlaceholder,
+      'section-editor-item_dragging': isDragging,
     }"
     :style="customStyle"
   >

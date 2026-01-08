@@ -61,7 +61,7 @@ export function useDragAnimations(
         item.style.transform = '';
         item.style.transition = '';
         item.style.visibility = '';
-        item.classList.remove('section-editor-item--dragging-original');
+        item.classList.remove('section-editor-item_dragging-original');
       }
     });
   };
@@ -88,7 +88,7 @@ export function useDragAnimations(
     // Восстанавливаем оригинальный элемент
     const originalElement = draggedItem.value.element;
     if (originalElement) {
-      originalElement.classList.remove('section-editor-item--dragging-original');
+      originalElement.classList.remove('section-editor-item_dragging-original');
       originalElement.style.visibility = '';
       originalElement.style.opacity = '1';
       originalElement.style.transition = 'opacity 0.3s ease';

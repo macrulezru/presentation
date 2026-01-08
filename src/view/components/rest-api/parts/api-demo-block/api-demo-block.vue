@@ -61,7 +61,7 @@
       <RawResponseColumn :loading="loading" :error="error" :rawResponse="rawResponse" />
 
       <div class="api-demo-block__column api-demo-block__formatted-data">
-        <h3 class="api-demo-block__column-title">{{ t('rest-api.formattedData') }}</h3>
+        <div class="api-demo-block__column-title">{{ t('rest-api.formattedData') }}</div>
         <div class="api-demo-block__formatted-card">
           <slot name="formatted-data">
             <EmptyState :loading="loading" />

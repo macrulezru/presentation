@@ -2,6 +2,7 @@
   import { computed, onMounted, onUnmounted, ref } from 'vue';
 
   import { PageSectionsEnum } from '@/enums/page-sections.enum.ts';
+  import { useExamplesStore } from '@/stores/use-examples-store.ts';
   import { useNavigationStore } from '@/stores/use-navigation-store.ts';
   import LangSelector from '@/view/components/lang-selector/lang-selector.vue';
   import { useI18n } from '@/view/composables/use-i18n.ts';
@@ -14,8 +15,9 @@
   const { t } = useI18n();
 
   const navigationStore = useNavigationStore();
+  const examplesStore = useExamplesStore();
   const { navigateToSection, isProcessingNavigation } = useScrollRouting();
-  const { isTablet, isMobile } = useResponsive();
+  const { isDesktop } = useResponsive();
 
   // Используем реактивную конфигурацию секций
   const { sectionsConfig } = useSectionsConfig();
@@ -49,7 +51,7 @@
 
   // Проверка размера экрана
   const checkScreenSize = () => {
-    if (!isTablet.value && !isMobile.value) {
+    if (isDesktop.value) {
       isMobileMenuOpen.value = false;
     }
   };
@@ -63,7 +65,7 @@
     isProcessingClick.value = true;
 
     try {
-      if (isTablet.value || isMobile.value) {
+      if (!isDesktop.value) {
         isMobileMenuOpen.value = false;
       }
 
@@ -109,6 +111,37 @@
     navigationStore.setShowSectionEditor(true);
   };
 
+  // Проверка видимости блока features-list
+  function isFeaturesListVisible() {
+    const el = document.querySelector('.examples__features-list');
+    if (!el) return false;
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.top < window.innerHeight &&
+      rect.bottom > 0 &&
+      rect.left < window.innerWidth &&
+      rect.right > 0
+    );
+  }
+
+  const triggerVideo = () => {
+    if (examplesStore.videoStatus) {
+      // Отключаем анимацию
+      examplesStore.videoStatus = false;
+      // Проверяем видимость блока
+      if (isFeaturesListVisible()) {
+        examplesStore.setIsShowVideoButton(true);
+      } else {
+        examplesStore.setIsShowVideoButton(false);
+      }
+    } else {
+      // Включаем анимацию
+      examplesStore.videoStatus = true;
+      // Кнопка всегда видима
+      examplesStore.setIsShowVideoButton(true);
+    }
+  };
+
   onMounted(() => {
     checkScreenSize();
     window.addEventListener('resize', checkScreenSize);
@@ -127,7 +160,7 @@
   <div class="header">
     <div class="header__content">
       <!-- Десктопное меню -->
-      <nav v-if="!isTablet && !isMobile" class="header__nav">
+      <nav v-if="isDesktop" class="header__nav">
         <button
           v-for="item in menuItems"
           :key="item.id"
@@ -150,7 +183,7 @@
       <div class="header__right">
         <!-- Гамбургер-меню для мобильных -->
         <button
-          v-if="isTablet || isMobile"
+          v-if="!isDesktop"
           class="hamburger"
           :class="{
             hamburger_active: isMobileMenuOpen,
@@ -164,18 +197,25 @@
           <span class="hamburger__line"></span>
         </button>
         <div class="header__controls">
+          <button
+            v-if="examplesStore.isShowVideoButton"
+            class="header__video"
+            :class="{ header__video_active: examplesStore.videoStatus }"
+            @click="triggerVideo"
+          />
           <button class="header__settings" @click="onEditor" />
           <LangSelector />
         </div>
       </div>
 
-      <!-- Мобильное меню (оверлей) -->
-      <div
-        v-if="(isTablet || isMobile) && isMobileMenuOpen"
-        class="mobile-menu-overlay"
-        @click="isMobileMenuOpen = false"
-      >
-        <div class="mobile-menu" @click.stop>
+      <!-- Мобильное меню (выезжает сверху, без оверлея) -->
+      <!-- Мобильное меню (телепорт в body, выезжает сверху) -->
+      <Teleport to="body">
+        <div
+          v-if="!isDesktop"
+          class="mobile-menu"
+          :class="{ 'mobile-menu_open': isMobileMenuOpen }"
+        >
           <button
             v-for="item in menuItems"
             :key="item.id"
@@ -189,7 +229,7 @@
             {{ item.label }}
           </button>
         </div>
-      </div>
+      </Teleport>
     </div>
   </div>
 </template>

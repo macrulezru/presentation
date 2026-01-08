@@ -10,5 +10,10 @@ export type {
   TrailPoint,
   ParticleConfig,
 } from './types';
-export { PARTICLE_CONFIG } from './constants';
+export {
+  PARTICLE_CONFIG,
+  canvasMaxWidth,
+  setCanvasMaxWidth,
+  resetCanvasMaxWidth,
+} from './constants';
 export { clearParticleCache, clearLogoCache } from './utils';

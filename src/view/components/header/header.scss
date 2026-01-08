@@ -4,9 +4,8 @@
   left: 0;
   width: 100%;
   z-index: var(--z-header);
-  box-shadow: var(--shadow-lg);
   backdrop-filter: blur(10px);
-  background: rgb(27 35 43 / 95%);
+  background: rgb(0 0 0 / 90%);
 
   &__content {
     max-width: var(--container-xl);
@@ -49,30 +48,15 @@
     }
 
     &_home:hover {
-      background-color: #2773b1;
+      background-color: var(--color-1);
     }
 
     &:not(.header__nav-item_active, .header__nav-item_home):hover {
       background: rgb(255 255 255 / 10%);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
     }
 
     &_active {
-      background-color: #2773b1;
-      color: white;
-      box-shadow: 0 4px 16px rgb(74 144 226 / 40%);
-      transform: translateY(-2px);
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgb(255 255 255 / 20%), transparent);
-      }
+      color: var(--color-1);
     }
   }
 
@@ -88,6 +72,23 @@
     gap: var(--spacing-md);
   }
 
+  &__video {
+    width: 24px;
+    height: 18px;
+    mask-image: url('@/view/assets/images/video-player-icon.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    background-color: var(--color-text-light);
+    transition: all var(--transition-normal);
+    cursor: pointer;
+
+    &:hover,
+    &_active {
+      background-color: var(--color-1);
+    }
+  }
+
   &__settings {
     width: 18px;
     height: 18px;
@@ -100,7 +101,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: var(--color-secondary-hover);
+      background-color: var(--color-1);
     }
   }
 }
@@ -145,46 +146,63 @@
 }
 
 .mobile-menu {
-  position: absolute;
-  top: 0;
+  /* Layout */
+  position: fixed;
+  top: var(--header-height);
   left: 0;
   right: 0;
-  background: var(--color-bg-dark);
-  padding: var(--spacing-md);
+  z-index: var(--z-mobile-menu);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
-  animation: slide-down 0.3s ease;
-  z-index: var(--z-modal);
+  padding: var(--spacing-md);
+  max-height: calc(100vh - var(--header-height));
+  overflow-y: auto;
+
+  /* Visual */
+  background: rgb(0 0 0 / 90%);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-lg);
+
+  /* Motion (hidden by default, slides from top) */
+  transform: translateY(-110%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 
   &-overlay {
-    position: fixed;
-    inset: var(--header-height-mobile) 0 0 0;
-    background: rgb(0 0 0 / 80%);
-    backdrop-filter: blur(4px);
-    z-index: var(--z-modal);
-    animation: fade-in 0.3s ease;
+    /* Overlay disabled for simplified structure */
+    display: none !important;
   }
 
   &__item {
-    background: none;
-    border: none;
-    color: var(--color-text-light);
+    /* Box */
     padding: var(--spacing-lg);
+    border: none;
     border-radius: var(--radius-md);
+
+    /* Text */
+    color: var(--color-text-light);
+    text-align: left;
+
+    /* Interactions */
     cursor: pointer;
     transition: all var(--transition-normal);
-    font-size: var(--font-size-md);
-    font-weight: var(--font-weight-medium);
-    text-align: left;
-    font-family: inherit;
 
     &_active {
-      background-color: #2773b1;
+      background-color: var(--color-1);
       color: white;
-      box-shadow: 0 4px 12px rgb(74 144 226 / 30%);
     }
   }
+}
+
+/* Open state modifier */
+.mobile-menu_open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 @keyframes fade-in {
@@ -230,17 +248,11 @@
       display: none;
     }
   }
-}
-
-@include media-mobile {
-  .header {
-    &__content {
-      padding: 0 var(--spacing-sm);
-    }
-  }
 
   .mobile-menu {
     padding: var(--spacing-sm);
+    top: var(--header-height-mobile);
+    max-height: calc(100vh - var(--header-height-mobile));
 
     &__item {
       padding: var(--spacing-md) var(--spacing-lg);
@@ -256,15 +268,5 @@
 
   .mobile-menu__item {
     padding: var(--spacing-sm) var(--spacing-md);
-  }
-}
-
-@media (width >= 769px) {
-  .hamburger {
-    display: none;
-  }
-
-  .mobile-menu-overlay {
-    display: none;
   }
 }

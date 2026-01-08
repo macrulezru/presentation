@@ -1,72 +1,56 @@
 .remote-workplace {
   position: relative;
-  padding: 5rem 0 var(--spacing-2xl);
-  background-color: #1b232b;
-  background-image:
-    radial-gradient(
-      ellipse 80% 50% at 50% -10%,
-      rgb(255 255 255 / 20%) 0%,
-      rgb(255 255 255 / 5%) 40%,
-      transparent 100%
-    ),
-    radial-gradient(ellipse 100% 30% at 50% 105%, rgb(0 0 0 / 70%) 0%, transparent 60%);
-  color: var(--color-text-light);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
-    opacity: 0.3;
-    pointer-events: none;
-    z-index: 1;
-  }
+  padding: clamp(50px, 5vw, 80px) 0 clamp(80px, 6vw, 120px);
 
   &__container {
     @include container-lg;
   }
 
-  &__header {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-
   &__title {
-    font-family: 'Roboto Condensed', sans-serif;
-    font-size: var(--font-size-6xl);
-    font-weight: var(--font-weight-bold);
-    margin-bottom: 32px;
-    line-height: 1.1;
-    color: var(--color-text-light);
+    @include big-title;
+
+    padding-bottom: 32px;
   }
 
   &__subtitle {
-    font-size: 1.25rem;
-    font-weight: var(--font-weight-medium);
-    margin-bottom: 1rem;
-    color: var(--color-text-light);
+    @include medium-title;
+
+    padding-bottom: 1rem;
   }
 
   &__description {
-    font-size: 1.125rem;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.6;
-    color: #7c8fa7;
-    opacity: 0.9;
+    @include mini-title;
+
+    color: var(--color-4);
   }
 
   &__features-section {
-    margin-bottom: 3rem;
+    display: grid;
+    grid-template-columns: minmax(200px, 580px) minmax(200px, 580px);
+    gap: clamp(50px, 6vw, 75px);
+    padding: clamp(60px, 5vw, 100px) 0;
+
+    @include media-tablet {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__features-image {
+    border-radius: 10px;
+  }
+
+  // Placeholder for image while loading (native lazy)
+  .feature-item__image {
+    display: block;
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
   }
 
   &__features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: clamp(40px, 4vw, 50px);
   }
 
   &__feature {
@@ -74,30 +58,30 @@
       display: flex;
       align-items: flex-start;
       gap: 1.25rem;
-      padding: 1.5rem 0;
     }
 
     &-icon {
       margin-bottom: 1.5rem;
-      height: 5rem;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center center;
+      height: clamp(40px, 4vw, 50px);
+      mask-position: bottom left;
+      mask-repeat: no-repeat;
+      mask-size: contain;
+      background-color: var(--color-1);
 
       &__workstation {
-        background-image: url('@/view/assets/images/workstation-icon.svg');
+        mask-image: url('@/view/assets/images/workstation-icon.svg');
       }
 
       &__monitors {
-        background-image: url('@/view/assets/images/monitors-icon.svg');
+        mask-image: url('@/view/assets/images/monitors-icon.svg');
       }
 
       &__internet {
-        background-image: url('@/view/assets/images/internet-icon.svg');
+        mask-image: url('@/view/assets/images/internet-icon.svg');
       }
 
       &__webcam {
-        background-image: url('@/view/assets/images/webcam-icon.svg');
+        mask-image: url('@/view/assets/images/webcam-icon.svg');
       }
     }
 
@@ -106,94 +90,48 @@
     }
 
     &-title {
-      margin-bottom: 0.5rem;
-      font-size: 1.125rem;
-      font-weight: var(--font-weight-semibold);
-      text-align: center;
-      line-height: 1.4;
+      @include mini-title;
+
+      padding-bottom: 0.5rem;
       color: var(--color-text-light);
     }
 
     &-description {
-      text-align: center;
-      line-height: 1.5;
-      margin: 0;
-      color: #7c8fa7;
-      opacity: 0.8;
+      color: var(--color-4);
     }
   }
 
   &__benefits-section {
-    margin-bottom: 2rem;
+    max-width: 800px;
   }
 
   &__section-title {
-    font-size: 1.5rem;
-    font-weight: var(--font-weight-semibold);
-    text-align: center;
-    margin-bottom: 2rem;
-    color: var(--color-text-light);
+    @include medium-title;
+
+    padding-bottom: 2rem;
   }
 
   &__benefits-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-    max-width: 800px;
-    margin: 0 auto;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px clamp(25px, 4vw, 80px);
   }
 
   &__benefit-item {
-    padding: 1rem 1.5rem;
-    line-height: 1.5;
     position: relative;
-    padding-left: 2rem;
+    padding-left: 16px;
     color: var(--color-text-light);
-    opacity: 0.9;
 
     &::before {
-      content: '—';
+      display: block;
+      content: ' ';
       position: absolute;
-      left: 0.5rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-accent-green);
-    }
-  }
-
-  @include media-tablet {
-    padding: 3rem 0.5rem;
-
-    &__title {
-      font-size: var(--font-size-4xl);
-    }
-
-    &__features-grid {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    &__feature-item {
-      padding: 1rem 0;
-      gap: 1rem;
-    }
-
-    &__benefits-list {
-      grid-template-columns: 1fr;
-    }
-
-    &__feature-icon {
-      margin-bottom: 1rem;
-      height: 4rem;
-    }
-  }
-
-  @include media-mobile {
-    &__container {
-      padding: 0 1rem;
-    }
-
-    &__title {
-      font-size: 1.75rem;
+      top: 8px;
+      left: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--color-6);
     }
   }
 }

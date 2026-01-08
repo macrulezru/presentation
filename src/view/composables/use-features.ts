@@ -1,6 +1,26 @@
 import { computed } from 'vue';
 
 import { FeaturesEnum } from '@/enums/features.enum';
+import i18nImageHorizonatl from '@/view/assets/images/i18n-image-horizontal.jpg';
+import i18nImage from '@/view/assets/images/i18n-image.jpg';
+import pipelineImageHorizontal from '@/view/assets/images/pipeline-image-horizontal.jpg';
+import pipelineImage from '@/view/assets/images/pipeline-image.jpg';
+import seatmapImageHorizontal from '@/view/assets/images/seatmap-image-horizontal.jpg';
+import seatmapImage from '@/view/assets/images/seatmap-image.jpg';
+import synchronizationImageHorizontal from '@/view/assets/images/synchronization-image-horizontal.jpg';
+import synchronizationImage from '@/view/assets/images/synchronization-image.jpg';
+import uiImageHorizontal from '@/view/assets/images/ui-image-horizontal.jpg';
+import uiImage from '@/view/assets/images/ui-image.jpg';
+import i18nVideoHorizonatl from '@/view/assets/video/i18n-video-horizontal_loop.mp4';
+import i18nVideo from '@/view/assets/video/i18n-video_loop.mp4';
+import pipelineVideoHorizontal from '@/view/assets/video/pipeline-video-horizontal_loop.mp4';
+import pipelineVideo from '@/view/assets/video/pipeline-video_loop.mp4';
+import seatmapVideoHorizontal from '@/view/assets/video/seatmap-video-horizontal_loop.mp4';
+import seatmapVideo from '@/view/assets/video/seatmap-video_loop.mp4';
+import synchronizationVideoHorizontal from '@/view/assets/video/synchronization-video-horizontal_loop.mp4';
+import synchronizationVideo from '@/view/assets/video/synchronization-video_loop.mp4';
+import uiVideoHorizontal from '@/view/assets/video/ui-video-horizontal_loop.mp4';
+import uiVideo from '@/view/assets/video/ui-video_loop.mp4';
 import { useI18n } from '@/view/composables/use-i18n.ts';
 
 export interface SectionItem {
@@ -9,15 +29,25 @@ export interface SectionItem {
   title?: string;
 }
 
+export interface FeatureItem {
+  title: string;
+  description: string;
+}
+
 export interface FeatureData {
   id: string;
   icon: string;
+  image: string;
+  imageHorizontal: string;
+  video: string;
+  videoHorizontal: string;
   title: string;
+  shortTitle: string;
   subtitle: string;
   description: string;
   features: {
     title: string;
-    items: string[];
+    items: Record<string, FeatureItem>;
   };
   architecture: {
     title: string;
@@ -43,30 +73,50 @@ export function useFeatures() {
       i18nKey: 'uiComponents',
       accentColor: 'var(--color-accent-ui)',
       mainIcon: 'ui',
+      image: uiImage,
+      imageHorizontal: uiImageHorizontal,
+      video: uiVideo,
+      videoHorizontal: uiVideoHorizontal,
     },
     {
       id: FeaturesEnum.PIPELINE,
       i18nKey: 'pipeline',
       accentColor: 'var(--color-secondary)',
       mainIcon: 'pipeline',
+      image: pipelineImage,
+      imageHorizontal: pipelineImageHorizontal,
+      video: pipelineVideo,
+      videoHorizontal: pipelineVideoHorizontal,
     },
     {
       id: FeaturesEnum.LOCALIZATION,
       i18nKey: 'localization',
       accentColor: 'var(--color-accent-purple)',
       mainIcon: 'localization',
+      image: i18nImage,
+      imageHorizontal: i18nImageHorizonatl,
+      video: i18nVideo,
+      videoHorizontal: i18nVideoHorizonatl,
     },
     {
       id: FeaturesEnum.SEAT_MAP,
       i18nKey: 'seatMap',
       accentColor: 'var(--color-accent-orange)',
       mainIcon: 'seat',
+      image: seatmapImage,
+      imageHorizontal: seatmapImageHorizontal,
+      video: seatmapVideo,
+      videoHorizontal: seatmapVideoHorizontal,
     },
     {
       id: FeaturesEnum.MULTISYNC,
       i18nKey: 'multisync',
       accentColor: 'var(--color-accent-blue)',
       mainIcon: 'synchronization',
+      image: synchronizationImage,
+      imageHorizontal: synchronizationImageHorizontal,
+      video: synchronizationVideo,
+      videoHorizontal: synchronizationVideoHorizontal,
     },
   ]);
 
@@ -77,12 +127,17 @@ export function useFeatures() {
       return {
         id: config.id,
         icon: config.mainIcon,
+        image: config.image,
+        imageHorizontal: config.imageHorizontal,
+        video: config.video,
+        videoHorizontal: config.videoHorizontal,
         title: t(`${i18nKey}.title`),
+        shortTitle: t(`${i18nKey}.shortTitle`),
         subtitle: t(`${i18nKey}.subtitle`),
         description: t(`${i18nKey}.description`),
         features: {
           title: t(`${i18nKey}.features.title`),
-          items: tm(`${i18nKey}.features.items`) as string[],
+          items: tm(`${i18nKey}.features.items`) as Record<string, FeatureItem>,
         },
         architecture: {
           title: t(`${i18nKey}.architecture.title`),

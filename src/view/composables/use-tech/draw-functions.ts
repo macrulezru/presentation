@@ -4,8 +4,7 @@ import {
   DETAIL_ITEM_WIDTH,
   DETAIL_ITEM_HEIGHT,
   COLORS,
-  SCENE_TITLE_CONFIG,
-  ICON_GLOW_CONFIG,
+  TECH_CIRCLE_TEXT_COLOR,
 } from './constants';
 import { calculateInfinityPoint, positionToParameter } from './infinity-math';
 import {
@@ -15,7 +14,6 @@ import {
   createParticleRaster,
   rasterizeCircleBackground,
   rasterizeCloseButton,
-  rasterizeSceneTitle,
   calculateDetailEndDiameter,
   calculateDetailedIconDimensionsForCircle,
   calculateCloseButtonSize,
@@ -94,82 +92,6 @@ export function drawOrbitEllipse(
   ctx.restore();
 }
 
-// Рисование заголовка сцены в центре
-export function drawSceneTitle(
-  ctx: CanvasRenderingContext2D,
-  centerX: number,
-  centerY: number,
-  title: string,
-  opts?: { mode?: 'infinity' | 'circle'; radius?: number },
-) {
-  ctx.save();
-
-  const {
-    fontSize,
-    fontWeight,
-    fontFamily,
-    color,
-    verticalOffset,
-    gradient,
-    circleMaxWidthRatio,
-    circleTitleFontRatioOfDiameter,
-    circleTitleFontMinSize,
-    circleTitleFontMaxSize,
-    circleVerticalOffsetRatio,
-  } = SCENE_TITLE_CONFIG;
-
-  // Вычисляем адаптивный размер шрифта для режима circle
-  let effectiveFontSize: number = fontSize as number;
-  if ((opts?.mode ?? 'infinity') === 'circle' && typeof opts?.radius === 'number') {
-    const diameter = Math.max(0, (opts.radius ?? 0) * 2);
-    const target = diameter * (circleTitleFontRatioOfDiameter ?? 0.16);
-    const minSize = circleTitleFontMinSize ?? 12;
-    const maxSize = circleTitleFontMaxSize ?? 24;
-    effectiveFontSize = Math.max(minSize, Math.min(maxSize, Math.round(target)));
-  }
-
-  ctx.font = `${fontWeight} ${effectiveFontSize}px ${fontFamily}`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-
-  // Определяем режим/радиус и максимальную ширину для mobile circle
-  const mode = opts?.mode ?? 'infinity';
-  const radius = opts?.radius;
-
-  let maxWidth: number | undefined;
-  if (mode === 'circle' && radius && circleMaxWidthRatio) {
-    maxWidth = Math.max(0, radius * 2 * circleMaxWidthRatio);
-  }
-
-  const verticalOffsetEff =
-    mode === 'circle' && typeof radius === 'number'
-      ? Math.round((circleVerticalOffsetRatio ?? 0) * (radius * 2))
-      : verticalOffset;
-
-  // Получаем растрированный спрайт заголовка из кеша (или создаём новый)
-  const titleSprite = rasterizeSceneTitle(
-    title,
-    effectiveFontSize,
-    fontWeight,
-    fontFamily,
-    maxWidth,
-    gradient,
-    color,
-  );
-
-  // Получаем логические размеры из CSS (спрайт рендерится в высоком разрешении, отображается в логических размерах)
-  const logicalWidth = parseFloat(titleSprite.style.width) || titleSprite.width;
-  const logicalHeight = parseFloat(titleSprite.style.height) || titleSprite.height;
-
-  // Позиция для отрисовки спрайта (центрируем по логическим размерам)
-  const spriteX = centerX - logicalWidth / 2;
-  const spriteY = centerY + verticalOffsetEff - logicalHeight / 2;
-
-  // Рисуем растрированный спрайт в логических размерах (браузер автоматически уменьшит высокое разрешение)
-  ctx.drawImage(titleSprite, spriteX, spriteY, logicalWidth, logicalHeight);
-  ctx.restore();
-}
-
 // Рисование иконки на траектории (без фона)
 export function drawPathIcon(
   ctx: CanvasRenderingContext2D,
@@ -177,7 +99,6 @@ export function drawPathIcon(
   isHovered: boolean,
   _centerX?: number,
   _centerY?: number,
-  shouldApplyGlow: boolean = false,
 ) {
   ctx.save();
 
@@ -228,35 +149,7 @@ export function drawPathIcon(
       ctx.rotate(0.087 * item.hoverRotation); // 5 градусов * прогресс
     }
 
-    // Применяем свечение (glow) для иконок на переднем плане
-    if (shouldApplyGlow && ICON_GLOW_CONFIG.thickness > 0) {
-      ctx.save();
-      // Усиливаем видимость: рисуем свечение при полной непрозрачности
-      const prevAlpha = ctx.globalAlpha;
-      const prevComposite = ctx.globalCompositeOperation;
-      ctx.globalAlpha = 1.0;
-      ctx.globalCompositeOperation = 'lighter';
-
-      ctx.shadowColor = ICON_GLOW_CONFIG.color;
-      ctx.shadowBlur = ICON_GLOW_CONFIG.thickness * 0.5;
-      ctx.shadowOffsetX = 0;
-      ctx.shadowOffsetY = 0;
-      // Рисуем иконку с тенью для эффекта свечения
-      ctx.drawImage(
-        item.image,
-        -dims.width / 2,
-        -dims.height / 2,
-        dims.width,
-        dims.height,
-      );
-
-      // Возвращаем предыдущие значения
-      ctx.globalAlpha = prevAlpha;
-      ctx.globalCompositeOperation = prevComposite;
-      ctx.restore();
-    }
-
-    // Центрируем иконку
+    // Рисуем саму иконку
     ctx.drawImage(item.image, -dims.width / 2, -dims.height / 2, dims.width, dims.height);
 
     if (item.hoverRotation > 0) {
@@ -420,7 +313,7 @@ export function drawDetailedItem(
   // Заранее рассчитываем высоту текстового блока для финального размера (для позиционирования)
   const maxTextWidth = endDiameter - 2 * sidePadding;
   const tempCtx = ctx; // используем текущий контекст для измерения
-  tempCtx.font = `300 ${fontSize}px 'Roboto Condensed', system-ui, sans-serif`;
+  tempCtx.font = `300 ${fontSize}px 'Roboto', system-ui, sans-serif`;
   const lines = wrapText(tempCtx, item.description, maxTextWidth);
   const textBlockHeight = lines.length * lineHeight;
 
@@ -467,7 +360,7 @@ export function drawDetailedItem(
     const maxTextWidth = endDiameter - 2 * sidePadding;
 
     // Рассчитываем текстовый блок
-    ctx.font = `300 ${fontSize}px 'Roboto Condensed', system-ui, sans-serif`;
+    ctx.font = `300 ${fontSize}px 'Roboto', system-ui, sans-serif`;
     const lines = wrapText(ctx, item.description, maxTextWidth);
     const textBlockHeight = lines.length * lineHeight;
 
@@ -478,7 +371,7 @@ export function drawDetailedItem(
     const textStartY = -totalContentHeight / 2 + iconHeight + spacing;
 
     // Настройка текста
-    ctx.fillStyle = COLORS.text;
+    ctx.fillStyle = TECH_CIRCLE_TEXT_COLOR;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
 

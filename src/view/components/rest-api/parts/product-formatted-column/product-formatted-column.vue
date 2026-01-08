@@ -3,6 +3,7 @@
 
   import EmptyState from '@/view/components/rest-api/parts/empty-state/empty-state.vue';
   import { useI18n } from '@/view/composables/use-i18n.ts';
+  import UiImage from '@/view/ui/ui-image/ui-image.vue';
   import '@/view/components/rest-api/parts/product-formatted-column/product-formatted-column.scss';
 
   const { t } = useI18n();
@@ -22,9 +23,11 @@
       <!-- Product Header Section -->
       <div class="product-formatted-column__header-section">
         <div class="product-formatted-column__header">
-          <img
-            :src="formattedData.MainImage"
-            :alt="formattedData.Title"
+          <UiImage
+            :image="{
+              src: formattedData.MainImage,
+              alt: formattedData.Title,
+            }"
             class="product-formatted-column__main-image"
           />
           <div class="product-formatted-column__title-info">

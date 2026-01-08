@@ -1,4 +1,36 @@
 :root {
+  /* NEW STYLES VARIABLES */
+  --color-1: #d941b0;
+  --color-2: #f22ee5;
+  --color-3: #051a26;
+  --color-4: #adb9c1;
+  --color-5: #f22613;
+  --color-6: #5dfafc;
+  --color-7: #363035;
+  --color-8: #616a70;
+  --color-background: #151515;
+  --color-light: #fff;
+  --color-dark: #282828;
+
+  /* REST API Dark Theme */
+  --api-bg: #101010;
+  --api-bg-secondary: #1a1a1a;
+  --api-border: #333;
+  --api-text: #eaeaea;
+  --api-text-secondary: #a0a0a0;
+  --api-text-muted: #707070;
+  --api-code-bg: #0d0d0d;
+  --api-code-color: #5dfafc;
+  --api-card-bg: #1a1a1a;
+  --api-scrollbar-track: #141414;
+  --api-scrollbar-thumb: #444;
+  --api-scrollbar-thumb-hover: #555;
+  --api-accent-warning: #ffc107;
+  --api-accent-success: #4caf50;
+  --api-accent-error: #f44336;
+
+  /* -------------------- */
+
   /* Цветовая палитра */
   --color-primary: #2c3e50;
   --color-secondary: #3498db;
@@ -87,7 +119,7 @@
   --container-sm: 600px;
   --container-md: 700px;
   --container-lg: 930px;
-  --container-xl: 1200px;
+  --container-xl: 1440px;
 
   /* Максимальные высоты для компонентов */
   --response-card-max-height: 600px;
@@ -108,6 +140,7 @@
   --z-sticky: 1020;
   --z-fixed: 1030;
   --z-popover: 1050;
+  --z-mobile-menu: 1250;
   --z-header: 1300;
   --z-modal: 1400;
   --z-tooltip: 1200;

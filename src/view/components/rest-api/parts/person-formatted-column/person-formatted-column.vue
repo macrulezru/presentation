@@ -3,6 +3,7 @@
 
   import EmptyState from '@/view/components/rest-api/parts/empty-state/empty-state.vue';
   import { useI18n } from '@/view/composables/use-i18n.ts';
+  import UiImage from '@/view/ui/ui-image/ui-image.vue';
   import '@/view/components/rest-api/parts/person-formatted-column/person-formatted-column.scss';
 
   const { t } = useI18n();
@@ -23,9 +24,11 @@
         class="person-formatted-column__person-card"
       >
         <div class="person-formatted-column__person-header">
-          <img
-            :src="person.profilePicture"
-            :alt="person.fullName"
+          <UiImage
+            :image="{
+              src: person.profilePicture,
+              alt: person.fullName,
+            }"
             class="person-formatted-column__avatar"
           />
           <div class="person-formatted-column__person-title">

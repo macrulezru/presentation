@@ -1,33 +1,66 @@
 .arts {
-  padding: 24px 24px 80px;
+  position: relative;
+  padding: clamp(120px, 8vw, 160px) clamp(12px, 2vw, 24px);
   background-color: #1a0125;
-  background-image:
-    radial-gradient(
-      ellipse 80% 50% at 50% -10%,
-      rgb(255 255 255 / 20%) 0%,
-      rgb(255 255 255 / 5%) 40%,
-      transparent 100%
-    ),
-    radial-gradient(ellipse 100% 30% at 50% 105%, rgb(0 0 0 / 70%) 0%, transparent 60%);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &__separator {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 54px;
+    background-image: url('@/view/assets/images/art-section-separator.svg?url');
+    background-repeat: repeat-x;
+    background-position: top center;
+    z-index: 2;
+
+    &_top {
+      top: 0;
+    }
+
+    &_bottom {
+      bottom: 0;
+      transform: rotate(180deg);
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(100px, 8vw, 120px);
+  }
 
   &__header {
+    @include container-lg;
+
     text-align: center;
-    padding: var(--spacing-3xl) var(--spacing-3xl) var(--spacing-5xl);
+    padding: 0 clamp(10px, 2vw, 50px);
   }
 
   &__title {
+    @include big-title;
+
     margin: 0 0 32px;
-    font-family: 'Roboto Condensed', sans-serif;
-    font-size: var(--font-size-6xl);
-    font-weight: var(--font-weight-bold);
-    line-height: 1.1;
-    color: var(--color-text-light);
   }
 
   &__sub-title {
-    font-size: var(--font-size-xl);
-    color: #9f9f9f;
-    line-height: 1.6;
+    @include mini-title;
+
+    margin: 0 auto;
+    max-width: 720px;
+    color: var(--color-4);
   }
 
   &__loading {
@@ -48,7 +81,6 @@
   }
 
   &__button-container {
-    margin-top: 48px;
     text-align: center;
   }
 
@@ -159,32 +191,6 @@
 
   .ui-button_disabled .arts__progress-text {
     opacity: 0.9;
-  }
-
-  @include media-tablet {
-    padding: 16px;
-
-    &__title {
-      font-size: var(--font-size-4xl);
-    }
-
-    &__sub-title {
-      font-size: var(--font-size-lg);
-    }
-
-    &__show-all-button {
-      min-width: 200px;
-    }
-
-    &__progress-wrapper {
-      min-width: 200px;
-    }
-  }
-
-  @include media-mobile {
-    &__title {
-      font-size: 1.75rem;
-    }
   }
 }
 
