@@ -17,7 +17,7 @@
 }
 
 @mixin media-mobile-small {
-  @media (width <= 360px) {
+  @media (width <= 450px) {
     @content;
   }
 }
