@@ -25,91 +25,113 @@
       "vue": "拥有6年以上Vue商业项目经验",
       "web": "在网页开发与设计领域拥有20年以上经验"
     },
+    "top_title": "架构如同一套响应式系统",
+    "top_sub_title": "界面是它的人性化面孔",
+    "top_description": "超越“只是代码”，我设计完整的 SPA 系统，让 Vue 的模块化和 TypeScript 的清晰性共同服务于一个目标——打造直观且高性能的数字产品。",
     "approach": "我使用Vue.js 3构建复杂、高性能且用户友好的单页面应用(SPA)。我将对前端架构的深刻理解与对设计和用户体验的敏锐洞察相结合，从而能够设计出不仅运行高效、而且深受用户喜爱的界面。",
+    "ai": {
+      "subtitle": "有效开发的工具",
+      "description": "我在工作流程中集成 AI 助手，以自动化日常工作并增强分析能力。这不仅加快代码编写和错误检测，还有助于功能设计、文档编制和寻找非显而易见的解决方案，最终提高交付质量和速度。",
+      "tools": {
+        "chatgpt": "Chat GPT",
+        "copilot": "GitHub Copilot",
+        "grog": "Grog"
+      }
+    },
     "bitrix_title": "Bitrix 经验",
     "bitrix_description": "从事各种航空公司的 TravelShop 1.0 模板的支持和新模板开发工作。为此熟练掌握 PHP 语言。了解 Bitrix 的特性。",
-    "bitrix_skills": [
-      "TravelShop 1.0 模板的开发和维护",
-      "与航班预订系统集成",
-      "根据航空公司要求定制功能",
-      "在 Bitrix 项目环境中使用 PHP",
-      "理解 Bitrix 架构和特性"
-    ],
+    "bitrix_skills": {
+      "travelshop_development": "TravelShop 1.0 模板的开发和维护",
+      "booking_integration": "与航班预订系统集成",
+      "customization": "根据航空公司要求定制功能",
+      "php_experience": "在 Bitrix 项目环境中使用 PHP",
+      "architecture_knowledge": "理解 Bitrix 架构和特性"
+    },
     "skills_title": "在工作中，我注重架构的清晰性、代码的可维护性和类型安全性。拥有复杂 SPA 前端部分全周期开发经验：",
-    "skills_list": [
-      {
+    "skills_list": {
+      "architecture_design": {
         "title": "应用程序结构设计",
         "description": "开发模块化和可扩展的架构，组织代码库以便于维护和发展"
       },
-      {
+      "ui_markup": {
         "title": "界面布局",
         "description": "使用现代方法（Flexbox、Grid）创建响应式、跨浏览器且可访问的界面"
       },
-      {
+      "state_management": {
         "title": "状态管理实现",
         "description": "配置集中式存储（Pinia/Vuex），组织数据及其在组件间的响应式关联"
       },
-      {
+      "api_integration": {
         "title": "客户端-服务器交互",
         "description": "构建用于 API 交互的服务层，处理错误，实现重试机制和缓存"
       },
-      {
+      "routing": {
         "title": "路由",
         "description": "开发具有嵌套路由、受保护路由和组件懒加载功能的复杂导航系统"
       }
-    ],
+    },
     "conclusion": "这种方法能够创建可靠且可扩展的解决方案，便于发展和维护。",
-    "tech_title": "技术与工具",
     "tech_stack_title": "技术栈",
-    "main_tech_title": "核心技术",
-    "main_tech_list": [
-      {
-        "title": "Vue.js 3",
-        "description": "使用Composition API、组合函数、响应式系统开发SPA应用，处理生命周期钩子，自定义指令"
+    "tech_stack": {
+      "main": {
+        "title": "核心技术",
+        "description": "<span><strong>Vue 3</strong> 使用 <strong>Proxy</strong> 实现 '智能' 反应式，而 <strong>Vite</strong> 利用浏览器内置的 ES 模块实现瞬间启动。</span><span><strong>Pinia</strong> 从零开始为 TypeScript 而设计——类型自动推断。整个技术栈遵循构造器原则：您从现成的函数中组装逻辑，而不是编写大量配置。</span>",
+        "items": {
+          "vue": {
+            "title": "Vue.js 3",
+            "description": "使用Composition API、组合函数、响应式系统开发SPA应用，处理生命周期钩子，自定义指令"
+          },
+          "pinia": {
+            "title": "Pinia",
+            "description": "使用Composition API进行应用程序状态管理，通过Setup Store语法组织模块化存储，TypeScript集成"
+          },
+          "typescript": {
+            "title": "TypeScript",
+            "description": "严格类型检查，泛型，实用工具类型，组件和存储中的类型安全"
+          },
+          "vite": {
+            "title": "Vite",
+            "description": "快速项目构建，插件配置，生产构建优化"
+          }
+        }
       },
-      {
-        "title": "TypeScript",
-        "description": "严格类型检查，泛型，实用工具类型，组件和存储中的类型安全"
+      "infra": {
+        "title": "基础设施与工具",
+        "description": "<span><strong>Vue Router</strong> 将导航变成代码的声明式部分，其懒加载是应用瞬间启动的秘诀。</span><span><strong>Git</strong> 是代码的时间机器，<strong>REST API</strong> 是前端与世界通信的通用语言。<strong>Vue i18n</strong> 让这个世界用任何语言都能理解，动态加载翻译作为界面的一部分。</span>",
+        "items": {
+          "vue_router": {
+            "title": "Vue Router",
+            "description": "导航路由，懒加载，嵌套路由，导航钩子，历史管理"
+          },
+          "vue_i18n": {
+            "title": "Vue i18n",
+            "description": "应用本地化，动态加载翻译，复数形式处理"
+          },
+          "git": {
+            "title": "Git",
+            "description": "团队协作，功能分支，代码审查，冲突解决"
+          },
+          "rest_api": {
+            "title": "REST API",
+            "description": "开发和自定义HTTP请求包装器，错误处理，缓存，请求生命周期管理"
+          }
+        }
       },
-      {
-        "title": "Pinia",
-        "description": "使用Composition API进行应用程序状态管理，通过Setup Store语法组织模块化存储，TypeScript集成"
-      },
-      {
-        "title": "Vite",
-        "description": "快速项目构建，插件配置，生产构建优化"
+      "layout": {
+        "title": "布局与样式",
+        "description": "<span><strong>HTML5</strong> 和 <strong>CSS3</strong> 是界面的骨骼和皮肤。<strong>Grid</strong> 和 <strong>Flexbox</strong> 创建自适应框架，HTML 语义告诉浏览器和辅助技术页面上的真正重要内容。</span><span><strong>SCSS/SASS</strong> 是 CSS 乘以逻辑的结果。变量、混合和嵌套将样式维护从日常琐事转变为可编程且可扩展的过程。</span>",
+        "items": {
+          "html_css": {
+            "title": "HTML5/CSS3",
+            "description": "语义化标记，响应式设计，CSS Grid/Flexbox"
+          },
+          "scss": {
+            "title": "SCSS/SASS",
+            "description": "预处理，混合器，模块化样式，CSS自定义属性"
+          }
+        }
       }
-    ],
-    "infra_tech_title": "基础设施与工具",
-    "infra_tech_list": [
-      {
-        "title": "Vue Router",
-        "description": "导航路由，懒加载，嵌套路由，导航钩子，历史管理"
-      },
-      {
-        "title": "Vue i18n",
-        "description": "应用本地化，动态加载翻译，复数形式处理"
-      },
-      {
-        "title": "Git",
-        "description": "团队协作，功能分支，代码审查，冲突解决"
-      },
-      {
-        "title": "REST API",
-        "description": "开发和自定义HTTP请求包装器，错误处理，缓存，请求生命周期管理"
-      }
-    ],
-    "layout_tech_title": "布局与样式",
-    "layout_tech_list": [
-      {
-        "title": "HTML5/CSS3",
-        "description": "语义化标记，响应式设计，CSS Grid/Flexbox"
-      },
-      {
-        "title": "SCSS/SASS",
-        "description": "预处理，混合器，模块化样式，CSS自定义属性"
-      }
-    ]
+    }
   },
   "tech": {
     "javascript": "一切的基础。编写现代 ES6+ 代码",
@@ -128,7 +150,6 @@
   },
   "experience": {
     "title": "职业生涯",
-    "showAllButton": "所有公司",
     "items": {
       "company-online-reservation-system": {
         "company": "在线预订系统",
@@ -234,44 +255,39 @@
       "items": [
         {
           "icon": "flight-search",
-          "text": "实时机票搜索和预订"
+          "title": "实时机票搜索和预订",
+          "text": "直接访问航空公司的实时数据和票价，实现即时预订。"
         },
         {
           "icon": "price-tag",
-          "text": "复杂的票价和费用计算业务逻辑"
+          "title": "复杂的票价和费用计算业务逻辑",
+          "text": "自动应用灵活的定价规则，包括企业客户的个性化条件。"
         },
         {
           "icon": "checklist",
-          "text": "带数据验证的多步骤预订流程"
+          "title": "带数据验证的多步骤预订流程",
+          "text": "直观的分步流程，在每个阶段验证信息以最大限度减少错误。"
         },
         {
           "icon": "user-management",
-          "text": "订单和乘客管理系统"
+          "title": "订单和乘客管理系统",
+          "text": "为乘客提供个人账户，实现自助预订管理和在线值机。"
         },
         {
           "icon": "api",
-          "text": "与预订系统（GDS）集成"
+          "title": "与预订系统（GDS）集成",
+          "text": "通过灵活的API连接GDS、DCS和元搜索服务以访问内容。"
         },
         {
           "icon": "luggage",
-          "text": "支持附加服务（行李、餐食、保险）"
+          "title": "支持附加服务（行李、餐食、保险）",
+          "text": "在预订阶段高效提供附加服务，以提高平均订单价值。"
         },
         {
           "icon": "responsive",
-          "text": "适用于所有设备的响应式设计"
+          "title": "适用于所有设备的响应式设计",
+          "text": "基于PWA（Vue.js）技术构建，确保在任何设备上都能同样便捷地使用。"
         }
-      ]
-    },
-    "tech_stack": {
-      "title": "技术栈",
-      "items": [
-        "使用 Composition API 和 TypeScript 的 Vue 3",
-        "自研 UI 组件库",
-        "使用 Vite 进行快速构建和开发",
-        "使用 Pinia 进行应用程序状态管理",
-        "带组件懒加载的 Vue Router",
-        "具有集中错误处理功能的 REST API",
-        "国际化 (i18n)"
       ]
     },
     "achievements": {
@@ -328,19 +344,41 @@
   },
   "pipeline": {
     "title": "REST API 流水线系统",
+    "shortTitle": "REST Pipeline",
     "subtitle": "高效管理相互关联的 API 调用链",
     "description": "一个强大的系统，用于组织对 REST API 的顺序 HTTP 请求，其中每个后续调用都可以利用前一个调用的数据。通过进度可视化和智能错误处理，提供对请求链执行的完全控制。",
     "features": {
       "title": "系统核心功能",
-      "items": [
-        "相互关联的 HTTP 请求链的顺序执行",
-        "流水线阶段之间的自动数据传输",
-        "详细的实时执行进度跟踪",
-        "具有重试机制的智能 HTTP 错误处理",
-        "基于先前结果的条件请求执行逻辑",
-        "关键错误时自动取消依赖请求",
-        "所有执行阶段的完全类型安全"
-      ]
+      "items": {
+        "sequential_chains": {
+          "title": "顺序HTTP链",
+          "description": "系统严格按顺序组织和启动REST API请求，确保正确的执行顺序和数据流控制。"
+        },
+        "auto_data_transfer": {
+          "title": "步骤间自动数据传输",
+          "description": "每个执行的请求结果（例如，创建对象的ID）自动且安全地插入到后续请求的参数中，消除手动数据拼接。"
+        },
+        "realtime_progress": {
+          "title": "实时进度跟踪",
+          "description": "界面显示可视进度条和每个阶段的状态，为用户提供当前执行状态的完全透明度。"
+        },
+        "error_handling": {
+          "title": "智能错误处理和重试",
+          "description": "系统分析服务器响应代码（例如5xx错误），并根据可配置规则自动执行重试请求，提高容错性。"
+        },
+        "conditional_logic": {
+          "title": "条件执行逻辑",
+          "description": "允许设置规则（例如if/else），根据先前步骤获得的数据确定是否启动下一个请求。"
+        },
+        "auto_cancel": {
+          "title": "自动取消依赖请求",
+          "description": "当发生致命错误时，系统自动中断整个后续链的执行，防止无意义的调用。"
+        },
+        "type_safety": {
+          "title": "端到端类型安全",
+          "description": "通过与TypeScript的集成，系统确保对输入参数和在流水线步骤间传递的数据进行严格的类型检查。"
+        }
+      }
     },
     "architecture": {
       "title": "架构组件",
@@ -407,18 +445,37 @@
   },
   "localization": {
     "title": "支持覆写翻译的灵活本地化系统",
+    "shortTitle": "i18n 系统",
     "subtitle": "针对不同构建包的翻译自定义机制",
     "description": "实现的系统允许根据项目构建的包覆写特定翻译，为不同客户定制界面提供了灵活性。",
     "features": {
       "title": "核心功能",
-      "items": [
-        "无需复制整个词典即可覆写特定翻译",
-        "支持多种语言，每种语言均可自定义",
-        "默认本地化文件与自定义本地化文件的自动合并",
-        "针对不同构建包的灵活配置",
-        "保留未覆写翻译的默认值",
-        "快速添加新的自定义翻译"
-      ]
+      "items": {
+        "override_strings": {
+          "title": "覆写特定翻译",
+          "description": "系统允许精确替换单个翻译，无需完全复制和重复整个词典即可进行更改。"
+        },
+        "multiple_languages": {
+          "title": "支持多种语言",
+          "description": "对于每种支持的语言，可以设置自己的自定义翻译集，为不同地区提供独特的界面本地化。"
+        },
+        "auto_merge": {
+          "title": "自动合并本地化文件",
+          "description": "默认翻译和自定义覆写在项目构建期间自动合并为单个词典。"
+        },
+        "bundle_customization": {
+          "title": "构建包定制配置",
+          "description": "机制考虑目标构建包（例如，客户端A或客户端B），加载相应的定制翻译集。"
+        },
+        "default_values": {
+          "title": "保留默认值",
+          "description": "对于所有未明确覆写的翻译，系统保证使用基础词典中的标准值。"
+        },
+        "fast_addition": {
+          "title": "快速添加翻译",
+          "description": "可以快速添加新的自定义翻译作为单独的文件或条目，之后系统会自动获取它们。"
+        }
+      }
     },
     "architecture": {
       "title": "架构组件",
@@ -476,18 +533,37 @@
   },
   "seatMap": {
     "title": "通用飞机座位图显示系统",
+    "shortTitle": "Seat Map",
     "subtitle": "支持不同数据格式驱动程序的架构",
     "description": "实现的系统允许通过统一的通用组件显示来自不同预订系统的飞机座位图，使用特殊的驱动程序进行数据转换。",
     "features": {
       "title": "核心功能",
-      "items": [
-        "支持来自不同系统的多种数据格式",
-        "通用的座位图显示组件",
-        "用于数据转换的驱动程序系统",
-        "针对新客户的灵活配置",
-        "隔离的显示业务逻辑",
-        "快速连接新的数据源"
-      ]
+      "items": {
+        "multiple_formats": {
+          "title": "支持多种格式",
+          "description": "系统能够处理来自各种预订系统的座位图原始数据，每种系统都有其独特的格式。"
+        },
+        "universal_component": {
+          "title": "通用显示组件",
+          "description": "用户界面是一个统一的Vue组件，可以可视化座位图，而不依赖于源或输入数据的格式。"
+        },
+        "driver_system": {
+          "title": "数据驱动程序系统",
+          "description": "使用专用适配器（驱动程序）将每个供应商的特定数据转换为统一的内部格式。"
+        },
+        "flexible_setup": {
+          "title": "灵活的客户定制",
+          "description": "添加新客户端或预订系统的支持只需创建相应的驱动程序，无需更改系统核心。"
+        },
+        "isolated_logic": {
+          "title": "隔离的业务逻辑",
+          "description": "所有复杂的验证、显示和座位图交互逻辑都封装在通用组件中，不依赖于驱动程序。"
+        },
+        "quick_connection": {
+          "title": "快速连接源",
+          "description": "要集成新的数据源，只需按照现成的接口实现驱动程序，之后它立即可供使用。"
+        }
+      }
     },
     "architecture": {
       "title": "架构组件",
@@ -545,19 +621,41 @@
   },
   "multisync": {
     "title": "分布式Vue.js应用程序的统一同步系统",
+    "shortTitle": "App Sync",
     "subtitle": "独立应用程序间的状态同步架构，支持可选加密",
     "description": "用于在单一代码库中创建和管理多个独立Vue应用程序的系统，实现应用程序间的自动状态同步。通过统一的存储实现跨标签页同步机制和应用程序间通信，支持加密和灵活配置。",
     "features": {
       "title": "系统核心功能",
-      "items": [
-        "单一代码库中多个独立Vue应用程序的统一架构",
-        "通过localStorage实现跨标签页同步和应用程序间状态协调",
-        "具有明确职责分离的多层存储架构（Pinia + 自定义存储）",
-        "使用AES-GCM的可选存储数据加密",
-        "防止循环更新和数据竞争的机制",
-        "灵活的同步管理（实时启用/禁用）",
-        "所有同步阶段的详细日志记录和调试"
-      ]
+      "items": {
+        "single_architecture": {
+          "title": "Vue应用程序的统一架构",
+          "description": "系统允许在具有共享依赖关系的统一单一代码库中开发和管理多个独立的Vue.js应用程序。"
+        },
+        "cross_tab_sync": {
+          "title": "自动跨标签页同步",
+          "description": "应用程序状态通过localStorage中的单一真实来源在浏览器标签页之间自动协调。"
+        },
+        "multi_level_stores": {
+          "title": "多层存储系统",
+          "description": "架构使用Pinia进行本地状态和自定义存储进行同步数据的组合，具有明确的职责分离。"
+        },
+        "optional_encryption": {
+          "title": "可选数据加密",
+          "description": "关键存储数据可以使用AES-GCM算法进行保护，以确保机密性。"
+        },
+        "cycle_prevention": {
+          "title": "防止循环更新",
+          "description": "内置机制跟踪并阻止状态的循环更新，防止数据竞争和无限循环。"
+        },
+        "flexible_management": {
+          "title": "灵活的同步管理",
+          "description": "可以动态启用或禁用单个应用程序或状态模块的同步，无需重新加载。"
+        },
+        "detailed_logging": {
+          "title": "详细日志记录和调试",
+          "description": "记录同步的所有阶段（更改、发送、冲突），以便于调试和监控系统操作。"
+        }
+      }
     },
     "architecture": {
       "title": "架构组件",
@@ -678,17 +776,33 @@
   },
   "uiComponents": {
     "title": "UI组件开发",
+    "shortTitle": "UI组件",
     "subtitle": "UI组件架构师",
     "description": "为大型Web应用程序设计和实现了UI组件库，专注于可访问性、性能和开发体验。",
     "features": {
       "title": "关键组件",
-      "items": [
-        "输入字段和选择器 - 具有完整交互周期的组件：验证、输入掩码、自定义占位符、错误和加载状态",
-        "智能自动完成 - 复杂的键盘逻辑、虚拟滚动、移动设备适配和T9输入支持",
-        "模态窗口和工具提示 - 支持滑动手势、滚动锁定和焦点管理的通用覆盖组件",
-        "日历和日期选择器 - 灵活的日期和周期选择组件，具有自定义范围高亮逻辑和视觉状态",
-        "表格和标签页 - 具有虚拟化的高性能表格和具有编程导航API的自适应标签页"
-      ]
+      "items": {
+        "input_fields": {
+          "title": "输入字段和选择器",
+          "description": "组件实现完整的交互周期，包括验证、输入掩码、自定义占位符，以及错误和加载的可视状态。"
+        },
+        "smart_autocomplete": {
+          "title": "智能自动完成",
+          "description": "组件具有复杂的键盘操作逻辑、虚拟滚动，针对移动设备进行了优化，并支持便捷的T9输入。"
+        },
+        "modals_tooltips": {
+          "title": "模态窗口和工具提示",
+          "description": "通用覆盖层组件，支持滑动手势、自动背景滚动锁定和正确的焦点管理以提高可访问性。"
+        },
+        "calendar_dates": {
+          "title": "日历和日期选择器",
+          "description": "灵活的组件，用于选择单个日期和周期，可以设置自定义范围高亮逻辑和可配置的可视状态。"
+        },
+        "tables_tabs": {
+          "title": "表格和标签页",
+          "description": "库包括具有行虚拟化的高性能表格和自适应标签页组件，配备了用于管理导航的程序化API。"
+        }
+      }
     },
     "architecture": {
       "title": "架构组件",
@@ -752,9 +866,9 @@
   "contacts": {
     "title": "联系方式",
     "subtitle": "通过便捷的方式与我联系",
-    "emails": {
+    "email": {
       "label": "E-mail",
-      "values": ["macrulezru@gmail.com", "macrulezru@yandex.ru"]
+      "value": "danil__PH:AT__macrulez.ru"
     },
     "telegram": {
       "label": "Telegram",
@@ -766,6 +880,10 @@
     },
     "ya-messenger": {
       "label": "Yandex 即时通讯",
+      "value": "macrulezru"
+    },
+    "github": {
+      "label": "GitHub",
       "value": "macrulezru"
     }
   },
@@ -896,7 +1014,7 @@
     }
   },
   "design": {
-    "title": "设计基础：从视觉传达至代码",
+    "title": "设计基础 — 从视觉传达至代码",
     "description": "在平面设计中获得的对于构图、排版与色彩的深刻理解，是构建逻辑清晰、美观且高效的数字界面的基石。",
     "showAll": "查看所有图片",
     "loadingImages": "正在加载图像"
@@ -914,7 +1032,6 @@
     "reset": "重置",
     "unsavedChanges": "存在未保存的更改"
   },
-  "location": "工作地点",
   "rest-api": {
     "metricsCallout": {
       "title": "打开指标面板",

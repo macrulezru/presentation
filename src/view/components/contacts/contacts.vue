@@ -2,37 +2,43 @@
   import emailjs from 'emailjs-com';
   import { ref, computed } from 'vue';
 
-  import LocationMap from '@/view/components/contacts/parts/map/location-map.vue';
   import { useI18n } from '@/view/composables/use-i18n.ts';
   import Button from '@/view/ui/ui-button/ui-button.vue';
 
   import '@/view/components/contacts/contacts.scss';
 
-  const { t, tm } = useI18n();
+  const { t } = useI18n();
 
   const contacts = computed(() => [
     {
       icon: 'email',
-      label: t('contacts.emails.label'),
-      emails: tm('contacts.emails.values'),
+      label: t('contacts.email.label'),
+      value: t('contacts.email.value'),
+      href: `mailto:${t('contacts.email.value')}`,
     },
     {
       icon: 'phone',
       label: t('contacts.phone.label'),
       value: t('contacts.phone.value'),
-      href: 'tel:+79636972662',
+      href: `tel:${t('contacts.phone.value')}`,
     },
     {
       icon: 'telegram',
       label: t('contacts.telegram.label'),
       value: `@${t('contacts.telegram.value')}`,
-      href: 'https://t.me/Danil_Anapa',
+      href: `https://t.me/${t('contacts.telegram.value')}`,
     },
     {
       icon: 'ya-messenger',
       label: t('contacts.ya-messenger.label'),
       value: `@${t('contacts.ya-messenger.value')}`,
       href: 'https://yandex.ru/chat/p/41a53011-0ac3-4de7-b032-918fabf51dae?utm_source=invite',
+    },
+    {
+      icon: 'github',
+      label: t('contacts.github.label'),
+      value: `#${t('contacts.github.value')}`,
+      href: `https://github.com/${t('contacts.github.value')}`,
     },
   ]);
 
@@ -56,7 +62,7 @@
     serviceId: 'service_iuf5wq8',
     templateId: 'template_8hit7kl',
     publicKey: 'S-DbEWH7CYmFUekVS',
-    recipientEmail: 'macrulezru@gmail.com',
+    recipientEmail: 'danil@macrulez.ru',
   };
 
   // Валидация формы
@@ -158,143 +164,123 @@ ${t('form.sent_from')}: ${window.location.href}
 <template>
   <div class="contacts">
     <div class="contacts__container">
-      <header class="contacts__header">
-        <h2 class="contacts__title">{{ t('contacts.title') }}</h2>
-        <p class="contacts__subtitle">{{ t('contacts.subtitle') }}</p>
-        <div class="contacts__avatar" />
-      </header>
-
       <div class="contacts__content">
-        <div class="contacts__list-section">
-          <div class="contacts__list">
-            <div class="contacts__item">
-              <div class="contacts__item-icon contacts__item-icon_mail" />
-              <div class="contacts__item-content">
-                <span class="contacts__item-label">{{ contacts[0]?.label }}</span>
-                <div class="contacts__item-emails">
-                  <a
-                    v-for="(email, index) in contacts[0]?.emails"
-                    :key="index"
-                    :href="`mailto:${email}`"
-                    class="contacts__email-link"
-                  >
-                    {{ email }}
-                  </a>
-                </div>
-              </div>
+        <div class="contacts__header">
+          <div class="contacts__header-title">
+            <div class="contacts__title">{{ t('contacts.title') }}</div>
+            <div class="contacts__subtitle">{{ t('contacts.subtitle') }}</div>
+          </div>
+          <div class="contacts__avatar" />
+        </div>
+
+        <div class="contacts__section-wrapper">
+          <div class="contacts__list-section">
+            <div class="contacts__list">
+              <a
+                v-for="contact in contacts"
+                :key="contact.label"
+                class="contacts__list-item"
+                :href="contact.href"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="contacts__item">
+                  <span
+                    class="contacts__item-icon"
+                    :class="[`contacts__item-icon_${contact.icon}`]"
+                  />
+                  <span class="contacts__item-content">
+                    <span class="contacts__item-value">{{ contact.value }}</span>
+                  </span>
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <div class="contacts__form-section">
+            <div class="contacts__form-header">
+              <div class="contacts__form-title">{{ t('form.title') }}</div>
+              <div class="contacts__form-description">{{ t('form.description') }}</div>
             </div>
 
-            <a
-              v-for="contact in contacts.slice(1)"
-              :key="contact.label"
-              :href="contact.href"
-              class="contacts__item"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div
-                class="contacts__item-icon"
-                :class="[`contacts__item-icon_${contact.icon}`]"
-              />
-              <div class="contacts__item-content">
-                <span class="contacts__item-label">{{ contact.label }}</span>
-                <span class="contacts__item-value">{{ contact.value }}</span>
+            <form class="contacts__form" @submit.prevent="submitForm">
+              <div class="form-group">
+                <label for="name" class="form-label">
+                  {{ t('form.fields.name') }}
+                </label>
+                <input
+                  id="name"
+                  v-model="formData.name"
+                  type="text"
+                  :placeholder="t('form.placeholders.name')"
+                  class="form-input"
+                  :disabled="isSubmitting"
+                  required
+                  autocomplete="name"
+                />
               </div>
-            </a>
+
+              <div class="form-group">
+                <label for="email" class="form-label">
+                  {{ t('form.fields.email') }}
+                </label>
+                <input
+                  id="email"
+                  v-model="formData.email"
+                  type="email"
+                  :placeholder="t('form.placeholders.email')"
+                  class="form-input"
+                  :disabled="isSubmitting"
+                  required
+                  autocomplete="email"
+                />
+              </div>
+
+              <div class="form-group form-group--message">
+                <label for="message" class="form-label">
+                  {{ t('form.fields.message') }}
+                </label>
+                <textarea
+                  id="message"
+                  v-model="formData.message"
+                  :placeholder="t('form.placeholders.message')"
+                  class="form-textarea"
+                  :disabled="isSubmitting"
+                  required
+                  autocomplete="off"
+                ></textarea>
+              </div>
+
+              <input type="hidden" name="subject" :value="formSubject" />
+
+              <div v-if="errorMessage" class="form-error">
+                {{ errorMessage }}
+              </div>
+
+              <div v-if="isSuccess" class="form-success">
+                {{ t('form.success_message') }}
+              </div>
+
+              <div class="form-actions">
+                <Button
+                  :class="{ 'form-submit--loading': isSubmitting }"
+                  type="submit"
+                  small
+                  :disabled="isSubmitting"
+                  :text="!isSubmitting ? t('form.submit') : t('form.sending')"
+                />
+                <Button
+                  gray
+                  small
+                  :disabled="isSubmitting"
+                  :text="t('form.reset')"
+                  @click="resetForm"
+                />
+              </div>
+            </form>
           </div>
         </div>
-
-        <div class="contacts__form-section">
-          <h3 class="contacts__form-title">{{ t('form.title') }}</h3>
-          <p class="contacts__form-description">{{ t('form.description') }}</p>
-
-          <form class="contacts__form" @submit.prevent="submitForm">
-            <div class="form-group">
-              <label for="name" class="form-label">
-                {{ t('form.fields.name') }}
-              </label>
-              <input
-                id="name"
-                v-model="formData.name"
-                type="text"
-                :placeholder="t('form.placeholders.name')"
-                class="form-input"
-                :disabled="isSubmitting"
-                required
-                autocomplete="name"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="email" class="form-label">
-                {{ t('form.fields.email') }}
-              </label>
-              <input
-                id="email"
-                v-model="formData.email"
-                type="email"
-                :placeholder="t('form.placeholders.email')"
-                class="form-input"
-                :disabled="isSubmitting"
-                required
-                autocomplete="email"
-              />
-            </div>
-
-            <div class="form-group form-group--message">
-              <label for="message" class="form-label">
-                {{ t('form.fields.message') }}
-              </label>
-              <textarea
-                id="message"
-                v-model="formData.message"
-                :placeholder="t('form.placeholders.message')"
-                class="form-textarea"
-                :disabled="isSubmitting"
-                required
-                autocomplete="off"
-              ></textarea>
-            </div>
-
-            <input type="hidden" name="subject" :value="formSubject" />
-
-            <div v-if="errorMessage" class="form-error">
-              {{ errorMessage }}
-            </div>
-
-            <div v-if="isSuccess" class="form-success">
-              {{ t('form.success_message') }}
-            </div>
-
-            <div class="form-actions">
-              <Button
-                :class="{ 'form-submit--loading': isSubmitting }"
-                type="submit"
-                small
-                :disabled="isSubmitting"
-                :text="!isSubmitting ? t('form.submit') : t('form.sending')"
-              />
-              <Button
-                gray
-                small
-                :disabled="isSubmitting"
-                :text="t('form.reset')"
-                @click="resetForm"
-              />
-            </div>
-          </form>
-        </div>
-
-        <a
-          class="contacts__item contacts__item_git"
-          href="https://github.com/macrulezru"
-          target="_blank"
-        >
-          <span class="contacts__github-icon" />
-          <span class="contacts__item-value">github.com/macrulezru</span>
-        </a>
       </div>
-      <LocationMap />
     </div>
   </div>
 </template>

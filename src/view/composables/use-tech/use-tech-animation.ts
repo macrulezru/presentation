@@ -4,6 +4,7 @@ import {
   INFINITY_MOVEMENT_SPEED,
   INFINITY_MIN_SCALE,
   INFINITY_MAX_SCALE,
+  canvasMaxWidth,
   COLORS,
   DETAIL_ITEM_WIDTH,
   DETAIL_ITEM_HEIGHT,
@@ -20,7 +21,6 @@ import {
   drawDetailedItem,
   drawInfinityPath,
   drawParticleWithTrail,
-  drawSceneTitle,
 } from './draw-functions';
 import {
   calculateOptimalScale,
@@ -49,7 +49,6 @@ import {
   calculateIconDimensionsForState,
   calculateDetailEndDiameter,
   calculateCloseButtonSize,
-  clearSceneTitleCache,
 } from './utils';
 
 import type { CanvasAnimationOptions, AnimationState, TechItem, Particle } from './types';
@@ -87,6 +86,11 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
     { icon: 'svn', description: t('tech.svn') },
     { icon: 'figma', description: t('tech.figma') },
   ]);
+
+  // Следим за изменением максимальной ширины canvas и обновляем размеры
+  watch(canvasMaxWidth, () => {
+    updateCanvasSize();
+  });
 
   const canvasRef = ref<HTMLCanvasElement>();
   const ctx = ref<CanvasRenderingContext2D | null>(null);
@@ -188,16 +192,14 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
   };
 
   // Вычисление масштаба траектории
-  const calculateInfinityScale = () => {
+  const calculateInfinityScale = (widthOverride?: number, heightOverride?: number) => {
     if (!containerRef.value) return INFINITY_MIN_SCALE;
 
     const rect = containerRef.value.getBoundingClientRect();
-    return calculateOptimalScale(
-      rect.width,
-      rect.height,
-      INFINITY_MIN_SCALE,
-      INFINITY_MAX_SCALE,
-    );
+    const width = Math.min(widthOverride ?? rect.width, canvasMaxWidth.value);
+    const height = heightOverride ?? rect.height;
+
+    return calculateOptimalScale(width, height, INFINITY_MIN_SCALE, INFINITY_MAX_SCALE);
   };
 
   // Обновление размеров холста
@@ -218,10 +220,12 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
       return;
     }
 
-    const { width } = rect;
+    const rawWidth = rect.width;
+    const rawHeight = rect.height;
+    const width = Math.min(rawWidth, canvasMaxWidth.value);
     const mode = stateManager.getState().trajectoryMode;
 
-    let infinityScale = calculateInfinityScale();
+    let infinityScale = calculateInfinityScale(width, rawHeight);
     const iconSize = ORBIT_ICON_SIZE;
     let height: number;
 
@@ -288,11 +292,6 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
       centerY: newState.centerY,
       isInitial,
     });
-
-    // Очищаем кеш заголовков при изменении размера (влияет на размер шрифта и перенос)
-    if (!isInitial) {
-      clearSceneTitleCache();
-    }
 
     // При первой инициализации создаём элементы, при resize только обновляем масштаб
     if (isInitial || items.value.length === 0) {
@@ -1210,30 +1209,14 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
     const backItems = pathItems.filter(item => item.depthScale < 1.0);
     const frontItems = pathItems.filter(item => item.depthScale >= 1.0);
 
-    // Рисуем задний план (без свечения)
+    // Рисуем задний план
     backItems.forEach(item => {
-      drawPathIcon(ctx.value!, item, item.hover, state.centerX, state.centerY, false);
+      drawPathIcon(ctx.value!, item, item.hover, state.centerX, state.centerY);
     });
 
-    // Рисуем заголовок сцены в центре (и для infinity, и для circle)
-    {
-      const title = t('about.tech_title');
-      const mode = state.trajectoryMode;
-      const radius = mode === 'circle' ? state.infinityScale : undefined;
-      // Для мобильного режима не применяем блюр к надписи
-      if (blurEnabled) {
-        drawSceneTitle(ctx.value!, state.centerX, state.centerY, title, { mode, radius });
-      } else {
-        ctx.value.filter = 'none';
-        drawSceneTitle(ctx.value!, state.centerX, state.centerY, title, { mode, radius });
-        ctx.value.filter = 'none';
-      }
-    }
-
-    // Рисуем передний план — свечение только в режиме десктоп (infinity)
-    const applyGlow = state.trajectoryMode === 'infinity';
+    // Рисуем передний план
     frontItems.forEach(item => {
-      drawPathIcon(ctx.value!, item, item.hover, state.centerX, state.centerY, applyGlow);
+      drawPathIcon(ctx.value!, item, item.hover, state.centerX, state.centerY);
     });
 
     // Рисуем элемент в переходе (если не детализированный)
@@ -1241,7 +1224,7 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
       // Все переходящие элементы, кроме выбранного, рисуем как на траектории
       const isSelectedTransition = state.selectedItem?.id === item.id;
       if (!isSelectedTransition) {
-        drawPathIcon(ctx.value!, item, item.hover, state.centerX, state.centerY, false);
+        drawPathIcon(ctx.value!, item, item.hover, state.centerX, state.centerY);
       }
     });
 
@@ -1499,7 +1482,5 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
     getTrajectoryMode: () => {
       return stateManager.getState().trajectoryMode;
     },
-    // Очистка кеша заголовков (вызывать при смене локали)
-    clearTitleCache: clearSceneTitleCache,
   };
 }

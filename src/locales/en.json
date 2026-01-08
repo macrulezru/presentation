@@ -25,91 +25,113 @@
       "vue": "6+ years of commercial experience with Vue",
       "web": "20+ years in web development and design"
     },
+    "top_title": "Architecture as a reactive system",
+    "top_sub_title": "Interface as its human face",
+    "top_description": "Pushing beyond 'just code', I design cohesive SPA systems where Vue's modularity and TypeScript's clarity serve one goal — creating intuitive and high-performance digital products",
     "approach": "I build complex, performant, and user-friendly SPA applications using Vue.js 3. I combine a deep understanding of frontend architecture with a keen eye for design and UX, allowing me to craft interfaces that not only work efficiently but are also enjoyed by users.",
+    "ai": {
+      "subtitle": "as a tool for effective development",
+      "description": "I integrate AI assistants into my workflow to automate routine tasks and enhance analytical capabilities. This not only speeds up code writing and bug detection, but also helps in feature design, documentation, and finding non-obvious solutions, ultimately improving the quality and speed of delivery.",
+      "tools": {
+        "chatgpt": "Chat GPT",
+        "copilot": "GitHub Copilot",
+        "grog": "Grog"
+      }
+    },
     "bitrix_title": "Bitrix Experience",
     "bitrix_description": "Worked on support and development of new TravelShop 1.0 templates for various airlines. Confidently use PHP for this purpose. Understand Bitrix specifics.",
-    "bitrix_skills": [
-      "Development and support of TravelShop 1.0 templates",
-      "Integration with flight booking systems",
-      "Customization of functionality according to airline requirements",
-      "Working with PHP in the context of Bitrix projects",
-      "Understanding Bitrix architecture and features"
-    ],
+    "bitrix_skills": {
+      "travelshop_development": "Development and support of TravelShop 1.0 templates",
+      "booking_integration": "Integration with flight booking systems",
+      "customization": "Customization of functionality according to airline requirements",
+      "php_experience": "Working with PHP in the context of Bitrix projects",
+      "architecture_knowledge": "Understanding Bitrix architecture and features"
+    },
     "skills_title": "In my work, I focus on architectural cleanliness, code maintainability, and type safety. I have experience in the full cycle of frontend development for complex SPAs:",
-    "skills_list": [
-      {
+    "skills_list": {
+      "architecture_design": {
         "title": "Application structure design",
         "description": "Developing modular and scalable architecture, organizing codebase for easy maintenance and growth"
       },
-      {
+      "ui_markup": {
         "title": "Interface layout",
         "description": "Creating responsive, cross-browser and accessible interfaces using modern approaches (Flexbox, Grid)"
       },
-      {
+      "state_management": {
         "title": "State management implementation",
         "description": "Setting up centralized store (Pinia/Vuex), organizing data and their reactive connections between components"
       },
-      {
+      "api_integration": {
         "title": "Client-server communication",
         "description": "Building service layer for API work, error handling, implementing retry mechanisms and caching"
       },
-      {
+      "routing": {
         "title": "Routing",
         "description": "Developing complex navigation systems with nested and protected routes, lazy loading of components"
       }
-    ],
+    },
     "conclusion": "This approach enables me to create reliable and scalable solutions that are convenient to develop and maintain.",
-    "tech_title": "Technologies & Tools",
     "tech_stack_title": "Technology Stack",
-    "main_tech_title": "Core Technologies",
-    "main_tech_list": [
-      {
-        "title": "Vue.js 3",
-        "description": "SPA development using Composition API, composables, reactivity, working with lifecycle hooks, custom directives"
+    "tech_stack": {
+      "main": {
+        "title": "Core Technologies",
+        "description": "<span><strong>Vue 3</strong> with <strong>Proxy</strong> for 'smart' reactivity, and <strong>Vite</strong> launches the project instantly using built-in ES-modules.</span><span><strong>Pinia</strong> is built for TypeScript from the ground up — types are inferred automatically. This entire stack works on the principle of a constructor: you assemble logic from ready-made functions, rather than writing tons of configuration.</span>",
+        "items": {
+          "vue": {
+            "title": "Vue.js 3",
+            "description": "SPA development using Composition API, composables, reactivity, working with lifecycle hooks, custom directives"
+          },
+          "pinia": {
+            "title": "Pinia",
+            "description": "Application state management using Composition API, organization of modular stores via Setup Store syntax, TypeScript integration"
+          },
+          "typescript": {
+            "title": "TypeScript",
+            "description": "Strict typing, generics, utility types, type safety in components and stores"
+          },
+          "vite": {
+            "title": "Vite",
+            "description": "Fast project building, plugin configuration, production build optimization"
+          }
+        }
       },
-      {
-        "title": "TypeScript",
-        "description": "Strict typing, generics, utility types, type safety in components and stores"
+      "infra": {
+        "title": "Infrastructure & Tools",
+        "description": "<span><strong>Vue Router</strong> turns navigation into a declarative part of your code, and its lazy loading is your secret to instant app startup.</span><span><strong>Git</strong> is a time machine for code, and <strong>REST API</strong> is the universal language through which frontend negotiates with the world. <strong>Vue i18n</strong> makes this world understandable in any language, dynamically loading translations as part of the interface.</span>",
+        "items": {
+          "vue_router": {
+            "title": "Vue Router",
+            "description": "Navigation with lazy loading, nested routes, navigation hooks, history management"
+          },
+          "vue_i18n": {
+            "title": "Vue i18n",
+            "description": "Application localization, dynamic translation loading, pluralization"
+          },
+          "git": {
+            "title": "Git",
+            "description": "Team collaboration, feature branches, code review, conflict resolution"
+          },
+          "rest_api": {
+            "title": "REST API",
+            "description": "Development and use of custom HTTP request wrappers, error handling, caching, request lifecycle management"
+          }
+        }
       },
-      {
-        "title": "Pinia",
-        "description": "Application state management using Composition API, organization of modular stores via Setup Store syntax, TypeScript integration"
-      },
-      {
-        "title": "Vite",
-        "description": "Fast project building, plugin configuration, production build optimization"
+      "layout": {
+        "title": "Layout & Styling",
+        "description": "<span><strong>HTML5</strong> and <strong>CSS3</strong> are the skeleton and skin of the interface. <strong>Grid</strong> and <strong>Flexbox</strong> create adaptive frameworks, and HTML semantics tell browsers and assistive technologies what's truly important on the page.</span><span><strong>SCSS/SASS</strong> is CSS multiplied by logic. Variables, mixins, and nesting transform style maintenance from a chore into a programmable and scalable process.</span>",
+        "items": {
+          "html_css": {
+            "title": "HTML5/CSS3",
+            "description": "Semantic markup, responsive design, CSS Grid/Flexbox"
+          },
+          "scss": {
+            "title": "SCSS/SASS",
+            "description": "Preprocessing, mixins, modular styling, CSS Custom Properties"
+          }
+        }
       }
-    ],
-    "infra_tech_title": "Infrastructure & Tools",
-    "infra_tech_list": [
-      {
-        "title": "Vue Router",
-        "description": "Navigation with lazy loading, nested routes, navigation hooks, history management"
-      },
-      {
-        "title": "Vue i18n",
-        "description": "Application localization, dynamic translation loading, pluralization"
-      },
-      {
-        "title": "Git",
-        "description": "Team collaboration, feature branches, code review, conflict resolution"
-      },
-      {
-        "title": "REST API",
-        "description": "Development and use of custom HTTP request wrappers, error handling, caching, request lifecycle management"
-      }
-    ],
-    "layout_tech_title": "Layout & Styling",
-    "layout_tech_list": [
-      {
-        "title": "HTML5/CSS3",
-        "description": "Semantic markup, responsive design, CSS Grid/Flexbox"
-      },
-      {
-        "title": "SCSS/SASS",
-        "description": "Preprocessing, mixins, modular styling, CSS Custom Properties"
-      }
-    ]
+    }
   },
   "tech": {
     "javascript": "The foundation. Writing modern ES6+ code",
@@ -128,7 +150,6 @@
   },
   "experience": {
     "title": "Career",
-    "showAllButton": "All companies",
     "items": {
       "company-online-reservation-system": {
         "company": "Online Reservation System",
@@ -234,44 +255,39 @@
       "items": [
         {
           "icon": "flight-search",
-          "text": "Real-time flight search and booking"
+          "title": "Real-time flight search and booking",
+          "text": "Provides direct access to current airline data and fares for instant booking."
         },
         {
           "icon": "price-tag",
-          "text": "Complex business logic for fare and fee calculation"
+          "title": "Complex business logic for fare and fee calculation",
+          "text": "Automatically applies flexible pricing rules, including individual conditions for corporate clients."
         },
         {
           "icon": "checklist",
-          "text": "Multi-step booking process with data validation"
+          "title": "Multi-step booking process with data validation",
+          "text": "Intuitive step-by-step process with information verification at each stage to minimize errors."
         },
         {
           "icon": "user-management",
-          "text": "Order and passenger management system"
+          "title": "Order and passenger management system",
+          "text": "Provides passengers with a personal account for self-service booking management and online check-in."
         },
         {
           "icon": "api",
-          "text": "Integration with booking systems (GDS)"
+          "title": "Integration with booking systems (GDS)",
+          "text": "Connects to GDS, DCS, and metasearch services through flexible API for content access."
         },
         {
           "icon": "luggage",
-          "text": "Support for additional services (baggage, meals, insurance)"
+          "title": "Support for additional services (baggage, meals, insurance)",
+          "text": "Efficiently offers ancillary services during booking to increase average order value."
         },
         {
           "icon": "responsive",
-          "text": "Responsive design for all devices"
+          "title": "Responsive design for all devices",
+          "text": "Built on PWA (Vue.js) technology, ensuring equally convenient operation on any device."
         }
-      ]
-    },
-    "tech_stack": {
-      "title": "Tech stack",
-      "items": [
-        "Vue 3 with Composition API and TypeScript",
-        "Custom UI component library",
-        "Vite for fast builds and development",
-        "Pinia for application state management",
-        "Vue Router with lazy component loading",
-        "REST API with centralized error handling",
-        "Internationalization (i18n)"
       ]
     },
     "achievements": {
@@ -328,19 +344,41 @@
   },
   "pipeline": {
     "title": "REST API Pipeline System",
+    "shortTitle": "REST Pipeline",
     "subtitle": "Efficient Management of Interconnected API Call Chains",
     "description": "A powerful system for organizing sequential HTTP requests to REST API, where each subsequent call can utilize data from the previous one. Provides complete control over request chain execution with progress visualization and intelligent error handling.",
     "features": {
       "title": "Key System Capabilities",
-      "items": [
-        "Sequential execution of interconnected HTTP request chains",
-        "Automatic data transfer between pipeline stages",
-        "Detailed real-time execution progress tracking",
-        "Intelligent HTTP error handling with retry mechanisms",
-        "Conditional request execution logic based on previous results",
-        "Automatic cancellation of dependent requests on critical errors",
-        "Full type safety at all execution stages"
-      ]
+      "items": {
+        "sequential_chains": {
+          "title": "Sequential HTTP chains",
+          "description": "System organizes and executes REST API requests strictly one after another, ensuring correct execution order and control over data flow."
+        },
+        "auto_data_transfer": {
+          "title": "Auto data transfer between steps",
+          "description": "Results of each executed request (e.g., created object ID) are automatically and safely substituted into parameters of subsequent requests, eliminating manual data stitching."
+        },
+        "realtime_progress": {
+          "title": "Real-time progress tracking",
+          "description": "Interface displays visual progress bar and status of each stage, providing user with full transparency about current execution state."
+        },
+        "error_handling": {
+          "title": "Smart error handling and retries",
+          "description": "System analyzes server response codes (e.g., 5xx errors) and automatically performs request retries according to configurable rules, increasing fault tolerance."
+        },
+        "conditional_logic": {
+          "title": "Conditional execution logic",
+          "description": "Allows defining rules (e.g., if/else) that determine whether the next request will be executed, based on data obtained in previous steps."
+        },
+        "auto_cancel": {
+          "title": "Auto-cancel dependent requests",
+          "description": "When a fatal error occurs, the system automatically aborts execution of the entire subsequent chain, preventing pointless calls."
+        },
+        "type_safety": {
+          "title": "End-to-end type safety",
+          "description": "Thanks to TypeScript integration, system ensures strict type checking for input parameters and data passed between pipeline steps."
+        }
+      }
     },
     "architecture": {
       "title": "Architectural Components",
@@ -407,18 +445,37 @@
   },
   "localization": {
     "title": "Flexible Localization System with String Overrides",
+    "shortTitle": "i18n System",
     "subtitle": "Translation Customization Mechanism for Different Bundles",
     "description": "The implemented system allows overriding specific strings in locales depending on the project build bundle, providing flexibility in interface customization for different clients.",
     "features": {
       "title": "Key Features",
-      "items": [
-        "Override specific strings without duplicating entire dictionaries",
-        "Support for multiple languages with customization for each",
-        "Automatic merging of default and custom locales",
-        "Flexible configuration for different build bundles",
-        "Preservation of default values for non-overridden strings",
-        "Quick addition of new custom translations"
-      ]
+      "items": {
+        "override_strings": {
+          "title": "Override specific strings",
+          "description": "System allows selectively replacing individual translations without requiring full copying and duplication of entire dictionary for making changes."
+        },
+        "multiple_languages": {
+          "title": "Support for multiple languages",
+          "description": "For each supported language, you can define its own set of custom strings, providing unique interface localization for different regions."
+        },
+        "auto_merge": {
+          "title": "Automatic locale merging",
+          "description": "Default translations and custom overrides are automatically merged into a single dictionary during project build."
+        },
+        "bundle_customization": {
+          "title": "Bundle-specific configuration",
+          "description": "Mechanism takes into account target build bundle (e.g., client A or client B), loading corresponding set of customized translations."
+        },
+        "default_values": {
+          "title": "Preserve default values",
+          "description": "For all strings that were not explicitly overridden, system guarantees use of standard values from base dictionary."
+        },
+        "fast_addition": {
+          "title": "Quick translation addition",
+          "description": "New custom strings can be quickly added as separate files or entries, after which they are automatically picked up by the system."
+        }
+      }
     },
     "architecture": {
       "title": "Architectural Components",
@@ -476,18 +533,37 @@
   },
   "seatMap": {
     "title": "Universal Aircraft Seat Map Display System",
+    "shortTitle": "Seat Map",
     "subtitle": "Architecture with Drivers for Different Data Formats",
     "description": "The implemented system allows displaying aircraft seat maps from various booking systems through a single universal component using special drivers for data transformation.",
     "features": {
       "title": "Key Features",
-      "items": [
-        "Support for multiple data formats from different systems",
-        "Universal seat map display component",
-        "Driver system for data transformation",
-        "Flexible configuration for new clients",
-        "Isolated display business logic",
-        "Quick connection of new data sources"
-      ]
+      "items": {
+        "multiple_formats": {
+          "title": "Support for multiple formats",
+          "description": "System is capable of working with seat map source data from various booking systems, each having its own unique format."
+        },
+        "universal_component": {
+          "title": "Universal display component",
+          "description": "User interface consists of a single Vue component that visualizes seat map regardless of source or input data format."
+        },
+        "driver_system": {
+          "title": "Driver system for data",
+          "description": "Special adapters (drivers) are used to transform specific data from each provider into unified internal format."
+        },
+        "flexible_setup": {
+          "title": "Flexible client configuration",
+          "description": "Adding support for new client or booking system requires only creating corresponding driver, without changing system core."
+        },
+        "isolated_logic": {
+          "title": "Isolated business logic",
+          "description": "All complex validation, display, and seat map interaction logic is encapsulated in universal component and does not depend on drivers."
+        },
+        "quick_connection": {
+          "title": "Quick source connection",
+          "description": "To integrate new data source, it's sufficient to implement driver according to ready interface, after which it immediately becomes available for use."
+        }
+      }
     },
     "architecture": {
       "title": "Architectural Components",
@@ -545,19 +621,41 @@
   },
   "multisync": {
     "title": "Unified Synchronization System for Distributed Vue.js Applications",
+    "shortTitle": "App Sync",
     "subtitle": "State synchronization architecture between independent applications with optional encryption",
     "description": "System for creating and managing multiple independent Vue applications within a single repository with automatic state synchronization between them. Implements cross-tab synchronization mechanism and communication between applications through a unified storage with encryption support and flexible configuration.",
     "features": {
       "title": "Key System Capabilities",
-      "items": [
-        "Unified architecture for multiple independent Vue applications in one repository",
-        "Automatic cross-tab synchronization and state coordination between applications via localStorage",
-        "Multi-layered store architecture with clear responsibility separation (Pinia + custom stores)",
-        "Optional storage data encryption using AES-GCM",
-        "Mechanism for preventing cyclic updates and data races",
-        "Flexible synchronization management (enable/disable on the fly)",
-        "Detailed logging and debugging of all synchronization stages"
-      ]
+      "items": {
+        "single_architecture": {
+          "title": "Unified architecture for Vue apps",
+          "description": "System allows developing and managing multiple independent Vue.js applications within a single monorepo with shared dependencies."
+        },
+        "cross_tab_sync": {
+          "title": "Automatic cross-tab synchronization",
+          "description": "Application states are automatically synchronized between browser tabs through single source of truth in localStorage."
+        },
+        "multi_level_stores": {
+          "title": "Multi-layered store system",
+          "description": "Architecture uses combination of Pinia for local state and custom stores for synchronized data with clear separation of responsibilities."
+        },
+        "optional_encryption": {
+          "title": "Optional data encryption",
+          "description": "Critical storage data can be protected using AES-GCM algorithm to ensure confidentiality."
+        },
+        "cycle_prevention": {
+          "title": "Prevent cyclic updates",
+          "description": "Built-in mechanism tracks and blocks cyclic state updates, preventing data races and infinite loops."
+        },
+        "flexible_management": {
+          "title": "Flexible sync management",
+          "description": "Synchronization can be dynamically enabled or disabled for individual applications or state modules without reloading."
+        },
+        "detailed_logging": {
+          "title": "Detailed logging and debugging",
+          "description": "All synchronization stages (changes, sending, conflicts) are logged for convenient debugging and monitoring of system operation."
+        }
+      }
     },
     "architecture": {
       "title": "Architectural Components",
@@ -678,17 +776,33 @@
   },
   "uiComponents": {
     "title": "UI Components Development",
+    "shortTitle": "UI Components",
     "subtitle": "UI Components Architect",
     "description": "Designed and implemented a UI component library for a large web application with focus on accessibility, performance and developer experience.",
     "features": {
       "title": "Key Components",
-      "items": [
-        "Input fields and selectors - Components with full interaction cycle: validation, input masks, custom placeholders, error and loading states",
-        "Smart autocomplete - Complex keyboard logic, virtual scrolling, mobile device adaptation and T9 input support",
-        "Modal windows and tooltips - Universal overlay components with swipe gesture support, scroll locking and focus management",
-        "Calendar and date picker - Flexible component for date and period selection with custom range highlighting logic and visual states",
-        "Tables and tabs - High-performance tables with virtualization and adaptive tabs with programmatic navigation API"
-      ]
+      "items": {
+        "input_fields": {
+          "title": "Input fields and selectors",
+          "description": "Components implement full interaction cycle including validation, input masks, custom placeholders, as well as visual states for errors and loading."
+        },
+        "smart_autocomplete": {
+          "title": "Smart autocomplete",
+          "description": "Component features complex keyboard handling logic, virtual scrolling, optimized for mobile devices and supports convenient T9 input."
+        },
+        "modals_tooltips": {
+          "title": "Modal windows and tooltips",
+          "description": "Universal overlay components with swipe gesture support, automatic background scroll blocking, and proper focus management for accessibility."
+        },
+        "calendar_dates": {
+          "title": "Calendar and date picker",
+          "description": "Flexible component for selecting single dates and periods with ability to define custom range highlighting logic and configurable visual states."
+        },
+        "tables_tabs": {
+          "title": "Tables and tabs",
+          "description": "Library includes high-performance tables with row virtualization and adaptive tab components equipped with programmatic API for navigation control."
+        }
+      }
     },
     "architecture": {
       "title": "Architectural Components",
@@ -752,9 +866,9 @@
   "contacts": {
     "title": "Contacts",
     "subtitle": "Get in touch with me in a convenient way",
-    "emails": {
+    "email": {
       "label": "E-mail",
-      "values": ["macrulezru@gmail.com", "macrulezru@yandex.ru"]
+      "value": "danil__PH:AT__macrulez.ru"
     },
     "telegram": {
       "label": "Telegram",
@@ -766,6 +880,10 @@
     },
     "ya-messenger": {
       "label": "Yandex Messenger",
+      "value": "macrulezru"
+    },
+    "github": {
+      "label": "GitHub",
       "value": "macrulezru"
     }
   },
@@ -896,7 +1014,7 @@
     }
   },
   "design": {
-    "title": "Design Foundation: From Visual Communication to Code",
+    "title": "Design Foundation — From Visual Communication to Code",
     "description": "A fundamental understanding of composition, typography, and color theory, acquired through graphic design, forms the basis for creating logical, aesthetic, and effective digital interfaces.",
     "showAll": "View all pictures",
     "loadingImages": "Loading images"
@@ -914,7 +1032,6 @@
     "reset": "Reset",
     "unsavedChanges": "You have unsaved changes"
   },
-  "location": "Work Location",
   "rest-api": {
     "metricsCallout": {
       "title": "Open the metrics panel",

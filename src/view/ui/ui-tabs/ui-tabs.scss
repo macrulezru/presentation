@@ -13,21 +13,24 @@
     display: flex;
     margin-bottom: 32px;
     overflow: hidden;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-7);
+    background-color: var(--color-background);
 
     &-item {
       padding: 14px 30px;
-      border-right: solid 1px var(--color-border);
-      background-color: var(--color-bg-primary);
-      font-size: 16px;
-      font-weight: 700;
+      border-right: 1px solid var(--color-7);
+      background-color: var(--color-dark);
+      color: var(--color-light);
       text-align: center;
       cursor: pointer;
       transition:
         background-color var(--transition-fast),
-        color var(--transition-fast);
+        color var(--transition-fast),
+        border-color var(--transition-fast);
 
       &:not(&_active):hover {
-        background-color: #e8eef3;
+        background-color: var(--color-7);
       }
 
       &:first-child {
@@ -40,9 +43,7 @@
       }
 
       &_active {
-        border-right-color: transparent;
-        background-color: var(--color-secondary);
-        color: var(--color-text-light);
+        background-color: var(--color-1);
         pointer-events: none;
       }
     }
@@ -55,12 +56,13 @@
   @include media-tablet {
     &__navbar-item {
       font-size: 14px;
+      padding: 12px 20px;
     }
   }
 
   @include media-mobile {
     &__navbar-item {
-      padding: 14px 10px;
+      padding: 10px 8px;
       font-size: 12px;
     }
   }

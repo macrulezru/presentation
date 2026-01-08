@@ -12,26 +12,26 @@
 
 <template>
   <div class="request-info-column">
-    <h3 class="request-info-column__title">{{ t('rest-api.requestInformation') }}</h3>
+    <div class="request-info-column__title">{{ t('rest-api.requestInformation') }}</div>
     <div class="request-info-column__card">
       <div class="request-info-column__item">
-        <strong>{{ t('rest-api.baseUrl') }}</strong>
+        {{ t('rest-api.baseUrl') }}
         <code>{{ apiInfo.baseUrl }}</code>
       </div>
       <div class="request-info-column__item">
-        <strong>{{ t('rest-api.endpoint') }}</strong>
+        {{ t('rest-api.endpoint') }}
         <code>{{ apiInfo.endpoint }}</code>
       </div>
       <div class="request-info-column__item">
-        <strong>{{ t('rest-api.method') }}</strong>
+        {{ t('rest-api.method') }}
         <code>{{ apiInfo.method }}</code>
       </div>
       <div class="request-info-column__item">
-        <strong>{{ t('rest-api.fullUrl') }}</strong>
+        {{ t('rest-api.fullUrl') }}
         <code>{{ apiInfo.fullUrl }}</code>
       </div>
       <div class="request-info-column__item">
-        <strong>{{ t('rest-api.status') }}</strong>
+        {{ t('rest-api.status') }}
         <span
           :class="{
             'request-info-column__status request-info-column__status_loading': loading,

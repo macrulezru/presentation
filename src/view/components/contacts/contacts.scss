@@ -1,62 +1,73 @@
 .contacts {
-  padding: var(--spacing-3xl) 0 5rem;
-  background: var(--color-bg-secondary);
-  border-top: 1px solid var(--color-border-light);
+  padding: 100px 0;
+  background: var(--color-7);
 
   &__container {
     @include container-lg;
   }
 
   &__header {
-    text-align: center;
-    margin-bottom: var(--spacing-3xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 80px;
+
+    &-title {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
   }
 
   &__title {
-    font-family: 'Roboto Condensed', sans-serif;
-    font-size: var(--font-size-6xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-md);
+    @include big-title;
   }
 
   &__subtitle {
-    font-size: var(--font-size-xl);
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-lg);
-    font-weight: var(--font-weight-medium);
+    @include medium-title;
   }
 
   &__avatar {
     margin: 0 auto;
-    width: 200px;
-    height: 200px;
+    width: 260px;
+    height: 260px;
     border-radius: 50%;
     overflow: hidden;
-    border: solid 3px #b404e3;
     position: relative;
+    background-color: var(--color-4);
     background-image: url('@/view/assets/images/me.png');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
   }
 
-  &__content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-md);
-  }
-
-  &__list-section {
+  &__section-wrapper {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-lg);
+    justify-content: center;
+    align-items: center;
+    gap: 75px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 75px;
   }
 
   &__list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-md);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+
+    &-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   &__item {
@@ -64,19 +75,8 @@
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-md);
-    padding: var(--spacing-lg);
-    background: var(--color-bg-primary);
-    border-radius: var(--radius-lg);
     text-decoration: none;
-    color: inherit;
-    transition: all var(--transition-normal);
-    border: 1px solid var(--color-border);
     position: relative;
-
-    &:hover {
-      transform: translateY(-2px);
-      border-color: var(--color-secondary);
-    }
 
     &_git {
       grid-column: 1 / span 2;
@@ -85,24 +85,29 @@
     &-icon {
       width: var(--icon-size-xl);
       height: var(--icon-size-xl);
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center center;
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center center;
+      background-color: var(--color-1);
 
-      &_mail {
-        background-image: url('@/view/assets/images/mail-icon.svg');
+      &_email {
+        mask-image: url('@/view/assets/images/mail-icon.svg');
       }
 
       &_telegram {
-        background-image: url('@/view/assets/images/telegram-icon.svg');
+        mask-image: url('@/view/assets/images/telegram-icon.svg');
       }
 
       &_phone {
-        background-image: url('@/view/assets/images/phone-icon.svg');
+        mask-image: url('@/view/assets/images/phone-icon.svg');
       }
 
       &_ya-messenger {
-        background-image: url('@/view/assets/images/ya-messenger-icon.svg');
+        mask-image: url('@/view/assets/images/ya-messenger-icon.svg');
+      }
+
+      &_github {
+        mask-image: url('@/view/assets/images/github-logo.svg');
       }
     }
 
@@ -113,62 +118,25 @@
       flex-direction: column;
       gap: var(--spacing-xs);
     }
-
-    &-label {
-      font-size: var(--font-size-sm);
-      color: var(--color-text-muted);
-      font-weight: var(--font-weight-medium);
-    }
-
-    &-value {
-      font-size: var(--font-size-xl);
-      color: var(--color-text-primary);
-      font-weight: var(--font-weight-semibold);
-      line-height: 1.4;
-    }
-  }
-
-  &__item-emails {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  &__email-link {
-    font-size: var(--font-size-xl);
-    color: var(--color-text-primary);
-    font-weight: var(--font-weight-semibold);
-    line-height: 1.4;
-    text-decoration: none;
-    transition: color var(--transition-normal);
-    padding: 0.25rem 0;
-
-    &:hover {
-      color: var(--color-secondary);
-    }
   }
 
   &__form-section {
     display: flex;
     flex-direction: column;
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
+    width: 100%;
+    max-width: 600px;
+    gap: 40px;
     border-radius: var(--radius-xl);
     padding: var(--spacing-xl);
+    background-color: var(--color-dark);
   }
 
   &__form-title {
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-sm);
-    padding-bottom: var(--spacing-sm);
+    @include medium-title;
   }
 
   &__form-description {
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-xl);
-    line-height: 1.6;
+    @include medium-text;
   }
 
   &__form {
@@ -201,21 +169,12 @@
     }
   }
 
-  .form-label {
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-primary);
-  }
-
   .form-input,
   .form-textarea {
     padding: var(--spacing-md);
-    border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    font-size: var(--font-size-base);
-    font-family: inherit;
     transition: all var(--transition-normal);
-    background: var(--color-bg-primary);
+    background: var(--color-7);
     width: 100%;
     box-sizing: border-box;
 
@@ -241,7 +200,6 @@
     border: 1px solid var(--color-accent-red);
     border-radius: var(--radius-md);
     color: var(--color-accent-red);
-    font-size: var(--font-size-base);
   }
 
   .form-success {
@@ -250,7 +208,6 @@
     border: 1px solid var(--color-accent-green);
     border-radius: var(--radius-md);
     color: var(--color-accent-green);
-    font-size: var(--font-size-base);
   }
 
   .form-actions {
@@ -286,101 +243,6 @@
   @keyframes form-spinner {
     to {
       transform: rotate(360deg);
-    }
-  }
-
-  &__github-icon {
-    display: block;
-    width: 80px;
-    height: 80px;
-    background-image: url('@/view/assets/images/github-logo.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  @include media-tablet {
-    padding: var(--spacing-xl) 0;
-
-    &__container {
-      padding: 0 var(--spacing-lg);
-    }
-
-    &__title {
-      font-size: var(--font-size-4xl);
-    }
-
-    &__subtitle {
-      font-size: var(--font-size-lg);
-    }
-
-    &__content {
-      grid-template-columns: 1fr;
-      gap: var(--spacing-xl);
-    }
-
-    &__item_git {
-      grid-column: 1;
-    }
-
-    &__list {
-      grid-template-columns: 1fr;
-    }
-
-    &__item {
-      padding: var(--spacing-md);
-    }
-
-    &__form-section {
-      padding: var(--spacing-md);
-      height: auto;
-    }
-
-    &__form {
-      flex: none;
-    }
-
-    .form-group--message {
-      .form-textarea {
-        min-height: 200px;
-      }
-    }
-
-    .form-actions {
-      flex-direction: column;
-
-      .ui-button {
-        width: 100%;
-      }
-    }
-  }
-
-  @include media-mobile {
-    &__container {
-      padding: 0 var(--spacing-md);
-    }
-
-    &__title {
-      font-size: 1.75rem;
-    }
-
-    &__item {
-      gap: var(--spacing-md);
-
-      &-icon {
-        width: var(--icon-size-md);
-        height: var(--icon-size-md);
-      }
-    }
-
-    &__item-value,
-    &__email-link {
-      font-size: var(--font-size-lg);
-    }
-
-    .form-group--message {
-      .form-textarea {
-        min-height: 180px;
-      }
     }
   }
 }

@@ -1,5 +1,37 @@
+@use './media.scss' as *;
+
 @mixin container-lg {
-  max-width: var(--container-lg);
+  max-width: 1490px;
   margin: 0 auto;
-  padding: 0 var(--spacing-md);
+  padding: 0 clamp(20px, 4vw, 50px);
+}
+
+@mixin grid-1-cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(35px, 6vw, 75px);
+}
+
+@mixin grid-2-cols {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(35px, 6vw, 75px);
+
+  @include media-mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+@mixin grid-3-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(40px, 6vw, 75px);
+
+  @include media-tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include media-mobile {
+    grid-template-columns: 1fr !important;
+  }
 }

@@ -21,7 +21,7 @@
 
 <template>
   <div class="raw-response-column">
-    <h3 class="raw-response-column__title">{{ t('rest-api.rawResponseTitle') }}</h3>
+    <div class="raw-response-column__title">{{ t('rest-api.rawResponseTitle') }}</div>
     <div class="raw-response-column__card">
       <div v-if="loading" class="raw-response-column__loading-container">
         <div class="raw-response-column__spinner"></div>

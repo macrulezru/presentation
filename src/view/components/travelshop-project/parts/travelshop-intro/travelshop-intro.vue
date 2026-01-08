@@ -217,9 +217,9 @@
             :key="category"
             class="travelshop-intro__controls-category"
           >
-            <h4 class="travelshop-intro__controls-category-title">
+            <div class="travelshop-intro__controls-category-title">
               {{ t(`tshIntro.categories.${category}`) }}
-            </h4>
+            </div>
 
             <div
               v-for="param in params"

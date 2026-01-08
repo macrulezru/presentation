@@ -47,7 +47,7 @@ export function useSectionDrag(
         item.style.transform = '';
         item.style.transition = '';
         item.style.visibility = '';
-        item.classList.remove('section-editor-item--dragging-original');
+        item.classList.remove('section-editor-item_dragging-original');
       }
     });
   };

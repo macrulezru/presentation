@@ -20,10 +20,15 @@ import {
   DETAIL_TEXT_SIDE_PADDING_RATIO,
   ENABLE_TECH_DEBUG,
   UI_RASTER_SCALE,
+  TECH_CIRCLE_FILL_COLOR,
+  TECH_CIRCLE_STROKE_COLOR,
+  TECH_CIRCLE_TEXT_COLOR,
 } from './constants';
 import { iconPaths } from './icon-imports';
 
 import type { TechItem } from './types';
+
+// Растеризация круглой подложки для детального элемента
 
 // Lightweight gated logger for use-tech composable
 export const techDebug = (...args: unknown[]) => {
@@ -65,7 +70,7 @@ export function createFallbackImage(iconName: string): HTMLImageElement {
   if (ctx) {
     ctx.fillStyle = '#f0f0f0';
     ctx.fillRect(0, 0, 64, 64);
-    ctx.fillStyle = '#666';
+    ctx.fillStyle = TECH_CIRCLE_TEXT_COLOR;
     ctx.font = '12px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -360,111 +365,6 @@ const circleBackgroundCache = new Map<string, HTMLCanvasElement>();
 // Кэш растрированных кнопок закрытия
 const closeButtonCache = new Map<string, HTMLCanvasElement>();
 
-// Кэш растрированных заголовков сцены
-const sceneTitleCache = new Map<string, HTMLCanvasElement>();
-
-// Растеризация заголовка сцены
-export function rasterizeSceneTitle(
-  text: string,
-  fontSize: number,
-  fontWeight: string,
-  fontFamily: string,
-  maxWidth: number | undefined,
-  gradient: ReadonlyArray<{ offset: number; color: string }> | undefined,
-  fallbackColor: string,
-): HTMLCanvasElement {
-  // Получаем devicePixelRatio для качественного рендеринга
-  const dpr = window.devicePixelRatio || 1;
-
-  // Дополнительный scale factor для supersampling (как с иконками)
-  const supersampleScale = 2;
-  const totalScale = dpr * supersampleScale;
-
-  // Формируем ключ кеша с учётом всех параметров, DPR и supersampling
-  const cacheKey = `title-${text}-${fontSize}-${maxWidth ?? 'full'}-${fontWeight}-${gradient ? 'grad' : 'solid'}-dpr${dpr}-ss${supersampleScale}`;
-
-  // Проверяем кэш
-  if (sceneTitleCache.has(cacheKey)) {
-    return sceneTitleCache.get(cacheKey)!;
-  }
-
-  // Создаем временный контекст для измерения (без масштабирования)
-  const tempCanvas = document.createElement('canvas');
-  const tempCtx = tempCanvas.getContext('2d');
-  if (!tempCtx) return tempCanvas;
-
-  tempCtx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
-  tempCtx.textAlign = 'center';
-  tempCtx.textBaseline = 'middle';
-
-  // Разбиваем текст на строки
-  const lineHeight = Math.round(fontSize * 1.2);
-  const lines = maxWidth ? wrapText(tempCtx, text, maxWidth, 3) : [text];
-  const blockHeight = lines.length * lineHeight;
-
-  // Измеряем максимальную ширину строк
-  let maxLineWidth = 0;
-  lines.forEach(line => {
-    const { width } = tempCtx.measureText(line);
-    if (width > maxLineWidth) maxLineWidth = width;
-  });
-
-  // Создаем canvas с запасом для градиента и сглаживания
-  const padding = 4;
-  const logicalWidth = Math.ceil(maxLineWidth) + padding * 2;
-  const logicalHeight = Math.ceil(blockHeight) + padding * 2;
-
-  // Создаём canvas с увеличенным разрешением (DPR + supersampling)
-  const canvas = document.createElement('canvas');
-  canvas.width = logicalWidth * totalScale;
-  canvas.height = logicalHeight * totalScale;
-  // CSS размеры остаются логическими
-  canvas.style.width = `${logicalWidth}px`;
-  canvas.style.height = `${logicalHeight}px`;
-
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return canvas;
-
-  // Масштабируем контекст для учёта DPR и supersampling
-  ctx.setTransform(totalScale, 0, 0, totalScale, 0, 0);
-
-  // Настройка текста с масштабированными параметрами
-  ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-
-  const centerX = logicalWidth / 2;
-  const blockCenterY = logicalHeight / 2;
-  const blockTopY = blockCenterY - blockHeight / 2;
-  const blockBottomY = blockCenterY + blockHeight / 2;
-
-  // Применяем градиент или сплошной цвет
-  if (gradient && gradient.length > 0) {
-    const grad = ctx.createLinearGradient(centerX, blockTopY, centerX, blockBottomY);
-    gradient.forEach(stop => grad.addColorStop(stop.offset, stop.color));
-    ctx.fillStyle = grad;
-  } else {
-    ctx.fillStyle = fallbackColor;
-  }
-
-  // Рисуем все строки
-  lines.forEach((line, i) => {
-    const offsetFromCenter = (i - (lines.length - 1) / 2) * lineHeight;
-    const lineY = blockCenterY + offsetFromCenter;
-    ctx.fillText(line, centerX, lineY);
-  });
-
-  // Сохраняем в кэш
-  sceneTitleCache.set(cacheKey, canvas);
-
-  return canvas;
-}
-
-// Очистка кэша заголовков (вызывать при смене локали или значительном изменении размера)
-export function clearSceneTitleCache(): void {
-  sceneTitleCache.clear();
-}
-
 // Растеризация кнопки закрытия
 export function rasterizeCloseButton(
   buttonSize: number,
@@ -548,7 +448,6 @@ export function clearCloseButtonCache(): void {
   closeButtonCache.clear();
 }
 
-// Растеризация круглой подложки для детального элемента
 export function rasterizeCircleBackground(diameter: number): HTMLCanvasElement {
   const cacheKey = `circle-${diameter}`;
 
@@ -579,7 +478,7 @@ export function rasterizeCircleBackground(diameter: number): HTMLCanvasElement {
   ctx.shadowOffsetY = 3 * UI_RASTER_SCALE;
 
   // Рисуем круг с белым фоном
-  ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+  ctx.fillStyle = TECH_CIRCLE_FILL_COLOR;
   ctx.beginPath();
   ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
   ctx.fill();
@@ -593,7 +492,7 @@ export function rasterizeCircleBackground(diameter: number): HTMLCanvasElement {
   ctx.beginPath();
   ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
   ctx.lineWidth = 2 * UI_RASTER_SCALE; // Масштабируем толщину обводки
-  ctx.strokeStyle = 'rgba(229, 57, 53, 1)'; // Красный цвет
+  ctx.strokeStyle = TECH_CIRCLE_STROKE_COLOR; // Красный цвет
   ctx.stroke();
 
   // Сохраняем в кэш

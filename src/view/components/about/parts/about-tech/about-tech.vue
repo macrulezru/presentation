@@ -1,15 +1,36 @@
 <!-- @/view/components/about-tech.vue -->
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import '@/view/components/about/parts/about-tech/about-tech.scss';
 
-  import { useTechAnimation } from '@/view/composables/use-tech/';
+  import { ref, onMounted, watch } from 'vue';
+
+  import { useResponsive } from '@/view/composables/use-responsive';
+  import { useTechAnimation, setCanvasMaxWidth } from '@/view/composables/use-tech/';
 
   const containerRef = ref<HTMLElement>();
 
-  // Используем Canvas анимацию
-  // Композиция сама подключает useResponsive и useI18n, автоматически переключает режим траектории
+  const { isDesktop, isTablet, isMobile } = useResponsive();
   const { canvasRef, isLoading } = useTechAnimation({
     containerRef,
+  });
+
+  watch([isDesktop, isTablet, isMobile], () => {
+    // При изменении размера экрана можно обновить максимальную ширину canvas
+    setupCanvasWidth();
+  });
+
+  const setupCanvasWidth = () => {
+    if (isDesktop.value) {
+      setCanvasMaxWidth(1000);
+    } else if (isTablet.value) {
+      setCanvasMaxWidth(500);
+    } else if (isMobile.value) {
+      setCanvasMaxWidth(400);
+    }
+  };
+
+  onMounted(() => {
+    setupCanvasWidth();
   });
 </script>
 

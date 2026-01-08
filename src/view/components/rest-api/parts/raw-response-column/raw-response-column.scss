@@ -6,14 +6,13 @@
   &__title {
     margin-top: 0;
     margin-bottom: var(--spacing-md);
-    color: var(--color-text-primary);
-    font-size: var(--font-size-md);
+    color: var(--api-text-secondary);
     flex-shrink: 0;
   }
 
   &__card {
-    background-color: var(--color-bg-card);
-    border: 1px solid var(--color-border);
+    background-color: var(--api-card-bg);
+    border: 1px solid var(--api-border);
     border-radius: var(--radius-md);
     padding: var(--spacing-md);
     display: flex;
@@ -22,6 +21,29 @@
     overflow: hidden;
     max-height: var(--response-card-max-height);
     min-height: var(--response-card-min-height);
+
+    // Custom scrollbar
+    scrollbar-width: thin;
+    scrollbar-color: var(--api-scrollbar-thumb) var(--api-scrollbar-track);
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--api-scrollbar-track);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--api-scrollbar-thumb);
+      border-radius: 3px;
+
+      &:hover {
+        background: var(--api-scrollbar-thumb-hover);
+      }
+    }
   }
 
   &__loading-container {
@@ -31,17 +53,17 @@
     justify-content: center;
     flex: 1;
     padding: var(--spacing-xl);
-    color: var(--color-text-muted);
+    color: var(--api-text-muted);
     overflow: auto;
     min-height: 0;
   }
 
   &__spinner {
-    width: var(--icon-size-lg);
-    height: var(--icon-size-lg);
-    border: 3px solid var(--color-border-light);
-    border-top: 3px solid var(--color-secondary);
-    border-radius: var(--radius-full);
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--api-border);
+    border-top: 3px solid var(--color-6);
+    border-radius: 50%;
     animation: raw-response-column-spin 1s linear infinite;
     margin-bottom: var(--spacing-md);
     flex-shrink: 0;
@@ -52,69 +74,40 @@
     font-size: var(--font-size-sm);
   }
 
-  &__json-output {
+  &__error-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: auto;
+    min-height: 0;
+  }
+
+  &__error-content {
     margin: 0;
-    font-family: 'Courier New', monospace;
+    font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
     font-size: var(--font-size-sm);
     line-height: 1.4;
     white-space: pre-wrap;
-    background-color: var(--color-bg-secondary);
+    color: var(--api-accent-error);
+    word-break: break-all;
+    overflow-wrap: break-word;
+  }
+
+  &__json-output {
+    margin: 0;
+    font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+    white-space: pre-wrap;
+    color: var(--api-text);
     padding: var(--spacing-md);
     border-radius: var(--radius-sm);
     overflow: auto;
     flex: 1;
     min-height: 0;
     height: 100%;
-
-    /* Стили для обрезки длинных строк */
-    word-break: break-all; /* Разрыв длинных слов без пробелов */
-    overflow-wrap: break-word; /* Современный аналог word-wrap */
-
-    /* Для обрезки строк с многоточием (если нужно) */
-    &::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: var(--color-bg-tertiary);
-      border-radius: var(--radius-sm);
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: var(--color-border-muted);
-      border-radius: var(--radius-sm);
-
-      &:hover {
-        background: var(--color-text-muted);
-      }
-    }
-  }
-
-  /* Стили для отдельных строк внутри pre */
-  &__json-line {
-    display: block;
-    width: 100%;
-
-    /* Обрезка длинных строк с многоточием */
-    &.long-line {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      max-width: 100%;
-
-      &:hover {
-        overflow: visible;
-        white-space: normal;
-        word-break: break-all;
-        position: relative;
-        z-index: 1;
-        background-color: var(--color-bg-secondary);
-        box-shadow: var(--shadow-sm);
-        padding: var(--spacing-xs);
-        border-radius: var(--radius-sm);
-      }
-    }
+    word-break: break-all;
+    overflow-wrap: break-word;
   }
 
   &__empty-state {
@@ -122,48 +115,13 @@
     align-items: center;
     justify-content: center;
     flex: 1;
-    padding: var(--spacing-xl);
-    text-align: center;
-    color: var(--color-text-muted);
-    font-style: italic;
-    overflow: auto;
     min-height: 0;
   }
 
   &__empty-text {
     margin: 0;
+    color: var(--api-text-muted);
     font-size: var(--font-size-sm);
-  }
-
-  &__error-container {
-    background-color: var(--color-error-bg);
-    color: var(--color-error-text);
-    padding: var(--spacing-md);
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--color-error-border);
-    flex: 1;
-    min-height: 0;
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__error-content {
-    margin: 0;
-    white-space: pre-wrap;
-    font-size: var(--font-size-sm);
-    line-height: 1.4;
-    overflow: auto;
-  }
-
-  @keyframes raw-response-column-spin {
-    0% {
-      transform: rotate(0deg);
-    }
-
-    100% {
-      transform: rotate(360deg);
-    }
   }
 
   @media (width <= 768px) {
@@ -180,5 +138,11 @@
     &__card {
       max-height: var(--response-card-max-height-mobile);
     }
+  }
+}
+
+@keyframes raw-response-column-spin {
+  to {
+    transform: rotate(360deg);
   }
 }

@@ -20,11 +20,11 @@ export function useDragClone(
     const clone = element.cloneNode(true) as HTMLElement;
 
     // Настраиваем стили клона
-    clone.classList.add('section-editor-item--dragging-clone');
+    clone.classList.add('section-editor-item_dragging-clone');
     clone.classList.remove(
-      'section-editor-item--fixed',
-      'section-editor-item--placeholder',
-      'section-editor-item--dragging',
+      'section-editor-item_fixed',
+      'section-editor-item_placeholder',
+      'section-editor-item_dragging',
     );
 
     Object.assign(clone.style, {
@@ -54,7 +54,7 @@ export function useDragClone(
 
     const elementRect = element.getBoundingClientRect();
 
-    element.classList.add('section-editor-item--dragging-original');
+    element.classList.add('section-editor-item_dragging-original');
     element.style.visibility = 'hidden';
     element.style.opacity = '0';
 

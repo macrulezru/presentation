@@ -1,21 +1,19 @@
 .section-editor-item {
   --icon-drag-handle: url('@/view/assets/images/icon-drag-handle.svg');
-  --primary-color: var(--color-secondary-hover);
-  --success-color: var(--color-accent-green);
-  --danger-color: var(--color-accent-red);
-  --warning-color: var(--color-accent-orange);
-  --gray-light: var(--color-bg-dark);
-  --gray-border: var(--color-primary);
-  --gray-text: var(--color-text-muted);
-  --text-color: var(--color-text-light);
-  --white: var(--color-bg-dark);
-  --transition: var(--transition-normal);
+  --primary-color: var(--color-1);
+  --accent-color: var(--color-2);
+  --success-color: var(--color-6);
+  --danger-color: var(--color-5);
+  --text-light: var(--color-light);
+  --text-dark: var(--color-8);
+  --bg-light: var(--color-dark);
+  --border-color: var(--color-8);
 
-  background: var(--white);
-  border: 2px solid #355575;
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg) var(--spacing-xl);
-  transition: var(--transition);
+  background: var(--bg-light);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
   position: relative;
   will-change: transform, opacity, border-color;
@@ -23,18 +21,15 @@
 
   &:hover {
     border-color: var(--primary-color);
-    box-shadow: var(--shadow-blue);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
   }
 
-  &--fixed {
-    background: rgb(77 171 247 / 10%);
-    border-color: var(--primary-color);
+  &_fixed {
+    border-color: var(--color-7);
     cursor: default;
 
     &:hover {
-      border-color: var(--primary-color);
-      box-shadow: none;
+      border-color: var(--color-7);
       transform: none;
     }
 
@@ -44,9 +39,9 @@
     }
   }
 
-  &--placeholder {
+  &_placeholder {
     border: 2px dashed var(--primary-color);
-    background: rgb(77 171 247 / 5%);
+    background: rgb(217 65 176 / 5%);
     animation: pulsePlaceholder 1.5s ease-in-out infinite;
 
     .section-editor-item__content {
@@ -58,36 +53,36 @@
       position: absolute;
       inset: -2px;
       border-radius: var(--radius-lg);
-      background: linear-gradient(45deg, transparent, rgb(77 171 247 / 10%), transparent);
+      background: linear-gradient(45deg, transparent, rgb(217 65 176 / 10%), transparent);
       background-size: 200% 200%;
       animation: gradientFlow 2s ease infinite;
     }
   }
 
-  &--dragging {
+  &_dragging {
     opacity: 0.4;
     transform: scale(0.95);
     cursor: grabbing;
     pointer-events: none;
   }
 
-  &--dragging-original {
+  &_dragging-original {
     visibility: hidden;
     opacity: 0 !important;
     pointer-events: none;
   }
 
-  &--dragging-clone {
+  &_dragging-clone {
     position: fixed;
-    z-index: var(--z-tooltip);
+    z-index: 9998;
     pointer-events: none;
     opacity: 0.95;
     cursor: grabbing;
-    background: var(--white);
-    border: 2px dashed #fff;
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg) var(--spacing-xl);
-    box-shadow: var(--shadow-lg);
+    background: var(--bg-light);
+    border: 2px dashed var(--text-light);
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: 0 12px 48px rgb(0 0 0 / 50%);
     transition:
       transform 0.2s ease,
       box-shadow 0.2s ease;
@@ -95,8 +90,7 @@
     transform-origin: center center;
 
     .section-editor-item__name {
-      color: #fff;
-      font-weight: var(--font-weight-medium);
+      color: var(--text-light);
     }
 
     .section-editor-item__badge {
@@ -116,8 +110,8 @@
       color: rgb(255 255 255 / 60%);
       cursor: grab;
       user-select: none;
-      transition: var(--transition);
-      border-radius: var(--radius-full);
+      transition: all 0.3s ease;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -153,8 +147,8 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgb(77 171 247 / 8%) 0%, rgb(77 171 247 / 4%) 100%);
-      border-radius: 10px;
+      background: linear-gradient(135deg, rgb(217 65 176 / 0.08%) 0%, rgb(217 65 176 / 0.04%) 100%);
+      border-radius: 12px;
       z-index: -1;
     }
   }
@@ -177,9 +171,9 @@
   }
 
   &__name {
-    font-size: var(--font-size-md);
-    font-weight: var(--font-weight-medium);
-    color: var(--text-color);
+    @include regular-text;
+
+    color: var(--text-light);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -187,12 +181,12 @@
   }
 
   &__badge {
-    font-size: var(--font-size-xs);
-    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 11px;
+    padding: 4px 8px;
     background: var(--danger-color);
-    color: var(--white);
-    border-radius: var(--radius-pill);
-    font-weight: var(--font-weight-semibold);
+    color: var(--text-light);
+    border-radius: 20px;
+    font-weight: 600;
     letter-spacing: 0.3px;
     text-transform: uppercase;
     flex-shrink: 0;
@@ -203,26 +197,26 @@
     align-items: center;
     gap: 6px;
     flex-shrink: 0;
-    margin-left: var(--spacing-md);
+    margin-left: 12px;
   }
 
   &__button {
-    width: var(--icon-size-md);
-    height: var(--icon-size-md);
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--white);
-    border: 1px solid var(--gray-border);
-    border-radius: var(--radius-md);
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     cursor: pointer;
-    transition: var(--transition);
-    color: var(--gray-text);
+    transition: all 0.3s ease;
+    color: var(--text-dark);
     padding: 0;
 
     &:hover:not(:disabled) {
-      background: var(--gray-light);
-      border-color: var(--gray-border);
+      background: rgb(217 65 176 / 10%);
+      border-color: var(--primary-color);
       color: var(--primary-color);
       transform: translateY(-1px);
     }
@@ -234,46 +228,46 @@
     &:disabled {
       opacity: 0.4;
       cursor: not-allowed;
-      color: var(--gray-border);
+      color: var(--border-color);
 
       &:hover {
-        background: var(--white);
-        border-color: var(--gray-border);
+        background: var(--bg-light);
+        border-color: var(--border-color);
         transform: none;
       }
     }
   }
 
   &__arrow-icon {
-    width: var(--icon-size-sm);
-    height: var(--icon-size-sm);
+    width: 16px;
+    height: 16px;
     background-color: currentcolor;
-    mask-image: var(--icon-arrow-up);
+    mask-image: url('@/view/assets/images/icon-arrow-up.svg');
     mask-repeat: no-repeat;
     mask-position: center;
     mask-size: contain;
     display: block;
     transition: transform 0.2s ease;
 
-    &--down {
+    &_down {
       transform: rotate(180deg);
     }
   }
 
   &__handle {
     padding: 6px;
-    color: var(--gray-text);
+    color: var(--text-dark);
     cursor: grab;
     user-select: none;
-    transition: var(--transition);
-    border-radius: var(--radius-sm);
+    transition: all 0.3s ease;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
 
     &:hover {
-      color: var(--text-color);
-      background: var(--gray-light);
+      color: var(--primary-color);
+      background: rgb(217 65 176 / 10%);
     }
 
     &:active {
@@ -283,8 +277,8 @@
   }
 
   &__drag-icon {
-    width: var(--icon-size-sm);
-    height: var(--icon-size-sm);
+    width: 16px;
+    height: 16px;
     background-color: currentcolor;
     mask-image: var(--icon-drag-handle);
     mask-repeat: no-repeat;
@@ -292,13 +286,5 @@
     mask-size: contain;
     display: block;
     cursor: grab;
-  }
-
-  @include media-mobile {
-    padding: var(--spacing-sm) var(--spacing-lg);
-
-    &__name {
-      font-size: var(--font-size-md);
-    }
   }
 }

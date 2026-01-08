@@ -1,7 +1,29 @@
 // Параметры траектории бесконечности (∞)
+import { ref } from 'vue';
+// Цвет надписи внутри круга
+export const TECH_CIRCLE_TEXT_COLOR = 'rgba(255, 255, 255, 1)';
+// Цвета для центральной окружности технологии
+export const TECH_CIRCLE_FILL_COLOR = 'rgba(14, 13, 13, 1)';
+export const TECH_CIRCLE_STROKE_COLOR = 'rgba(217, 65, 176, 1)';
+
 export const INFINITY_MOVEMENT_SPEED = 0.00003; // скорость движения по траектории (позиция/мс)
 export const INFINITY_MIN_SCALE = 150; // минимальный масштаб траектории
 export const INFINITY_MAX_SCALE = 600; // максимальный масштаб траектории
+// Ограничение логической ширины canvas, чтобы анимация не растягивалась
+export const CANVAS_MAX_WIDTH = 1000;
+
+// Реактивная версия CANVAS_MAX_WIDTH для динамического изменения
+export const canvasMaxWidth = ref(CANVAS_MAX_WIDTH);
+
+// Функция для изменения максимальной ширины canvas
+export const setCanvasMaxWidth = (width: number) => {
+  canvasMaxWidth.value = width;
+};
+
+// Функция для сброса к значению по умолчанию
+export const resetCanvasMaxWidth = () => {
+  canvasMaxWidth.value = CANVAS_MAX_WIDTH;
+};
 
 // Режим траектории
 export const DEFAULT_TRAJECTORY_MODE = 'infinity'; // 'infinity' или 'circle'
@@ -63,12 +85,6 @@ export const MOBILE_DETAIL_SCALE_CONFIG = {
 // Например, 0.38 означает, что иконка занимает ~38% от диаметра круга
 export const DETAIL_ICON_RATIO_IN_CIRCLE = 0.38;
 
-// Настройки свечения (glow) для иконок на переднем плане
-export const ICON_GLOW_CONFIG = {
-  color: 'rgba(255, 255, 255, 1)', // цвет обводки
-  thickness: 5, // толщина обводки в пикселях
-} as const;
-
 // Адаптивный размер кнопки закрытия как доля диаметра круга
 // 0.115 * 280 ≈ 32px (соответствует CLOSE_BUTTON_SIZE по умолчанию)
 export const CLOSE_BUTTON_RATIO_OF_DIAMETER = 0.115;
@@ -110,30 +126,6 @@ export const ANIMATION_DURATION = 400;
 
 // Флаг для включения отладочных логов (можно отключить даже в dev-режиме)
 export const ENABLE_TECH_DEBUG = false;
-
-// Настройки заголовка сцены для десктопного режима
-export const SCENE_TITLE_CONFIG = {
-  fontSize: 42, // размер шрифта
-  fontWeight: '900', // толщина шрифта (light)
-  fontFamily: "'Roboto Condensed', system-ui, sans-serif",
-  color: 'rgba(0, 0, 0, 1)', // цвет (используется если gradient не задан)
-  verticalOffset: -20, // смещение по вертикали от центра (отрицательное = выше)
-  // Градиентная заливка (если задана, то color игнорируется)
-  gradient: [
-    { offset: 0, color: 'rgba(112, 5, 150, 1)' },
-    { offset: 1, color: 'rgba(65, 1, 87, 1)' },
-  ],
-  // Максимальная ширина блока текста в режиме circle (доля диаметра круга)
-  circleMaxWidthRatio: 0.7,
-  // Адаптивный размер шрифта заголовка в режиме circle
-  // Размер = (диаметр круга) * ratio, с ограничениями по min/max
-  circleTitleFontRatioOfDiameter: 0.16,
-  circleTitleFontMinSize: 12,
-  circleTitleFontMaxSize: 24,
-  // Адаптивное вертикальное смещение заголовка в режиме circle
-  // Смещение = (диаметр круга) * ratio; отрицательное значение приподнимает текст
-  circleVerticalOffsetRatio: -0.06,
-} as const;
 
 // Размеры иконок
 export const ICON_DIMENSIONS: Record<string, { width: number; height: number }> = {

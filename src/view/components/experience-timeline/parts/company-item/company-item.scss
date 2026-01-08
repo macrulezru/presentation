@@ -1,0 +1,130 @@
+.company-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease-in-out;
+  position: relative;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &_header {
+    opacity: 1;
+
+    .company-item__name {
+      font-weight: 600;
+    }
+
+    .company-item__description {
+      display: block;
+    }
+  }
+
+  &__logo-wrapper {
+    position: absolute;
+    top: -140px;
+    left: 0;
+    right: 0;
+    height: 140px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  &__logo-container {
+    position: absolute;
+    top: 24px;
+    left: 20px;
+    width: 120px;
+    height: 120px;
+  }
+
+  &__logo {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
+    transform: translateY(calc(100% + 10px));
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
+    filter: drop-shadow(0 4px 10px rgb(0 0 0 / 80%));
+    overflow: hidden;
+
+    img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+    }
+  }
+
+  &:hover &__logo {
+    transform: translateY(6px);
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+
+  &__data {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__name {
+    @include big-link;
+  }
+
+  &__link {
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-1);
+    }
+  }
+
+  &__link-arrow {
+    position: relative;
+    margin-left: 10px;
+    top: -4px;
+  }
+
+  &__period {
+    font-size: 14px;
+    font-weight: 200;
+    color: var(--color-4);
+  }
+
+  &__position {
+    font-size: 18px;
+    font-weight: 200;
+    color: var(--color-6);
+  }
+
+  &__description {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--color-4);
+    max-height: 0;
+    overflow: hidden;
+    margin-top: 0;
+    opacity: 0;
+    transition:
+      max-height 0.8s ease,
+      margin-top 0.8s ease,
+      opacity 0.8s ease;
+
+    &_visible {
+      max-height: 500px;
+      margin-top: 10px;
+      opacity: 1;
+    }
+  }
+}

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  // Настройки шлейфа
   import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 
   import { ImageFolder } from '@/enums/arts.enum';
@@ -32,18 +31,6 @@
   const cursorScaleY = ref(1);
   const cursorScale = ref(1);
   const lastMousePosition = ref<{ x: number; y: number } | null>(null);
-
-  // Массив слепков для motion blur
-  const cursorTrails = ref<
-    Array<{
-      x: number;
-      y: number;
-      angle: number;
-      scaleY: number;
-      scale: number;
-      created: number;
-    }>
-  >([]);
 
   const { images, getImageByKey } = useArtsImages();
 
@@ -216,34 +203,14 @@
   const CURSOR_MAX_ROTATE = 40;
   const CURSOR_ROTATE_SMOOTH = 0.15;
   const STILL_TICKS_LIMIT = 6;
-  const TRAIL_INTERVAL = 33;
-  const TRAIL_MAX_COUNT = 8;
 
   let lastX = 0;
   let lastTime = 0;
   let animationFrame: number | null = null;
   let stillTicks = 0;
   let lastCursorX = 0;
-  let lastTrailTime = 0;
 
   const onMouseMove = (e: MouseEvent) => {
-    const nowTs = Date.now();
-    // Добавляем слепок только если прошло достаточно времени
-    if (nowTs - lastTrailTime > TRAIL_INTERVAL) {
-      cursorTrails.value.push({
-        x: cursorX.value,
-        y: cursorY.value,
-        angle: cursorAngle.value,
-        scaleY: cursorScaleY.value,
-        scale: cursorScale.value,
-        created: nowTs,
-      });
-      // Ограничиваем количество слепков
-      if (cursorTrails.value.length > TRAIL_MAX_COUNT) {
-        cursorTrails.value.splice(0, cursorTrails.value.length - TRAIL_MAX_COUNT);
-      }
-      lastTrailTime = nowTs;
-    }
     const now = performance.now();
     const dx = e.clientX - lastX;
     const dy = e.clientY - cursorY.value;
@@ -324,29 +291,18 @@
     }
   });
 
-  let trailCleanupTimer: number | null = null;
-
   onMounted(async () => {
     const img = new window.Image();
     img.src = artCursor;
     await initializePreview();
     window.addEventListener('mouseup', onMouseUp);
     window.addEventListener('mousedown', onMouseDown);
-    // Таймер для очистки слепков
-    trailCleanupTimer = window.setInterval(() => {
-      const now = Date.now();
-      cursorTrails.value = cursorTrails.value.filter(trail => now - trail.created < 200);
-    }, 32);
   });
 
   onUnmounted(() => {
     removeCursorHandlers();
     window.removeEventListener('mouseup', onMouseUp);
     window.removeEventListener('mousedown', onMouseDown);
-    if (trailCleanupTimer) {
-      clearInterval(trailCleanupTimer);
-      trailCleanupTimer = null;
-    }
   });
 </script>
 
@@ -357,57 +313,63 @@
     @mousemove="onMouseMove"
     @mouseleave="onMouseLeave"
   >
-    <div class="arts__header">
-      <h1 class="arts__title">{{ t('design.title') }}</h1>
-      <div class="arts__sub-title">{{ t('design.description') }}</div>
-    </div>
+    <div class="arts__separator arts__separator_top" />
+    <div class="arts__separator arts__separator_bottom" />
 
-    <div v-if="!isPreviewLoaded" class="arts__loading">
-      <div class="arts__loading-spinner"></div>
-    </div>
+    <div class="arts__wrapper">
+      <div class="arts__header">
+        <h1 class="arts__title">{{ t('design.title') }}</h1>
+        <div class="arts__sub-title">{{ t('design.description') }}</div>
+      </div>
 
-    <div v-else class="arts__projects">
-      <masonry-wall
-        :key="currentMasonryKey"
-        :items="displayImages"
-        :ssrColumns="1"
-        :columnWidth="250"
-        :gap="16"
+      <div v-if="!isPreviewLoaded" class="arts__loading">
+        <div class="arts__loading-spinner"></div>
+      </div>
+
+      <div v-else class="arts__projects">
+        <masonry-wall
+          :key="currentMasonryKey"
+          :items="displayImages"
+          :ssrColumns="1"
+          :columnWidth="250"
+          :gap="16"
+          :minColumns="2"
+        >
+          <template #default="{ item }">
+            <ArtItem :image="item" @on-image-click="openModal(item.key)" />
+          </template>
+        </masonry-wall>
+      </div>
+
+      <div
+        v-if="!showAllImages && images.length > PREVIEW_IMAGE_COUNT && isPreviewLoaded"
+        class="arts__button-container"
       >
-        <template #default="{ item }">
-          <ArtItem :image="item" @on-image-click="openModal(item.key)" />
-        </template>
-      </masonry-wall>
-    </div>
+        <Button
+          v-if="!isLoading"
+          :text="t('design.showAll')"
+          class="arts__show-all-button"
+          @click="onShowAllImages"
+        >
+          <div class="arts__button-content">
+            <span class="arts__button-text">
+              {{ t('design.showAll') }}
+            </span>
+          </div>
+        </Button>
 
-    <div
-      v-if="!showAllImages && images.length > PREVIEW_IMAGE_COUNT && isPreviewLoaded"
-      class="arts__button-container"
-    >
-      <Button
-        v-if="!isLoading"
-        :text="t('design.showAll')"
-        class="arts__show-all-button"
-        @click="onShowAllImages"
-      >
-        <div class="arts__button-content">
-          <span class="arts__button-text">
-            {{ t('design.showAll') }}
-          </span>
-        </div>
-      </Button>
-
-      <div v-else class="arts__progress-wrapper">
-        <div class="arts__progress-overlay">
-          <div class="arts__progress-container">
-            <div class="arts__progress-text">
-              {{ t('design.loadingImages') }}
-            </div>
-            <div class="arts__progress-bar">
-              <div
-                class="arts__progress-fill"
-                :style="{ width: `${loadingProgress}%` }"
-              ></div>
+        <div v-else class="arts__progress-wrapper">
+          <div class="arts__progress-overlay">
+            <div class="arts__progress-container">
+              <div class="arts__progress-text">
+                {{ t('design.loadingImages') }}
+              </div>
+              <div class="arts__progress-bar">
+                <div
+                  class="arts__progress-fill"
+                  :style="{ width: `${loadingProgress}%` }"
+                ></div>
+              </div>
             </div>
           </div>
         </div>
@@ -422,25 +384,6 @@
       @close="closeModal"
       @change="handleImageChange"
     />
-
-    <template v-for="trail in cursorTrails" :key="trail.created">
-      <div
-        class="arts__custom-cursor"
-        :style="{
-          left: `${trail.x - CURSOR_OFFSET_X}px`,
-          top: `${trail.y - CURSOR_OFFSET_Y}px`,
-          transform: `rotate(${trail.angle}deg) scaleY(${trail.scaleY}) scale(${trail.scale})`,
-          opacity: Math.max(
-            0,
-            Math.min(1, 1 - (Date.now() - trail.created) / 200),
-          ).toFixed(2),
-          pointerEvents: 'none',
-          position: 'fixed',
-        }"
-      >
-        <img :src="artCursor" alt="cursor" draggable="false" />
-      </div>
-    </template>
 
     <div v-if="cursorVisible" :style="cursorStyle" class="arts__custom-cursor">
       <img :src="artCursor" alt="cursor" draggable="false" />

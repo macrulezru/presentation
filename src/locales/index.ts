@@ -3,6 +3,20 @@ import { createI18n } from 'vue-i18n';
 import { LocalesEnum, type LocalesEnumType, LocalesList } from '@/enums/locales.enum';
 import { localeImportMap, preloadLocale } from '@/locales/locale-imports';
 
+const PLACEHOLDER_MAP: Record<string, string> = {
+  '__PH:AT__': '@',
+};
+
+function restorePlaceholders(value: unknown): unknown {
+  if (typeof value === 'string') {
+    return Object.entries(PLACEHOLDER_MAP).reduce((acc, [placeholder, char]) => {
+      return acc.replace(new RegExp(placeholder, 'g'), char);
+    }, value);
+  }
+
+  return value;
+}
+
 const messages = {};
 
 export const i18n = createI18n({
@@ -13,6 +27,13 @@ export const i18n = createI18n({
   missingWarn: false,
   fallbackWarn: false,
 });
+
+const rawTranslate = i18n.global.t.bind(i18n.global);
+
+i18n.global.t = ((...args: Parameters<typeof rawTranslate>) => {
+  const result = rawTranslate(...args);
+  return restorePlaceholders(result) as ReturnType<typeof rawTranslate>;
+}) as typeof i18n.global.t;
 
 const loadedLocales = new Set<string>();
 
