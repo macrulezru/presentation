@@ -84,10 +84,7 @@
   const getAspectRatioStyle = (s?: UiVideoSource): Record<string, string> => {
     const style: Record<string, string> = {};
 
-    if (s?.width) {
-      style.width = typeof s.width === 'number' ? `${s.width}px` : s.width;
-    }
-
+    // Не прописываем width инлайном, только aspect-ratio
     if (s?.width && s?.height) {
       const w = typeof s.width === 'number' ? s.width : parseFloat(s.width);
       const h = typeof s.height === 'number' ? s.height : parseFloat(s.height);
