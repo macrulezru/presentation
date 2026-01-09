@@ -1,8 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 
-// ...existing code...
-
 const __dirname = path.dirname(
   new URL(import.meta.url).pathname.replace(/^\/[A-Za-z]:/, m => m.slice(1)),
 );
