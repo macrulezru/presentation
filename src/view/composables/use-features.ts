@@ -1,6 +1,26 @@
 import { computed } from 'vue';
 
 import { FeaturesEnum } from '@/enums/features.enum';
+import i18nImageHorizonatl from '@/view/assets/images/i18n-image-horizontal.jpg';
+import i18nImage from '@/view/assets/images/i18n-image.jpg';
+import pipelineImageHorizontal from '@/view/assets/images/pipeline-image-horizontal.jpg';
+import pipelineImage from '@/view/assets/images/pipeline-image.jpg';
+import seatmapImageHorizontal from '@/view/assets/images/seatmap-image-horizontal.jpg';
+import seatmapImage from '@/view/assets/images/seatmap-image.jpg';
+import synchronizationImageHorizontal from '@/view/assets/images/synchronization-image-horizontal.jpg';
+import synchronizationImage from '@/view/assets/images/synchronization-image.jpg';
+import uiImageHorizontal from '@/view/assets/images/ui-image-horizontal.jpg';
+import uiImage from '@/view/assets/images/ui-image.jpg';
+import i18nVideoHorizonatl from '@/view/assets/video/i18n-video-horizontal_loop.mp4';
+import i18nVideo from '@/view/assets/video/i18n-video_loop.mp4';
+import pipelineVideoHorizontal from '@/view/assets/video/pipeline-video-horizontal_loop.mp4';
+import pipelineVideo from '@/view/assets/video/pipeline-video_loop.mp4';
+import seatmapVideoHorizontal from '@/view/assets/video/seatmap-video-horizontal_loop.mp4';
+import seatmapVideo from '@/view/assets/video/seatmap-video_loop.mp4';
+import synchronizationVideoHorizontal from '@/view/assets/video/synchronization-video-horizontal_loop.mp4';
+import synchronizationVideo from '@/view/assets/video/synchronization-video_loop.mp4';
+import uiVideoHorizontal from '@/view/assets/video/ui-video-horizontal_loop.mp4';
+import uiVideo from '@/view/assets/video/ui-video_loop.mp4';
 import { useI18n } from '@/view/composables/use-i18n.ts';
 
 export interface SectionItem {
@@ -53,50 +73,50 @@ export function useFeatures() {
       i18nKey: 'uiComponents',
       accentColor: '#bd0e3d',
       mainIcon: 'ui',
-      image: '/src/view/assets/images/ui-image.jpg',
-      imageHorizontal: '/src/view/assets/images/ui-image-horizontal.jpg',
-      video: '/src/view/assets/video/ui-video_loop.mp4',
-      videoHorizontal: '/src/view/assets/video/ui-video-horizontal_loop.mp4',
+      image: uiImage,
+      imageHorizontal: uiImageHorizontal,
+      video: uiVideo,
+      videoHorizontal: uiVideoHorizontal,
     },
     {
       id: FeaturesEnum.PIPELINE,
       i18nKey: 'pipeline',
       accentColor: '#3498db',
       mainIcon: 'pipeline',
-      image: '/src/view/assets/images/pipeline-image.jpg',
-      imageHorizontal: '/src/view/assets/images/pipeline-image-horizontal.jpg',
-      video: '/src/view/assets/video/pipeline-video_loop.mp4',
-      videoHorizontal: '/src/view/assets/video/pipeline-video-horizontal_loop.mp4',
+      image: pipelineImage,
+      imageHorizontal: pipelineImageHorizontal,
+      video: pipelineVideo,
+      videoHorizontal: pipelineVideoHorizontal,
     },
     {
       id: FeaturesEnum.LOCALIZATION,
       i18nKey: 'localization',
       accentColor: '#9b59b6',
       mainIcon: 'localization',
-      image: '/src/view/assets/images/i18n-image.jpg',
-      imageHorizontal: '/src/view/assets/images/i18n-image-horizontal.jpg',
-      video: '/src/view/assets/video/i18n-video_loop.mp4',
-      videoHorizontal: '/src/view/assets/video/i18n-video-horizontal_loop.mp4',
+      image: i18nImage,
+      imageHorizontal: i18nImageHorizonatl,
+      video: i18nVideo,
+      videoHorizontal: i18nVideoHorizonatl,
     },
     {
       id: FeaturesEnum.SEAT_MAP,
       i18nKey: 'seatMap',
       accentColor: '#e67e22',
       mainIcon: 'seat',
-      image: '/src/view/assets/images/seatmap-image.jpg',
-      imageHorizontal: '/src/view/assets/images/seatmap-image-horizontal.jpg',
-      video: '/src/view/assets/video/seatmap-video_loop.mp4',
-      videoHorizontal: '/src/view/assets/video/seatmap-video-horizontal_loop.mp4',
+      image: seatmapImage,
+      imageHorizontal: seatmapImageHorizontal,
+      video: seatmapVideo,
+      videoHorizontal: seatmapVideoHorizontal,
     },
     {
       id: FeaturesEnum.MULTISYNC,
       i18nKey: 'multisync',
       accentColor: '#4b6ff1',
       mainIcon: 'synchronization',
-      image: '/src/view/assets/images/synchronization-image.jpg',
-      imageHorizontal: '/src/view/assets/images/synchronization-image-horizontal.jpg',
-      video: '/src/view/assets/video/synchronization-video_loop.mp4',
-      videoHorizontal: '/src/view/assets/video/synchronization-video-horizontal_loop.mp4',
+      image: synchronizationImage,
+      imageHorizontal: synchronizationImageHorizontal,
+      video: synchronizationVideo,
+      videoHorizontal: synchronizationVideoHorizontal,
     },
   ]);
 
