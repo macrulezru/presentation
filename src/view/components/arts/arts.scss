@@ -112,8 +112,10 @@
     min-width: 240px;
     position: relative;
     overflow: hidden;
-    border-radius: 8px; // Стили кнопки
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 8px;
+    background: linear-gradient(227deg, #cc0b98, #03babd);
+    background-size: 400% 400%;
+    animation: progress-animation 5s ease infinite;
     padding: 12px 24px;
   }
 
@@ -137,9 +139,6 @@
   }
 
   &__progress-text {
-    color: white;
-    font-size: 14px;
-    font-weight: 600;
     text-align: center;
     white-space: nowrap;
   }
@@ -213,5 +212,19 @@
 @keyframes arts-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes progress-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
   }
 }
