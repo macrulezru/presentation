@@ -1,15 +1,15 @@
 import { computed } from 'vue';
 
 import { FeaturesEnum } from '@/enums/features.enum';
-import i18nImageHorizonatl from '@/view/assets/images/i18n-image-horizontal.jpg';
+import i18nImageHorizonatl from '@/view/assets/images/i18n-image-horizontal.webp';
 import i18nImage from '@/view/assets/images/i18n-image.jpg';
-import pipelineImageHorizontal from '@/view/assets/images/pipeline-image-horizontal.jpg';
+import pipelineImageHorizontal from '@/view/assets/images/pipeline-image-horizontal.webp';
 import pipelineImage from '@/view/assets/images/pipeline-image.jpg';
-import seatmapImageHorizontal from '@/view/assets/images/seatmap-image-horizontal.jpg';
+import seatmapImageHorizontal from '@/view/assets/images/seatmap-image-horizontal.webp';
 import seatmapImage from '@/view/assets/images/seatmap-image.jpg';
-import synchronizationImageHorizontal from '@/view/assets/images/synchronization-image-horizontal.jpg';
+import synchronizationImageHorizontal from '@/view/assets/images/synchronization-image-horizontal.webp';
 import synchronizationImage from '@/view/assets/images/synchronization-image.jpg';
-import uiImageHorizontal from '@/view/assets/images/ui-image-horizontal.jpg';
+import uiImageHorizontal from '@/view/assets/images/ui-image-horizontal.webp';
 import uiImage from '@/view/assets/images/ui-image.jpg';
 import i18nVideoHorizonatl from '@/view/assets/video/i18n-video-horizontal_loop.mp4';
 import i18nVideo from '@/view/assets/video/i18n-video_loop.mp4';

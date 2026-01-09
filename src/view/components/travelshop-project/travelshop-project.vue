@@ -9,7 +9,7 @@
     AchievementGraph,
   } from '@/view/components/travelshop-project/types';
 
-  import TravelshopImageHorizontal from '@/view/assets/images/travelshop-image-horizontal.jpg';
+  import TravelshopImageHorizontal from '@/view/assets/images/travelshop-image-horizontal.webp';
   import TravelshopImage from '@/view/assets/images/travelshop-image.jpg';
   import TravelshopIntro from '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue';
   import { useI18n } from '@/view/composables/use-i18n';
