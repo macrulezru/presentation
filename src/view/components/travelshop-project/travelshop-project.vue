@@ -10,7 +10,7 @@
   } from '@/view/components/travelshop-project/types';
 
   import TravelshopImageHorizontal from '@/view/assets/images/travelshop-image-horizontal.webp';
-  import TravelshopImage from '@/view/assets/images/travelshop-image.jpg';
+  import TravelshopImage from '@/view/assets/images/travelshop-image.webp';
   import TravelshopIntro from '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue';
   import { useI18n } from '@/view/composables/use-i18n';
   import Button from '@/view/ui/ui-button/ui-button.vue';

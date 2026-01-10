@@ -12,7 +12,7 @@
   import type { ListItem } from '@/view/components/about/types';
 
   import TechStackArtHorizontal from '@/view/assets/images/tech-stack-art-horizontal.webp';
-  import TechStackArt from '@/view/assets/images/tech-stack-art.jpg';
+  import TechStackArt from '@/view/assets/images/tech-stack-art.webp';
   import AboutTech from '@/view/components/about/parts/about-tech/about-tech.vue';
   import AiFeature from '@/view/components/about/parts/ai-feature/ai-feature.vue';
   import { useI18n } from '@/view/composables/use-i18n';

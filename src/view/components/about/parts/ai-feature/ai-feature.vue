@@ -2,7 +2,7 @@
   import '@/view/components/about/parts/ai-feature/ai-feature.scss';
 
   import AiImageHorizontal from '@/view/assets/images/ai-block-horizontal.webp';
-  import AiImage from '@/view/assets/images/ai-block.jpg';
+  import AiImage from '@/view/assets/images/ai-block.webp';
   import { useI18n } from '@/view/composables/use-i18n';
   import UiImage from '@/view/ui/ui-image/ui-image.vue';
 

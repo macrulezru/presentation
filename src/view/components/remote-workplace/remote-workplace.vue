@@ -4,7 +4,7 @@
   import { computed } from 'vue';
 
   import RemoveWorkplaceImageHorizontal from '@/view/assets/images/remote-workstation-horizontal.webp';
-  import RemoveWorkplaceImage from '@/view/assets/images/remote-workstation.jpg';
+  import RemoveWorkplaceImage from '@/view/assets/images/remote-workstation.webp';
   import { useI18n } from '@/view/composables/use-i18n.ts';
   import UiImage from '@/view/ui/ui-image/ui-image.vue';
 
