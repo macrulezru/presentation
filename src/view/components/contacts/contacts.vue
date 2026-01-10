@@ -204,8 +204,8 @@ ${t('form.sent_from')}: ${window.location.href}
             </div>
 
             <form class="contacts__form" @submit.prevent="submitForm">
-              <div class="form-group">
-                <label for="name" class="form-label">
+              <div class="contacts__form-group">
+                <label for="name" class="contacts__form-label">
                   {{ t('form.fields.name') }}
                 </label>
                 <input
@@ -213,15 +213,15 @@ ${t('form.sent_from')}: ${window.location.href}
                   v-model="formData.name"
                   type="text"
                   :placeholder="t('form.placeholders.name')"
-                  class="form-input"
+                  class="contacts__form-input"
                   :disabled="isSubmitting"
                   required
                   autocomplete="name"
                 />
               </div>
 
-              <div class="form-group">
-                <label for="email" class="form-label">
+              <div class="contacts__form-group">
+                <label for="email" class="contacts__form-label">
                   {{ t('form.fields.email') }}
                 </label>
                 <input
@@ -229,22 +229,22 @@ ${t('form.sent_from')}: ${window.location.href}
                   v-model="formData.email"
                   type="email"
                   :placeholder="t('form.placeholders.email')"
-                  class="form-input"
+                  class="contacts__form-input"
                   :disabled="isSubmitting"
                   required
                   autocomplete="email"
                 />
               </div>
 
-              <div class="form-group form-group--message">
-                <label for="message" class="form-label">
+              <div class="contacts__form-group contacts__form-group--message">
+                <label for="message" class="contacts__form-label">
                   {{ t('form.fields.message') }}
                 </label>
                 <textarea
                   id="message"
                   v-model="formData.message"
                   :placeholder="t('form.placeholders.message')"
-                  class="form-textarea"
+                  class="contacts__form-textarea"
                   :disabled="isSubmitting"
                   required
                   autocomplete="off"
@@ -253,17 +253,17 @@ ${t('form.sent_from')}: ${window.location.href}
 
               <input type="hidden" name="subject" :value="formSubject" />
 
-              <div v-if="errorMessage" class="form-error">
+              <div v-if="errorMessage" class="contacts__form-error">
                 {{ errorMessage }}
               </div>
 
-              <div v-if="isSuccess" class="form-success">
+              <div v-if="isSuccess" class="contacts__form-success">
                 {{ t('form.success_message') }}
               </div>
 
-              <div class="form-actions">
+              <div class="contacts__form-actions">
                 <Button
-                  :class="{ 'form-submit--loading': isSubmitting }"
+                  :class="{ 'contacts__form-submit--loading': isSubmitting }"
                   type="submit"
                   small
                   :disabled="isSubmitting"
