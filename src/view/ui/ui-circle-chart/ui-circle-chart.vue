@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  // Количество делений шкалы (например, 12 как на часах)
   import '@/view/ui/ui-circle-chart/ui-circle-chart.scss';
 
   import { ref, computed, watch, onMounted, onBeforeUnmount, useSlots } from 'vue';
@@ -17,6 +18,9 @@
     valueFontSize: 28,
     valueColor: '#333333',
     boxColor: '#222',
+    boxCornerRadius: 12,
+    markColor: '#202020',
+    markCount: 12,
     boxOffset: 10,
     animationDuration: 1000,
     animateOnMount: false,
@@ -66,6 +70,23 @@
 
   const hasDefaultSlot = computed(() => {
     return slots.default && slots.default().length > 0;
+  });
+
+  const markLength = computed(() => props.lineThick * 1.2);
+
+  const scaleMarks = computed(() => {
+    const arr = [];
+    const r1 = circleRadius.value - props.boxOffset; // внешний радиус — ровно по краю выреза
+    const r2 = r1 - markLength.value; // внутренний радиус (деление короче круга)
+    for (let i = 0; i < props.markCount; i++) {
+      const angle = (2 * Math.PI * i) / props.markCount;
+      const x1 = circlePosition.value + r2 * Math.cos(angle - Math.PI / 2);
+      const y1 = circlePosition.value + r2 * Math.sin(angle - Math.PI / 2);
+      const x2 = circlePosition.value + r1 * Math.cos(angle - Math.PI / 2);
+      const y2 = circlePosition.value + r1 * Math.sin(angle - Math.PI / 2);
+      arr.push({ x1, y1, x2, y2 });
+    }
+    return arr;
   });
 
   /**
@@ -282,10 +303,24 @@
             y="2"
             :width="props.size - 4"
             :height="props.size - 4"
-            rx="12"
+            :rx="props.boxCornerRadius"
             :fill="props.boxColor"
             :mask="`url(#${maskId})`"
           />
+          <!-- Разметка шкалы -->
+          <g>
+            <line
+              v-for="(mark, idx) in scaleMarks"
+              :key="'mark-' + idx"
+              :x1="mark.x1"
+              :y1="mark.y1"
+              :x2="mark.x2"
+              :y2="mark.y2"
+              :stroke="props.markColor"
+              stroke-width="1"
+              stroke-linecap="round"
+            />
+          </g>
           <circle
             :cx="circlePosition"
             :cy="circlePosition"

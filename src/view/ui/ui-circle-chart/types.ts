@@ -60,6 +60,24 @@ export interface Props {
   boxColor?: string;
 
   /**
+   * Радиус скругления углов для boxed режима
+   * @default 12
+   */
+  boxCornerRadius?: number;
+
+  /**
+   * Цвет делений для boxed режима
+   * @default "#181818"
+   */
+  markColor?: string;
+
+  /**
+   * Количество делений для boxed режима
+   * @default 10
+   */
+  markCount?: number;
+
+  /**
    * Отступ от края для boxed режима
    * @default 10
    */
