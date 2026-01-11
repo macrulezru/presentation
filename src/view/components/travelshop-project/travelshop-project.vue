@@ -153,9 +153,10 @@
               >
                 <CircleChart
                   autoPlay
+                  mode="boxed"
                   :value="item.value"
                   :size="180"
-                  :lineThick="10"
+                  :lineThick="14"
                   :valueFontSize="40"
                   valueColor="#616A70"
                   strokeColor="#363035"
