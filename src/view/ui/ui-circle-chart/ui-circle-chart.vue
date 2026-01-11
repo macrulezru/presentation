@@ -1,18 +1,27 @@
 <script setup lang="ts">
+  // Количество делений шкалы (например, 12 как на часах)
   import '@/view/ui/ui-circle-chart/ui-circle-chart.scss';
 
   import { ref, computed, watch, onMounted, onBeforeUnmount, useSlots } from 'vue';
 
   import type { Props } from './types';
 
+  import { nanoid } from '@/utils/nanoid';
+
   // Значения по умолчанию для пропсов
   const props = withDefaults(defineProps<Props>(), {
+    mode: 'circle',
     size: 300,
     lineThick: 20,
     strokeColor: '#e3e3e3',
     showValue: true,
     valueFontSize: 28,
     valueColor: '#333333',
+    boxColor: '#222',
+    boxCornerRadius: 12,
+    markColor: '#202020',
+    markCount: 12,
+    boxOffset: 10,
     animationDuration: 1000,
     animateOnMount: false,
     autoPlay: false,
@@ -33,6 +42,8 @@
   let animationFrameId: number | null = null;
   let animationStartTime: number | null = null;
   let intersectionObserver: IntersectionObserver | null = null;
+
+  const maskId = `circle-only-mask-${nanoid(8)}`;
 
   const circlePosition = computed(() => {
     return props.size / 2;
@@ -59,6 +70,23 @@
 
   const hasDefaultSlot = computed(() => {
     return slots.default && slots.default().length > 0;
+  });
+
+  const markLength = computed(() => props.lineThick * 1.2);
+
+  const scaleMarks = computed(() => {
+    const arr = [];
+    const r1 = circleRadius.value - props.boxOffset; // внешний радиус — ровно по краю выреза
+    const r2 = r1 - markLength.value; // внутренний радиус (деление короче круга)
+    for (let i = 0; i < props.markCount; i++) {
+      const angle = (2 * Math.PI * i) / props.markCount;
+      const x1 = circlePosition.value + r2 * Math.cos(angle - Math.PI / 2);
+      const y1 = circlePosition.value + r2 * Math.sin(angle - Math.PI / 2);
+      const x2 = circlePosition.value + r1 * Math.cos(angle - Math.PI / 2);
+      const y2 = circlePosition.value + r1 * Math.sin(angle - Math.PI / 2);
+      arr.push({ x1, y1, x2, y2 });
+    }
+    return arr;
   });
 
   /**
@@ -202,47 +230,128 @@
 <template>
   <div ref="chartContainer" class="ui-circle-chart">
     <div class="ui-circle-chart__graph">
-      <svg
-        :width="props.size"
-        :height="props.size"
-        :viewBox="`0 0 ${props.size} ${props.size}`"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle
-          :cx="circlePosition"
-          :cy="circlePosition"
-          :r="circleRadius"
-          :stroke="strokeColor"
-          :stroke-width="lineThick"
+      <template v-if="props.mode === 'circle'">
+        <svg
+          :width="props.size"
+          :height="props.size"
+          :viewBox="`0 0 ${props.size} ${props.size}`"
           fill="none"
-        />
-
-        <circle
-          :cx="circlePosition"
-          :cy="circlePosition"
-          :r="circleRadius"
-          :stroke="segmentColor"
-          :stroke-width="lineThick"
-          fill="none"
-          stroke-linecap="round"
-          :stroke-dasharray="segmentDashArray"
-          :transform="`rotate(-90 ${circlePosition} ${circlePosition})`"
-        />
-
-        <text
-          v-if="showValue"
-          :x="circlePosition"
-          :y="circlePosition"
-          :font-size="valueFontSize"
-          :fill="valueColor"
-          text-anchor="middle"
-          dominant-baseline="middle"
-          class="ui-circle-chart__value"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          {{ displayValue }}
-        </text>
-      </svg>
+          <circle
+            :cx="circlePosition"
+            :cy="circlePosition"
+            :r="circleRadius"
+            :stroke="strokeColor"
+            :stroke-width="lineThick"
+            fill="none"
+          />
+          <circle
+            :cx="circlePosition"
+            :cy="circlePosition"
+            :r="circleRadius"
+            :stroke="segmentColor"
+            :stroke-width="lineThick"
+            fill="none"
+            stroke-linecap="round"
+            :stroke-dasharray="segmentDashArray"
+            :transform="`rotate(-90 ${circlePosition} ${circlePosition})`"
+          />
+          <text
+            v-if="showValue"
+            :x="circlePosition"
+            :y="circlePosition"
+            :font-size="valueFontSize"
+            :fill="valueColor"
+            text-anchor="middle"
+            dominant-baseline="middle"
+            class="ui-circle-chart__value"
+          >
+            {{ displayValue }}
+          </text>
+        </svg>
+      </template>
+      <template v-if="props.mode === 'boxed'">
+        <svg
+          :width="props.size"
+          :height="props.size"
+          :viewBox="`0 0 ${props.size} ${props.size}`"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <mask :id="maskId">
+              <rect
+                x="0"
+                y="0"
+                :width="props.size"
+                :height="props.size"
+                fill="white"
+                rx="12"
+              />
+              <circle
+                :cx="circlePosition"
+                :cy="circlePosition"
+                :r="circleRadius - props.boxOffset"
+                fill="black"
+              />
+            </mask>
+          </defs>
+          <!-- Прямоугольный фон с вырезанным кругом -->
+          <rect
+            x="2"
+            y="2"
+            :width="props.size - 4"
+            :height="props.size - 4"
+            :rx="props.boxCornerRadius"
+            :fill="props.boxColor"
+            :mask="`url(#${maskId})`"
+          />
+          <!-- Разметка шкалы -->
+          <g>
+            <line
+              v-for="(mark, idx) in scaleMarks"
+              :key="'mark-' + idx"
+              :x1="mark.x1"
+              :y1="mark.y1"
+              :x2="mark.x2"
+              :y2="mark.y2"
+              :stroke="props.markColor"
+              stroke-width="1"
+              stroke-linecap="round"
+            />
+          </g>
+          <circle
+            :cx="circlePosition"
+            :cy="circlePosition"
+            :r="circleRadius - props.boxOffset - props.lineThick / 2"
+            :stroke="segmentColor"
+            :stroke-width="lineThick"
+            fill="none"
+            stroke-linecap="round"
+            :stroke-dasharray="segmentDashArray"
+            :transform="`rotate(-90 ${circlePosition} ${circlePosition})`"
+          />
+          <circle
+            :cx="circlePosition"
+            :cy="circlePosition"
+            :r="circleRadius - lineThick - props.boxOffset"
+            :fill="props.boxColor"
+          />
+          <text
+            v-if="showValue"
+            :x="circlePosition"
+            :y="circlePosition"
+            :font-size="valueFontSize"
+            :fill="valueColor"
+            text-anchor="middle"
+            dominant-baseline="middle"
+            class="ui-circle-chart__value"
+          >
+            {{ displayValue }}
+          </text>
+        </svg>
+      </template>
     </div>
     <div v-if="hasDefaultSlot || props.label" class="ui-circle-chart__label">
       <slot>{{ props.label }}</slot>

@@ -153,10 +153,12 @@
               >
                 <CircleChart
                   autoPlay
+                  mode="boxed"
                   :value="item.value"
                   :size="180"
-                  :lineThick="10"
-                  :valueFontSize="40"
+                  :markCount="20"
+                  :lineThick="14"
+                  :valueFontSize="36"
                   valueColor="#616A70"
                   strokeColor="#363035"
                   :segmentColor="item.color"
@@ -165,12 +167,10 @@
               </div>
               <div class="travelshop__achievement-content">
                 <div class="travelshop__achievement-item">
-                  <div class="travelshop__tech-dot"></div>
-                  <span>{{ t('travelshop.achievements.items.code_reliability') }}</span>
+                  {{ t('travelshop.achievements.items.code_reliability') }}
                 </div>
                 <div class="travelshop__achievement-item">
-                  <div class="travelshop__tech-dot"></div>
-                  <span>{{ t('travelshop.achievements.items.responsive_design') }}</span>
+                  {{ t('travelshop.achievements.items.responsive_design') }}
                 </div>
               </div>
             </div>

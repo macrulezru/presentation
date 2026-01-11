@@ -1,5 +1,11 @@
 export interface Props {
   /**
+   * Режим отображения диаграммы: "circle" - круговая, "boxed" - с квадратным фоном
+   * @default "circle"
+   */
+  mode?: 'circle' | 'boxed';
+
+  /**
    * Значение в процентах (0-100)
    * @example 75
    */
@@ -46,6 +52,36 @@ export interface Props {
    * @default "#333333"
    */
   valueColor?: string;
+
+  /**
+   * Цвет фона для boxed режима
+   * @default "#222222"
+   */
+  boxColor?: string;
+
+  /**
+   * Радиус скругления углов для boxed режима
+   * @default 12
+   */
+  boxCornerRadius?: number;
+
+  /**
+   * Цвет делений для boxed режима
+   * @default "#181818"
+   */
+  markColor?: string;
+
+  /**
+   * Количество делений для boxed режима
+   * @default 10
+   */
+  markCount?: number;
+
+  /**
+   * Отступ от края для boxed режима
+   * @default 10
+   */
+  boxOffset?: number;
 
   /**
    * Длительность анимации в миллисекундах
