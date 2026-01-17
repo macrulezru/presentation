@@ -1,0 +1,69 @@
+.pipeline-flight {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &__route {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  &__direction {
+    color: var(--color-4);
+  }
+
+  &__flight-path {
+    flex: 2;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+
+    &::before,
+    &::after {
+      content: '';
+      width: 5px;
+      height: 5px;
+      background-color: var(--color-8);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+  }
+
+  &__flight-line {
+    height: 1px;
+    border-bottom: solid 1px var(--color-8);
+    width: 100%;
+    position: relative;
+  }
+
+  &__fare-options {
+    color: var(--color-4);
+    padding-bottom: 10px;
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__option {
+    position: relative;
+    padding-left: 16px;
+
+    &::before {
+      display: block;
+      content: ' ';
+      position: absolute;
+      top: 8px;
+      left: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--color-2);
+    }
+  }
+}

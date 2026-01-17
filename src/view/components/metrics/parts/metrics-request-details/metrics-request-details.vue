@@ -2,6 +2,7 @@
   import type { RequestRecord } from '@/core/metrics/metrics-bus';
 
   import { useI18n } from '@/view/composables/use-i18n';
+  import UiColorCode from '@/view/ui/ui-color-code/ui-color-code.vue';
   import './metrics-request-details.scss';
 
   interface Props {
@@ -88,15 +89,17 @@
         <div class="metrics-request-details__label">
           {{ t('metrics.details.response') }}
         </div>
-        <pre class="metrics-request-details__pre">{{
-          formatObject(request.responseBody ?? request.error?.message)
-        }}</pre>
+        <UiColorCode
+          class="metrics-request-details__pre"
+          :code="request.responseBody ?? request.error?.message"
+        />
         <div class="metrics-request-details__label">
           {{ t('metrics.details.headers') }}
         </div>
-        <pre class="metrics-request-details__pre">{{
-          formatObject(request.responseHeaders)
-        }}</pre>
+        <UiColorCode
+          class="metrics-request-details__pre"
+          :code="request.responseHeaders"
+        />
       </div>
     </div>
   </div>

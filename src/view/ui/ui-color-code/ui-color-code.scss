@@ -1,0 +1,32 @@
+.ui-color-code {
+  color: #e0e0e0;
+  font-family: 'Fira Mono', Consolas, Menlo, monospace;
+  font-size: 12px;
+
+  .token.operator,
+  .token.entity,
+  .token.url,
+  .language-css .token.string,
+  .style .token.string {
+    background: transparent;
+  }
+
+  .token.property,
+  .token.tag,
+  .token.boolean,
+  .token.number,
+  .token.constant,
+  .token.symbol,
+  .token.deleted {
+    color: rgb(199 2 111);
+  }
+
+  .token.selector,
+  .token.attr-name,
+  .token.string,
+  .token.char,
+  .token.builtin,
+  .token.inserted {
+    color: rgb(130 195 1);
+  }
+}

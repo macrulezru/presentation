@@ -6,6 +6,7 @@
     onUnmounted,
     watch,
     nextTick,
+    h,
   } from 'vue';
 
   import { FeaturesEnum } from '@/enums/features.enum';
@@ -18,32 +19,32 @@
   import { useResponsive } from '@/view/composables/use-responsive';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
   import Button from '@/view/ui/ui-button/ui-button.vue';
-  import LoadingSpinner from '@/view/ui/ui-loading-spinner/ui-loading-spinner.vue';
+  import UiLoading from '@/view/ui/ui-loading/ui-loading.vue';
 
   import '@/view/components/examples/examples.scss';
 
-  const RestApi = defineAsyncComponent({
-    loader: () => import('@/view/components/rest-api/rest-api.vue'),
-    loadingComponent: LoadingSpinner,
-    delay: 200,
-    timeout: 10000,
-    errorComponent: {
-      template: `
-      <div class="travelshop__error">
-        <p>{{ $t('travelshop.loading_error') }}</p>
-      </div>
-    `,
-    },
+  const Pipeline = defineAsyncComponent({
+    loader: () => import('@/view/components/pipeline/pipeline.vue'),
+    loadingComponent: () =>
+      h('div', { class: 'examples__pipeline-loader' }, [
+        h(UiLoading, {
+          type: 'circle',
+          circleRadius: 60,
+          thickness: 3,
+          progressColor: '#d941b0',
+        }),
+      ]),
+    delay: 0,
   });
 
   const { t } = useI18n();
 
   const { isDesktop } = useResponsive();
   const { features } = useFeatures();
-  const { navigateToSection } = useScrollRouting();
+  const { navigateToSection, updateUrlWithFeature } = useScrollRouting();
   const examplesStore = useExamplesStore();
 
-  const isShowRestApi = ref<boolean>(false);
+  const isShowPipeline = ref<boolean>(false);
   const activeFeatureId = ref<string>('');
   const navigationRef = ref<HTMLElement | null>(null);
   const isScrollingByUser = ref<boolean>(false);
@@ -83,8 +84,10 @@
     navigateToSection(PageSectionsEnum.CONTACTS);
   };
 
-  const showRestApi = () => {
-    isShowRestApi.value = true;
+  const showPipeline = () => {
+    isShowPipeline.value = true;
+    activeFeatureId.value = FeaturesEnum.PIPELINE;
+    nextTick(() => scrollNavigationToActiveItem());
   };
 
   const getNavigationOffset = () => {
@@ -145,31 +148,34 @@
     music.value = new Audio(musicUrl);
     if (examplesStore.videoStatus) playMusic();
 
-    const offset = getNavigationOffset();
     observer = new IntersectionObserver(
       entries => {
-        // Only process if user is not scrolling by clicking menu
         if (isScrollingByUser.value) return;
-
-        // Find the topmost (first) intersecting element
         const intersectingEntries = entries.filter(entry => entry.isIntersecting);
+        console.log(
+          'Пересекающиеся элементы:',
+          intersectingEntries.map(e => e.target.getAttribute('data-feature-id')),
+        );
         if (intersectingEntries.length === 0) return;
-
-        // Sort by position to get the topmost element
         const topmost = intersectingEntries.reduce((top, current) => {
           const topRect = top.target.getBoundingClientRect();
           const currentRect = current.target.getBoundingClientRect();
           return currentRect.top < topRect.top ? current : top;
         });
-
         const featureId = topmost.target.getAttribute('data-feature-id');
+        console.log('Выбранный featureId:', featureId);
         if (featureId) {
-          activeFeatureId.value = featureId;
+          if (activeFeatureId.value !== featureId) {
+            activeFeatureId.value = featureId;
+          } else {
+            // Принудительно обновляем URL, даже если значение не изменилось
+            updateUrlWithFeature('features', featureId);
+          }
         }
       },
       {
-        rootMargin: `-${offset}px 0px -50% 0px`,
-        threshold: 0,
+        rootMargin: '-10% 0px -10% 0px',
+        threshold: 0.2,
       },
     );
 
@@ -178,6 +184,8 @@
 
     if (features.value.length > 0 && features.value[0]) {
       activeFeatureId.value = features.value[0].id;
+      // Ensure URL updates for the first feature block
+      updateUrlWithFeature('features', features.value[0].id);
     }
   });
 
@@ -190,12 +198,17 @@
   });
 
   // Watch for changes in activeFeatureId and scroll the navigation menu
-  watch(activeFeatureId, () => {
-    // Use nextTick equivalent: setTimeout ensures DOM is updated
-    setTimeout(() => {
-      scrollNavigationToActiveItem();
-    }, 0);
-  });
+  watch(
+    activeFeatureId,
+    featureId => {
+      console.log('watcher activeFeatureId сработал, featureId:', featureId);
+      setTimeout(() => {
+        scrollNavigationToActiveItem();
+        updateUrlWithFeature('features', featureId);
+      }, 0);
+    },
+    { immediate: true },
+  );
   const featuresListRef = ref<HTMLElement | null>(null);
 
   function checkFeaturesListVisibility() {
@@ -306,10 +319,14 @@
           <template v-for="(feature, idx) in features" :key="feature.id">
             <FeatureItem :feature="feature" :reverse="idx > 0 && idx % 2 === 1">
               <template v-if="feature.id === FeaturesEnum.PIPELINE">
-                <div v-if="!isShowRestApi" class="examples__rest-api">
-                  <Button :text="t('rest-api.button')" @click="showRestApi" />
+                <div v-if="!isShowPipeline" class="examples__pipeline">
+                  <Button
+                    :text="t('pipeline-demo.button_openDemo')"
+                    promo
+                    @click="showPipeline"
+                  />
                 </div>
-                <RestApi v-if="isShowRestApi" />
+                <Pipeline v-if="isShowPipeline" />
               </template>
             </FeatureItem>
           </template>

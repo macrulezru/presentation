@@ -15,7 +15,6 @@
     border-radius: 999px;
     border: 1px solid rgb(106 209 255 / 45%);
     background: rgb(4 12 20 / 70%);
-    box-shadow: inset 0 1px 4px rgb(0 0 0 / 45%);
     transition:
       background var(--transition-fast),
       border-color var(--transition-fast);
@@ -26,7 +25,6 @@
     height: 16px;
     border-radius: 50%;
     background: var(--color-secondary);
-    box-shadow: 0 2px 8px rgb(106 209 255 / 55%);
     transform: translateX(0);
     transition:
       transform var(--transition-fast),
@@ -39,15 +37,9 @@
   }
 
   &--active {
-    .ui-tumbler__badge {
-      background: linear-gradient(120deg, rgb(106 209 255 / 30%), rgb(24 167 255 / 35%));
-      border-color: rgb(106 209 255 / 70%);
-    }
-
     .ui-tumbler__dot {
       transform: translateX(18px);
-      background: #0f1c28;
-      box-shadow: 0 2px 12px rgb(0 0 0 / 40%);
+      background: var(--color-1);
     }
   }
 

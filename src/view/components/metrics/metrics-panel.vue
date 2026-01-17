@@ -16,6 +16,7 @@
 
   import type { RequestRecord } from '@/core/metrics/metrics-bus';
 
+  import { useMetricStore } from '@/stores/use-metric-store';
   import { useRequestLogStore } from '@/stores/use-request-log-store';
   import {
     METRICS_PANEL_TOGGLE_EVENT,
@@ -25,9 +26,13 @@
   import { useI18n } from '@/view/composables/use-i18n';
   import './metrics-panel.scss';
 
+  const metricStore = useMetricStore();
+
+  const { isShowMetric } = storeToRefs(metricStore);
+
   const { t } = useI18n();
-  const visible = ref(false);
-  watch(visible, v => {
+
+  watch(isShowMetric, v => {
     window.dispatchEvent(
       new CustomEvent<MetricsPanelToggleDetail>(METRICS_PANEL_STATE_EVENT, {
         detail: { open: v },
@@ -60,6 +65,7 @@
 
   const chartsVisible = ref(false);
   const activeChart = ref<ChartType>('rps');
+
   const logStore = useRequestLogStore();
   const { records, selectedId, selected: selectedRow } = storeToRefs(logStore);
 
@@ -77,17 +83,20 @@
   const panelElement = ref<HTMLElement | null>(null);
   let resizeObserver: ResizeObserver | null = null;
 
-  function handleKeyDown(e: KeyboardEvent) {
-    if (e.shiftKey && e.key.toLowerCase() === '~') {
+  const handleKeyDown = (e: KeyboardEvent) => {
+    const { key } = e;
+    const isTilde = key === '~';
+    const isYo = key === 'Ё' || key === 'ё';
+    if (e.shiftKey && (isTilde || isYo)) {
       e.preventDefault();
-      visible.value = !visible.value;
+      metricStore.setShowStatus(!isShowMetric.value);
     }
-  }
+  };
 
-  function handleExternalToggle(event: Event) {
+  const handleExternalToggle = (event: Event) => {
     const { open } = (event as CustomEvent<MetricsPanelToggleDetail>).detail || {};
-    visible.value = typeof open === 'boolean' ? open : !visible.value;
-  }
+    metricStore.setShowStatus(typeof open === 'boolean' ? open : !isShowMetric.value);
+  };
 
   onMounted(() => {
     logStore.ensureSubscription();
@@ -181,7 +190,7 @@
     Math.round(buckets.value.reduce((sum, b) => sum + (b.bytes || 0), 0)),
   );
 
-  function downloadJson() {
+  const downloadJson = () => {
     const data = filteredRows.value;
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -191,13 +200,13 @@
     a.download = `http-metrics-${ts}.json`;
     a.click();
     URL.revokeObjectURL(url);
-  }
+  };
 
   const hasDetails = computed(() => Boolean(selectedRow.value));
 
-  function selectRow(id: string | null) {
+  const selectRow = (id: string | null) => {
     logStore.select(id);
-  }
+  };
 
   // Tooltip state for interactive charts
   const tooltipState = ref<{
@@ -221,7 +230,10 @@
   const tooltipInitialized = ref(false);
 
   // Adjust tooltip position to keep it within the container bounds
-  function adjustTooltipPosition(chartsContainer: HTMLElement, initialX: number): number {
+  const adjustTooltipPosition = (
+    chartsContainer: HTMLElement,
+    initialX: number,
+  ): number => {
     if (!tooltipElement.value) return initialX;
 
     const tooltipWidth = tooltipElement.value.offsetWidth;
@@ -239,7 +251,7 @@
     }
 
     return adjustedX;
-  }
+  };
 
   watch(
     () => tooltipState.value.ready,
@@ -281,7 +293,7 @@
     },
   );
 
-  function fmtBytes(n: number): string {
+  const fmtBytes = (n: number): string => {
     if (n < 1024) return `${n} B`;
     const kb = n / 1024;
     if (kb < 1024) return `${Math.round(kb * 10) / 10} KB`;
@@ -289,9 +301,9 @@
     if (mb < 1024) return `${Math.round(mb * 10) / 10} MB`;
     const gb = mb / 1024;
     return `${Math.round(gb * 10) / 10} GB`;
-  }
+  };
 
-  function handleChartMouseMove(event: MouseEvent) {
+  const handleChartMouseMove = (event: MouseEvent) => {
     const svg = event.currentTarget as SVGSVGElement;
     if (!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
 
@@ -373,20 +385,20 @@
       tooltipState.value.ready = false;
       tooltipInitialized.value = false;
     }
-  }
+  };
 
-  function handleChartMouseLeave() {
+  const handleChartMouseLeave = () => {
     hoveredPointIndex.value = null;
     tooltipState.value.visible = false;
     tooltipState.value.ready = false;
     tooltipInitialized.value = false;
-  }
+  };
 </script>
 
 <template>
   <Transition name="metrics-panel-slide">
     <div
-      v-if="visible"
+      v-if="isShowMetric"
       ref="panelElement"
       class="metrics-panel"
       :class="{
@@ -401,7 +413,7 @@
             v-model:status="state.status"
             v-model:url="state.url"
             v-model:limit="state.limit"
-            @close="visible = false"
+            @close="metricStore.setShowStatus(false)"
           />
         </div>
         <div class="metrics-panel__header-row">

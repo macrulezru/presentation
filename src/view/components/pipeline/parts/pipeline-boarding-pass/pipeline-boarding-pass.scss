@@ -1,0 +1,188 @@
+.pipeline-boarding-pass {
+  background: var(--color-background);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  border: solid 1px var(--color-8);
+  line-height: 1;
+  overflow: hidden;
+
+  &__header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed var(--color-7);
+    padding: 20px;
+    background-color: var(--color-background-dark);
+  }
+
+  &__title {
+    color: var(--color-6);
+    font-weight: 800;
+  }
+
+  &__logo {
+    width: 210px;
+    height: 60px;
+    background-image: url('@/view/assets/images/macrulez-airlines.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  &__main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  &__route-row,
+  &__details-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 25px 30px;
+    border-bottom: 1px dashed var(--color-7);
+  }
+
+  &__flight-path {
+    flex: 2;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__flight-line {
+    height: 1px;
+    border-bottom: solid 1px var(--color-8);
+    width: 100%;
+    position: relative;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background-color: var(--color-8);
+      border-radius: 50%;
+      top: -4px;
+    }
+
+    &::before {
+      left: 0;
+    }
+
+    &::after {
+      right: 0;
+    }
+  }
+
+  &__info-row,
+  &__details-row,
+  &__boarding-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 20px;
+    padding: 20px;
+    border-bottom: 1px dashed var(--color-7);
+  }
+
+  &__boarding-row {
+    background-color: var(--color-background-dark);
+  }
+
+  &__info-section,
+  &__detail-item,
+  &__boarding-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    box-sizing: border-box;
+  }
+
+  &__label {
+    color: var(--color-4);
+  }
+
+  &__value {
+    color: var(--color-light);
+  }
+
+  &__airport {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+    &-code {
+      font-size: 46px;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--color-6);
+    }
+  }
+
+  &__plane-icon {
+    position: absolute;
+    font-size: 30px;
+    line-height: 1;
+  }
+
+  &__barcode-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 20px;
+  }
+
+  &__barcode {
+    font-size: 36px;
+  }
+
+  &__barcode-note {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    color: var(--color-8);
+  }
+
+  &__qr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-background-dark);
+    border-radius: 8px;
+    min-width: 140px;
+    min-height: 140px;
+
+    img {
+      width: 140px;
+      height: 140px;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    padding: 20px;
+    border-top: 1px dashed var(--color-7);
+    color: var(--color-8);
+    background-color: var(--color-background-dark);
+
+    &-qr {
+      flex-shrink: 0;
+    }
+  }
+}

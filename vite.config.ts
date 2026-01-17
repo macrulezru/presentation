@@ -65,6 +65,7 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       '@assets': fileURLToPath(new URL('./src/view/assets', import.meta.url)),
+      'rest-pipeline-js/vue': fileURLToPath(new URL('./node_modules/rest-pipeline-js/vue/distr/vue', import.meta.url)),
     },
   },
   build: {

@@ -1,3 +1,4 @@
+// Обновление URL с поддержкой третьего сегмента (feature)
 import { ref, watch, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
@@ -430,11 +431,48 @@ export function useScrollRouting() {
     isUserScrolling.value = false;
   };
 
+  const updateUrlWithFeature = (sectionName: string, featureId?: string) => {
+    if (isProgrammaticScroll.value || isProcessingNavigation.value) {
+      console.log(
+        'updateUrlWithFeature: блокировка по флагу isProgrammaticScroll или isProcessingNavigation',
+        {
+          isProgrammaticScroll: isProgrammaticScroll.value,
+          isProcessingNavigation: isProcessingNavigation.value,
+        },
+      );
+      return;
+    }
+    const now = Date.now();
+    if (now - lastUrlUpdateTime.value < 300) {
+      console.log('updateUrlWithFeature: блокировка по таймауту', {
+        now,
+        lastUrlUpdateTime: lastUrlUpdateTime.value,
+      });
+      return;
+    }
+    navigationStore.setCurrentSection(sectionName);
+    const currentLocale = (route.params.locale as string) || 'ru';
+    let newPath = isSplashSection(sectionName)
+      ? `/${currentLocale}`
+      : `/${currentLocale}/${sectionName}`;
+    if (featureId) {
+      newPath += `/${featureId}`;
+    }
+    if (window.location.hash !== `#${newPath}`) {
+      console.log('updateUrlWithFeature: обновление URL', newPath);
+      window.history.replaceState({}, '', `/#${newPath}`);
+      lastUrlUpdateTime.value = now;
+    } else {
+      console.log('updateUrlWithFeature: URL уже актуален', newPath);
+    }
+  };
+
   return {
     sections: computed(() => navigationStore.sections),
     currentSection: computed(() => navigationStore.currentSection),
     isScrolling: computed(() => navigationStore.isScrolling),
     isUserScrolling: computed(() => isUserScrolling.value),
+    updateUrlWithFeature,
     scrollToSection,
     navigateToSection,
     getActiveSection,

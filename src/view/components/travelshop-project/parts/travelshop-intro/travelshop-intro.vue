@@ -22,8 +22,11 @@
 
   const travelshopIntroStore = useTravelshopIntroStore();
 
-  const { canvasRef, exportConfig, handleImportConfig } =
-    useTravelshopCanvas(canvasContainer);
+  const {
+    canvasRef: _canvasRef,
+    exportConfig,
+    handleImportConfig,
+  } = useTravelshopCanvas(canvasContainer);
 
   const newAudio = computed(() => {
     return new Audio(Music);
@@ -125,7 +128,7 @@
         'travelshop-intro__wrapper_dev-mode': travelshopIntroStore.showDebugControls,
       }"
     >
-      <canvas ref="canvasRef" class="travelshop-intro__canvas" />
+      <canvas ref="_canvasRef" class="travelshop-intro__canvas" />
     </div>
 
     <template v-if="isDesktop">
