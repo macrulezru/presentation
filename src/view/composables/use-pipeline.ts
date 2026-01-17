@@ -1,6 +1,7 @@
 import { PipelineOrchestrator, usePipelineRunVue } from 'rest-pipeline-js';
-import stringifyObject from 'stringify-object';
 import { ref, computed, type ComputedRef } from 'vue';
+
+import pipelineConfigSource from './pipeline-config-source.txt?raw';
 
 import { metricsHandlers } from '@/core/metrics/metrics-bus';
 import { DirectionsModel, FlightModel } from '@/models/availability.model';
@@ -173,10 +174,7 @@ export const usePipeline = () => {
     run();
   };
 
-  const pipelineConfigString = stringifyObject(pipelineConfig, {
-    indent: '  ',
-    singleQuotes: false,
-  });
+  const pipelineConfigString = pipelineConfigSource;
 
   const triggerShowCode = () => {
     isCodeShow.value = !isCodeShow.value;
