@@ -122,7 +122,8 @@
   &__pipeline {
     display: flex;
     justify-content: center;
-    padding: 60px 0 0;
+    padding: 60px 0 40px;
+    overflow: hidden;
   }
 
   &__pipeline-loader {
