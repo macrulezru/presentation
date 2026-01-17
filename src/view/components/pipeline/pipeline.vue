@@ -80,7 +80,21 @@
         const el = stages[idx] as HTMLElement;
         if (el) {
           const parent = pipelineBlock.value;
-          const scrollLeft = el.offsetLeft - parent.offsetWidth / 2 + el.offsetWidth / 2;
+          const elLeft = el.offsetLeft;
+          const elRight = elLeft + el.offsetWidth;
+          const parentWidth = parent.offsetWidth;
+          let scrollLeft;
+          if (idx === 0) {
+            scrollLeft = 0;
+          } else if (el.offsetWidth >= parentWidth || elLeft < parent.scrollLeft) {
+            scrollLeft = elLeft;
+          } else if (elRight > parent.scrollLeft + parentWidth) {
+            scrollLeft = elRight - parentWidth;
+          } else {
+            const elCenter = elLeft + el.offsetWidth / 2;
+            const parentCenter = parentWidth / 2;
+            scrollLeft = elCenter - parentCenter;
+          }
           parent.scrollTo({ left: scrollLeft, behavior: 'smooth' });
         }
       }
