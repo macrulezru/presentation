@@ -1,0 +1,22 @@
+.pipeline-step-placeholder {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__item {
+    border-radius: 10px;
+    border: solid 1px var(--color-dark);
+  }
+
+  &__item_request {
+    height: 96px;
+  }
+
+  &__item_response {
+    height: 270px;
+  }
+
+  &__item_data {
+    height: 160px;
+  }
+}

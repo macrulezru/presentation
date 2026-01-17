@@ -119,9 +119,16 @@
     flex-direction: column;
   }
 
-  &__rest-api {
+  &__pipeline {
     display: flex;
     justify-content: center;
-    padding: var(--spacing-lg) var(--spacing-md);
+    padding: 60px 0 0;
+  }
+
+  &__pipeline-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
   }
 }

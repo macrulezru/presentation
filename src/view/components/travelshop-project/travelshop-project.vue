@@ -21,9 +21,7 @@
 
   const TravelshopImages = defineAsyncComponent({
     loader: () =>
-      import(
-        '@/view/components/travelshop-project/parts/travelshop-images/travelshop-images.vue'
-      ),
+      import('@/view/components/travelshop-project/parts/travelshop-images/travelshop-images.vue'),
     loadingComponent: () =>
       h('div', { class: 'travelshop__gallery-loader' }, [
         h(UiLoading, {

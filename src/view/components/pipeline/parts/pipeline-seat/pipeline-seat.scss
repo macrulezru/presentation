@@ -1,0 +1,42 @@
+.pipeline-seat {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &__seat-info {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__seat {
+    color: var(--color-4);
+  }
+
+  &__props {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__seat-props {
+    color: var(--color-4);
+    padding-bottom: 10px;
+  }
+
+  &__prop {
+    position: relative;
+    padding-left: 16px;
+
+    &::before {
+      display: block;
+      content: ' ';
+      position: absolute;
+      top: 8px;
+      left: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--color-2);
+    }
+  }
+}

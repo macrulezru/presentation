@@ -1,0 +1,78 @@
+.pipeline-step-status {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+
+  &_lined {
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: calc(50% + 25px);
+      width: calc(100% - 20px);
+      height: 1px;
+      background-color: var(--color-1);
+      opacity: 0.5;
+      z-index: 0;
+      animation: pipeline-step-status-line 0.3s ease forwards;
+    }
+  }
+
+  &__indicator {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: solid 2px var(--color-1);
+    z-index: 1;
+
+    &::after {
+      position: absolute;
+      display: block;
+      content: ' ';
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: var(--color-1);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &_loaded {
+      .pipeline-step-status__label {
+        color: var(--color-background);
+      }
+
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__label {
+    position: absolute;
+    color: var(--color-1);
+    font-weight: 500;
+    z-index: 2;
+  }
+
+  .ui-loading_circle {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@keyframes pipeline-step-status-line {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: calc(100% - 20px);
+  }
+}

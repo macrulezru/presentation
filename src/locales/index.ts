@@ -7,13 +7,33 @@ const PLACEHOLDER_MAP: Record<string, string> = {
   '__PH:AT__': '@',
 };
 
-function restorePlaceholders(value: unknown): unknown {
+function restoreHtmlBlocks(str: string, classesObj?: Record<string, string>): string {
+  if (!str) return str;
+  return str.replace(
+    /__PH:BLOCK:([A-Z0-9]+):([a-zA-Z0-9_-]+)__([\s\S]*?)__PH:BLOCK:\1__/g,
+    (_match, tag, cssClass, inner) => {
+      let finalClass = cssClass;
+      if (classesObj && typeof classesObj[cssClass] === 'string') {
+        finalClass = classesObj[cssClass];
+      }
+
+      const safeTag = String(tag).replace(/[^a-zA-Z0-9]/g, '');
+      return `<${safeTag} class="${finalClass}">${inner}</${safeTag}>`;
+    },
+  );
+}
+
+function restorePlaceholders(
+  value: unknown,
+  options?: { classes?: Record<string, string> },
+): unknown {
   if (typeof value === 'string') {
-    return Object.entries(PLACEHOLDER_MAP).reduce((acc, [placeholder, char]) => {
+    let result = Object.entries(PLACEHOLDER_MAP).reduce((acc, [placeholder, char]) => {
       return acc.replace(new RegExp(placeholder, 'g'), char);
     }, value);
+    result = restoreHtmlBlocks(result, options?.classes);
+    return result;
   }
-
   return value;
 }
 
@@ -30,14 +50,27 @@ export const i18n = createI18n({
 
 const rawTranslate = i18n.global.t.bind(i18n.global);
 
-i18n.global.t = ((...args: Parameters<typeof rawTranslate>) => {
-  const result = rawTranslate(...args);
-  return restorePlaceholders(result) as ReturnType<typeof rawTranslate>;
-}) as typeof i18n.global.t;
+type RawTranslateRest =
+  Parameters<typeof rawTranslate> extends [infer _K, ...infer R] ? R : never;
+
+i18n.global.t = function <K extends string>(key: K, ...rest: RawTranslateRest) {
+  type TOptions = { [key: string]: unknown; classes?: Record<string, string> };
+  let options: TOptions = {};
+  if (
+    rest.length > 0 &&
+    typeof rest[rest.length - 1] === 'object' &&
+    !Array.isArray(rest[rest.length - 1])
+  ) {
+    options = rest[rest.length - 1] as TOptions;
+  }
+  const result = rawTranslate(key, ...rest);
+  return restorePlaceholders(result, { classes: options.classes }) as ReturnType<
+    typeof rawTranslate
+  >;
+} as typeof i18n.global.t;
 
 const loadedLocales = new Set<string>();
 
-// Функция для динамической загрузки локалей
 export async function loadLocale(locale: LocalesEnumType) {
   if (loadedLocales.has(locale)) {
     return;
@@ -55,7 +88,6 @@ export async function loadLocale(locale: LocalesEnumType) {
   }
 }
 
-// Функция для определения начальной локали
 export function getInitialLocale(): LocalesEnumType {
   const { hash } = window.location;
 
@@ -81,5 +113,4 @@ export function getInitialLocale(): LocalesEnumType {
   return LocalesEnum.RU;
 }
 
-// Экспортируем preloadLocale
 export { preloadLocale };

@@ -8,4 +8,5 @@ export interface Props {
   reset?: boolean;
   control?: boolean;
   variant?: 'primary' | 'secondary' | 'ghost';
+  promo?: boolean;
 }

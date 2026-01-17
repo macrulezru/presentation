@@ -1,4 +1,4 @@
-import type { MetricsHandler, ApiError } from '@/core/rest/types';
+import type { MetricsHandler, ApiError } from 'rest-pipeline-js';
 
 export interface RequestStart {
   id: string;

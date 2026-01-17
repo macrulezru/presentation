@@ -20,12 +20,18 @@
       'ui-button_reset': props.reset,
       'ui-button_control': props.control,
       [`ui-button_variant-${props.variant}`]: Boolean(props.variant),
+      'ui-button_promo': props.promo,
     };
   });
 </script>
 
 <template>
   <button class="ui-button" :class="classes" :disabled="disabled">
+    <span v-if="props.promo" class="ui-button__waves">
+      <span class="ui-button__wave"></span>
+      <span class="ui-button__wave"></span>
+      <span class="ui-button__wave"></span>
+    </span>
     <slot>
       {{ props.text }}
     </slot>
