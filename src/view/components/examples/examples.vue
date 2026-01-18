@@ -152,10 +152,6 @@
       entries => {
         if (isScrollingByUser.value) return;
         const intersectingEntries = entries.filter(entry => entry.isIntersecting);
-        console.log(
-          'Пересекающиеся элементы:',
-          intersectingEntries.map(e => e.target.getAttribute('data-feature-id')),
-        );
         if (intersectingEntries.length === 0) return;
         const topmost = intersectingEntries.reduce((top, current) => {
           const topRect = top.target.getBoundingClientRect();
@@ -163,7 +159,6 @@
           return currentRect.top < topRect.top ? current : top;
         });
         const featureId = topmost.target.getAttribute('data-feature-id');
-        console.log('Выбранный featureId:', featureId);
         if (featureId) {
           if (activeFeatureId.value !== featureId) {
             activeFeatureId.value = featureId;
@@ -201,7 +196,6 @@
   watch(
     activeFeatureId,
     featureId => {
-      console.log('watcher activeFeatureId сработал, featureId:', featureId);
       setTimeout(() => {
         scrollNavigationToActiveItem();
         updateUrlWithFeature('features', featureId);

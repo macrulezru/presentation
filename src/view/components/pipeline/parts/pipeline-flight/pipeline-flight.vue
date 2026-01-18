@@ -16,7 +16,6 @@
   const { t } = useI18n();
 
   const segmentData = computed(() => {
-    console.log(props.flight?.getSegment());
     return props.flight?.getSegment();
   });
 </script>

@@ -59,7 +59,6 @@ export const Default: Story = {
 
       const handleUpdate = (value: SelectOption) => {
         model.value = value;
-        console.log('Selected value:', value);
       };
 
       return { args, model, handleUpdate };
