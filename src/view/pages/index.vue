@@ -8,6 +8,7 @@
   import { useI18n } from '@/view/composables/use-i18n.ts';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
   import { useSectionsConfig } from '@/view/composables/use-sections-config';
+  import { useMacrulezBadge } from '@/view/composables/useMacrulezBadge';
 
   import '@/view/pages/index.scss';
 
@@ -22,6 +23,8 @@
 
   const navigationStore = useNavigationStore();
   const { showSectionEditor } = storeToRefs(navigationStore);
+
+  useMacrulezBadge();
 
   onBeforeMount(() => {
     initLocale();
