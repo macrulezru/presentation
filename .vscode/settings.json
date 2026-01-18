@@ -98,5 +98,9 @@
   "i18n-ally.keystyle": "nested",
   "i18n-ally.enabledFrameworks": ["vue"],
   "i18n-ally.sourceLanguage": "ru",
-  "i18n-ally.displayLanguage": "ru"
+  "i18n-ally.displayLanguage": "ru",
+
+  // ========== Code Spell Checker: игнорировать class="..." ==========
+  "cSpell.ignoreRegExpList": ["<\\s*class\\s*=\\s*\"[^\"]*\""],
+  "cSpell.words": ["pinia", "глоу"]
 }
