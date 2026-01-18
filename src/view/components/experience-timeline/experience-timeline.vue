@@ -10,13 +10,11 @@
 
   const { t } = useI18n();
 
-  const experienceItems = useExperienceItems(t);
+  const experienceItems = useExperienceItems();
 
-  const headCompany = computed(() => experienceItems.value.slice(0, 2));
+  const headCompany = computed(() => experienceItems.items.value.slice(0, 2));
 
-  const overCompany = computed(() =>
-    experienceItems.value.slice(2, experienceItems.value.length),
-  );
+  const overCompany = computed(() => experienceItems.items.value.slice(2));
 </script>
 
 <template>
