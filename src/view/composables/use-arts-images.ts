@@ -1,77 +1,44 @@
-import { computed } from 'vue';
+import { createRestClient, type ApiResponse } from 'rest-pipeline-js';
+import { ref } from 'vue';
 
-import { ImageFolder, FOLDERS_DATA } from '@/enums/arts.enum';
-
-export interface ArtsImageData {
-  preview: string | null;
+export interface ArtsImage {
+  directory: string;
+  preview: string;
   images: string[];
-  description: string;
-  key: ImageFolder;
-  title: string;
+  meta?: Record<string, unknown>;
+  $loki?: number;
 }
 
-export const useArtsImages = () => {
-  const images = computed<ArtsImageData[]>(() => {
-    const items = Object.entries(FOLDERS_DATA).map(([key, data]) => {
-      const folderKey = key as ImageFolder;
+const client = createRestClient({
+  baseURL: 'https://api.macrulez.ru/v1',
+  timeout: 7000,
+  cache: { enabled: true, ttlMs: 60000 },
+});
 
-      return {
-        preview: data.preview,
-        images: data.images,
-        description: formatFolderName(folderKey),
-        title: formatFolderName(folderKey),
-        key: folderKey,
-      };
-    });
+export function useArtsImages() {
+  const arts = ref<ArtsImage[]>([]);
+  const loading = ref(false);
+  const error = ref<string | null>(null);
 
-    return items.sort(() => Math.random() - 0.5);
-  });
+  async function fetchArts() {
+    loading.value = true;
+    error.value = null;
+    const res: ApiResponse<ArtsImage[]> = await client.request('/arts/');
+    if ('error' in res && res.error) {
+      error.value = String(res.error);
+      arts.value = [];
+    } else {
+      arts.value = Array.isArray(res.data) ? res.data : [];
+    }
+    loading.value = false;
+  }
 
-  // Форматирование имени папки
-  const formatFolderName = (folder: ImageFolder): string => {
-    return folder.replace(/_/g, ' ');
-  };
-
-  // Получение данных по ключу enum
-  const getImageByKey = (key: ImageFolder) => {
-    return images.value.find(img => img.key === key);
-  };
-
-  // Получение данных по индексу
-  const getImageByIndex = (index: number) => {
-    return images.value[index];
-  };
-
-  // Получение индекса по ключу enum
-  const getIndexByKey = (key: ImageFolder) => {
-    return images.value.findIndex(img => img.key === key);
-  };
-
-  // Получение предыдущего элемента
-  const getPrevImage = (currentKey: ImageFolder) => {
-    const currentIndex = getIndexByKey(currentKey);
-    return currentIndex > 0 ? images.value[currentIndex - 1] : null;
-  };
-
-  // Получение следующего элемента
-  const getNextImage = (currentKey: ImageFolder) => {
-    const currentIndex = getIndexByKey(currentKey);
-    return currentIndex < images.value.length - 1 ? images.value[currentIndex + 1] : null;
-  };
+  fetchArts();
 
   return {
-    // Данные
-    images,
-
-    // Методы
-    getImageByKey,
-    getImageByIndex,
-    getIndexByKey,
-    getPrevImage,
-    getNextImage,
-    formatFolderName,
-
-    // Свойства
-    totalImages: computed(() => images.value.length),
+    arts,
+    loading,
+    error,
+    fetchArts,
   };
-};
+}
