@@ -1,3 +1,4 @@
+import { h, Fragment } from 'vue';
 import { createI18n } from 'vue-i18n';
 
 import { LocalesEnum, type LocalesEnumType, LocalesList } from '@/enums/locales.enum';
@@ -18,7 +19,7 @@ function restoreHtmlBlocks(str: string, classesObj?: Record<string, string>): st
       }
 
       const safeTag = String(tag).replace(/[^a-zA-Z0-9]/g, '');
-      return `<${safeTag} class="${finalClass}">${inner}</${safeTag}>`;
+      return `__VNode:${safeTag}:${finalClass}__${inner}__VNode:${safeTag}__`;
     },
   );
 }
@@ -37,6 +38,41 @@ function restorePlaceholders(
   return value;
 }
 
+export function useVNodeI18n() {
+  const { t } = i18n.global;
+  function vnodeT(key: string, ...args: unknown[]) {
+    let raw;
+
+    if (args.length === 0) {
+      raw = t(key);
+    } else {
+      raw = t(key, args[0] as Record<string, unknown>);
+    }
+
+    if (typeof raw === 'string' && raw.includes('__VNode:')) {
+      const parts: Array<string | ReturnType<typeof h>> = [];
+      const vNodeRegex = /__VNode:([A-Z0-9]+):([a-zA-Z0-9_-]+)__(.*?)__VNode:\1__/gs;
+      let lastIndex = 0;
+      let match;
+      while ((match = vNodeRegex.exec(raw)) !== null) {
+        if (match.index > lastIndex) {
+          parts.push(raw.slice(lastIndex, match.index));
+        }
+        const [, tag, cssClass, inner] = match;
+        parts.push(h(tag || 'span', { class: cssClass }, String(inner ?? '')));
+        ({ lastIndex } = vNodeRegex);
+      }
+      if (lastIndex < raw.length) {
+        parts.push(raw.slice(lastIndex));
+      }
+      return h(Fragment, {}, parts);
+    }
+    return raw;
+  }
+
+  return { vnodeT };
+}
+
 const messages = {};
 
 export const i18n = createI18n({
@@ -53,6 +89,7 @@ const rawTranslate = i18n.global.t.bind(i18n.global);
 type RawTranslateRest =
   Parameters<typeof rawTranslate> extends [infer _K, ...infer R] ? R : never;
 
+// Автоматизация: если результат содержит __VNode:, возвращаем VNode
 i18n.global.t = function <K extends string>(key: K, ...rest: RawTranslateRest) {
   type TOptions = { [key: string]: unknown; classes?: Record<string, string> };
   let options: TOptions = {};
@@ -63,10 +100,26 @@ i18n.global.t = function <K extends string>(key: K, ...rest: RawTranslateRest) {
   ) {
     options = rest[rest.length - 1] as TOptions;
   }
-  const result = rawTranslate(key, ...rest);
-  return restorePlaceholders(result, { classes: options.classes }) as ReturnType<
-    typeof rawTranslate
-  >;
+  const result = restorePlaceholders(rawTranslate(key, ...rest), { classes: options.classes });
+  if (typeof result === 'string' && result.includes('__VNode:')) {
+    const parts: Array<string | ReturnType<typeof h>> = [];
+    const vNodeRegex = /__VNode:([A-Z0-9]+):([a-zA-Z0-9_-]+)__(.*?)__VNode:\1__/gs;
+    let lastIndex = 0;
+    let match;
+    while ((match = vNodeRegex.exec(result)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(result.slice(lastIndex, match.index));
+      }
+      const [, tag, cssClass, inner] = match;
+      parts.push(h(tag || 'span', { class: cssClass }, String(inner ?? '')));
+      ({ lastIndex } = vNodeRegex);
+    }
+    if (lastIndex < result.length) {
+      parts.push(result.slice(lastIndex));
+    }
+    return h(Fragment, {}, parts);
+  }
+  return result;
 } as typeof i18n.global.t;
 
 const loadedLocales = new Set<string>();
