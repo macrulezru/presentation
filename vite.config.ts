@@ -2,7 +2,6 @@ import { fileURLToPath, URL } from 'node:url';
 
 import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
-import { viteStaticCopy } from 'vite-plugin-static-copy';
 import svgo from 'vite-plugin-svgo';
 import vueDevTools from 'vite-plugin-vue-devtools';
 
@@ -40,15 +39,6 @@ export default defineConfig({
         'removeDimensions',
       ],
     }),
-    // Добавляем плагин для копирования статических файлов
-    viteStaticCopy({
-      targets: [
-        {
-          src: 'src/view/assets/images/arts/**/*', // Исходная директория
-          dest: 'assets/images/arts', // Целевая директория в dist
-        },
-      ],
-    }),
   ],
   css: {
     preprocessorOptions: {
@@ -65,7 +55,9 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       '@assets': fileURLToPath(new URL('./src/view/assets', import.meta.url)),
-      'rest-pipeline-js/vue': fileURLToPath(new URL('./node_modules/rest-pipeline-js/vue/distr/vue', import.meta.url)),
+      'rest-pipeline-js/vue': fileURLToPath(
+        new URL('./node_modules/rest-pipeline-js/vue/distr/vue', import.meta.url),
+      ),
     },
   },
   build: {
@@ -84,12 +76,6 @@ export default defineConfig({
 
           if (/\.(svg)$/.test(name)) {
             return 'assets/images/icons/[name]-[hash][extname]';
-          }
-
-          if (name.includes('arts/')) {
-            const parts = name.split('/');
-            const folder = parts[parts.length - 2] || 'arts';
-            return `assets/images/arts/${folder}/[name]-[hash][extname]`;
           }
 
           if (/\.(jpg|jpeg|png|gif|webp)$/.test(name)) {
