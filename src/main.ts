@@ -1,5 +1,6 @@
 import MasonryWall from '@yeger/vue-masonry-wall';
 import { createPinia } from 'pinia';
+import { ResponsivePlugin } from 'responsive-media';
 import { createApp } from 'vue';
 
 import '@/view/styles/reset.scss';
@@ -34,7 +35,12 @@ async function initializeApp() {
 
   const app = createApp(App);
 
-  app.use(createPinia()).use(router).use(i18nPlugin).use(MasonryWall);
+  app
+    .use(createPinia())
+    .use(router)
+    .use(i18nPlugin)
+    .use(ResponsivePlugin)
+    .use(MasonryWall);
 
   // Добавляем обработчик ошибок загрузки переводов
   app.config.errorHandler = (err, _instance, info) => {

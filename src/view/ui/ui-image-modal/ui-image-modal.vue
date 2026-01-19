@@ -1,13 +1,13 @@
 <script setup lang="ts">
   import '@/view/ui/ui-image-modal/ui-image-modal.scss';
 
+  import { useResponsive } from 'responsive-media';
   import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue';
 
   import type { Props } from './types';
 
   import { i18n } from '@/locales';
   import { bodyLock, bodyUnlock } from '@/view/composables/use-body-fix';
-  import { useResponsive } from '@/view/composables/use-responsive';
 
   // Используем глобальный i18n напрямую, чтобы избежать проблем с инъекцией в Storybook
   const t = (key: string, values?: Record<string, unknown>) =>
@@ -33,7 +33,7 @@
     openInNewTab: [imageUrl: string];
   }>();
 
-  const { isDesktop } = useResponsive();
+  const responsive = useResponsive();
 
   const currentIndex = ref(props.initialIndex);
   const isLoading = ref(false);
@@ -64,7 +64,7 @@
   const hasNext = computed(() => currentIndex.value < props.images.length - 1);
 
   const imageOffset = computed(() => {
-    return isDesktop.value ? { width: 160, height: 160 } : { width: 60, height: 140 };
+    return responsive.desktop ? { width: 160, height: 160 } : { width: 60, height: 140 };
   });
 
   const imageStyle = computed(() => {

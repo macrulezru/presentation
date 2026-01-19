@@ -1,7 +1,6 @@
 <script setup lang="ts">
+  import { useResponsive } from 'responsive-media';
   import { ref, computed } from 'vue';
-
-  import { useResponsive } from '@/view/composables/use-responsive';
 
   export interface UiVideoSource {
     src: string;
@@ -39,7 +38,7 @@
   const fullscreen = ref(false);
   const videoRef = ref<HTMLVideoElement | null>(null);
 
-  const { isMobile, isTablet } = useResponsive();
+  const responsive = useResponsive();
 
   const currentSource = computed(() => {
     const { src, tablet, mobile } = props.video;
@@ -49,19 +48,19 @@
     }
 
     if (src && mobile && !tablet) {
-      if (isMobile.value) return mobile;
+      if (responsive.mobile) return mobile;
       return src;
     }
 
     if (src && tablet && !mobile) {
-      if (isMobile.value) return tablet;
-      if (isTablet.value) return tablet;
+      if (responsive.mobile) return tablet;
+      if (responsive.tablet) return tablet;
       return src;
     }
 
     if (src && tablet && mobile) {
-      if (isMobile.value) return mobile;
-      if (isTablet.value) return tablet;
+      if (responsive.mobile) return mobile;
+      if (responsive.tablet) return tablet;
       return src;
     }
 
@@ -72,7 +71,7 @@
     const { src, tablet, mobile } = props.video;
 
     if (src && tablet && !mobile) {
-      if (isMobile.value || isTablet.value) {
+      if (responsive.mobile || responsive.tablet) {
         return getAspectRatioStyle(tablet);
       }
       return getAspectRatioStyle(src);

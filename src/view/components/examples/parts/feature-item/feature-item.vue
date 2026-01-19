@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import '@/view/components/examples/parts/feature-item/feature-item.scss';
 
+  import { useResponsive } from 'responsive-media';
   import { computed, ref } from 'vue';
 
   import type { GradientOptions, GradientColors, headerGradientOptions } from './types';
@@ -8,7 +9,6 @@
 
   import { useExamplesStore } from '@/stores/use-examples-store';
   import { useColorGradient } from '@/view/composables/use-color-gradient';
-  import { useResponsive } from '@/view/composables/use-responsive';
   import UiImage from '@/view/ui/ui-image/ui-image.vue';
   import UiVideo from '@/view/ui/ui-video/ui-video.vue';
 
@@ -24,7 +24,7 @@
   const isReverse = computed(() => props.reverse === true);
 
   const examplesStore = useExamplesStore();
-  const { isDesktop } = useResponsive();
+  const responsive = useResponsive();
   const headerPortalRef = ref<HTMLElement>();
   const gradientOptions = { offsetPercent: 50 };
 
@@ -74,10 +74,10 @@
     <div class="feature-item__container">
       <div
         class="feature-item__header"
-        :class="{ 'feature-item__header_reverse': isReverse && isDesktop }"
+        :class="{ 'feature-item__header_reverse': isReverse && responsive.desktop }"
       >
         <div
-          v-if="!isDesktop"
+          v-if="!responsive.desktop"
           ref="headerPortalRef"
           class="feature-item__main-header"
         ></div>
@@ -107,7 +107,10 @@
         </div>
         <div class="feature-item__side-block">
           <div class="feature-item__side-block-wrapper">
-            <Teleport :to="headerPortalRef" :disabled="isDesktop || !headerPortalRef">
+            <Teleport
+              :to="headerPortalRef"
+              :disabled="responsive.desktop || !headerPortalRef"
+            >
               <div class="feature-item__side-block-header">
                 <div class="feature-item__title">{{ feature.title }}</div>
                 <div

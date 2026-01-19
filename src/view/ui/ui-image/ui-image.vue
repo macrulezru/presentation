@@ -1,10 +1,8 @@
 <script setup lang="ts">
   import '@/view/ui/ui-image/ui-image.scss';
 
+  import { useResponsive, getResponsiveMediaQueries } from 'responsive-media';
   import { ref, computed } from 'vue';
-
-  import { PictureResponsiveBreakpoints } from '@/enums/responsive.enum';
-  import { useResponsive } from '@/view/composables/use-responsive';
 
   export interface UiImageSource {
     src: string;
@@ -23,7 +21,8 @@
 
   const imgRef = ref<HTMLImageElement | null>(null);
 
-  const { isMobile, isTablet } = useResponsive();
+  const responsive = useResponsive();
+  const mediaQueries = getResponsiveMediaQueries();
 
   const currentImgSource = computed(() => {
     const { src, tablet, mobile } = props.image;
@@ -33,18 +32,18 @@
     }
 
     if (src && mobile && !tablet) {
-      if (isMobile.value) return mobile;
+      if (responsive.mobile) return mobile;
       return src;
     }
 
     if (src && tablet && !mobile) {
-      if (isMobile.value) return tablet;
+      if (responsive.mobile) return tablet;
       return src;
     }
 
     if (src && tablet && mobile) {
-      if (isMobile.value) return mobile;
-      if (isTablet.value) return tablet;
+      if (responsive.mobile) return mobile;
+      if (responsive.tablet) return tablet;
       return src;
     }
 
@@ -55,10 +54,10 @@
     const { src, tablet, mobile } = props.image;
 
     if (src && tablet && !mobile) {
-      if (isMobile.value) {
+      if (responsive.mobile) {
         return getAspectRatioStyle(tablet);
       }
-      if (isTablet.value) {
+      if (responsive.tablet) {
         return getAspectRatioStyle(tablet);
       }
       return getAspectRatioStyle(src);
@@ -98,16 +97,8 @@
 
 <template>
   <picture>
-    <source
-      v-if="image.mobile"
-      :srcset="image.mobile.src"
-      :media="PictureResponsiveBreakpoints.mobile"
-    />
-    <source
-      v-if="image.tablet"
-      :srcset="image.tablet.src"
-      :media="PictureResponsiveBreakpoints.tablet"
-    />
+    <source v-if="image.mobile" :srcset="image.mobile.src" :media="mediaQueries.mobile" />
+    <source v-if="image.tablet" :srcset="image.tablet.src" :media="mediaQueries.tablet" />
     <img
       ref="imgRef"
       :src="currentImgSource.src"

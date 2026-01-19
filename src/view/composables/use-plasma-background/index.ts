@@ -1,3 +1,4 @@
+import { useResponsive } from 'responsive-media';
 import { onMounted, onUnmounted, type Ref } from 'vue';
 
 import {
@@ -19,7 +20,6 @@ import { useThreeScene } from './use-three-scene';
 
 import type { UsePlasmaBackgroundReturn, ThreeSceneContext } from './types';
 
-import { useResponsive } from '@/view/composables/use-responsive';
 import { useVisibility } from '@/view/composables/use-visibility';
 
 export function usePlasmaBackground(
@@ -62,7 +62,7 @@ export function usePlasmaBackground(
     // Определяем тип устройства с учетом размера экрана
     // Если пользователь на десктопном браузере, но с мобильного разрешения,
     // считаем это мобильным режимом для оптимизации
-    const isMobileSize = responsive.isMobile.value;
+    const isMobileSize = responsive.mobile;
     const isMobileDevice = deviceInfo.isMobileDevice || isMobileSize;
 
     // Создание эффектов с учетом типа устройства
