@@ -732,18 +732,46 @@ export function useTravelshopCanvas(containerRef: Ref<HTMLElement | undefined>) 
     }
   });
 
+  // При любом изменении config обновляем сцену (без пересоздания облаков)
   watch(
     () => travelshopIntroStore.config,
     () => {
       if (allImagesLoaded.value) {
-        rotationDirection.value = travelshopIntroStore.config.aircraft.rotationDirection;
-        if (isMouseOverCanvas.value) {
-          updateTargetEllipseForMouse();
-        } else {
-          updateTargetEllipseForAirport();
-        }
-        recreateScene();
+        initScene();
       }
+    },
+    { deep: true },
+  );
+
+  // При изменении анимационных параметров облаков обновляем только свойства существующих облаков
+  watch(
+    () => [
+      travelshopIntroStore.config.clouds.back.minSpeed,
+      travelshopIntroStore.config.clouds.back.maxSpeed,
+      travelshopIntroStore.config.clouds.middle.minSpeed,
+      travelshopIntroStore.config.clouds.middle.maxSpeed,
+      travelshopIntroStore.config.clouds.front.minSpeed,
+      travelshopIntroStore.config.clouds.front.maxSpeed,
+      travelshopIntroStore.config.clouds.opacity.back.min,
+      travelshopIntroStore.config.clouds.opacity.back.max,
+      travelshopIntroStore.config.clouds.opacity.middle.min,
+      travelshopIntroStore.config.clouds.opacity.middle.max,
+      travelshopIntroStore.config.clouds.opacity.front.min,
+      travelshopIntroStore.config.clouds.opacity.front.max,
+    ],
+    () => {
+      if (!allImagesLoaded.value) return;
+      // Обновляем параметры уже существующих облаков
+      clouds.value.forEach(cloud => {
+        const configCloud = travelshopIntroStore.config.clouds[cloud.layer];
+        const opacityRange = travelshopIntroStore.config.clouds.opacity[cloud.layer];
+        // Скорость и прозрачность можно обновлять динамически
+        cloud.speed =
+          Math.random() * (configCloud.maxSpeed - configCloud.minSpeed) +
+          configCloud.minSpeed;
+        cloud.opacity =
+          Math.random() * (opacityRange.max - opacityRange.min) + opacityRange.min;
+      });
     },
     { deep: true },
   );
