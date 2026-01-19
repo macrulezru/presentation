@@ -15,6 +15,7 @@
   import { useExamplesStore } from '@/stores/use-examples-store.ts';
   import musicUrl from '@/view/assets/music/background-music.mp3';
   import FeatureItem from '@/view/components/examples/parts/feature-item/feature-item.vue';
+  import NpmPackages from '@/view/components/examples/parts/npm-packages/npm-packages.vue';
   import { useFeatures } from '@/view/composables/use-features.ts';
   import { useI18n } from '@/view/composables/use-i18n.ts';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
@@ -311,6 +312,9 @@
           </template>
         </div>
       </div>
+    </div>
+    <div class="examples__npm">
+      <NpmPackages />
     </div>
   </div>
 </template>

@@ -1,0 +1,44 @@
+.npm-packages {
+  padding: clamp(50px, 5vw, 80px) 0;
+  border-top: solid 1px var(--color-7);
+
+  &__container {
+    @include container-lg;
+  }
+
+  &__logo {
+    width: 180px;
+    height: 70px;
+    background-image: url('@/view/assets/images/npm-logo.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  &__title {
+    @include big-title;
+
+    display: flex;
+    align-items: center;
+    padding-bottom: clamp(40px, 6vw, 75px);
+    gap: 20px;
+    line-height: 1;
+  }
+
+  &__wrapper {
+    @include grid-3-cols;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+
+    &-name {
+      @include big-link;
+    }
+
+    &-description {
+      color: var(--color-4);
+    }
+  }
+}
