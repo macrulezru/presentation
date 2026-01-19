@@ -63,17 +63,14 @@
     ) as HTMLElement;
     if (!activeItem) return;
 
-    // Get the position of the active item relative to the scrollable container
     const itemLeft = activeItem.offsetLeft;
     const itemWidth = activeItem.offsetWidth;
     const containerWidth = scrollableContainer.clientWidth;
 
-    // Calculate the target scroll position to center the item
     const itemCenter = itemLeft + itemWidth / 2;
     const containerCenter = containerWidth / 2;
     const targetScroll = itemCenter - containerCenter;
 
-    // Scroll smoothly to the target position
     scrollableContainer.scrollTo({
       left: targetScroll,
       behavior: 'smooth',
@@ -97,28 +94,22 @@
   };
 
   const scrollToFeature = (featureId: string) => {
-    // Set flag to indicate user-initiated scroll
     isScrollingByUser.value = true;
     targetFeatureId.value = featureId;
 
-    // Immediately highlight and center the menu item
     activeFeatureId.value = featureId;
 
-    // Ensure DOM is updated before scrolling the menu
     setTimeout(() => {
       scrollNavigationToActiveItem();
     }, 0);
 
-    // Then scroll the page to the feature
     const element = document.querySelector(`[data-feature-id="${featureId}"]`);
     if (element) {
       const offset = getNavigationOffset();
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.scrollY - offset;
 
-      // Listen for scroll end to disable the user scroll flag
       const handleScrollEnd = () => {
-        // Check if we're close to the target position
         const currentScroll = window.scrollY;
         if (Math.abs(currentScroll - offsetPosition) < 50) {
           isScrollingByUser.value = false;
@@ -128,7 +119,6 @@
 
       window.addEventListener('scroll', handleScrollEnd);
 
-      // Fallback: disable flag after 600ms (duration of smooth scroll)
       setTimeout(() => {
         isScrollingByUser.value = false;
         window.removeEventListener('scroll', handleScrollEnd);
@@ -144,7 +134,6 @@
   let observer: IntersectionObserver | null = null;
 
   onMounted(() => {
-    // preload audio
     music.value = new Audio(musicUrl);
     if (examplesStore.videoStatus) playMusic();
 
@@ -163,14 +152,13 @@
           if (activeFeatureId.value !== featureId) {
             activeFeatureId.value = featureId;
           } else {
-            // Принудительно обновляем URL, даже если значение не изменилось
             updateUrlWithFeature('features', featureId);
           }
         }
       },
       {
-        rootMargin: '-10% 0px -10% 0px',
-        threshold: 0.2,
+        rootMargin: isDesktop.value ? '-10% 0px -10% 0px' : '-40% 0px -40% 0px',
+        threshold: isDesktop.value ? 0.2 : 0.01,
       },
     );
 
@@ -179,7 +167,6 @@
 
     if (features.value.length > 0 && features.value[0]) {
       activeFeatureId.value = features.value[0].id;
-      // Ensure URL updates for the first feature block
       updateUrlWithFeature('features', features.value[0].id);
     }
   });
@@ -192,7 +179,6 @@
     music.value = null;
   });
 
-  // Watch for changes in activeFeatureId and scroll the navigation menu
   watch(
     activeFeatureId,
     featureId => {
@@ -213,7 +199,7 @@
       rect.bottom > 0 &&
       rect.left < window.innerWidth &&
       rect.right > 0;
-    // Если анимация включена, иконка всегда видима
+
     if (examplesStore.videoStatus) {
       examplesStore.setIsShowVideoButton(true);
     } else {
@@ -233,7 +219,6 @@
     window.removeEventListener('resize', checkFeaturesListVisibility);
   });
 
-  // --- Background music logic ---
   const music = ref<HTMLAudioElement | null>(null);
 
   function playMusic() {
