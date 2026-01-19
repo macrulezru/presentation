@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import '@/view/components/examples/parts/feature-item/feature-item.scss';
 
+  import { useLinearGradient, useRadialGradient } from 'css-magic-gradient';
   import { useResponsive } from 'responsive-media';
   import { computed, ref } from 'vue';
 
@@ -8,11 +9,8 @@
   import type { FeatureData } from '@/view/composables/use-features.ts';
 
   import { useExamplesStore } from '@/stores/use-examples-store';
-  import { useColorGradient } from '@/view/composables/use-color-gradient';
   import UiImage from '@/view/ui/ui-image/ui-image.vue';
   import UiVideo from '@/view/ui/ui-video/ui-video.vue';
-
-  const { createGradient, createRadialGradient } = useColorGradient();
 
   interface Props {
     feature: FeatureData;
@@ -31,8 +29,8 @@
   const getGradientStyle = (color: string, options: GradientOptions = {}) => {
     const { shadow = false } = options;
 
-    const gradient = createGradient(color, gradientOptions);
-    const styles = [`background: ${gradient}`];
+    const gradient = useLinearGradient(color, gradientOptions);
+    const styles = [`background: ${gradient.value}`];
 
     if (shadow) {
       styles.push(`filter: drop-shadow(0 10px 10px ${color})`);
@@ -59,9 +57,8 @@
         { color, opacity: 0, position: '100%' },
       ],
     };
-
-    const gradient = createRadialGradient(color, options);
-    return `background-image: ${gradient}`;
+    const gradient = useRadialGradient(color, options);
+    return `background-image: ${gradient.value}`;
   };
 </script>
 
@@ -149,7 +146,6 @@
 
       <div class="feature-item__content">
         <div class="feature-item__section-group">
-          <!-- Процесс работы -->
           <div class="feature-item__section feature-item__section_process">
             <h3 class="feature-item__section-title">{{ feature.process.title }}</h3>
             <div class="feature-item__process">
@@ -177,7 +173,7 @@
             </div>
           </div>
           <div class="feature-item__section-group-separator" />
-          <!-- Архитектурные компоненты -->
+
           <div class="feature-item__section feature-item__section_architecture">
             <div class="feature-item__section-title">
               {{ feature.architecture.title }}
@@ -196,7 +192,7 @@
             </div>
           </div>
         </div>
-        <!-- Преимущества подхода -->
+
         <div class="feature-item__section">
           <div class="feature-item__section-title">{{ feature.benefits.title }}</div>
           <div class="feature-item__benefits">
