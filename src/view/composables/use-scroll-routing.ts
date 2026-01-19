@@ -1,10 +1,10 @@
 // Обновление URL с поддержкой третьего сегмента (feature)
+import { useResponsive } from 'responsive-media';
 import { ref, watch, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
 import { PageSectionsEnum } from '@/enums/page-sections.enum';
 import { useNavigationStore } from '@/stores/use-navigation-store.ts';
-import { useResponsive } from '@/view/composables/use-responsive';
 
 const HEADER_HEIGHT = 60;
 const HEADER_MOBILE_HEIGHT = 50;
@@ -17,7 +17,7 @@ export function useScrollRouting() {
   const route = useRoute();
   const navigationStore = useNavigationStore();
 
-  const { isTablet, isMobile } = useResponsive();
+  const responsive = useResponsive();
 
   // Таймеры и состояния
   const scrollTimeout = ref<NodeJS.Timeout | null>(null);
@@ -39,7 +39,7 @@ export function useScrollRouting() {
 
   // Высота хедера в зависимости от устройства
   const headerHeight = computed(() => {
-    return isTablet.value || isMobile.value ? HEADER_MOBILE_HEIGHT : HEADER_HEIGHT;
+    return responsive.tablet || responsive.mobile ? HEADER_MOBILE_HEIGHT : HEADER_HEIGHT;
   });
 
   // Проверка является ли секция Splash

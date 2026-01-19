@@ -1,3 +1,4 @@
+import { useResponsive } from 'responsive-media';
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
 
 import {
@@ -54,7 +55,6 @@ import {
 import type { CanvasAnimationOptions, AnimationState, TechItem, Particle } from './types';
 
 import { useI18n } from '@/view/composables/use-i18n';
-import { useResponsive } from '@/view/composables/use-responsive';
 import { useVisibility } from '@/view/composables/use-visibility';
 
 export function useTechAnimation(options: CanvasAnimationOptions) {
@@ -62,7 +62,7 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
 
   // Подключаем composables внутри
   const { t } = useI18n();
-  const { isDesktop } = useResponsive();
+  const responsive = useResponsive();
 
   // Подключаем отслеживание видимости контейнера
   const { initVisibilityObserver } = useVisibility(containerRef, {
@@ -1182,7 +1182,7 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
     });
 
     // Определяем, применять ли блюр (только для десктопа)
-    const blurEnabled = isDesktop.value;
+    const blurEnabled = responsive.desktop;
 
     ctx.value.save();
     ctx.value.filter = blurEnabled ? `blur(${backgroundBlur.value}px)` : 'none';
@@ -1374,9 +1374,9 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
 
   // Инициализация траектории на основе размера экрана
   const initializeTrajectoryMode = () => {
-    const targetMode = isDesktop.value ? 'infinity' : 'circle';
+    const targetMode = responsive.desktop ? 'infinity' : 'circle';
     techDebug('[TechAnimation] initializeTrajectoryMode called', {
-      isDesktop: isDesktop.value,
+      isDesktop: responsive.desktop,
       targetMode,
       containerSize: {
         width: containerRef.value?.getBoundingClientRect().width,
@@ -1439,11 +1439,14 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
   });
 
   // Реакция на изменение размера экрана: переключаем режим траектории
-  watch(isDesktop, newValue => {
-    const targetMode = newValue ? 'infinity' : 'circle';
-    setTrajectoryMode(targetMode);
-    // Анимация продолжает работать, только режим траектории меняется
-  });
+  watch(
+    () => responsive.desktop,
+    newValue => {
+      const targetMode = newValue ? 'infinity' : 'circle';
+      setTrajectoryMode(targetMode);
+      // Анимация продолжает работать, только режим траектории меняется
+    },
+  );
 
   // Реакция на изменение размера окна с debounce
   let resizeTimeout: number | undefined;

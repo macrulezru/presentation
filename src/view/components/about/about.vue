@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import '@/view/components/about/about.scss';
 
+  import { useResponsive } from 'responsive-media';
   import {
     computed,
     onMounted,
@@ -16,12 +17,11 @@
   import AboutTech from '@/view/components/about/parts/about-tech/about-tech.vue';
   import AiFeature from '@/view/components/about/parts/ai-feature/ai-feature.vue';
   import { useI18n } from '@/view/composables/use-i18n';
-  import { useResponsive } from '@/view/composables/use-responsive';
   import UiImage from '@/view/ui/ui-image/ui-image.vue';
 
   const { t, tm } = useI18n();
 
-  const { isDesktop } = useResponsive();
+  const responsive = useResponsive();
   const container = ref<HTMLElement>();
 
   const getListItem = (key: string): ListItem[] => {
@@ -165,7 +165,7 @@
               }"
               class="about__tech-art"
             />
-            <template v-if="isDesktop">
+            <template v-if="responsive.desktop">
               <Transition name="tech-tip-fade" mode="out-in">
                 <div
                   v-if="activeTip"

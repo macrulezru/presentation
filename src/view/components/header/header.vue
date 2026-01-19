@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { useResponsive } from 'responsive-media';
   import { computed, onMounted, onUnmounted, ref } from 'vue';
 
   import { PageSectionsEnum } from '@/enums/page-sections.enum.ts';
@@ -6,7 +7,6 @@
   import { useNavigationStore } from '@/stores/use-navigation-store.ts';
   import LangSelector from '@/view/components/lang-selector/lang-selector.vue';
   import { useI18n } from '@/view/composables/use-i18n.ts';
-  import { useResponsive } from '@/view/composables/use-responsive';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
   import { useSectionsConfig } from '@/view/composables/use-sections-config';
 
@@ -17,7 +17,7 @@
   const navigationStore = useNavigationStore();
   const examplesStore = useExamplesStore();
   const { navigateToSection, isProcessingNavigation } = useScrollRouting();
-  const { isDesktop } = useResponsive();
+  const responsive = useResponsive();
 
   // Используем реактивную конфигурацию секций
   const { sectionsConfig } = useSectionsConfig();
@@ -51,7 +51,7 @@
 
   // Проверка размера экрана
   const checkScreenSize = () => {
-    if (isDesktop.value) {
+    if (responsive.desktop && isMobileMenuOpen.value) {
       isMobileMenuOpen.value = false;
     }
   };
@@ -65,7 +65,7 @@
     isProcessingClick.value = true;
 
     try {
-      if (!isDesktop.value) {
+      if (!responsive.desktop) {
         isMobileMenuOpen.value = false;
       }
 
@@ -159,8 +159,7 @@
 <template>
   <div class="header">
     <div class="header__content">
-      <!-- Десктопное меню -->
-      <nav v-if="isDesktop" class="header__nav">
+      <nav v-if="responsive.desktop" class="header__nav">
         <button
           v-for="item in menuItems"
           :key="item.id"
@@ -179,11 +178,9 @@
         </button>
       </nav>
 
-      <!-- Правая часть: селектор языка и гамбургер -->
       <div class="header__right">
-        <!-- Гамбургер-меню для мобильных -->
         <button
-          v-if="!isDesktop"
+          v-if="!responsive.desktop"
           class="hamburger"
           :class="{
             hamburger_active: isMobileMenuOpen,
@@ -208,11 +205,9 @@
         </div>
       </div>
 
-      <!-- Мобильное меню (выезжает сверху, без оверлея) -->
-      <!-- Мобильное меню (телепорт в body, выезжает сверху) -->
       <Teleport to="body">
         <div
-          v-if="!isDesktop"
+          v-if="!responsive.desktop"
           class="mobile-menu"
           :class="{ 'mobile-menu_open': isMobileMenuOpen }"
         >

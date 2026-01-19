@@ -1,17 +1,17 @@
 <script setup lang="ts">
+  import { useResponsive } from 'responsive-media';
   import { computed, ref, onUnmounted } from 'vue';
 
   import { useTravelshopIntroStore } from '@/stores/use-travelshop-intro-store';
   import Music from '@/view/assets/music/control.mp3';
   import { useI18n } from '@/view/composables/use-i18n';
-  import { useResponsive } from '@/view/composables/use-responsive.ts';
   import { useTravelshopCanvas } from '@/view/composables/use-travelshop-canvas';
   import Button from '@/view/ui/ui-button/ui-button.vue';
 
   import '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.scss';
 
   const { t } = useI18n();
-  const { isDesktop } = useResponsive();
+  const responsive = useResponsive();
 
   const canvasContainer = ref<HTMLElement>();
   const audio = ref<HTMLAudioElement>();
@@ -131,7 +131,7 @@
       <canvas ref="_canvasRef" class="travelshop-intro__canvas" />
     </div>
 
-    <template v-if="isDesktop">
+    <template v-if="responsive.desktop">
       <span
         v-if="!travelshopIntroStore.showDebugControls"
         class="travelshop-intro__toggle-wrapper"

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { useResponsive } from 'responsive-media';
   import {
     ref,
     defineAsyncComponent,
@@ -16,7 +17,6 @@
   import FeatureItem from '@/view/components/examples/parts/feature-item/feature-item.vue';
   import { useFeatures } from '@/view/composables/use-features.ts';
   import { useI18n } from '@/view/composables/use-i18n.ts';
-  import { useResponsive } from '@/view/composables/use-responsive';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
   import Button from '@/view/ui/ui-button/ui-button.vue';
   import UiLoading from '@/view/ui/ui-loading/ui-loading.vue';
@@ -39,7 +39,7 @@
 
   const { t } = useI18n();
 
-  const { isDesktop } = useResponsive();
+  const responsive = useResponsive();
   const { features } = useFeatures();
   const { navigateToSection, updateUrlWithFeature } = useScrollRouting();
   const examplesStore = useExamplesStore();
@@ -88,7 +88,7 @@
   };
 
   const getNavigationOffset = () => {
-    const headerHeight = isDesktop.value ? 60 : 50;
+    const headerHeight = responsive.desktop ? 60 : 50;
     const navigationHeight = navigationRef.value?.offsetHeight || 0;
     return headerHeight + navigationHeight;
   };
@@ -157,8 +157,8 @@
         }
       },
       {
-        rootMargin: isDesktop.value ? '-10% 0px -10% 0px' : '-40% 0px -40% 0px',
-        threshold: isDesktop.value ? 0.2 : 0.01,
+        rootMargin: responsive.desktop ? '-10% 0px -10% 0px' : '-40% 0px -40% 0px',
+        threshold: responsive.desktop ? 0.2 : 0.01,
       },
     );
 
