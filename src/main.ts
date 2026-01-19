@@ -1,4 +1,5 @@
 import MasonryWall from '@yeger/vue-masonry-wall';
+import { VueGradientPlugin } from 'css-magic-gradient';
 import { createPinia } from 'pinia';
 import { ResponsivePlugin } from 'responsive-media';
 import { createApp } from 'vue';
@@ -40,6 +41,7 @@ async function initializeApp() {
     .use(router)
     .use(i18nPlugin)
     .use(ResponsivePlugin)
+    .use(VueGradientPlugin)
     .use(MasonryWall);
 
   // Добавляем обработчик ошибок загрузки переводов
