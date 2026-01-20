@@ -23,8 +23,8 @@
   }
 
   &__logo {
-    width: 210px;
-    height: 60px;
+    width: clamp(130px, 36vw, 210px);
+    height: clamp(40px, 10vw, 60px);
     background-image: url('@/view/assets/images/macrulez-airlines.svg');
     background-size: contain;
     background-repeat: no-repeat;
@@ -123,7 +123,7 @@
     gap: 5px;
 
     &-code {
-      font-size: 46px;
+      font-size: clamp(30px, 7vw, 46px);
       font-weight: 800;
       line-height: 1;
       color: var(--color-6);
@@ -145,7 +145,7 @@
   }
 
   &__barcode {
-    font-size: 36px;
+    font-size: clamp(30px, 7vw, 36px);
   }
 
   &__barcode-note {
