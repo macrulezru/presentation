@@ -28,7 +28,7 @@
   "dependencies": {
     "@yeger/vue-masonry-wall": "^5.1.4",
     "axios": "^1.13.2",
-    "css-magic-gradient": "^1.0.1",
+    "css-magic-gradient": "^1.0.3",
     "emailjs-com": "^3.2.0",
     "pinia": "^3.0.3",
     "prismjs": "^1.30.0",
