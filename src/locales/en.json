@@ -1101,5 +1101,9 @@
     "seatProps": "Properties",
     "button_openDemo": "Open demo",
     "metrics_show": "Show metrics"
+  },
+  "toolz": {
+    "title": "Seeing the difference — that's what matters",
+    "text": "Why guess how an optimization will behave? Our tools show the result before you hit save. Compress SVGs and images while comparing original and result in real time. Build gradients from layers and instantly copy clean CSS code. Tools for those who value precision and speed. Actively under development."
   }
 }
