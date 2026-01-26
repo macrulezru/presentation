@@ -37,6 +37,7 @@
         [PageSectionsEnum.EXPERIENCE]: 'navigation.experience',
         [PageSectionsEnum.TRAVELSHOP]: 'navigation.travelshop',
         [PageSectionsEnum.FEATURES]: 'navigation.features',
+        [PageSectionsEnum.STUFF]: 'navigation.stuff',
         [PageSectionsEnum.ARTS]: 'navigation.arts',
         [PageSectionsEnum.REMOTE_WORKPLACE]: 'navigation.workplace',
         [PageSectionsEnum.CONTACTS]: 'navigation.contacts',

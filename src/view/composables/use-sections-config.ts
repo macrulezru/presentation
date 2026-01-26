@@ -9,6 +9,7 @@ import Examples from '@/view/components/examples/examples.vue';
 import ExperienceTimeline from '@/view/components/experience-timeline/experience-timeline.vue';
 import RemoteWorkplace from '@/view/components/remote-workplace/remote-workplace.vue';
 import Splash from '@/view/components/splash/splash.vue';
+import Stuff from '@/view/components/stuff/stuff.vue';
 import TravelshopProject from '@/view/components/travelshop-project/travelshop-project.vue';
 
 export interface SectionConfig {
@@ -24,6 +25,7 @@ const allSections: Record<PageSectionsEnum, Component> = {
   [PageSectionsEnum.EXPERIENCE]: ExperienceTimeline,
   [PageSectionsEnum.TRAVELSHOP]: TravelshopProject,
   [PageSectionsEnum.FEATURES]: Examples,
+  [PageSectionsEnum.STUFF]: Stuff,
   [PageSectionsEnum.ARTS]: Arts,
   [PageSectionsEnum.REMOTE_WORKPLACE]: RemoteWorkplace,
   [PageSectionsEnum.CONTACTS]: Contacts,
@@ -36,6 +38,7 @@ const sectionOrder = ref<PageSectionsEnum[]>([
   PageSectionsEnum.EXPERIENCE,
   PageSectionsEnum.TRAVELSHOP,
   PageSectionsEnum.FEATURES,
+  PageSectionsEnum.STUFF,
   PageSectionsEnum.ARTS,
   PageSectionsEnum.REMOTE_WORKPLACE,
   PageSectionsEnum.CONTACTS,
@@ -104,6 +107,7 @@ export function useSectionsConfig() {
       PageSectionsEnum.EXPERIENCE,
       PageSectionsEnum.TRAVELSHOP,
       PageSectionsEnum.FEATURES,
+      PageSectionsEnum.STUFF,
       PageSectionsEnum.ARTS,
       PageSectionsEnum.REMOTE_WORKPLACE,
       PageSectionsEnum.CONTACTS,

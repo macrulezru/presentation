@@ -1,6 +1,5 @@
 .npm-packages {
-  padding: clamp(50px, 5vw, 80px) 0;
-  border-top: solid 1px var(--color-7);
+  padding: 0 0 clamp(50px, 5vw, 80px);
 
   &__container {
     @include container-lg;
