@@ -20,7 +20,7 @@
 
   &__nav {
     display: flex;
-    gap: var(--spacing-sm);
+    gap: clamp(6px, 0.6vw, 12px);
     align-items: center;
   }
 
@@ -28,7 +28,7 @@
     background: none;
     border: none;
     color: var(--color-text-light);
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-sm) clamp(11px, 1vw, 16px);
     border-radius: var(--radius-pill);
     cursor: pointer;
     transition: all var(--transition-normal);

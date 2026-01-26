@@ -1,0 +1,9 @@
+.stuff {
+  position: relative;
+  padding: clamp(60px, 5vw, 100px) 0 clamp(80px, 6vw, 120px);
+  border-top: solid 1px var(--color-7);
+
+  &__container {
+    @include container-lg;
+  }
+}

@@ -43,6 +43,7 @@
       [PageSectionsEnum.EXPERIENCE]: t('navigation.experience'),
       [PageSectionsEnum.TRAVELSHOP]: t('navigation.travelshop'),
       [PageSectionsEnum.FEATURES]: t('navigation.features'),
+      [PageSectionsEnum.STUFF]: t('navigation.stuff'),
       [PageSectionsEnum.ARTS]: t('navigation.arts'),
       [PageSectionsEnum.REMOTE_WORKPLACE]: t('navigation.workplace'),
       [PageSectionsEnum.CONTACTS]: t('navigation.contacts'),
