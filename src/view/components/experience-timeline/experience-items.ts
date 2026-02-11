@@ -20,7 +20,7 @@ export function useExperienceItems() {
   const loading = ref(false);
   const error = ref<Error | null>(null);
 
-  const client = createRestClient({ baseURL: 'https://api.macrulez.ru/v1' });
+  const client = createRestClient({ baseURL: 'https://macrulez-api.ru/api' });
 
   const cache: Record<string, ExperienceItem[]> = {};
 
@@ -34,10 +34,20 @@ export function useExperienceItems() {
     loading.value = true;
     error.value = null;
     try {
-      const response = await client.get(`/experience/${currentLocale}`);
-      const data = response && 'data' in response ? response.data : response;
+      const response = await client.get(`/portfolio/company?lang=${currentLocale}`);
+      const payload = response && 'data' in response ? response.data : response;
+      const data = payload && typeof payload === 'object' && 'data' in payload ? payload.data : [];
       if (Array.isArray(data)) {
-        cache[currentLocale] = data as ExperienceItem[];
+        cache[currentLocale] = data.map((item) => ({
+          id: String(item?.id ?? ''),
+          company: item?.translation?.company ?? '',
+          position: item?.translation?.position ?? '',
+          description: item?.translation?.description ?? '',
+          period: item?.translation?.period ?? undefined,
+          duration: item?.translation?.duration ?? undefined,
+          url: item?.url ?? undefined,
+          logo: item?.logo ?? undefined,
+        }));
         items.value = cache[currentLocale];
       } else {
         items.value = [];

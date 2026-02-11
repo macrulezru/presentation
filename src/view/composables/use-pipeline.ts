@@ -89,9 +89,11 @@ export const usePipeline = () => {
           if (!Array.isArray(points) || points.length === 0) throw new Error('No points');
           const pointsModel = new PointsModel({ points });
           sharedData.departurePoint = pointsModel.getRandomPoint();
-          sharedData.arrivalPoint = pointsModel.findByPointCode(
-            sharedData.departurePoint.getRandomDeparture(),
+          sharedData.arrivalPoint = pointsModel.getRandomPointExcept(
+            sharedData.departurePoint?.code,
           );
+          if (!sharedData.departurePoint || !sharedData.arrivalPoint)
+            throw new Error('No points');
           pipelineStorage.value.departurePoint = sharedData.departurePoint;
           pipelineStorage.value.arrivalPoint = sharedData.arrivalPoint;
           return { ...result, requestUrl: sharedData.requestUrl };
@@ -146,7 +148,7 @@ export const usePipeline = () => {
   const orchestrator = new PipelineOrchestrator({
     config: pipelineConfig,
     httpConfig: {
-      baseURL: 'https://api.macrulez.ru/v1/fly',
+      baseURL: 'https://macrulez-api.ru/api/portfolio/fly',
       timeout: 10000,
       metrics: metricsHandlers,
     },
