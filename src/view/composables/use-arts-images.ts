@@ -1,16 +1,35 @@
-import { createRestClient, type ApiResponse } from 'rest-pipeline-js';
+import { createRestClient } from 'rest-pipeline-js';
 import { ref } from 'vue';
+
+interface ArtsApiImage {
+  id: number;
+  filename: string;
+  position: number;
+  url: string;
+}
+
+interface ArtsApiItem {
+  id: number;
+  directory: string;
+  preview: string;
+  preview_url: string;
+  images: ArtsApiImage[];
+}
+
+interface ArtsApiResponse {
+  success: boolean;
+  data: ArtsApiItem[];
+}
 
 export interface ArtsImage {
   directory: string;
   preview: string;
   images: string[];
   meta?: Record<string, unknown>;
-  $loki?: number;
 }
 
 const client = createRestClient({
-  baseURL: 'https://api.macrulez.ru/v1',
+  baseURL: 'https://macrulez-api.ru/api/portfolio',
   timeout: 7000,
   cache: { enabled: true, ttlMs: 60000 },
 });
@@ -23,12 +42,24 @@ export function useArtsImages() {
   async function fetchArts() {
     loading.value = true;
     error.value = null;
-    const res: ApiResponse<ArtsImage[]> = await client.request('/arts/');
-    if ('error' in res && res.error) {
-      error.value = String(res.error);
+    try {
+      const res = await client.request('/arts');
+      const payload = (res && 'data' in res ? res.data : res) as ArtsApiResponse;
+      if (!payload || payload.success !== true || !Array.isArray(payload.data)) {
+        throw new Error('Invalid API response');
+      }
+      arts.value = payload.data.map(item => ({
+        directory: item.directory,
+        preview: item.preview_url || '',
+        images: (item.images || [])
+          .slice()
+          .sort((a, b) => a.position - b.position)
+          .map(img => img.url),
+        meta: { id: item.id },
+      }));
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : String(e);
       arts.value = [];
-    } else {
-      arts.value = Array.isArray(res.data) ? res.data : [];
     }
     loading.value = false;
   }
