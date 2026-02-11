@@ -7,20 +7,20 @@ export interface PointRaw {
   city_code: string;
   city_name: string;
   city_name_ru: string;
-  airport: string;
-  own_route: string;
-  interline_route: string;
-  popular: string;
+  airport: boolean;
+  own_route: boolean;
+  interline_route: boolean;
+  popular: boolean;
   weight: number;
   country_code: string;
-  departure_to: string;
-  arrival_from: string;
-  meta: {
+  departure_to?: string;
+  arrival_from?: string;
+  meta?: {
     revision: number;
     created: number;
     version: number;
   };
-  $loki: number;
+  $loki?: number;
 }
 
 export class PointModel extends BaseModel<PointRaw> {
@@ -97,5 +97,15 @@ export class PointsModel {
     if (!this.points.length) return null;
     const idx = Math.floor(Math.random() * this.points.length);
     return this.points[idx] || null;
+  }
+
+  getRandomPointExcept(excludedCode?: string): PointModel | null {
+    if (!this.points.length) return null;
+    const available = excludedCode
+      ? this.points.filter(p => p.code !== excludedCode)
+      : this.points;
+    if (!available.length) return null;
+    const idx = Math.floor(Math.random() * available.length);
+    return available[idx] || null;
   }
 }
