@@ -15,7 +15,7 @@ export function useNpmPackages() {
   const loading = ref(false);
   const error = ref<Error | null>(null);
 
-  const client = createRestClient({ baseURL: 'https://api.macrulez.ru/v1' });
+  const client = createRestClient({ baseURL: 'https://macrulez-api.ru/api/portfolio' });
 
   const cache: Record<string, NpmPackageItem[]> = {};
 
@@ -29,10 +29,15 @@ export function useNpmPackages() {
     loading.value = true;
     error.value = null;
     try {
-      const response = await client.get(`/npm/${currentLocale}`);
-      const data = response && 'data' in response ? response.data : response;
+      const response = await client.get(`/npm?lang=${currentLocale}`);
+      const payload = response && 'data' in response ? response.data : response;
+      const data = payload && typeof payload === 'object' && 'data' in payload ? payload.data : [];
       if (Array.isArray(data)) {
-        cache[currentLocale] = data as NpmPackageItem[];
+        cache[currentLocale] = data.map(item => ({
+          title: item?.title ?? '',
+          url: item?.url ?? '',
+          description: item?.translation?.description ?? '',
+        }));
         items.value = cache[currentLocale];
       } else {
         items.value = [];
