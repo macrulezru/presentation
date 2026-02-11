@@ -14,6 +14,7 @@
     duration?: string;
     url?: string;
     logo?: string;
+    logo_url?: string;
   }
 
   interface Props {
@@ -55,7 +56,7 @@
     <div v-if="props.company.logo" class="company-item__logo-wrapper">
       <div class="company-item__logo-container">
         <div class="company-item__logo">
-          <img :src="props.company.logo" :alt="props.company.company" />
+          <img :src="props.company.logo_url" :alt="props.company.company" />
         </div>
       </div>
     </div>
