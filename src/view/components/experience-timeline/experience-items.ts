@@ -12,6 +12,7 @@ export interface ExperienceItem {
   duration?: string;
   url?: string;
   logo?: string;
+  logo_url?: string;
 }
 
 export function useExperienceItems() {
@@ -36,9 +37,10 @@ export function useExperienceItems() {
     try {
       const response = await client.get(`/portfolio/company?lang=${currentLocale}`);
       const payload = response && 'data' in response ? response.data : response;
-      const data = payload && typeof payload === 'object' && 'data' in payload ? payload.data : [];
+      const data =
+        payload && typeof payload === 'object' && 'data' in payload ? payload.data : [];
       if (Array.isArray(data)) {
-        cache[currentLocale] = data.map((item) => ({
+        cache[currentLocale] = data.map(item => ({
           id: String(item?.id ?? ''),
           company: item?.translation?.company ?? '',
           position: item?.translation?.position ?? '',
@@ -47,6 +49,7 @@ export function useExperienceItems() {
           duration: item?.translation?.duration ?? undefined,
           url: item?.url ?? undefined,
           logo: item?.logo ?? undefined,
+          logo_url: item?.logo_url ?? undefined,
         }));
         items.value = cache[currentLocale];
       } else {
