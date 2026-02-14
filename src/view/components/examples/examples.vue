@@ -41,7 +41,8 @@
 
   const responsive = useResponsive();
   const { features } = useFeatures();
-  const { navigateToSection, updateUrlWithFeature } = useScrollRouting();
+  const { navigateToSection, updateUrlWithFeature, setIgnoreScrollUpdates } =
+    useScrollRouting();
   const examplesStore = useExamplesStore();
 
   const isShowPipeline = ref<boolean>(false);
@@ -96,6 +97,7 @@
   const scrollToFeature = (featureId: string) => {
     isScrollingByUser.value = true;
     targetFeatureId.value = featureId;
+    setIgnoreScrollUpdates(700);
 
     activeFeatureId.value = featureId;
 

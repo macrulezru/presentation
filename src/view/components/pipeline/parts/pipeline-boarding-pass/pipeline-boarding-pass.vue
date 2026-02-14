@@ -41,7 +41,7 @@
 
   const qrLink = computed(() => {
     return `https://api.qrserver.com/v1/create-qr-code/?size=80x80&color=64CDF4&bgcolor=151515&data=${encodeURIComponent(
-      `http://macrulez.ru/#/${locale.value}`,
+      `http://macrulez.ru/${locale.value}`,
     )}`;
   });
 
