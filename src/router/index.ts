@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 import { LocalesList, LocalesEnum, type LocalesEnumType } from '@/enums/locales.enum';
 import { PageSectionsEnum, type PageSectionsType } from '@/enums/page-sections.enum';
@@ -11,14 +11,14 @@ const routes = [
     component: () => import('@/view/pages/index.vue'),
   },
   {
-    path: '/:locale/:section',
+    path: '/:locale/:section/:featureId?',
     name: 'section',
     component: () => import('@/view/pages/index.vue'),
   },
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 

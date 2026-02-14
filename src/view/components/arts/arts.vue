@@ -28,6 +28,7 @@
   const cursorAngle = ref(0);
   const targetCursorAngle = ref(0);
   const cursorScaleY = ref(1);
+  const targetCursorScaleY = ref(1);
   const cursorScale = ref(1);
   const lastMousePosition = ref<{ x: number; y: number } | null>(null);
 
@@ -65,7 +66,7 @@
   const cursorStyle = computed(() => ({
     left: `${cursorX.value - CURSOR_OFFSET_X}px`,
     top: `${cursorY.value - CURSOR_OFFSET_Y}px`,
-    transform: `rotate(${cursorAngle.value}deg) scaleY(${cursorScaleY.value}) scale(${cursorScale.value})`,
+    transform: `scaleY(${cursorScaleY.value}) rotate(${cursorAngle.value}deg) scale(${cursorScale.value})`,
   }));
 
   const loadImageForCache = async (url: string): Promise<void> => {
@@ -197,9 +198,11 @@
   const CURSOR_OFFSET_Y = 10;
   const CURSOR_MAX_ROTATE = 40;
   const CURSOR_ROTATE_SMOOTH = 0.15;
+  const CURSOR_SCALE_Y_SMOOTH = 0.2;
   const STILL_TICKS_LIMIT = 6;
 
   let lastX = 0;
+  let lastY = 0;
   let lastTime = 0;
   let animationFrame: number | null = null;
   let stillTicks = 0;
@@ -208,12 +211,13 @@
   const onMouseMove = (e: MouseEvent) => {
     const now = performance.now();
     const dx = e.clientX - lastX;
-    const dy = e.clientY - cursorY.value;
+    const dy = e.clientY - lastY;
     const dt = now - lastTime || 16;
     const speed = dx / dt;
     const clampedSpeed = Math.max(-1, Math.min(1, speed));
     targetCursorAngle.value = clampedSpeed * CURSOR_MAX_ROTATE;
     lastX = e.clientX;
+    lastY = e.clientY;
     lastTime = now;
     cursorX.value = e.clientX;
     cursorY.value = e.clientY;
@@ -221,13 +225,12 @@
     lastCursorX = e.clientX;
     stillTicks = 0;
 
-    if (Math.abs(dy) > 1) {
-      cursorScaleY.value = Math.max(0.7, Math.min(1.3, 1 - dy / 60));
-    } else {
-      cursorScaleY.value = 1;
+    if (lastTime > 0 && Math.abs(dy) > 1) {
+      targetCursorScaleY.value = Math.max(0.5, Math.min(1.6, 1 - dy / 25));
     }
+
     if (!animationFrame) {
-      animateCursorRotation();
+      animateCursor();
     }
   };
 
@@ -238,10 +241,12 @@
     cursorScale.value = 1;
   };
 
-  const animateCursorRotation = () => {
+  const animateCursor = () => {
     animationFrame = requestAnimationFrame(() => {
       cursorAngle.value +=
         (targetCursorAngle.value - cursorAngle.value) * CURSOR_ROTATE_SMOOTH;
+      cursorScaleY.value +=
+        (targetCursorScaleY.value - cursorScaleY.value) * CURSOR_SCALE_Y_SMOOTH;
 
       if (Math.abs(cursorX.value - lastCursorX) < 1) {
         stillTicks++;
@@ -251,17 +256,23 @@
       }
       if (stillTicks > STILL_TICKS_LIMIT) {
         targetCursorAngle.value = 0;
+        targetCursorScaleY.value = 1;
       }
-      if (
-        Math.abs(targetCursorAngle.value - cursorAngle.value) > 0.1 ||
-        Math.abs(cursorAngle.value) > 0.1
-      ) {
-        animateCursorRotation();
-      } else {
+
+      const angleSettled =
+        Math.abs(targetCursorAngle.value - cursorAngle.value) <= 0.1 &&
+        Math.abs(cursorAngle.value) <= 0.1;
+      const scaleYSettled = Math.abs(targetCursorScaleY.value - cursorScaleY.value) <= 0.01;
+
+      if (angleSettled && scaleYSettled) {
         cursorAngle.value = 0;
         targetCursorAngle.value = 0;
+        cursorScaleY.value = 1;
+        targetCursorScaleY.value = 1;
         animationFrame = null;
         stillTicks = 0;
+      } else {
+        animateCursor();
       }
     });
   };
@@ -274,6 +285,8 @@
     }
     cursorAngle.value = 0;
     targetCursorAngle.value = 0;
+    cursorScaleY.value = 1;
+    targetCursorScaleY.value = 1;
   };
 
   const onMouseLeave = () => {

@@ -12,15 +12,15 @@ const SPLASH_SCROLL_THRESHOLD = 100;
 const SCROLL_END_THRESHOLD = 50;
 const SCROLL_TIMEOUT = 2000;
 
-export function useScrollRouting() {
+// Синглтон: общее состояние для всех вызовов useScrollRouting
+let scrollRoutingApi: ReturnType<typeof createScrollRouting> | null = null;
+
+function createScrollRouting() {
   const router = useRouter();
   const route = useRoute();
   const navigationStore = useNavigationStore();
-
   const responsive = useResponsive();
 
-  // Таймеры и состояния
-  const scrollTimeout = ref<NodeJS.Timeout | null>(null);
   const scrollEndTimeout = ref<NodeJS.Timeout | null>(null);
   const isProcessingNavigation = ref(false);
   const isProgrammaticScroll = ref(false);
@@ -29,24 +29,21 @@ export function useScrollRouting() {
   const lastUrlUpdateTime = ref<number>(0);
   const ignoreNextRouteChange = ref(false);
   const targetSectionAfterScroll = ref<string | null>(null);
+  const ignoreScrollUpdatesUntil = ref<number>(0);
 
-  // RAF оптимизация
   const rafId = ref<number | null>(null);
   const isUserScrolling = ref<boolean>(false);
   const lastScrollPosition = ref<number>(0);
 
   const sectionNames = Object.values(PageSectionsEnum);
 
-  // Высота хедера в зависимости от устройства
   const headerHeight = computed(() => {
     return responsive.tablet || responsive.mobile ? HEADER_MOBILE_HEIGHT : HEADER_HEIGHT;
   });
 
-  // Проверка является ли секция Splash
   const isSplashSection = (sectionName: string): boolean =>
     sectionName === PageSectionsEnum.SPLASH;
 
-  // Инициализация DOM элементов секций
   const initSections = () => {
     const sections = sectionNames
       .map(sectionName => {
@@ -63,7 +60,6 @@ export function useScrollRouting() {
     navigationStore.setSections(sections);
   };
 
-  // Определение текущей активной секции на основе позиции скролла
   const getCurrentSection = (scrollY: number): string => {
     if (navigationStore.isScrolling || isProcessingNavigation.value) {
       return navigationStore.currentSection;
@@ -76,7 +72,6 @@ export function useScrollRouting() {
     const { innerHeight } = window;
     const scrollPosition = scrollY + innerHeight / 4;
 
-    // Находим секцию, которая находится в фокусе
     let activeSection = PageSectionsEnum.SPLASH;
     let minDistance = Infinity;
 
@@ -84,14 +79,9 @@ export function useScrollRouting() {
       if (section.element) {
         const elementTop = section.element.offsetTop - headerHeight.value;
         const elementBottom = elementTop + section.element.offsetHeight;
-
-        // Центр элемента
         const elementCenter = elementTop + (elementBottom - elementTop) / 2;
-
-        // Расстояние от центра элемента до текущей позиции скролла
         const distance = Math.abs(scrollPosition - elementCenter);
 
-        // Если секция видима и ближе к центру экрана
         if (scrollPosition >= elementTop && scrollPosition <= elementBottom) {
           if (distance < minDistance) {
             minDistance = distance;
@@ -104,14 +94,12 @@ export function useScrollRouting() {
     return activeSection;
   };
 
-  // Ожидание завершения скролла (анимации)
   const waitForScrollEnd = async (targetPosition: number): Promise<void> => {
     return new Promise(resolve => {
       let isResolved = false;
       let lastPosition = window.pageYOffset;
       let stationaryTime = 0;
       const stationaryThreshold = 100;
-      const checkInterval = 16;
 
       const checkScrollEnd = () => {
         const currentPosition = window.pageYOffset;
@@ -126,7 +114,7 @@ export function useScrollRouting() {
         }
 
         if (Math.abs(currentPosition - lastPosition) < 1) {
-          stationaryTime += checkInterval;
+          stationaryTime += 16;
           if (stationaryTime >= stationaryThreshold) {
             if (!isResolved) {
               isResolved = true;
@@ -158,10 +146,16 @@ export function useScrollRouting() {
     });
   };
 
-  // Обновление URL при ручном скролле пользователя
+  const getFullPath = (path: string): string => {
+    const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '') || '/';
+    return base === '/' ? path : `${base}${path}`;
+  };
+
   const updateUrl = (sectionName: string) => {
-    // Игнорируем если скролл программный или навигация в процессе
     if (isProgrammaticScroll.value || isProcessingNavigation.value) {
+      return;
+    }
+    if (Date.now() < ignoreScrollUpdatesUntil.value) {
       return;
     }
 
@@ -177,19 +171,18 @@ export function useScrollRouting() {
       const newPath = isSplashSection(sectionName)
         ? `/${currentLocale}`
         : `/${currentLocale}/${sectionName}`;
+      const fullPath = getFullPath(newPath);
 
-      if (window.location.hash !== `#${newPath}`) {
-        window.history.replaceState({}, '', `/#${newPath}`);
+      if (window.location.pathname !== fullPath) {
+        window.history.replaceState({}, '', fullPath);
         lastUrlUpdateTime.value = now;
       }
     }
   };
 
-  // Оптимизированный обработчик скролла с RAF
   const handleScroll = () => {
     const currentScrollY = window.pageYOffset;
 
-    // Определяем, изменилась ли позиция скролла
     if (currentScrollY === lastScrollPosition.value) {
       return;
     }
@@ -197,18 +190,18 @@ export function useScrollRouting() {
     lastScrollPosition.value = currentScrollY;
     isUserScrolling.value = true;
 
-    // Отменяем предыдущий запланированный кадр
     if (rafId.value) {
       cancelAnimationFrame(rafId.value);
     }
 
-    // Запланировать обработку в следующем кадре анимации
     rafId.value = requestAnimationFrame(() => {
       if (isProgrammaticScroll.value || isProcessingNavigation.value) {
         return;
       }
+      if (Date.now() < ignoreScrollUpdatesUntil.value) {
+        return;
+      }
 
-      // Дебаунсим вызовы (раз в 50 мс)
       const now = Date.now();
       if (now - lastScrollTime.value < 50) {
         return;
@@ -219,16 +212,13 @@ export function useScrollRouting() {
       const section = getCurrentSection(currentScrollY);
       updateUrl(section);
 
-      // Сбрасываем флаг скролла после небольшой задержки
       setTimeout(() => {
         isUserScrolling.value = false;
       }, 50);
     });
   };
 
-  // Плавный скролл к указанной секции
   const scrollToSection = async (sectionName: string, immediate = false) => {
-    // Если уже в процессе, ставим в очередь
     if (isProcessingNavigation.value) {
       pendingNavigation.value = sectionName;
       return;
@@ -244,48 +234,40 @@ export function useScrollRouting() {
     const offsetPosition = elementPosition - headerHeight.value;
     const currentPosition = window.pageYOffset;
 
-    // Если уже близко к цели, просто обновляем состояние
     if (Math.abs(currentPosition - offsetPosition) < 10) {
       navigationStore.setCurrentSection(sectionName);
       targetSectionAfterScroll.value = null;
       return;
     }
 
-    // Устанавливаем флаги программного скролла
     isProcessingNavigation.value = true;
     isProgrammaticScroll.value = true;
     navigationStore.setIsScrolling(true);
     targetSectionAfterScroll.value = sectionName;
+    navigationStore.setCurrentSection(sectionName);
 
     try {
-      // Выполняем скролл
       window.scrollTo({
         top: offsetPosition,
         behavior: immediate ? 'auto' : 'smooth',
       });
 
-      // Ждем завершения анимации скролла
       await waitForScrollEnd(offsetPosition);
 
-      // Обновляем состояние после успешного скролла
       navigationStore.setCurrentSection(sectionName);
       targetSectionAfterScroll.value = null;
 
-      // Даем время на "устаканивание" состояния
       await new Promise(resolve => setTimeout(resolve, 100));
     } catch (error) {
       console.error('Scroll error:', error);
     } finally {
-      // Сбрасываем флаги
       navigationStore.setIsScrolling(false);
       isProcessingNavigation.value = false;
 
-      // Откладываем сброс флага программного скролла
       setTimeout(() => {
         isProgrammaticScroll.value = false;
       }, 300);
 
-      // Обрабатываем ожидающую навигацию из очереди
       if (pendingNavigation.value && pendingNavigation.value !== sectionName) {
         const nextSection = pendingNavigation.value;
         pendingNavigation.value = null;
@@ -294,9 +276,7 @@ export function useScrollRouting() {
     }
   };
 
-  // Основная функция навигации по секциям (клики в меню)
   const navigateToSection = async (sectionName: string) => {
-    // Если навигация уже в процессе, ставим в очередь
     if (isProcessingNavigation.value) {
       pendingNavigation.value = sectionName;
       return;
@@ -310,26 +290,20 @@ export function useScrollRouting() {
 
       const currentSection = (route.params.section as string) || PageSectionsEnum.SPLASH;
 
-      // Если уже на нужной секции, только скроллим
       if (currentSection === sectionName) {
         await scrollToSection(sectionName);
         return;
       }
 
-      // Игнорируем следующий автоматический переход от Vue Router
       ignoreNextRouteChange.value = true;
 
-      // Выполняем навигацию через Vue Router
       await router.push(path);
 
-      // Даем время на обновление маршрута
       await new Promise(resolve => setTimeout(resolve, 50));
 
-      // Скроллим к целевой секции
       await scrollToSection(sectionName);
     } catch (error) {
       console.error('Navigation error:', error);
-      // Сброс всех флагов при ошибке
       navigationStore.setIsScrolling(false);
       isProcessingNavigation.value = false;
       isProgrammaticScroll.value = false;
@@ -338,39 +312,31 @@ export function useScrollRouting() {
     }
   };
 
-  // Получение текущей активной секции (геттер)
   const getActiveSection = () => {
     return navigationStore.currentSection;
   };
 
-  // Наблюдатель за изменениями маршрута (параметр section)
   watch(
     () => route.params.section,
     async (newSection, oldSection) => {
-      // Игнорируем если это наш собственный навигационный вызов
       if (ignoreNextRouteChange.value) {
         ignoreNextRouteChange.value = false;
         return;
       }
 
-      // Пропускаем если навигация уже обрабатывается
       if (isProcessingNavigation.value) {
         return;
       }
 
-      // Обрабатываем изменение секции в URL
       if (newSection !== oldSection) {
         const sectionName = (newSection as string) || PageSectionsEnum.SPLASH;
 
-        // Обновляем состояние если необходимо
         if (navigationStore.currentSection !== sectionName) {
           navigationStore.setCurrentSection(sectionName);
         }
 
-        // Используем целевую секцию или секцию из URL
         const targetSection = targetSectionAfterScroll.value || sectionName;
 
-        // Выполняем скролл если это не программный скролл
         if (!isProgrammaticScroll.value) {
           await scrollToSection(targetSection);
         }
@@ -379,7 +345,6 @@ export function useScrollRouting() {
     { immediate: true },
   );
 
-  // Инициализация композабла
   const init = () => {
     setTimeout(() => {
       initSections();
@@ -397,21 +362,14 @@ export function useScrollRouting() {
         navigationStore.setCurrentSection(initialSection);
       }
 
-      // Инициализируем позицию скролла
       lastScrollPosition.value = window.pageYOffset;
     }, 100);
   };
 
-  // Очистка ресурсов композабла
   const destroy = () => {
     if (rafId.value) {
       cancelAnimationFrame(rafId.value);
       rafId.value = null;
-    }
-
-    if (scrollTimeout.value) {
-      clearTimeout(scrollTimeout.value);
-      scrollTimeout.value = null;
     }
 
     if (scrollEndTimeout.value) {
@@ -429,10 +387,14 @@ export function useScrollRouting() {
     ignoreNextRouteChange.value = false;
     targetSectionAfterScroll.value = null;
     isUserScrolling.value = false;
+    ignoreScrollUpdatesUntil.value = 0;
   };
 
   const updateUrlWithFeature = (sectionName: string, featureId?: string) => {
     if (isProgrammaticScroll.value || isProcessingNavigation.value) {
+      return;
+    }
+    if (Date.now() < ignoreScrollUpdatesUntil.value) {
       return;
     }
     const now = Date.now();
@@ -447,10 +409,15 @@ export function useScrollRouting() {
     if (featureId) {
       newPath += `/${featureId}`;
     }
-    if (window.location.hash !== `#${newPath}`) {
-      window.history.replaceState({}, '', `/#${newPath}`);
+    const fullPath = getFullPath(newPath);
+    if (window.location.pathname !== fullPath) {
+      window.history.replaceState({}, '', fullPath);
       lastUrlUpdateTime.value = now;
     }
+  };
+
+  const setIgnoreScrollUpdates = (durationMs: number) => {
+    ignoreScrollUpdatesUntil.value = Date.now() + durationMs;
   };
 
   return {
@@ -462,8 +429,16 @@ export function useScrollRouting() {
     scrollToSection,
     navigateToSection,
     getActiveSection,
+    setIgnoreScrollUpdates,
     init,
     destroy,
     isProcessingNavigation: computed(() => isProcessingNavigation.value),
   };
+}
+
+export function useScrollRouting() {
+  if (!scrollRoutingApi) {
+    scrollRoutingApi = createScrollRouting();
+  }
+  return scrollRoutingApi;
 }

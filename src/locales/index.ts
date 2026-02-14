@@ -142,11 +142,13 @@ export async function loadLocale(locale: LocalesEnumType) {
 }
 
 export function getInitialLocale(): LocalesEnumType {
-  const { hash } = window.location;
+  const path =
+    window.location.hash && window.location.hash.startsWith('#/')
+      ? window.location.hash.slice(1)
+      : window.location.pathname;
 
-  if (hash) {
-    const pathWithoutHash = hash.slice(1);
-    const segments = pathWithoutHash.split('/').filter(Boolean);
+  if (path) {
+    const segments = path.split('/').filter(Boolean);
 
     const [firstSegment] = segments;
 
