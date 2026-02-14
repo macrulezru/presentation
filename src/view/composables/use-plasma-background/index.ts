@@ -1,4 +1,4 @@
-import { useResponsive } from 'responsive-media';
+import { useResponsive } from '@/view/composables/use-responsive';
 import { onMounted, onUnmounted, type Ref } from 'vue';
 
 import {
@@ -62,7 +62,7 @@ export function usePlasmaBackground(
     // Определяем тип устройства с учетом размера экрана
     // Если пользователь на десктопном браузере, но с мобильного разрешения,
     // считаем это мобильным режимом для оптимизации
-    const isMobileSize = responsive.mobile;
+    const isMobileSize = responsive.value.mobile;
     const isMobileDevice = deviceInfo.isMobileDevice || isMobileSize;
 
     // Создание эффектов с учетом типа устройства

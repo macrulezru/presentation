@@ -1,30 +1,24 @@
-import { type App } from 'vue';
+import type { NuxtApp } from 'nuxt/app';
+import { defineNuxtPlugin, useRequestURL } from 'nuxt/app';
+import { LocalesEnum, LocalesList, type LocalesEnumType } from '@/enums/locales.enum';
+import { i18n, loadLocale } from '@/locales';
+import { useI18n as useI18nComposable } from '@/view/composables/use-i18n';
 
-import { i18n } from '@/locales';
-import { useI18n as useI18nComposable } from '@/view/composables/use-i18n.ts';
+export default defineNuxtPlugin(async (nuxtApp: NuxtApp) => {
+  nuxtApp.vueApp.use(i18n);
 
-declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
-    $t: typeof i18n.global.t;
-    $te: typeof i18n.global.te;
-    $d: typeof i18n.global.d;
-    $n: typeof i18n.global.n;
-    $tm: typeof i18n.global.tm;
-  }
-}
+  // Локаль из path: /ru, /en — на хосте можно генерировать по локалям
+  const url = useRequestURL();
+  const segment = url.pathname.split('/').filter(Boolean)[0] || '';
+  const initialLocale: LocalesEnumType = LocalesList.includes(segment as LocalesEnumType)
+    ? (segment as LocalesEnumType)
+    : LocalesEnum.RU;
+  await loadLocale(initialLocale);
+  i18n.global.locale.value = initialLocale;
 
-export default {
-  install: (app: App) => {
-    app.use(i18n);
-
-    // Глобальные методы для Options API
-    app.config.globalProperties.$t = i18n.global.t;
-    app.config.globalProperties.$te = i18n.global.te;
-    app.config.globalProperties.$d = i18n.global.d;
-    app.config.globalProperties.$n = i18n.global.n;
-    app.config.globalProperties.$tm = i18n.global.tm;
-
-    // Делаем useI18n глобально доступным для Composition API
-    app.config.globalProperties.useI18n = useI18nComposable;
-  },
-};
+  return {
+    provide: {
+      useI18n: useI18nComposable,
+    },
+  };
+});

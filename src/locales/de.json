@@ -1,4 +1,15 @@
 {
+  "seo": {
+    "title": "Danil Lisin | Versatile Vue.js Developer (Vue 3, TypeScript) | Lebenslauf",
+    "description": "Vielseitiger Vue.js Developer mit 6+ Jahren Erfahrung. Spezialisiert auf Vue 3, TypeScript und komplexe SPA-Architektur. Leitender Frontend-Entwickler des TravelShop Buchungssystems. 20+ Jahre in der Webentwicklung.",
+    "keywords": "Vue.js Entwickler, Vue 3, TypeScript, Frontend Entwickler, Middle+ Entwickler, SPA, Pinia, Vite, Buchungssystem, TravelShop, Frontend-Architektur, Remote-Arbeit",
+    "ogTitle": "Danil Lisin - Versatile Vue.js Developer",
+    "ogDescription": "Lebenslauf eines Vue.js-Entwicklers mit Erfahrung in komplexen SPA-Anwendungen. 6+ Jahre Vue, 20+ Jahre Webentwicklung.",
+    "ogImageAlt": "Danil Lisin - Versatile Vue.js Developer",
+    "siteName": "Danil Lisin - Versatile Vue.js Developer",
+    "twitterTitle": "Danil Lisin - Versatile Vue.js Developer",
+    "twitterDescription": "Lebenslauf eines Vue.js-Entwicklers mit Erfahrung in komplexen SPA-Anwendungen. 6+ Jahre Vue, 20+ Jahre Webentwicklung."
+  },
   "navigation": {
     "home": "Startseite",
     "about": "Fähigkeiten",
@@ -936,19 +947,6 @@
     "description": "Das grundlegende Verständnis für Komposition, Typografie und Farbgestaltung, das ich im Grafikdesign erworben habe, bildet die Grundlage für die Erstellung logischer, ästhetischer und effektiver digitaler Schnittstellen.",
     "showAll": "Alle Bilder anzeigen",
     "loadingImages": "Bilder werden geladen"
-  },
-  "sectionEditor": {
-    "title": "Bearbeitung der Abschnittsreihenfolge",
-    "description": "Ziehen Sie Abschnitte per Drag & Drop, um deren Reihenfolge zu ändern. Der erste Abschnitt \"Startseite\" ist festgelegt.",
-    "fixedLabel": "Fixiert",
-    "fixedTitle": "Dieser Abschnitt ist immer der erste",
-    "moveUp": "Nach oben verschieben",
-    "moveDown": "Nach unten verschieben",
-    "dragHint": "Zum Ändern der Reihenfolge ziehen",
-    "apply": "Übernehmen",
-    "cancel": "Abbrechen",
-    "reset": "Zurücksetzen",
-    "unsavedChanges": "Es gibt ungespeicherte Änderungen"
   },
   "rest-api": {
     "metricsCallout": {

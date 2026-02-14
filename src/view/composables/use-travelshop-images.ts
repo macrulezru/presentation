@@ -7,6 +7,19 @@ import {
   TravelshopImage,
 } from '@/enums/travelshop-images.enum';
 
+// Динамический импорт изображений (Nuxt/SSR: new URL с абсолютным путём даёт undefined)
+const travelshopImageModules = import.meta.glob<string>(
+  '../assets/images/travelshop/*.jpg',
+  { eager: true, query: '?url', import: 'default' },
+);
+
+const getImageUrlFromGlob = (name: string): string => {
+  const entry = Object.entries(travelshopImageModules).find(([path]) =>
+    path.endsWith(`/${name}`),
+  );
+  return (entry?.[1] ?? '') as string;
+};
+
 export const useTravelshopImages = () => {
   const { t } = useI18n();
 
@@ -16,8 +29,8 @@ export const useTravelshopImages = () => {
       const translationKey = `travelshop.images.description.${config.enum}`;
 
       return {
-        preview: getImageUrl(`${config.fileName}-small.jpg`),
-        full: getImageUrl(`${config.fileName}.jpg`),
+        preview: getImageUrlFromGlob(`${config.fileName}-small.jpg`),
+        full: getImageUrlFromGlob(`${config.fileName}.jpg`),
         description:
           t(translationKey) ||
           t('travelshop.images.description.default', {
@@ -28,10 +41,8 @@ export const useTravelshopImages = () => {
     }),
   );
 
-  // Получение URL для изображения
-  const getImageUrl = (name: string): string => {
-    return new URL(`/src/view/assets/images/travelshop/${name}`, import.meta.url).href;
-  };
+  // Получение URL для изображения (для внешнего использования)
+  const getImageUrl = getImageUrlFromGlob;
 
   // Получение изображения по ключу enum
   const getImageByKey = (key: TravelshopImage) => {

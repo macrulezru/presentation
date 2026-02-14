@@ -237,4 +237,3 @@ Autoplay автоматически:
 - Parallax эффекты
 - Virtual scrolling для больших количеств слайдов
 - Unit тесты
-- Storybook stories

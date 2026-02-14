@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import '@/view/ui/ui-image-modal/ui-image-modal.scss';
 
-  import { useResponsive } from 'responsive-media';
+  import { useResponsive } from '@/view/composables/use-responsive';
   import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue';
 
   import type { Props } from './types';
@@ -9,7 +9,6 @@
   import { i18n } from '@/locales';
   import { bodyLock, bodyUnlock } from '@/view/composables/use-body-fix';
 
-  // Используем глобальный i18n напрямую, чтобы избежать проблем с инъекцией в Storybook
   const t = (key: string, values?: Record<string, unknown>) =>
     values ? i18n.global.t(key, values) : i18n.global.t(key);
 
@@ -64,7 +63,7 @@
   const hasNext = computed(() => currentIndex.value < props.images.length - 1);
 
   const imageOffset = computed(() => {
-    return responsive.desktop ? { width: 160, height: 160 } : { width: 60, height: 140 };
+    return responsive.value.desktop ? { width: 160, height: 160 } : { width: 60, height: 140 };
   });
 
   const imageStyle = computed(() => {

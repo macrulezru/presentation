@@ -1,4 +1,15 @@
 {
+  "seo": {
+    "title": "Данил Лисин | Versatile Vue.js Developer (Vue 3, TypeScript) | Резюме",
+    "description": "Versatile Vue.js Developer, 6+ жыл тәжірибе. Vue 3, TypeScript, күрделі SPA архитектурасы. TravelShop бронирование жүйесінің жетекші фронтенд-әзірлеушісі. Веб-әзірлеуде 20+ жыл.",
+    "keywords": "Vue.js әзірлеуші, Vue 3, TypeScript, Frontend әзірлеуші, Middle+ әзірлеуші, SPA, Pinia, Vite, бронирование жүйесі, TravelShop, фронтенд архитектурасы, қашықтан жұмыс",
+    "ogTitle": "Данил Лисин - Versatile Vue.js Developer",
+    "ogDescription": "Vue.js әзірлеушінің резюмесі. Күрделі SPA қолданбаларында тәжірибе. Vue-де 6+ жыл, веб-әзірлеуде 20+ жыл.",
+    "ogImageAlt": "Данил Лисин - Versatile Vue.js Developer",
+    "siteName": "Данил Лисин - Versatile Vue.js Developer",
+    "twitterTitle": "Данил Лисин - Versatile Vue.js Developer",
+    "twitterDescription": "Vue.js әзірлеушінің резюмесі. Күрделі SPA қолданбаларында тәжірибе. Vue-де 6+ жыл, веб-әзірлеуде 20+ жыл."
+  },
   "navigation": {
     "home": "Басты",
     "about": "Дағдылар",
@@ -936,19 +947,6 @@
     "description": "Графикалық дизайнда қалыптасқан композиция, типография және түстермен жұмыс істеуді түсінудің негізгі принциптері, логикалық, эстетикалық және тиімді цифрлық интерфейстер жасаудың басты тірегі болып табылады.",
     "showAll": "Барлық суреттерді көру",
     "loadingImages": "Суреттер жүктелуде"
-  },
-  "sectionEditor": {
-    "title": "Бөлімдер тәртібін өңдеу",
-    "description": "Бөлімдерді тәртібін өзгерту үшін сүйреп тастаңыз. Бірінші \"Басты\" бөлімі бекітілген.",
-    "fixedLabel": "Бекітілген",
-    "fixedTitle": "Бұл бөлім әрқашан бірінші болады",
-    "moveUp": "Жоғары жылжыту",
-    "moveDown": "Төмен жылжыту",
-    "dragHint": "Тәртіпті өзгерту үшін сүйреңіз",
-    "apply": "Қолдану",
-    "cancel": "Бас тарту",
-    "reset": "Қалпына келтіру",
-    "unsavedChanges": "Сақталмаған өзгерістер бар"
   },
   "rest-api": {
     "metricsCallout": {

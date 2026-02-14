@@ -1,5 +1,5 @@
-import { createRestClient } from 'rest-pipeline-js';
-import { ref, computed, watchEffect } from 'vue';
+import { useAsyncData } from 'nuxt/app';
+import { computed } from 'vue';
 
 import { useI18n } from '@/view/composables/use-i18n';
 
@@ -9,54 +9,39 @@ export interface NpmPackageItem {
   description: string;
 }
 
+const API_BASE = 'https://macrulez-api.ru/api/portfolio';
+
+function mapRawToNpmItem(item: Record<string, unknown>): NpmPackageItem {
+  const t = (item?.translation as Record<string, unknown>) ?? {};
+  return {
+    title: String(item?.title ?? ''),
+    url: String(item?.url ?? ''),
+    description: String(t?.description ?? ''),
+  };
+}
+
 export function useNpmPackages() {
   const { locale } = useI18n();
-  const items = ref<NpmPackageItem[]>([]);
-  const loading = ref(false);
-  const error = ref<Error | null>(null);
 
-  const client = createRestClient({ baseURL: 'https://macrulez-api.ru/api/portfolio' });
-
-  const cache: Record<string, NpmPackageItem[]> = {};
-
-  async function fetchItems(currentLocale: string) {
-    if (cache[currentLocale]) {
-      items.value = cache[currentLocale];
-      loading.value = false;
-      error.value = null;
-      return;
-    }
-    loading.value = true;
-    error.value = null;
-    try {
-      const response = await client.get(`/npm?lang=${currentLocale}`);
-      const payload = response && 'data' in response ? response.data : response;
-      const data = payload && typeof payload === 'object' && 'data' in payload ? payload.data : [];
-      if (Array.isArray(data)) {
-        cache[currentLocale] = data.map(item => ({
-          title: item?.title ?? '',
-          url: item?.url ?? '',
-          description: item?.translation?.description ?? '',
-        }));
-        items.value = cache[currentLocale];
-      } else {
-        items.value = [];
-      }
-    } catch (e) {
-      error.value = e instanceof Error ? e : new Error('Unknown error');
-      items.value = [];
-    } finally {
-      loading.value = false;
-    }
-  }
-
-  watchEffect(() => {
-    fetchItems(locale.value);
-  });
+  const { data, pending, error } = useAsyncData(
+    () => `npm-${locale.value}`,
+    async (): Promise<NpmPackageItem[]> => {
+      const response = await $fetch<unknown>(`${API_BASE}/npm`, {
+        params: { lang: locale.value },
+      });
+      const raw = Array.isArray(response)
+        ? response
+        : (response && typeof response === 'object' && 'data' in response
+            ? (response as { data?: unknown[] }).data
+            : []) ?? [];
+      return Array.isArray(raw) ? raw.map(item => mapRawToNpmItem(item as Record<string, unknown>)) : [];
+    },
+    { watch: [locale] },
+  );
 
   return {
-    items: computed(() => items.value),
-    loading: computed(() => loading.value),
-    error: computed(() => error.value),
+    items: computed(() => data.value ?? []),
+    loading: computed(() => pending.value),
+    error: computed(() => error.value ?? null),
   };
 }

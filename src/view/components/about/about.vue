@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import '@/view/components/about/about.scss';
 
-  import { useResponsive } from 'responsive-media';
+  import { useResponsive } from '@/view/composables/use-responsive';
   import {
     computed,
     onMounted,

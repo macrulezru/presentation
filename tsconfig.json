@@ -1,7 +1,7 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "vite.config.ts", "rest-pipeline-js/**/*"],
-  "exclude": ["src/**/__tests__/*"],
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "rest-pipeline-js/**/*"],
+  "exclude": ["src/**/__tests__/*", "src/main.ts"],
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",
@@ -14,7 +14,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true, // ← и эту
-    "esModuleInterop": true
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "allowImportingTsExtensions": true
   }
 }

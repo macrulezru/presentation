@@ -1,5 +1,5 @@
 // Обновление URL с поддержкой третьего сегмента (feature)
-import { useResponsive } from 'responsive-media';
+import { useResponsive } from '@/view/composables/use-responsive';
 import { ref, watch, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
@@ -38,11 +38,32 @@ function createScrollRouting() {
   const sectionNames = Object.values(PageSectionsEnum);
 
   const headerHeight = computed(() => {
-    return responsive.tablet || responsive.mobile ? HEADER_MOBILE_HEIGHT : HEADER_HEIGHT;
+    return responsive.value.tablet || responsive.value.mobile ? HEADER_MOBILE_HEIGHT : HEADER_HEIGHT;
   });
 
-  const isSplashSection = (sectionName: string): boolean =>
-    sectionName === PageSectionsEnum.SPLASH;
+  const FEATURE_SEP = '--';
+
+  /** Секция и featureId из hash — стандартные якоря #section или #section--featureId */
+  const getSectionFromHash = (hash: string): { section: string; featureId?: string } => {
+    if (!hash || hash === '#') return { section: PageSectionsEnum.SPLASH };
+    const path = hash.slice(1).replace(/^\//, '');
+    const sepIdx = path.indexOf(FEATURE_SEP);
+    if (sepIdx > 0) {
+      const section = path.slice(0, sepIdx);
+      const featureId = path.slice(sepIdx + FEATURE_SEP.length);
+      return {
+        section: section === PageSectionsEnum.SPLASH ? PageSectionsEnum.SPLASH : section,
+        featureId: featureId || undefined,
+      };
+    }
+    const section = path || PageSectionsEnum.SPLASH;
+    return { section: section === PageSectionsEnum.SPLASH ? PageSectionsEnum.SPLASH : section };
+  };
+
+  const getHashForSection = (sectionName: string, featureId?: string): string => {
+    if (sectionName === PageSectionsEnum.SPLASH) return '#';
+    return featureId ? `#${sectionName}${FEATURE_SEP}${featureId}` : `#${sectionName}`;
+  };
 
   const initSections = () => {
     const sections = sectionNames
@@ -146,35 +167,19 @@ function createScrollRouting() {
     });
   };
 
-  const getFullPath = (path: string): string => {
-    const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '') || '/';
-    return base === '/' ? path : `${base}${path}`;
-  };
-
   const updateUrl = (sectionName: string) => {
-    if (isProgrammaticScroll.value || isProcessingNavigation.value) {
-      return;
-    }
-    if (Date.now() < ignoreScrollUpdatesUntil.value) {
-      return;
-    }
+    if (isProgrammaticScroll.value || isProcessingNavigation.value) return;
+    if (Date.now() < ignoreScrollUpdatesUntil.value) return;
 
     const now = Date.now();
-    if (now - lastUrlUpdateTime.value < 300) {
-      return;
-    }
+    if (now - lastUrlUpdateTime.value < 300) return;
 
     if (sectionName !== navigationStore.currentSection) {
       navigationStore.setCurrentSection(sectionName);
-      const currentLocale = (route.params.locale as string) || 'ru';
-
-      const newPath = isSplashSection(sectionName)
-        ? `/${currentLocale}`
-        : `/${currentLocale}/${sectionName}`;
-      const fullPath = getFullPath(newPath);
-
-      if (window.location.pathname !== fullPath) {
-        window.history.replaceState({}, '', fullPath);
+      const newHash = getHashForSection(sectionName);
+      if (route.hash !== newHash) {
+        ignoreNextRouteChange.value = true;
+        router.replace({ path: route.path, hash: newHash });
         lastUrlUpdateTime.value = now;
       }
     }
@@ -218,7 +223,7 @@ function createScrollRouting() {
     });
   };
 
-  const scrollToSection = async (sectionName: string, immediate = false) => {
+  const scrollToSection = async (sectionName: string, immediate = false, retryCount = 0) => {
     if (isProcessingNavigation.value) {
       pendingNavigation.value = sectionName;
       return;
@@ -226,6 +231,11 @@ function createScrollRouting() {
 
     const section = navigationStore.getSectionById(sectionName);
     if (!section?.element) {
+      // При первом открытии watch hash срабатывает до initSections() — пробуем повторить после монтирования
+      if (navigationStore.sections.length === 0 && retryCount < 3) {
+        setTimeout(() => scrollToSection(sectionName, immediate, retryCount + 1), 150);
+        return;
+      }
       console.warn(`Section ${sectionName} not found`);
       return;
     }
@@ -284,24 +294,21 @@ function createScrollRouting() {
 
     try {
       const currentLocale = (route.params.locale as string) || 'ru';
-      const path = isSplashSection(sectionName)
-        ? `/${currentLocale}`
-        : `/${currentLocale}/${sectionName}`;
-
-      const currentSection = (route.params.section as string) || PageSectionsEnum.SPLASH;
+      const { section: currentSection } = getSectionFromHash(route.hash || '');
 
       if (currentSection === sectionName) {
-        await scrollToSection(sectionName);
+        await scrollToSection(sectionName, false);
         return;
       }
 
       ignoreNextRouteChange.value = true;
-
-      await router.push(path);
+      await router.replace({
+        path: `/${currentLocale}/`,
+        hash: getHashForSection(sectionName),
+      });
 
       await new Promise(resolve => setTimeout(resolve, 50));
-
-      await scrollToSection(sectionName);
+      await scrollToSection(sectionName, false);
     } catch (error) {
       console.error('Navigation error:', error);
       navigationStore.setIsScrolling(false);
@@ -317,53 +324,52 @@ function createScrollRouting() {
   };
 
   watch(
-    () => route.params.section,
-    async (newSection, oldSection) => {
+    () => route.hash,
+    async (newHash, oldHash) => {
       if (ignoreNextRouteChange.value) {
         ignoreNextRouteChange.value = false;
         return;
       }
+      if (isProcessingNavigation.value) return;
+      if (newHash === oldHash) return;
 
-      if (isProcessingNavigation.value) {
-        return;
+      const { section: sectionName } = getSectionFromHash(newHash || '');
+
+      if (navigationStore.currentSection !== sectionName) {
+        navigationStore.setCurrentSection(sectionName);
       }
 
-      if (newSection !== oldSection) {
-        const sectionName = (newSection as string) || PageSectionsEnum.SPLASH;
-
-        if (navigationStore.currentSection !== sectionName) {
-          navigationStore.setCurrentSection(sectionName);
-        }
-
-        const targetSection = targetSectionAfterScroll.value || sectionName;
-
-        if (!isProgrammaticScroll.value) {
-          await scrollToSection(targetSection);
-        }
+      const targetSection = targetSectionAfterScroll.value || sectionName;
+      if (!isProgrammaticScroll.value) {
+        await scrollToSection(targetSection, true);
       }
     },
     { immediate: true },
   );
 
   const init = () => {
-    setTimeout(() => {
-      initSections();
+    if (typeof history !== 'undefined' && 'scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
 
-      if (navigationStore.sections.length === 0) {
-        console.warn('No sections initialized, retrying...');
-        setTimeout(initSections, 500);
-      }
+    ignoreScrollUpdatesUntil.value = Date.now() + 600;
 
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      window.addEventListener('resize', handleScroll, { passive: true });
+    initSections();
 
-      const initialSection = (route.params.section as string) || PageSectionsEnum.SPLASH;
-      if (navigationStore.currentSection !== initialSection) {
-        navigationStore.setCurrentSection(initialSection);
-      }
+    if (navigationStore.sections.length === 0) {
+      console.warn('No sections initialized, retrying...');
+      requestAnimationFrame(() => initSections());
+    }
 
-      lastScrollPosition.value = window.pageYOffset;
-    }, 100);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+
+    const { section: initialSection } = getSectionFromHash(route.hash || '');
+    if (navigationStore.currentSection !== initialSection) {
+      navigationStore.setCurrentSection(initialSection);
+    }
+
+    lastScrollPosition.value = window.pageYOffset;
   };
 
   const destroy = () => {
@@ -391,27 +397,16 @@ function createScrollRouting() {
   };
 
   const updateUrlWithFeature = (sectionName: string, featureId?: string) => {
-    if (isProgrammaticScroll.value || isProcessingNavigation.value) {
-      return;
-    }
-    if (Date.now() < ignoreScrollUpdatesUntil.value) {
-      return;
-    }
+    if (isProgrammaticScroll.value || isProcessingNavigation.value) return;
+
     const now = Date.now();
-    if (now - lastUrlUpdateTime.value < 300) {
-      return;
-    }
+    if (now - lastUrlUpdateTime.value < 300) return;
+
     navigationStore.setCurrentSection(sectionName);
-    const currentLocale = (route.params.locale as string) || 'ru';
-    let newPath = isSplashSection(sectionName)
-      ? `/${currentLocale}`
-      : `/${currentLocale}/${sectionName}`;
-    if (featureId) {
-      newPath += `/${featureId}`;
-    }
-    const fullPath = getFullPath(newPath);
-    if (window.location.pathname !== fullPath) {
-      window.history.replaceState({}, '', fullPath);
+    const newHash = getHashForSection(sectionName, featureId);
+    if (route.hash !== newHash) {
+      ignoreNextRouteChange.value = true;
+      router.replace({ path: route.path, hash: newHash });
       lastUrlUpdateTime.value = now;
     }
   };

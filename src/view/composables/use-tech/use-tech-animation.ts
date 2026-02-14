@@ -1,4 +1,4 @@
-import { useResponsive } from 'responsive-media';
+import { useResponsive } from '@/view/composables/use-responsive';
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
 
 import {
@@ -1182,7 +1182,7 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
     });
 
     // Определяем, применять ли блюр (только для десктопа)
-    const blurEnabled = responsive.desktop;
+    const blurEnabled = responsive.value.desktop;
 
     ctx.value.save();
     ctx.value.filter = blurEnabled ? `blur(${backgroundBlur.value}px)` : 'none';
@@ -1374,9 +1374,9 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
 
   // Инициализация траектории на основе размера экрана
   const initializeTrajectoryMode = () => {
-    const targetMode = responsive.desktop ? 'infinity' : 'circle';
+    const targetMode = responsive.value.desktop ? 'infinity' : 'circle';
     techDebug('[TechAnimation] initializeTrajectoryMode called', {
-      isDesktop: responsive.desktop,
+      isDesktop: responsive.value.desktop,
       targetMode,
       containerSize: {
         width: containerRef.value?.getBoundingClientRect().width,
@@ -1440,7 +1440,7 @@ export function useTechAnimation(options: CanvasAnimationOptions) {
 
   // Реакция на изменение размера экрана: переключаем режим траектории
   watch(
-    () => responsive.desktop,
+    () => responsive.value.desktop,
     newValue => {
       const targetMode = newValue ? 'infinity' : 'circle';
       setTrajectoryMode(targetMode);

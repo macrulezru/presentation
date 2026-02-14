@@ -1,4 +1,15 @@
 {
+  "seo": {
+    "title": "Danil Lisin | Versatile Vue.js Developer (Vue 3, TypeScript) | Resume",
+    "description": "Versatile Vue.js Developer with 6+ years of experience. Specializing in Vue 3, TypeScript, and complex SPA architecture. Lead frontend developer of the TravelShop booking system. 20+ years in web development.",
+    "keywords": "Vue.js developer, Vue 3, TypeScript, Frontend developer, Middle+ developer, SPA, Pinia, Vite, booking system, TravelShop, frontend architecture, remote work",
+    "ogTitle": "Danil Lisin - Versatile Vue.js Developer",
+    "ogDescription": "Vue.js developer resume with experience in complex SPA applications. 6+ years Vue, 20+ years in web development.",
+    "ogImageAlt": "Danil Lisin - Versatile Vue.js Developer",
+    "siteName": "Danil Lisin - Versatile Vue.js Developer",
+    "twitterTitle": "Danil Lisin - Versatile Vue.js Developer",
+    "twitterDescription": "Vue.js developer resume with experience in complex SPA applications. 6+ years Vue, 20+ years in web development."
+  },
   "navigation": {
     "home": "Home",
     "about": "Skills",
@@ -936,19 +947,6 @@
     "description": "A fundamental understanding of composition, typography, and color theory, acquired through graphic design, forms the basis for creating logical, aesthetic, and effective digital interfaces.",
     "showAll": "View all pictures",
     "loadingImages": "Loading images"
-  },
-  "sectionEditor": {
-    "title": "Section Order Editing",
-    "description": "Drag and drop sections to change their order. The first section \"Home\" is fixed.",
-    "fixedLabel": "Fixed",
-    "fixedTitle": "This section is always first",
-    "moveUp": "Move up",
-    "moveDown": "Move down",
-    "dragHint": "Drag to change order",
-    "apply": "Apply",
-    "cancel": "Cancel",
-    "reset": "Reset",
-    "unsavedChanges": "You have unsaved changes"
   },
   "rest-api": {
     "metricsCallout": {

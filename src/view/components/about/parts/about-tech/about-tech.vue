@@ -2,7 +2,7 @@
 <script setup lang="ts">
   import '@/view/components/about/parts/about-tech/about-tech.scss';
 
-  import { useResponsive } from 'responsive-media';
+  import { useResponsive } from '@/view/composables/use-responsive';
   import { ref, onMounted, watch } from 'vue';
 
   import { useTechAnimation, setCanvasMaxWidth } from '@/view/composables/use-tech/';
@@ -15,7 +15,7 @@
   });
 
   watch(
-    [() => responsive.desktop, () => responsive.tablet, () => responsive.mobile],
+    [() => responsive.value.desktop, () => responsive.value.tablet, () => responsive.value.mobile],
     () => {
       // При изменении размера экрана можно обновить максимальную ширину canvas
       setupCanvasWidth();
@@ -23,11 +23,11 @@
   );
 
   const setupCanvasWidth = () => {
-    if (responsive.desktop) {
+    if (responsive.value.desktop) {
       setCanvasMaxWidth(1000);
-    } else if (responsive.tablet) {
+    } else if (responsive.value.tablet) {
       setCanvasMaxWidth(500);
-    } else if (responsive.mobile) {
+    } else if (responsive.value.mobile) {
       setCanvasMaxWidth(400);
     }
   };

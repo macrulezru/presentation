@@ -2,4 +2,9 @@
   min-height: 100vh;
   white-space: pre-line;
   background-color: var(--color-background);
+
+  // Стандартные якоря: при переходе по #section секция не уходит под фиксированный header
+  section[id] {
+    scroll-margin-top: 60px;
+  }
 }

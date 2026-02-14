@@ -1,10 +1,7 @@
 <script setup lang="ts">
-  import { storeToRefs } from 'pinia';
   import { onBeforeMount, onMounted, onUnmounted, defineAsyncComponent } from 'vue';
 
-  import { useNavigationStore } from '@/stores/use-navigation-store.ts';
   import Header from '@/view/components/header/header.vue';
-  import SectionEditor from '@/view/components/section-editor/section-editor.vue';
   import { useI18n } from '@/view/composables/use-i18n.ts';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
   import { useSectionsConfig } from '@/view/composables/use-sections-config';
@@ -20,9 +17,6 @@
   const { init, destroy } = useScrollRouting();
 
   const { sectionsConfig } = useSectionsConfig();
-
-  const navigationStore = useNavigationStore();
-  const { showSectionEditor } = storeToRefs(navigationStore);
 
   useMacrulezBadge();
 
@@ -42,7 +36,6 @@
 <template>
   <div class="app">
     <Header />
-    <SectionEditor v-model="showSectionEditor" />
     <section v-for="section in sectionsConfig" :id="section.id" :key="section.id">
       <component :is="section.component" />
     </section>

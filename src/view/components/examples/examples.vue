@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { useResponsive } from 'responsive-media';
   import {
     ref,
     defineAsyncComponent,
@@ -17,6 +16,7 @@
   import FeatureItem from '@/view/components/examples/parts/feature-item/feature-item.vue';
   import { useFeatures } from '@/view/composables/use-features.ts';
   import { useI18n } from '@/view/composables/use-i18n.ts';
+  import { useResponsive } from '@/view/composables/use-responsive';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
   import Button from '@/view/ui/ui-button/ui-button.vue';
   import UiLoading from '@/view/ui/ui-loading/ui-loading.vue';
@@ -41,12 +41,19 @@
 
   const responsive = useResponsive();
   const { features } = useFeatures();
-  const { navigateToSection, updateUrlWithFeature, setIgnoreScrollUpdates } =
-    useScrollRouting();
+  const {
+    navigateToSection,
+    updateUrlWithFeature,
+    setIgnoreScrollUpdates,
+    currentSection,
+  } = useScrollRouting();
   const examplesStore = useExamplesStore();
 
   const isShowPipeline = ref<boolean>(false);
   const activeFeatureId = ref<string>('');
+  const pipelineWrapperRef = ref<HTMLElement | null>(null);
+  const pipelineMaxHeight = ref<string>('0px');
+  const pipelineTransitionTimer = ref<number | null>(null);
   const navigationRef = ref<HTMLElement | null>(null);
   const isScrollingByUser = ref<boolean>(false);
   const targetFeatureId = ref<string>('');
@@ -88,8 +95,47 @@
     nextTick(() => scrollNavigationToActiveItem());
   };
 
+  watch(isShowPipeline, async val => {
+    await nextTick();
+    const el = pipelineWrapperRef.value;
+    if (!el) return;
+
+    if (pipelineTransitionTimer.value) {
+      clearTimeout(pipelineTransitionTimer.value);
+      pipelineTransitionTimer.value = null;
+    }
+    if (val) {
+      let height = el.scrollHeight;
+      let attempts = 0;
+      while (height === 0 && attempts < 10) {
+        await new Promise(r => setTimeout(r, 50));
+        height = el.scrollHeight;
+        attempts += 1;
+      }
+      if (!height) height = 600;
+      const buffered = height + 600;
+      pipelineMaxHeight.value = `${buffered}px`;
+
+      pipelineTransitionTimer.value = window.setTimeout(() => {
+        pipelineMaxHeight.value = '';
+        pipelineTransitionTimer.value = null;
+        // Reinitialize observer after expansion so positions are recalculated
+        initObserver();
+      }, 420);
+    } else {
+      const current = el.scrollHeight || 0;
+      pipelineMaxHeight.value = `${current}px`;
+      await nextTick();
+      pipelineMaxHeight.value = '0px';
+      pipelineTransitionTimer.value = window.setTimeout(() => {
+        initObserver();
+        pipelineTransitionTimer.value = null;
+      }, 420);
+    }
+  });
+
   const getNavigationOffset = () => {
-    const headerHeight = responsive.desktop ? 60 : 50;
+    const headerHeight = responsive.value.desktop ? 60 : 50;
     const navigationHeight = navigationRef.value?.offsetHeight || 0;
     return headerHeight + navigationHeight;
   };
@@ -135,9 +181,10 @@
 
   let observer: IntersectionObserver | null = null;
 
-  onMounted(() => {
-    music.value = new Audio(musicUrl);
-    if (examplesStore.videoStatus) playMusic();
+  function initObserver() {
+    if (observer) {
+      observer.disconnect();
+    }
 
     observer = new IntersectionObserver(
       entries => {
@@ -145,8 +192,8 @@
         const intersectingEntries = entries.filter(entry => entry.isIntersecting);
         if (intersectingEntries.length === 0) return;
         const topmost = intersectingEntries.reduce((top, current) => {
-          const topRect = top.target.getBoundingClientRect();
-          const currentRect = current.target.getBoundingClientRect();
+          const topRect = (top.target as HTMLElement).getBoundingClientRect();
+          const currentRect = (current.target as HTMLElement).getBoundingClientRect();
           return currentRect.top < topRect.top ? current : top;
         });
         const featureId = topmost.target.getAttribute('data-feature-id');
@@ -159,18 +206,30 @@
         }
       },
       {
-        rootMargin: responsive.desktop ? '-10% 0px -10% 0px' : '-40% 0px -40% 0px',
-        threshold: responsive.desktop ? 0.2 : 0.01,
+        rootMargin: responsive.value.desktop ? '-10% 0px -10% 0px' : '-40% 0px -40% 0px',
+        threshold: responsive.value.desktop ? 0.2 : 0.01,
       },
     );
 
     const featureElements = document.querySelectorAll('[data-feature-id]');
     featureElements.forEach(el => observer?.observe(el));
+  }
+
+  onMounted(() => {
+    music.value = new Audio(musicUrl);
+    if (examplesStore.videoStatus) playMusic();
+
+    initObserver();
 
     if (features.value.length > 0 && features.value[0]) {
       activeFeatureId.value = features.value[0].id;
-      updateUrlWithFeature('features', features.value[0].id);
     }
+
+    nextTick(() => {
+      checkFeaturesListVisibility();
+    });
+    window.addEventListener('scroll', checkFeaturesListVisibility, { passive: true });
+    window.addEventListener('resize', checkFeaturesListVisibility, { passive: true });
   });
 
   onUnmounted(() => {
@@ -179,6 +238,12 @@
     }
     stopMusic();
     music.value = null;
+    if (pipelineTransitionTimer.value) {
+      clearTimeout(pipelineTransitionTimer.value);
+      pipelineTransitionTimer.value = null;
+    }
+    window.removeEventListener('scroll', checkFeaturesListVisibility);
+    window.removeEventListener('resize', checkFeaturesListVisibility);
   });
 
   watch(
@@ -186,7 +251,9 @@
     featureId => {
       setTimeout(() => {
         scrollNavigationToActiveItem();
-        updateUrlWithFeature('features', featureId);
+        if (currentSection.value === PageSectionsEnum.FEATURES && featureId) {
+          updateUrlWithFeature('features', featureId);
+        }
       }, 0);
     },
     { immediate: true },
@@ -209,17 +276,7 @@
     }
   }
 
-  onMounted(() => {
-    nextTick(() => {
-      checkFeaturesListVisibility();
-    });
-    window.addEventListener('scroll', checkFeaturesListVisibility, { passive: true });
-    window.addEventListener('resize', checkFeaturesListVisibility, { passive: true });
-  });
-  onUnmounted(() => {
-    window.removeEventListener('scroll', checkFeaturesListVisibility);
-    window.removeEventListener('resize', checkFeaturesListVisibility);
-  });
+  
 
   const music = ref<HTMLAudioElement | null>(null);
 
@@ -300,14 +357,27 @@
           <template v-for="(feature, idx) in features" :key="feature.id">
             <FeatureItem :feature="feature" :reverse="idx > 0 && idx % 2 === 1">
               <template v-if="feature.id === FeaturesEnum.PIPELINE">
-                <div v-if="!isShowPipeline" class="examples__pipeline">
-                  <Button
-                    :text="t('pipeline-demo.button_openDemo')"
-                    promo
-                    @click="showPipeline"
-                  />
+                <div
+                  class="examples__pipeline"
+                  :class="{ 'examples__pipeline_is-open': isShowPipeline }"
+                >
+                  <div v-if="!isShowPipeline" class="examples__pipeline-action">
+                    <Button
+                      :text="t('pipeline-demo.button_openDemo')"
+                      promo
+                      @click="showPipeline"
+                    />
+                  </div>
+
+                  <div
+                    ref="pipelineWrapperRef"
+                    class="examples__pipeline-wrapper"
+                    :class="{ 'examples__pipeline-wrapper_is-open': isShowPipeline }"
+                    :style="{ maxHeight: pipelineMaxHeight }"
+                  >
+                    <Pipeline />
+                  </div>
                 </div>
-                <Pipeline v-if="isShowPipeline" />
               </template>
             </FeatureItem>
           </template>

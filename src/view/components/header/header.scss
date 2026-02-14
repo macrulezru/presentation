@@ -94,22 +94,6 @@
       background-color: var(--color-1);
     }
   }
-
-  &__settings {
-    width: 18px;
-    height: 18px;
-    mask-image: url('@/view/assets/images/gear-icon.svg');
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    background-color: var(--color-text-light);
-    transition: all var(--transition-normal);
-    cursor: pointer;
-
-    &:hover {
-      background-color: var(--color-1);
-    }
-  }
 }
 
 .hamburger {

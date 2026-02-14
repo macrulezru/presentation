@@ -1,4 +1,15 @@
 {
+  "seo": {
+    "title": "李辛·丹尼尔 | Versatile Vue.js Developer (Vue 3, TypeScript) | 简历",
+    "description": "全栈 Vue.js 开发工程师，6年以上经验。专注于 Vue 3、TypeScript 和复杂 SPA 架构。TravelShop 预订系统前端负责人。20年以上网页开发经验。",
+    "keywords": "Vue.js 开发, Vue 3, TypeScript, 前端开发, 中高级开发, SPA, Pinia, Vite, 预订系统, TravelShop, 前端架构, 远程工作",
+    "ogTitle": "李辛·丹尼尔 - Versatile Vue.js Developer",
+    "ogDescription": "Vue.js 开发工程师简历，具有复杂 SPA 应用开发经验。6年以上 Vue 经验，20年以上网页开发经验。",
+    "ogImageAlt": "李辛·丹尼尔 - Versatile Vue.js Developer",
+    "siteName": "李辛·丹尼尔 - Versatile Vue.js Developer",
+    "twitterTitle": "李辛·丹尼尔 - Versatile Vue.js Developer",
+    "twitterDescription": "Vue.js 开发工程师简历，具有复杂 SPA 应用开发经验。6年以上 Vue 经验，20年以上网页开发经验。"
+  },
   "navigation": {
     "home": "首页",
     "about": "技能",
@@ -937,19 +948,7 @@
     "showAll": "查看所有图片",
     "loadingImages": "正在加载图像"
   },
-  "sectionEditor": {
-    "title": "版块顺序编辑",
-    "description": "拖拽版块以更改其顺序。第一个版块“首页”是固定的。",
-    "fixedLabel": "已固定",
-    "fixedTitle": "此版块始终排在第一位",
-    "moveUp": "上移",
-    "moveDown": "下移",
-    "dragHint": "拖拽以更改顺序",
-    "apply": "应用",
-    "cancel": "取消",
-    "reset": "重置",
-    "unsavedChanges": "存在未保存的更改"
-  },
+
   "rest-api": {
     "metricsCallout": {
       "title": "打开指标面板",

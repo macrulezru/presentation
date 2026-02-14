@@ -1,8 +1,9 @@
 <script setup lang="ts">
   import '@/view/ui/ui-image/ui-image.scss';
 
-  import { useResponsive, getResponsiveMediaQueries } from 'responsive-media';
   import { ref, computed } from 'vue';
+
+  import { useResponsive, getResponsiveMediaQueries } from '@/view/composables/use-responsive';
 
   export interface UiImageSource {
     src: string;
@@ -32,18 +33,18 @@
     }
 
     if (src && mobile && !tablet) {
-      if (responsive.mobile) return mobile;
+      if (responsive.value.mobile) return mobile;
       return src;
     }
 
     if (src && tablet && !mobile) {
-      if (responsive.mobile) return tablet;
+      if (responsive.value.mobile) return tablet;
       return src;
     }
 
     if (src && tablet && mobile) {
-      if (responsive.mobile) return mobile;
-      if (responsive.tablet) return tablet;
+      if (responsive.value.mobile) return mobile;
+      if (responsive.value.tablet) return tablet;
       return src;
     }
 
@@ -54,10 +55,10 @@
     const { src, tablet, mobile } = props.image;
 
     if (src && tablet && !mobile) {
-      if (responsive.mobile) {
+      if (responsive.value.mobile) {
         return getAspectRatioStyle(tablet);
       }
-      if (responsive.tablet) {
+      if (responsive.value.tablet) {
         return getAspectRatioStyle(tablet);
       }
       return getAspectRatioStyle(src);

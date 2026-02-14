@@ -21,11 +21,17 @@ export interface UseImageManagerReturn {
 export function useImageManager(): UseImageManagerReturn {
   const travelshopIntroStore = useTravelshopIntroStore();
 
-  const images = {
-    airport: new Image(),
-    aircraft: new Image(),
-    cloud: new Image(),
-  };
+  const images = import.meta.env.SSR
+    ? ({
+        airport: {} as HTMLImageElement,
+        aircraft: {} as HTMLImageElement,
+        cloud: {} as HTMLImageElement,
+      } as ImageAssets)
+    : {
+        airport: new Image(),
+        aircraft: new Image(),
+        cloud: new Image(),
+      };
 
   const actualImageSizes = ref<ImageSizes>({
     airport: { width: 0, height: 0, aspectRatio: 0 },

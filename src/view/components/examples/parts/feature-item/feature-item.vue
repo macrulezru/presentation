@@ -2,7 +2,7 @@
   import '@/view/components/examples/parts/feature-item/feature-item.scss';
 
   import { useLinearGradient, useRadialGradient } from 'css-magic-gradient';
-  import { useResponsive } from 'responsive-media';
+  import { useResponsive } from '@/view/composables/use-responsive';
   import { computed, ref } from 'vue';
 
   import type { GradientOptions, GradientColors, headerGradientOptions } from './types';
@@ -64,6 +64,7 @@
 
 <template>
   <div
+    :id="`features--${feature.id}`"
     class="feature-item"
     :style="getHeaderGradientStyle(feature.accentColor)"
     :data-feature-id="feature.id"

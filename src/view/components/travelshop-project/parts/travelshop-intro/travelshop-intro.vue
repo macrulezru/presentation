@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useResponsive } from 'responsive-media';
+  import { useResponsive } from '@/view/composables/use-responsive';
   import { computed, ref, onUnmounted } from 'vue';
 
   import { useTravelshopIntroStore } from '@/stores/use-travelshop-intro-store';

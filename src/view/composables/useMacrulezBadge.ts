@@ -17,6 +17,7 @@ const MACRULEZ_ASCII = [
 
 const FEATURES = [
   '🟩 Vue 3',
+  '🟢 Nuxt',
   '🧩 Composition API',
   '🛣️ Routing',
   '🍍 Pinia',

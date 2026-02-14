@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { useResponsive } from 'responsive-media';
   import { computed, onMounted, onUnmounted, ref } from 'vue';
 
   import { PageSectionsEnum } from '@/enums/page-sections.enum.ts';
@@ -7,6 +6,7 @@
   import { useNavigationStore } from '@/stores/use-navigation-store.ts';
   import LangSelector from '@/view/components/lang-selector/lang-selector.vue';
   import { useI18n } from '@/view/composables/use-i18n.ts';
+  import { useResponsive } from '@/view/composables/use-responsive';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
   import { useSectionsConfig } from '@/view/composables/use-sections-config';
 
@@ -52,7 +52,7 @@
 
   // Проверка размера экрана
   const checkScreenSize = () => {
-    if (responsive.desktop && isMobileMenuOpen.value) {
+    if (responsive.value.desktop && isMobileMenuOpen.value) {
       isMobileMenuOpen.value = false;
     }
   };
@@ -66,7 +66,7 @@
     isProcessingClick.value = true;
 
     try {
-      if (!responsive.desktop) {
+      if (!responsive.value.desktop) {
         isMobileMenuOpen.value = false;
       }
 
@@ -106,10 +106,6 @@
     if (event.key === 'Escape' && isMobileMenuOpen.value) {
       isMobileMenuOpen.value = false;
     }
-  };
-
-  const onEditor = () => {
-    navigationStore.setShowSectionEditor(true);
   };
 
   // Проверка видимости блока features-list
@@ -201,7 +197,6 @@
             :class="{ header__video_active: examplesStore.videoStatus }"
             @click="triggerVideo"
           />
-          <button class="header__settings" @click="onEditor" />
           <LangSelector />
         </div>
       </div>

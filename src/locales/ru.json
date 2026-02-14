@@ -1,4 +1,15 @@
 {
+  "seo": {
+    "title": "Данил Лисин | Versatile Vue.js Developer (Vue 3, TypeScript) | Резюме",
+    "description": "Versatile Vue.js Developer с 6+ лет опыта. Специализация: Vue 3, TypeScript, архитектура сложных SPA. Ведущий верстальщик-разработчик системы бронирования TravelShop. Опыт в веб-разработке 20+ лет.",
+    "keywords": "Vue.js разработчик, Vue 3, TypeScript, Frontend разработчик, Middle+ разработчик, SPA, Pinia, Vite, система бронирования, TravelShop, архитектура фронтенда, удаленная работа",
+    "ogTitle": "Данил Лисин - Versatile Vue.js Developer",
+    "ogDescription": "Резюме Vue.js разработчика с опытом создания сложных SPA-приложений. 6+ лет Vue, 20+ лет в веб-разработке.",
+    "ogImageAlt": "Данил Лисин - Versatile Vue.js Developer",
+    "siteName": "Данил Лисин - Versatile Vue.js Developer",
+    "twitterTitle": "Данил Лисин - Versatile Vue.js Developer",
+    "twitterDescription": "Резюме Vue.js разработчика с опытом создания сложных SPA-приложений. 6+ лет Vue, 20+ лет в веб-разработке."
+  },
   "navigation": {
     "home": "Главная",
     "about": "Навыки",
@@ -925,19 +936,6 @@
     "description": "Фундаментальное понимание композиции, типографики и работы с цветом, полученное в графическом дизайне, является основой для создания логичных, эстетичных и эффективных цифровых интерфейсов.",
     "showAll": "Посмотреть все картинки",
     "loadingImages": "Загрузка изображений"
-  },
-  "sectionEditor": {
-    "title": "Редактирование порядка секций",
-    "description": "Перетаскивайте секции, чтобы изменить их порядок. Первая секция \"Главная\" фиксирована.",
-    "fixedLabel": "Фиксирована",
-    "fixedTitle": "Эта секция всегда первой",
-    "moveUp": "Переместить выше",
-    "moveDown": "Переместить ниже",
-    "dragHint": "Перетащите для изменения порядка",
-    "apply": "Применить",
-    "cancel": "Отменить",
-    "reset": "Сбросить",
-    "unsavedChanges": "Есть несохраненные изменения"
   },
   "rest-api": {
     "metricsCallout": {
