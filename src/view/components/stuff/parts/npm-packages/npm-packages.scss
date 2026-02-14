@@ -23,6 +23,12 @@
     line-height: 1;
   }
 
+  &__loader {
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+  }
+
   &__wrapper {
     @include grid-3-cols;
   }
