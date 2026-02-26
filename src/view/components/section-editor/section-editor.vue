@@ -47,6 +47,7 @@
       [PageSectionsEnum.ARTS]: t('navigation.arts'),
       [PageSectionsEnum.REMOTE_WORKPLACE]: t('navigation.workplace'),
       [PageSectionsEnum.CONTACTS]: t('navigation.contacts'),
+      [PageSectionsEnum.BLOG]: t('navigation.blog'),
     };
   });
 

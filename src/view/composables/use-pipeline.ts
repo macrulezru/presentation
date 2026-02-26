@@ -1,4 +1,5 @@
-import { PipelineOrchestrator, usePipelineRunVue } from 'rest-pipeline-js';
+import { PipelineOrchestrator } from 'rest-pipeline-js';
+import { usePipelineRunVue } from 'rest-pipeline-js/vue';
 import { ref, computed, type ComputedRef } from 'vue';
 
 import pipelineConfigSource from './pipeline-config-source.txt?raw';
