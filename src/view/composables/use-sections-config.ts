@@ -18,8 +18,10 @@ export interface SectionConfig {
   order?: number;
 }
 
-// Все доступные секции (без порядка)
-const allSections: Record<PageSectionsEnum, Component> = {
+// Все доступные секции (без порядка) — некоторые секции (например, BLOG)
+// могут быть просто ссылками и не иметь on-screen компонента, поэтому
+// используем Partial<Record<...>>
+const allSections: Partial<Record<PageSectionsEnum, Component>> = {
   [PageSectionsEnum.SPLASH]: Splash,
   [PageSectionsEnum.ABOUT]: About,
   [PageSectionsEnum.EXPERIENCE]: ExperienceTimeline,
@@ -42,14 +44,17 @@ const sectionOrder = ref<PageSectionsEnum[]>([
   PageSectionsEnum.ARTS,
   PageSectionsEnum.REMOTE_WORKPLACE,
   PageSectionsEnum.CONTACTS,
+  PageSectionsEnum.BLOG,
 ]);
 
 // Реактивный список конфигураций секций
 export const sectionsConfig = computed<SectionConfig[]>(() => {
-  return sectionOrder.value.map(id => ({
-    id,
-    component: allSections[id],
-  }));
+  return sectionOrder.value
+    .filter(id => Boolean(allSections[id]))
+    .map(id => ({
+      id,
+      component: allSections[id] as Component,
+    }));
 });
 
 // Функции для управления порядком
@@ -122,5 +127,8 @@ export function useSectionsConfig() {
     moveSection,
     resetToDefault,
     getAllSectionIds: () => Object.keys(allSections) as PageSectionsEnum[],
+    // Возвращает текущий порядок секций (включая те, у которых нет компонента,
+    // например `BLOG`). Полезно для рендера меню.
+    getSectionOrder: () => sectionOrder.value,
   };
 }
