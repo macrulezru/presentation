@@ -20,16 +20,17 @@
   const responsive = useResponsive();
 
   // Используем реактивную конфигурацию секций
-  const { sectionsConfig } = useSectionsConfig();
+  // Для меню используем явный порядок секций (включая ссылки без компонента)
+  const { getSectionOrder } = useSectionsConfig();
 
   const isMobileMenuOpen = ref(false);
   const isProcessingClick = ref(false);
 
   const currentSection = computed(() => navigationStore.currentSection);
 
-  // Реактивное меню на основе порядка секций
+  // Реактивное меню на основе порядка секций (включая пункты без компонента, например BLOG)
   const menuItems = computed(() => {
-    return sectionsConfig.value.map(section => {
+    return getSectionOrder().map(id => {
       // Создаем маппинг между ID секций и ключами перевода
       const translationKeys: Record<PageSectionsEnum, string> = {
         [PageSectionsEnum.SPLASH]: 'navigation.home',
@@ -41,11 +42,12 @@
         [PageSectionsEnum.ARTS]: 'navigation.arts',
         [PageSectionsEnum.REMOTE_WORKPLACE]: 'navigation.workplace',
         [PageSectionsEnum.CONTACTS]: 'navigation.contacts',
+        [PageSectionsEnum.BLOG]: 'navigation.blog',
       };
 
       return {
-        id: section.id,
-        label: t(translationKeys[section.id] || section.id),
+        id,
+        label: t(translationKeys[id] || id),
       };
     });
   });
@@ -59,6 +61,11 @@
 
   // Обработчик клика по пункту меню
   const handleMenuClick = async (sectionId: string) => {
+    if (sectionId === PageSectionsEnum.BLOG) {
+      window.open('https://blog.macrulez.ru', '_blank');
+      return;
+    }
+
     if (isProcessingClick.value || isProcessingNavigation.value) {
       return;
     }
