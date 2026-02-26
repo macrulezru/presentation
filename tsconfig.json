@@ -1,7 +1,18 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "vite.config.ts", "rest-pipeline-js/**/*"],
-  "exclude": ["src/**/__tests__/*"],
+  "include": [
+    "env.d.ts",
+    "src/**/*",
+    "src/**/*.vue",
+    "vite.config.ts",
+    "rest-pipeline-js/**/*"
+  ],
+  "exclude": [
+    "src/**/__tests__/*",
+    "src/**/*.stories.*",
+    "src/**/storybook/**",
+    "src/**/storybook-*/**"
+  ],
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",

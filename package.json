@@ -33,7 +33,7 @@
     "pinia": "^3.0.3",
     "prismjs": "^1.30.0",
     "responsive-media": "^1.0.7",
-    "rest-pipeline-js": "^1.2.0",
+    "rest-pipeline-js": "^1.2.5",
     "stringify-object": "^6.0.0",
     "three": "^0.181.2",
     "vue": "^3.5.22",
