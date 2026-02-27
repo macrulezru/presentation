@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useI18n } from '@/view/composables/use-i18n';
+import { useI18n } from '~/composables/useI18n';
   import './metrics-chart-tabs.scss';
 
   export type ChartType = 'rps' | 'latency' | 'status' | 'bytes';

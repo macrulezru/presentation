@@ -12,7 +12,7 @@
   import TravelshopImageHorizontal from '@/view/assets/images/travelshop-image-horizontal.webp';
   import TravelshopImage from '@/view/assets/images/travelshop-image.webp';
   import TravelshopIntro from '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue';
-  import { useI18n } from '@/view/composables/use-i18n';
+import { useI18n } from '~/composables/useI18n';
   import Button from '@/view/ui/ui-button/ui-button.vue';
   import CircleChart from '@/view/ui/ui-circle-chart/ui-circle-chart.vue';
   import UiImage from '@/view/ui/ui-image/ui-image.vue';
@@ -32,11 +32,16 @@
         }),
       ]),
     delay: 0,
+    // Nuxt рендерит страницу внутри <Suspense>; чтобы не терять loadingComponent,
+    // выключаем suspensible-режим.
+    suspensible: false,
   });
 
   const { t, tm } = useI18n();
 
   const showSwiper = ref<boolean>(false);
+
+  const isBrowser = typeof window !== 'undefined';
 
   const features = computed<Feature[]>(() => {
     const items = tm('travelshop.features.items') as Record<string, unknown>[];
@@ -85,7 +90,15 @@
 
 <template>
   <div class="travelshop">
-    <TravelshopIntro />
+    <!-- Canvas / Image() heavy intro: SSR-safe fallback -->
+    <template v-if="isBrowser">
+      <TravelshopIntro />
+    </template>
+    <div v-else class="travelshop-intro">
+      <div class="travelshop-intro__wrapper">
+        <div class="travelshop-intro__canvas travelshop-intro__canvas-loading" />
+      </div>
+    </div>
     <div class="travelshop__intro">
       <div class="travelshop__container travelshop__airplane_top">
         <div class="travelshop__intro-description">

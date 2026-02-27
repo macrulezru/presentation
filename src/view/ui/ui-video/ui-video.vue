@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useResponsive } from 'responsive-media';
+import { useResponsive } from '~/composables/useResponsive';
   import { ref, computed } from 'vue';
 
   export interface UiVideoSource {

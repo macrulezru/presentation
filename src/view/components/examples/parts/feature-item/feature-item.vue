@@ -2,11 +2,11 @@
   import '@/view/components/examples/parts/feature-item/feature-item.scss';
 
   import { useLinearGradient, useRadialGradient } from 'css-magic-gradient';
-  import { useResponsive } from 'responsive-media';
+import { useResponsive } from '~/composables/useResponsive';
   import { computed, ref } from 'vue';
 
   import type { GradientOptions, GradientColors, headerGradientOptions } from './types';
-  import type { FeatureData } from '@/view/composables/use-features.ts';
+import type { FeatureData } from '~/composables/useFeatures';
 
   import { useExamplesStore } from '@/stores/use-examples-store';
   import UiImage from '@/view/ui/ui-image/ui-image.vue';

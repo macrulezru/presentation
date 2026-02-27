@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useResponsive } from 'responsive-media';
+import { useResponsive } from '~/composables/useResponsive';
   import {
     ref,
     defineAsyncComponent,
@@ -15,11 +15,11 @@
   import { useExamplesStore } from '@/stores/use-examples-store.ts';
   import musicUrl from '@/view/assets/music/background-music.mp3';
   import FeatureItem from '@/view/components/examples/parts/feature-item/feature-item.vue';
-  import { useFeatures } from '@/view/composables/use-features.ts';
-  import { useI18n } from '@/view/composables/use-i18n.ts';
+import { useFeatures } from '~/composables/useFeatures';
+import { useI18n } from '~/composables/useI18n';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
-  import Button from '@/view/ui/ui-button/ui-button.vue';
-  import UiLoading from '@/view/ui/ui-loading/ui-loading.vue';
+  import UiButton from '~/components/ui/UiButton.vue';
+  import UiLoading from '~/components/ui/UiLoading.vue';
 
   import '@/view/components/examples/examples.scss';
 
@@ -35,14 +35,16 @@
         }),
       ]),
     delay: 0,
+    // Nuxt рендерит страницу внутри <Suspense>; чтобы не терять loadingComponent,
+    // выключаем suspensible-режим.
+    suspensible: false,
   });
 
   const { t } = useI18n();
 
   const responsive = useResponsive();
   const { features } = useFeatures();
-  const { navigateToSection, updateUrlWithFeature, setIgnoreScrollUpdates } =
-    useScrollRouting();
+  const { navigateToSection, setIgnoreScrollUpdates } = useScrollRouting();
   const examplesStore = useExamplesStore();
 
   const isShowPipeline = ref<boolean>(false);
@@ -153,8 +155,6 @@
         if (featureId) {
           if (activeFeatureId.value !== featureId) {
             activeFeatureId.value = featureId;
-          } else {
-            updateUrlWithFeature('features', featureId);
           }
         }
       },
@@ -169,7 +169,6 @@
 
     if (features.value.length > 0 && features.value[0]) {
       activeFeatureId.value = features.value[0].id;
-      updateUrlWithFeature('features', features.value[0].id);
     }
   });
 
@@ -183,10 +182,9 @@
 
   watch(
     activeFeatureId,
-    featureId => {
+    () => {
       setTimeout(() => {
         scrollNavigationToActiveItem();
-        updateUrlWithFeature('features', featureId);
       }, 0);
     },
     { immediate: true },
@@ -265,7 +263,7 @@
             <div class="examples__demonstration-icon" />
             <div>{{ t('demonstration.readiness') }}</div>
             <div>
-              <Button
+              <UiButton
                 small
                 :text="t('demonstration.contact_me_conveniently')"
                 @click="toContactSection"
@@ -301,7 +299,7 @@
             <FeatureItem :feature="feature" :reverse="idx > 0 && idx % 2 === 1">
               <template v-if="feature.id === FeaturesEnum.PIPELINE">
                 <div v-if="!isShowPipeline" class="examples__pipeline">
-                  <Button
+                  <UiButton
                     :text="t('pipeline-demo.button_openDemo')"
                     promo
                     @click="showPipeline"

@@ -4,22 +4,27 @@
     "env.d.ts",
     "src/**/*",
     "src/**/*.vue",
-    "vite.config.ts",
+    "app.vue",
+    "pages/**/*",
+    "components/**/*",
+    "composables/**/*",
+    "plugins/**/*",
+    "middleware/**/*",
+    "server/**/*",
+    "nuxt.config.ts",
     "rest-pipeline-js/**/*"
   ],
   "exclude": [
-    "src/**/__tests__/*",
-    "src/**/*.stories.*",
-    "src/**/storybook/**",
-    "src/**/storybook-*/**"
+    "src/**/__tests__/*"
   ],
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "~/*": ["./*"]
     },
-    "types": ["node"],
+    "types": ["node", "nuxt"],
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

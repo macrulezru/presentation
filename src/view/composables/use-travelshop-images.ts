@@ -10,6 +10,18 @@ import {
 export const useTravelshopImages = () => {
   const { t } = useI18n();
 
+  const imageModules = import.meta.glob('@/view/assets/images/travelshop/*.{jpg,jpeg,png,webp}', {
+    eager: true,
+    import: 'default',
+  }) as Record<string, string>;
+
+  const imageUrlByName: Record<string, string> = Object.fromEntries(
+    Object.entries(imageModules).map(([path, url]) => {
+      const name = path.split('/').pop() || path;
+      return [name, url];
+    }),
+  );
+
   // Вычисляемое свойство с готовыми объектами
   const images = computed<TravelshopImageData[]>(() =>
     TRAVELSHOP_IMAGE_CONFIGS.map(config => {
@@ -30,7 +42,7 @@ export const useTravelshopImages = () => {
 
   // Получение URL для изображения
   const getImageUrl = (name: string): string => {
-    return new URL(`/src/view/assets/images/travelshop/${name}`, import.meta.url).href;
+    return imageUrlByName[name] || '';
   };
 
   // Получение изображения по ключу enum

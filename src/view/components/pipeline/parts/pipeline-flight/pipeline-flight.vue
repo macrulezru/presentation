@@ -6,7 +6,7 @@
   import PipelineStepBlock from '../pipeline-step-block/pipeline-step-block.vue';
 
   import { type FlightModel } from '@/models/availability.model';
-  import { useI18n } from '@/view/composables/use-i18n.ts';
+import { useI18n } from '~/composables/useI18n';
 
   interface Props {
     flight: FlightModel | null;

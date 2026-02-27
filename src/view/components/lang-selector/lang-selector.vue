@@ -9,7 +9,7 @@
     LocalesToView,
   } from '@/enums/locales.enum.ts';
   import { useNavigationStore } from '@/stores/use-navigation-store.ts';
-  import { useI18n } from '@/view/composables/use-i18n.ts';
+import { useI18n } from '~/composables/useI18n';
   import Select from '@/view/ui/ui-select/ui-select.vue';
 
   import '@/view/components/lang-selector/lang-selector.scss';

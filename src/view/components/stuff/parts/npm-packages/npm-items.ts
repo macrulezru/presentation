@@ -1,7 +1,7 @@
 import { createRestClient } from 'rest-pipeline-js';
-import { ref, computed, watchEffect } from 'vue';
+import { ref, computed, watch, onServerPrefetch } from 'vue';
 
-import { useI18n } from '@/view/composables/use-i18n';
+import { useI18n } from '~/composables/useI18n';
 
 export interface NpmPackageItem {
   title: string;
@@ -15,7 +15,11 @@ export function useNpmPackages() {
   const loading = ref(false);
   const error = ref<Error | null>(null);
 
-  const client = createRestClient({ baseURL: 'https://macrulez-api.ru/api/portfolio' });
+  const client = createRestClient({
+    baseURL: 'https://macrulez-api.ru/api/portfolio',
+    timeout: 7000,
+    cache: { enabled: true, ttlMs: 60000 },
+  });
 
   const cache: Record<string, NpmPackageItem[]> = {};
 
@@ -50,9 +54,18 @@ export function useNpmPackages() {
     }
   }
 
-  watchEffect(() => {
-    fetchItems(locale.value);
-  });
+  // SSR: дождаться данных перед рендером HTML
+  if (import.meta.env.SSR) {
+    onServerPrefetch(() => fetchItems(locale.value));
+  } else {
+    watch(
+      locale,
+      newLocale => {
+        fetchItems(newLocale);
+      },
+      { immediate: true },
+    );
+  }
 
   return {
     items: computed(() => items.value),

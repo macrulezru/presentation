@@ -37,4 +37,9 @@ __screenshots__/
 *.css.map
 *.css
 
-storybook-static
+# Nuxt
+.nuxt/
+.output/
+nuxt/.nuxt/
+nuxt/.output/
+nuxt/node_modules/

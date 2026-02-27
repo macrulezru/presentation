@@ -1,7 +1,7 @@
 import { type App } from 'vue';
 
 import { i18n } from '@/locales';
-import { useI18n as useI18nComposable } from '@/view/composables/use-i18n.ts';
+import { useI18n as useI18nComposable } from '~/composables/useI18n';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {

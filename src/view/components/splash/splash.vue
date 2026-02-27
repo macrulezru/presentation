@@ -4,7 +4,7 @@
   import { onMounted, onUnmounted, ref, nextTick } from 'vue';
 
   import { PageSectionsEnum } from '@/enums/page-sections.enum.ts';
-  import { useI18n } from '@/view/composables/use-i18n';
+import { useI18n } from '~/composables/useI18n';
   import { usePlasmaBackground } from '@/view/composables/use-plasma-background';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
   import Button from '@/view/ui/ui-button/ui-button.vue';

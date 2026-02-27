@@ -2,7 +2,7 @@
 <script setup lang="ts">
   import '@/view/components/about/parts/about-tech/about-tech.scss';
 
-  import { useResponsive } from 'responsive-media';
+import { useResponsive } from '~/composables/useResponsive';
   import { ref, onMounted, watch } from 'vue';
 
   import { useTechAnimation, setCanvasMaxWidth } from '@/view/composables/use-tech/';

@@ -3,21 +3,30 @@
 
   import { computed } from 'vue';
 
-  import { useExperienceItems } from './experience-items';
+  import { useExperienceItems, type ExperienceItem } from './experience-items';
   import CompanyItem from './parts/company-item/company-item.vue';
 
-  import { useI18n } from '@/view/composables/use-i18n';
-  import UiLoading from '@/view/ui/ui-loading/ui-loading.vue';
+import { useI18n } from '~/composables/useI18n';
+import UiLoading from '~/components/ui/UiLoading.vue';
 
   const { t } = useI18n();
 
-  const experienceItems = useExperienceItems();
+  const props = defineProps<{
+    ssrItems?: ExperienceItem[];
+  }>();
 
-  const isLoading = computed(() => experienceItems.loading.value);
+  const isSSR = import.meta.env.SSR;
+  const experienceItems = props.ssrItems || isSSR ? null : useExperienceItems();
 
-  const headCompany = computed(() => experienceItems.items.value.slice(0, 2));
+  const items = computed(() => props.ssrItems ?? experienceItems?.items.value ?? []);
 
-  const overCompany = computed(() => experienceItems.items.value.slice(2));
+  const isLoading = computed(() =>
+    props.ssrItems ? false : isSSR ? true : experienceItems?.loading.value ?? false,
+  );
+
+  const headCompany = computed(() => items.value.slice(0, 2));
+
+  const overCompany = computed(() => items.value.slice(2));
 </script>
 
 <template>
