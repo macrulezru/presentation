@@ -1,0 +1,68 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [master] # Запускать при пуше в master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node for production tests
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run production tests (on runner)
+        run: |
+          npm ci --no-audit --no-fund
+          npm run test:ci
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER != '' && secrets.SERVER_USER || 'root' }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            # fail fast and provide verbose output
+            set -euxo pipefail
+            umask 022
+            cd /var/www/macrulez.ru
+
+            echo '>>> pulling latest from git'
+            # mark repo as safe for git when ownership differs (prevents 'detected dubious ownership')
+            git config --global --add safe.directory /var/www/macrulez.ru || true
+            git pull origin master
+
+            echo '>>> exporting env for this shell'
+            set -a
+            # shellcheck disable=SC1090
+            source /var/www/macrulez.ru/.env
+            set +a
+
+            echo '>>> cleaning previous build artifacts'
+            rm -rf .output .nuxt || true
+
+            echo '>>> installing dependencies'
+            npm ci --no-audit --no-fund
+
+            echo '>>> running build (output saved to build.log)'
+            npm run build 2>&1 | tee build.log
+            BUILD_EXIT=${PIPESTATUS[0]:-0}
+            echo ">>> build exit code: ${BUILD_EXIT}"
+
+            if [ "${BUILD_EXIT}" -ne 0 ]; then
+              echo 'Build failed — aborting deployment' >&2
+              exit "${BUILD_EXIT}"
+            fi
+
+            echo '>>> restarting pm2 process with updated env'
+            pm2 restart macrulez.ru --update-env || (
+              echo 'pm2 restart failed — attempting stop/start' >&2
+              pm2 stop macrulez.ru || true
+              pm2 start .output/server/index.mjs --name macrulez.ru --update-env -- --port 3001
+            )
