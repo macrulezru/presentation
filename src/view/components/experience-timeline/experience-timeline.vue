@@ -6,8 +6,8 @@
   import { useExperienceItems, type ExperienceItem } from './experience-items';
   import CompanyItem from './parts/company-item/company-item.vue';
 
-import { useI18n } from '~/composables/useI18n';
-import UiLoading from '~/components/ui/UiLoading.vue';
+  import UiLoading from '~/components/ui/UiLoading.vue';
+  import { useI18n } from '~/composables/useI18n';
 
   const { t } = useI18n();
 
@@ -21,7 +21,11 @@ import UiLoading from '~/components/ui/UiLoading.vue';
   const items = computed(() => props.ssrItems ?? experienceItems?.items.value ?? []);
 
   const isLoading = computed(() =>
-    props.ssrItems ? false : isSSR ? true : experienceItems?.loading.value ?? false,
+    props.ssrItems
+      ? false
+      : !experienceItems
+        ? true
+        : (experienceItems.loading.value ?? false),
   );
 
   const headCompany = computed(() => items.value.slice(0, 2));

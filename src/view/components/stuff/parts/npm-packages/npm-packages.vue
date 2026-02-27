@@ -4,8 +4,8 @@
 
   import { useNpmPackages, type NpmPackageItem } from './npm-items';
 
-import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
-import UiLoading from '~/components/ui/UiLoading.vue';
+  import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
+  import UiLoading from '~/components/ui/UiLoading.vue';
 
   const props = defineProps<{
     ssrItems?: NpmPackageItem[];
@@ -15,7 +15,7 @@ import UiLoading from '~/components/ui/UiLoading.vue';
   const npmPackages = props.ssrItems || isSSR ? null : useNpmPackages();
 
   const isLoading = computed(() =>
-    props.ssrItems ? false : isSSR ? true : npmPackages?.loading.value ?? false,
+    props.ssrItems ? false : !npmPackages ? true : (npmPackages.loading.value ?? false),
   );
 
   const npmToView = computed(() => {

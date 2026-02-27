@@ -3,10 +3,10 @@
 
   import artCursor from '@/view/assets/images/art-cursor.svg?url';
   import ArtItem from '@/view/components/arts/parts/art-item/art-item.vue';
-import { useArtsImages, type ArtsImage } from '~/composables/useArtsImages';
-import { useI18n } from '~/composables/useI18n';
   import Button from '@/view/ui/ui-button/ui-button.vue';
   import UiImageModal from '@/view/ui/ui-image-modal/ui-image-modal.vue';
+  import { useArtsImages, type ArtsImage } from '~/composables/useArtsImages';
+  import { useI18n } from '~/composables/useI18n';
 
   import '@/view/components/arts/arts.scss';
 
@@ -27,7 +27,7 @@ import { useI18n } from '~/composables/useI18n';
   const loadingProgress = ref(0);
   const currentMasonryKey = ref(0);
   const showAllImages = ref(false);
-  const isPreviewLoaded = ref(isSSR ? hasSsrArts : false);
+  const isPreviewLoaded = ref(hasSsrArts);
   const areAllImagesLoaded = ref(false);
   const cursorVisible = ref(false);
   const cursorX = ref(0);
@@ -270,7 +270,8 @@ import { useI18n } from '~/composables/useI18n';
       const angleSettled =
         Math.abs(targetCursorAngle.value - cursorAngle.value) <= 0.1 &&
         Math.abs(cursorAngle.value) <= 0.1;
-      const scaleYSettled = Math.abs(targetCursorScaleY.value - cursorScaleY.value) <= 0.01;
+      const scaleYSettled =
+        Math.abs(targetCursorScaleY.value - cursorScaleY.value) <= 0.01;
 
       if (angleSettled && scaleYSettled) {
         cursorAngle.value = 0;
@@ -346,18 +347,8 @@ import { useI18n } from '~/composables/useI18n';
       </div>
 
       <div v-else class="arts__projects">
-        <!-- SSR: рендерим простой список, чтобы HTML был готов -->
-        <template v-if="isSSR">
-          <div class="arts__projects-ssr">
-            <ArtItem
-              v-for="item in displayImages"
-              :key="item.directory"
-              :image="item"
-              @on-image-click="openModal(item.directory)"
-            />
-          </div>
-        </template>
-        <template v-else>
+        <!-- SSR: рендерим простой список; на клиенте — masonry-wall -->
+        <ClientOnly>
           <masonry-wall
             :key="currentMasonryKey"
             :items="displayImages"
@@ -370,7 +361,17 @@ import { useI18n } from '~/composables/useI18n';
               <ArtItem :image="item" @on-image-click="openModal(item.directory)" />
             </template>
           </masonry-wall>
-        </template>
+          <template #fallback>
+            <div class="arts__projects-ssr">
+              <ArtItem
+                v-for="item in displayImages"
+                :key="item.directory"
+                :image="item"
+                @on-image-click="openModal(item.directory)"
+              />
+            </div>
+          </template>
+        </ClientOnly>
       </div>
 
       <div

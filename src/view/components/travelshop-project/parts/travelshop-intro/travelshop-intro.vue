@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useResponsive } from '~/composables/useResponsive';
   import { computed, ref, onUnmounted } from 'vue';
 
   import { useTravelshopIntroStore } from '@/stores/use-travelshop-intro-store';
   import Music from '@/view/assets/music/control.mp3';
-import { useI18n } from '~/composables/useI18n';
   import { useTravelshopCanvas } from '@/view/composables/use-travelshop-canvas';
   import Button from '@/view/ui/ui-button/ui-button.vue';
+  import { useI18n } from '~/composables/useI18n';
+  import { useResponsive } from '~/composables/useResponsive';
 
   import '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.scss';
 
@@ -131,7 +131,7 @@ import { useI18n } from '~/composables/useI18n';
       <canvas ref="_canvasRef" class="travelshop-intro__canvas" />
     </div>
 
-    <template v-if="responsive.desktop">
+    <div v-show="responsive.desktop">
       <span
         v-if="!travelshopIntroStore.showDebugControls"
         class="travelshop-intro__toggle-wrapper"
@@ -257,7 +257,7 @@ import { useI18n } from '~/composables/useI18n';
           </div>
         </div>
       </div>
-    </template>
+    </div>
     <input
       ref="configFileInput"
       type="file"
