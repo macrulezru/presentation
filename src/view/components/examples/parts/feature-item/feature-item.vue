@@ -2,15 +2,15 @@
   import '@/view/components/examples/parts/feature-item/feature-item.scss';
 
   import { useLinearGradient, useRadialGradient } from 'css-magic-gradient';
-import { useResponsive } from '~/composables/useResponsive';
   import { computed, ref } from 'vue';
 
   import type { GradientOptions, GradientColors, headerGradientOptions } from './types';
-import type { FeatureData } from '~/composables/useFeatures';
+  import type { FeatureData } from '~/composables/useFeatures';
 
   import { useExamplesStore } from '@/stores/use-examples-store';
   import UiImage from '@/view/ui/ui-image/ui-image.vue';
   import UiVideo from '@/view/ui/ui-video/ui-video.vue';
+  import { useResponsive } from '~/composables/useResponsive';
 
   interface Props {
     feature: FeatureData;
@@ -74,7 +74,7 @@ import type { FeatureData } from '~/composables/useFeatures';
         :class="{ 'feature-item__header_reverse': isReverse && responsive.desktop }"
       >
         <div
-          v-if="!responsive.desktop"
+          v-show="!responsive.desktop"
           ref="headerPortalRef"
           class="feature-item__main-header"
         ></div>

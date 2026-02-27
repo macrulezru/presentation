@@ -1,14 +1,14 @@
 <script setup lang="ts">
   import './pipeline-boarding-pass.scss';
 
-  import { computed } from 'vue';
+  import { computed, ref, onMounted } from 'vue';
 
   import type { FlightModel } from '@/models/availability.model';
   import type { PointModel } from '@/models/points.model';
   import type { SeatModel } from '@/models/seatmap.model';
   import type { ServiceModel } from '@/models/services.model';
 
-import { useI18n } from '~/composables/useI18n';
+  import { useI18n } from '~/composables/useI18n';
 
   const { t, locale } = useI18n();
 
@@ -30,13 +30,13 @@ import { useI18n } from '~/composables/useI18n';
     return arr[Math.floor(Math.random() * arr.length)] as T;
   }
 
-  const terminal = randomFrom(['A', 'B', 'C', 'D', 'E', 'F']);
-  const gate = Math.floor(Math.random() * 50 + 1);
+  const terminal = ref('A');
+  const gate = ref(1);
   const classKeys = ['economy', 'business', 'luxury'];
 
   const flightClass = computed(() => {
     const classes = classKeys.map(k => t(`pipeline-demo.boardingPass.classes.${k}`));
-    return randomFrom(classes);
+    return classes[0] || '';
   });
 
   const qrLink = computed(() => {
@@ -57,8 +57,15 @@ import { useI18n } from '~/composables/useI18n';
     )} ${Math.floor(1000 + Math.random() * 9000)}`;
   }
 
-  const barcode = randomBarcode();
-  const barcodeNumber = randomBarcodeNumber();
+  const barcode = ref('');
+  const barcodeNumber = ref('');
+
+  onMounted(() => {
+    terminal.value = randomFrom(['A', 'B', 'C', 'D', 'E', 'F']);
+    gate.value = Math.floor(Math.random() * 50 + 1);
+    barcode.value = randomBarcode();
+    barcodeNumber.value = randomBarcodeNumber();
+  });
 </script>
 
 <template>

@@ -17,6 +17,7 @@ const MACRULEZ_ASCII = [
 
 const FEATURES = [
   '🟩 Vue 3',
+  '🔺 Nuxt 3',
   '🧩 Composition API',
   '🛣️ Routing',
   '🍍 Pinia',
@@ -41,4 +42,3 @@ export function useMacrulezBadge() {
     }
   });
 }
-

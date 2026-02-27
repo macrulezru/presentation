@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import '@/view/components/about/about.scss';
 
-import { useResponsive } from '~/composables/useResponsive';
   import {
     computed,
     onMounted,
@@ -16,8 +15,9 @@ import { useResponsive } from '~/composables/useResponsive';
   import TechStackArt from '@/view/assets/images/tech-stack-art.webp';
   import AboutTech from '@/view/components/about/parts/about-tech/about-tech.vue';
   import AiFeature from '@/view/components/about/parts/ai-feature/ai-feature.vue';
-import { useI18n } from '~/composables/useI18n';
   import UiImage from '@/view/ui/ui-image/ui-image.vue';
+  import { useI18n } from '~/composables/useI18n';
+  import { useResponsive } from '~/composables/useResponsive';
 
   const { t, tm } = useI18n();
 
@@ -165,7 +165,7 @@ import { useI18n } from '~/composables/useI18n';
               }"
               class="about__tech-art"
             />
-            <template v-if="responsive.desktop">
+            <div v-show="responsive.desktop">
               <Transition name="tech-tip-fade" mode="out-in">
                 <div
                   v-if="activeTip"
@@ -177,7 +177,7 @@ import { useI18n } from '~/composables/useI18n';
                   <div class="about__tech-tip-wrapper" v-html="activeTip" />
                 </div>
               </Transition>
-            </template>
+            </div>
           </div>
         </div>
         <div class="about__tech-stack-wrapper">

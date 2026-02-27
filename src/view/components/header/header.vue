@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useResponsive } from '~/composables/useResponsive';
   import { computed, onMounted, onUnmounted, ref } from 'vue';
 
   import { PageSectionsEnum } from '@/enums/page-sections.enum.ts';
   import { useExamplesStore } from '@/stores/use-examples-store.ts';
   import { useNavigationStore } from '@/stores/use-navigation-store.ts';
   import LangSelector from '@/view/components/lang-selector/lang-selector.vue';
-import { useI18n } from '~/composables/useI18n';
-import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
-import { useSectionsConfig } from '~/composables/useSectionsConfig';
+  import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
+  import { useI18n } from '~/composables/useI18n';
+  import { useResponsive } from '~/composables/useResponsive';
+  import { useSectionsConfig } from '~/composables/useSectionsConfig';
 
   import '@/view/components/header/header.scss';
 
@@ -163,7 +163,7 @@ import { useSectionsConfig } from '~/composables/useSectionsConfig';
 <template>
   <div class="header">
     <div class="header__content">
-      <nav v-if="responsive.desktop" class="header__nav">
+      <nav v-show="responsive.desktop" class="header__nav">
         <button
           v-for="item in menuItems"
           :key="item.id"
@@ -184,7 +184,7 @@ import { useSectionsConfig } from '~/composables/useSectionsConfig';
 
       <div class="header__right">
         <button
-          v-if="!responsive.desktop"
+          v-show="!responsive.desktop"
           class="hamburger"
           :class="{
             hamburger_active: isMobileMenuOpen,
@@ -210,7 +210,7 @@ import { useSectionsConfig } from '~/composables/useSectionsConfig';
 
       <Teleport to="body">
         <div
-          v-if="!responsive.desktop"
+          v-show="!responsive.desktop"
           class="mobile-menu"
           :class="{ 'mobile-menu_open': isMobileMenuOpen }"
         >

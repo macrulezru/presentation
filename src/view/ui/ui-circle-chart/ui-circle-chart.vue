@@ -2,11 +2,9 @@
   // Количество делений шкалы (например, 12 как на часах)
   import '@/view/ui/ui-circle-chart/ui-circle-chart.scss';
 
-  import { ref, computed, watch, onMounted, onBeforeUnmount, useSlots } from 'vue';
+  import { ref, computed, watch, onMounted, onBeforeUnmount, useSlots, useId } from 'vue';
 
   import type { Props } from './types';
-
-  import { nanoid } from '@/utils/nanoid';
 
   // Значения по умолчанию для пропсов
   const props = withDefaults(defineProps<Props>(), {
@@ -43,7 +41,7 @@
   let animationStartTime: number | null = null;
   let intersectionObserver: IntersectionObserver | null = null;
 
-  const maskId = `circle-only-mask-${nanoid(8)}`;
+  const maskId = `circle-only-mask-${useId()}`;
 
   const circlePosition = computed(() => {
     return props.size / 2;
