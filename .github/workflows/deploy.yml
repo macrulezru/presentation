@@ -1,8 +1,8 @@
-name: Deploy to Server
+name: Deploy to Server (Hard Reset with npm ci)
 
 on:
   push:
-    branches: [master] # Запускать при пуше в master
+    branches: [master] # Можно изменить на нужную ветку
 
 jobs:
   deploy:
@@ -11,59 +11,86 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Tests are temporarily disabled (no test:ci script in this project)
-      # - name: Setup Node for production tests
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 20
-      #
-      # - name: Run production tests (on runner)
-      #   run: |
-      #     npm ci --no-audit --no-fund
-      #     npm run test:ci
-
-      - name: Deploy via SSH
+      - name: Hard deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER != '' && secrets.SERVER_USER || 'root' }}
           key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT || '22' }}
           script: |
-            # fail fast and provide verbose output
             set -euxo pipefail
-            umask 022
-            cd /var/www/macrulez.ru
 
-            echo '>>> pulling latest from git'
-            # mark repo as safe for git when ownership differs (prevents 'detected dubious ownership')
-            git config --global --add safe.directory /var/www/macrulez.ru || true
-            git pull origin master
+            echo '🚀 Starting hard deploy for macrulez.ru'
+            cd /var/www/macrulez.ru || { echo '❌ Directory not found!'; exit 1; }
 
-            echo '>>> exporting env for this shell'
+            # ------------------------------------------------------------
+            # 1. Жёсткая перезапись из git
+            # ------------------------------------------------------------
+            echo '>>> 🔄 Hard reset from git'
+            git fetch origin
+            git reset --hard origin/master
+            git clean -fd
+
+            # ------------------------------------------------------------
+            # 2. Проверка наличия package-lock.json
+            # ------------------------------------------------------------
+            echo '>>> 🔍 Checking for package-lock.json'
+            if [ ! -f package-lock.json ]; then
+              echo '❌ ERROR: package-lock.json not found!'
+              echo 'Please commit package-lock.json to ensure reproducible builds.'
+              exit 1
+            fi
+            echo '✅ package-lock.json found'
+
+            # ------------------------------------------------------------
+            # 3. Загрузка переменных окружения (если есть)
+            # ------------------------------------------------------------
+            echo '>>> 🌱 Loading environment variables'
             set -a
-            # shellcheck disable=SC1090
-            source /var/www/macrulez.ru/.env
+            if [ -f .env ]; then
+              source .env
+              echo '✅ .env loaded'
+            else
+              echo '⚠️  No .env file found, continuing without it'
+            fi
             set +a
 
-            echo '>>> cleaning previous build artifacts'
-            rm -rf .output .nuxt || true
+            # ------------------------------------------------------------
+            # 4. Полная зачистка перед сборкой
+            # ------------------------------------------------------------
+            echo '>>> 🧹 Cleaning build artifacts'
+            rm -rf node_modules .output .nuxt
 
-            echo '>>> installing dependencies'
+            # ------------------------------------------------------------
+            # 5. Установка зависимостей (строго по lock-файлу)
+            # ------------------------------------------------------------
+            echo '>>> 📦 Installing dependencies with npm ci'
             npm ci --no-audit --no-fund
 
-            echo '>>> running build (output saved to build.log)'
-            npm run build 2>&1 | tee build.log
-            BUILD_EXIT=${PIPESTATUS[0]:-0}
-            echo ">>> build exit code: ${BUILD_EXIT}"
+            # ------------------------------------------------------------
+            # 6. Сборка проекта
+            # ------------------------------------------------------------
+            echo '>>> 🔨 Building project'
+            npm run build
 
-            if [ "${BUILD_EXIT}" -ne 0 ]; then
-              echo 'Build failed — aborting deployment' >&2
-              exit "${BUILD_EXIT}"
-            fi
+            # ------------------------------------------------------------
+            # 7. Перезапуск PM2
+            # ------------------------------------------------------------
+            echo '>>> 🔄 Restarting PM2 process'
+            pm2 delete macrulez.ru 2>/dev/null || true
+            pm2 start .output/server/index.mjs \
+              --name macrulez.ru \
+              --update-env \
+              -- --port 3001
 
-            echo '>>> restarting pm2 process with updated env'
-            pm2 restart macrulez.ru --update-env || (
-              echo 'pm2 restart failed — attempting stop/start' >&2
-              pm2 stop macrulez.ru || true
-              pm2 start .output/server/index.mjs --name macrulez.ru --update-env -- --port 3001
-            )
+            # Сохраняем список процессов для автозапуска
+            pm2 save
+
+            # ------------------------------------------------------------
+            # 8. Проверка статуса
+            # ------------------------------------------------------------
+            echo '>>> ✅ Deploy complete! Checking status:'
+            pm2 status macrulez.ru
+            echo ''
+            echo '🎉 Success! https://macrulez.ru'
