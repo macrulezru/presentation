@@ -106,10 +106,9 @@ jobs:
             echo '✅ Port 3001 is free'
 
             echo '>>> 🚀 Starting fresh PM2 process'
-            pm2 start .output/server/index.mjs \
+            PORT=3001 pm2 start .output/server/index.mjs \
               --name macrulez.ru \
-              --update-env \
-              -- --port 3001
+              --update-env
 
             # Сохраняем список процессов для автозапуска
             pm2 save
