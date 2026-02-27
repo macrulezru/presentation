@@ -36,5 +36,3 @@ __screenshots__/
 #SCSS
 *.css.map
 *.css
-
-storybook-static

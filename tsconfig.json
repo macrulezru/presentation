@@ -8,10 +8,7 @@
     "rest-pipeline-js/**/*"
   ],
   "exclude": [
-    "src/**/__tests__/*",
-    "src/**/*.stories.*",
-    "src/**/storybook/**",
-    "src/**/storybook-*/**"
+    "src/**/__tests__/*"
   ],
   "compilerOptions": {
     "composite": true,
