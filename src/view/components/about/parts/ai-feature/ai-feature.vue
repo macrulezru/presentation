@@ -3,7 +3,7 @@
 
   import AiImageHorizontal from '@/view/assets/images/ai-block-horizontal.webp';
   import AiImage from '@/view/assets/images/ai-block.webp';
-  import { useI18n } from '@/view/composables/use-i18n';
+import { useI18n } from '~/composables/useI18n';
   import UiImage from '@/view/ui/ui-image/ui-image.vue';
 
   const { t } = useI18n();

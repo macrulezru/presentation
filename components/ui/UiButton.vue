@@ -1,0 +1,37 @@
+<script setup lang="ts">
+  import '@/view/ui/ui-button/ui-button.scss';
+
+  import { computed } from 'vue';
+
+  import type { Props } from '@/view/ui/ui-button/types';
+
+  const props = defineProps<Props>();
+
+  const classes = computed(() => {
+    return {
+      'ui-button_full-width': props.fullWidth,
+      'ui-button_small': props.small,
+      'ui-button_micro': props.micro,
+      'ui-button_disabled': props.disabled,
+      'ui-button_gray': props.gray,
+      'ui-button_reset': props.reset,
+      'ui-button_control': props.control,
+      [`ui-button_variant-${props.variant}`]: Boolean(props.variant),
+      'ui-button_promo': props.promo,
+    };
+  });
+</script>
+
+<template>
+  <button class="ui-button" :class="classes" :disabled="disabled">
+    <span v-if="props.promo" class="ui-button__waves">
+      <span class="ui-button__wave"></span>
+      <span class="ui-button__wave"></span>
+      <span class="ui-button__wave"></span>
+    </span>
+    <slot>
+      {{ props.text }}
+    </slot>
+  </button>
+</template>
+

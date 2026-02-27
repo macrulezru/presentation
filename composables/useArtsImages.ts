@@ -1,5 +1,5 @@
 import { createRestClient } from 'rest-pipeline-js';
-import { ref } from 'vue';
+import { ref, onMounted, onServerPrefetch } from 'vue';
 
 interface ArtsApiImage {
   id: number;
@@ -64,7 +64,14 @@ export function useArtsImages() {
     loading.value = false;
   }
 
-  fetchArts();
+  // SSR: дождаться данных перед рендером HTML
+  if (import.meta.env.SSR) {
+    onServerPrefetch(() => fetchArts());
+  } else {
+    onMounted(() => {
+      fetchArts();
+    });
+  }
 
   return {
     arts,
@@ -73,3 +80,4 @@ export function useArtsImages() {
     fetchArts,
   };
 }
+

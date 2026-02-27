@@ -15,7 +15,7 @@ import PipelinePoints from '@/view/components/pipeline/parts/pipeline-points/pip
 import PipelineResponce from '@/view/components/pipeline/parts/pipeline-responce/pipeline-responce.vue';
 import PipelineSeat from '@/view/components/pipeline/parts/pipeline-seat/pipeline-seat.vue';
 import PipelineServices from '@/view/components/pipeline/parts/pipeline-services/pipeline-services.vue';
-import { useI18n } from '@/view/composables/use-i18n.ts';
+import { useI18n } from '~/composables/useI18n';
 
 // Тип для блока-заглушки
 interface PipelineBlock {

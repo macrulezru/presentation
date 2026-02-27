@@ -8,7 +8,7 @@
   import type { SeatModel } from '@/models/seatmap.model';
   import type { ServiceModel } from '@/models/services.model';
 
-  import { useI18n } from '@/view/composables/use-i18n.ts';
+import { useI18n } from '~/composables/useI18n';
 
   const { t, locale } = useI18n();
 

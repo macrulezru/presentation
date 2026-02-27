@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import '@/view/components/about/about.scss';
 
-  import { useResponsive } from 'responsive-media';
+import { useResponsive } from '~/composables/useResponsive';
   import {
     computed,
     onMounted,
@@ -16,7 +16,7 @@
   import TechStackArt from '@/view/assets/images/tech-stack-art.webp';
   import AboutTech from '@/view/components/about/parts/about-tech/about-tech.vue';
   import AiFeature from '@/view/components/about/parts/ai-feature/ai-feature.vue';
-  import { useI18n } from '@/view/composables/use-i18n';
+import { useI18n } from '~/composables/useI18n';
   import UiImage from '@/view/ui/ui-image/ui-image.vue';
 
   const { t, tm } = useI18n();

@@ -4,7 +4,7 @@
   import PipelineStepBlock from '../pipeline-step-block/pipeline-step-block.vue';
 
   import { type SeatModel } from '@/models/seatmap.model';
-  import { useI18n } from '@/view/composables/use-i18n.ts';
+import { useI18n } from '~/composables/useI18n';
 
   const { t } = useI18n();
 

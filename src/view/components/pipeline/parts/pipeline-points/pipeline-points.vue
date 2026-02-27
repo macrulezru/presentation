@@ -4,7 +4,7 @@
   import PipelineStepBlock from '../pipeline-step-block/pipeline-step-block.vue';
 
   import { type PointModel } from '@/models/points.model';
-  import { useI18n } from '@/view/composables/use-i18n.ts';
+import { useI18n } from '~/composables/useI18n';
 
   interface Props {
     departurePoint: PointModel | null;

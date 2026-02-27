@@ -14,7 +14,7 @@ import { useTravelshopIntroStore } from '@/stores/use-travelshop-intro-store';
 import aircraftImageSrc from '@/view/assets/images/aircraft.png';
 import airportImageSrc from '@/view/assets/images/airport.png';
 import cloudImageSrc from '@/view/assets/images/cloud.png';
-import { useI18n } from '@/view/composables/use-i18n';
+import { useI18n } from '~/composables/useI18n';
 import { useVisibility } from '@/view/composables/use-visibility';
 
 export function useTravelshopCanvas(containerRef: Ref<HTMLElement | undefined>) {

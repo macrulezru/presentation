@@ -21,7 +21,7 @@ import synchronizationVideoHorizontal from '@/view/assets/video/synchronization-
 import synchronizationVideo from '@/view/assets/video/synchronization-video_loop.mp4';
 import uiVideoHorizontal from '@/view/assets/video/ui-video-horizontal_loop.mp4';
 import uiVideo from '@/view/assets/video/ui-video_loop.mp4';
-import { useI18n } from '@/view/composables/use-i18n.ts';
+import { useI18n } from '~/composables/useI18n';
 
 export interface SectionItem {
   name?: string;
@@ -124,10 +124,10 @@ export function useFeatures() {
     featuresConfig.value.map(config => {
       const { i18nKey } = config;
 
-      const image = new URL(config.image, import.meta.url).href;
-      const imageHorizontal = new URL(config.imageHorizontal, import.meta.url).href;
-      const video = new URL(config.video, import.meta.url).href;
-      const videoHorizontal = new URL(config.videoHorizontal, import.meta.url).href;
+      const image = config.image;
+      const imageHorizontal = config.imageHorizontal;
+      const video = config.video;
+      const videoHorizontal = config.videoHorizontal;
 
       return {
         id: config.id,
@@ -170,3 +170,4 @@ export function useFeatures() {
     getFeatureById,
   };
 }
+

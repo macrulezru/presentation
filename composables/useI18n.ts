@@ -63,17 +63,7 @@ export const useI18n = () => {
   };
 
   const updateURL = async (newLocale: LocalesEnumType, path?: string) => {
-    const currentRoute = router.currentRoute.value;
-    const currentSection = currentRoute.params.section as string;
-    const currentFeatureId = currentRoute.params.featureId as string | undefined;
-
-    const newPath =
-      path ||
-      (currentSection
-        ? `/${newLocale}/${currentSection}${currentFeatureId ? `/${currentFeatureId}` : ''}`
-        : `/${newLocale}`);
-
-    await router.push(newPath);
+    await router.push(path || `/${newLocale}`);
   };
 
   // Инициализация локали
@@ -124,3 +114,4 @@ export const useI18n = () => {
     isLoading: readonly(isLoading),
   };
 };
+

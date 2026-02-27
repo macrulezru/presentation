@@ -3,7 +3,7 @@
 
   import type { RequestRecord } from '@/core/metrics/metrics-bus';
 
-  import { useI18n } from '@/view/composables/use-i18n';
+import { useI18n } from '~/composables/useI18n';
   import './metrics-table.scss';
 
   interface Props {

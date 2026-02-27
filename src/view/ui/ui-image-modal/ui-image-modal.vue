@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import '@/view/ui/ui-image-modal/ui-image-modal.scss';
 
-  import { useResponsive } from 'responsive-media';
+  import { useResponsive } from '~/composables/useResponsive';
   import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue';
 
   import type { Props } from './types';

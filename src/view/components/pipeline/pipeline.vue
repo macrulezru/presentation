@@ -9,9 +9,9 @@
   import PipelineStepStatus from './parts/pipeline-step-status/pipeline-step-status.vue';
 
   import { useMetricStore } from '@/stores/use-metric-store';
-  import { useI18n } from '@/view/composables/use-i18n.ts';
-  import { usePipeline } from '@/view/composables/use-pipeline';
-  import UiButton from '@/view/ui/ui-button/ui-button.vue';
+import { useI18n } from '~/composables/useI18n';
+import { usePipeline } from '@/view/composables/use-pipeline';
+import UiButton from '~/components/ui/UiButton.vue';
   import UiColorCode from '@/view/ui/ui-color-code/ui-color-code.vue';
   import UiTumbler from '@/view/ui/ui-tumbler/ui-tumbler.vue';
 

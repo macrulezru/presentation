@@ -2,17 +2,24 @@
   import './npm-packages.scss';
   import { computed } from 'vue';
 
-  import { useNpmPackages } from './npm-items';
+  import { useNpmPackages, type NpmPackageItem } from './npm-items';
 
-  import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
-  import UiLoading from '@/view/ui/ui-loading/ui-loading.vue';
+import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
+import UiLoading from '~/components/ui/UiLoading.vue';
 
-  const npmPackages = useNpmPackages();
+  const props = defineProps<{
+    ssrItems?: NpmPackageItem[];
+  }>();
 
-  const isLoading = computed(() => npmPackages.loading.value);
+  const isSSR = import.meta.env.SSR;
+  const npmPackages = props.ssrItems || isSSR ? null : useNpmPackages();
+
+  const isLoading = computed(() =>
+    props.ssrItems ? false : isSSR ? true : npmPackages?.loading.value ?? false,
+  );
 
   const npmToView = computed(() => {
-    return npmPackages.items.value;
+    return props.ssrItems ?? npmPackages?.items.value ?? [];
   });
 </script>
 

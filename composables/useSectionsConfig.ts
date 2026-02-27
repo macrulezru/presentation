@@ -1,4 +1,3 @@
-// use-sections-config.ts
 import { ref, computed, type Component } from 'vue';
 
 import { PageSectionsEnum } from '@/enums/page-sections.enum';
@@ -18,9 +17,7 @@ export interface SectionConfig {
   order?: number;
 }
 
-// Все доступные секции (без порядка) — некоторые секции (например, BLOG)
-// могут быть просто ссылками и не иметь on-screen компонента, поэтому
-// используем Partial<Record<...>>
+// Все доступные секции (без порядка)
 const allSections: Partial<Record<PageSectionsEnum, Component>> = {
   [PageSectionsEnum.SPLASH]: Splash,
   [PageSectionsEnum.ABOUT]: About,
@@ -47,7 +44,6 @@ const sectionOrder = ref<PageSectionsEnum[]>([
   PageSectionsEnum.BLOG,
 ]);
 
-// Реактивный список конфигураций секций
 export const sectionsConfig = computed<SectionConfig[]>(() => {
   return sectionOrder.value
     .filter(id => Boolean(allSections[id]))
@@ -57,32 +53,25 @@ export const sectionsConfig = computed<SectionConfig[]>(() => {
     }));
 });
 
-// Функции для управления порядком
 export function useSectionsConfig() {
-  // Установить новый порядок секций
   const setSectionsOrder = (newOrder: PageSectionsEnum[]) => {
     sectionOrder.value = newOrder;
   };
 
-  // Добавить секцию в определенную позицию
   const insertSection = (sectionId: PageSectionsEnum, position: number) => {
     const newOrder = [...sectionOrder.value];
-    // Удаляем если уже есть
     const existingIndex = newOrder.indexOf(sectionId);
     if (existingIndex !== -1) {
       newOrder.splice(existingIndex, 1);
     }
-    // Вставляем на новую позицию
     newOrder.splice(position, 0, sectionId);
     sectionOrder.value = newOrder;
   };
 
-  // Удалить секцию
   const removeSection = (sectionId: PageSectionsEnum) => {
     sectionOrder.value = sectionOrder.value.filter(id => id !== sectionId);
   };
 
-  // Переместить секцию вверх/вниз
   const moveSection = (sectionId: PageSectionsEnum, direction: 'up' | 'down') => {
     const currentOrder = [...sectionOrder.value];
     const currentIndex = currentOrder.indexOf(sectionId);
@@ -104,7 +93,6 @@ export function useSectionsConfig() {
     }
   };
 
-  // Сбросить к порядку по умолчанию
   const resetToDefault = () => {
     sectionOrder.value = [
       PageSectionsEnum.SPLASH,
@@ -127,8 +115,7 @@ export function useSectionsConfig() {
     moveSection,
     resetToDefault,
     getAllSectionIds: () => Object.keys(allSections) as PageSectionsEnum[],
-    // Возвращает текущий порядок секций (включая те, у которых нет компонента,
-    // например `BLOG`). Полезно для рендера меню.
     getSectionOrder: () => sectionOrder.value,
   };
 }
+

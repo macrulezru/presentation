@@ -2,8 +2,8 @@
   import emailjs from 'emailjs-com';
   import { ref, computed } from 'vue';
 
-  import { useI18n } from '@/view/composables/use-i18n.ts';
-  import Button from '@/view/ui/ui-button/ui-button.vue';
+import { useI18n } from '~/composables/useI18n';
+import UiButton from '~/components/ui/UiButton.vue';
 
   import '@/view/components/contacts/contacts.scss';
 
@@ -262,14 +262,14 @@ ${t('form.sent_from')}: ${window.location.href}
               </div>
 
               <div class="contacts__form-actions">
-                <Button
+                <UiButton
                   :class="{ 'contacts__form-submit--loading': isSubmitting }"
                   type="submit"
                   small
                   :disabled="isSubmitting"
                   :text="!isSubmitting ? t('form.submit') : t('form.sending')"
                 />
-                <Button
+                <UiButton
                   gray
                   small
                   :disabled="isSubmitting"

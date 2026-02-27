@@ -1,4 +1,4 @@
-import type * as UseI18nModule from '@/view/composables/use-i18n';
+import type * as UseI18nModule from '~/composables/useI18n';
 
 // Делаем useI18n глобально доступным
 declare global {

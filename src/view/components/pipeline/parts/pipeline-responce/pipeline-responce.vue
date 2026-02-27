@@ -3,7 +3,7 @@
 
   import PipelineStepBlock from '../pipeline-step-block/pipeline-step-block.vue';
 
-  import { useI18n } from '@/view/composables/use-i18n.ts';
+import { useI18n } from '~/composables/useI18n';
   import UiColorCode from '@/view/ui/ui-color-code/ui-color-code.vue';
 
   const { t } = useI18n();

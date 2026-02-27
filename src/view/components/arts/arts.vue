@@ -3,14 +3,21 @@
 
   import artCursor from '@/view/assets/images/art-cursor.svg?url';
   import ArtItem from '@/view/components/arts/parts/art-item/art-item.vue';
-  import { useArtsImages, type ArtsImage } from '@/view/composables/use-arts-images';
-  import { useI18n } from '@/view/composables/use-i18n.ts';
+import { useArtsImages, type ArtsImage } from '~/composables/useArtsImages';
+import { useI18n } from '~/composables/useI18n';
   import Button from '@/view/ui/ui-button/ui-button.vue';
   import UiImageModal from '@/view/ui/ui-image-modal/ui-image-modal.vue';
 
   import '@/view/components/arts/arts.scss';
 
   const { t } = useI18n();
+
+  const props = defineProps<{
+    ssrArts?: ArtsImage[];
+  }>();
+
+  const isSSR = import.meta.env.SSR;
+  const hasSsrArts = Array.isArray(props.ssrArts);
 
   const isModalOpen = ref(false);
   const currentImageIndex = ref(0);
@@ -20,7 +27,7 @@
   const loadingProgress = ref(0);
   const currentMasonryKey = ref(0);
   const showAllImages = ref(false);
-  const isPreviewLoaded = ref(false);
+  const isPreviewLoaded = ref(isSSR ? hasSsrArts : false);
   const areAllImagesLoaded = ref(false);
   const cursorVisible = ref(false);
   const cursorX = ref(0);
@@ -32,7 +39,8 @@
   const cursorScale = ref(1);
   const lastMousePosition = ref<{ x: number; y: number } | null>(null);
 
-  const { arts } = useArtsImages();
+  const legacyArts = props.ssrArts || isSSR ? null : useArtsImages();
+  const arts = computed<ArtsImage[]>(() => props.ssrArts ?? legacyArts?.arts.value ?? []);
 
   const PREVIEW_IMAGE_COUNT = 10;
 
@@ -300,8 +308,11 @@
   });
 
   onMounted(async () => {
+    if (isSSR) return;
+
     const img = new window.Image();
     img.src = artCursor;
+
     await initializePreview();
     window.addEventListener('mouseup', onMouseUp);
     window.addEventListener('mousedown', onMouseDown);
@@ -335,18 +346,31 @@
       </div>
 
       <div v-else class="arts__projects">
-        <masonry-wall
-          :key="currentMasonryKey"
-          :items="displayImages"
-          :ssrColumns="1"
-          :columnWidth="250"
-          :gap="16"
-          :minColumns="2"
-        >
-          <template #default="{ item }">
-            <ArtItem :image="item" @on-image-click="openModal(item.directory)" />
-          </template>
-        </masonry-wall>
+        <!-- SSR: рендерим простой список, чтобы HTML был готов -->
+        <template v-if="isSSR">
+          <div class="arts__projects-ssr">
+            <ArtItem
+              v-for="item in displayImages"
+              :key="item.directory"
+              :image="item"
+              @on-image-click="openModal(item.directory)"
+            />
+          </div>
+        </template>
+        <template v-else>
+          <masonry-wall
+            :key="currentMasonryKey"
+            :items="displayImages"
+            :ssrColumns="1"
+            :columnWidth="250"
+            :gap="16"
+            :minColumns="2"
+          >
+            <template #default="{ item }">
+              <ArtItem :image="item" @on-image-click="openModal(item.directory)" />
+            </template>
+          </masonry-wall>
+        </template>
       </div>
 
       <div

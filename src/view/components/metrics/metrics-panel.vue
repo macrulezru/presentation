@@ -23,7 +23,7 @@
     METRICS_PANEL_STATE_EVENT,
     type MetricsPanelToggleDetail,
   } from '@/view/components/metrics/metrics-panel.events';
-  import { useI18n } from '@/view/composables/use-i18n';
+import { useI18n } from '~/composables/useI18n';
   import './metrics-panel.scss';
 
   const metricStore = useMetricStore();

@@ -5,8 +5,8 @@
 
   import RemoveWorkplaceImageHorizontal from '@/view/assets/images/remote-workstation-horizontal.webp';
   import RemoveWorkplaceImage from '@/view/assets/images/remote-workstation.webp';
-  import { useI18n } from '@/view/composables/use-i18n.ts';
-  import UiImage from '@/view/ui/ui-image/ui-image.vue';
+import { useI18n } from '~/composables/useI18n';
+import UiImage from '@/view/ui/ui-image/ui-image.vue';
 
   const { t, tm } = useI18n();
 

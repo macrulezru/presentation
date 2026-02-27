@@ -31,7 +31,6 @@ export function useMacrulezBadge() {
       `%c${MACRULEZ_ASCII}`,
       'color: #00bfae; font-weight: bold; font-family: monospace;',
     );
-    // Выводим фичи
 
     console.log(
       '%c\nFeatures:',
@@ -42,3 +41,4 @@ export function useMacrulezBadge() {
     }
   });
 }
+

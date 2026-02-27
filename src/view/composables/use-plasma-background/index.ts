@@ -1,4 +1,4 @@
-import { useResponsive } from 'responsive-media';
+import { useResponsive } from '~/composables/useResponsive';
 import { onMounted, onUnmounted, type Ref } from 'vue';
 
 import {

@@ -1,4 +1,4 @@
-import { useResponsive } from 'responsive-media';
+import { useResponsive } from '~/composables/useResponsive';
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
 
 import {
@@ -54,7 +54,7 @@ import {
 
 import type { CanvasAnimationOptions, AnimationState, TechItem, Particle } from './types';
 
-import { useI18n } from '@/view/composables/use-i18n';
+import { useI18n } from '~/composables/useI18n';
 import { useVisibility } from '@/view/composables/use-visibility';
 
 export function useTechAnimation(options: CanvasAnimationOptions) {

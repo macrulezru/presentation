@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import { useResponsive } from 'responsive-media';
+import { useResponsive } from '~/composables/useResponsive';
   import { computed, ref, onUnmounted } from 'vue';
 
   import { useTravelshopIntroStore } from '@/stores/use-travelshop-intro-store';
   import Music from '@/view/assets/music/control.mp3';
-  import { useI18n } from '@/view/composables/use-i18n';
+import { useI18n } from '~/composables/useI18n';
   import { useTravelshopCanvas } from '@/view/composables/use-travelshop-canvas';
   import Button from '@/view/ui/ui-button/ui-button.vue';
 
