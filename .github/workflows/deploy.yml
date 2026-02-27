@@ -1,4 +1,4 @@
-name: Deploy to Server (Hard Reset with npm ci)
+name: Deploy to Server (Hard Reset with Port Check)
 
 on:
   push:
@@ -44,26 +44,20 @@ jobs:
             echo '✅ package-lock.json found'
 
             # ------------------------------------------------------------
-            # 3. Загрузка переменных окружения (БЕЗОПАСНО)
+            # 3. Загрузка переменных окружения (безопасно)
             # ------------------------------------------------------------
-            echo '>>> 🌱 Loading environment variables (safe mode)'
+            echo '>>> 🌱 Loading environment variables'
+            set -a
             if [ -f .env ]; then
-              echo '✅ .env file found, loading variables...'
-              
-              # Загружаем построчно, игнорируя комментарии и пустые строки
-              while IFS= read -r line || [ -n "$line" ]; do
-                # Пропускаем комментарии и пустые строки
-                if [[ ! "$line" =~ ^\s*# ]] && [[ -n "$line" ]]; then
-                  # Убираем возможные кавычки и пробелы
-                  clean_line=$(echo "$line" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//")
-                  export "$clean_line" 2>/dev/null || echo "⚠️  Could not export: $clean_line"
-                fi
-              done < .env
-              
-              echo '✅ Environment variables loaded'
+              # Загружаем построенно, игнорируя ошибки
+              set +e
+              source .env 2>/dev/null || echo '⚠️  Warning: Error loading .env, continuing...'
+              set -e
+              echo '✅ .env processed'
             else
               echo '⚠️  No .env file found, continuing without it'
             fi
+            set +a
 
             # ------------------------------------------------------------
             # 4. Полная зачистка перед сборкой
@@ -84,21 +78,48 @@ jobs:
             npm run build
 
             # ------------------------------------------------------------
-            # 7. Перезапуск PM2
+            # 7. Перезапуск PM2 (безопасный, с проверкой порта)
             # ------------------------------------------------------------
-            echo '>>> 🔄 Restarting PM2 process'
+            echo '>>> 🔄 Cleaning old PM2 processes'
+
+            # Убиваем процессы по имени
+            pm2 delete macrulez 2>/dev/null || true
             pm2 delete macrulez.ru 2>/dev/null || true
+
+            # Убеждаемся, что порт 3001 свободен
+            echo '>>> 🔍 Checking if port 3001 is free'
+            if command -v lsof >/dev/null 2>&1; then
+              # Используем lsof если доступен
+              if lsof -Pi :3001 -sTCP:LISTEN -t >/dev/null 2>&1; then
+                echo '⚠️  Port 3001 is in use, killing process...'
+                fuser -k 3001/tcp 2>/dev/null || true
+                sleep 2
+              fi
+            else
+              # Fallback: используем netstat
+              if netstat -tln | grep -q ":3001 "; then
+                echo '⚠️  Port 3001 is in use, killing process...'
+                fuser -k 3001/tcp 2>/dev/null || true
+                sleep 2
+              fi
+            fi
+            echo '✅ Port 3001 is free'
+
+            echo '>>> 🚀 Starting fresh PM2 process'
             pm2 start .output/server/index.mjs \
               --name macrulez.ru \
               --update-env \
               -- --port 3001
 
+            # Сохраняем список процессов для автозапуска
             pm2 save
 
             # ------------------------------------------------------------
-            # 8. Проверка статуса
+            # 8. Финальная проверка
             # ------------------------------------------------------------
-            echo '>>> ✅ Deploy complete! Checking status:'
-            pm2 status macrulez.ru
+            echo '>>> 📋 Current PM2 processes:'
+            pm2 list
+
+            echo '>>> ✅ Deploy complete!'
             echo ''
             echo '🎉 Success! https://macrulez.ru'
