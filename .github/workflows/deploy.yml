@@ -2,7 +2,7 @@ name: Deploy to Server (Hard Reset with npm ci)
 
 on:
   push:
-    branches: [master] # Можно изменить на нужную ветку
+    branches: [master]
 
 jobs:
   deploy:
@@ -44,17 +44,26 @@ jobs:
             echo '✅ package-lock.json found'
 
             # ------------------------------------------------------------
-            # 3. Загрузка переменных окружения (если есть)
+            # 3. Загрузка переменных окружения (БЕЗОПАСНО)
             # ------------------------------------------------------------
-            echo '>>> 🌱 Loading environment variables'
-            set -a
+            echo '>>> 🌱 Loading environment variables (safe mode)'
             if [ -f .env ]; then
-              source .env
-              echo '✅ .env loaded'
+              echo '✅ .env file found, loading variables...'
+              
+              # Загружаем построчно, игнорируя комментарии и пустые строки
+              while IFS= read -r line || [ -n "$line" ]; do
+                # Пропускаем комментарии и пустые строки
+                if [[ ! "$line" =~ ^\s*# ]] && [[ -n "$line" ]]; then
+                  # Убираем возможные кавычки и пробелы
+                  clean_line=$(echo "$line" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//")
+                  export "$clean_line" 2>/dev/null || echo "⚠️  Could not export: $clean_line"
+                fi
+              done < .env
+              
+              echo '✅ Environment variables loaded'
             else
               echo '⚠️  No .env file found, continuing without it'
             fi
-            set +a
 
             # ------------------------------------------------------------
             # 4. Полная зачистка перед сборкой
@@ -84,7 +93,6 @@ jobs:
               --update-env \
               -- --port 3001
 
-            # Сохраняем список процессов для автозапуска
             pm2 save
 
             # ------------------------------------------------------------
