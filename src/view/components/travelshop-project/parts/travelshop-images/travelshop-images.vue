@@ -27,15 +27,17 @@
 </script>
 
 <template>
-  <div class="travelshop-images">
-    <UiSwiper :slides="images" @slide-click="openModal" />
+  <Transition name="content-appear" appear>
+    <div class="travelshop-images">
+      <UiSwiper :slides="images" @slide-click="openModal" />
 
-    <UiImageModal
-      v-model:isOpen="modalOpen"
-      :initialIndex="currentImageIndex"
-      :images="images"
-      @close="onModalClose"
-      @change="onModalChange"
-    />
-  </div>
+      <UiImageModal
+        v-model:isOpen="modalOpen"
+        :initialIndex="currentImageIndex"
+        :images="images"
+        @close="onModalClose"
+        @change="onModalChange"
+      />
+    </div>
+  </Transition>
 </template>

@@ -69,8 +69,6 @@ body.body-locked {
   background: var(--scrollbar-track-bg);
 }
 
-// Общая анимация появления контента (Vue Transition): снизу вверх + scale + fade-in
-// Используется в examples (Pipeline) и travelshop-project (галерея)
 .content-appear-enter-active {
   transition:
     transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
@@ -100,5 +98,37 @@ body.body-locked {
 
 .content-appear-leave-to {
   transform: translateY(12px) scale(0.98);
+  opacity: 0;
+}
+
+.loader-appear-enter-active {
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s ease-out;
+}
+
+.loader-appear-leave-active {
+  transition:
+    transform 0.25s ease-in,
+    opacity 0.2s ease-in;
+}
+
+.loader-appear-enter-from {
+  transform: scale(0.96);
+  opacity: 0;
+}
+
+.loader-appear-enter-to {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.loader-appear-leave-from {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.loader-appear-leave-to {
+  transform: scale(0.98);
   opacity: 0;
 }
