@@ -104,7 +104,8 @@ import UiButton from '~/components/ui/UiButton.vue';
 </script>
 
 <template>
-  <div class="pipeline">
+  <Transition name="content-appear" appear>
+    <div class="pipeline">
     <div class="pipeline__container">
       <div class="pipeline__header">
         <div class="pipeline__title">{{ t('pipeline-demo.title') }}</div>
@@ -275,4 +276,5 @@ import UiButton from '~/components/ui/UiButton.vue';
       </div>
     </div>
   </div>
+  </Transition>
 </template>

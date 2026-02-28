@@ -25,7 +25,7 @@
     loadingComponent: () =>
       h(
         Transition,
-        { name: 'content-appear' },
+        { name: 'loader-appear', appear: true },
         {
           default: () =>
             h('div', { class: 'travelshop__gallery-loader' }, [
@@ -223,16 +223,14 @@
         >
           <Button :text="t('travelshop.view_screenshots')" @click="toggleSwiper" />
         </div>
-        <Transition name="content-appear">
-          <div v-if="showSwiper" class="travelshop__section travelshop__section_images">
-            <div class="travelshop__ts-slideshow">
-              <TravelshopImages
-                size="large"
-                :textKey="t('travelshop.loading_screenshots')"
-              />
-            </div>
+        <div v-if="showSwiper" class="travelshop__section travelshop__section_images">
+          <div class="travelshop__ts-slideshow">
+            <TravelshopImages
+              size="large"
+              :textKey="t('travelshop.loading_screenshots')"
+            />
           </div>
-        </Transition>
+        </div>
       </div>
     </div>
   </div>

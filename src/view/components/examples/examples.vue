@@ -27,7 +27,7 @@
   const Pipeline = defineAsyncComponent({
     loader: () => import('@/view/components/pipeline/pipeline.vue'),
     loadingComponent: () =>
-      h(Transition, { name: 'content-appear' }, {
+      h(Transition, { name: 'loader-appear', appear: true }, {
         default: () =>
           h('div', { class: 'examples__pipeline-loader' }, [
             h(UiLoading, {
@@ -307,11 +307,9 @@
                     @click="showPipeline"
                   />
                 </div>
-                <Transition name="content-appear">
-                  <div v-if="isShowPipeline" class="examples__pipeline-animated">
-                    <Pipeline />
-                  </div>
-                </Transition>
+                <div v-if="isShowPipeline" class="examples__pipeline-animated">
+                  <Pipeline />
+                </div>
               </template>
             </FeatureItem>
           </template>
