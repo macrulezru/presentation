@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import '@/view/components/travelshop-project/travelshop-project.scss';
 
-  import { ref, computed, defineAsyncComponent, h } from 'vue';
+  import { ref, computed, defineAsyncComponent, h, Transition } from 'vue';
 
   import type {
     Feature,
@@ -12,28 +12,33 @@
   import TravelshopImageHorizontal from '@/view/assets/images/travelshop-image-horizontal.webp';
   import TravelshopImage from '@/view/assets/images/travelshop-image.webp';
   import TravelshopIntro from '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue';
-import { useI18n } from '~/composables/useI18n';
   import Button from '@/view/ui/ui-button/ui-button.vue';
   import CircleChart from '@/view/ui/ui-circle-chart/ui-circle-chart.vue';
   import UiImage from '@/view/ui/ui-image/ui-image.vue';
   import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
   import UiLoading from '@/view/ui/ui-loading/ui-loading.vue';
+  import { useI18n } from '~/composables/useI18n';
 
   const TravelshopImages = defineAsyncComponent({
     loader: () =>
       import('@/view/components/travelshop-project/parts/travelshop-images/travelshop-images.vue'),
     loadingComponent: () =>
-      h('div', { class: 'travelshop__gallery-loader' }, [
-        h(UiLoading, {
-          type: 'circle',
-          circleRadius: 60,
-          thickness: 3,
-          progressColor: '#d941b0',
-        }),
-      ]),
+      h(
+        Transition,
+        { name: 'content-appear' },
+        {
+          default: () =>
+            h('div', { class: 'travelshop__gallery-loader' }, [
+              h(UiLoading, {
+                type: 'circle',
+                circleRadius: 60,
+                thickness: 3,
+                progressColor: '#d941b0',
+              }),
+            ]),
+        },
+      ),
     delay: 0,
-    // Nuxt рендерит страницу внутри <Suspense>; чтобы не терять loadingComponent,
-    // выключаем suspensible-режим.
     suspensible: false,
   });
 
@@ -218,14 +223,16 @@ import { useI18n } from '~/composables/useI18n';
         >
           <Button :text="t('travelshop.view_screenshots')" @click="toggleSwiper" />
         </div>
-        <div v-if="showSwiper" class="travelshop__section travelshop__section_images">
-          <div class="travelshop__ts-slideshow">
-            <TravelshopImages
-              size="large"
-              :textKey="t('travelshop.loading_screenshots')"
-            />
+        <Transition name="content-appear">
+          <div v-if="showSwiper" class="travelshop__section travelshop__section_images">
+            <div class="travelshop__ts-slideshow">
+              <TravelshopImages
+                size="large"
+                :textKey="t('travelshop.loading_screenshots')"
+              />
+            </div>
           </div>
-        </div>
+        </Transition>
       </div>
     </div>
   </div>

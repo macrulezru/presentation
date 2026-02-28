@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useResponsive } from '~/composables/useResponsive';
   import {
     ref,
     defineAsyncComponent,
@@ -8,6 +7,7 @@ import { useResponsive } from '~/composables/useResponsive';
     watch,
     nextTick,
     h,
+    Transition,
   } from 'vue';
 
   import { FeaturesEnum } from '@/enums/features.enum';
@@ -15,28 +15,30 @@ import { useResponsive } from '~/composables/useResponsive';
   import { useExamplesStore } from '@/stores/use-examples-store.ts';
   import musicUrl from '@/view/assets/music/background-music.mp3';
   import FeatureItem from '@/view/components/examples/parts/feature-item/feature-item.vue';
-import { useFeatures } from '~/composables/useFeatures';
-import { useI18n } from '~/composables/useI18n';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
   import UiButton from '~/components/ui/UiButton.vue';
   import UiLoading from '~/components/ui/UiLoading.vue';
+  import { useFeatures } from '~/composables/useFeatures';
+  import { useI18n } from '~/composables/useI18n';
+  import { useResponsive } from '~/composables/useResponsive';
 
   import '@/view/components/examples/examples.scss';
 
   const Pipeline = defineAsyncComponent({
     loader: () => import('@/view/components/pipeline/pipeline.vue'),
     loadingComponent: () =>
-      h('div', { class: 'examples__pipeline-loader' }, [
-        h(UiLoading, {
-          type: 'circle',
-          circleRadius: 60,
-          thickness: 3,
-          progressColor: '#d941b0',
-        }),
-      ]),
+      h(Transition, { name: 'content-appear' }, {
+        default: () =>
+          h('div', { class: 'examples__pipeline-loader' }, [
+            h(UiLoading, {
+              type: 'circle',
+              circleRadius: 60,
+              thickness: 3,
+              progressColor: '#d941b0',
+            }),
+          ]),
+      }),
     delay: 0,
-    // Nuxt рендерит страницу внутри <Suspense>; чтобы не терять loadingComponent,
-    // выключаем suspensible-режим.
     suspensible: false,
   });
 
@@ -305,7 +307,11 @@ import { useI18n } from '~/composables/useI18n';
                     @click="showPipeline"
                   />
                 </div>
-                <Pipeline v-if="isShowPipeline" />
+                <Transition name="content-appear">
+                  <div v-if="isShowPipeline" class="examples__pipeline-animated">
+                    <Pipeline />
+                  </div>
+                </Transition>
               </template>
             </FeatureItem>
           </template>
