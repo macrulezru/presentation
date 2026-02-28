@@ -80,8 +80,12 @@
         "description": "<span><strong>Vue 3</strong> 使用 <strong>Proxy</strong> 实现 '智能' 反应式，而 <strong>Vite</strong> 利用浏览器内置的 ES 模块实现瞬间启动。</span><span><strong>Pinia</strong> 从零开始为 TypeScript 而设计——类型自动推断。整个技术栈遵循构造器原则：您从现成的函数中组装逻辑，而不是编写大量配置。</span>",
         "items": {
           "vue": {
-            "title": "Vue.js 3",
+            "title": "Vue.JS",
             "description": "使用Composition API、组合函数、响应式系统开发SPA应用，处理生命周期钩子，自定义指令"
+          },
+          "nuxt": {
+            "title": "Nuxt",
+            "description": "基于文件路由的 SSR 和 SSG 应用，支持服务端与客户端的数据获取、SEO 优化以及与 API 的集成"
           },
           "pinia": {
             "title": "Pinia",

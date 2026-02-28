@@ -80,8 +80,12 @@
         "description": "<span><strong>Vue 3</strong> <strong>Proxy</strong> арқылы 'ақылды' реактивтіліктi, ал <strong>Vite</strong> құрылымдарды ғана браузерге орнатылған ES-модульдерді пайдаланып лезде іске қосады.</span><span><strong>Pinia</strong> с нуля құрылған TypeScript үшін — түрлер автоматты түрде қорытындыланады. Бұл бүтін стек конструктор принципі бойынша жұмыс істейді: сіз дайын функциялардан логиканы құрастырасыз, өйтіп тонна конфигурациялама жазбайсыз.</span>",
         "items": {
           "vue": {
-            "title": "Vue.js 3",
+            "title": "Vue.JS",
             "description": "Composition API, composables, реактивтілік, lifecycle hooks-пен жұмыс істеуді қолдана отырып, SPA-қолданбаларды әзірлеу..."
+          },
+          "nuxt": {
+            "title": "Nuxt",
+            "description": "Файлдық маршрутизацияға негізделген SSR және SSG-қолданбалар, серверде және клиентте data fetching, SEO-оңтайландыру және API-мен интеграция"
           },
           "pinia": {
             "title": "Pinia",

@@ -80,8 +80,12 @@
         "description": "<span><strong>Vue 3</strong> with <strong>Proxy</strong> for 'smart' reactivity, and <strong>Vite</strong> launches the project instantly using built-in ES-modules.</span><span><strong>Pinia</strong> is built for TypeScript from the ground up — types are inferred automatically. This entire stack works on the principle of a constructor: you assemble logic from ready-made functions, rather than writing tons of configuration.</span>",
         "items": {
           "vue": {
-            "title": "Vue.js 3",
+            "title": "Vue.JS",
             "description": "SPA development using Composition API, composables, reactivity, working with lifecycle hooks, custom directives"
+          },
+          "nuxt": {
+            "title": "Nuxt",
+            "description": "SSR and SSG applications based on file-based routing, data fetching on server and client, SEO optimization and API integration"
           },
           "pinia": {
             "title": "Pinia",

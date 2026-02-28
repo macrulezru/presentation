@@ -77,11 +77,15 @@
     "tech_stack": {
       "main": {
         "title": "Основные технологии",
-        "description": "<span><strong>Vue 3</strong> с <strong>Proxy</strong> для «умной» реактивности, а <strong>Vite</strong> запускает проект мгновенно, используя встроенные в браузер ES-модули.</span><span><strong>Pinia</strong> создан для TypeScript с нуля — типы выводятся автоматически. Вся эта связка работает по принципу конструктора: вы собираете логику из готовых функций, а не пишете тонны конфигурации.</span>",
+        "description": "<span><strong>Vue JS</strong> с <strong>Proxy</strong> для «умной» реактивности, а <strong>Vite</strong> запускает проект мгновенно, используя встроенные в браузер ES-модули.</span><span><strong>Pinia</strong> создан для TypeScript с нуля — типы выводятся автоматически. Вся эта связка работает по принципу конструктора: вы собираете логику из готовых функций, а не пишете тонны конфигурации.</span>",
         "items": {
           "vue": {
-            "title": "Vue.js 3",
+            "title": "Vue.JS",
             "description": "Разработка SPA-приложений с использованием Composition API, composables, реактивность, работа с lifecycle hooks..."
+          },
+          "nuxt": {
+            "title": "Nuxt",
+            "description": "SSR и SSG‑приложения на основе файловой маршрутизации, data fetching на сервере и клиенте, SEO‑оптимизация и интеграция с API"
           },
           "pinia": {
             "title": "Pinia",

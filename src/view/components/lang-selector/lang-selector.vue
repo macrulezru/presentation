@@ -8,14 +8,12 @@
     type LocalesEnumType,
     LocalesToView,
   } from '@/enums/locales.enum.ts';
-  import { useNavigationStore } from '@/stores/use-navigation-store.ts';
-import { useI18n } from '~/composables/useI18n';
   import Select from '@/view/ui/ui-select/ui-select.vue';
+  import { useI18n } from '~/composables/useI18n';
 
   import '@/view/components/lang-selector/lang-selector.scss';
 
   const { changeLocale, locale, isLoading } = useI18n();
-  const navigationStore = useNavigationStore();
 
   const languageOptions: LanguageOption[] = (
     Object.keys(LocalesEnum) as Array<keyof typeof LocalesEnum>
@@ -35,11 +33,7 @@ import { useI18n } from '~/composables/useI18n';
   const handleLanguageChange = (option: LanguageOption) => {
     if (isLoading.value) return;
 
-    const activeSection = navigationStore.currentSection;
-    const newPath =
-      activeSection !== 'splash'
-        ? `/${option.value}/${activeSection}`
-        : `/${option.value}`;
+    const newPath = `/${option.value}`;
 
     changeLocale(option.value as LocalesEnumType, newPath);
   };
