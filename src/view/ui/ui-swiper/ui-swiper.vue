@@ -29,6 +29,8 @@
   interface Props {
     slides: Slide[];
     lazyLoad?: boolean;
+    /** При ширине viewport >= этого значения (px) высота контейнера фиксируется по максимуму среди слайдов */
+    fixedHeightBreakpoint?: number;
     animationDuration?: number; // Длительность анимации переходов (ms)
     autoplay?: boolean; // Автоматическое переключение слайдов
     autoplayDelay?: number; // Задержка между автопроигрыванием (ms)
@@ -51,6 +53,7 @@
   const emit = defineEmits<Emits>();
 
   const lazyLoadEnabled = computed(() => props.lazyLoad !== false);
+  const fixedHeightBreakpointValue = computed(() => props.fixedHeightBreakpoint ?? 768);
   const animDuration = computed(() => props.animationDuration ?? 300);
   const isLoopEnabled = computed(() => props.loop ?? true);
   const dragThresholdValue = computed(() => props.dragThreshold ?? 5);
@@ -59,6 +62,7 @@
   const currentIndex = ref(props.initialIndex ?? 0);
   const containerHeight = ref<number | null>(null);
   const viewportRef = ref<HTMLDivElement | null>(null);
+  const isDesktopMode = ref(false);
 
   // Cache высот слайдов для оптимизации
   const heightCache = ref<Map<number, number>>(new Map());
@@ -107,28 +111,27 @@
     const activeSlide = slideElements[currentIndex.value] as HTMLElement | undefined;
 
     if (activeSlide) {
-      // Проверяем кэш перед расчетом
-      const cachedHeight = heightCache.value.get(currentIndex.value);
-      if (cachedHeight) {
-        containerHeight.value = cachedHeight;
-        return;
-      }
-
       const img = activeSlide.querySelector('.ui-swiper__image') as HTMLElement;
       const desc = activeSlide.querySelector('.ui-swiper__description') as HTMLElement;
 
       if (img && img.offsetHeight > 0) {
-        // Берём высоту изображения + высоту описания + gap (16px) + padding (24px*2)
         const imgHeight = img.offsetHeight;
         const descHeight = desc ? desc.offsetHeight : 0;
         const gap = 16;
         const padding = 24 * 2;
-
         const calculatedHeight = imgHeight + descHeight + gap + padding;
 
-        // Сохраняем в кэш
         heightCache.value.set(currentIndex.value, calculatedHeight);
-        containerHeight.value = calculatedHeight;
+
+        if (isDesktopMode.value) {
+          const maxHeight = Math.max(
+            ...heightCache.value.values(),
+            containerHeight.value ?? 0,
+          );
+          containerHeight.value = maxHeight;
+        } else {
+          containerHeight.value = calculatedHeight;
+        }
       }
     }
   };
@@ -138,7 +141,9 @@
       clearTimeout(windowResizeTimeout);
     }
     windowResizeTimeout = window.setTimeout(() => {
-      // Очищаем кэш при resize, т.к. размеры изображений могут измениться
+      isDesktopMode.value =
+        typeof window !== 'undefined' &&
+        window.matchMedia(`(min-width: ${fixedHeightBreakpointValue.value}px)`).matches;
       heightCache.value.clear();
       updateHeight();
     }, 50);
@@ -261,6 +266,9 @@
   );
 
   onMounted(() => {
+    isDesktopMode.value =
+      typeof window !== 'undefined' &&
+      window.matchMedia(`(min-width: ${fixedHeightBreakpointValue.value}px)`).matches;
     setupImageObserver();
     updateHeight();
     startAutoplay(); // Запускаем autoplay при монтировании
