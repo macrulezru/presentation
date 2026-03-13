@@ -1,7 +1,8 @@
-import { defineNuxtConfig } from 'nuxt/config';
-import { fileURLToPath, URL } from 'node:url';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { fileURLToPath, URL } from 'node:url';
+
+import { defineNuxtConfig } from 'nuxt/config';
 
 function loadDotEnvFile(absPath: string) {
   if (!existsSync(absPath)) return {};
@@ -89,8 +90,17 @@ export default defineNuxtConfig({
         // Twitter
         { name: 'twitter:card', content: env('VITE_APP_TWITTER_CARD') || '' },
         { name: 'twitter:title', content: env('VITE_APP_TWITTER_TITLE') || '' },
-        { name: 'twitter:description', content: env('VITE_APP_TWITTER_DESCRIPTION') || '' },
+        {
+          name: 'twitter:description',
+          content: env('VITE_APP_TWITTER_DESCRIPTION') || '',
+        },
         { name: 'twitter:image', content: OG_IMAGE_URL },
+      ],
+      noscript: [
+        {
+          innerHTML:
+            '<div><img src="https://mc.yandex.ru/watch/106173012" style="position:absolute;left:-9999px" alt="" /></div>',
+        },
       ],
       link: [
         { rel: 'icon', type: 'image/png', href: '/favicon-96x96.png', sizes: '96x96' },
@@ -177,4 +187,3 @@ export default defineNuxtConfig({
     public: {},
   },
 });
-
