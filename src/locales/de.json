@@ -1098,5 +1098,9 @@
   "toolz": {
     "title": "Den Unterschied sehen — das ist entscheidend",
     "text": "Warum raten, wie eine Optimierung wirkt? Unsere Werkzeuge zeigen das Ergebnis, bevor Sie auf Speichern klicken. Komprimieren Sie SVGs und Bilder und vergleichen Sie Original und Ergebnis in Echtzeit. Erstellen Sie Verläufe aus Ebenen und kopieren Sie sofort sauberen CSS-Code. Werkzeuge für alle, die Präzision und Geschwindigkeit schätzen. Aktive Entwicklung."
+  },
+  "blog": {
+    "title": "Macrulez blog",
+    "text": "In meinem Blog teile ich meine Erfahrungen als Frontend-Entwickler: Ich analysiere Aufgaben, teile Lösungen und veröffentliche Notizen über die Arbeit mit dem modernen Web."
   }
 }
