@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import './stuff.scss';
 
+  import type { BlogPostItem } from '@/view/components/stuff/parts/blog/blog-items';
   import type { NpmPackageItem } from '@/view/components/stuff/parts/npm-packages/npm-items';
 
   import Blog from '@/view/components/stuff/parts/blog/blog.vue';
@@ -9,6 +10,7 @@
 
   defineProps<{
     ssrNpmItems?: NpmPackageItem[];
+    ssrBlogItems?: BlogPostItem[];
   }>();
 </script>
 
@@ -17,7 +19,7 @@
     <div class="stuff__container">
       <NpmPackages :ssrItems="ssrNpmItems" />
       <Toolz />
-      <Blog />
+      <Blog :ssrItems="ssrBlogItems" />
     </div>
   </div>
 </template>
