@@ -34,8 +34,9 @@ export function useBlogPost() {
     loading.value = true;
     error.value = null;
     try {
-      const response = await client.get(`/posts?per_page=3`);
-      const apiResponse = response && 'data' in response ? (response as any).data : response;
+      const response = await client.get(`/posts?per_page=7`);
+      const apiResponse =
+        response && 'data' in response ? (response as any).data : response;
       const data = apiResponse?.data?.items ?? [];
       if (Array.isArray(data)) {
         cache[currentLocale] = data.map(item => ({

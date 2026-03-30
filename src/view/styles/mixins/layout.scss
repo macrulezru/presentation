@@ -35,3 +35,17 @@
     grid-template-columns: 1fr !important;
   }
 }
+
+@mixin grid-4-cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(40px, 6vw, 75px);
+
+  @include media-tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include media-mobile {
+    grid-template-columns: 1fr !important;
+  }
+}

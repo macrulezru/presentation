@@ -43,6 +43,10 @@
     margin-top: clamp(20px, 10vw, 80px);
     margin-bottom: -20px;
     padding: 0 clamp(20px, 4vw, 50px);
+
+    &_secondary {
+      @include grid-4-cols;
+    }
   }
 
   &__post {
@@ -75,6 +79,10 @@
       @include mini-title;
 
       transition: color 0.2s ease;
+
+      &_secondary {
+        @include regular-text;
+      }
 
       &:hover {
         color: var(--color-1);
