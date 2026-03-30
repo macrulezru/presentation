@@ -15,7 +15,7 @@ export default cachedEventHandler(
     const { macrulezApiBase } = useRuntimeConfig(event);
 
     try {
-      const response = await $fetch(`${macrulezApiBase}/macrulez-blog/posts?per_page=3`, {
+      const response = await $fetch(`${macrulezApiBase}/macrulez-blog/posts?per_page=7`, {
         timeout: 7000,
         retry: 1,
         dispatcher: ipv4Agent,

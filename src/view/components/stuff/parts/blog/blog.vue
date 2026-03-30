@@ -7,6 +7,7 @@
 
   import blogImage from '@/view/assets/images/blog.png';
   import { useI18n } from '~/composables/useI18n';
+  import { useResponsive } from '~/composables/useResponsive';
 
   const { t } = useI18n();
 
@@ -14,11 +15,21 @@
     ssrItems?: BlogPostItem[];
   }>();
 
+  const responsive = useResponsive();
+
   const isSSR = import.meta.env.SSR;
   const blogPost = props.ssrItems || isSSR ? null : useBlogPost();
 
   const postToView = computed(() => {
     return props.ssrItems ?? blogPost?.items.value ?? [];
+  });
+
+  const mainPosts = computed(() => {
+    return postToView.value.slice(0, 3);
+  });
+
+  const secondaryPosts = computed(() => {
+    return postToView.value.slice(3, 7);
   });
 </script>
 
@@ -30,13 +41,13 @@
           <a href="https://blog.macrulez.ru/" target="_blank">{{ t('blog.title') }}</a>
         </div>
         <a href="https://blog.macrulez.ru/" target="_blank">
-          <img class="blog__image" :src="blogImage" />
+          <img class="blog__image" :src="blogImage" loading="lazy" />
         </a>
         <div class="blog__description">{{ t('blog.text') }}</div>
       </div>
     </div>
     <div class="blog__posts">
-      <div v-for="(post, index) in postToView" :key="index" class="blog__post">
+      <div v-for="(post, index) in mainPosts" :key="index" class="blog__post">
         <div class="blog__post-image-wrapper">
           <a :href="`https://blog.macrulez.ru/post/${post.url}`" target="_blank">
             <div
@@ -51,6 +62,23 @@
           </a>
         </div>
         <div class="blog__post-text" v-html="post.descriptionHtml" />
+      </div>
+    </div>
+    <div v-if="responsive.desktop" class="blog__posts blog__posts_secondary">
+      <div v-for="(post, index) in secondaryPosts" :key="index" class="blog__post">
+        <div class="blog__post-image-wrapper">
+          <a :href="`https://blog.macrulez.ru/post/${post.url}`" target="_blank">
+            <div
+              class="blog__post-image"
+              :style="`--post-card-image: url(${post.coverImage});`"
+            />
+          </a>
+        </div>
+        <div class="blog__post-title blog__post-title_secondary">
+          <a :href="`https://blog.macrulez.ru/post/${post.url}`" target="_blank">
+            {{ post.title }}
+          </a>
+        </div>
       </div>
     </div>
   </div>
