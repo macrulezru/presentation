@@ -1,0 +1,761 @@
+{
+  "${i18nKey}.architecture.items": [
+    "composables/useFeatures.ts"
+  ],
+  "${i18nKey}.architecture.title": [
+    "composables/useFeatures.ts"
+  ],
+  "${i18nKey}.benefits.items": [
+    "composables/useFeatures.ts"
+  ],
+  "${i18nKey}.benefits.title": [
+    "composables/useFeatures.ts"
+  ],
+  "${i18nKey}.description": [
+    "composables/useFeatures.ts"
+  ],
+  "${i18nKey}.features.items": [
+    "composables/useFeatures.ts"
+  ],
+  "${i18nKey}.features.title": [
+    "composables/useFeatures.ts"
+  ],
+  "${i18nKey}.process.steps": [
+    "composables/useFeatures.ts"
+  ],
+  "${i18nKey}.process.title": [
+    "composables/useFeatures.ts"
+  ],
+  "${i18nKey}.shortTitle": [
+    "composables/useFeatures.ts"
+  ],
+  "${i18nKey}.subtitle": [
+    "composables/useFeatures.ts"
+  ],
+  "${i18nKey}.title": [
+    "composables/useFeatures.ts"
+  ],
+  "about.ai.description": [
+    "src/view/components/about/parts/ai-feature/ai-feature.vue"
+  ],
+  "about.ai.subtitle": [
+    "src/view/components/about/parts/ai-feature/ai-feature.vue"
+  ],
+  "about.ai.tools.chatgpt": [
+    "src/view/components/about/parts/ai-feature/ai-feature.vue"
+  ],
+  "about.ai.tools.copilot": [
+    "src/view/components/about/parts/ai-feature/ai-feature.vue"
+  ],
+  "about.ai.tools.grog": [
+    "src/view/components/about/parts/ai-feature/ai-feature.vue"
+  ],
+  "about.bitrix_description": [
+    "src/view/components/about/about.vue"
+  ],
+  "about.bitrix_skills.architecture_knowledge": [
+    "src/view/components/about/about.vue"
+  ],
+  "about.bitrix_skills.booking_integration": [
+    "src/view/components/about/about.vue"
+  ],
+  "about.bitrix_skills.customization": [
+    "src/view/components/about/about.vue"
+  ],
+  "about.bitrix_skills.php_experience": [
+    "src/view/components/about/about.vue"
+  ],
+  "about.bitrix_skills.travelshop_development": [
+    "src/view/components/about/about.vue"
+  ],
+  "about.bitrix_title": [
+    "src/view/components/about/about.vue"
+  ],
+  "about.conclusion": [
+    "src/view/components/about/about.vue"
+  ],
+  "about.tech_stack": [
+    "src/view/components/about/about.vue"
+  ],
+  "about.tech_stack_title": [
+    "src/view/components/about/about.vue"
+  ],
+  "about.tech_stack.${key}.description": [
+    "src/view/components/about/about.vue"
+  ],
+  "about.top_description": [
+    "src/view/components/about/about.vue"
+  ],
+  "about.top_sub_title": [
+    "src/view/components/about/about.vue"
+  ],
+  "about.top_title": [
+    "src/view/components/about/about.vue"
+  ],
+  "app.examples_title": [
+    "src/view/components/examples/examples.vue"
+  ],
+  "blog.text": [
+    "src/view/components/stuff/parts/blog/blog.vue"
+  ],
+  "blog.title": [
+    "src/view/components/stuff/parts/blog/blog.vue"
+  ],
+  "common.clickToOpenInNewTab": [
+    "src/view/ui/ui-image-modal/ui-image-modal.vue"
+  ],
+  "common.close": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue",
+    "src/view/ui/ui-image-modal/ui-image-modal.vue"
+  ],
+  "common.next_image": [
+    "src/view/ui/ui-image-modal/ui-image-modal.vue"
+  ],
+  "common.openInNewTab": [
+    "src/view/ui/ui-image-modal/ui-image-modal.vue"
+  ],
+  "common.previous_image": [
+    "src/view/ui/ui-image-modal/ui-image-modal.vue"
+  ],
+  "common.thumbnail": [
+    "src/view/ui/ui-image-modal/ui-image-modal.vue"
+  ],
+  "contacts.email.label": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "contacts.email.value": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "contacts.github.label": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "contacts.github.value": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "contacts.phone.label": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "contacts.phone.value": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "contacts.subtitle": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "contacts.telegram.label": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "contacts.telegram.value": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "contacts.title": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "contacts.ya-messenger.label": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "contacts.ya-messenger.value": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "demonstration.contact_me_conveniently": [
+    "src/view/components/examples/examples.vue"
+  ],
+  "demonstration.description": [
+    "src/view/components/examples/examples.vue"
+  ],
+  "demonstration.readiness": [
+    "src/view/components/examples/examples.vue"
+  ],
+  "demonstration.title": [
+    "src/view/components/examples/examples.vue"
+  ],
+  "design.description": [
+    "src/view/components/arts/arts.vue"
+  ],
+  "design.loadingImages": [
+    "src/view/components/arts/arts.vue"
+  ],
+  "design.showAll": [
+    "src/view/components/arts/arts.vue"
+  ],
+  "design.title": [
+    "src/view/components/arts/arts.vue"
+  ],
+  "experience.title": [
+    "src/view/components/experience-timeline/experience-timeline.vue"
+  ],
+  "form.default_subject": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.description": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.errors.email_invalid": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.errors.email_required": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.errors.message_required": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.errors.name_required": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.errors.submission_failed": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.fields.email": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.fields.message": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.fields.name": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.fields.subject": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.placeholders.email": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.placeholders.message": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.placeholders.name": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.reset": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.sending": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.sent_from": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.submit": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.success_message": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "form.title": [
+    "src/view/components/contacts/contacts.vue"
+  ],
+  "key": [
+    "src/utils/scan-i18n-keys.js"
+  ],
+  "metrics.actions.clear": [
+    "src/view/components/metrics/parts/metrics-panel-stats/metrics-panel-stats.vue"
+  ],
+  "metrics.actions.export": [
+    "src/view/components/metrics/parts/metrics-panel-stats/metrics-panel-stats.vue"
+  ],
+  "metrics.actions.toggleCharts": [
+    "src/view/components/metrics/parts/metrics-panel-stats/metrics-panel-stats.vue"
+  ],
+  "metrics.aria.${activeChart}": [
+    "src/view/components/metrics/metrics-panel.vue"
+  ],
+  "metrics.details.headers": [
+    "src/view/components/metrics/parts/metrics-request-details/metrics-request-details.vue"
+  ],
+  "metrics.details.params": [
+    "src/view/components/metrics/parts/metrics-request-details/metrics-request-details.vue"
+  ],
+  "metrics.details.requestBody": [
+    "src/view/components/metrics/parts/metrics-request-details/metrics-request-details.vue"
+  ],
+  "metrics.details.response": [
+    "src/view/components/metrics/parts/metrics-request-details/metrics-request-details.vue"
+  ],
+  "metrics.filters.limit": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.filters.method": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.filters.status": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.filters.url": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.filters.urlPlaceholder": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.methods.all": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.methods.delete": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.methods.get": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.methods.head": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.methods.options": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.methods.patch": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.methods.post": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.methods.put": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.stats.avg": [
+    "src/view/components/metrics/parts/metrics-panel-stats/metrics-panel-stats.vue"
+  ],
+  "metrics.stats.shown": [
+    "src/view/components/metrics/parts/metrics-panel-stats/metrics-panel-stats.vue"
+  ],
+  "metrics.statuses.2xx": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.statuses.3xx": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.statuses.4xx": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.statuses.5xx": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.statuses.all": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.statuses.errors": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "metrics.table.bytes": [
+    "src/view/components/metrics/parts/metrics-request-details/metrics-request-details.vue",
+    "src/view/components/metrics/parts/metrics-table/metrics-table.vue"
+  ],
+  "metrics.table.duration": [
+    "src/view/components/metrics/parts/metrics-panel-stats/metrics-panel-stats.vue",
+    "src/view/components/metrics/parts/metrics-request-details/metrics-request-details.vue",
+    "src/view/components/metrics/parts/metrics-table/metrics-table.vue"
+  ],
+  "metrics.table.error": [
+    "src/view/components/metrics/parts/metrics-table/metrics-table.vue"
+  ],
+  "metrics.table.method": [
+    "src/view/components/metrics/parts/metrics-table/metrics-table.vue"
+  ],
+  "metrics.table.status": [
+    "src/view/components/metrics/parts/metrics-request-details/metrics-request-details.vue",
+    "src/view/components/metrics/parts/metrics-table/metrics-table.vue"
+  ],
+  "metrics.table.time": [
+    "src/view/components/metrics/parts/metrics-table/metrics-table.vue"
+  ],
+  "metrics.table.url": [
+    "src/view/components/metrics/parts/metrics-table/metrics-table.vue"
+  ],
+  "metrics.tabs.bytes": [
+    "src/view/components/metrics/parts/metrics-chart-tabs/metrics-chart-tabs.vue"
+  ],
+  "metrics.tabs.latency": [
+    "src/view/components/metrics/parts/metrics-chart-tabs/metrics-chart-tabs.vue"
+  ],
+  "metrics.tabs.rps": [
+    "src/view/components/metrics/parts/metrics-chart-tabs/metrics-chart-tabs.vue"
+  ],
+  "metrics.tabs.status": [
+    "src/view/components/metrics/parts/metrics-chart-tabs/metrics-chart-tabs.vue"
+  ],
+  "metrics.title": [
+    "src/view/components/metrics/parts/metrics-panel-filters/metrics-panel-filters.vue"
+  ],
+  "navigation.processing": [
+    "src/view/components/header/header.vue"
+  ],
+  "pipeline-demo.arrival": [
+    "src/view/components/pipeline/parts/pipeline-flight/pipeline-flight.vue"
+  ],
+  "pipeline-demo.boardingPass.arrivalTime": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue"
+  ],
+  "pipeline-demo.boardingPass.boardingEnd": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue"
+  ],
+  "pipeline-demo.boardingPass.boardingStart": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue"
+  ],
+  "pipeline-demo.boardingPass.class": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue"
+  ],
+  "pipeline-demo.boardingPass.classes.${k}": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue"
+  ],
+  "pipeline-demo.boardingPass.departureDate": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue"
+  ],
+  "pipeline-demo.boardingPass.departureTime": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue"
+  ],
+  "pipeline-demo.boardingPass.flight": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue"
+  ],
+  "pipeline-demo.boardingPass.footerNote": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue"
+  ],
+  "pipeline-demo.boardingPass.gate": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue"
+  ],
+  "pipeline-demo.boardingPass.onTime": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue"
+  ],
+  "pipeline-demo.boardingPass.passenger": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue"
+  ],
+  "pipeline-demo.boardingPass.saveNote": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue"
+  ],
+  "pipeline-demo.boardingPass.terminal": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue"
+  ],
+  "pipeline-demo.boardingPass.title": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue"
+  ],
+  "pipeline-demo.button_openDemo": [
+    "src/view/components/examples/examples.vue"
+  ],
+  "pipeline-demo.departure": [
+    "src/view/components/pipeline/parts/pipeline-flight/pipeline-flight.vue"
+  ],
+  "pipeline-demo.fareOptions": [
+    "src/view/components/pipeline/parts/pipeline-flight/pipeline-flight.vue"
+  ],
+  "pipeline-demo.feature1_desc": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.feature1_title": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.feature2_desc": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.feature2_title": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.feature3_desc": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.feature3_title": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.feature4_desc": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.feature4_title": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.flightLabel": [
+    "src/view/components/pipeline/parts/pipeline-flight/pipeline-flight.vue"
+  ],
+  "pipeline-demo.github": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.intro_declarative": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.intro_example": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.intro_problem": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.intro_solution": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.intro_spaghetti": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.metrics_show": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.pointsLabel": [
+    "src/view/components/pipeline/parts/pipeline-points/pipeline-points.vue"
+  ],
+  "pipeline-demo.requestLabel": [
+    "src/view/components/pipeline/parts/pipeline-request/pipeline-request.vue"
+  ],
+  "pipeline-demo.responseLabel": [
+    "src/view/components/pipeline/parts/pipeline-responce/pipeline-responce.vue"
+  ],
+  "pipeline-demo.runButton": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.seat": [
+    "src/view/components/pipeline/parts/pipeline-boarding-pass/pipeline-boarding-pass.vue",
+    "src/view/components/pipeline/parts/pipeline-seat/pipeline-seat.vue"
+  ],
+  "pipeline-demo.seatLabel": [
+    "src/view/components/pipeline/parts/pipeline-seat/pipeline-seat.vue"
+  ],
+  "pipeline-demo.seatProps": [
+    "src/view/components/pipeline/parts/pipeline-seat/pipeline-seat.vue"
+  ],
+  "pipeline-demo.servicesLabel": [
+    "src/view/components/pipeline/parts/pipeline-services/pipeline-services.vue"
+  ],
+  "pipeline-demo.showCode": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.step_flight_desc": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.step_flight_title": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.step_route_desc": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.step_route_title": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.step_seat_desc": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.step_seat_title": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.step_services_desc": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.step_services_title": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "pipeline-demo.step1": [
+    "src/view/composables/use-pipeline.ts"
+  ],
+  "pipeline-demo.step2": [
+    "src/view/composables/use-pipeline.ts"
+  ],
+  "pipeline-demo.step3": [
+    "src/view/composables/use-pipeline.ts"
+  ],
+  "pipeline-demo.step4": [
+    "src/view/composables/use-pipeline.ts"
+  ],
+  "pipeline-demo.title": [
+    "src/view/components/pipeline/pipeline.vue"
+  ],
+  "remote_workplace.benefits_title": [
+    "src/view/components/remote-workplace/remote-workplace.vue"
+  ],
+  "remote_workplace.benefits.items": [
+    "src/view/components/remote-workplace/remote-workplace.vue"
+  ],
+  "remote_workplace.description": [
+    "src/view/components/remote-workplace/remote-workplace.vue"
+  ],
+  "remote_workplace.features.items": [
+    "src/view/components/remote-workplace/remote-workplace.vue"
+  ],
+  "remote_workplace.subtitle": [
+    "src/view/components/remote-workplace/remote-workplace.vue"
+  ],
+  "remote_workplace.title": [
+    "src/view/components/remote-workplace/remote-workplace.vue"
+  ],
+  "seat.props.": [
+    "src/view/components/pipeline/parts/pipeline-seat/pipeline-seat.vue"
+  ],
+  "splash.description": [
+    "src/view/components/splash/splash.vue"
+  ],
+  "splash.developer": [
+    "src/view/components/splash/splash.vue"
+  ],
+  "splash.more": [
+    "src/view/components/splash/splash.vue"
+  ],
+  "splash.vue": [
+    "src/view/components/splash/splash.vue"
+  ],
+  "splash.welcome": [
+    "src/view/components/splash/splash.vue"
+  ],
+  "tech.bitrix": [
+    "src/view/composables/use-tech/use-tech-animation.ts"
+  ],
+  "tech.css": [
+    "src/view/composables/use-tech/use-tech-animation.ts"
+  ],
+  "tech.figma": [
+    "src/view/composables/use-tech/use-tech-animation.ts"
+  ],
+  "tech.git": [
+    "src/view/composables/use-tech/use-tech-animation.ts"
+  ],
+  "tech.html": [
+    "src/view/composables/use-tech/use-tech-animation.ts"
+  ],
+  "tech.i18n": [
+    "src/view/composables/use-tech/use-tech-animation.ts"
+  ],
+  "tech.javascript": [
+    "src/view/composables/use-tech/use-tech-animation.ts"
+  ],
+  "tech.php": [
+    "src/view/composables/use-tech/use-tech-animation.ts"
+  ],
+  "tech.pinia": [
+    "src/view/composables/use-tech/use-tech-animation.ts"
+  ],
+  "tech.svn": [
+    "src/view/composables/use-tech/use-tech-animation.ts"
+  ],
+  "tech.typescript": [
+    "src/view/composables/use-tech/use-tech-animation.ts"
+  ],
+  "tech.vite": [
+    "src/view/composables/use-tech/use-tech-animation.ts"
+  ],
+  "tech.vue": [
+    "src/view/composables/use-tech/use-tech-animation.ts"
+  ],
+  "toolz.text": [
+    "src/view/components/stuff/parts/toolz/toolz.vue"
+  ],
+  "toolz.title": [
+    "src/view/components/stuff/parts/toolz/toolz.vue"
+  ],
+  "travelshop.achievements.items.code_reliability": [
+    "src/view/components/travelshop-project/travelshop-project.vue"
+  ],
+  "travelshop.achievements.items.error_reduction": [
+    "src/view/components/travelshop-project/travelshop-project.vue"
+  ],
+  "travelshop.achievements.items.performance_improvement": [
+    "src/view/components/travelshop-project/travelshop-project.vue"
+  ],
+  "travelshop.achievements.items.responsive_design": [
+    "src/view/components/travelshop-project/travelshop-project.vue"
+  ],
+  "travelshop.achievements.items.scalable_architecture": [
+    "src/view/components/travelshop-project/travelshop-project.vue"
+  ],
+  "travelshop.achievements.title": [
+    "src/view/components/travelshop-project/travelshop-project.vue"
+  ],
+  "travelshop.description": [
+    "src/view/components/travelshop-project/travelshop-project.vue"
+  ],
+  "travelshop.features.items": [
+    "src/view/components/travelshop-project/travelshop-project.vue"
+  ],
+  "travelshop.features.title": [
+    "src/view/components/travelshop-project/travelshop-project.vue"
+  ],
+  "travelshop.images.description.default": [
+    "src/view/composables/use-travelshop-images.ts"
+  ],
+  "travelshop.loading_screenshots": [
+    "src/view/components/travelshop-project/travelshop-project.vue"
+  ],
+  "travelshop.projects.items": [
+    "src/view/components/travelshop-project/travelshop-project.vue"
+  ],
+  "travelshop.projects.title": [
+    "src/view/components/travelshop-project/travelshop-project.vue"
+  ],
+  "travelshop.role": [
+    "src/view/components/travelshop-project/travelshop-project.vue"
+  ],
+  "travelshop.title": [
+    "src/view/components/travelshop-project/travelshop-project.vue"
+  ],
+  "travelshop.view_screenshots": [
+    "src/view/components/travelshop-project/travelshop-project.vue"
+  ],
+  "tshIntro.buttons.close": [
+    "src/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue"
+  ],
+  "tshIntro.buttons.export": [
+    "src/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue"
+  ],
+  "tshIntro.buttons.flight-control": [
+    "src/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue"
+  ],
+  "tshIntro.buttons.import": [
+    "src/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue"
+  ],
+  "tshIntro.buttons.loadingMusic": [
+    "src/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue"
+  ],
+  "tshIntro.buttons.pauseMusic": [
+    "src/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue"
+  ],
+  "tshIntro.buttons.playMusic": [
+    "src/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue"
+  ],
+  "tshIntro.buttons.resetSettings": [
+    "src/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue"
+  ],
+  "tshIntro.buttons.settings": [
+    "src/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue"
+  ],
+  "tshIntro.categories.${category}": [
+    "src/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue"
+  ],
+  "tshIntro.info.${param.id}": [
+    "src/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue"
+  ],
+  "tshIntro.panel.angle": [
+    "src/view/composables/use-travelshop-canvas/index.ts"
+  ],
+  "tshIntro.panel.clockwise": [
+    "src/view/composables/use-travelshop-canvas/index.ts"
+  ],
+  "tshIntro.panel.counterclockwise": [
+    "src/view/composables/use-travelshop-canvas/index.ts"
+  ],
+  "tshIntro.panel.critical_point": [
+    "src/view/composables/use-travelshop-canvas/index.ts"
+  ],
+  "tshIntro.panel.cursor": [
+    "src/view/composables/use-travelshop-canvas/index.ts"
+  ],
+  "tshIntro.panel.direction": [
+    "src/view/composables/use-travelshop-canvas/index.ts"
+  ],
+  "tshIntro.panel.left": [
+    "src/view/composables/use-travelshop-canvas/index.ts"
+  ],
+  "tshIntro.panel.movement": [
+    "src/view/composables/use-travelshop-canvas/index.ts"
+  ],
+  "tshIntro.panel.no": [
+    "src/view/composables/use-travelshop-canvas/index.ts"
+  ],
+  "tshIntro.panel.position": [
+    "src/view/composables/use-travelshop-canvas/index.ts"
+  ],
+  "tshIntro.panel.reflection": [
+    "src/view/composables/use-travelshop-canvas/index.ts"
+  ],
+  "tshIntro.panel.right": [
+    "src/view/composables/use-travelshop-canvas/index.ts"
+  ],
+  "tshIntro.panel.speed": [
+    "src/view/composables/use-travelshop-canvas/index.ts"
+  ],
+  "tshIntro.panel.tilt": [
+    "src/view/composables/use-travelshop-canvas/index.ts"
+  ],
+  "tshIntro.panel.yes": [
+    "src/view/composables/use-travelshop-canvas/index.ts"
+  ],
+  "tshIntro.parameters.${param.id}": [
+    "src/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue"
+  ]
+}

@@ -3,11 +3,9 @@
 
   import type { Props } from './types';
 
-  import { i18n } from '@/locales';
+  import { useI18n } from '~/composables/useI18n';
 
-  // Используем глобальный i18n напрямую, чтобы не зависеть от инъекций
-  const t = (key: string, values?: Record<string, unknown>) =>
-    values ? i18n.global.t(key, values) : i18n.global.t(key);
+  const { t } = useI18n();
 
   withDefaults(defineProps<Props>(), {
     size: 'medium',

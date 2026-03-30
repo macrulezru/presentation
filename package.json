@@ -23,7 +23,8 @@
     "i18n:scan": "node utils/scan-i18n-keys.js",
     "nuxt:dev": "nuxi dev",
     "nuxt:build": "nuxi build",
-    "nuxt:preview": "nuxi preview"
+    "nuxt:preview": "nuxi preview",
+    "i18n:ui": "vue-i18n-kit auto-config && vue-i18n-kit ui"
   },
   "dependencies": {
     "@yeger/vue-masonry-wall": "^5.1.4",
@@ -39,6 +40,7 @@
     "undici": "^7.22.0",
     "vue": "^3.5.22",
     "vue-i18n": "^9.14.5",
+    "vue-i18n-kit": "^0.1.8",
     "vue-router": "^4.6.3"
   },
   "devDependencies": {

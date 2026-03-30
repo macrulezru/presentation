@@ -6,12 +6,10 @@
 
   import type { Props } from './types';
 
-  import { i18n } from '@/locales';
+  import { useI18n } from '~/composables/useI18n';
   import { bodyLock, bodyUnlock } from '@/view/composables/use-body-fix';
 
-  // Используем глобальный i18n напрямую, чтобы избежать проблем с инъекцией
-  const t = (key: string, values?: Record<string, unknown>) =>
-    values ? i18n.global.t(key, values) : i18n.global.t(key);
+  const { t } = useI18n();
 
   const props = withDefaults(defineProps<Props>(), {
     initialIndex: 0,

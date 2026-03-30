@@ -2,6 +2,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath, URL } from 'node:url';
 
+import { vueI18nMapPlugin } from 'vue-i18n-kit/vite';
+
 import { defineNuxtConfig } from 'nuxt/config';
 
 function loadDotEnvFile(absPath: string) {
@@ -165,6 +167,17 @@ export default defineNuxtConfig({
   modules: [],
 
   vite: {
+    plugins: [
+      vueI18nMapPlugin({
+        locales: {
+          ru: { path: 'src/locales/ru.json', meta: { display: 'Русский' } },
+          en: { path: 'src/locales/en.json', meta: { display: 'English' } },
+          kz: { path: 'src/locales/kz.json', meta: { display: 'Қазақша' } },
+          de: { path: 'src/locales/de.json', meta: { display: 'Deutsch' } },
+          zh: { path: 'src/locales/zh.json', meta: { display: '中文' } },
+        },
+      }),
+    ],
     css: {
       preprocessorOptions: {
         scss: {

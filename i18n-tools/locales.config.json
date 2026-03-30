@@ -1,0 +1,41 @@
+{
+  "root": "C:\\work\\macrulez.ru",
+  "generatedAt": "2026-03-29T22:06:45.248Z",
+  "locales": [
+    {
+      "code": "ru",
+      "path": "C:\\work\\macrulez.ru\\src\\locales\\ru.json",
+      "meta": {
+        "display": "Русский"
+      }
+    },
+    {
+      "code": "en",
+      "path": "C:\\work\\macrulez.ru\\src\\locales\\en.json",
+      "meta": {
+        "display": "English"
+      }
+    },
+    {
+      "code": "kz",
+      "path": "C:\\work\\macrulez.ru\\src\\locales\\kz.json",
+      "meta": {
+        "display": "Қазақша"
+      }
+    },
+    {
+      "code": "de",
+      "path": "C:\\work\\macrulez.ru\\src\\locales\\de.json",
+      "meta": {
+        "display": "Deutsch"
+      }
+    },
+    {
+      "code": "zh",
+      "path": "C:\\work\\macrulez.ru\\src\\locales\\zh.json",
+      "meta": {
+        "display": "中文"
+      }
+    }
+  ]
+}
