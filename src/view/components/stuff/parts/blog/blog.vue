@@ -3,7 +3,8 @@
 
   import { computed } from 'vue';
 
-  import { useBlogPost, type BlogPostItem } from './blog-items';
+  import BlogItem from './parts/blog-item/blog-item.vue';
+  import { useBlogPost, type BlogPostItem } from './parts/blog-items';
 
   import blogImage from '@/view/assets/images/blog.png';
   import { useI18n } from '~/composables/useI18n';
@@ -47,39 +48,15 @@
       </div>
     </div>
     <div class="blog__posts">
-      <div v-for="(post, index) in mainPosts" :key="index" class="blog__post">
-        <div class="blog__post-image-wrapper">
-          <a :href="`https://blog.macrulez.ru/post/${post.url}`" target="_blank">
-            <div
-              class="blog__post-image"
-              :style="`--post-card-image: url(${post.coverImage});`"
-            />
-          </a>
-        </div>
-        <div class="blog__post-title">
-          <a :href="`https://blog.macrulez.ru/post/${post.url}`" target="_blank">
-            {{ post.title }}
-          </a>
-        </div>
-        <div class="blog__post-text" v-html="post.descriptionHtml" />
-      </div>
+      <BlogItem v-for="(post, index) in mainPosts" :key="index" :post="post" />
     </div>
     <div v-if="responsive.desktop" class="blog__posts blog__posts_secondary">
-      <div v-for="(post, index) in secondaryPosts" :key="index" class="blog__post">
-        <div class="blog__post-image-wrapper">
-          <a :href="`https://blog.macrulez.ru/post/${post.url}`" target="_blank">
-            <div
-              class="blog__post-image"
-              :style="`--post-card-image: url(${post.coverImage});`"
-            />
-          </a>
-        </div>
-        <div class="blog__post-title blog__post-title_secondary">
-          <a :href="`https://blog.macrulez.ru/post/${post.url}`" target="_blank">
-            {{ post.title }}
-          </a>
-        </div>
-      </div>
+      <BlogItem
+        v-for="(post, index) in secondaryPosts"
+        :key="index"
+        :post="post"
+        hideDescription
+      />
     </div>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import './stuff.scss';
 
-  import type { BlogPostItem } from '@/view/components/stuff/parts/blog/blog-items';
+  import type { BlogPostItem } from '@/view/components/stuff/parts/blog/parts/blog-items';
   import type { NpmPackageItem } from '@/view/components/stuff/parts/npm-packages/npm-items';
 
   import Blog from '@/view/components/stuff/parts/blog/blog.vue';
