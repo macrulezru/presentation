@@ -74,7 +74,7 @@
         :class="{ 'feature-item__header_reverse': isReverse && responsive.desktop }"
       >
         <div
-          v-show="!responsive.desktop"
+          v-if="!responsive.desktop"
           ref="headerPortalRef"
           class="feature-item__main-header"
         ></div>
