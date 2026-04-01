@@ -20,15 +20,17 @@
     gap: clamp(35px, 6vw, 75px);
     padding-bottom: clamp(50px, 5vw, 100px);
 
-    &_reverse {
-      grid-template-columns: minmax(400px, 714px) minmax(400px, 600px);
+    @include media-desktop {
+      &_reverse {
+        grid-template-columns: minmax(400px, 714px) minmax(400px, 600px);
 
-      > :first-child {
-        order: 2;
-      }
+        > .feature-item__image-container {
+          order: 2;
+        }
 
-      > :last-child {
-        order: 1;
+        > .feature-item__side-block {
+          order: 1;
+        }
       }
     }
 
