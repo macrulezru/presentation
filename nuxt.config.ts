@@ -186,4 +186,10 @@ export default defineNuxtConfig({
     macrulezApiBase: 'https://macrulez-api.ru/api',
     public: {},
   },
+
+  devtools: {
+    timeline: {
+      enabled: true
+    }
+  }
 });
