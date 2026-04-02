@@ -1102,5 +1102,8 @@
   "blog": {
     "title": "Macrulez blog",
     "text": "In my blog I share my experience as a frontend developer: I break down tasks, share solutions, and publish notes about working with the modern web."
+  },
+  "npm": {
+    "title": "Tools born from real challenges and experience"
   }
 }

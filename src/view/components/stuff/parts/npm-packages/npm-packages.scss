@@ -6,21 +6,23 @@
   }
 
   &__logo {
-    width: 180px;
-    height: 70px;
-    background-image: url('@/view/assets/images/npm-logo.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
+    width: clamp(180px, 30vw, 300px);
+    height: auto;
   }
 
   &__title {
-    @include big-title;
-
     display: flex;
+    flex-direction: column;
     align-items: center;
     padding-bottom: clamp(40px, 6vw, 75px);
-    gap: 20px;
+    gap: clamp(20px, 10vw, 40px);
     line-height: 1;
+  }
+
+  &__header-text {
+    @include hight-title;
+
+    text-align: center;
   }
 
   &__loader {

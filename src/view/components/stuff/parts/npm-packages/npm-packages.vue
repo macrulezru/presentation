@@ -4,8 +4,12 @@
 
   import { useNpmPackages, type NpmPackageItem } from './npm-items';
 
+  import npmLogo from '@/view/assets/images/npm-logo.svg';
   import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
   import UiLoading from '~/components/ui/UiLoading.vue';
+  import { useI18n } from '~/composables/useI18n';
+
+  const { t } = useI18n();
 
   const props = defineProps<{
     ssrItems?: NpmPackageItem[];
@@ -27,7 +31,8 @@
   <div class="npm-packages">
     <div class="npm-packages__container">
       <div class="npm-packages__title">
-        <span class="npm-packages__logo" />
+        <img class="npm-packages__logo" :src="npmLogo" />
+        <span class="npm-packages__header-text">{{ t('npm.title') }}</span>
       </div>
       <div v-if="isLoading" class="npm-packages__loader">
         <UiLoading type="circle" progressColor="#d941b0" />
