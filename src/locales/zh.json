@@ -35,9 +35,9 @@
       "subtitle": "有效开发的工具",
       "description": "我在工作流程中集成 AI 助手，以自动化日常工作并增强分析能力。这不仅加快代码编写和错误检测，还有助于功能设计、文档编制和寻找非显而易见的解决方案，最终提高交付质量和速度。",
       "tools": {
-        "chatgpt": "Chat GPT",
+        "claude": "Claude",
         "copilot": "GitHub Copilot",
-        "grog": "Grog"
+        "cursor": "Cursor"
       }
     },
     "bitrix_title": "Bitrix 经验",

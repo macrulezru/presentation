@@ -3,8 +3,8 @@
 
   import AiImageHorizontal from '@/view/assets/images/ai-block-horizontal.webp';
   import AiImage from '@/view/assets/images/ai-block.webp';
-import { useI18n } from '~/composables/useI18n';
   import UiImage from '@/view/ui/ui-image/ui-image.vue';
+  import { useI18n } from '~/composables/useI18n';
 
   const { t } = useI18n();
 </script>
@@ -29,16 +29,16 @@ import { useI18n } from '~/composables/useI18n';
           </div>
           <div class="ai-feature__logos">
             <div class="ai-feature__logo-item">
-              <span class="ai-feature__logo ai-feature__logo_chat-gpt" />
-              {{ t('about.ai.tools.chatgpt') }}
+              <span class="ai-feature__logo ai-feature__logo_claude" />
+              {{ t('about.ai.tools.claude') }}
+            </div>
+            <div class="ai-feature__logo-item">
+              <span class="ai-feature__logo ai-feature__logo_cursor" />
+              {{ t('about.ai.tools.cursor') }}
             </div>
             <div class="ai-feature__logo-item">
               <span class="ai-feature__logo ai-feature__logo_github-copilot" />
               {{ t('about.ai.tools.copilot') }}
-            </div>
-            <div class="ai-feature__logo-item">
-              <span class="ai-feature__logo ai-feature__logo_grog" />
-              {{ t('about.ai.tools.grog') }}
             </div>
           </div>
         </div>

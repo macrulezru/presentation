@@ -35,9 +35,9 @@
       "subtitle": "als Werkzeug für effektive Entwicklung",
       "description": "Ich integriere KI-Assistenten in meinen Arbeitsablauf, um Routineaufgaben zu automatisieren und analytische Fähigkeiten zu verbessern. Dies beschleunigt nicht nur das Schreiben von Code und die Fehlererkennung, sondern hilft auch beim Funktionsdesign, bei der Dokumentation und beim Finden unerwarteter Lösungen, was letztendlich die Qualität und Geschwindigkeit des Deliverys verbessert.",
       "tools": {
-        "chatgpt": "Chat GPT",
+        "claude": "Claude",
         "copilot": "GitHub Copilot",
-        "grog": "Grog"
+        "cursor": "Cursor"
       }
     },
     "bitrix_title": "Bitrix-Erfahrung",

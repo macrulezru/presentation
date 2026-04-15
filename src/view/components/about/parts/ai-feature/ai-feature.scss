@@ -85,16 +85,16 @@
       gap: 10px;
     }
 
-    &_chat-gpt {
-      mask-image: url('@/view/assets/images/chat-gpt-logo.svg?url');
+    &_claude {
+      mask-image: url('@/view/assets/images/claude-logo.svg?url');
     }
 
     &_github-copilot {
       mask-image: url('@/view/assets/images/github-copilot-logo.svg?url');
     }
 
-    &_grog {
-      mask-image: url('@/view/assets/images/grog-logo.svg?url');
+    &_cursor {
+      mask-image: url('@/view/assets/images/cursor-logo.svg?url');
     }
   }
 
