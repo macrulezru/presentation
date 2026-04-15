@@ -35,9 +35,9 @@
       "subtitle": "as a tool for effective development",
       "description": "I integrate AI assistants into my workflow to automate routine tasks and enhance analytical capabilities. This not only speeds up code writing and bug detection, but also helps in feature design, documentation, and finding non-obvious solutions, ultimately improving the quality and speed of delivery.",
       "tools": {
-        "chatgpt": "Chat GPT",
+        "claude": "Claude",
         "copilot": "GitHub Copilot",
-        "grog": "Grog"
+        "cursor": "Cursor"
       }
     },
     "bitrix_title": "Bitrix Experience",
