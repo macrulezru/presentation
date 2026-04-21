@@ -42,7 +42,7 @@
       </div>
       <template v-else>
         <div class="experience__years">
-          <span class="experience__years-text">2025 - 2017</span>
+          <span class="experience__years-text">2017 - 2025</span>
         </div>
         <div class="experience__companies-header">
           <CompanyItem
@@ -54,7 +54,7 @@
         </div>
 
         <div class="experience__years">
-          <span class="experience__years-text">2017 - 1998</span>
+          <span class="experience__years-text">1998 - 2017</span>
         </div>
 
         <div class="experience__companies">
