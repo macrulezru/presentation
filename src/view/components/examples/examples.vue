@@ -143,26 +143,40 @@
     music.value = new Audio(musicUrl);
     if (examplesStore.videoStatus) playMusic();
 
+    const intersectingElements = new Set<Element>();
+
     observer = new IntersectionObserver(
       entries => {
-        if (isScrollingByUser.value) return;
-        const intersectingEntries = entries.filter(entry => entry.isIntersecting);
-        if (intersectingEntries.length === 0) return;
-        const topmost = intersectingEntries.reduce((top, current) => {
-          const topRect = top.target.getBoundingClientRect();
-          const currentRect = current.target.getBoundingClientRect();
-          return currentRect.top < topRect.top ? current : top;
-        });
-        const featureId = topmost.target.getAttribute('data-feature-id');
-        if (featureId) {
-          if (activeFeatureId.value !== featureId) {
-            activeFeatureId.value = featureId;
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            intersectingElements.add(entry.target);
+          } else {
+            intersectingElements.delete(entry.target);
           }
+        });
+
+        if (isScrollingByUser.value) return;
+        if (intersectingElements.size === 0) return;
+
+        const zoneTop = getNavigationOffset();
+        const zoneBottom = window.innerHeight * (responsive.desktop ? 0.9 : 0.6);
+        const getZonePixels = (el: Element) => {
+          const rect = el.getBoundingClientRect();
+          return Math.max(0, Math.min(rect.bottom, zoneBottom) - Math.max(rect.top, zoneTop));
+        };
+
+        const best = Array.from(intersectingElements).reduce((a, b) =>
+          getZonePixels(b) > getZonePixels(a) ? b : a,
+        );
+
+        const featureId = best.getAttribute('data-feature-id');
+        if (featureId && activeFeatureId.value !== featureId) {
+          activeFeatureId.value = featureId;
         }
       },
       {
         rootMargin: responsive.desktop ? '-10% 0px -10% 0px' : '-40% 0px -40% 0px',
-        threshold: responsive.desktop ? 0.2 : 0.01,
+        threshold: 0,
       },
     );
 
