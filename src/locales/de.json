@@ -196,9 +196,34 @@
           "text": "Bietet effizient Zusatzleistungen während der Buchung an, um den durchschnittlichen Bestellwert zu erhöhen."
         },
         {
+          "icon": "web-checkin",
+          "title": "Online-Check-in für Flüge",
+          "text": "Ermöglicht Passagieren das eigenständige Online-Check-in und die Sitzplatzwahl an Bord."
+        },
+        {
+          "icon": "exchange",
+          "title": "Umtausch und Erstattung von Flugtickets",
+          "text": "Automatisiert die Verfahren zum Umtausch und zur Erstattung von Tickets gemäß den Tarifregeln."
+        },
+        {
+          "icon": "shopping-cart",
+          "title": "Nachkauf von Zusatzleistungen",
+          "text": "Ermöglicht Passagieren den Erwerb zusätzlicher Dienste nach der Buchung — Gepäck, Mahlzeiten, Versicherungen."
+        },
+        {
+          "icon": "profile",
+          "title": "Persönliches Benutzerkonto",
+          "text": "Bietet Passagieren Zugang zu Bestellhistorie, Profilverwaltung und schneller Neubuchung."
+        },
+        {
           "icon": "responsive",
           "title": "Responsives Design für alle Geräte",
           "text": "Basiert auf PWA-Technologie (Vue.js), die gleichermaßen bequeme Bedienung auf jedem Gerät gewährleistet."
+        },
+        {
+          "icon": "mobile-app",
+          "title": "Mobile App für Android und iOS",
+          "text": "Eine voll funktionsfähige mobile Anwendung zum Suchen, Buchen und Verwalten von Flügen auf Smartphones."
         }
       ]
     },

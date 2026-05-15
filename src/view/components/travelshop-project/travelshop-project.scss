@@ -96,6 +96,8 @@
   }
 
   &__tsh-image {
+    position: sticky;
+    top: 100px;
     width: 100%;
     height: auto;
     display: block;
@@ -144,6 +146,26 @@
 
       &_responsive {
         mask-image: url('@/view/assets/images/responsive-icon.svg');
+      }
+
+      &_mobile-app {
+        mask-image: url('@/view/assets/images/mobile-app-icon.svg');
+      }
+
+      &_exchange {
+        mask-image: url('@/view/assets/images/exchange-icon.svg');
+      }
+
+      &_shopping-cart {
+        mask-image: url('@/view/assets/images/shopping-cart-icon.svg');
+      }
+
+      &_profile {
+        mask-image: url('@/view/assets/images/profile-icon.svg');
+      }
+
+      &_web-checkin {
+        mask-image: url('@/view/assets/images/web-checkin-icon.svg');
       }
     }
 

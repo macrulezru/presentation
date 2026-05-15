@@ -196,9 +196,34 @@
           "text": "Efficiently offers ancillary services during booking to increase average order value."
         },
         {
+          "icon": "web-checkin",
+          "title": "Web check-in for flights",
+          "text": "Allows passengers to independently check in online and select their seat on board."
+        },
+        {
+          "icon": "exchange",
+          "title": "Exchange and refund of air tickets",
+          "text": "Automates ticket exchange and refund procedures in accordance with fare rules."
+        },
+        {
+          "icon": "shopping-cart",
+          "title": "Post-booking service add-ons",
+          "text": "Enables passengers to purchase additional services after booking — baggage, meals, insurance."
+        },
+        {
+          "icon": "profile",
+          "title": "User personal account",
+          "text": "Provides passengers with access to order history, profile management, and quick rebooking."
+        },
+        {
           "icon": "responsive",
           "title": "Responsive design for all devices",
           "text": "Built on PWA (Vue.js) technology, ensuring equally convenient operation on any device."
+        },
+        {
+          "icon": "mobile-app",
+          "title": "Mobile application for Android and iOS",
+          "text": "A fully-featured mobile app for searching, booking, and managing flights on smartphones."
         }
       ]
     },
