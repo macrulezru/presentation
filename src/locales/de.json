@@ -1130,5 +1130,9 @@
   },
   "npm": {
     "title": "Werkzeuge, geboren aus echten Herausforderungen und Erfahrung"
+  },
+  "airlines": {
+    "title": "Airlines",
+    "text": "Routennetze, Flughäfen, Flugvisualisierung – alles an einem Ort. Planen Sie in Sekundenschnelle eine Route von Punkt A nach Punkt B. Ein Werkzeug für alle, die das grosse Ganze sehen wollen."
   }
 }

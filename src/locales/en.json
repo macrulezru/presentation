@@ -1130,5 +1130,9 @@
   },
   "npm": {
     "title": "Tools born from real challenges and experience"
+  },
+  "airlines": {
+    "title": "Airlines",
+    "text": "Route networks, airports, flight visualisation — all in one place. Plan a route from point A to point B in seconds. A tool for those who want to see the full picture."
   }
 }
