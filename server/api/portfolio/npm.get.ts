@@ -6,6 +6,7 @@ const ipv4Agent = new Agent({ connect: { family: 4 } });
 type NpmPackageItem = {
   title: string;
   url: string;
+  image: string;
   description: string;
 };
 
@@ -39,6 +40,7 @@ export default cachedEventHandler(
         ? data.map((item: any) => ({
             title: item?.title ?? '',
             url: item?.url ?? '',
+            image: item?.image ?? '',
             description: item?.translation?.description ?? '',
           }))
         : [];
@@ -63,4 +65,3 @@ export default cachedEventHandler(
     },
   },
 );
-

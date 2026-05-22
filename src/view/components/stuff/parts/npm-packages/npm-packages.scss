@@ -40,8 +40,20 @@
     flex-direction: column;
     gap: 11px;
 
+    &-image-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+    &-image {
+      max-height: 160px;
+    }
+
     &-name {
       @include big-link;
+
+      display: flex;
+      justify-content: center;
     }
 
     &-description {
