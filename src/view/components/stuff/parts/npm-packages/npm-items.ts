@@ -6,6 +6,7 @@ import { useI18n } from '~/composables/useI18n';
 export interface NpmPackageItem {
   title: string;
   url: string;
+  image: string;
   description: string;
 }
 
@@ -35,11 +36,13 @@ export function useNpmPackages() {
     try {
       const response = await client.get(`/npm?lang=${currentLocale}`);
       const payload = response && 'data' in response ? response.data : response;
-      const data = payload && typeof payload === 'object' && 'data' in payload ? payload.data : [];
+      const data =
+        payload && typeof payload === 'object' && 'data' in payload ? payload.data : [];
       if (Array.isArray(data)) {
         cache[currentLocale] = data.map(item => ({
           title: item?.title ?? '',
           url: item?.url ?? '',
+          image: item?.image ?? '',
           description: item?.translation?.description ?? '',
         }));
         items.value = cache[currentLocale];
