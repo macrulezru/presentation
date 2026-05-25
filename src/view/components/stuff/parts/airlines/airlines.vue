@@ -12,19 +12,15 @@
     <div class="airlines__container">
       <div class="airlines__promo">
         <a
+          class="airlines__link"
           href="https://airlines.macrulez.ru/2d/SBI/DME?x=0.3889&y=0.2740&z=3.2100"
           target="_blank"
         >
           <img class="airlines__image" :src="airlinesImage" loading="lazy" />
-        </a>
-        <div class="airlines__header">
-          <a
-            href="https://airlines.macrulez.ru/2d/SBI/DME?x=0.3889&y=0.2740&z=3.2100"
-            target="_blank"
-          >
+          <div class="airlines__header">
             {{ t('airlines.title') }}
-          </a>
-        </div>
+          </div>
+        </a>
         <div class="airlines__description">{{ t('airlines.text') }}</div>
       </div>
     </div>

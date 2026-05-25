@@ -38,10 +38,10 @@
   <div class="blog">
     <div class="blog__container">
       <div class="blog__promo">
-        <div class="blog__header">
-          <a href="https://blog.macrulez.ru/" target="_blank">{{ t('blog.title') }}</a>
-        </div>
-        <a href="https://blog.macrulez.ru/" target="_blank">
+        <a class="blog__link" href="https://blog.macrulez.ru/" target="_blank">
+          <div class="blog__header">
+            {{ t('blog.title') }}
+          </div>
           <img class="blog__image" :src="blogImage" loading="lazy" />
         </a>
         <div class="blog__description">{{ t('blog.text') }}</div>
