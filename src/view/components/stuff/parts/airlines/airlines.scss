@@ -22,16 +22,25 @@
     @include big-title;
 
     font-weight: 600;
+    text-align: center;
+    transition: color 0.3s ease-in-out;
   }
 
   &__image {
+    margin-bottom: 20px;
     width: 100%;
     max-width: 500px;
     height: auto;
     transition: transform 0.3s ease-in-out;
+  }
 
-    &:hover {
+  &__link:hover {
+    .airlines__image {
       transform: scale(1.1) rotate(-15deg);
+    }
+
+    .airlines__header {
+      color: var(--color-2);
     }
   }
 

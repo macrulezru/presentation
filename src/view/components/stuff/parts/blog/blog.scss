@@ -18,10 +18,18 @@
     max-width: 820px;
   }
 
+  &__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
   &__header {
     @include big-title;
 
     font-weight: 600;
+    transition: color 0.3s ease-in-out;
   }
 
   &__image {
@@ -29,9 +37,15 @@
     max-width: 500px;
     height: auto;
     transition: transform 0.3s ease-in-out;
+  }
 
-    &:hover {
+  &__link:hover {
+    .blog__image {
       transform: scale(1.1) rotate(15deg);
+    }
+
+    .blog__header {
+      color: var(--color-2);
     }
   }
 
