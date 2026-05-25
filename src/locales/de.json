@@ -1121,8 +1121,34 @@
     "metrics_show": "Metriken anzeigen"
   },
   "toolz": {
-    "title": "Den Unterschied sehen — das ist entscheidend",
-    "text": "Warum raten, wie eine Optimierung wirkt? Unsere Werkzeuge zeigen das Ergebnis, bevor Sie auf Speichern klicken. Komprimieren Sie SVGs und Bilder und vergleichen Sie Original und Ergebnis in Echtzeit. Erstellen Sie Verläufe aus Ebenen und kopieren Sie sofort sauberen CSS-Code. Werkzeuge für alle, die Präzision und Geschwindigkeit schätzen. Aktive Entwicklung."
+    "title": "Kontrolle und Vorhersehbarkeit bei jeder Aktion",
+    "modulez": {
+      "tiny_svg": {
+        "title": "Tiny SVG",
+        "sub_title": "SVG-Optimierung mit Ergebniskontrolle",
+        "description": "Komprimieren Sie SVG-Dateien auf minimale Größe ohne Qualitätsverlust. Die intelligente Vorschau zeigt Original und optimierte Version — visuell und in Zahlen — vor dem Speichern."
+      },
+      "image_compressor": {
+        "title": "Image compressor",
+        "sub_title": "Rasterbildkomprimierung",
+        "description": "Reduzieren Sie JPEG- und PNG-Größe ohne sichtbaren Qualitätsverlust. Feinabstimmung der Parameter und übersichtlicher Vergleich von Original und Ergebnis."
+      },
+      "gradient_fabric": {
+        "title": "Gradient fabric",
+        "sub_title": "CSS-Gradient-Builder",
+        "description": "Erstellen Sie komplexe Schicht-Gradienten mit voller Kontrolle. Intuitive Vorschau und fertiger CSS-Code mit einem Klick."
+      },
+      "fav_icona": {
+        "title": "Fav Icona",
+        "sub_title": "Favicon-Generator",
+        "description": "Erstellen Sie Website-Icons mit voller Kontrolle. Die intelligente Vorschau zeigt das Ergebnis vor dem Speichern — visuell und in Zahlen."
+      },
+      "stronghold": {
+        "title": "Stronghold",
+        "sub_title": "Sicherer Passwortgenerator",
+        "description": "Flexible Längeneinstellungen, Zeichensätze und Ausschluss mehrdeutiger Zeichen. Die visuelle Stärkenanzeige zeigt den Komplexitätsgrad vor dem Speichern."
+      }
+    }
   },
   "blog": {
     "title": "Macrulez blog",

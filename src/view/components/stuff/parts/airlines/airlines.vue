@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import './airlines.scss';
 
-  import airlinesImage from '@/view/assets/images/airlines.png';
+  import airlinesImage from '@/view/assets/images/airlines.webp';
   import { useI18n } from '~/composables/useI18n';
 
   const { t } = useI18n();

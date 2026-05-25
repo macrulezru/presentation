@@ -39,15 +39,17 @@
       </div>
       <div v-else class="npm-packages__wrapper">
         <div v-for="pkg in npmToView" :key="pkg.title" class="npm-packages__item">
-          <div v-if="pkg.image" class="npm-packages__item-image-wrapper">
-            <a :href="pkg.url" target="_blank">
-              <img class="npm-packages__item-image" :src="pkg.image" :alt="pkg.title" />
-            </a>
-          </div>
-          <div class="npm-packages__item-name">
-            <a class="company-item__link" :href="pkg.url" target="_blank">
-              {{ pkg.title }}
-              <LinkArrow class="company-item__link-arrow" />
+          <div class="npm-packages__item-header-block">
+            <a class="npm-packages__item-header-link" :href="pkg.url" target="_blank">
+              <div v-if="pkg.image" class="npm-packages__item-image-wrapper">
+                <img class="npm-packages__item-image" :src="pkg.image" :alt="pkg.title" />
+              </div>
+              <div class="npm-packages__item-name">
+                <span class="npm-packages__item-link-wrapper">
+                  {{ pkg.title }}
+                  <LinkArrow class="npm-packages__item-link-arrow" />
+                </span>
+              </div>
             </a>
           </div>
           <div class="npm-packages__item-description">{{ pkg.description }}</div>

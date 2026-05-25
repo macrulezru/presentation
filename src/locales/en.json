@@ -1121,8 +1121,34 @@
     "metrics_show": "Show metrics"
   },
   "toolz": {
-    "title": "Seeing the difference — that's what matters",
-    "text": "Why guess how an optimization will behave? Our tools show the result before you hit save. Compress SVGs and images while comparing original and result in real time. Build gradients from layers and instantly copy clean CSS code. Tools for those who value precision and speed. Actively under development."
+    "title": "Control and predictability in every action",
+    "modulez": {
+      "tiny_svg": {
+        "title": "Tiny SVG",
+        "sub_title": "SVG optimization with result control",
+        "description": "Compress SVG files to minimal size without quality loss. Smart preview shows the original and optimized version — visually and in numbers — before saving."
+      },
+      "image_compressor": {
+        "title": "Image compressor",
+        "sub_title": "Raster image compression",
+        "description": "Reduce JPEG and PNG size without visible quality loss. Fine-tune parameters and compare the original with the result side by side."
+      },
+      "gradient_fabric": {
+        "title": "Gradient fabric",
+        "sub_title": "CSS gradient builder",
+        "description": "Create complex layered gradients with full control. Intuitive preview and ready-to-use CSS code in one click."
+      },
+      "fav_icona": {
+        "title": "Fav Icona",
+        "sub_title": "Favicon generator",
+        "description": "Create website icons with full control. Smart preview shows the result before saving — visually and in numbers."
+      },
+      "stronghold": {
+        "title": "Stronghold",
+        "sub_title": "Strong password generator",
+        "description": "Flexible length settings, character sets, and exclusion of ambiguous characters. Visual strength meter shows the complexity level before saving."
+      }
+    }
   },
   "blog": {
     "title": "Macrulez blog",

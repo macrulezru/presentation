@@ -1121,8 +1121,34 @@
     "metrics_show": "显示指标"
   },
   "toolz": {
-    "title": "看到差异 — 这才重要",
-    "text": "为什么要猜测优化会如何生效？我们的工具会在你点击保存之前就展示结果。压缩 SVG 和图片，同时实时比较原始与结果。从图层中提取渐变并立即复制干净的 CSS 代码。为追求精确与速度的人而设的工具。正在积极开发中。"
+    "title": "每个操作都可控且可预测",
+    "modulez": {
+      "tiny_svg": {
+        "title": "Tiny SVG",
+        "sub_title": "可控结果的 SVG 优化",
+        "description": "将 SVG 文件压缩到最小体积而不损失质量。智能预览在保存前直观显示原始版本和优化版本——支持视觉对比和数据对比。"
+      },
+      "image_compressor": {
+        "title": "Image compressor",
+        "sub_title": "位图压缩",
+        "description": "在不损失可见质量的前提下缩小 JPEG 和 PNG 文件大小。精细调整参数，直观对比原始与压缩结果。"
+      },
+      "gradient_fabric": {
+        "title": "Gradient fabric",
+        "sub_title": "CSS 渐变构建器",
+        "description": "通过图层创建复杂渐变，完全掌控每个细节。直观预览，一键获取现成的 CSS 代码。"
+      },
+      "fav_icona": {
+        "title": "Fav Icona",
+        "sub_title": "网站图标生成器",
+        "description": "完全掌控地创建网站图标。智能预览在保存前显示结果——支持视觉对比和数据展示。"
+      },
+      "stronghold": {
+        "title": "Stronghold",
+        "sub_title": "强密码生成器",
+        "description": "灵活设置长度、字符集并排除歧义字符。可视化强度条在保存前显示复杂度级别。"
+      }
+    }
   },
   "blog": {
     "title": "Macrulez blog",

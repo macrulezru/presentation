@@ -40,6 +40,12 @@
     flex-direction: column;
     gap: 11px;
 
+    &-header-link {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
     &-image-wrapper {
       display: flex;
       justify-content: center;
@@ -47,6 +53,7 @@
 
     &-image {
       max-height: 160px;
+      transition: transform 0.3s ease-in-out;
     }
 
     &-name {
@@ -54,6 +61,26 @@
 
       display: flex;
       justify-content: center;
+    }
+
+    &-link-wrapper {
+      transition: color 0.2s ease;
+    }
+
+    &-link-arrow {
+      position: relative;
+      margin-left: 10px;
+      top: -4px;
+    }
+
+    &-header-link:hover {
+      .npm-packages__item-image {
+        transform: scale(1.1);
+      }
+
+      .npm-packages__item-link-wrapper {
+        color: var(--color-2);
+      }
     }
 
     &-description {
