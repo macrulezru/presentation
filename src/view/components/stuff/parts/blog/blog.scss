@@ -3,8 +3,6 @@
   border-top: solid 1px var(--color-7);
 
   &__container {
-    @include container-lg;
-
     display: flex;
     justify-content: center;
   }
@@ -61,7 +59,6 @@
 
     margin-top: clamp(20px, 10vw, 80px);
     margin-bottom: -20px;
-    padding: 0 clamp(20px, 4vw, 50px);
 
     &_secondary {
       @include grid-4-cols;

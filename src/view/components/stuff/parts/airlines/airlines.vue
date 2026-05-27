@@ -2,6 +2,7 @@
   import './airlines.scss';
 
   import airlinesImage from '@/view/assets/images/airlines.webp';
+  import WorldRoute from '@/view/components/world-route/world-route.vue';
   import { useI18n } from '~/composables/useI18n';
 
   const { t } = useI18n();
@@ -23,6 +24,8 @@
         </a>
         <div class="airlines__description">{{ t('airlines.text') }}</div>
       </div>
+
+      <WorldRoute />
     </div>
   </div>
 </template>

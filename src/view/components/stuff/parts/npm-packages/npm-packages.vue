@@ -42,7 +42,12 @@
           <div class="npm-packages__item-header-block">
             <a class="npm-packages__item-header-link" :href="pkg.url" target="_blank">
               <div v-if="pkg.image" class="npm-packages__item-image-wrapper">
-                <img class="npm-packages__item-image" :src="pkg.image" :alt="pkg.title" />
+                <img
+                  class="npm-packages__item-image"
+                  :src="pkg.image"
+                  :alt="pkg.title"
+                  loading="lazy"
+                />
               </div>
               <div class="npm-packages__item-name">
                 <span class="npm-packages__item-link-wrapper">
