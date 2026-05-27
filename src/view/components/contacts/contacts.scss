@@ -6,11 +6,17 @@
     @include container-lg;
   }
 
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 75px;
+  }
+
   &__header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 80px;
+    gap: 60px;
 
     &-title {
       display: flex;
@@ -30,12 +36,9 @@
   }
 
   &__avatar {
-    margin: 0 auto;
-    width: 260px;
-    height: 260px;
+    width: 220px;
+    height: 220px;
     border-radius: 50%;
-    overflow: hidden;
-    position: relative;
     background-color: var(--color-4);
     background-image: url('@/view/assets/images/me.png');
     background-position: center center;
@@ -46,59 +49,37 @@
   &__section-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 75px;
+    gap: 40px;
   }
 
-  &__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 75px;
+  &__list-section {
+    width: 100%;
   }
 
   &__list {
     display: flex;
+    flex-flow: row wrap;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 30px;
+    gap: 10px;
 
     &-item {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--color-7);
-      font-weight: 400;
-
-      &:visited {
-        color: var(--color-7);
-      }
-
-      :hover {
-        color: var(--color-light);
-        transition: all 0.2s linear;
-
-        .contacts__item-icon {
-          background-color: var(--color-light);
-          transition: all 0.2s linear;
-        }
-      }
+      text-decoration: none;
     }
   }
 
   &__item {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: var(--spacing-md);
-    text-decoration: none;
-    position: relative;
-    background-color: var(--color-4);
+    gap: 14px;
+    padding: 12px 16px;
     border-radius: 10px;
-    padding: 18px;
+    background-color: rgb(255 255 255 / 5%);
+    position: relative;
     overflow: hidden;
     z-index: 0;
+    color: var(--color-4);
+    transition: color var(--transition-fast);
 
     &::before {
       content: '';
@@ -119,17 +100,24 @@
       transform: translate(-50%, -50%) scale(1);
     }
 
-    &_git {
-      grid-column: 1 / span 2;
+    &:hover,
+    &:focus {
+      color: var(--color-light);
+
+      .contacts__item-icon {
+        background-color: var(--color-light);
+      }
     }
 
     &-icon {
-      width: var(--icon-size-xl);
-      height: var(--icon-size-xl);
+      flex: 0 0 auto;
+      width: 28px;
+      height: 28px;
       mask-size: contain;
       mask-repeat: no-repeat;
       mask-position: center center;
-      background-color: var(--color-7);
+      background-color: var(--color-4);
+      transition: background-color var(--transition-fast);
 
       &_email {
         mask-image: url('@/view/assets/images/mail-icon.svg');
@@ -153,36 +141,33 @@
     }
 
     &-content {
-      flex: 1;
       display: flex;
       align-items: center;
-      flex-direction: column;
-      gap: var(--spacing-xs);
+    }
+
+    &-value {
+      @include regular-text;
     }
   }
 
   &__form {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-lg);
-    flex: 1;
-    min-height: 0;
+    gap: 24px;
 
     &-section {
       display: flex;
       flex-direction: column;
-      width: 100%;
-      max-width: 600px;
-      gap: 40px;
-      border-radius: var(--radius-xl);
-      padding: var(--spacing-xl);
+      gap: 28px;
+      border-radius: 12px;
+      padding: 36px;
       background-color: var(--color-dark);
     }
 
     &-header {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
     }
 
     &-title {
@@ -190,57 +175,60 @@
     }
 
     &-description {
-      @include medium-text;
+      @include regular-text;
+
+      color: var(--color-4);
     }
 
     &-group {
       display: flex;
       flex-direction: column;
-      gap: var(--spacing-sm);
-
-      &:not(&--message) {
-        flex: 0 0 auto;
-      }
+      gap: 8px;
 
       &--message {
-        flex: 1;
-        min-height: 0;
-
         .contacts__form-textarea {
-          flex: 1;
-          min-height: 150px;
-          max-height: 300px;
+          min-height: 140px;
           resize: vertical;
         }
       }
     }
 
+    &-label {
+      @include regular-text;
+
+      color: var(--color-4);
+    }
+
     &-input,
     &-textarea {
-      padding: var(--spacing-md);
+      padding: 12px 16px;
       border-radius: var(--radius-md);
-      transition: all var(--transition-normal);
-      background: var(--color-7);
+      border: 1px solid rgb(255 255 255 / 10%);
+      background: rgb(255 255 255 / 5%);
+      color: var(--color-light);
       width: 100%;
       box-sizing: border-box;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+
+      &::placeholder {
+        color: var(--color-8);
+      }
 
       &:focus {
         outline: none;
-        border-color: var(--color-secondary);
+        border-color: var(--color-1);
+        box-shadow: 0 0 0 3px rgb(217 65 176 / 15%);
       }
 
       &:disabled {
-        background: var(--color-bg-tertiary);
+        opacity: 0.5;
         cursor: not-allowed;
-        opacity: 0.7;
       }
     }
 
-    &-textarea {
-      resize: vertical;
-    }
-
     &-error {
+      @include regular-text;
+
       padding: var(--spacing-md);
       background: rgb(231 76 60 / 10%);
       border: 1px solid var(--color-accent-red);
@@ -249,6 +237,8 @@
     }
 
     &-success {
+      @include regular-text;
+
       padding: var(--spacing-md);
       background: rgb(39 174 96 / 10%);
       border: 1px solid var(--color-accent-green);
@@ -259,12 +249,6 @@
     &-actions {
       display: flex;
       gap: var(--spacing-md);
-      margin-top: var(--spacing-md);
-      flex: 0 0 auto;
-
-      .ui-button {
-        width: 50%;
-      }
     }
 
     &-submit--loading {
@@ -280,7 +264,7 @@
         height: 20px;
         margin: -10px 0 0 -10px;
         border: 2px solid rgb(255 255 255 / 30%);
-        border-top-color: var(--color-text-light);
+        border-top-color: var(--color-light);
         border-radius: 50%;
         animation: form-spinner 0.6s linear infinite;
       }
