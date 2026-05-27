@@ -43,6 +43,10 @@
               :key="index"
               class="ai-feature__option"
             >
+              <div
+                class="ai-feature__option-icon"
+                :class="`ai-feature__option-icon_${index + 1}`"
+              />
               <div class="ai-feature__option-title">{{ option.title }}</div>
               <ul class="ai-feature__option-list">
                 <li

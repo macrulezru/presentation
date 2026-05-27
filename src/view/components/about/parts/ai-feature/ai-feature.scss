@@ -44,6 +44,31 @@
     flex-direction: column;
     gap: 16px;
 
+    &-icon {
+      width: clamp(30px, 4vw, 40px);
+      height: clamp(30px, 4vw, 40px);
+      mask-repeat: no-repeat;
+      mask-position: bottom left;
+      mask-size: contain;
+      background-color: var(--color-2);
+
+      &_1 {
+        mask-image: url('@/view/assets/images/ai-components.svg');
+      }
+
+      &_2 {
+        mask-image: url('@/view/assets/images/ai-documentation.svg');
+      }
+
+      &_3 {
+        mask-image: url('@/view/assets/images/ai-refactor.svg');
+      }
+
+      &_4 {
+        mask-image: url('@/view/assets/images/ai-testing.svg');
+      }
+    }
+
     &-title {
       @include small-title;
     }

@@ -1,10 +1,6 @@
 .npm-packages {
   padding: 0 0 clamp(50px, 5vw, 80px);
 
-  &__container {
-    @include container-lg;
-  }
-
   &__logo {
     width: clamp(180px, 30vw, 300px);
     height: auto;

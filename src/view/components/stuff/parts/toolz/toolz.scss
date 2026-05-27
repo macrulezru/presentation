@@ -2,10 +2,6 @@
   padding: clamp(50px, 5vw, 80px) 0;
   border-top: solid 1px var(--color-7);
 
-  &__container {
-    @include container-lg;
-  }
-
   &__promo {
     display: flex;
     flex-direction: column;
