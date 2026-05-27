@@ -2,8 +2,8 @@
   import emailjs from 'emailjs-com';
   import { ref, computed } from 'vue';
 
-import { useI18n } from '~/composables/useI18n';
-import UiButton from '~/components/ui/UiButton.vue';
+  import UiButton from '~/components/ui/UiButton.vue';
+  import { useI18n } from '~/composables/useI18n';
 
   import '@/view/components/contacts/contacts.scss';
 

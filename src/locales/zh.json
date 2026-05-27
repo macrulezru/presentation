@@ -32,12 +32,60 @@
     "top_description": "超越“只是代码”，我设计完整的 SPA 系统，让 Vue 的模块化和 TypeScript 的清晰性共同服务于一个目标——打造直观且高性能的数字产品。",
     "approach": "我使用Vue.js 3构建复杂、高性能且用户友好的单页面应用(SPA)。我将对前端架构的深刻理解与对设计和用户体验的敏锐洞察相结合，从而能够设计出不仅运行高效、而且深受用户喜爱的界面。",
     "ai": {
-      "subtitle": "有效开发的工具",
-      "description": "我在工作流程中集成 AI 助手，以自动化日常工作并增强分析能力。这不仅加快代码编写和错误检测，还有助于功能设计、文档编制和寻找非显而易见的解决方案，最终提高交付质量和速度。",
+      "subtitle": "<span>A</span>rtificial&nbsp;<span>I</span>ntelligence 作为工作工具",
+      "description": "我将 AI 融入日常开发流程，以加速例行工作并提升代码质量。我不只是「和 AI 聊天」——而是借助它构建清晰、可控的工作流程。",
+      "options": [
+        {
+          "title": "设计系统与组件",
+          "items": [
+            "根据描述生成 UI 库的骨架、类型和 composable 函数。",
+            "将 Figma 原型转换为初稿布局（HTML/SCSS），之后再进一步完善。",
+            "成果：基础组件创建时间减少 30–40%。"
+          ]
+        },
+        {
+          "title": "文档与规格说明",
+          "items": [
+            "基于代码为 API（OpenAPI）和复杂模块编写文档草稿。",
+            "为代码库生成使用示例。",
+            "撰写模块、组件、NPM 包的发布说明并更新 README..."
+          ]
+        },
+        {
+          "title": "重构与代码分析",
+          "items": [
+            "利用 AI 识别性能瓶颈、隐蔽 bug 和代码重复。",
+            "生成依赖更新的迁移代码（如 vuex → Pinia 或 vue-i18n schema 升级）。",
+            "成果：日常重构时间减少 25%。"
+          ]
+        },
+        {
+          "title": "自动化测试与模拟数据",
+          "items": [
+            "生成 unit 测试场景（Vitest/Jest）和 API 模拟数据。",
+            "创建用于 UI 调试的真实测试数据集。"
+          ]
+        }
+      ],
       "tools": {
-        "claude": "Claude",
-        "copilot": "GitHub Copilot",
-        "cursor": "Cursor"
+        "title": "我的 AI 工具栈及其用途",
+        "items": [
+          {
+            "icon": "claude",
+            "title": "Claude",
+            "text": "生成复杂的 TypeScript 类型、设计架构、编写文档及重构遗留代码。"
+          },
+          {
+            "icon": "cursor",
+            "title": "Cursor",
+            "text": "上下文自动补全、编写测试、解释陌生代码及即时重构。"
+          },
+          {
+            "icon": "copilot",
+            "title": "Copilot",
+            "text": "快速补全样板代码、生成 JSX/TSX 标记，以及处理常规数据查询。"
+          }
+        ]
       }
     },
     "bitrix_title": "Bitrix 经验",

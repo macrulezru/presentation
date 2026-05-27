@@ -32,12 +32,60 @@
     "top_description": "Über „nur Code“ hinaus entwerfe ich ganzheitliche SPA-Systeme, in denen die Modularität von Vue und die Klarheit von TypeScript einem Ziel dienen – intuitive und leistungsfähige digitale Produkte zu schaffen",
     "approach": "Ich entwickle komplexe, leistungsstarke und benutzerfreundliche SPA-Anwendungen mit Vue.js 3. Ich verbinde ein tiefes Verständnis der Frontend-Architektur mit einem geschulten Auge für Design und UX, wodurch ich Schnittstellen gestalten kann, die nicht nur effizient funktionieren, sondern auch den Nutzern Freude bereiten.",
     "ai": {
-      "subtitle": "als Werkzeug für effektive Entwicklung",
-      "description": "Ich integriere KI-Assistenten in meinen Arbeitsablauf, um Routineaufgaben zu automatisieren und analytische Fähigkeiten zu verbessern. Dies beschleunigt nicht nur das Schreiben von Code und die Fehlererkennung, sondern hilft auch beim Funktionsdesign, bei der Dokumentation und beim Finden unerwarteter Lösungen, was letztendlich die Qualität und Geschwindigkeit des Deliverys verbessert.",
+      "subtitle": "<span>A</span>rtificial&nbsp;<span>I</span>ntelligence als Arbeitswerkzeug",
+      "description": "Ich integriere KI in den täglichen Entwicklungsprozess, um Routineaufgaben zu beschleunigen und die Codequalität zu verbessern. Ich \"chatte nicht einfach mit der KI\" — ich baue damit klare, kontrollierbare Pipelines.",
+      "options": [
+        {
+          "title": "Design-Systeme und Komponenten",
+          "items": [
+            "Ich generiere das Gerüst von UI-Bibliotheken, Typen und Composables auf Basis von Beschreibungen.",
+            "Ich wandle Figma-Mockups in Entwurfs-Layouts (HTML/SCSS) um, die ich anschließend verfeinere.",
+            "Ergebnis: 30–40 % Zeitersparnis bei der Erstellung von Basiskomponenten."
+          ]
+        },
+        {
+          "title": "Dokumentation und Spezifikationen",
+          "items": [
+            "Ich schreibe Entwürfe für API-Dokumentationen (OpenAPI) und komplexe Module auf Basis des Codes.",
+            "Ich generiere Beispiele zur Nutzung von Bibliotheken.",
+            "Ich verfasse Release Notes und aktualisiere README-Dateien für Module, Komponenten, NPM-Pakete..."
+          ]
+        },
+        {
+          "title": "Refactoring und Code-Analyse",
+          "items": [
+            "Ich nutze KI, um Engpässe, nicht offensichtliche Bugs und Codeduplizierungen zu finden.",
+            "Ich generiere Migrationen für Dependency-Updates (z. B. vuex → Pinia oder vue-i18n Schema-Aktualisierungen).",
+            "Ergebnis: 25 % weniger Zeit für routinemäßiges Refactoring."
+          ]
+        },
+        {
+          "title": "Automatisierte Tests und Mocks",
+          "items": [
+            "Ich generiere Unit-Test-Szenarien (Vitest/Jest) und Mock-Daten für APIs.",
+            "Ich erstelle realistische Testdatensätze für das UI-Debugging."
+          ]
+        }
+      ],
       "tools": {
-        "claude": "Claude",
-        "copilot": "GitHub Copilot",
-        "cursor": "Cursor"
+        "title": "Mein KI-Tool-Stack und deren Aufgaben",
+        "items": [
+          {
+            "icon": "claude",
+            "title": "Claude",
+            "text": "Generierung komplexer TypeScript-Typen, Architekturentwurf, Dokumentationserstellung und Legacy-Refactoring."
+          },
+          {
+            "icon": "cursor",
+            "title": "Cursor",
+            "text": "Kontextuelles Autocomplete, Tests schreiben, fremden Code erklären und On-the-fly-Refactoring."
+          },
+          {
+            "icon": "copilot",
+            "title": "Copilot",
+            "text": "Schnelle Boilerplate-Autovervollständigung, JSX/TSX-Markup-Erstellung und routinemäßige Datenanfragen."
+          }
+        ]
       }
     },
     "bitrix_title": "Bitrix-Erfahrung",

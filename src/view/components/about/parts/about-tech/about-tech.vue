@@ -2,10 +2,10 @@
 <script setup lang="ts">
   import '@/view/components/about/parts/about-tech/about-tech.scss';
 
-import { useResponsive } from '~/composables/useResponsive';
   import { ref, onMounted, watch } from 'vue';
 
   import { useTechAnimation, setCanvasMaxWidth } from '@/view/composables/use-tech/';
+  import { useResponsive } from '~/composables/useResponsive';
 
   const containerRef = ref<HTMLElement>();
 

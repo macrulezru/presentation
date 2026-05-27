@@ -32,12 +32,60 @@
     "top_description": "Pushing beyond 'just code', I design cohesive SPA systems where Vue's modularity and TypeScript's clarity serve one goal — creating intuitive and high-performance digital products",
     "approach": "I build complex, performant, and user-friendly SPA applications using Vue.js 3. I combine a deep understanding of frontend architecture with a keen eye for design and UX, allowing me to craft interfaces that not only work efficiently but are also enjoyed by users.",
     "ai": {
-      "subtitle": "as a tool for effective development",
-      "description": "I integrate AI assistants into my workflow to automate routine tasks and enhance analytical capabilities. This not only speeds up code writing and bug detection, but also helps in feature design, documentation, and finding non-obvious solutions, ultimately improving the quality and speed of delivery.",
+      "subtitle": "<span>A</span>rtificial&nbsp;<span>I</span>ntelligence as a working tool",
+      "description": "I integrate AI into the daily development process to speed up routine tasks and improve code quality. I don't just 'chat with AI' — I build clear, controllable pipelines with its help.",
+      "options": [
+        {
+          "title": "Design systems and components",
+          "items": [
+            "I generate UI library scaffolding, types, and composables from descriptions.",
+            "I convert Figma mockups into draft layouts (HTML/SCSS), which I then refine.",
+            "Result: 30–40% reduction in time to create base components."
+          ]
+        },
+        {
+          "title": "Documentation and specifications",
+          "items": [
+            "I write draft API documentation (OpenAPI) and complex module docs based on code.",
+            "I generate library usage examples.",
+            "I write release notes and update README files for modules, components, NPM packages..."
+          ]
+        },
+        {
+          "title": "Refactoring and code analysis",
+          "items": [
+            "I use AI to identify bottlenecks, non-obvious bugs, and code duplication.",
+            "I generate migrations for updating dependencies (e.g., vuex → Pinia or vue-i18n schema updates).",
+            "Result: 25% reduction in time spent on routine refactoring."
+          ]
+        },
+        {
+          "title": "Automated tests and mocks",
+          "items": [
+            "I generate unit test scenarios (Vitest/Jest) and mock data for APIs.",
+            "I create realistic test datasets for UI debugging."
+          ]
+        }
+      ],
       "tools": {
-        "claude": "Claude",
-        "copilot": "GitHub Copilot",
-        "cursor": "Cursor"
+        "title": "My AI tool stack and their tasks",
+        "items": [
+          {
+            "icon": "claude",
+            "title": "Claude",
+            "text": "Generating complex TypeScript types, architecture design, documentation writing, and legacy refactoring."
+          },
+          {
+            "icon": "cursor",
+            "title": "Cursor",
+            "text": "Contextual autocomplete, writing tests, explaining unfamiliar code, and on-the-fly refactoring."
+          },
+          {
+            "icon": "copilot",
+            "title": "Copilot",
+            "text": "Quick boilerplate autocomplete, JSX/TSX markup creation, and routine data queries."
+          }
+        ]
       }
     },
     "bitrix_title": "Bitrix Experience",
