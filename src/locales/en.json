@@ -1186,6 +1186,11 @@
         "sub_title": "CSS gradient builder",
         "description": "Create complex layered gradients with full control. Intuitive preview and ready-to-use CSS code in one click."
       },
+      "unit_forge": {
+        "title": "Unit Forge",
+        "sub_title": "Layout units converter",
+        "description": "Convert px, rem, em, % and vw/vh in real time. Flexible root and parent font‑size settings — get ready‑to‑use code instantly."
+      },
       "fav_icona": {
         "title": "Fav Icona",
         "sub_title": "Favicon generator",

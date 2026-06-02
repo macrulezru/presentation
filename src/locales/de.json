@@ -1186,6 +1186,11 @@
         "sub_title": "CSS-Gradient-Builder",
         "description": "Erstellen Sie komplexe Schicht-Gradienten mit voller Kontrolle. Intuitive Vorschau und fertiger CSS-Code mit einem Klick."
       },
+      "unit_forge": {
+        "title": "Unit Forge",
+        "sub_title": "Konverter für Layout‑Einheiten",
+        "description": "Konvertieren Sie px, rem, em, % und vw/vh in Echtzeit. Flexible Einstellungen der Basis‑ und übergeordneten Schriftgröße – übernehmen Sie den fertigen Code sofort."
+      },
       "fav_icona": {
         "title": "Fav Icona",
         "sub_title": "Favicon-Generator",

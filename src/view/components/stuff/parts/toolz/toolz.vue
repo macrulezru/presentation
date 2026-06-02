@@ -8,6 +8,7 @@
   import ImageCompressor from '@/view/assets/images/toolz/image_compressor.webp';
   import Stronghold from '@/view/assets/images/toolz/stronghold.webp';
   import TinySvg from '@/view/assets/images/toolz/tiny_svg.webp';
+  import UnitForge from '@/view/assets/images/toolz/unit_forge.webp';
   import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
   import { useI18n } from '~/composables/useI18n';
 
@@ -35,6 +36,13 @@
         sub_title: t('toolz.modulez.gradient_fabric.sub_title'),
         description: t('toolz.modulez.gradient_fabric.description'),
         url: 'https://toolz.macrulez.ru/ru/gradient-fabric',
+      },
+      {
+        image: UnitForge,
+        title: t('toolz.modulez.unit_forge.title'),
+        sub_title: t('toolz.modulez.unit_forge.sub_title'),
+        description: t('toolz.modulez.unit_forge.description'),
+        url: 'https://toolz.macrulez.ru/ru/unit-forge',
       },
       {
         image: FavIcona,

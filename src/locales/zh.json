@@ -1186,6 +1186,11 @@
         "sub_title": "CSS 渐变构建器",
         "description": "通过图层创建复杂渐变，完全掌控每个细节。直观预览，一键获取现成的 CSS 代码。"
       },
+      "unit_forge": {
+        "title": "Unit Forge",
+        "sub_title": "版式单位转换器",
+        "description": "实时转换 px、rem、em、% 和 vw/vh。灵活设置根元素和父元素尺寸 — 立即获取可直接使用的代码。"
+      },
       "fav_icona": {
         "title": "Fav Icona",
         "sub_title": "网站图标生成器",
