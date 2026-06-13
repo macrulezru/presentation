@@ -1,4 +1,8 @@
 {
+  "seo": {
+    "title": "Danil Lisin — Vue 3 & Nuxt Entwickler",
+    "description": "Danil Lisin — Vue 3 & Nuxt Entwickler mit 20+ Jahren Erfahrung in Web-Interfaces. SPA-Architektur, TypeScript, Luftfahrtdomäne. Offen für neue Projekte."
+  },
   "navigation": {
     "home": "Startseite",
     "about": "Fähigkeiten",
