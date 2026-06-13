@@ -1,4 +1,8 @@
 {
+  "seo": {
+    "title": "达尼尔·李辛 — Vue 3 & Nuxt 开发工程师",
+    "description": "达尼尔·李辛 — 拥有20年以上网页界面经验的Vue 3 & Nuxt开发工程师。SPA架构、TypeScript、航空领域。欢迎新项目合作。"
+  },
   "navigation": {
     "home": "首页",
     "about": "技能",

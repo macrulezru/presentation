@@ -71,9 +71,8 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
 
         { name: 'description', content: env('VITE_APP_DESCRIPTION') || '' },
-        { name: 'keywords', content: env('VITE_APP_KEYWORDS') || '' },
 
-        { name: 'apple-mobile-web-app-title', content: 'MyWebSite' },
+        { name: 'apple-mobile-web-app-title', content: 'Данил Лисин' },
 
         // OpenGraph
         { property: 'og:title', content: env('VITE_APP_OG_TITLE') || '' },
@@ -88,7 +87,7 @@ export default defineNuxtConfig({
         { property: 'og:site_name', content: env('VITE_APP_OG_SITE_NAME') || '' },
 
         // Twitter
-        { name: 'twitter:card', content: env('VITE_APP_TWITTER_CARD') || '' },
+        { name: 'twitter:card', content: 'summary' },
         { name: 'twitter:title', content: env('VITE_APP_TWITTER_TITLE') || '' },
         {
           name: 'twitter:description',
