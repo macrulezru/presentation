@@ -857,6 +857,206 @@
       ]
     }
   },
+  "restMonitoring": {
+    "title": "REST-API-Überwachungsmodul",
+    "shortTitle": "API Monitor",
+    "subtitle": "Observability und Alerting für Produktionsdienste",
+    "description": "Ein eingebettetes Modul zur Echtzeitüberwachung des REST-API-Zustands: sammelt HTTP-Anfrageverlauf, erstellt endpunktbezogene Analysen, verfolgt Fehler mit Trendvergleich und sendet Telegram-Benachrichtigungen bei Überschreitung konfigurierbarer Schwellwertregeln.",
+    "features": {
+      "title": "Wichtige Systemfunktionen",
+      "items": {
+        "request_history": {
+          "title": "HTTP-Anfrageverlauf",
+          "description": "Middleware fängt jede Anfrage ab und protokolliert Methode, URL, Statuscode, Dauer und Zeitstempel. Daten werden in einem 5.000-Einträge-Ringpuffer und in einer NDJSON-Datei mit automatischer Rotation bei 10 MB gespeichert."
+        },
+        "realtime_analytics": {
+          "title": "Gleitfenster-Analyse",
+          "description": "Analyse-Endpunkte liefern Metriken für ein konfigurierbares Zeitfenster: RPS, durchschnittliche Antwortzeit, p95-Perzentil, Fehlerrate und Statuscodeverteilung (2xx/3xx/4xx/5xx)."
+        },
+        "endpoint_breakdown": {
+          "title": "Aufschlüsselung nach Endpunkten",
+          "description": "Das System normalisiert URLs (ersetzt dynamische Segmente durch Wildcards) und gruppiert Anfragen nach Routen, zeigt die Top-20-Endpunkte mit Aufrufanzahl, Fehlerrate und p95."
+        },
+        "error_tracking": {
+          "title": "Fehlerverfolgung mit Delta",
+          "description": "Das Fehlermodul vergleicht aktuelles und vorheriges Beobachtungsfenster, berechnet die prozentuale Änderung und erstellt ein Timeline-Histogramm der Fehler."
+        },
+        "endpoint_probing": {
+          "title": "Aktives Endpunkt-Probing",
+          "description": "Konfigurierbare Probe-Endpunkte werden regelmäßig abgefragt. Jedes Ergebnis (Statuscode, Dauer, Fehler) wird im Verlauf gespeichert, um Verfügbarkeitsgraphen zu erstellen."
+        },
+        "telegram_alerts": {
+          "title": "Regelbasierte Telegram-Benachrichtigungen",
+          "description": "Flexibles Regelsystem: Bedingung (Fehlerrate, p95-Latenz, Endpunkt-Nichtverfügbarkeit) → Bot → Nachricht. Bei Auslösung wird die Regel im Alarmprotokoll mit Zeitstempel vermerkt."
+        }
+      }
+    },
+    "architecture": {
+      "title": "Architekturkomponenten",
+      "items": [
+        {
+          "name": "Request Logger Middleware",
+          "description": "Anfrage-Interceptor, der Metadaten jedes HTTP-Aufrufs erfasst und an den Ringpuffer weiterleitet"
+        },
+        {
+          "name": "Request History Store",
+          "description": "Speicher mit In-Memory-Puffer und NDJSON-Persistenz, der den Verlauf nach dem Neustart des Dienstes wiederherstellt"
+        },
+        {
+          "name": "Analytics Engine",
+          "description": "Metrikberechnungsmodul (RPS, p95, errorRate, statusDist, Endpunkt-Top) über ein gleitendes Zeitfenster"
+        },
+        {
+          "name": "Probe Scheduler",
+          "description": "Aktiver Endpunkt-Probe-Scheduler, der Prüfungsergebnisverlauf in der Datenbank speichert"
+        },
+        {
+          "name": "Alert Rules Engine",
+          "description": "Regel-Engine, die aktuelle Metriken bewertet und Telegram-Benachrichtigungen bei Schwellwertüberschreitung auslöst"
+        },
+        {
+          "name": "IP Blocklist",
+          "description": "Gesperrte IP-Adressen-Filter mit API-gesteuerter Verwaltung zur Blockierung unerwünschter Quellen"
+        }
+      ]
+    },
+    "process": {
+      "title": "Wie die Überwachung funktioniert",
+      "steps": [
+        {
+          "title": "Anfrage-Abfangen",
+          "description": "Jede eingehende HTTP-Anfrage durchläuft Middleware, die Metadaten erfasst und nach Erhalt der Antwort speichert"
+        },
+        {
+          "title": "Akkumulation und Persistenz",
+          "description": "Einträge werden dem Ringpuffer hinzugefügt und gleichzeitig in eine NDJSON-Datei geschrieben; der Verlauf wird beim Neustart aus der Datei wiederhergestellt"
+        },
+        {
+          "title": "Analyseberechnung",
+          "description": "Auf Anfrage des Control Panels filtert die Engine Ereignisse für das gewünschte Fenster und berechnet aggregierte Metriken"
+        },
+        {
+          "title": "Aktives Probing",
+          "description": "Der Scheduler fragt konfigurierte Endpunkte planmäßig ab und speichert Ergebnisse für die Verfügbarkeitsgraph-Darstellung"
+        },
+        {
+          "title": "Regelauswertung und Benachrichtigungen",
+          "description": "Nach jeder Prüfung vergleicht die Regel-Engine Metriken mit Schwellwerten und sendet eine Telegram-Benachrichtigung bei Regelverletzung"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Vorteile des Ansatzes",
+      "items": [
+        "Observability ohne externe Abhängigkeiten — das Modul ist direkt in die API eingebaut",
+        "Anfrageverlauf übersteht Dienstneustarts durch Wiederherstellung aus einer lokalen Datei",
+        "Sofortige Anomalieerkennung durch Vergleich aktueller und vorheriger Perioden",
+        "Präzise Engpassdiagnose mit p95-Aufschlüsselung auf Routenebene",
+        "Telegram-Benachrichtigungen mit konfigurierbaren Bedingungen — kein Grafana oder Prometheus nötig",
+        "Null Vorfallreaktionsverzögerung dank aktiver Probe-Prüfungen"
+      ]
+    }
+  },
+  "deployPlatform": {
+    "title": "Automatisierungsplattform für Deployment und Hosting von Vue/Nuxt-Anwendungen",
+    "shortTitle": "Deploy Platform",
+    "subtitle": "Dynamisches Hosting mit Auto-Build, Domains und TLS",
+    "description": "Ein Lifecycle-Management-System für Vue- und Nuxt-Anwendungen: klont das Repository, erstellt das Image in einem isolierten Container mit Speicherlimits, veröffentlicht das Ergebnis hinter Traefik mit automatischem TLS und verknüpft beliebige Custom-Domains — alles über ein Control Panel, ohne Konfigurationsänderungen oder SSH.",
+    "features": {
+      "title": "Wichtige Systemfunktionen",
+      "items": {
+        "auto_build": {
+          "title": "Automatischer Build aus dem Repository",
+          "description": "Bei einem Deploy-Befehl klont das System den Zielbranch (auch private Repositories) und startet den Build in einem ephemeren Docker-Container mit der angegebenen Node-Version, Abhängigkeitsinstallations- und Build-Befehlen."
+        },
+        "multi_type": {
+          "title": "Unterstützung für Vue SPA, Nuxt Static und Nuxt SSR",
+          "description": "Für jeden Anwendungstyp generiert der Deployer ein passendes Dockerfile: statische Apps werden in ein nginx-Image gepackt, SSR in ein Node-Image mit Live-Prozess auf Port 3000."
+        },
+        "dynamic_routing": {
+          "title": "Dynamisches Domain-Routing",
+          "description": "Das Hinzufügen einer Anwendung im Panel verknüpft automatisch Traefik-Labels mit dem Container. Eine neue Domain wird aktiv, ohne das Gateway neu zu starten oder Konfigurationsdateien zu bearbeiten."
+        },
+        "auto_tls": {
+          "title": "Automatisches TLS (Let's Encrypt)",
+          "description": "Traefik fordert und erneuert Let's Encrypt-Zertifikate über HTTP-01 beim ersten Zugriff auf die Domain. Der Zertifikatstatus wird in der Anwendungskarte im Control Panel angezeigt."
+        },
+        "private_repos": {
+          "title": "Private Repositories mit verschlüsselten Tokens",
+          "description": "SSH Deploy Keys oder persönliche Tokens werden verschlüsselt in der Datenbank gespeichert (AES-256-GCM), nur während des Klonens entschlüsselt und erscheinen nie in Logs."
+        },
+        "resource_limits": {
+          "title": "Produktionsschutz vor OOM beim Build",
+          "description": "Jeder Build-Container wird mit einem expliziten Speicherlimit und NODE_OPTIONS gestartet; Builds werden strikt nacheinander in einer Warteschlange ausgeführt — Spitzenverbrauch von Vite/Nuxt kann keine laufenden Produktionsdienste zum Absturz bringen."
+        }
+      }
+    },
+    "architecture": {
+      "title": "Architekturkomponenten",
+      "items": [
+        {
+          "name": "Deployer Service",
+          "description": "Deploy-Orchestrator innerhalb der API: klont das Repository, generiert ein Dockerfile für den Anwendungstyp, führt den Build durch und startet den Container"
+        },
+        {
+          "name": "Build Queue",
+          "description": "Build-Warteschlange mit Sperrung gleichzeitiger Ausführungen, die Serverressourcen vor Überlastung schützt"
+        },
+        {
+          "name": "Git Credentials Store",
+          "description": "verschlüsselter Speicher für SSH-Schlüssel und Tokens für den Zugriff auf private Repositories"
+        },
+        {
+          "name": "Traefik Gateway",
+          "description": "Gateway mit dynamischem Docker-Provider: liest Container-Labels und aktualisiert Routen und TLS ohne Neustart"
+        },
+        {
+          "name": "Control Panel",
+          "description": "Vue SPA Control Panel: Anwendungsliste, Build-Parameter-Formular, Echtzeit-Logs, TLS-Status"
+        },
+        {
+          "name": "GitHub Actions CI",
+          "description": "Pipeline zum Erstellen von Plattform-Service-Images (API, Panel) und automatischem SSH-Deployment auf den Server nach Push in den Master"
+        }
+      ]
+    },
+    "process": {
+      "title": "Anwendungs-Deployment-Prozess",
+      "steps": [
+        {
+          "title": "Anwendungskonfiguration",
+          "description": "Parameter werden im Control Panel festgelegt: Repository, Branch, Typ (Vue/Nuxt SSR/Static), Domain, Build-Befehle und Umgebungsvariablen"
+        },
+        {
+          "title": "Klonen und Build",
+          "description": "Der Deployer klont den Zielbranch (mit dem verschlüsselten Zugriffsschlüssel) und erstellt das Image in einem isolierten Container mit Speicherlimit"
+        },
+        {
+          "title": "Paketieren und Container starten",
+          "description": "Das fertige Artefakt wird in ein nginx- oder Node-Image gepackt und als Container mit Traefik-Labels gestartet, die Domain und TLS-Einstellungen enthalten"
+        },
+        {
+          "title": "Automatische Zertifikatsausstellung",
+          "description": "Traefik erkennt den neuen Container, initiiert die HTTP-01 ACME-Challenge und stellt ein Let's Encrypt-Zertifikat für die angegebene Domain aus"
+        },
+        {
+          "title": "Statusaktualisierung und Bereinigung",
+          "description": "Datenbank wird aktualisiert (container_id, image_tag, status=running), alter Container und Image werden entfernt, Build-Logs sind im Panel verfügbar"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Vorteile des Ansatzes",
+      "items": [
+        "Deployment einer neuen Anwendung dauert Minuten — kein SSH, keine Konfigurationsbearbeitung, über die UI",
+        "Ein einziger Traefik-Gateway verwaltet alle Domains und Zertifikate ohne manuellen Eingriff",
+        "Unterstützung privater Repositories mit datenbankbasierter Token-Verschlüsselung",
+        "Automatisches CI/CD: Push in Master → Image in GHCR → Service-Update auf dem Server",
+        "Eingebauter OOM-Schutz beim Build hält die Produktion stabil",
+        "Ein Server hostet gleichzeitig die Plattform und beliebig viele Anwendungen mit Netzwerkisolation"
+      ]
+    }
+  },
   "demonstration": {
     "title": "Berufsethik und meine Fähigkeiten",
     "description": "Obwohl der Quellcode kommerzieller Projekte nicht veröffentlicht werden kann, bin ich bereit, detaillierte Einblicke in die technischen Lösungen, die Architektur und die bei der Entwicklung verwendeten Ansätze zu geben.",

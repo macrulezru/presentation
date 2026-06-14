@@ -2,7 +2,6 @@
   import { computed, onMounted, onUnmounted, ref } from 'vue';
 
   import { PageSectionsEnum } from '@/enums/page-sections.enum.ts';
-  import { useExamplesStore } from '@/stores/use-examples-store.ts';
   import { useNavigationStore } from '@/stores/use-navigation-store.ts';
   import LangSelector from '@/view/components/lang-selector/lang-selector.vue';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
@@ -15,7 +14,6 @@
   const { t } = useI18n();
 
   const navigationStore = useNavigationStore();
-  const examplesStore = useExamplesStore();
   const { navigateToSection, isProcessingNavigation } = useScrollRouting();
   const responsive = useResponsive();
 
@@ -115,37 +113,6 @@
     }
   };
 
-  // Проверка видимости блока features-list
-  function isFeaturesListVisible() {
-    const el = document.querySelector('.examples__features-list');
-    if (!el) return false;
-    const rect = el.getBoundingClientRect();
-    return (
-      rect.top < window.innerHeight &&
-      rect.bottom > 0 &&
-      rect.left < window.innerWidth &&
-      rect.right > 0
-    );
-  }
-
-  const triggerVideo = () => {
-    if (examplesStore.videoStatus) {
-      // Отключаем анимацию
-      examplesStore.videoStatus = false;
-      // Проверяем видимость блока
-      if (isFeaturesListVisible()) {
-        examplesStore.setIsShowVideoButton(true);
-      } else {
-        examplesStore.setIsShowVideoButton(false);
-      }
-    } else {
-      // Включаем анимацию
-      examplesStore.videoStatus = true;
-      // Кнопка всегда видима
-      examplesStore.setIsShowVideoButton(true);
-    }
-  };
-
   onMounted(() => {
     checkScreenSize();
     window.addEventListener('resize', checkScreenSize);
@@ -198,12 +165,6 @@
           <span class="hamburger__line"></span>
         </button>
         <div class="header__controls">
-          <button
-            v-if="examplesStore.isShowVideoButton"
-            class="header__video"
-            :class="{ header__video_active: examplesStore.videoStatus }"
-            @click="triggerVideo"
-          />
           <LangSelector />
         </div>
       </div>

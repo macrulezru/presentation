@@ -857,6 +857,206 @@
       ]
     }
   },
+  "restMonitoring": {
+    "title": "REST API Monitoring Module",
+    "shortTitle": "API Monitor",
+    "subtitle": "Observability and Alerts for Production Services",
+    "description": "A built-in module for real-time REST API health monitoring: accumulates HTTP request history, builds per-endpoint analytics, tracks errors with trend comparison, and sends Telegram alerts when configurable threshold rules are triggered.",
+    "features": {
+      "title": "Key System Capabilities",
+      "items": {
+        "request_history": {
+          "title": "HTTP Request History",
+          "description": "Middleware intercepts every request, recording method, URL, status code, duration and timestamp. Data is stored in a 5,000-entry ring buffer and persisted to an NDJSON file with automatic rotation at 10 MB."
+        },
+        "realtime_analytics": {
+          "title": "Sliding Window Analytics",
+          "description": "Analytics endpoints return metrics for a configurable time window: RPS, average response time, p95 percentile, error rate, and status code distribution (2xx/3xx/4xx/5xx)."
+        },
+        "endpoint_breakdown": {
+          "title": "Per-Endpoint Breakdown",
+          "description": "The system normalizes URLs (replacing dynamic segments with wildcards) and groups requests by route, showing a top-20 endpoint list with call count, error rate, and p95 for each."
+        },
+        "error_tracking": {
+          "title": "Error Tracking with Delta",
+          "description": "The error module compares current and previous observation windows, calculates percentage change, and builds a timeline histogram of errors, helping to spot spikes quickly."
+        },
+        "endpoint_probing": {
+          "title": "Active Endpoint Probing",
+          "description": "Configurable probe endpoints are polled on a schedule. Each check result (status code, duration, error) is stored in history for availability graph rendering."
+        },
+        "telegram_alerts": {
+          "title": "Rule-Based Telegram Alerts",
+          "description": "A flexible rule system: condition (error rate, p95 latency, endpoint unavailability) → bot → message. When triggered, the rule is recorded in the alert log with a timestamp."
+        }
+      }
+    },
+    "architecture": {
+      "title": "Architectural Components",
+      "items": [
+        {
+          "name": "Request Logger Middleware",
+          "description": "request interceptor collecting metadata from every HTTP call and passing it to the ring buffer"
+        },
+        {
+          "name": "Request History Store",
+          "description": "storage with in-memory buffer and NDJSON persistence, restoring history after service restart"
+        },
+        {
+          "name": "Analytics Engine",
+          "description": "metrics calculation module (RPS, p95, errorRate, statusDist, endpoint top) over a sliding time window"
+        },
+        {
+          "name": "Probe Scheduler",
+          "description": "active endpoint probe scheduler storing check result history in the database"
+        },
+        {
+          "name": "Alert Rules Engine",
+          "description": "rules engine that evaluates current metrics and fires Telegram notifications when thresholds are breached"
+        },
+        {
+          "name": "IP Blocklist",
+          "description": "blocked IP address filter with API-driven management for blocking unwanted traffic sources"
+        }
+      ]
+    },
+    "process": {
+      "title": "How Monitoring Works",
+      "steps": [
+        {
+          "title": "Request Interception",
+          "description": "Every incoming HTTP request passes through middleware that captures metadata and records it after the response is received"
+        },
+        {
+          "title": "Accumulation and Persistence",
+          "description": "Entries are added to the ring buffer and simultaneously written to an NDJSON file; history is restored from the file on service restart"
+        },
+        {
+          "title": "Analytics Calculation",
+          "description": "On request from the control panel the engine filters events for the desired window and computes aggregated metrics"
+        },
+        {
+          "title": "Active Probing",
+          "description": "The scheduler polls configured endpoints on schedule and stores results for availability graph rendering"
+        },
+        {
+          "title": "Rule Evaluation and Alerts",
+          "description": "After each check the rules engine compares metrics against threshold values and sends a Telegram notification when a rule is violated"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Approach Benefits",
+      "items": [
+        "Observability with no external dependencies — the module is built directly into the API",
+        "Request history survives service restarts by restoring from a local file",
+        "Instant anomaly detection through comparison of current and previous periods",
+        "Precise bottleneck diagnosis with p95 breakdown at the route level",
+        "Telegram alerts with configurable conditions — no need to run Grafana or Prometheus",
+        "Zero incident response delay thanks to active probe checks"
+      ]
+    }
+  },
+  "deployPlatform": {
+    "title": "Vue/Nuxt Application Auto-Deploy and Hosting Platform",
+    "shortTitle": "Deploy Platform",
+    "subtitle": "Dynamic Hosting with Auto-Build, Domains and TLS",
+    "description": "A lifecycle management system for Vue and Nuxt applications: clones the repository, builds the image in an isolated container with memory limits, publishes the result behind Traefik with automatic TLS, and binds any custom domain — all through a control panel, without editing configs or SSH.",
+    "features": {
+      "title": "Key System Capabilities",
+      "items": {
+        "auto_build": {
+          "title": "Automatic Build from Repository",
+          "description": "On deploy command the system clones the target branch (including private repositories) and runs the build in an ephemeral Docker container with the specified Node version, dependency install, and build commands."
+        },
+        "multi_type": {
+          "title": "Vue SPA, Nuxt Static and Nuxt SSR Support",
+          "description": "For each application type the deployer generates an appropriate Dockerfile: static apps are packed into an nginx image, SSR into a Node image with a live process on port 3000."
+        },
+        "dynamic_routing": {
+          "title": "Dynamic Domain Routing",
+          "description": "Adding an application in the panel automatically attaches Traefik labels to the container. A new domain becomes active without restarting the gateway or editing configuration files."
+        },
+        "auto_tls": {
+          "title": "Automatic TLS (Let's Encrypt)",
+          "description": "Traefik requests and renews Let's Encrypt certificates via HTTP-01 on first access to the domain. Certificate status is shown in the application card in the control panel."
+        },
+        "private_repos": {
+          "title": "Private Repositories with Encrypted Tokens",
+          "description": "SSH deploy keys or personal tokens are stored encrypted in the database (AES-256-GCM), decrypted only during cloning, and never appear in logs."
+        },
+        "resource_limits": {
+          "title": "Production Protection from OOM During Build",
+          "description": "Every build container is launched with an explicit memory limit and NODE_OPTIONS; builds run strictly one at a time in a queue — peak Vite/Nuxt consumption cannot crash running production services."
+        }
+      }
+    },
+    "architecture": {
+      "title": "Architectural Components",
+      "items": [
+        {
+          "name": "Deployer Service",
+          "description": "deploy orchestrator inside the API: clones the repository, generates a Dockerfile for the application type, runs the build, and starts the container"
+        },
+        {
+          "name": "Build Queue",
+          "description": "build queue with concurrent run locking that protects server resources from overload"
+        },
+        {
+          "name": "Git Credentials Store",
+          "description": "encrypted storage of SSH keys and tokens for accessing private repositories"
+        },
+        {
+          "name": "Traefik Gateway",
+          "description": "gateway with a dynamic Docker provider: reads container labels and updates routes and TLS without restart"
+        },
+        {
+          "name": "Control Panel",
+          "description": "Vue SPA control panel: application list, build parameters form, real-time logs, TLS status"
+        },
+        {
+          "name": "GitHub Actions CI",
+          "description": "pipeline for building platform service images (API, panel) and automatic SSH deployment to the server after push to master"
+        }
+      ]
+    },
+    "process": {
+      "title": "Application Deploy Process",
+      "steps": [
+        {
+          "title": "Application Configuration",
+          "description": "Parameters are set in the control panel: repository, branch, type (Vue/Nuxt SSR/Static), domain, build commands, and environment variables"
+        },
+        {
+          "title": "Clone and Build",
+          "description": "The deployer clones the target branch (using the encrypted access key) and builds the image in an isolated container with a memory limit"
+        },
+        {
+          "title": "Package and Start Container",
+          "description": "The ready artefact is packed into an nginx or Node image and started as a container with Traefik labels containing the domain and TLS settings"
+        },
+        {
+          "title": "Automatic Certificate Issuance",
+          "description": "Traefik detects the new container, initiates the HTTP-01 ACME challenge, and issues a Let's Encrypt certificate for the specified domain"
+        },
+        {
+          "title": "Status Update and Cleanup",
+          "description": "The database is updated (container_id, image_tag, status=running), the old container and image are removed, and build logs are available in the panel"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Approach Benefits",
+      "items": [
+        "Deploying a new application takes minutes — no SSH, no config editing, through the UI",
+        "A single Traefik gateway handles all domains and certificates without manual intervention",
+        "Private repository support with database-level token encryption",
+        "Automatic CI/CD: push to master → image in GHCR → service update on the server",
+        "Built-in OOM protection during build keeps production stable",
+        "One server simultaneously hosts the platform and any number of applications with network isolation"
+      ]
+    }
+  },
   "demonstration": {
     "title": "Professional Ethics and My Skills",
     "description": "While commercial project source code cannot be published due to IP rights, I can discuss implementation details, architectural decisions, and development methodologies.",

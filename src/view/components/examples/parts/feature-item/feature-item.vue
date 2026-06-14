@@ -7,9 +7,7 @@
   import type { GradientOptions, GradientColors, headerGradientOptions } from './types';
   import type { FeatureData } from '~/composables/useFeatures';
 
-  import { useExamplesStore } from '@/stores/use-examples-store';
   import UiImage from '@/view/ui/ui-image/ui-image.vue';
-  import UiVideo from '@/view/ui/ui-video/ui-video.vue';
   import { useResponsive } from '~/composables/useResponsive';
 
   interface Props {
@@ -21,7 +19,6 @@
 
   const isReverse = computed(() => props.reverse === true);
 
-  const examplesStore = useExamplesStore();
   const responsive = useResponsive();
   const headerPortalRef = ref<HTMLElement>();
   const gradientOptions = { offsetPercent: 50 };
@@ -79,21 +76,7 @@
           class="feature-item__main-header"
         ></div>
         <div class="feature-item__image-container">
-          <UiVideo
-            v-if="examplesStore.videoStatus"
-            :video="{
-              src: { src: feature.video, width: '416px', height: '752px' },
-              tablet: { src: feature.videoHorizontal, width: '752px', height: '416px' },
-            }"
-            :controls="false"
-            :autoplay="true"
-            :loop="true"
-            :muted="true"
-            :showFullscreen="false"
-            class="feature-item__image"
-          />
           <UiImage
-            v-else
             :image="{
               src: { src: feature.image, width: '720px', height: '1235px' },
               tablet: { src: feature.imageHorizontal, width: '1400px', height: '700px' },

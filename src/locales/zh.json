@@ -857,6 +857,206 @@
       ]
     }
   },
+  "restMonitoring": {
+    "title": "REST API 监控模块",
+    "shortTitle": "API 监控",
+    "subtitle": "生产服务的可观测性与告警",
+    "description": "内置的 REST API 实时健康监控模块：积累 HTTP 请求历史，构建端点维度的分析，跟踪错误趋势，并在可配置的阈值规则触发时发送 Telegram 告警。",
+    "features": {
+      "title": "系统核心功能",
+      "items": {
+        "request_history": {
+          "title": "HTTP 请求历史",
+          "description": "中间件拦截每个请求，记录方法、URL、状态码、耗时和时间戳。数据存储在 5000 条记录的环形缓冲区中，并持久化到 NDJSON 文件，达到 10 MB 时自动轮转。"
+        },
+        "realtime_analytics": {
+          "title": "滑动窗口分析",
+          "description": "分析端点返回可配置时间窗口内的指标：RPS、平均响应时间、p95 百分位、错误率及状态码分布（2xx/3xx/4xx/5xx）。"
+        },
+        "endpoint_breakdown": {
+          "title": "按端点细分",
+          "description": "系统对 URL 进行规范化（将动态段替换为通配符），按路由分组请求，展示 Top-20 端点，包含调用次数、错误率和各端点的 p95。"
+        },
+        "error_tracking": {
+          "title": "带趋势对比的错误追踪",
+          "description": "错误模块对比当前与前一观测窗口，计算变化百分比，并构建错误时间线柱状图，帮助快速发现异常峰值。"
+        },
+        "endpoint_probing": {
+          "title": "主动端点探测",
+          "description": "可配置的探测端点按计划定期轮询。每次检查结果（状态码、耗时、错误）存入历史记录用于可用性图表展示。"
+        },
+        "telegram_alerts": {
+          "title": "基于规则的 Telegram 告警",
+          "description": "灵活的规则系统：条件（错误率、p95 延迟、端点不可用）→ Bot → 消息。触发时将规则记录到带时间戳的告警日志中。"
+        }
+      }
+    },
+    "architecture": {
+      "title": "架构组件",
+      "items": [
+        {
+          "name": "请求日志中间件",
+          "description": "请求拦截器，收集每次 HTTP 调用的元数据并传递给环形缓冲区"
+        },
+        {
+          "name": "请求历史存储",
+          "description": "包含内存缓冲区和 NDJSON 持久化的存储，服务重启后可恢复历史记录"
+        },
+        {
+          "name": "分析引擎",
+          "description": "在滑动时间窗口上计算指标（RPS、p95、错误率、状态分布、端点 Top）的模块"
+        },
+        {
+          "name": "探测调度器",
+          "description": "主动端点探测调度器，将检查结果历史存储在数据库中"
+        },
+        {
+          "name": "告警规则引擎",
+          "description": "评估当前指标并在阈值超出时触发 Telegram 通知的规则引擎"
+        },
+        {
+          "name": "IP 黑名单",
+          "description": "通过 API 管理的封禁 IP 过滤器，用于屏蔽不需要的流量来源"
+        }
+      ]
+    },
+    "process": {
+      "title": "监控工作原理",
+      "steps": [
+        {
+          "title": "请求拦截",
+          "description": "每个传入的 HTTP 请求经过中间件处理，中间件在收到响应后捕获元数据并写入历史"
+        },
+        {
+          "title": "积累与持久化",
+          "description": "记录被添加到环形缓冲区并同步写入 NDJSON 文件；服务重启时从文件恢复历史"
+        },
+        {
+          "title": "分析计算",
+          "description": "控制面板发起请求时，引擎筛选所需窗口内的事件并计算聚合指标"
+        },
+        {
+          "title": "主动探测",
+          "description": "调度器按计划轮询已配置的端点，并存储结果用于可用性图表展示"
+        },
+        {
+          "title": "规则评估与告警",
+          "description": "每次检查后规则引擎将指标与阈值对比，违规时发送 Telegram 通知"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "方法优势",
+      "items": [
+        "无外部依赖的可观测性 — 模块直接内置在 API 中",
+        "服务重启后从本地文件恢复请求历史",
+        "通过对比当前与前一时期快速检测异常",
+        "路由级别 p95 细分精准诊断瓶颈",
+        "可配置条件的 Telegram 告警 — 无需维护 Grafana 或 Prometheus",
+        "主动探测保障零事件响应延迟"
+      ]
+    }
+  },
+  "deployPlatform": {
+    "title": "Vue/Nuxt 应用自动部署与托管平台",
+    "shortTitle": "部署平台",
+    "subtitle": "具备自动构建、域名绑定和 TLS 的动态托管",
+    "description": "Vue 和 Nuxt 应用的生命周期管理系统：克隆仓库，在有内存限制的隔离容器中构建镜像，将结果发布到 Traefik 后端并自动申请 TLS 证书，通过控制面板绑定任意域名 — 无需编辑配置文件或 SSH。",
+    "features": {
+      "title": "系统核心功能",
+      "items": {
+        "auto_build": {
+          "title": "从仓库自动构建",
+          "description": "收到部署命令后，系统克隆目标分支（包括私有仓库）并在临时 Docker 容器中以指定的 Node 版本、依赖安装命令和构建命令执行构建。"
+        },
+        "multi_type": {
+          "title": "支持 Vue SPA、Nuxt Static 和 Nuxt SSR",
+          "description": "部署器为每种应用类型生成对应的 Dockerfile：静态应用打包进 nginx 镜像，SSR 打包进监听 3000 端口的 Node 进程镜像。"
+        },
+        "dynamic_routing": {
+          "title": "动态域名路由",
+          "description": "在面板中添加应用会自动为容器附加 Traefik 标签。新域名无需重启网关或修改配置文件即可生效。"
+        },
+        "auto_tls": {
+          "title": "自动 TLS（Let's Encrypt）",
+          "description": "Traefik 在首次访问域名时通过 HTTP-01 请求并续签 Let's Encrypt 证书。证书状态显示在控制面板的应用卡片中。"
+        },
+        "private_repos": {
+          "title": "私有仓库与加密令牌",
+          "description": "SSH deploy key 或个人令牌以加密方式（AES-256-GCM）存储在数据库中，仅在克隆时解密，绝不出现在日志中。"
+        },
+        "resource_limits": {
+          "title": "构建时保护生产环境免受 OOM 影响",
+          "description": "每个构建容器以明确的内存限制和 NODE_OPTIONS 启动；构建严格按队列逐一执行 — Vite/Nuxt 的峰值内存消耗不会导致正在运行的生产服务崩溃。"
+        }
+      }
+    },
+    "architecture": {
+      "title": "架构组件",
+      "items": [
+        {
+          "name": "部署服务",
+          "description": "API 内部的部署编排器：克隆仓库，为应用类型生成 Dockerfile，执行构建并启动容器"
+        },
+        {
+          "name": "构建队列",
+          "description": "带并发锁的构建队列，防止服务器资源过载"
+        },
+        {
+          "name": "Git 凭证存储",
+          "description": "用于访问私有仓库的 SSH 密钥和令牌的加密存储"
+        },
+        {
+          "name": "Traefik 网关",
+          "description": "具有动态 Docker 提供程序的网关：读取容器标签并无需重启即可更新路由和 TLS"
+        },
+        {
+          "name": "控制面板",
+          "description": "Vue SPA 控制面板：应用列表、构建参数表单、实时日志、TLS 状态"
+        },
+        {
+          "name": "GitHub Actions CI",
+          "description": "平台服务镜像（API、面板）的构建流水线，以及 push 到 master 后的自动 SSH 部署"
+        }
+      ]
+    },
+    "process": {
+      "title": "应用部署流程",
+      "steps": [
+        {
+          "title": "应用配置",
+          "description": "在控制面板中设置参数：仓库、分支、类型（Vue/Nuxt SSR/Static）、域名、构建命令和环境变量"
+        },
+        {
+          "title": "克隆与构建",
+          "description": "部署器使用加密访问密钥克隆目标分支，并在有内存限制的隔离容器中构建镜像"
+        },
+        {
+          "title": "打包并启动容器",
+          "description": "构建产物被打包进 nginx 或 Node 镜像，并以包含域名和 TLS 配置的 Traefik 标签作为容器启动"
+        },
+        {
+          "title": "自动颁发证书",
+          "description": "Traefik 发现新容器后发起 HTTP-01 ACME 质询，为指定域名颁发 Let's Encrypt 证书"
+        },
+        {
+          "title": "状态更新与清理",
+          "description": "数据库更新（container_id、image_tag、status=running），旧容器和镜像被删除，构建日志在面板中可查"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "方法优势",
+      "items": [
+        "部署新应用只需几分钟 — 无需 SSH，无需编辑配置，通过 UI 操作",
+        "单一 Traefik 网关无需人工干预即可管理所有域名和证书",
+        "私有仓库支持，令牌在数据库层面加密",
+        "自动 CI/CD：push 到 master → 镜像进 GHCR → 服务器上的服务更新",
+        "内置构建时 OOM 保护，保持生产环境稳定",
+        "单台服务器同时托管平台和任意数量的应用，网络隔离"
+      ]
+    }
+  },
   "demonstration": {
     "title": "职业道德与我的技能",
     "description": "虽然受知识产权保护无法公开商业项目的源代码，但我可以详细阐述开发过程中采用的技术方案、架构设计和实现方法。",
