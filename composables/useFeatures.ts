@@ -1,26 +1,16 @@
 import { computed } from 'vue';
 
 import { FeaturesEnum } from '@/enums/features.enum';
+import apiMonitorImageHorizontal from '@/view/assets/images/api-monitor-horizontal.webp';
+import apiMonitorImage from '@/view/assets/images/api-monitor.webp';
+import appPlatformImageHorizontal from '@/view/assets/images/app-platform-horizontal.webp';
+import appPlatformImage from '@/view/assets/images/app-platform.webp';
 import i18nImageHorizonatl from '@/view/assets/images/i18n-image-horizontal.webp';
 import i18nImage from '@/view/assets/images/i18n-image.webp';
 import pipelineImageHorizontal from '@/view/assets/images/pipeline-image-horizontal.webp';
 import pipelineImage from '@/view/assets/images/pipeline-image.webp';
-import seatmapImageHorizontal from '@/view/assets/images/seatmap-image-horizontal.webp';
-import seatmapImage from '@/view/assets/images/seatmap-image.webp';
-import synchronizationImageHorizontal from '@/view/assets/images/synchronization-image-horizontal.webp';
-import synchronizationImage from '@/view/assets/images/synchronization-image.webp';
 import uiImageHorizontal from '@/view/assets/images/ui-image-horizontal.webp';
 import uiImage from '@/view/assets/images/ui-image.webp';
-import i18nVideoHorizonatl from '@/view/assets/video/i18n-video-horizontal_loop.mp4';
-import i18nVideo from '@/view/assets/video/i18n-video_loop.mp4';
-import pipelineVideoHorizontal from '@/view/assets/video/pipeline-video-horizontal_loop.mp4';
-import pipelineVideo from '@/view/assets/video/pipeline-video_loop.mp4';
-import seatmapVideoHorizontal from '@/view/assets/video/seatmap-video-horizontal_loop.mp4';
-import seatmapVideo from '@/view/assets/video/seatmap-video_loop.mp4';
-import synchronizationVideoHorizontal from '@/view/assets/video/synchronization-video-horizontal_loop.mp4';
-import synchronizationVideo from '@/view/assets/video/synchronization-video_loop.mp4';
-import uiVideoHorizontal from '@/view/assets/video/ui-video-horizontal_loop.mp4';
-import uiVideo from '@/view/assets/video/ui-video_loop.mp4';
 import { useI18n } from '~/composables/useI18n';
 
 export interface SectionItem {
@@ -39,8 +29,6 @@ export interface FeatureData {
   icon: string;
   image: string;
   imageHorizontal: string;
-  video: string;
-  videoHorizontal: string;
   title: string;
   shortTitle: string;
   subtitle: string;
@@ -75,8 +63,6 @@ export function useFeatures() {
       mainIcon: 'ui',
       image: uiImage,
       imageHorizontal: uiImageHorizontal,
-      video: uiVideo,
-      videoHorizontal: uiVideoHorizontal,
     },
     {
       id: FeaturesEnum.PIPELINE,
@@ -85,8 +71,22 @@ export function useFeatures() {
       mainIcon: 'pipeline',
       image: pipelineImage,
       imageHorizontal: pipelineImageHorizontal,
-      video: pipelineVideo,
-      videoHorizontal: pipelineVideoHorizontal,
+    },
+    {
+      id: FeaturesEnum.REST_MONITORING,
+      i18nKey: 'restMonitoring',
+      accentColor: '#e74c3c',
+      mainIcon: 'monitoring',
+      image: apiMonitorImage,
+      imageHorizontal: apiMonitorImageHorizontal,
+    },
+    {
+      id: FeaturesEnum.DEPLOY_PLATFORM,
+      i18nKey: 'deployPlatform',
+      accentColor: '#1abc9c',
+      mainIcon: 'deploy',
+      image: appPlatformImage,
+      imageHorizontal: appPlatformImageHorizontal,
     },
     {
       id: FeaturesEnum.LOCALIZATION,
@@ -95,28 +95,6 @@ export function useFeatures() {
       mainIcon: 'localization',
       image: i18nImage,
       imageHorizontal: i18nImageHorizonatl,
-      video: i18nVideo,
-      videoHorizontal: i18nVideoHorizonatl,
-    },
-    {
-      id: FeaturesEnum.SEAT_MAP,
-      i18nKey: 'seatMap',
-      accentColor: '#e67e22',
-      mainIcon: 'seat',
-      image: seatmapImage,
-      imageHorizontal: seatmapImageHorizontal,
-      video: seatmapVideo,
-      videoHorizontal: seatmapVideoHorizontal,
-    },
-    {
-      id: FeaturesEnum.MULTISYNC,
-      i18nKey: 'multisync',
-      accentColor: '#4b6ff1',
-      mainIcon: 'synchronization',
-      image: synchronizationImage,
-      imageHorizontal: synchronizationImageHorizontal,
-      video: synchronizationVideo,
-      videoHorizontal: synchronizationVideoHorizontal,
     },
   ]);
 
@@ -124,18 +102,14 @@ export function useFeatures() {
     featuresConfig.value.map(config => {
       const { i18nKey } = config;
 
-      const image = config.image;
-      const imageHorizontal = config.imageHorizontal;
-      const video = config.video;
-      const videoHorizontal = config.videoHorizontal;
+      const { image } = config;
+      const { imageHorizontal } = config;
 
       return {
         id: config.id,
         icon: config.mainIcon,
         image,
         imageHorizontal,
-        video,
-        videoHorizontal,
         title: t(`${i18nKey}.title`),
         shortTitle: t(`${i18nKey}.shortTitle`),
         subtitle: t(`${i18nKey}.subtitle`),
@@ -170,4 +144,3 @@ export function useFeatures() {
     getFeatureById,
   };
 }
-

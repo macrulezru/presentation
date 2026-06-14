@@ -12,8 +12,6 @@
 
   import { FeaturesEnum } from '@/enums/features.enum';
   import { PageSectionsEnum } from '@/enums/page-sections.enum.ts';
-  import { useExamplesStore } from '@/stores/use-examples-store.ts';
-  import musicUrl from '@/view/assets/music/background-music.mp3';
   import FeatureItem from '@/view/components/examples/parts/feature-item/feature-item.vue';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
   import UiButton from '~/components/ui/UiButton.vue';
@@ -27,17 +25,21 @@
   const Pipeline = defineAsyncComponent({
     loader: () => import('@/view/components/pipeline/pipeline.vue'),
     loadingComponent: () =>
-      h(Transition, { name: 'loader-appear', appear: true }, {
-        default: () =>
-          h('div', { class: 'examples__pipeline-loader' }, [
-            h(UiLoading, {
-              type: 'circle',
-              circleRadius: 60,
-              thickness: 3,
-              progressColor: '#d941b0',
-            }),
-          ]),
-      }),
+      h(
+        Transition,
+        { name: 'loader-appear', appear: true },
+        {
+          default: () =>
+            h('div', { class: 'examples__pipeline-loader' }, [
+              h(UiLoading, {
+                type: 'circle',
+                circleRadius: 60,
+                thickness: 3,
+                progressColor: '#d941b0',
+              }),
+            ]),
+        },
+      ),
     delay: 0,
     suspensible: false,
   });
@@ -47,7 +49,6 @@
   const responsive = useResponsive();
   const { features } = useFeatures();
   const { navigateToSection, setIgnoreScrollUpdates } = useScrollRouting();
-  const examplesStore = useExamplesStore();
 
   const isShowPipeline = ref<boolean>(false);
   const activeFeatureId = ref<string>('');
@@ -140,9 +141,6 @@
   let observer: IntersectionObserver | null = null;
 
   onMounted(() => {
-    music.value = new Audio(musicUrl);
-    if (examplesStore.videoStatus) playMusic();
-
     const intersectingElements = new Set<Element>();
 
     observer = new IntersectionObserver(
@@ -162,7 +160,10 @@
         const zoneBottom = window.innerHeight * (responsive.desktop ? 0.9 : 0.6);
         const getZonePixels = (el: Element) => {
           const rect = el.getBoundingClientRect();
-          return Math.max(0, Math.min(rect.bottom, zoneBottom) - Math.max(rect.top, zoneTop));
+          return Math.max(
+            0,
+            Math.min(rect.bottom, zoneBottom) - Math.max(rect.top, zoneTop),
+          );
         };
 
         const best = Array.from(intersectingElements).reduce((a, b) =>
@@ -192,8 +193,6 @@
     if (observer) {
       observer.disconnect();
     }
-    stopMusic();
-    music.value = null;
   });
 
   watch(
@@ -204,62 +203,6 @@
       }, 0);
     },
     { immediate: true },
-  );
-  const featuresListRef = ref<HTMLElement | null>(null);
-
-  function checkFeaturesListVisibility() {
-    if (!featuresListRef.value) return;
-    const rect = featuresListRef.value.getBoundingClientRect();
-    const inViewport =
-      rect.top < window.innerHeight &&
-      rect.bottom > 0 &&
-      rect.left < window.innerWidth &&
-      rect.right > 0;
-
-    if (examplesStore.videoStatus) {
-      examplesStore.setIsShowVideoButton(true);
-    } else {
-      examplesStore.setIsShowVideoButton(inViewport);
-    }
-  }
-
-  onMounted(() => {
-    nextTick(() => {
-      checkFeaturesListVisibility();
-    });
-    window.addEventListener('scroll', checkFeaturesListVisibility, { passive: true });
-    window.addEventListener('resize', checkFeaturesListVisibility, { passive: true });
-  });
-  onUnmounted(() => {
-    window.removeEventListener('scroll', checkFeaturesListVisibility);
-    window.removeEventListener('resize', checkFeaturesListVisibility);
-  });
-
-  const music = ref<HTMLAudioElement | null>(null);
-
-  function playMusic() {
-    if (!music.value) return;
-    music.value.loop = true;
-    music.value.volume = 0.5;
-    music.value.currentTime = 0;
-    music.value.play().catch(() => {});
-  }
-
-  function stopMusic() {
-    if (!music.value) return;
-    music.value.pause();
-    music.value.currentTime = 0;
-  }
-
-  watch(
-    () => examplesStore.videoStatus,
-    val => {
-      if (val) {
-        playMusic();
-      } else {
-        stopMusic();
-      }
-    },
   );
 </script>
 
