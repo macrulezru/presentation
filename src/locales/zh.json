@@ -17,9 +17,9 @@
   },
   "splash": {
     "welcome": "李辛·丹尼尔·弗拉基米罗维奇",
-    "vue": "VUE JS",
+    "vue": "Vue/Nuxt",
     "developer": "开发工程师",
-    "description": "将复杂任务转化为优雅的解决方案。专注于 Vue 3、TypeScript 和构建具有深思熟虑架构的可扩展应用程序。",
+    "description": "将复杂任务转化为优雅的解决方案。专注于 Vue/Nuxt、TypeScript 和构建具有深思熟虑架构的可扩展应用程序。",
     "more": "查看简历"
   },
   "app": {
