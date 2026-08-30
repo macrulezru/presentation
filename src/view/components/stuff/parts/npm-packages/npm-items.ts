@@ -41,8 +41,8 @@ export function useNpmPackages() {
       if (Array.isArray(data)) {
         cache[currentLocale] = data.map(item => ({
           title: item?.title ?? '',
-          url: item?.url ?? '',
-          image: item?.image ?? '',
+          url: item?.['vuecraft-url'] ?? '',
+          image: item?.['vuecraft-image'] ?? '',
           description: item?.translation?.description ?? '',
         }));
         items.value = cache[currentLocale];
