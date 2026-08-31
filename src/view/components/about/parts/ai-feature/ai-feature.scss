@@ -23,9 +23,7 @@
     @include big-title;
 
     span {
-      font-size: clamp(42px, 6vw, 70px);
       color: var(--color-1);
-      font-weight: 600;
     }
   }
 

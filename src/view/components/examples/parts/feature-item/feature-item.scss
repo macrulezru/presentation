@@ -1,7 +1,6 @@
 .feature-item {
   position: relative;
   padding: clamp(60px, 5vw, 100px) 0;
-  border-bottom: 1px dashed var(--color-8);
   scroll-margin-top: var(--spacing-lg);
   transition: max-height 0.5s ease-in-out;
 
