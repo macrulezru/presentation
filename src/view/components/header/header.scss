@@ -4,8 +4,7 @@
   left: 0;
   width: 100%;
   z-index: var(--z-header);
-  backdrop-filter: blur(10px);
-  background: rgb(0 0 0 / 90%);
+  background: #050505;
 
   &__content {
     max-width: var(--container-xl);
