@@ -40,7 +40,7 @@
     height: 220px;
     border-radius: 50%;
     background-color: var(--color-4);
-    background-image: url('@/view/assets/images/me.png');
+    background-image: url('@/view/assets/images/macrulez-avatar.webp');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -208,7 +208,9 @@
       color: var(--color-light);
       width: 100%;
       box-sizing: border-box;
-      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+      transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
 
       &::placeholder {
         color: var(--color-8);

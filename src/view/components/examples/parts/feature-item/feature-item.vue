@@ -78,8 +78,8 @@
         <div class="feature-item__image-container">
           <UiImage
             :image="{
-              src: { src: feature.image, width: '720px', height: '1235px' },
-              tablet: { src: feature.imageHorizontal, width: '1400px', height: '700px' },
+              src: { src: feature.image, width: '650px' },
+              tablet: { src: feature.imageHorizontal, width: '800px', height: '450px' },
               alt: '',
             }"
             class="feature-item__image"
