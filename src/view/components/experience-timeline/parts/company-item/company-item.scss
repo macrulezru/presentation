@@ -22,38 +22,23 @@
     }
   }
 
-  &__logo-wrapper {
-    position: absolute;
-    top: -140px;
-    left: 0;
-    right: 0;
-    height: 140px;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 10;
-  }
-
-  &__logo-container {
-    position: absolute;
-    top: 24px;
-    left: 20px;
+  &__logo {
     width: 120px;
     height: 120px;
-  }
-
-  &__logo {
-    width: 100%;
-    height: 100%;
     border-radius: 50%;
     background: white;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
-    transform: translateY(calc(100% + 10px));
-    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
     filter: drop-shadow(0 4px 10px rgb(0 0 0 / 80%));
     overflow: hidden;
+
+    &_blank {
+      border: solid 1px var(--api-scrollbar-thumb);
+      background-color: var(--api-card-bg);
+      filter: none;
+    }
 
     img {
       width: 80%;
@@ -62,11 +47,13 @@
     }
   }
 
-  &:hover &__logo {
-    transform: translateY(6px);
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
   }
 
-  &__header {
+  &__header-data {
     display: flex;
     flex-direction: column;
     gap: 11px;
@@ -112,19 +99,5 @@
     font-size: 16px;
     font-weight: 300;
     color: var(--color-4);
-    max-height: 0;
-    overflow: hidden;
-    margin-top: 0;
-    opacity: 0;
-    transition:
-      max-height 0.8s ease,
-      margin-top 0.8s ease,
-      opacity 0.8s ease;
-
-    &_visible {
-      max-height: 500px;
-      margin-top: 10px;
-      opacity: 1;
-    }
   }
 }

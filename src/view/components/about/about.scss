@@ -92,7 +92,7 @@
   &__skills {
     @include grid-3-cols;
 
-    padding: clamp(70px, 11vw, 146px) 0 0;
+    padding: clamp(70px, 11vw, 146px) 0 clamp(90px, 10vw, 110px);
 
     &-item {
       display: flex;
@@ -210,7 +210,7 @@
       display: grid;
       grid-template-columns: minmax(390px, 1fr) minmax(390px, 1fr);
       gap: 75px;
-      padding-bottom: clamp(90px, 10vw, 160px);
+      padding-bottom: clamp(90px, 10vw, 110px);
 
       &-wrapper {
         display: flex;
@@ -291,49 +291,6 @@
         font-size: 16px;
         font-weight: 300;
       }
-    }
-  }
-
-  &__bitrix {
-    &-experience {
-      display: flex;
-      flex-direction: column;
-      gap: 35px;
-      padding-bottom: clamp(70px, 10vw, 118px);
-      max-width: 930px;
-    }
-
-    &-title {
-      @include big-title;
-    }
-
-    &-subtitle {
-      @include medium-title;
-    }
-
-    &-features {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: clamp(18px, 4vw, 28px) clamp(28px, 6vw, 80px);
-      padding-top: 12px;
-    }
-
-    &-feature {
-      position: relative;
-      padding-left: 16px;
-      color: var(--color-4);
-    }
-
-    &-feature::before {
-      display: block;
-      content: ' ';
-      position: absolute;
-      top: 8px;
-      left: 0;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: var(--color-6);
     }
   }
 }

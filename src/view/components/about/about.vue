@@ -13,7 +13,6 @@
 
   import TechStackArtHorizontal from '@/view/assets/images/tech-stack-art-horizontal.webp';
   import TechStackArt from '@/view/assets/images/tech-stack-art.webp';
-  import AboutTech from '@/view/components/about/parts/about-tech/about-tech.vue';
   import AiFeature from '@/view/components/about/parts/ai-feature/ai-feature.vue';
   import UiImage from '@/view/ui/ui-image/ui-image.vue';
   import { useI18n } from '~/composables/useI18n';
@@ -152,7 +151,6 @@
           <div class="about__skills-conclusion-text">{{ t('about.conclusion') }}</div>
         </div>
       </div>
-      <AboutTech />
       <div class="about__tech-stack">
         <div class="about__tech-stack-side">
           <div class="about__tech-stack-side-wrapper">
@@ -212,29 +210,6 @@
                 class="about__tech-category-separator"
               />
             </template>
-          </div>
-        </div>
-      </div>
-      <div class="about__bitrix-experience">
-        <div class="about__bitrix-title">{{ t('about.bitrix_title') }}</div>
-        <div class="about__bitrix-subtitle">
-          {{ t('about.bitrix_description') }}
-        </div>
-        <div class="about__bitrix-features">
-          <div class="about__bitrix-feature">
-            {{ t('about.bitrix_skills.travelshop_development') }}
-          </div>
-          <div class="about__bitrix-feature">
-            {{ t('about.bitrix_skills.booking_integration') }}
-          </div>
-          <div class="about__bitrix-feature">
-            {{ t('about.bitrix_skills.customization') }}
-          </div>
-          <div class="about__bitrix-feature">
-            {{ t('about.bitrix_skills.php_experience') }}
-          </div>
-          <div class="about__bitrix-feature">
-            {{ t('about.bitrix_skills.architecture_knowledge') }}
           </div>
         </div>
       </div>

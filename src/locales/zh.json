@@ -19,8 +19,7 @@
     "welcome": "李辛·丹尼尔·弗拉基米罗维奇",
     "vue": "Vue/Nuxt",
     "developer": "开发工程师",
-    "description": "将复杂任务转化为优雅的解决方案。专注于 Vue/Nuxt、TypeScript 和构建具有深思熟虑架构的可扩展应用程序。",
-    "more": "查看简历"
+    "description": "将复杂任务转化为优雅的解决方案。专注于 Vue/Nuxt、TypeScript 和构建具有深思熟虑架构的可扩展应用程序。"
   },
   "app": {
     "examples_title": "基于 Vue 的架构解决方案"
@@ -91,15 +90,6 @@
           }
         ]
       }
-    },
-    "bitrix_title": "Bitrix 经验",
-    "bitrix_description": "从事各种航空公司的 TravelShop 1.0 模板的支持和新模板开发工作。为此熟练掌握 PHP 语言。了解 Bitrix 的特性。",
-    "bitrix_skills": {
-      "travelshop_development": "TravelShop 1.0 模板的开发和维护",
-      "booking_integration": "与航班预订系统集成",
-      "customization": "根据航空公司要求定制功能",
-      "php_experience": "在 Bitrix 项目环境中使用 PHP",
-      "architecture_knowledge": "理解 Bitrix 架构和特性"
     },
     "skills_title": "在工作中，我注重架构的清晰性、代码的可维护性和类型安全性。拥有复杂 SPA 前端部分全周期开发经验：",
     "skills_list": {
@@ -190,21 +180,6 @@
         }
       }
     }
-  },
-  "tech": {
-    "javascript": "一切的基础。编写现代 ES6+ 代码",
-    "vue": "我的主要专业方向。Vue 3, Composition API",
-    "typescript": "严格的类型系统保障代码可靠性",
-    "pinia": "应用程序状态管理",
-    "vite": "用于快速开发的现代构建工具",
-    "i18n": "本地化和多语言界面",
-    "html": "语义化和可访问的布局",
-    "css": "响应式设计, Flexbox, Grid",
-    "php": "Bitrix 的 PHP 模板开发",
-    "bitrix": "Bitrix 模板开发与支持",
-    "git": "所有项目的分布式版本控制",
-    "svn": "具有集中式版本控制系统的经验",
-    "figma": "Figma设计稿处理、页面制作和修改"
   },
   "experience": {
     "title": "职业生涯"
