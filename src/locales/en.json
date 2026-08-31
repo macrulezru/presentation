@@ -19,8 +19,7 @@
     "welcome": "Danil Lisin",
     "vue": "Vue/Nuxt",
     "developer": "Developer",
-    "description": "Transforming complex tasks into elegant solutions. Specializing in Vue/Nuxt, TypeScript and creating scalable applications with well-thought-out architecture.",
-    "more": "view resume"
+    "description": "Transforming complex tasks into elegant solutions. Specializing in Vue/Nuxt, TypeScript and creating scalable applications with well-thought-out architecture."
   },
   "app": {
     "examples_title": "Architectural Solutions in Vue"
@@ -91,15 +90,6 @@
           }
         ]
       }
-    },
-    "bitrix_title": "Bitrix Experience",
-    "bitrix_description": "Worked on support and development of new TravelShop 1.0 templates for various airlines. Confidently use PHP for this purpose. Understand Bitrix specifics.",
-    "bitrix_skills": {
-      "travelshop_development": "Development and support of TravelShop 1.0 templates",
-      "booking_integration": "Integration with flight booking systems",
-      "customization": "Customization of functionality according to airline requirements",
-      "php_experience": "Working with PHP in the context of Bitrix projects",
-      "architecture_knowledge": "Understanding Bitrix architecture and features"
     },
     "skills_title": "In my work, I focus on architectural cleanliness, code maintainability, and type safety. I have experience in the full cycle of frontend development for complex SPAs:",
     "skills_list": {
@@ -190,21 +180,6 @@
         }
       }
     }
-  },
-  "tech": {
-    "javascript": "The foundation. Writing modern ES6+ code",
-    "vue": "My main specialization. Vue 3, Composition API",
-    "typescript": "Strict typing for code reliability",
-    "pinia": "Application state management",
-    "vite": "Modern build tool for fast development",
-    "i18n": "Localization and multilingual interfaces",
-    "html": "Semantic and accessible markup",
-    "css": "Responsive design, Flexbox, Grid",
-    "php": "PHP template development for Bitrix",
-    "bitrix": "Bitrix template development and support",
-    "git": "Distributed version control for all projects",
-    "svn": "Experience with centralized version control systems",
-    "figma": "Working with Figma layouts, markup and edits"
   },
   "experience": {
     "title": "Career"

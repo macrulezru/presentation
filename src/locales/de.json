@@ -19,8 +19,7 @@
     "welcome": "Danil Lisin",
     "vue": "VUE JS",
     "developer": "Entwickler",
-    "description": "Verwandle komplexe Aufgaben in elegante Lösungen. Spezialisiert auf Vue 3, TypeScript und die Erstellung skalierbarer Anwendungen mit durchdachter Architektur.",
-    "more": "Lebenslauf ansehen"
+    "description": "Verwandle komplexe Aufgaben in elegante Lösungen. Spezialisiert auf Vue 3, TypeScript und die Erstellung skalierbarer Anwendungen mit durchdachter Architektur."
   },
   "app": {
     "examples_title": "Architektonische Lösungen in Vue"
@@ -91,15 +90,6 @@
           }
         ]
       }
-    },
-    "bitrix_title": "Bitrix-Erfahrung",
-    "bitrix_description": "Beschäftigte mich mit der Wartung und Entwicklung neuer TravelShop 1.0-Vorlagen für verschiedene Fluggesellschaften. Beherrsche dafür sicher PHP. Verstehe die Besonderheiten von Bitrix.",
-    "bitrix_skills": {
-      "travelshop_development": "Entwicklung und Wartung von TravelShop 1.0-Vorlagen",
-      "booking_integration": "Integration mit Flugbuchungssystemen",
-      "customization": "Anpassung der Funktionalität nach Anforderungen der Fluggesellschaften",
-      "php_experience": "Arbeit mit PHP im Kontext von Bitrix-Projekten",
-      "architecture_knowledge": "Verständnis der Bitrix-Architektur und -Besonderheiten"
     },
     "skills_title": "In meiner Arbeit lege ich Wert auf architektonische Sauberkeit, Wartbarkeit des Codes und Typsicherheit. Ich habe Erfahrung im kompletten Zyklus der Frontend-Entwicklung komplexer SPAs:",
     "skills_list": {
@@ -190,21 +180,6 @@
         }
       }
     }
-  },
-  "tech": {
-    "javascript": "Die Grundlage. Moderne ES6+ Code",
-    "vue": "Meine Hauptspezialisierung. Vue 3, Composition API",
-    "typescript": "Strikte Typisierung für Code-Zuverlässigkeit",
-    "pinia": "Anwendungszustandsverwaltung",
-    "vite": "Modernes Build-Tool für schnelle Entwicklung",
-    "i18n": "Lokalisierung und mehrsprachige Schnittstellen",
-    "html": "Semantisches und zugängliches Markup",
-    "css": "Responsives Design, Flexbox, Grid",
-    "php": "PHP-Vorlagenentwicklung für Bitrix",
-    "bitrix": "Bitrix-Vorlagenentwicklung und -Support",
-    "git": "Verteiltes Versionskontrollsystem für alle Projekte",
-    "svn": "Erfahrung mit zentralisierten Versionskontrollsystemen",
-    "figma": "Arbeit mit Figma-Layouts, Markup und Anpassungen"
   },
   "experience": {
     "title": "Karriere"

@@ -1,39 +1,11 @@
 <script setup lang="ts">
   import '@/view/components/splash/splash.scss';
 
-  import { onMounted, onUnmounted, ref, nextTick } from 'vue';
+  import { onMounted, onUnmounted } from 'vue';
 
-  import { PageSectionsEnum } from '@/enums/page-sections.enum.ts';
-import { useI18n } from '~/composables/useI18n';
-  import { usePlasmaBackground } from '@/view/composables/use-plasma-background';
-  import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
-  import Button from '@/view/ui/ui-button/ui-button.vue';
+  import { useI18n } from '~/composables/useI18n';
 
   const { t } = useI18n();
-
-  const splashRef = ref<HTMLElement>();
-
-  const { navigateToSection } = useScrollRouting();
-  const { startAnimation, stopAnimation } = usePlasmaBackground(splashRef);
-
-  let observer: IntersectionObserver | undefined;
-
-  const createObserver = () => {
-    const element = splashRef.value;
-    if (!element || observer) return;
-
-    observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry) return;
-        (entry.isIntersecting ? startAnimation : stopAnimation)();
-      },
-      {
-        threshold: 0,
-      },
-    );
-
-    observer.observe(element);
-  };
 
   const hidePreloader = () => {
     const loader = document.getElementById('app-loader');
@@ -41,19 +13,15 @@ import { useI18n } from '~/composables/useI18n';
   };
 
   onMounted(() => {
-    nextTick(createObserver);
-    startAnimation();
     hidePreloader();
   });
 
-  onUnmounted(() => {
-    observer?.disconnect();
-    stopAnimation();
-  });
+  onUnmounted(() => {});
 </script>
 
 <template>
   <section ref="splashRef" class="splash">
+    <div class="splash__dimmer" />
     <div class="splash__main">
       <div class="splash__animation" />
 
@@ -70,13 +38,6 @@ import { useI18n } from '~/composables/useI18n';
 
         <div class="splash__description">
           {{ t('splash.description') }}
-        </div>
-        <div class="splash__content-footer">
-          <Button
-            class="splash__button"
-            :text="t('splash.more')"
-            @click="navigateToSection(PageSectionsEnum.ABOUT)"
-          />
         </div>
       </div>
     </div>
