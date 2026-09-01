@@ -312,7 +312,7 @@
     "subtitle": "Effizientes Management vernetzter API-Aufrufketten",
     "description": "Ein leistungsstarkes System zur Organisation sequenzieller HTTP-Anfragen an REST API, bei dem jeder nachfolgende Aufruf Daten vom vorherigen verwenden kann. Bietet vollständige Kontrolle über die Ausführung von Anfrageketten mit Fortschrittsvisualisierung und intelligenter Fehlerbehandlung.",
     "features": {
-      "title": "Wichtige Systemfunktionen",
+      "title": "Wichtige Pipeline-Funktionen",
       "items": {
         "sequential_chains": {
           "title": "Sequenzielle HTTP-Ketten",
@@ -345,7 +345,7 @@
       }
     },
     "architecture": {
-      "title": "Architekturkomponenten",
+      "title": "Pipeline-Architektur",
       "items": [
         {
           "name": "Pipeline Orchestrator",
@@ -395,7 +395,7 @@
       ]
     },
     "benefits": {
-      "title": "Vorteile des Ansatzes",
+      "title": "Vorteile des Pipeline-Ansatzes",
       "items": [
         "40 % Reduzierung der Entwicklungszeit für komplexe API-Interaktionen",
         "Erhöhte Zuverlässigkeit durch zentralisierte Fehlerbehandlung und Wiederholungsmechanismen",
@@ -413,7 +413,7 @@
     "subtitle": "Mechanismus zur Übersetzungsanpassung für verschiedene Bundles",
     "description": "Das implementierte System ermöglicht das Überschreiben bestimmter Zeichenketten in Locales in Abhängigkeit vom Projekt-Build-Bundle und bietet Flexibilität bei der Anpassung der Benutzeroberfläche für verschiedene Kunden.",
     "features": {
-      "title": "Hauptfunktionen",
+      "title": "Hauptfunktionen der Lokalisierung",
       "items": {
         "override_strings": {
           "title": "Spezifische Strings überschreiben",
@@ -442,7 +442,7 @@
       }
     },
     "architecture": {
-      "title": "Architekturkomponenten",
+      "title": "Lokalisierungsarchitektur",
       "items": [
         {
           "name": "Base Locales",
@@ -463,7 +463,7 @@
       ]
     },
     "process": {
-      "title": "Arbeitsprozess",
+      "title": "Wie die Zusammenführung der Locales funktioniert",
       "steps": [
         {
           "title": "Bundle-Identifikation",
@@ -484,7 +484,7 @@
       ]
     },
     "benefits": {
-      "title": "Vorteile des Ansatzes",
+      "title": "Vorteile der flexiblen Lokalisierung",
       "items": [
         "Flexibilität bei der Anpassung der Benutzeroberfläche für verschiedene Kunden",
         "Zeitersparnis bei der Pflege mehrerer Übersetzungsversionen",
@@ -501,7 +501,7 @@
     "subtitle": "Architektur mit Treibern für verschiedene Datenformate",
     "description": "Das implementierte System ermöglicht die Anzeige von Flugzeug-Sitzplänen aus verschiedenen Buchungssystemen durch eine einzige universelle Komponente unter Verwendung spezieller Treiber für die Datentransformation.",
     "features": {
-      "title": "Hauptfunktionen",
+      "title": "Hauptfunktionen der Komponente",
       "items": {
         "multiple_formats": {
           "title": "Unterstützung mehrerer Formate",
@@ -530,7 +530,7 @@
       }
     },
     "architecture": {
-      "title": "Architekturkomponenten",
+      "title": "Komponentenarchitektur",
       "items": [
         {
           "name": "Universal Seat Map Component",
@@ -551,7 +551,7 @@
       ]
     },
     "process": {
-      "title": "Arbeitsprozess",
+      "title": "Wie die Kartenanzeige funktioniert",
       "steps": [
         {
           "title": "Datenerfassung",
@@ -572,7 +572,7 @@
       ]
     },
     "benefits": {
-      "title": "Vorteile des Ansatzes",
+      "title": "Vorteile der universellen Komponente",
       "items": [
         "Schneller Anschluss neuer Kunden mit eigenen Datenformaten",
         "Keine Code-Duplizierung in der Anzeigekomponente",
@@ -589,7 +589,7 @@
     "subtitle": "Zustandssynchronisierungsarchitektur zwischen unabhängigen Anwendungen mit optionaler Verschlüsselung",
     "description": "System zur Erstellung und Verwaltung mehrerer unabhängiger Vue-Anwendungen innerhalb eines einzelnen Repositorys mit automatischer Zustandssynchronisierung zwischen ihnen. Implementiert Cross-Tab-Synchronisierungsmechanismus und Kommunikation zwischen Anwendungen durch einen einheitlichen Speicher mit Verschlüsselungsunterstützung und flexibler Konfiguration.",
     "features": {
-      "title": "Wichtige Systemfunktionen",
+      "title": "Wichtige Synchronisierungsfunktionen",
       "items": {
         "single_architecture": {
           "title": "Einheitliche Architektur für Vue-Apps",
@@ -622,7 +622,7 @@
       }
     },
     "architecture": {
-      "title": "Architekturkomponenten",
+      "title": "Synchronisierungsarchitektur",
       "items": [
         {
           "name": "Multi-App-Koordinator",
@@ -676,7 +676,7 @@
       ]
     },
     "benefits": {
-      "title": "Vorteile des Ansatzes",
+      "title": "Vorteile der Synchronisierung",
       "items": [
         "Einzelne Codebase für mehrere Anwendungen — Reduzierung der Codeduplizierung um 60%",
         "Automatische Synchronisierung — Gewährleistung der Datenkonsistenz zwischen Anwendungen",
@@ -780,7 +780,7 @@
       }
     },
     "architecture": {
-      "title": "Architekturkomponenten",
+      "title": "Architektur der Komponentenbibliothek",
       "items": [
         {
           "name": "Basis-Komponenten",
@@ -822,7 +822,7 @@
       ]
     },
     "benefits": {
-      "title": "Vorteile des Ansatzes",
+      "title": "Vorteile des Komponentenansatzes",
       "items": [
         "30 % schnellere Funktionsentwicklung durch Komponentenwiederverwendung",
         "Gewährleistung der Konsistenz der Benutzeroberfläche in der gesamten Anwendung",
@@ -838,7 +838,7 @@
     "subtitle": "Observability und Alerting für Produktionsdienste",
     "description": "Ein eingebettetes Modul zur Echtzeitüberwachung des REST-API-Zustands: sammelt HTTP-Anfrageverlauf, erstellt endpunktbezogene Analysen, verfolgt Fehler mit Trendvergleich und sendet Telegram-Benachrichtigungen bei Überschreitung konfigurierbarer Schwellwertregeln.",
     "features": {
-      "title": "Wichtige Systemfunktionen",
+      "title": "Wichtige Monitoring-Funktionen",
       "items": {
         "request_history": {
           "title": "HTTP-Anfrageverlauf",
@@ -867,7 +867,7 @@
       }
     },
     "architecture": {
-      "title": "Architekturkomponenten",
+      "title": "Architektur des Monitoring-Moduls",
       "items": [
         {
           "name": "Request Logger Middleware",
@@ -921,7 +921,7 @@
       ]
     },
     "benefits": {
-      "title": "Vorteile des Ansatzes",
+      "title": "Vorteile des integrierten Monitorings",
       "items": [
         "Observability ohne externe Abhängigkeiten — das Modul ist direkt in die API eingebaut",
         "Anfrageverlauf übersteht Dienstneustarts durch Wiederherstellung aus einer lokalen Datei",
@@ -938,7 +938,7 @@
     "subtitle": "Dynamisches Hosting mit Auto-Build, Domains und TLS",
     "description": "Ein Lifecycle-Management-System für Vue- und Nuxt-Anwendungen: klont das Repository, erstellt das Image in einem isolierten Container mit Speicherlimits, veröffentlicht das Ergebnis hinter Traefik mit automatischem TLS und verknüpft beliebige Custom-Domains — alles über ein Control Panel, ohne Konfigurationsänderungen oder SSH.",
     "features": {
-      "title": "Wichtige Systemfunktionen",
+      "title": "Wichtige Plattformfunktionen",
       "items": {
         "auto_build": {
           "title": "Automatischer Build aus dem Repository",
@@ -967,7 +967,7 @@
       }
     },
     "architecture": {
-      "title": "Architekturkomponenten",
+      "title": "Plattformarchitektur",
       "items": [
         {
           "name": "Deployer Service",
@@ -1021,7 +1021,7 @@
       ]
     },
     "benefits": {
-      "title": "Vorteile des Ansatzes",
+      "title": "Vorteile der Plattform",
       "items": [
         "Deployment einer neuen Anwendung dauert Minuten — kein SSH, keine Konfigurationsbearbeitung, über die UI",
         "Ein einziger Traefik-Gateway verwaltet alle Domains und Zertifikate ohne manuellen Eingriff",
