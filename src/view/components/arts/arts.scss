@@ -1,7 +1,7 @@
 .arts {
   position: relative;
   padding: clamp(120px, 8vw, 160px) clamp(12px, 2vw, 24px);
-  background-color: #1a0125;
+  background-color: #0c0b0c;
 
   &::before {
     content: '';
@@ -113,7 +113,7 @@
     position: relative;
     overflow: hidden;
     border-radius: 8px;
-    background: linear-gradient(227deg, #cc0b98, #03babd);
+    background: linear-gradient(227deg, #cc0b98, #78cf05);
     background-size: 400% 400%;
     animation: progress-animation 5s ease infinite;
     padding: 12px 24px;
@@ -175,6 +175,10 @@
       pointer-events: none;
       user-select: none;
     }
+  }
+
+  &__projects {
+    @include container-lg;
   }
 
   &__projects,

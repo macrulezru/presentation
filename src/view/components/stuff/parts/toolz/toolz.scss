@@ -124,12 +124,6 @@
         transition: color 0.2s ease;
       }
 
-      &-link-arrow {
-        position: relative;
-        margin-left: 10px;
-        top: -4px;
-      }
-
       &-link:hover {
         .toolz__modules-item-image {
           transform: scale(1.1);

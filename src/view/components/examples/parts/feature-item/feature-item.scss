@@ -77,10 +77,6 @@
     @include big-title;
   }
 
-  &__subtitle {
-    @include medium-title;
-  }
-
   &__description {
     @include mini-title;
 

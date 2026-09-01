@@ -30,7 +30,7 @@
         :circleRadius="20"
         :thickness="5"
         strokeColor="#151515"
-        progressColor="#d941b0"
+        progressColor="#78cf05"
       />
       <div v-if="props.label" class="pipeline-step-status__label">{{ props.label }}</div>
     </div>

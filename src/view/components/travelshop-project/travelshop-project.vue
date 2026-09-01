@@ -175,7 +175,7 @@
                   :markCount="20"
                   :lineThick="14"
                   :valueFontSize="36"
-                  valueColor="#616A70"
+                  valueColor="#DDDDDD"
                   strokeColor="#363035"
                   :segmentColor="item.color"
                   :label="item.text"

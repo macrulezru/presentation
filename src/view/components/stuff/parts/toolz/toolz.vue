@@ -9,7 +9,6 @@
   import Stronghold from '@/view/assets/images/toolz/stronghold.webp';
   import TinySvg from '@/view/assets/images/toolz/tiny_svg.webp';
   import UnitForge from '@/view/assets/images/toolz/unit_forge.webp';
-  import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
   import { useI18n } from '~/composables/useI18n';
 
   const { t } = useI18n();
@@ -87,7 +86,6 @@
                   <span class="toolz__modules-item-title">
                     <span class="toolz__modules-item-link-wrapper">
                       {{ item.title }}
-                      <LinkArrow class="toolz__modules-item-link-arrow" />
                     </span>
                   </span>
                 </a>

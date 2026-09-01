@@ -5,7 +5,6 @@
   import { useNpmPackages, type NpmPackageItem } from './npm-items';
 
   import npmLogo from '@/view/assets/images/npm-logo.svg';
-  import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
   import UiLoading from '~/components/ui/UiLoading.vue';
   import { useI18n } from '~/composables/useI18n';
 
@@ -52,7 +51,6 @@
               <div class="npm-packages__item-name">
                 <span class="npm-packages__item-link-wrapper">
                   {{ pkg.title }}
-                  <LinkArrow class="npm-packages__item-link-arrow" />
                 </span>
               </div>
             </a>

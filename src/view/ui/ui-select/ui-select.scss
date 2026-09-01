@@ -78,13 +78,13 @@
     font-size: var(--font-size-sm);
     cursor: pointer;
 
-    &:hover {
+    &:not(&--selected):hover {
       background: rgb(255 255 255 / 10%);
     }
 
     &--selected {
-      background: #2773b1;
-      color: #fff;
+      background: var(--color-1);
+      color: #000;
       box-shadow: 0 4px 12px rgb(74 144 226 / 20%);
     }
 

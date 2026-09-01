@@ -93,12 +93,6 @@
             >
               <div class="feature-item__side-block-header">
                 <div class="feature-item__title">{{ feature.title }}</div>
-                <div
-                  class="feature-item__subtitle"
-                  :style="{ color: feature.accentColor }"
-                >
-                  {{ feature.subtitle }}
-                </div>
                 <div class="feature-item__description">{{ feature.description }}</div>
               </div>
             </Teleport>

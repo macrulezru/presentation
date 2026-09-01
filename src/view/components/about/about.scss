@@ -234,7 +234,7 @@
       &-content {
         display: flex;
         flex-direction: column;
-        gap: clamp(50px, 6vw, 80px);
+        gap: clamp(50px, 6vw, 60px);
       }
 
       @include media-tablet {
