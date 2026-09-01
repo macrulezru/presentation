@@ -37,9 +37,15 @@
         <UiLoading type="circle" progressColor="#d941b0" />
       </div>
       <div v-else class="npm-packages__wrapper">
-        <div v-for="pkg in npmToView" :key="pkg.title" class="npm-packages__item">
+        <a
+          v-for="pkg in npmToView"
+          :key="pkg.title"
+          class="npm-packages__item"
+          :href="pkg.url"
+          target="_blank"
+        >
           <div class="npm-packages__item-header-block">
-            <a class="npm-packages__item-header-link" :href="pkg.url" target="_blank">
+            <div class="npm-packages__item-header-link">
               <div v-if="pkg.image" class="npm-packages__item-image-wrapper">
                 <img
                   class="npm-packages__item-image"
@@ -53,10 +59,10 @@
                   {{ pkg.title }}
                 </span>
               </div>
-            </a>
+            </div>
           </div>
           <div class="npm-packages__item-description">{{ pkg.description }}</div>
-        </div>
+        </a>
       </div>
     </div>
   </div>
