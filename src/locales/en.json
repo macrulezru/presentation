@@ -312,7 +312,7 @@
     "subtitle": "Efficient Management of Interconnected API Call Chains",
     "description": "A powerful system for organizing sequential HTTP requests to REST API, where each subsequent call can utilize data from the previous one. Provides complete control over request chain execution with progress visualization and intelligent error handling.",
     "features": {
-      "title": "Key System Capabilities",
+      "title": "Key Pipeline Capabilities",
       "items": {
         "sequential_chains": {
           "title": "Sequential HTTP chains",
@@ -345,7 +345,7 @@
       }
     },
     "architecture": {
-      "title": "Architectural Components",
+      "title": "Pipeline Architecture",
       "items": [
         {
           "name": "Pipeline Orchestrator",
@@ -395,7 +395,7 @@
       ]
     },
     "benefits": {
-      "title": "Approach Benefits",
+      "title": "Pipeline Approach Benefits",
       "items": [
         "40% reduction in development time for complex API interactions",
         "Increased reliability through centralized error handling and retry mechanisms",
@@ -413,7 +413,7 @@
     "subtitle": "Translation Customization Mechanism for Different Bundles",
     "description": "The implemented system allows overriding specific strings in locales depending on the project build bundle, providing flexibility in interface customization for different clients.",
     "features": {
-      "title": "Key Features",
+      "title": "Key Localization Features",
       "items": {
         "override_strings": {
           "title": "Override specific strings",
@@ -442,7 +442,7 @@
       }
     },
     "architecture": {
-      "title": "Architectural Components",
+      "title": "Localization Architecture",
       "items": [
         {
           "name": "Base Locales",
@@ -463,7 +463,7 @@
       ]
     },
     "process": {
-      "title": "Work Process",
+      "title": "How Locale Merging Works",
       "steps": [
         {
           "title": "Bundle Identification",
@@ -484,7 +484,7 @@
       ]
     },
     "benefits": {
-      "title": "Approach Benefits",
+      "title": "Flexible Localization Benefits",
       "items": [
         "Flexibility in interface customization for different clients",
         "Time savings in maintaining multiple translation versions",
@@ -501,7 +501,7 @@
     "subtitle": "Architecture with Drivers for Different Data Formats",
     "description": "The implemented system allows displaying aircraft seat maps from various booking systems through a single universal component using special drivers for data transformation.",
     "features": {
-      "title": "Key Features",
+      "title": "Key Component Features",
       "items": {
         "multiple_formats": {
           "title": "Support for multiple formats",
@@ -530,7 +530,7 @@
       }
     },
     "architecture": {
-      "title": "Architectural Components",
+      "title": "Component Architecture",
       "items": [
         {
           "name": "Universal Seat Map Component",
@@ -551,7 +551,7 @@
       ]
     },
     "process": {
-      "title": "Work Process",
+      "title": "How Map Rendering Works",
       "steps": [
         {
           "title": "Data Receiving",
@@ -572,7 +572,7 @@
       ]
     },
     "benefits": {
-      "title": "Approach Benefits",
+      "title": "Universal Component Benefits",
       "items": [
         "Quick connection of new clients with their own data formats",
         "No code duplication in the display component",
@@ -589,7 +589,7 @@
     "subtitle": "State synchronization architecture between independent applications with optional encryption",
     "description": "System for creating and managing multiple independent Vue applications within a single repository with automatic state synchronization between them. Implements cross-tab synchronization mechanism and communication between applications through a unified storage with encryption support and flexible configuration.",
     "features": {
-      "title": "Key System Capabilities",
+      "title": "Key Synchronization Capabilities",
       "items": {
         "single_architecture": {
           "title": "Unified architecture for Vue apps",
@@ -622,7 +622,7 @@
       }
     },
     "architecture": {
-      "title": "Architectural Components",
+      "title": "Synchronization Architecture",
       "items": [
         {
           "name": "Multi-App Coordinator",
@@ -676,7 +676,7 @@
       ]
     },
     "benefits": {
-      "title": "Benefits of the Approach",
+      "title": "Synchronization Benefits",
       "items": [
         "Single codebase for multiple applications — reducing code duplication by 60%",
         "Automatic synchronization — ensuring data consistency between applications",
@@ -780,7 +780,7 @@
       }
     },
     "architecture": {
-      "title": "Architectural Components",
+      "title": "Component Library Architecture",
       "items": [
         {
           "name": "Base Components",
@@ -822,7 +822,7 @@
       ]
     },
     "benefits": {
-      "title": "Approach Benefits",
+      "title": "Component-Based Approach Benefits",
       "items": [
         "30% faster feature development through component reuse",
         "Ensuring interface consistency throughout the application",
@@ -838,7 +838,7 @@
     "subtitle": "Observability and Alerts for Production Services",
     "description": "A built-in module for real-time REST API health monitoring: accumulates HTTP request history, builds per-endpoint analytics, tracks errors with trend comparison, and sends Telegram alerts when configurable threshold rules are triggered.",
     "features": {
-      "title": "Key System Capabilities",
+      "title": "Key Monitoring Capabilities",
       "items": {
         "request_history": {
           "title": "HTTP Request History",
@@ -867,7 +867,7 @@
       }
     },
     "architecture": {
-      "title": "Architectural Components",
+      "title": "Monitoring Module Architecture",
       "items": [
         {
           "name": "Request Logger Middleware",
@@ -921,7 +921,7 @@
       ]
     },
     "benefits": {
-      "title": "Approach Benefits",
+      "title": "Built-in Monitoring Benefits",
       "items": [
         "Observability with no external dependencies — the module is built directly into the API",
         "Request history survives service restarts by restoring from a local file",
@@ -938,7 +938,7 @@
     "subtitle": "Dynamic Hosting with Auto-Build, Domains and TLS",
     "description": "A lifecycle management system for Vue and Nuxt applications: clones the repository, builds the image in an isolated container with memory limits, publishes the result behind Traefik with automatic TLS, and binds any custom domain — all through a control panel, without editing configs or SSH.",
     "features": {
-      "title": "Key System Capabilities",
+      "title": "Key Platform Capabilities",
       "items": {
         "auto_build": {
           "title": "Automatic Build from Repository",
@@ -967,7 +967,7 @@
       }
     },
     "architecture": {
-      "title": "Architectural Components",
+      "title": "Platform Architecture",
       "items": [
         {
           "name": "Deployer Service",
@@ -1021,7 +1021,7 @@
       ]
     },
     "benefits": {
-      "title": "Approach Benefits",
+      "title": "Platform Benefits",
       "items": [
         "Deploying a new application takes minutes — no SSH, no config editing, through the UI",
         "A single Traefik gateway handles all domains and certificates without manual intervention",
