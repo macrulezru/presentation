@@ -26,7 +26,7 @@
   &__main {
     display: flex;
     gap: var(--spacing-4xl);
-    animation: fade-up 1s ease-out both;
+    z-index: 1;
   }
 
   &__animation {
@@ -64,11 +64,17 @@
   &__vue {
     font-size: 80px;
     font-weight: 900;
-    background: linear-gradient(180deg, #fff 0%, #7bb5e8 60%, #de7de3 100%);
+    background: linear-gradient(
+      90deg,
+      #8aec0b 0%,
+      #188a01 25%,
+      #8aec0b 50%,
+      #188a01 75%,
+      #8aec0b 100%
+    );
     background-size: 100% 200%;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: subtle-gradient 6s ease infinite;
   }
 
   &__dot {
@@ -238,18 +244,6 @@
 
 /* Animations */
 
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @keyframes float-soft {
   0%,
   100% {
@@ -258,20 +252,6 @@
 
   50% {
     transform: translateY(-10px);
-  }
-}
-
-@keyframes subtle-gradient {
-  0% {
-    background-position: 50% 0%;
-  }
-
-  50% {
-    background-position: 50% 100%;
-  }
-
-  100% {
-    background-position: 50% 0%;
   }
 }
 

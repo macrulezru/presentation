@@ -98,6 +98,7 @@
       transition: all 0.2s ease;
       white-space: nowrap;
       color: var(--color-4);
+      font-weight: 400;
       text-align: center;
 
       &:not(&_active):hover {
@@ -107,7 +108,7 @@
 
       &_active {
         background-color: var(--color-1);
-        color: var(--color-text-light);
+        color: var(--color-background-dark);
         cursor: default;
       }
     }

@@ -31,7 +31,6 @@ export interface FeatureData {
   imageHorizontal: string;
   title: string;
   shortTitle: string;
-  subtitle: string;
   description: string;
   features: {
     title: string;
@@ -112,7 +111,6 @@ export function useFeatures() {
         imageHorizontal,
         title: t(`${i18nKey}.title`),
         shortTitle: t(`${i18nKey}.shortTitle`),
-        subtitle: t(`${i18nKey}.subtitle`),
         description: t(`${i18nKey}.description`),
         features: {
           title: t(`${i18nKey}.features.title`),

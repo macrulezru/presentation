@@ -108,56 +108,6 @@ export default defineNuxtConfig({
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
         { rel: 'manifest', href: '/site.webmanifest' },
       ],
-      style: [
-        {
-          innerHTML: `
-.app-loader__wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at center, #151515 0%, #0c0c0c 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: opacity 0.5s ease;
-  pointer-events: none;
-  z-index: 9999;
-}
-
-.app-loader__spinner {
-  width: 180px;
-  height: 180px;
-  border: 12px solid #d941b0;
-  border-top: 12px solid #ffffff;
-  border-radius: 50%;
-  animation: app-loader-spin 1s linear infinite;
-  position: relative;
-}
-
-.app-loader__spinner::after {
-  content: '';
-  position: absolute;
-  inset: 30px;
-  border: 6px solid #f22ee5;
-  border-top: 6px solid #ffffff;
-  border-radius: 50%;
-  animation: app-loader-spin-reverse 1.5s linear infinite;
-}
-
-@keyframes app-loader-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes app-loader-spin-reverse {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(-360deg); }
-}
-          `,
-        },
-      ],
     },
   },
 
@@ -188,7 +138,7 @@ export default defineNuxtConfig({
 
   devtools: {
     timeline: {
-      enabled: true
-    }
-  }
+      enabled: true,
+    },
+  },
 });

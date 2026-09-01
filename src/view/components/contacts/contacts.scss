@@ -1,6 +1,6 @@
 .contacts {
   padding: clamp(60px, 10vw, 100px) 0;
-  background: var(--color-7);
+  background: #0c0b0c;
 
   &__container {
     @include container-lg;
@@ -102,10 +102,10 @@
 
     &:hover,
     &:focus {
-      color: var(--color-light);
+      color: var(--color-background-dark);
 
       .contacts__item-icon {
-        background-color: var(--color-light);
+        background-color: var(--color-background-dark);
       }
     }
 

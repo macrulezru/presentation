@@ -353,7 +353,7 @@
             :key="currentMasonryKey"
             :items="displayImages"
             :ssrColumns="1"
-            :columnWidth="250"
+            :columnWidth="220"
             :gap="16"
             :minColumns="2"
           >

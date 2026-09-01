@@ -40,7 +40,7 @@
   });
 
   const qrLink = computed(() => {
-    return `https://api.qrserver.com/v1/create-qr-code/?size=80x80&color=64CDF4&bgcolor=151515&data=${encodeURIComponent(
+    return `https://api.qrserver.com/v1/create-qr-code/?size=80x80&color=aaaaaa&bgcolor=151515&data=${encodeURIComponent(
       `http://macrulez.ru/${locale.value}`,
     )}`;
   });
@@ -198,8 +198,8 @@
       <div class="pipeline-boarding-pass__barcode-number">{{ barcodeNumber }}</div>
       <div class="pipeline-boarding-pass__barcode-note">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="12" r="10" stroke="#5dfafc" stroke-width="2" />
-          <text x="12" y="16" text-anchor="middle" font-size="12" fill="#5dfafc">i</text>
+          <circle cx="12" cy="12" r="10" stroke="#d6e297" stroke-width="2" />
+          <text x="12" y="16" text-anchor="middle" font-size="12" fill="#d6e297">i</text>
         </svg>
         {{ t('pipeline-demo.boardingPass.saveNote') }}
       </div>
