@@ -29,12 +29,18 @@
 
   &__wrapper {
     @include grid-3-cols;
+
+    gap: 24px;
   }
 
   &__item {
     display: flex;
     flex-direction: column;
     gap: 11px;
+    padding: 30px;
+    border: solid 1px var(--color-7);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-normal);
 
     &-header-link {
       display: flex;
@@ -63,7 +69,9 @@
       transition: color 0.2s ease;
     }
 
-    &-header-link:hover {
+    &:hover {
+      border-color: var(--color-6);
+
       .npm-packages__item-image {
         transform: scale(1.1);
       }

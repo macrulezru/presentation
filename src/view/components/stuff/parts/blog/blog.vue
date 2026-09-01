@@ -39,10 +39,10 @@
     <div class="blog__container">
       <div class="blog__promo">
         <a class="blog__link" href="https://blog.macrulez.ru/" target="_blank">
+          <img class="blog__image" :src="blogImage" loading="lazy" />
           <div class="blog__header">
             {{ t('blog.title') }}
           </div>
-          <img class="blog__image" :src="blogImage" loading="lazy" />
         </a>
         <div class="blog__description">{{ t('blog.text') }}</div>
       </div>

@@ -43,7 +43,7 @@ export function useNpmPackages() {
           title: item?.title ?? '',
           url: item?.['vuecraft-url'] ?? '',
           image: item?.['vuecraft-image'] ?? '',
-          description: item?.translation?.description ?? '',
+          description: item?.translation?.short_description ?? '',
         }));
         items.value = cache[currentLocale];
       } else {

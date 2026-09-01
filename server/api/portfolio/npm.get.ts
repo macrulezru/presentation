@@ -41,7 +41,7 @@ export default cachedEventHandler(
             title: item?.title ?? '',
             url: item?.['vuecraft-url'] ?? '',
             image: item?.['vuecraft-image'] ?? '',
-            description: item?.translation?.description ?? '',
+            description: item?.translation?.short_description ?? '',
           }))
         : [];
 
