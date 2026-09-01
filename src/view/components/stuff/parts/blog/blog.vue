@@ -6,7 +6,7 @@
   import BlogItem from './parts/blog-item/blog-item.vue';
   import { useBlogPost, type BlogPostItem } from './parts/blog-items';
 
-  import blogImage from '@/view/assets/images/blog.png';
+  import blogImage from '@/view/assets/images/blog.webp';
   import { useI18n } from '~/composables/useI18n';
   import { useResponsive } from '~/composables/useResponsive';
 
