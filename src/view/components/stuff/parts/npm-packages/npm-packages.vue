@@ -4,7 +4,7 @@
 
   import { useNpmPackages, type NpmPackageItem } from './npm-items';
 
-  import npmLogo from '@/view/assets/images/npm-logo.svg';
+  import npmLogo from '@/view/assets/images/npm-logo.webp';
   import UiLoading from '~/components/ui/UiLoading.vue';
   import { useI18n } from '~/composables/useI18n';
 
@@ -29,10 +29,15 @@
 <template>
   <div class="npm-packages">
     <div class="npm-packages__container">
-      <div class="npm-packages__title">
-        <img class="npm-packages__logo" :src="npmLogo" />
-        <span class="npm-packages__header-text">{{ t('npm.title') }}</span>
+      <div class="npm-packages__promo">
+        <a class="npm-packages__link" href="https://npm.vuecraft.ru/" target="_blank">
+          <img class="npm-packages__image" :src="npmLogo" loading="lazy" />
+          <div class="npm-packages__header">VueCraft NPM</div>
+        </a>
+        <div class="npm-packages__description">{{ t('npm.title') }}</div>
       </div>
+    </div>
+    <div class="npm-packages__packages">
       <div v-if="isLoading" class="npm-packages__loader">
         <UiLoading type="circle" progressColor="#d941b0" />
       </div>

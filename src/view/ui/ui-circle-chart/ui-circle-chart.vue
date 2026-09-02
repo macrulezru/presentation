@@ -30,8 +30,10 @@
 
   const slots = useSlots();
 
-  // Реактивное значение для анимации
-  const animatedValue = ref(0);
+  // Реактивное значение для анимации. Инициализируется целевым значением,
+  // чтобы SSR/prerender-разметка и первый клиентский рендер сразу содержали
+  // финальное число — анимация лишь временно переопределяет его на клиенте.
+  const animatedValue = ref(props.value);
   const chartContainer = ref<HTMLElement | null>(null);
 
   // Состояние анимации
@@ -188,7 +190,6 @@
   // Автоматическая анимация при монтировании
   onMounted(() => {
     if (props.autoPlay || props.autoPlayOnce) {
-      animatedValue.value = 0;
       initIntersectionObserver();
     } else if (props.animateOnMount) {
       startAnimation();
@@ -228,6 +229,8 @@
 <template>
   <div ref="chartContainer" class="ui-circle-chart">
     <div class="ui-circle-chart__graph">
+      <!-- Реальное значение для скринридеров: единожды, без промежуточных чисел анимации -->
+      <span class="ui-circle-chart__sr-value">{{ props.value }}%</span>
       <template v-if="props.mode === 'circle'">
         <svg
           :width="props.size"
@@ -235,6 +238,7 @@
           :viewBox="`0 0 ${props.size} ${props.size}`"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
         >
           <circle
             :cx="circlePosition"
@@ -276,6 +280,7 @@
           :viewBox="`0 0 ${props.size} ${props.size}`"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
         >
           <defs>
             <mask :id="maskId">

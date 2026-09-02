@@ -299,12 +299,7 @@
     "loading": "Жүктелуде...",
     "loading_images": "Суреттер жүктелуде...",
     "loading_please_wait": "Күте тұрыңыз...",
-    "previous_image": "Алдыңғы сурет",
-    "next_image": "Келесі сурет",
-    "close": "Жабу",
-    "thumbnail": "{number} миниатюрасы",
-    "openInNewTab": "Жаңа қойындыда ашу",
-    "clickToOpenInNewTab": "Жаңа қойындыда ашу үшін басыңыз"
+    "close": "Жабу"
   },
   "pipeline": {
     "title": "REST API сұраулардың конвейерлік жүйесі",

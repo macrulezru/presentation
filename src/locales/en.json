@@ -299,12 +299,7 @@
     "loading": "Loading...",
     "loading_images": "Loading images...",
     "loading_please_wait": "Please wait...",
-    "previous_image": "Previous image",
-    "next_image": "Next image",
-    "close": "Close",
-    "thumbnail": "Thumbnail {number}",
-    "openInNewTab": "Open in new tab",
-    "clickToOpenInNewTab": "Click to open in new tab"
+    "close": "Close"
   },
   "pipeline": {
     "title": "REST API Pipeline System",
