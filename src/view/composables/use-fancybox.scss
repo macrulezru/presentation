@@ -1,0 +1,78 @@
+// Тема Fancybox: тёмный оверлей + полупрозрачные круглые кнопки с ховер-эффектом
+// (структура и переменные — по образцу vuecraft.ru/assets/scss/components/_fancybox.scss),
+// акцентный цвет — из палитры текущего проекта.
+.fancybox__container {
+  --fancybox-backdrop-bg: rgb(10 11 13 / 96%);
+  --fancybox-color: #f2f4f5;
+  --f-transition-duration: 0.26s;
+  --f-transition-easing: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  // Тулбар (верхняя панель с органами управления)
+  --f-toolbar-bg: transparent;
+  --f-toolbar-color: #9aa0a8;
+  --f-toolbar-shadow: none;
+
+  // Кнопки тулбара / close / zoom / fullscreen
+  --f-button-bg: rgb(19 21 25 / 85%);
+  --f-button-hover-bg: rgb(29 33 40 / 98%);
+  --f-button-active-bg: rgb(29 33 40 / 98%);
+  --f-button-color: #9aa0a8;
+  --f-button-hover-color: #f2f4f5;
+  --f-button-active-color: #f2f4f5;
+  --f-button-border: 1px solid rgb(255 255 255 / 9%);
+  --f-button-border-radius: 50%;
+  --f-button-shadow: 0 4px 20px rgb(0 0 0 / 50%);
+  --f-button-transition:
+    background 0.22s cubic-bezier(0.22, 0.61, 0.36, 1),
+    color 0.22s cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  // Стрелки навигации
+  --f-arrow-bg: rgb(19 21 25 / 85%);
+  --f-arrow-border-radius: 50%;
+  --f-arrow-color: #9aa0a8;
+  --f-arrow-hover-color: #f2f4f5;
+
+  // Счётчик «1 / 7»
+  --f-counter-margin: 0;
+  --f-counter-padding: 0 4px;
+  --f-progressbar-color: var(--color-accent-purple, #9b59b6);
+  --f-progressbar-height: 2px;
+  --f-spinner-color-1: rgb(255 255 255 / 6%);
+  --f-spinner-color-2: var(--color-accent-purple, #9b59b6);
+
+  // Полоса миниатюр
+  --f-thumbs-bg: rgb(6 7 9 / 75%);
+  --f-thumbs-padding-x: 20px;
+  --f-thumbs-padding-y: 14px;
+  --f-thumbs-gap: 8px;
+  --f-thumb-width: 80px;
+  --f-thumb-height: 52px;
+  --f-thumb-border-radius: 8px;
+  --f-thumb-bg: rgb(255 255 255 / 4%);
+  --f-thumb-border: 2px solid transparent;
+  --f-thumb-opacity: 0.55;
+  --f-thumb-transition:
+    opacity 0.22s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 0.22s cubic-bezier(0.22, 0.61, 0.36, 1);
+  --f-thumb-hover-border: 2px solid rgb(255 255 255 / 22%);
+  --f-thumb-hover-opacity: 1;
+  --f-thumb-selected-border: 2px solid var(--color-accent-purple, #9b59b6);
+  --f-thumb-selected-opacity: 1;
+  --f-thumb-active-border: 2px solid var(--color-accent-purple, #9b59b6);
+  --f-thumb-active-opacity: 1;
+}
+
+// Лёгкое размытие фона под оверлеем
+.fancybox__backdrop {
+  backdrop-filter: blur(8px);
+}
+
+// Скруглённые углы основного изображения
+.fancybox__image {
+  border-radius: 10px;
+}
+
+// Тонкая разделительная линия над полосой миниатюр
+.f-thumbs {
+  border-top: 1px solid rgb(255 255 255 / 7%);
+}

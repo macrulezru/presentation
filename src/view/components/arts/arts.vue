@@ -1,16 +1,17 @@
 <script setup lang="ts">
-  import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+  import { ref, computed, onMounted, onUnmounted } from 'vue';
 
   import artCursor from '@/view/assets/images/art-cursor.svg?url';
   import ArtItem from '@/view/components/arts/parts/art-item/art-item.vue';
+  import { useFancybox } from '@/view/composables/use-fancybox';
   import Button from '@/view/ui/ui-button/ui-button.vue';
-  import UiImageModal from '@/view/ui/ui-image-modal/ui-image-modal.vue';
   import { useArtsImages, type ArtsImage } from '~/composables/useArtsImages';
   import { useI18n } from '~/composables/useI18n';
 
   import '@/view/components/arts/arts.scss';
 
   const { t } = useI18n();
+  const { openGallery } = useFancybox();
 
   const props = defineProps<{
     ssrArts?: ArtsImage[];
@@ -19,10 +20,6 @@
   const isSSR = import.meta.env.SSR;
   const hasSsrArts = Array.isArray(props.ssrArts);
 
-  const isModalOpen = ref(false);
-  const currentImageIndex = ref(0);
-  const selectedFolder = ref<string | null>(null);
-  const selectedProject = ref<ArtsImage | null>(null);
   const isLoading = ref(false);
   const loadingProgress = ref(0);
   const currentMasonryKey = ref(0);
@@ -60,15 +57,6 @@
 
   const displayImages = computed<ArtsImage[]>(() => {
     return showAllImages.value ? arts.value : arts.value.slice(0, PREVIEW_IMAGE_COUNT);
-  });
-
-  const modalImages = computed(() => {
-    if (!selectedProject.value) return [];
-    return selectedProject.value.images.map((img: string, index: number) => ({
-      preview: img,
-      full: img,
-      description: `${selectedProject.value?.directory} - изображение ${index + 1}`,
-    }));
   });
 
   const cursorStyle = computed(() => ({
@@ -168,38 +156,35 @@
   };
 
   const openModal = (directory: string) => {
-    selectedFolder.value = directory;
-    selectedProject.value =
-      arts.value.find((a: ArtsImage) => a.directory === directory) || null;
+    const project = arts.value.find((a: ArtsImage) => a.directory === directory);
+    if (!project) return;
 
-    if (selectedProject.value) {
-      isModalOpen.value = true;
-      currentImageIndex.value = 0;
-      lastMousePosition.value = { x: cursorX.value, y: cursorY.value };
-      window.addEventListener('mousemove', mouseMoveTracker);
-    }
-  };
+    cursorVisible.value = false;
+    lastMousePosition.value = { x: cursorX.value, y: cursorY.value };
+    window.addEventListener('mousemove', mouseMoveTracker);
 
-  const closeModal = () => {
-    isModalOpen.value = false;
-    selectedFolder.value = null;
-    selectedProject.value = null;
+    const galleryImages = project.images.map((img: string, index: number) => ({
+      full: img,
+      preview: img,
+      description: `${project.directory} - изображение ${index + 1}`,
+    }));
 
-    if (mouseMoveTracker) {
-      window.removeEventListener('mousemove', mouseMoveTracker);
-    }
+    openGallery(galleryImages, 0, {
+      showCaption: false,
+      on: {
+        destroy: () => {
+          window.removeEventListener('mousemove', mouseMoveTracker);
 
-    if (lastMousePosition.value) {
-      cursorX.value = lastMousePosition.value.x;
-      cursorY.value = lastMousePosition.value.y;
-    }
+          if (lastMousePosition.value) {
+            cursorX.value = lastMousePosition.value.x;
+            cursorY.value = lastMousePosition.value.y;
+          }
 
-    lastMousePosition.value = null;
-    cursorVisible.value = true;
-  };
-
-  const handleImageChange = (index: number) => {
-    currentImageIndex.value = index;
+          lastMousePosition.value = null;
+          cursorVisible.value = true;
+        },
+      },
+    });
   };
 
   const CURSOR_OFFSET_X = 40;
@@ -302,12 +287,6 @@
     removeCursorHandlers();
   };
 
-  watch(isModalOpen, val => {
-    if (val) {
-      cursorVisible.value = false;
-    }
-  });
-
   onMounted(async () => {
     if (isSSR) return;
 
@@ -409,14 +388,6 @@
       </div>
     </div>
   </div>
-  <UiImageModal
-    v-model:isOpen="isModalOpen"
-    :images="modalImages"
-    :initialIndex="currentImageIndex"
-    :showCounter="modalImages.length > 1"
-    @close="closeModal"
-    @change="handleImageChange"
-  />
 
   <div v-if="cursorVisible" :style="cursorStyle" class="arts__custom-cursor">
     <img :src="artCursor" alt="cursor" draggable="false" />

@@ -299,12 +299,7 @@
     "loading": "Загрузка...",
     "loading_images": "Загрузка изображений...",
     "loading_please_wait": "Пожалуйста, подождите...",
-    "previous_image": "Предыдущее изображение",
-    "next_image": "Следующее изображение",
-    "close": "Закрыть",
-    "thumbnail": "Миниатюра {number}",
-    "openInNewTab": "Открыть в новой вкладке",
-    "clickToOpenInNewTab": "Нажмите, чтобы открыть в новой вкладке"
+    "close": "Закрыть"
   },
   "pipeline": {
     "title": "Конвейерная система REST API запросов",
