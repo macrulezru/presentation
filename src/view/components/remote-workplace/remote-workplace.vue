@@ -44,11 +44,11 @@
           <div class="remote-workplace__features-image-container">
             <UiImage
               :image="{
-                src: { src: RemoveWorkplaceImage, width: '811px', height: '768px' },
+                src: { src: RemoveWorkplaceImage, width: '600', height: '400' },
                 tablet: {
                   src: RemoveWorkplaceImageHorizontal,
-                  width: '1360px',
-                  height: '700px',
+                  width: '800px',
+                  height: '450px',
                 },
                 alt: 'Workstation',
               }"

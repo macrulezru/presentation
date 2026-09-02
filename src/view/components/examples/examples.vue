@@ -35,7 +35,7 @@
                 type: 'circle',
                 circleRadius: 60,
                 thickness: 3,
-                progressColor: '#d941b0',
+                progressColor: '#78cf05',
               }),
             ]),
         },
@@ -102,7 +102,7 @@
   const scrollToFeature = (featureId: string) => {
     isScrollingByUser.value = true;
     targetFeatureId.value = featureId;
-    setIgnoreScrollUpdates(700);
+    setIgnoreScrollUpdates(1000);
 
     activeFeatureId.value = featureId;
 
@@ -129,7 +129,7 @@
       setTimeout(() => {
         isScrollingByUser.value = false;
         window.removeEventListener('scroll', handleScrollEnd);
-      }, 600);
+      }, 1000);
 
       window.scrollTo({
         top: offsetPosition,
