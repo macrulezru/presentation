@@ -9,6 +9,8 @@ import i18nImageHorizonatl from '@/view/assets/images/i18n-image-horizontal.webp
 import i18nImage from '@/view/assets/images/i18n-image.webp';
 import pipelineImageHorizontal from '@/view/assets/images/pipeline-image-horizontal.webp';
 import pipelineImage from '@/view/assets/images/pipeline-image.webp';
+import seatmapImageHorizontal from '@/view/assets/images/seatmap-image-horizontal.webp';
+import seatmapImage from '@/view/assets/images/seatmap-image.webp';
 import uiImageHorizontal from '@/view/assets/images/ui-image-horizontal.webp';
 import uiImage from '@/view/assets/images/ui-image.webp';
 import { useI18n } from '~/composables/useI18n';
@@ -26,7 +28,6 @@ export interface FeatureItem {
 
 export interface FeatureData {
   id: string;
-  icon: string;
   image: string;
   imageHorizontal: string;
   title: string;
@@ -59,7 +60,6 @@ export function useFeatures() {
       id: FeaturesEnum.UI_COMPONENTS,
       i18nKey: 'uiComponents',
       accentColor: '#bd0e3d',
-      mainIcon: 'ui',
       image: uiImage,
       imageHorizontal: uiImageHorizontal,
     },
@@ -67,7 +67,6 @@ export function useFeatures() {
       id: FeaturesEnum.PIPELINE,
       i18nKey: 'pipeline',
       accentColor: '#3498db',
-      mainIcon: 'pipeline',
       image: pipelineImage,
       imageHorizontal: pipelineImageHorizontal,
     },
@@ -75,7 +74,6 @@ export function useFeatures() {
       id: FeaturesEnum.REST_MONITORING,
       i18nKey: 'restMonitoring',
       accentColor: '#e74c3c',
-      mainIcon: 'monitoring',
       image: apiMonitorImage,
       imageHorizontal: apiMonitorImageHorizontal,
     },
@@ -83,7 +81,6 @@ export function useFeatures() {
       id: FeaturesEnum.DEPLOY_PLATFORM,
       i18nKey: 'deployPlatform',
       accentColor: '#1abc9c',
-      mainIcon: 'deploy',
       image: appPlatformImage,
       imageHorizontal: appPlatformImageHorizontal,
     },
@@ -91,9 +88,15 @@ export function useFeatures() {
       id: FeaturesEnum.LOCALIZATION,
       i18nKey: 'localization',
       accentColor: '#9b59b6',
-      mainIcon: 'localization',
       image: i18nImage,
       imageHorizontal: i18nImageHorizonatl,
+    },
+    {
+      id: FeaturesEnum.SEAT_MAP,
+      i18nKey: 'seatMap',
+      accentColor: '#409724',
+      image: seatmapImage,
+      imageHorizontal: seatmapImageHorizontal,
     },
   ]);
 
@@ -106,7 +109,6 @@ export function useFeatures() {
 
       return {
         id: config.id,
-        icon: config.mainIcon,
         image,
         imageHorizontal,
         title: t(`${i18nKey}.title`),

@@ -583,121 +583,6 @@
       ]
     }
   },
-  "multisync": {
-    "title": "Einheitliches Synchronisierungssystem für verteilte Vue.js-Anwendungen",
-    "shortTitle": "App Sync",
-    "subtitle": "Zustandssynchronisierungsarchitektur zwischen unabhängigen Anwendungen mit optionaler Verschlüsselung",
-    "description": "System zur Erstellung und Verwaltung mehrerer unabhängiger Vue-Anwendungen innerhalb eines einzelnen Repositorys mit automatischer Zustandssynchronisierung zwischen ihnen. Implementiert Cross-Tab-Synchronisierungsmechanismus und Kommunikation zwischen Anwendungen durch einen einheitlichen Speicher mit Verschlüsselungsunterstützung und flexibler Konfiguration.",
-    "features": {
-      "title": "Wichtige Synchronisierungsfunktionen",
-      "items": {
-        "single_architecture": {
-          "title": "Einheitliche Architektur für Vue-Apps",
-          "description": "System ermöglicht die Entwicklung und Verwaltung mehrerer unabhängiger Vue.js-Anwendungen innerhalb eines einzigen Monorepos mit gemeinsamen Abhängigkeiten."
-        },
-        "cross_tab_sync": {
-          "title": "Automatische Cross-Tab-Synchronisierung",
-          "description": "Anwendungszustände werden automatisch zwischen Browser-Tabs über eine einzige Quelle der Wahrheit in localStorage synchronisiert."
-        },
-        "multi_level_stores": {
-          "title": "Mehrschichtiges Store-System",
-          "description": "Architektur verwendet Kombination aus Pinia für lokalen Zustand und benutzerdefinierten Stores für synchronisierte Daten mit klarer Aufgabentrennung."
-        },
-        "optional_encryption": {
-          "title": "Optionale Datenverschlüsselung",
-          "description": "Kritische Speicherdaten können mit dem AES-GCM-Algorithmus geschützt werden, um Vertraulichkeit zu gewährleisten."
-        },
-        "cycle_prevention": {
-          "title": "Zyklische Update-Vermeidung",
-          "description": "Eingebauter Mechanismus verfolgt und blockiert zyklische Zustandsaktualisierungen und verhindert Datenrennen und Endlosschleifen."
-        },
-        "flexible_management": {
-          "title": "Flexible Sync-Verwaltung",
-          "description": "Synchronisierung kann dynamisch für einzelne Anwendungen oder Zustandsmodule aktiviert oder deaktiviert werden, ohne Neuladen."
-        },
-        "detailed_logging": {
-          "title": "Detaillierte Protokollierung und Debugging",
-          "description": "Alle Synchronisierungsstufen (Änderungen, Senden, Konflikte) werden protokolliert für bequemes Debugging und Überwachung des Systembetriebs."
-        }
-      }
-    },
-    "architecture": {
-      "title": "Synchronisierungsarchitektur",
-      "items": [
-        {
-          "name": "Multi-App-Koordinator",
-          "description": "zentraler Koordinator zur Verwaltung mehrerer unabhängiger Vue-Anwendungen innerhalb eines einzigen Repositorys"
-        },
-        {
-          "name": "Cross-Tab-Synchronisierungs-Engine",
-          "description": "Synchronisierungs-Engine für Zustände zwischen Browser-Tabs über localStorage und benutzerdefinierte Ereignisse"
-        },
-        {
-          "name": "Mehrschichtige Store-Architektur",
-          "description": "mehrschichtige Store-Architektur mit klarer Aufgabentrennung zwischen Komponenten"
-        },
-        {
-          "name": "Optionale Verschlüsselungsschicht",
-          "description": "optionale Datenverschlüsselungsschicht mit AES-GCM-Unterstützung und flexibler Schlüsselkonfiguration"
-        },
-        {
-          "name": "Zyklenverhinderungsmechanismus",
-          "description": "Mechanismus zur Verhinderung zyklischer Updates und Datenrennen während der Synchronisierung"
-        },
-        {
-          "name": "Einheitliches Protokollierungssystem",
-          "description": "einheitliches Protokollierungssystem mit detaillierter Aufzeichnung aller Synchronisierungsvorgänge und Fehlerbehandlung"
-        }
-      ]
-    },
-    "process": {
-      "title": "Systemablauf",
-      "steps": [
-        {
-          "title": "Anwendungsinitialisierung",
-          "description": "Laden und Initialisierung mehrerer unabhängiger Vue-Anwendungen mit Verbindung zum einheitlichen synchronisierten Speicher"
-        },
-        {
-          "title": "Synchronisierungskonfiguration",
-          "description": "Konfiguration der Synchronisierungsparameter, Verschlüsselung und Verbindung von Ereignis-Listenern für Cross-Tab-Updates"
-        },
-        {
-          "title": "Verteiltes Zustandsmanagement",
-          "description": "Automatische Synchronisierung von Änderungen zwischen Anwendungen mit Verarbeitung und Lösung von Update-Konflikten"
-        },
-        {
-          "title": "Sichere Datenspeicherung",
-          "description": "Optionale Speicherdatenverschlüsselung und Schutz vor unbefugtem Zugriff auf den Systemzustand"
-        },
-        {
-          "title": "Überwachung und Fehlerbehebung",
-          "description": "Detaillierte Protokollierung aller Synchronisierungsvorgänge mit Visualisierung des Verbindungsstatus und Updates"
-        }
-      ]
-    },
-    "benefits": {
-      "title": "Vorteile der Synchronisierung",
-      "items": [
-        "Einzelne Codebase für mehrere Anwendungen — Reduzierung der Codeduplizierung um 60%",
-        "Automatische Synchronisierung — Gewährleistung der Datenkonsistenz zwischen Anwendungen",
-        "Architekturflexibilität — Möglichkeit, neue Anwendungen einfach in das System zu integrieren",
-        "Erhöhte Sicherheit — optionale Verschlüsselung kritischer Benutzerdaten",
-        "Verbessertes UX — sofortige Schnittstellenaktualisierung bei Zustandsänderungen in jeder Anwendung",
-        "Skalierbarkeit — Unterstützung einer unbegrenzten Anzahl von Anwendungen im synchronisierten System",
-        "Vereinfachte Fehlerbehebung — zentralisierte Protokollierung aller Synchronisierungsvorgänge in Echtzeit"
-      ]
-    },
-    "metrics": {
-      "title": "Wichtige Metriken und Erfolge",
-      "items": [
-        "Unterstützung von 3+ unabhängigen Vue-Anwendungen in einem System",
-        "Reduzierung der Entwicklungszeit für neue Anwendungen um 40%",
-        "Gewährleistung der Datensynchronisierung bei 100+ gleichzeitigen Updates",
-        "Reduzierung der Codeduplizierung zwischen Anwendungen um 70%",
-        "Verringerung der Debugging-Zeit für anwendungsübergreifende Interaktionen um 50%"
-      ]
-    }
-  },
   "seat": {
     "props": {
       "ExtraLegRoom": "Zusätzliche Beinfreiheit",
@@ -752,7 +637,7 @@
   "uiComponents": {
     "title": "UI-Komponenten-Entwicklung",
     "shortTitle": "UI-Komponenten",
-    "subtitle": "UI-Komponenten-Architekt",
+    "subtitle": "UI-Komponenten-Architektur",
     "description": "Entwurf und Implementierung einer UI-Komponentenbibliothek für eine große Webanwendung mit Fokus auf Barrierefreiheit, Leistung und Entwicklungserfahrung.",
     "features": {
       "title": "Schlüsselkomponenten",

@@ -583,121 +583,6 @@
       ]
     }
   },
-  "multisync": {
-    "title": "Unified Synchronization System for Distributed Vue.js Applications",
-    "shortTitle": "App Sync",
-    "subtitle": "State synchronization architecture between independent applications with optional encryption",
-    "description": "System for creating and managing multiple independent Vue applications within a single repository with automatic state synchronization between them. Implements cross-tab synchronization mechanism and communication between applications through a unified storage with encryption support and flexible configuration.",
-    "features": {
-      "title": "Key Synchronization Capabilities",
-      "items": {
-        "single_architecture": {
-          "title": "Unified architecture for Vue apps",
-          "description": "System allows developing and managing multiple independent Vue.js applications within a single monorepo with shared dependencies."
-        },
-        "cross_tab_sync": {
-          "title": "Automatic cross-tab synchronization",
-          "description": "Application states are automatically synchronized between browser tabs through single source of truth in localStorage."
-        },
-        "multi_level_stores": {
-          "title": "Multi-layered store system",
-          "description": "Architecture uses combination of Pinia for local state and custom stores for synchronized data with clear separation of responsibilities."
-        },
-        "optional_encryption": {
-          "title": "Optional data encryption",
-          "description": "Critical storage data can be protected using AES-GCM algorithm to ensure confidentiality."
-        },
-        "cycle_prevention": {
-          "title": "Prevent cyclic updates",
-          "description": "Built-in mechanism tracks and blocks cyclic state updates, preventing data races and infinite loops."
-        },
-        "flexible_management": {
-          "title": "Flexible sync management",
-          "description": "Synchronization can be dynamically enabled or disabled for individual applications or state modules without reloading."
-        },
-        "detailed_logging": {
-          "title": "Detailed logging and debugging",
-          "description": "All synchronization stages (changes, sending, conflicts) are logged for convenient debugging and monitoring of system operation."
-        }
-      }
-    },
-    "architecture": {
-      "title": "Synchronization Architecture",
-      "items": [
-        {
-          "name": "Multi-App Coordinator",
-          "description": "central coordinator managing multiple independent Vue applications within a single repository"
-        },
-        {
-          "name": "Cross-Tab Sync Engine",
-          "description": "synchronization engine for states between browser tabs via localStorage and custom events"
-        },
-        {
-          "name": "Layered Store Architecture",
-          "description": "multi-layered store architecture with clear separation of responsibilities between components"
-        },
-        {
-          "name": "Optional Encryption Layer",
-          "description": "optional data encryption layer with AES-GCM support and flexible key configuration"
-        },
-        {
-          "name": "Cycle Prevention Mechanism",
-          "description": "mechanism for preventing cyclic updates and data races during synchronization"
-        },
-        {
-          "name": "Unified Logging System",
-          "description": "unified logging system with detailed recording of all synchronization operations and error handling"
-        }
-      ]
-    },
-    "process": {
-      "title": "System Workflow",
-      "steps": [
-        {
-          "title": "Application Initialization",
-          "description": "Loading and initialization of multiple independent Vue applications with connection to unified synchronized storage"
-        },
-        {
-          "title": "Synchronization Configuration",
-          "description": "Configuration of synchronization parameters, encryption, and connection of event listeners for cross-tab updates"
-        },
-        {
-          "title": "Distributed State Management",
-          "description": "Automatic synchronization of changes between applications with processing and resolution of update conflicts"
-        },
-        {
-          "title": "Secure Data Storage",
-          "description": "Optional storage data encryption and protection against unauthorized access to system state"
-        },
-        {
-          "title": "Monitoring and Debugging",
-          "description": "Detailed logging of all synchronization operations with visualization of connection status and updates"
-        }
-      ]
-    },
-    "benefits": {
-      "title": "Synchronization Benefits",
-      "items": [
-        "Single codebase for multiple applications — reducing code duplication by 60%",
-        "Automatic synchronization — ensuring data consistency between applications",
-        "Architectural flexibility — ability to easily add new applications to the system",
-        "Enhanced security — optional encryption of critical user data",
-        "Improved UX — instant interface updates when state changes in any application",
-        "Scalability — support for unlimited number of applications in synchronized system",
-        "Simplified debugging — centralized logging of all synchronization operations in real time"
-      ]
-    },
-    "metrics": {
-      "title": "Key Metrics and Achievements",
-      "items": [
-        "Support for 3+ independent Vue applications in one system",
-        "Reduction in new application development time by 40%",
-        "Ensuring data synchronization during 100+ simultaneous updates",
-        "Reduction in code duplication between applications by 70%",
-        "Decrease in debugging time for inter-application interactions by 50%"
-      ]
-    }
-  },
   "seat": {
     "props": {
       "ExtraLegRoom": "Extra leg room",
@@ -752,7 +637,7 @@
   "uiComponents": {
     "title": "UI Components Development",
     "shortTitle": "UI Components",
-    "subtitle": "UI Components Architect",
+    "subtitle": "UI Components Architecture",
     "description": "Designed and implemented a UI component library for a large web application with focus on accessibility, performance and developer experience.",
     "features": {
       "title": "Key Components",
