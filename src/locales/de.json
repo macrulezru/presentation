@@ -22,7 +22,7 @@
     "description": "Verwandle komplexe Aufgaben in elegante Lösungen. Spezialisiert auf Vue 3, TypeScript und die Erstellung skalierbarer Anwendungen mit durchdachter Architektur."
   },
   "app": {
-    "examples_title": "Architektonische Lösungen in Vue"
+    "examples_title": "Architektonische Lösungen in Vue&nbsp;•&nbsp;Nuxt&nbsp;•&nbsp;Node.js"
   },
   "about": {
     "intro": {
@@ -1226,6 +1226,12 @@
     "seatProps": "Eigenschaften",
     "button_openDemo": "Demo öffnen",
     "metrics_show": "Metriken anzeigen"
+  },
+  "app-platform-demo": {
+    "button_openDemo": "Plattform-Ansichten anzeigen"
+  },
+  "rest-api-demo": {
+    "button_openDemo": "Monitoring-Ansichten anzeigen"
   },
   "toolz": {
     "title": "Kontrolle und Vorhersehbarkeit bei jeder Aktion",

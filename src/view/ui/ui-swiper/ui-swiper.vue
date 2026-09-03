@@ -23,7 +23,7 @@
 
   interface Slide {
     preview: string;
-    description: string;
+    description?: string;
   }
 
   interface Props {
@@ -38,6 +38,7 @@
     initialIndex?: number; // Начальный индекс слайда
     dragThreshold?: number; // Минимальное расстояние для drag (px)
     dragVelocityThreshold?: number; // Процент ширины для автоперехода при драге (0-1)
+    maxHeight?: number;
   }
 
   interface Emits {
@@ -106,6 +107,11 @@
 
   const updateHeight = () => {
     if (!viewportRef.value) return;
+
+    if (props.maxHeight) {
+      containerHeight.value = props.maxHeight;
+      return;
+    }
 
     const slideElements = viewportRef.value.querySelectorAll('.ui-swiper__slide');
     const activeSlide = slideElements[currentIndex.value] as HTMLElement | undefined;

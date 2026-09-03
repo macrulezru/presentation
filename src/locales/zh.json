@@ -22,7 +22,7 @@
     "description": "将复杂任务转化为优雅的解决方案。专注于 Vue/Nuxt、TypeScript 和构建具有深思熟虑架构的可扩展应用程序。"
   },
   "app": {
-    "examples_title": "基于 Vue 的架构解决方案"
+    "examples_title": "基于 Vue&nbsp;•&nbsp;Nuxt&nbsp;•&nbsp;Node.js 的架构解决方案"
   },
   "about": {
     "intro": {
@@ -1226,6 +1226,12 @@
     "seatProps": "属性",
     "button_openDemo": "打开演示",
     "metrics_show": "显示指标"
+  },
+  "app-platform-demo": {
+    "button_openDemo": "查看平台界面"
+  },
+  "rest-api-demo": {
+    "button_openDemo": "查看监控界面"
   },
   "toolz": {
     "title": "每个操作都可控且可预测",
