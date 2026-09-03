@@ -145,10 +145,18 @@
     nextTick(() => scrollNavigationToActiveItem());
   };
 
+  const closeRestApi = () => {
+    isShowRestApi.value = false;
+  };
+
   const showAppPlatform = () => {
     isShowAppPlatform.value = true;
     activeFeatureId.value = FeaturesEnum.DEPLOY_PLATFORM;
     nextTick(() => scrollNavigationToActiveItem());
+  };
+
+  const closeAppPlatform = () => {
+    isShowAppPlatform.value = false;
   };
 
   const getNavigationOffset = () => {
@@ -338,7 +346,7 @@
                   v-if="isShowRestApi"
                   class="examples__pipeline-animated examples__rest-api"
                 >
-                  <RestApi />
+                  <RestApi @close="closeRestApi" />
                 </div>
               </template>
               <template v-if="feature.id === FeaturesEnum.DEPLOY_PLATFORM">
@@ -356,7 +364,7 @@
                   v-if="isShowAppPlatform"
                   class="examples__pipeline-animated examples__app-platform"
                 >
-                  <AppPlatform />
+                  <AppPlatform @close="closeAppPlatform" />
                 </div>
               </template>
             </FeatureItem>

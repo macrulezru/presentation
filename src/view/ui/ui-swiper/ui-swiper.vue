@@ -39,6 +39,7 @@
     dragThreshold?: number; // Минимальное расстояние для drag (px)
     dragVelocityThreshold?: number; // Процент ширины для автоперехода при драге (0-1)
     maxHeight?: number;
+    showCloseButton?: boolean;
   }
 
   interface Emits {
@@ -48,6 +49,7 @@
     (e: 'drag-start', event: { startX: number; currentIndex: number }): void;
     (e: 'drag-end', event: { endX: number; currentIndex: number; moved: boolean }): void;
     (e: 'swipe', event: { direction: 'left' | 'right'; index: number }): void;
+    (e: 'close'): void;
   }
 
   const props = defineProps<Props>();
@@ -404,6 +406,10 @@
       startAutoplay(); // Возобновляем autoplay после drag
     }
   };
+
+  const onClose = () => {
+    emit('close');
+  };
 </script>
 
 <template>
@@ -464,10 +470,12 @@
     </div>
 
     <!-- Кнопки навигации -->
+    <button v-if="props.showCloseButton" class="ui-swiper__close-btn" @click="onClose" />
+
     <button
       class="ui-swiper__nav-btn ui-swiper__nav-btn_prev"
       aria-label="Previous slide"
-      :aria-disabled="slidesCount <= 1"
+      :aria-disabled="!props.loop && !currentIndex"
       @click="
         () => {
           prevSlide();
@@ -478,7 +486,7 @@
     <button
       class="ui-swiper__nav-btn ui-swiper__nav-btn_next"
       aria-label="Next slide"
-      :aria-disabled="slidesCount <= 1"
+      :aria-disabled="!props.loop && currentIndex === slidesCount - 1"
       @click="
         () => {
           nextSlide();

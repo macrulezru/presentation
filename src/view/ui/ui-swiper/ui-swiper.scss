@@ -107,6 +107,27 @@
     overflow-wrap: break-word;
   }
 
+  &__close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 22px;
+    height: 22px;
+    border: none;
+    mask-image: url('@/view/assets/images/icon-close.svg');
+    mask-repeat: no-repeat;
+    mask-position: center center;
+    mask-size: cover;
+    background-color: var(--color-8);
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: var(--color-5);
+    }
+  }
+
   // Навигационные кнопки
   &__nav-btn {
     position: absolute;
@@ -136,7 +157,7 @@
     }
 
     &:hover:not([aria-disabled='true']) {
-      background: #fff;
+      background: var(--color-1);
       box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
       transform: translateY(-50%) scale(1.05);
     }
