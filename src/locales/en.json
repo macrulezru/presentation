@@ -22,7 +22,7 @@
     "description": "Transforming complex tasks into elegant solutions. Specializing in Vue/Nuxt, TypeScript and creating scalable applications with well-thought-out architecture."
   },
   "app": {
-    "examples_title": "Architectural Solutions in Vue"
+    "examples_title": "Architectural Solutions in Vue&nbsp;•&nbsp;Nuxt&nbsp;•&nbsp;Node.js"
   },
   "about": {
     "intro": {
@@ -1226,6 +1226,12 @@
     "seatProps": "Properties",
     "button_openDemo": "Open demo",
     "metrics_show": "Show metrics"
+  },
+  "app-platform-demo": {
+    "button_openDemo": "View platform screens"
+  },
+  "rest-api-demo": {
+    "button_openDemo": "View monitoring screens"
   },
   "toolz": {
     "title": "Control and predictability in every action",

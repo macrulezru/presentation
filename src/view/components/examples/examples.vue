@@ -35,7 +35,51 @@
                 type: 'circle',
                 circleRadius: 60,
                 thickness: 3,
-                progressColor: '#78cf05',
+                progressColor: '#8aec0b',
+              }),
+            ]),
+        },
+      ),
+    delay: 0,
+    suspensible: false,
+  });
+
+  const RestApi = defineAsyncComponent({
+    loader: () => import('@/view/components/rest-api/rest-api.vue'),
+    loadingComponent: () =>
+      h(
+        Transition,
+        { name: 'loader-appear', appear: true },
+        {
+          default: () =>
+            h('div', { class: 'examples__pipeline-loader' }, [
+              h(UiLoading, {
+                type: 'circle',
+                circleRadius: 60,
+                thickness: 3,
+                progressColor: '#8aec0b',
+              }),
+            ]),
+        },
+      ),
+    delay: 0,
+    suspensible: false,
+  });
+
+  const AppPlatform = defineAsyncComponent({
+    loader: () => import('@/view/components/app-platform/app-platform.vue'),
+    loadingComponent: () =>
+      h(
+        Transition,
+        { name: 'loader-appear', appear: true },
+        {
+          default: () =>
+            h('div', { class: 'examples__pipeline-loader' }, [
+              h(UiLoading, {
+                type: 'circle',
+                circleRadius: 60,
+                thickness: 3,
+                progressColor: '#8aec0b',
               }),
             ]),
         },
@@ -51,6 +95,8 @@
   const { navigateToSection, setIgnoreScrollUpdates } = useScrollRouting();
 
   const isShowPipeline = ref<boolean>(false);
+  const isShowRestApi = ref<boolean>(false);
+  const isShowAppPlatform = ref<boolean>(false);
   const activeFeatureId = ref<string>('');
   const navigationRef = ref<HTMLElement | null>(null);
   const isScrollingByUser = ref<boolean>(false);
@@ -90,6 +136,18 @@
   const showPipeline = () => {
     isShowPipeline.value = true;
     activeFeatureId.value = FeaturesEnum.PIPELINE;
+    nextTick(() => scrollNavigationToActiveItem());
+  };
+
+  const showRestApi = () => {
+    isShowRestApi.value = true;
+    activeFeatureId.value = FeaturesEnum.REST_MONITORING;
+    nextTick(() => scrollNavigationToActiveItem());
+  };
+
+  const showAppPlatform = () => {
+    isShowAppPlatform.value = true;
+    activeFeatureId.value = FeaturesEnum.DEPLOY_PLATFORM;
     nextTick(() => scrollNavigationToActiveItem());
   };
 
@@ -210,7 +268,7 @@
   <div>
     <div class="examples__demonstration">
       <div class="examples__demonstration-container">
-        <div class="examples__title">{{ t('app.examples_title') }}</div>
+        <div class="examples__title" v-html="t('app.examples_title')" />
         <div class="examples__demonstration-content">
           <div class="examples__demonstration-title">
             {{ t('demonstration.title') }}
@@ -266,6 +324,39 @@
                 </div>
                 <div v-if="isShowPipeline" class="examples__pipeline-animated">
                   <Pipeline />
+                </div>
+              </template>
+              <template v-if="feature.id === FeaturesEnum.REST_MONITORING">
+                <div v-if="!isShowRestApi" class="examples__pipeline examples__rest-api">
+                  <UiButton
+                    :text="t('rest-api-demo.button_openDemo')"
+                    promo
+                    @click="showRestApi"
+                  />
+                </div>
+                <div
+                  v-if="isShowRestApi"
+                  class="examples__pipeline-animated examples__rest-api"
+                >
+                  <RestApi />
+                </div>
+              </template>
+              <template v-if="feature.id === FeaturesEnum.DEPLOY_PLATFORM">
+                <div
+                  v-if="!isShowAppPlatform"
+                  class="examples__pipeline examples__app-platform"
+                >
+                  <UiButton
+                    :text="t('app-platform-demo.button_openDemo')"
+                    promo
+                    @click="showAppPlatform"
+                  />
+                </div>
+                <div
+                  v-if="isShowAppPlatform"
+                  class="examples__pipeline-animated examples__app-platform"
+                >
+                  <AppPlatform />
                 </div>
               </template>
             </FeatureItem>
