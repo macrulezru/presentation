@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import '@/view/components/examples/parts/feature-item/feature-item.scss';
 
-  import { useLinearGradient, useRadialGradient } from 'css-magic-gradient';
+  import { useLinearGradient, useRadialGradient } from 'css-magic-gradient/vue';
   import { computed, ref } from 'vue';
 
   import type { GradientOptions, GradientColors, headerGradientOptions } from './types';

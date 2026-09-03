@@ -29,7 +29,7 @@
     "@fancyapps/ui": "^6.1.14",
     "@yeger/vue-masonry-wall": "^5.1.4",
     "axios": "^1.13.2",
-    "css-magic-gradient": "^1.0.3",
+    "css-magic-gradient": "^1.2.11",
     "emailjs-com": "^3.2.0",
     "pinia": "^3.0.3",
     "prismjs": "^1.30.0",
