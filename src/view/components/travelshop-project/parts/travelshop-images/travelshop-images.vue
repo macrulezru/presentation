@@ -8,15 +8,30 @@
   const { images } = useTravelshopImages();
   const { openGallery } = useFancybox();
 
+  interface Emits {
+    (e: 'close'): void;
+  }
+
+  const emit = defineEmits<Emits>();
+
   const openModal = (index: number) => {
     openGallery(images.value, index);
+  };
+
+  const onClose = () => {
+    emit('close');
   };
 </script>
 
 <template>
   <Transition name="content-appear" appear>
     <div class="travelshop-images">
-      <UiSwiper :slides="images" @slide-click="openModal" />
+      <UiSwiper
+        showCloseButton
+        :slides="images"
+        @slide-click="openModal"
+        @close="onClose"
+      />
     </div>
   </Transition>
 </template>

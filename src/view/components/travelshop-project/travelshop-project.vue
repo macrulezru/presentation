@@ -228,6 +228,7 @@
             <TravelshopImages
               size="large"
               :textKey="t('travelshop.loading_screenshots')"
+              @close="showSwiper = false"
             />
           </div>
         </div>

@@ -8,15 +8,31 @@
   const { images } = useAppPlatformImages();
   const { openGallery } = useFancybox();
 
+  interface Emits {
+    (e: 'close'): void;
+  }
+
+  const emit = defineEmits<Emits>();
+
   const openModal = (index: number) => {
     openGallery(images.value, index);
+  };
+
+  const onClose = () => {
+    emit('close');
   };
 </script>
 
 <template>
   <Transition name="content-appear" appear>
     <div class="app-platform">
-      <UiSwiper :slides="images" :maxHeight="600" @slide-click="openModal" />
+      <UiSwiper
+        showCloseButton
+        :slides="images"
+        :maxHeight="600"
+        @slide-click="openModal"
+        @close="onClose"
+      />
     </div>
   </Transition>
 </template>
