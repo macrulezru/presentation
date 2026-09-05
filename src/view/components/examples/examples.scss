@@ -1,73 +1,28 @@
 .examples {
+  border-top: solid 1px var(--color-7);
+
+  &__demonstration {
+    @include container-lg;
+
+    &-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(60px, 10vw, 100px) 0;
+      gap: 40px;
+    }
+  }
+
   &__title {
     @include big-title;
 
-    padding: clamp(20px, 4vw, 40px) 0 clamp(30px, 5vw, 60px);
     text-align: center;
   }
 
-  &__demonstration {
-    position: relative;
-    padding: 40px 0 clamp(80px, 5vw, 100px);
-    border-top: solid 1px var(--color-7);
-    border-bottom: solid 1px var(--color-7);
-    background-color: #0e0d0d;
+  &__description {
+    @include small-title;
 
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter2)' opacity='0.15'/%3E%3C/svg%3E");
-      opacity: 1;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    &-container {
-      @include container-lg;
-    }
-
-    &-content {
-      text-align: center;
-      max-width: var(--container-sm);
-      margin: 0 auto;
-    }
-
-    &-title {
-      @include medium-title;
-
-      margin-bottom: var(--spacing-lg);
-    }
-
-    &-description {
-      padding-bottom: 60px;
-      color: var(--color-4);
-    }
-
-    &-readiness {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-      background: var(--color-background);
-      padding: var(--spacing-lg);
-      border-radius: var(--radius-lg);
-      border: solid 1px #6f6f6f;
-      filter: drop-shadow(0 25px 30px rgb(0 0 0 / 30%));
-      z-index: 2;
-    }
-
-    &-icon {
-      display: block;
-      height: 130px;
-      background-image: url('@/view/assets/images/testing-icon.svg');
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: contain;
-    }
+    text-align: center;
   }
 
   &__navigation {
@@ -75,6 +30,7 @@
     top: 60px;
     z-index: 10;
     background-color: var(--color-background);
+    border-top: 1px solid var(--color-7);
     border-bottom: 1px solid var(--color-7);
 
     @include media-tablet {
