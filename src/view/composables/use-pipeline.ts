@@ -77,6 +77,22 @@ export const usePipeline = () => {
 
   const isCodeShow = ref(false);
 
+  const requestUrls = ref<Record<PipelineStepKey, string>>({
+    points: '',
+    availability: '',
+    services: '',
+    seatmap: '',
+  });
+
+  const computeStepUrl: Record<PipelineStepKey, (sharedData: any) => string> = {
+    points: () => 'points',
+    availability: sharedData =>
+      `availability/${sharedData.departurePoint.code}/${sharedData.arrivalPoint.code}`,
+    services: sharedData =>
+      `services/${sharedData.departurePoint.code}/${sharedData.arrivalPoint.code}/${sharedData.apiDate}/${sharedData.flightNumber}`,
+    seatmap: sharedData => `seatmap/${sharedData.apiDate}/${sharedData.flightNumber}`,
+  };
+
   const HTTP_CONFIG = {
     baseURL: 'https://macrulez-api.ru/api/portfolio/fly',
     timeout: 10000,
@@ -92,8 +108,7 @@ export const usePipeline = () => {
       {
         key: 'points',
         request: async ({ sharedData }: { sharedData: any }) => {
-          sharedData.requestUrl = 'points';
-          const res = await restClient.get('points');
+          const res = await restClient.get(sharedData.requestUrl);
           return res.data;
         },
         after: ({ result, sharedData }: { result: any; sharedData: any }) => {
@@ -108,16 +123,14 @@ export const usePipeline = () => {
             throw new Error('No points');
           pipelineStorage.value.departurePoint = sharedData.departurePoint;
           pipelineStorage.value.arrivalPoint = sharedData.arrivalPoint;
-          return { ...result, requestUrl: sharedData.requestUrl };
+          return result;
         },
         pauseBefore: 700,
       },
       {
         key: 'availability',
         request: async ({ sharedData }: { sharedData: any }) => {
-          const url = `availability/${sharedData.departurePoint.code}/${sharedData.arrivalPoint.code}`;
-          sharedData.requestUrl = url;
-          const res = await restClient.get(url);
+          const res = await restClient.get(sharedData.requestUrl);
           return res.data;
         },
         after: ({ result, sharedData }: { result: any; sharedData: any }) => {
@@ -126,37 +139,33 @@ export const usePipeline = () => {
           sharedData.flight = directionsModel.directions[0]?.getRandomFlight();
           sharedData.flightNumber = `${sharedData.flight.segments[0].oak}-${sharedData.flight.segments[0].flightNumber}`;
           pipelineStorage.value.flight = sharedData.flight;
-          return { ...result, requestUrl: sharedData.requestUrl };
+          return result;
         },
         pauseBefore: 700,
       },
       {
         key: 'services',
         request: async ({ sharedData }: { sharedData: any }) => {
-          const url = `services/${sharedData.departurePoint.code}/${sharedData.arrivalPoint.code}/${sharedData.apiDate}/${sharedData.flightNumber}`;
-          sharedData.requestUrl = url;
-          const res = await restClient.get(url);
+          const res = await restClient.get(sharedData.requestUrl);
           return res.data;
         },
-        after: ({ result, sharedData }: { result: any; sharedData: any }) => {
+        after: ({ result }: { result: any }) => {
           const servicesModel = new ServicesModel({ services: result.services || [] });
           pipelineStorage.value.services = servicesModel.getRandomServices();
-          return { ...result, requestUrl: sharedData.requestUrl };
+          return result;
         },
         pauseBefore: 700,
       },
       {
         key: 'seatmap',
         request: async ({ sharedData }: { sharedData: any }) => {
-          const url = `seatmap/${sharedData.apiDate}/${sharedData.flightNumber}`;
-          sharedData.requestUrl = url;
-          const res = await restClient.get(url);
+          const res = await restClient.get(sharedData.requestUrl);
           return res.data;
         },
-        after: ({ result, sharedData }: { result: any; sharedData: any }) => {
+        after: ({ result }: { result: any }) => {
           const seatMapModel = new SeatMapModel(result);
           pipelineStorage.value.seat = seatMapModel.getRandomAvailableSeat();
-          return { ...result, requestUrl: sharedData.requestUrl };
+          return result;
         },
         pauseBefore: 700,
       },
@@ -166,6 +175,14 @@ export const usePipeline = () => {
   const orchestrator = new PipelineOrchestrator({
     config: pipelineConfig,
     httpConfig: HTTP_CONFIG,
+  });
+
+  (Object.keys(computeStepUrl) as PipelineStepKey[]).forEach(key => {
+    orchestrator.on(`step:${key}:start`, () => {
+      const url = computeStepUrl[key](orchestrator.sharedData);
+      orchestrator.sharedData.requestUrl = url;
+      requestUrls.value[key] = url;
+    });
   });
 
   const { run, running, stageResults } = usePipelineRunVue(orchestrator);
@@ -184,6 +201,12 @@ export const usePipeline = () => {
       flight: null,
       services: null,
       seat: null,
+    };
+    requestUrls.value = {
+      points: '',
+      availability: '',
+      services: '',
+      seatmap: '',
     };
     await new Promise(r => setTimeout(r, 120));
     resetting.value = false;
@@ -222,7 +245,7 @@ export const usePipeline = () => {
           return s;
         return undefined;
       }),
-      requestUrl: computed(() => stageResults.value?.points?.data?.requestUrl || ''),
+      requestUrl: computed(() => requestUrls.value.points),
       response: computed(() => stageResults.value?.points?.data?.points),
       responseComponent: PipelineResponce,
       extraComponent: PipelinePoints,
@@ -241,7 +264,7 @@ export const usePipeline = () => {
           return s;
         return undefined;
       }),
-      requestUrl: computed(() => stageResults.value?.availability?.data?.requestUrl || ''),
+      requestUrl: computed(() => requestUrls.value.availability),
       response: computed(() => stageResults.value?.availability?.data),
       responseComponent: PipelineResponce,
       extraComponent: PipelineFlight,
@@ -259,7 +282,7 @@ export const usePipeline = () => {
           return s;
         return undefined;
       }),
-      requestUrl: computed(() => stageResults.value?.services?.data?.requestUrl || ''),
+      requestUrl: computed(() => requestUrls.value.services),
       response: computed(() => stageResults.value?.services?.data),
       responseComponent: PipelineResponce,
       extraComponent: PipelineServices,
@@ -277,7 +300,7 @@ export const usePipeline = () => {
           return s;
         return undefined;
       }),
-      requestUrl: computed(() => stageResults.value?.seatmap?.data?.requestUrl || ''),
+      requestUrl: computed(() => requestUrls.value.seatmap),
       response: computed(() => stageResults.value?.seatmap?.data),
       responseComponent: PipelineResponce,
       extraComponent: PipelineSeat,

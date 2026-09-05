@@ -11,9 +11,7 @@
   } from 'vue';
 
   import { FeaturesEnum } from '@/enums/features.enum';
-  import { PageSectionsEnum } from '@/enums/page-sections.enum.ts';
   import FeatureItem from '@/view/components/examples/parts/feature-item/feature-item.vue';
-  import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
   import UiButton from '~/components/ui/UiButton.vue';
   import UiLoading from '~/components/ui/UiLoading.vue';
   import { useFeatures } from '~/composables/useFeatures';
@@ -92,7 +90,6 @@
 
   const responsive = useResponsive();
   const { features } = useFeatures();
-  const { navigateToSection, setIgnoreScrollUpdates } = useScrollRouting();
 
   const isShowPipeline = ref<boolean>(false);
   const isShowRestApi = ref<boolean>(false);
@@ -127,10 +124,6 @@
       left: targetScroll,
       behavior: 'smooth',
     });
-  };
-
-  const toContactSection = () => {
-    navigateToSection(PageSectionsEnum.CONTACTS);
   };
 
   const showPipeline = () => {
@@ -168,7 +161,6 @@
   const scrollToFeature = (featureId: string) => {
     isScrollingByUser.value = true;
     targetFeatureId.value = featureId;
-    setIgnoreScrollUpdates(1000);
 
     activeFeatureId.value = featureId;
 
@@ -273,29 +265,11 @@
 </script>
 
 <template>
-  <div>
+  <div class="examples">
     <div class="examples__demonstration">
       <div class="examples__demonstration-container">
         <div class="examples__title" v-html="t('app.examples_title')" />
-        <div class="examples__demonstration-content">
-          <div class="examples__demonstration-title">
-            {{ t('demonstration.title') }}
-          </div>
-          <div class="examples__demonstration-description">
-            {{ t('demonstration.description') }}
-          </div>
-          <div class="examples__demonstration-readiness">
-            <div class="examples__demonstration-icon" />
-            <div>{{ t('demonstration.readiness') }}</div>
-            <div>
-              <UiButton
-                small
-                :text="t('demonstration.contact_me_conveniently')"
-                @click="toContactSection"
-              />
-            </div>
-          </div>
-        </div>
+        <div class="examples__description">{{ t('app.examples_description') }}</div>
       </div>
     </div>
     <div class="examples__features">

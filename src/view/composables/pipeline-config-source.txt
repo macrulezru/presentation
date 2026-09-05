@@ -3,8 +3,8 @@ const pipelineConfig = {
     {
       key: 'points',
       request: async ({ sharedData }: { sharedData: any }) => {
-        sharedData.requestUrl = 'points';
-        return sharedData.requestUrl;
+        const res = await restClient.get(sharedData.requestUrl);
+        return res.data;
       },
       after: ({ result, sharedData }: { result: any; sharedData: any }) => {
         const { points } = result;
@@ -18,15 +18,15 @@ const pipelineConfig = {
           throw new Error('No points');
         pipelineStorage.value.departurePoint = sharedData.departurePoint;
         pipelineStorage.value.arrivalPoint = sharedData.arrivalPoint;
-        return { ...result, requestUrl: sharedData.requestUrl };
+        return result;
       },
       pauseBefore: 700,
     },
     {
       key: 'availability',
       request: async ({ sharedData }: { sharedData: any }) => {
-        sharedData.requestUrl = `availability/${sharedData.departurePoint.code}/${sharedData.arrivalPoint.code}`;
-        return sharedData.requestUrl;
+        const res = await restClient.get(sharedData.requestUrl);
+        return res.data;
       },
       after: ({ result, sharedData }: { result: any; sharedData: any }) => {
         const directionsModel = new DirectionsModel(result);
@@ -34,33 +34,33 @@ const pipelineConfig = {
         sharedData.flight = directionsModel.directions[0]?.getRandomFlight();
         sharedData.flightNumber = `${sharedData.flight.segments[0].oak}-${sharedData.flight.segments[0].flightNumber}`;
         pipelineStorage.value.flight = sharedData.flight;
-        return { ...result, requestUrl: sharedData.requestUrl };
+        return result;
       },
       pauseBefore: 700,
     },
     {
       key: 'services',
       request: async ({ sharedData }: { sharedData: any }) => {
-        sharedData.requestUrl = `services/${sharedData.departurePoint.code}/${sharedData.arrivalPoint.code}/${sharedData.apiDate}/${sharedData.flightNumber}`;
-        return sharedData.requestUrl;
+        const res = await restClient.get(sharedData.requestUrl);
+        return res.data;
       },
-      after: ({ result, sharedData }: { result: any; sharedData: any }) => {
+      after: ({ result }: { result: any }) => {
         const servicesModel = new ServicesModel({ services: result.services || [] });
         pipelineStorage.value.services = servicesModel.getRandomServices();
-        return { ...result, requestUrl: sharedData.requestUrl };
+        return result;
       },
       pauseBefore: 700,
     },
     {
       key: 'seatmap',
       request: async ({ sharedData }: { sharedData: any }) => {
-        sharedData.requestUrl = `seatmap/${sharedData.apiDate}/${sharedData.flightNumber}`;
-        return sharedData.requestUrl;
+        const res = await restClient.get(sharedData.requestUrl);
+        return res.data;
       },
-      after: ({ result, sharedData }: { result: any; sharedData: any }) => {
+      after: ({ result }: { result: any }) => {
         const seatMapModel = new SeatMapModel(result);
         pipelineStorage.value.seat = seatMapModel.getRandomAvailableSeat();
-        return { ...result, requestUrl: sharedData.requestUrl };
+        return result;
       },
       pauseBefore: 700,
     },

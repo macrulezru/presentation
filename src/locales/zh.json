@@ -22,7 +22,8 @@
     "description": "将复杂任务转化为优雅的解决方案。专注于 Vue/Nuxt、TypeScript 和构建具有深思熟虑架构的可扩展应用程序。"
   },
   "app": {
-    "examples_title": "基于 Vue&nbsp;•&nbsp;Nuxt&nbsp;•&nbsp;Node.js 的架构解决方案"
+    "examples_title": "基于 Vue&nbsp;•&nbsp;Nuxt&nbsp;•&nbsp;Node.js 的架构解决方案",
+    "examples_description": "从 UI 组件到部署和监控系统 — 这里汇集了我在实践中设计和实现的具体技术解决方案。"
   },
   "about": {
     "intro": {
@@ -911,12 +912,6 @@
         "单台服务器同时托管平台和任意数量的应用，网络隔离"
       ]
     }
-  },
-  "demonstration": {
-    "title": "职业道德与我的技能",
-    "description": "虽然受知识产权保护无法公开商业项目的源代码，但我可以详细阐述开发过程中采用的技术方案、架构设计和实现方法。",
-    "readiness": "我准备完成测试任务，通过实践展示我解决问题的方法、代码质量和专业技能。",
-    "contact_me_conveniently": "等待您的建议"
   },
   "contacts": {
     "title": "联系方式",
