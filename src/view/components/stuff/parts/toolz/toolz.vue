@@ -3,6 +3,7 @@
 
   import { computed } from 'vue';
 
+  import { LocalesEnum } from '@/enums/locales.enum.ts';
   import FavIcona from '@/view/assets/images/toolz/fav_icona.webp';
   import GradinetFabric from '@/view/assets/images/toolz/gradient_fabric.webp';
   import ImageCompressor from '@/view/assets/images/toolz/image_compressor.webp';
@@ -13,6 +14,10 @@
 
   const { t } = useI18n();
 
+  const { locale } = useI18n();
+
+  const localePrefix = computed(() => (locale.value !== LocalesEnum.RU ? 'en/' : ''));
+
   const items = computed(() => {
     return [
       {
@@ -20,42 +25,42 @@
         title: t('toolz.modulez.tiny_svg.title'),
         sub_title: t('toolz.modulez.tiny_svg.sub_title'),
         description: t('toolz.modulez.tiny_svg.description'),
-        url: 'https://toolz.macrulez.ru/ru/tiny-svg',
+        url: `https://toolz.macrulez.ru/${localePrefix.value}module/tiny-svg`,
       },
       {
         image: ImageCompressor,
         title: t('toolz.modulez.image_compressor.title'),
         sub_title: t('toolz.modulez.image_compressor.sub_title'),
         description: t('toolz.modulez.image_compressor.description'),
-        url: 'https://toolz.macrulez.ru/ru/image-compressor',
+        url: `https://toolz.macrulez.ru/${localePrefix.value}module/image-compressor`,
       },
       {
         image: GradinetFabric,
         title: t('toolz.modulez.gradient_fabric.title'),
         sub_title: t('toolz.modulez.gradient_fabric.sub_title'),
         description: t('toolz.modulez.gradient_fabric.description'),
-        url: 'https://toolz.macrulez.ru/ru/gradient-fabric',
+        url: `https://toolz.macrulez.ru/${localePrefix.value}module/gradient-fabric`,
       },
       {
         image: UnitForge,
         title: t('toolz.modulez.unit_forge.title'),
         sub_title: t('toolz.modulez.unit_forge.sub_title'),
         description: t('toolz.modulez.unit_forge.description'),
-        url: 'https://toolz.macrulez.ru/ru/unit-forge',
+        url: `https://toolz.macrulez.ru/${localePrefix.value}module/unit-forge`,
       },
       {
         image: FavIcona,
         title: t('toolz.modulez.fav_icona.title'),
         sub_title: t('toolz.modulez.fav_icona.sub_title'),
         description: t('toolz.modulez.fav_icona.description'),
-        url: 'https://toolz.macrulez.ru/ru/fav-icona',
+        url: `https://toolz.macrulez.ru/${localePrefix.value}module/fav-icona`,
       },
       {
         image: Stronghold,
         title: t('toolz.modulez.stronghold.title'),
         sub_title: t('toolz.modulez.stronghold.sub_title'),
         description: t('toolz.modulez.stronghold.description'),
-        url: 'https://toolz.macrulez.ru/ru/stronghold',
+        url: `https://toolz.macrulez.ru/${localePrefix.value}module/stronghold`,
       },
     ];
   });
@@ -65,7 +70,11 @@
   <div class="toolz">
     <div class="toolz__container">
       <div class="toolz__promo">
-        <a href="https://toolz.macrulez.ru" target="_blank" class="toolz__promo-header">
+        <a
+          :href="`https://toolz.macrulez.ru${locale !== LocalesEnum.RU ? '/en' : ''}`"
+          target="_blank"
+          class="toolz__promo-header"
+        >
           <span class="toolz__promo-logo" />
           <span class="toolz__promo-logo-reflect" />
         </a>
