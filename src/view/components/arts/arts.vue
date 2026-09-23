@@ -326,31 +326,11 @@
       </div>
 
       <div v-else class="arts__projects">
-        <!-- SSR: рендерим простой список; на клиенте — masonry-wall -->
-        <ClientOnly>
-          <masonry-wall
-            :key="currentMasonryKey"
-            :items="displayImages"
-            :ssrColumns="1"
-            :columnWidth="220"
-            :gap="16"
-            :minColumns="2"
-          >
-            <template #default="{ item }">
-              <ArtItem :image="item" @on-image-click="openModal(item.directory)" />
-            </template>
-          </masonry-wall>
-          <template #fallback>
-            <div class="arts__projects-ssr">
-              <ArtItem
-                v-for="item in displayImages"
-                :key="item.directory"
-                :image="item"
-                @on-image-click="openModal(item.directory)"
-              />
-            </div>
+        <MasonryGrid :items="displayImages" :options="{ minLaneSize: 250 }">
+          <template #item="{ item }">
+            <ArtItem :image="item" @on-image-click="openModal(item.directory)" />
           </template>
-        </ClientOnly>
+        </MasonryGrid>
       </div>
 
       <div
