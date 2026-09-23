@@ -210,7 +210,7 @@
         {{ t('pipeline-demo.boardingPass.footerNote') }}
       </span>
       <span class="pipeline-boarding-pass__footer-qr">
-        <img :src="qrLink" alt="QR Code" />
+        <img :src="qrLink" alt="QR Code" loading="lazy" />
       </span>
     </div>
   </div>

@@ -116,7 +116,6 @@ export default defineNuxtConfig({
     columns: 'auto',
     minLaneSize: 300,
   },
-
   vite: {
     css: {
       preprocessorOptions: {

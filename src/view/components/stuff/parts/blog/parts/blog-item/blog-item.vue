@@ -16,10 +16,7 @@
     <a :href="`https://blog.macrulez.ru/post/${props.post.url}`" target="_blank">
       <div class="blog-item__post">
         <div class="blog-item__post-image-wrapper">
-          <div
-            class="blog-item__image"
-            :style="`--post-card-image: url(${props.post.coverImage});`"
-          />
+          <img class="blog-item__image" :src="props.post.coverImage" loading="lazy" />
         </div>
         <div class="blog-item__title">
           {{ props.post.title }}
