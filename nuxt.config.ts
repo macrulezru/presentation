@@ -111,7 +111,11 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: [],
+  modules: ['@macrulez/masonry-kit-nuxt'],
+  masonry: {
+    columns: 'auto',
+    minLaneSize: 300,
+  },
 
   vite: {
     css: {

@@ -60,20 +60,15 @@
     padding: 50px 0;
   }
 
-  &__wrapper {
-    @include grid-3-cols;
-
-    gap: 24px;
-  }
-
   &__item {
     display: flex;
     flex-direction: column;
     gap: 11px;
     padding: 30px;
-    border: solid 1px var(--color-7);
+    border: solid 1px transparent;
     border-radius: var(--radius-lg);
     transition: all var(--transition-normal);
+    background-color: var(--color-background-dark);
 
     &-header-link {
       display: flex;
