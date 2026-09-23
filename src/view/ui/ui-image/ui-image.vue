@@ -2,7 +2,8 @@
   import '@/view/ui/ui-image/ui-image.scss';
 
   import { ref, computed } from 'vue';
-import { useResponsive, getResponsiveMediaQueries } from '~/composables/useResponsive';
+
+  import { useResponsive, getResponsiveMediaQueries } from '~/composables/useResponsive';
 
   export interface UiImageSource {
     src: string;

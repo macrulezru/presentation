@@ -102,6 +102,7 @@
         :src="props.image.preview"
         :alt="props.image.title"
         class="art-item__image"
+        loading="lazy"
         @error="handleImageError"
         @load="handleImageLoad"
       />

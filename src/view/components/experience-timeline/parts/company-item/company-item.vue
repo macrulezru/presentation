@@ -35,6 +35,7 @@
             v-if="props.company.logo"
             :src="props.company.logo_url"
             :alt="props.company.company"
+            loading="lazy"
           />
         </div>
       </div>
