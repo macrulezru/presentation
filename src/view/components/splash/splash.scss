@@ -5,7 +5,11 @@
   align-items: center;
   padding: clamp(60px, 10vw, 180px) var(--spacing-lg);
   margin-top: var(--header-height);
-  background: url('@/view/assets/images/splash-background.webp') center / cover no-repeat;
+  background-image: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    rgb(82 82 82) 0%,
+    rgb(0 0 0) 100%
+  );
 
   &__dimmer {
     position: absolute;
@@ -25,6 +29,7 @@
 
   &__main {
     display: flex;
+    align-items: center;
     gap: var(--spacing-4xl);
     z-index: 1;
   }
@@ -32,9 +37,8 @@
   &__animation {
     flex-shrink: 0;
     width: 260px;
-    height: 260px;
-    background: url('@/view/assets/images/face.svg') center / contain no-repeat;
-    filter: drop-shadow(0 0 24px rgb(66 184 131 / 25%));
+    height: 350px;
+    background: url('@/view/assets/images/avatar.webp') center / contain no-repeat;
     animation: float-soft 8s ease-in-out infinite;
   }
 
@@ -134,7 +138,7 @@
 
     &__animation {
       width: 200px;
-      height: 200px;
+      height: 240px;
     }
 
     &__title {
@@ -169,7 +173,7 @@
   @media (width <= 580px) {
     &__animation {
       width: 160px;
-      height: 160px;
+      height: 240px;
     }
 
     &__title {
@@ -213,11 +217,6 @@
   }
 
   @media (width <= 380px) {
-    &__animation {
-      width: 140px;
-      height: 140px;
-    }
-
     &__title {
       font-size: 22px;
     }
