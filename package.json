@@ -28,6 +28,7 @@
   "dependencies": {
     "@fancyapps/ui": "^6.1.14",
     "@macrulez/masonry-kit-nuxt": "^0.1.4",
+    "@macrulez/vue-image-kit": "^1.2.0",
     "axios": "^1.13.2",
     "css-magic-gradient": "^1.2.11",
     "emailjs-com": "^3.2.0",

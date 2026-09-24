@@ -1,9 +1,11 @@
 <script setup lang="ts">
   import '@/view/components/arts/parts/art-item/art-item.scss';
-  import { ref, onMounted } from 'vue';
+  import { ref } from 'vue';
+
+  import type { ArtsImage } from '~/composables/useArtsImages';
 
   interface Props {
-    image: any;
+    image: ArtsImage;
   }
 
   const props = defineProps<Props>();
@@ -18,7 +20,6 @@
   const glowX = ref(50);
   const glowY = ref(50);
   const translateY = ref(0);
-  const imgRef = ref<HTMLImageElement>();
   const isImageLoaded = ref(false);
 
   const MAX_IMAGE_ROTATION = 30;
@@ -70,12 +71,6 @@
     glowX.value = 50;
     glowY.value = 50;
   };
-
-  onMounted(() => {
-    if (imgRef.value?.complete) {
-      isImageLoaded.value = true;
-    }
-  });
 </script>
 
 <template>
@@ -90,19 +85,19 @@
       '--glow-x': `${glowX}%`,
       '--glow-y': `${glowY}%`,
     }"
-    @click="() => onImageClick(props.image.key)"
+    @click="() => onImageClick(props.image.directory)"
     @mousemove="handleMouseMove"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
     <div class="art-item__preview">
-      <img
-        v-if="props.image.preview"
-        ref="imgRef"
-        :src="props.image.preview"
-        :alt="props.image.title"
+      <VImage
         class="art-item__image"
-        loading="lazy"
+        :src="props.image.preview"
+        :width="props.image.previewWidth ?? undefined"
+        :height="props.image.previewHeight ?? undefined"
+        :thumbhash="props.image.previewThumbhash ?? undefined"
+        :alt="props.image.directory"
         @error="handleImageError"
         @load="handleImageLoad"
       />

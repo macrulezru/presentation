@@ -47,11 +47,12 @@
             <div class="npm-packages__item-header-block">
               <div class="npm-packages__item-header-link">
                 <div v-if="item.image" class="npm-packages__item-image-wrapper">
-                  <img
+                  <VImage
                     class="npm-packages__item-image"
                     :src="item.image"
                     :alt="item.title"
-                    loading="lazy"
+                    :lazy="true"
+                    thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"
                   />
                 </div>
                 <div class="npm-packages__item-name">

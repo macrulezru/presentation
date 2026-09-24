@@ -16,7 +16,13 @@
     <a :href="`https://blog.macrulez.ru/post/${props.post.url}`" target="_blank">
       <div class="blog-item__post">
         <div class="blog-item__post-image-wrapper">
-          <img class="blog-item__image" :src="props.post.coverImage" loading="lazy" />
+          <VImage
+            class="blog-item__image"
+            :src="props.post.coverImage"
+            :alt="props.post.title"
+            :lazy="true"
+            thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"
+          />
         </div>
         <div class="blog-item__title">
           {{ props.post.title }}

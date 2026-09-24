@@ -18,14 +18,7 @@
   }>();
 
   const isSSR = import.meta.env.SSR;
-  const hasSsrArts = Array.isArray(props.ssrArts);
-
-  const isLoading = ref(false);
-  const loadingProgress = ref(0);
-  const currentMasonryKey = ref(0);
   const showAllImages = ref(false);
-  const isPreviewLoaded = ref(hasSsrArts);
-  const areAllImagesLoaded = ref(false);
   const cursorVisible = ref(false);
   const cursorX = ref(0);
   const cursorY = ref(0);
@@ -38,22 +31,9 @@
 
   const legacyArts = props.ssrArts || isSSR ? null : useArtsImages();
   const arts = computed<ArtsImage[]>(() => props.ssrArts ?? legacyArts?.arts.value ?? []);
+  const isArtsLoading = computed(() => legacyArts?.loading.value ?? false);
 
   const PREVIEW_IMAGE_COUNT = 10;
-
-  const loadedImagesMap = new Map<string, HTMLImageElement>();
-
-  const allImageUrls = computed(() => {
-    return arts.value.map((img: ArtsImage) => img.preview).filter(Boolean);
-  });
-
-  const previewImageUrls = computed(() => {
-    return allImageUrls.value.slice(0, PREVIEW_IMAGE_COUNT);
-  });
-
-  const remainingImageUrls = computed(() => {
-    return allImageUrls.value.slice(PREVIEW_IMAGE_COUNT);
-  });
 
   const displayImages = computed<ArtsImage[]>(() => {
     return showAllImages.value ? arts.value : arts.value.slice(0, PREVIEW_IMAGE_COUNT);
@@ -65,90 +45,8 @@
     transform: `scaleY(${cursorScaleY.value}) rotate(${cursorAngle.value}deg) scale(${cursorScale.value})`,
   }));
 
-  const loadImageForCache = async (url: string): Promise<void> => {
-    if (loadedImagesMap.has(url)) return;
-
-    return new Promise(resolve => {
-      const img = new Image();
-      img.onload = () => {
-        loadedImagesMap.set(url, img);
-        resolve();
-      };
-      img.onerror = () => {
-        console.warn(`Не удалось предзагрузить изображение: ${url}`);
-        resolve();
-      };
-      img.src = url;
-    });
-  };
-
-  const initializePreview = async () => {
-    isPreviewLoaded.value = false;
-
-    const previewUrls = previewImageUrls.value;
-
-    if (previewUrls.length > 0) {
-      await Promise.all(previewUrls.map(url => loadImageForCache(url)));
-    }
-
-    isPreviewLoaded.value = true;
-  };
-
-  const loadRemainingImages = async (): Promise<void> => {
-    isLoading.value = true;
-    loadingProgress.value = 0;
-
-    try {
-      const remainingUrls = remainingImageUrls.value;
-
-      if (remainingUrls.length === 0) {
-        areAllImagesLoaded.value = true;
-        isLoading.value = false;
-        return;
-      }
-
-      const total = remainingUrls.length;
-      let loaded = 0;
-
-      const batchSize = 3;
-
-      for (let i = 0; i < remainingUrls.length; i += batchSize) {
-        const batch = remainingUrls.slice(i, i + batchSize);
-
-        await Promise.all(
-          batch.map(async url => {
-            await loadImageForCache(url);
-            loaded++;
-            loadingProgress.value = Math.round((loaded / total) * 100);
-          }),
-        );
-      }
-
-      areAllImagesLoaded.value = true;
-    } catch (error) {
-      console.error('Ошибка загрузки:', error);
-    } finally {
-      isLoading.value = false;
-    }
-  };
-
-  const onShowAllImages = async () => {
-    if (isLoading.value || showAllImages.value) return;
-
-    if (areAllImagesLoaded.value) {
-      showAllImages.value = true;
-      currentMasonryKey.value += 1;
-      return;
-    }
-
-    await loadRemainingImages();
-
+  const onShowAllImages = () => {
     showAllImages.value = true;
-    currentMasonryKey.value += 1;
-
-    setTimeout(() => {
-      loadingProgress.value = 0;
-    }, 300);
   };
 
   const mouseMoveTracker = (e: MouseEvent) => {
@@ -287,13 +185,12 @@
     removeCursorHandlers();
   };
 
-  onMounted(async () => {
+  onMounted(() => {
     if (isSSR) return;
 
     const img = new window.Image();
     img.src = artCursor;
 
-    await initializePreview();
     window.addEventListener('mouseup', onMouseUp);
     window.addEventListener('mousedown', onMouseDown);
   });
@@ -321,7 +218,7 @@
         <div class="arts__sub-title">{{ t('design.description') }}</div>
       </div>
 
-      <div v-if="!isPreviewLoaded" class="arts__loading">
+      <div v-if="isArtsLoading" class="arts__loading">
         <div class="arts__loading-spinner"></div>
       </div>
 
@@ -334,11 +231,10 @@
       </div>
 
       <div
-        v-if="!showAllImages && arts.length > PREVIEW_IMAGE_COUNT && isPreviewLoaded"
+        v-if="!showAllImages && arts.length > PREVIEW_IMAGE_COUNT && !isArtsLoading"
         class="arts__button-container"
       >
         <Button
-          v-if="!isLoading"
           :text="t('design.showAll')"
           class="arts__show-all-button"
           @click="onShowAllImages"
@@ -349,22 +245,6 @@
             </span>
           </div>
         </Button>
-
-        <div v-else class="arts__progress-wrapper">
-          <div class="arts__progress-overlay">
-            <div class="arts__progress-container">
-              <div class="arts__progress-text">
-                {{ t('design.loadingImages') }}
-              </div>
-              <div class="arts__progress-bar">
-                <div
-                  class="arts__progress-fill"
-                  :style="{ width: `${loadingProgress}%` }"
-                ></div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>

@@ -45,6 +45,14 @@
     width: 100%;
     border-radius: 10px;
     object-fit: cover;
+
+    // VImage с art direction рендерит <picture>, класс попадает на него
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: inherit;
+      object-fit: inherit;
+    }
   }
 
   &__features-grid {
