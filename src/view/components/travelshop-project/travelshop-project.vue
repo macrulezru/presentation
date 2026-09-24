@@ -14,7 +14,6 @@
   import TravelshopIntro from '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue';
   import Button from '@/view/ui/ui-button/ui-button.vue';
   import CircleChart from '@/view/ui/ui-circle-chart/ui-circle-chart.vue';
-  import UiImage from '@/view/ui/ui-image/ui-image.vue';
   import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
   import UiLoading from '@/view/ui/ui-loading/ui-loading.vue';
   import { useI18n } from '~/composables/useI18n';
@@ -139,16 +138,13 @@
               </div>
             </div>
             <div>
-              <UiImage
-                :image="{
-                  src: { src: TravelshopImage, width: '720px', height: '1237px' },
-                  tablet: {
-                    src: TravelshopImageHorizontal,
-                    width: '1400px',
-                    height: '700px',
-                  },
-                  alt: 'TravelShop 2.0',
-                }"
+              <VImage
+                :src="TravelshopImage"
+                :width="720"
+                :height="1237"
+                :sources="{ tablet: { src: TravelshopImageHorizontal, width: 1400, height: 700 } }"
+                alt="TravelShop 2.0"
+                placeholderColor="#201D1F"
                 class="travelshop__tsh-image"
               />
             </div>

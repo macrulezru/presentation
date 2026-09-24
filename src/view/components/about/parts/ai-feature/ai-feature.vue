@@ -5,7 +5,6 @@
 
   import AiImageHorizontal from '@/view/assets/images/ai-block-horizontal.webp';
   import AiImage from '@/view/assets/images/ai-block.webp';
-  import UiImage from '@/view/ui/ui-image/ui-image.vue';
   import { useI18n } from '~/composables/useI18n';
 
   const { t, tm } = useI18n();
@@ -73,12 +72,13 @@
               </div>
             </div>
             <div class="ai-feature__image-wrapper">
-              <UiImage
-                :image="{
-                  src: { src: AiImage, width: '587px', height: '454px' },
-                  tablet: { src: AiImageHorizontal, width: '1536px', height: '759px' },
-                  alt: 'AI Feature Image',
-                }"
+              <VImage
+                :src="AiImage"
+                :width="587"
+                :height="454"
+                :sources="{ tablet: { src: AiImageHorizontal, width: 1536, height: 759 } }"
+                alt="AI Feature Image"
+                placeholderColor="#201D1F"
                 class="about__tech-art"
               />
             </div>

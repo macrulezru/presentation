@@ -5,7 +5,6 @@
 
   import RemoveWorkplaceImageHorizontal from '@/view/assets/images/remote-workstation-horizontal.webp';
   import RemoveWorkplaceImage from '@/view/assets/images/remote-workstation.webp';
-  import UiImage from '@/view/ui/ui-image/ui-image.vue';
   import { useI18n } from '~/composables/useI18n';
 
   const { t, tm } = useI18n();
@@ -42,16 +41,13 @@
         <!-- Особенности -->
         <div class="remote-workplace__features-section">
           <div class="remote-workplace__features-image-container">
-            <UiImage
-              :image="{
-                src: { src: RemoveWorkplaceImage, width: '600', height: '400' },
-                tablet: {
-                  src: RemoveWorkplaceImageHorizontal,
-                  width: '800px',
-                  height: '450px',
-                },
-                alt: 'Workstation',
-              }"
+            <VImage
+              :src="RemoveWorkplaceImage"
+              :width="600"
+              :height="400"
+              :sources="{ tablet: { src: RemoveWorkplaceImageHorizontal, width: 800, height: 450 } }"
+              alt="Workstation"
+              placeholderColor="#201D1F"
               class="feature-item__image"
             />
           </div>

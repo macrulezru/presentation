@@ -46,6 +46,14 @@
     width: 100%;
     object-fit: cover;
 
+    // VImage с art direction рендерит <picture>, класс попадает на него
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: inherit;
+      object-fit: inherit;
+    }
+
     &-container {
       position: relative;
     }

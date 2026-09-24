@@ -14,7 +14,6 @@
   import TechStackArtHorizontal from '@/view/assets/images/tech-stack-art-horizontal.webp';
   import TechStackArt from '@/view/assets/images/tech-stack-art.webp';
   import AiFeature from '@/view/components/about/parts/ai-feature/ai-feature.vue';
-  import UiImage from '@/view/ui/ui-image/ui-image.vue';
   import { useI18n } from '~/composables/useI18n';
   import { useResponsive } from '~/composables/useResponsive';
 
@@ -154,12 +153,13 @@
       <div class="about__tech-stack">
         <div class="about__tech-stack-side">
           <div class="about__tech-stack-side-wrapper">
-            <UiImage
-              :image="{
-                src: { src: TechStackArt, width: '700px', height: '467px' },
-                tablet: { src: TechStackArtHorizontal, width: '800px', height: '450px' },
-                alt: 'Tech stack',
-              }"
+            <VImage
+              :src="TechStackArt"
+              :width="700"
+              :height="467"
+              :sources="{ tablet: { src: TechStackArtHorizontal, width: 800, height: 450 } }"
+              alt="Tech stack"
+              placeholderColor="#201D1F"
               class="about__tech-art"
             />
             <div v-show="responsive.desktop">

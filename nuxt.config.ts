@@ -111,10 +111,17 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['@macrulez/masonry-kit-nuxt'],
+  modules: ['@macrulez/masonry-kit-nuxt', '@macrulez/vue-image-kit/nuxt'],
   masonry: {
     columns: 'auto',
     minLaneSize: 300,
+  },
+  // Совпадают с медиазапросами из composables/useResponsive.ts
+  vueImageKit: {
+    breakpoints: {
+      mobile: '(max-width: 600px)',
+      tablet: '(max-width: 960px)',
+    },
   },
   vite: {
     css: {
@@ -126,6 +133,11 @@ export default defineNuxtConfig({
             @use "@/view/styles/mixins/element.scss" as *;
           `,
         },
+      },
+    },
+    server: {
+      fs: {
+        allow: [resolve(fileURLToPath(new URL('.', import.meta.url)), '../NPM/vue-image-kit')],
       },
     },
   },

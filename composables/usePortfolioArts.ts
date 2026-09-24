@@ -1,6 +1,9 @@
 type ArtsImage = {
   directory: string;
   preview: string;
+  previewWidth: number | null;
+  previewHeight: number | null;
+  previewThumbhash: string | null;
   images: string[];
   meta?: Record<string, unknown>;
 };

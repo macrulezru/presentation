@@ -85,11 +85,12 @@
               <div class="toolz__modules-item-header-block">
                 <a class="toolz__modules-item-link" :href="item.url" target="_blank">
                   <span class="toolz__modules-item-image-wrapper">
-                    <img
+                    <VImage
                       class="toolz__modules-item-image"
                       :src="item.image"
                       :alt="item.title"
-                      loading="lazy"
+                      :lazy="true"
+                      thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"
                     />
                   </span>
                   <span class="toolz__modules-item-title">

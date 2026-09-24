@@ -7,7 +7,6 @@
   import type { GradientOptions, GradientColors, headerGradientOptions } from './types';
   import type { FeatureData } from '~/composables/useFeatures';
 
-  import UiImage from '@/view/ui/ui-image/ui-image.vue';
   import { useResponsive } from '~/composables/useResponsive';
 
   interface Props {
@@ -76,12 +75,13 @@
           class="feature-item__main-header"
         ></div>
         <div class="feature-item__image-container">
-          <UiImage
-            :image="{
-              src: { src: feature.image, width: '650px' },
-              tablet: { src: feature.imageHorizontal, width: '800px', height: '450px' },
-              alt: '',
+          <VImage
+            :src="feature.image"
+            :sources="{
+              tablet: { src: feature.imageHorizontal, width: 800, height: 450 },
             }"
+            :alt="feature.title"
+            placeholderColor="#201D1F"
             class="feature-item__image"
           />
         </div>
