@@ -1,6 +1,5 @@
 .ai-feature {
-  border-top: solid 1px var(--color-7);
-  border-bottom: solid 1px var(--color-7);
+  position: relative;
   background-color: #0e0d0d;
 
   &__container {
@@ -8,7 +7,12 @@
   }
 
   &__content {
-    padding: clamp(70px, 10vw, 80px) 0;
+    padding: clamp(
+        calc(90px + var(--wave-separator-height)),
+        calc(10vw + var(--wave-separator-height)),
+        calc(120px + var(--wave-separator-height))
+      )
+      0;
     font-size: 16px;
     font-weight: 300;
   }

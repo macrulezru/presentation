@@ -266,6 +266,8 @@
 
 <template>
   <div class="examples">
+    <div class="section__separator section__separator_top" />
+    <div class="section__separator section__separator_bottom" />
     <div class="examples__demonstration">
       <div class="examples__demonstration-container">
         <div class="examples__title" v-html="t('app.examples_title')" />

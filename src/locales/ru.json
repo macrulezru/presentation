@@ -22,7 +22,7 @@
     "description": "Превращаю сложные задачи в элегантные решения. Специализируюсь на Vue/Nuxt, TypeScript и создании масштабируемых приложений с продуманной архитектурой."
   },
   "app": {
-    "examples_title": "Архитектурные решения на Vue&nbsp;•&nbsp;Nuxt&nbsp;•&nbsp;Node.js",
+    "examples_title": "Архитектурные решения на</br><span class=\"brand_vue\">Vue</span>&nbsp;•&nbsp;<span class=\"brand_nuxt\">Nuxt</span>&nbsp;•&nbsp;<span class=\"brand_node\">Node.js</span>",
     "examples_description": "От UI-компонентов до систем деплоя и мониторинга — здесь собраны конкретные технические решения, которые я спроектировал и реализовал на практике."
   },
   "about": {

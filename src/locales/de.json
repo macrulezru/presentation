@@ -22,7 +22,7 @@
     "description": "Verwandle komplexe Aufgaben in elegante Lösungen. Spezialisiert auf Vue 3, TypeScript und die Erstellung skalierbarer Anwendungen mit durchdachter Architektur."
   },
   "app": {
-    "examples_title": "Architektonische Lösungen in Vue&nbsp;•&nbsp;Nuxt&nbsp;•&nbsp;Node.js",
+    "examples_title": "Architektonische Lösungen in</br><span class=\"brand_vue\">Vue</span>&nbsp;•&nbsp;<span class=\"brand_nuxt\">Nuxt</span>&nbsp;•&nbsp;<span class=\"brand_node\">Node.js</span>",
     "examples_description": "Von UI-Komponenten bis hin zu Deployment- und Monitoringsystemen — hier finden Sie konkrete technische Lösungen, die ich entworfen und in der Praxis umgesetzt habe."
   },
   "about": {

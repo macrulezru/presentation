@@ -47,11 +47,13 @@
     @include grid-3-cols;
 
     padding: clamp(40px, 8vw, 70px) 0;
+    gap: clamp(60px, 8vw, 75px);
   }
 
   &__companies-header {
     @include grid-2-cols;
 
     padding: clamp(40px, 10vw, 70px) 0;
+    gap: clamp(60px, 8vw, 75px);
   }
 }

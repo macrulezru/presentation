@@ -29,6 +29,8 @@
 
 <template>
   <div class="ai-feature">
+    <div class="section__separator section__separator_top" />
+    <div class="section__separator section__separator_bottom" />
     <div class="ai-feature__container">
       <div class="ai-feature__content">
         <div class="ai-feature__data-wrapper">
@@ -76,7 +78,9 @@
                 :src="AiImage"
                 :width="587"
                 :height="454"
-                :sources="{ tablet: { src: AiImageHorizontal, width: 1536, height: 759 } }"
+                :sources="{
+                  tablet: { src: AiImageHorizontal, width: 1536, height: 759 },
+                }"
                 alt="AI Feature Image"
                 placeholderColor="#201D1F"
                 class="about__tech-art"

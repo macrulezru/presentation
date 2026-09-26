@@ -132,3 +132,35 @@ body.body-locked {
   transform: scale(0.98);
   opacity: 0;
 }
+
+.section__separator {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 54px;
+  background-image: url('@/view/assets/images/art-section-separator.svg?url');
+  background-repeat: repeat-x;
+  background-position: top center;
+  z-index: 2;
+
+  &_top {
+    top: 0;
+  }
+
+  &_bottom {
+    bottom: 0;
+    transform: rotate(180deg);
+  }
+}
+
+.brand_vue {
+  color: #40b27f;
+}
+
+.brand_nuxt {
+  color: #00dc82;
+}
+
+.brand_node {
+  color: #6c3;
+}

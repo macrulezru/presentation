@@ -33,8 +33,7 @@
   const handleLanguageChange = (option: LanguageOption) => {
     if (isLoading.value) return;
 
-    const newPath = `/${option.value}`;
-
+    const newPath = option.value === LocalesEnum.RU ? '/' : `/${option.value}`;
     changeLocale(option.value as LocalesEnumType, newPath);
   };
 </script>

@@ -22,7 +22,7 @@
     "description": "Күрделі мәселелерді талғампаз шешімдерге айналдырамын. Vue/Nuxt, TypeScript және ойластырылған архитектурасы бар масштабталатын қолданбалар жасауға мамандандым."
   },
   "app": {
-    "examples_title": "Vue&nbsp;•&nbsp;Nuxt&nbsp;•&nbsp;Node.js-дегі сәулеттік шешімдер",
+    "examples_title": "<span class=\"brand_vue\">Vue</span>&nbsp;•&nbsp;<span class=\"brand_nuxt\">Nuxt</span>&nbsp;•&nbsp;<span class=\"brand_node\">Node.js</span>-дегі сәулеттік шешімдер",
     "examples_description": "UI-компоненттерден бастап деплой және мониторинг жүйелеріне дейін — мұнда мен жобалап, іс жүзінде енгізген нақты техникалық шешімдер жинақталған."
   },
   "about": {
