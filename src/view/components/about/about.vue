@@ -157,7 +157,9 @@
               :src="TechStackArt"
               :width="700"
               :height="467"
-              :sources="{ tablet: { src: TechStackArtHorizontal, width: 800, height: 450 } }"
+              :sources="{
+                tablet: { src: TechStackArtHorizontal, width: 800, height: 450 },
+              }"
               alt="Tech stack"
               placeholderColor="#201D1F"
               class="about__tech-art"

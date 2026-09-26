@@ -1,5 +1,5 @@
 .about {
-  padding: clamp(60px, 10vw, 130px) 0 50px;
+  padding: clamp(60px, 10vw, 130px) 0 0;
 
   &__container {
     @include container-lg;
@@ -211,7 +211,7 @@
       display: grid;
       grid-template-columns: minmax(390px, 1fr) minmax(390px, 1fr);
       gap: 75px;
-      padding-bottom: clamp(90px, 10vw, 110px);
+      padding-bottom: clamp(50px, 10vw, 110px);
 
       &-wrapper {
         display: flex;

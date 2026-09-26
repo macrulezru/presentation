@@ -209,8 +209,8 @@
     @mousemove="onMouseMove"
     @mouseleave="onMouseLeave"
   >
-    <div class="arts__separator arts__separator_top" />
-    <div class="arts__separator arts__separator_bottom" />
+    <div class="section__separator section__separator_top" />
+    <div class="section__separator section__separator_bottom" />
 
     <div class="arts__wrapper">
       <div class="arts__header">

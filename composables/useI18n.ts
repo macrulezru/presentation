@@ -5,6 +5,9 @@ import { LocalesEnum, LocalesList, type LocalesEnumType } from '@/enums/locales.
 import { i18n, loadLocale } from '@/locales';
 import { useLocaleStore } from '@/stores/use-locale-store';
 
+const LOCALE_COOKIE_NAME = 'user-locale';
+const LOCALE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // 1 год
+
 export const useI18n = () => {
   const { t, locale, availableLocales } = i18n.global;
   const tm = i18n.global.tm as (key: string) => unknown;
@@ -12,8 +15,38 @@ export const useI18n = () => {
   const localeStore = useLocaleStore();
   const isLoading = ref(false);
 
+  // Cookie — источник истины для SSR-редиректа на "/" (см. middleware/locale.global.ts)
+  const localeCookie = useCookie<string>(LOCALE_COOKIE_NAME, {
+    sameSite: 'lax',
+    path: '/',
+    maxAge: LOCALE_COOKIE_MAX_AGE,
+  });
+
   // Храним промис текущей загрузки для защиты от гонок
   const loadingPromise = ref<Promise<void> | null>(null);
+
+  /**
+   * Синхронизация выбранной локали во всех хранилищах.
+   * ВАЖНО: вызывать ДО router.push, иначе middleware на "/" прочитает
+   * старую cookie и отправит пользователя обратно.
+   */
+  const persist = (value: LocalesEnumType) => {
+    localeCookie.value = value;
+    // localStorage оставлен как дубль для обратной совместимости.
+    // Если нигде больше не читается — можно удалить.
+    if (import.meta.client) {
+      try {
+        localStorage.setItem(LOCALE_COOKIE_NAME, value);
+      } catch {
+        // localStorage может быть недоступен (private mode, отключён)
+      }
+    }
+  };
+
+  const updateURL = async (newLocale: LocalesEnumType, path?: string) => {
+    const targetPath = path ?? (newLocale === LocalesEnum.RU ? '/' : `/${newLocale}`);
+    await router.push(targetPath);
+  };
 
   const changeLocale = async (newLocale: LocalesEnumType, path?: string) => {
     if (!LocalesList.includes(newLocale)) {
@@ -21,17 +54,17 @@ export const useI18n = () => {
       return;
     }
 
-    // Если уже загружается, ждем завершения
+    // Если уже загружается — ждём завершения
     if (loadingPromise.value) {
       await loadingPromise.value;
     }
 
-    // Проверяем, не загружена ли уже локаль
+    // Локаль уже загружена — просто переключаемся
     if (i18n.global.availableLocales.includes(newLocale as LocalesEnumType)) {
       locale.value = newLocale as LocalesEnumType;
       localeStore.setLocale(newLocale);
-      localStorage.setItem('user-locale', newLocale);
-      updateURL(newLocale, path);
+      persist(newLocale);
+      await updateURL(newLocale, path);
       return;
     }
 
@@ -42,16 +75,19 @@ export const useI18n = () => {
 
       locale.value = newLocale as LocalesEnumType;
       localeStore.setLocale(newLocale);
-      localStorage.setItem('user-locale', newLocale);
-      updateURL(newLocale, path);
+      persist(newLocale);
+      await updateURL(newLocale, path);
     } catch (error) {
       console.error('Failed to change locale:', error);
 
+      // Фолбэк на RU — обязательно синхронизируем cookie,
+      // иначе middleware и UI разъедутся.
       if (newLocale !== LocalesEnum.RU) {
         try {
           await loadLocale(LocalesEnum.RU);
           locale.value = LocalesEnum.RU as LocalesEnumType;
           localeStore.setLocale(LocalesEnum.RU);
+          persist(LocalesEnum.RU);
         } catch (ruError) {
           console.error('Failed to load fallback RU locale:', ruError);
         }
@@ -62,46 +98,44 @@ export const useI18n = () => {
     }
   };
 
-  const updateURL = async (newLocale: LocalesEnumType, path?: string) => {
-    await router.push(path || `/${newLocale}`);
-  };
-
-  // Инициализация локали
+  /**
+   * Инициализация локали при монтировании.
+   * URL без локали = дефолт RU. Cookie-логику разруливает middleware
+   * до рендера, здесь её читать не нужно.
+   */
   const initLocale = async () => {
-    const urlLocale = router.currentRoute.value.params.locale as LocalesEnumType;
-    const savedLocale = localStorage.getItem('user-locale') as LocalesEnumType | null;
+    const urlLocale = router.currentRoute.value.params.locale as
+      | LocalesEnumType
+      | undefined;
 
-    const targetLocale = (urlLocale || savedLocale || LocalesEnum.RU) as LocalesEnumType;
+    const targetLocale = (urlLocale || LocalesEnum.RU) as LocalesEnumType;
 
     if (!LocalesList.includes(targetLocale)) {
-      locale.value = LocalesEnum.RU as LocalesEnumType;
+      locale.value = LocalesEnum.RU;
       localeStore.setLocale(LocalesEnum.RU);
+      persist(LocalesEnum.RU);
       return;
     }
 
-    if (!i18n.global.availableLocales.includes(targetLocale as LocalesEnumType)) {
+    if (!i18n.global.availableLocales.includes(targetLocale)) {
       try {
         await loadLocale(targetLocale);
       } catch (error) {
         console.error(`Failed to load initial locale ${targetLocale}:`, error);
         try {
           await loadLocale(LocalesEnum.RU);
-          locale.value = LocalesEnum.RU as LocalesEnumType;
-          localeStore.setLocale(LocalesEnum.RU);
         } catch (ruError) {
           console.error('Failed to load RU locale:', ruError);
         }
+        locale.value = LocalesEnum.RU;
+        localeStore.setLocale(LocalesEnum.RU);
+        persist(LocalesEnum.RU);
         return;
       }
     }
 
-    locale.value = targetLocale as LocalesEnumType;
+    locale.value = targetLocale;
     localeStore.setLocale(targetLocale);
-
-    // Синхронизируем URL если нужно
-    if (!urlLocale && router.currentRoute.value.name === 'home') {
-      await router.replace(`/${targetLocale}`);
-    }
   };
 
   return {
@@ -114,4 +148,3 @@ export const useI18n = () => {
     isLoading: readonly(isLoading),
   };
 };
-

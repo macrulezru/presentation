@@ -2,9 +2,9 @@
   import { onMounted, onUnmounted, defineAsyncComponent, computed } from 'vue';
 
   import { PageSectionsEnum } from '@/enums/page-sections.enum';
+  import { i18n } from '@/locales';
   import Header from '@/view/components/header/header.vue';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing';
-  import { i18n } from '@/locales';
   import { useMacrulezBadge } from '~/composables/useMacrulezBadge';
   import { useSectionsConfig } from '~/composables/useSectionsConfig';
 
@@ -16,7 +16,11 @@
 
   const route = useRoute();
   const locale = computed(() => String(route.params.locale || 'ru'));
-  const canonicalUrl = computed(() => `https://macrulez.ru/${locale.value}`);
+  const canonicalUrl = computed(() =>
+    locale.value === 'ru'
+      ? 'https://macrulez.ru/'
+      : `https://macrulez.ru/${locale.value}`,
+  );
 
   const seoTitle = computed(() => String(t('seo.title')));
   const seoDescription = computed(() => String(t('seo.description')));
@@ -26,13 +30,11 @@
     title: seoTitle.value,
     link: [
       { rel: 'canonical', href: canonicalUrl.value },
-      { rel: 'alternate', hreflang: 'ru', href: 'https://macrulez.ru/ru' },
+      { rel: 'alternate', hreflang: 'ru', href: 'https://macrulez.ru/' },
       { rel: 'alternate', hreflang: 'en', href: 'https://macrulez.ru/en' },
-      { rel: 'alternate', hreflang: 'x-default', href: 'https://macrulez.ru/ru' },
+      { rel: 'alternate', hreflang: 'x-default', href: 'https://macrulez.ru/' },
     ],
-    meta: [
-      { name: 'description', content: seoDescription.value },
-    ],
+    meta: [{ name: 'description', content: seoDescription.value }],
     script: [
       {
         type: 'application/ld+json',

@@ -137,9 +137,16 @@ export default defineNuxtConfig({
     },
     server: {
       fs: {
-        allow: [resolve(fileURLToPath(new URL('.', import.meta.url)), '../NPM/vue-image-kit')],
+        allow: [
+          resolve(fileURLToPath(new URL('.', import.meta.url)), '../NPM/vue-image-kit'),
+        ],
       },
     },
+  },
+
+  routeRules: {
+    '/ru': { redirect: { to: '/', statusCode: 301 } },
+    '/ru/**': { redirect: { to: '/**', statusCode: 301 } },
   },
 
   nitro: {

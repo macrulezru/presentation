@@ -23,8 +23,8 @@
   }
 
   &__logo {
-    width: 120px;
-    height: 120px;
+    width: clamp(90px, 12vw, 120px);
+    height: clamp(90px, 12vw, 120px);
     border-radius: 50%;
     background: white;
     display: flex;
@@ -50,7 +50,7 @@
   &__header {
     display: flex;
     flex-direction: column;
-    gap: 11px;
+    gap: 25px;
   }
 
   &__header-data {

@@ -142,7 +142,9 @@
                 :src="TravelshopImage"
                 :width="720"
                 :height="1237"
-                :sources="{ tablet: { src: TravelshopImageHorizontal, width: 1400, height: 700 } }"
+                :sources="{
+                  tablet: { src: TravelshopImageHorizontal, width: 1400, height: 700 },
+                }"
                 alt="TravelShop 2.0"
                 placeholderColor="#201D1F"
                 class="travelshop__tsh-image"
