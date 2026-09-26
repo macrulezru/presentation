@@ -39,7 +39,15 @@
     <div class="blog__container">
       <div class="blog__promo">
         <a class="blog__link" href="https://blog.macrulez.ru/" target="_blank">
-          <img class="blog__image" :src="blogImage" loading="lazy" />
+          <VImage
+            class="blog__image"
+            :src="blogImage"
+            :width="500"
+            :height="496"
+            :alt="t('blog.title')"
+            :lazy="true"
+            thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"
+          />
           <div class="blog__header">
             {{ t('blog.title') }}
           </div>

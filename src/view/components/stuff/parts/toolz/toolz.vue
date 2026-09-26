@@ -88,6 +88,8 @@
                     <VImage
                       class="toolz__modules-item-image"
                       :src="item.image"
+                      :width="300"
+                      :height="300"
                       :alt="item.title"
                       :lazy="true"
                       thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"

@@ -31,7 +31,15 @@
     <div class="npm-packages__container">
       <div class="npm-packages__promo">
         <a class="npm-packages__link" href="https://npm.vuecraft.ru/" target="_blank">
-          <img class="npm-packages__image" :src="npmLogo" loading="lazy" />
+          <VImage
+            class="npm-packages__image"
+            :src="npmLogo"
+            :width="616"
+            :height="600"
+            alt="VueCraft NPM"
+            :lazy="true"
+            thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"
+          />
           <div class="npm-packages__header">VueCraft NPM</div>
         </a>
         <div class="npm-packages__description">{{ t('npm.title') }}</div>
@@ -51,6 +59,8 @@
                     class="npm-packages__item-image"
                     :src="item.image"
                     :alt="item.title"
+                    :width="300"
+                    :height="300"
                     :lazy="true"
                     thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"
                   />
