@@ -82,6 +82,7 @@
     }
 
     &-image {
+      max-width: 160px;
       max-height: 160px;
       transition: transform 0.3s ease-in-out;
     }

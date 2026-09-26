@@ -17,7 +17,15 @@
           href="https://airlines.macrulez.ru/2d/SBI/DME?x=0.3889&y=0.2740&z=3.2100"
           target="_blank"
         >
-          <img class="airlines__image" :src="airlinesImage" loading="lazy" />
+          <VImage
+            class="airlines__image"
+            :src="airlinesImage"
+            :width="641"
+            :height="600"
+            :alt="t('airlines.title')"
+            :lazy="true"
+            thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"
+          />
           <div class="airlines__header">
             {{ t('airlines.title') }}
           </div>

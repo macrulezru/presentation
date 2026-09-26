@@ -5,6 +5,10 @@
     gap: 20px;
   }
 
+  &__post-image-wrapper {
+    aspect-ratio: 3 / 2;
+  }
+
   &__image {
     aspect-ratio: 3 / 2;
     border-radius: 10px;

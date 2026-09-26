@@ -76,10 +76,16 @@
         ></div>
         <div class="feature-item__image-container">
           <VImage
-            :src="feature.image"
+            :src="feature.image.image"
             :sources="{
-              tablet: { src: feature.imageHorizontal, width: 800, height: 450 },
+              tablet: {
+                src: feature.imageHorizontal.image,
+                width: feature.imageHorizontal.width,
+                height: feature.imageHorizontal.height,
+              },
             }"
+            :width="feature.image.width"
+            :height="feature.image.height"
             :alt="feature.title"
             placeholderColor="#201D1F"
             class="feature-item__image"

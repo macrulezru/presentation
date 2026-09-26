@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import '@/view/components/world-route/world-route.scss';
+
   import { defineAsyncComponent, ref, onMounted, onBeforeUnmount } from 'vue';
 
   const Inner = defineAsyncComponent(() => import('./world-route-inner.vue'));

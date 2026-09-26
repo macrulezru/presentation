@@ -28,8 +28,16 @@ export interface FeatureItem {
 
 export interface FeatureData {
   id: string;
-  image: string;
-  imageHorizontal: string;
+  image: {
+    image: string;
+    width: number;
+    height: number;
+  };
+  imageHorizontal: {
+    image: string;
+    width: number;
+    height: number;
+  };
   title: string;
   shortTitle: string;
   description: string;
@@ -60,43 +68,91 @@ export function useFeatures() {
       id: FeaturesEnum.UI_COMPONENTS,
       i18nKey: 'uiComponents',
       accentColor: '#bd0e3d',
-      image: uiImage,
-      imageHorizontal: uiImageHorizontal,
+      image: {
+        image: uiImage,
+        width: 720,
+        height: 1080,
+      },
+      imageHorizontal: {
+        image: uiImageHorizontal,
+        width: 800,
+        height: 450,
+      },
     },
     {
       id: FeaturesEnum.PIPELINE,
       i18nKey: 'pipeline',
       accentColor: '#3498db',
-      image: pipelineImage,
-      imageHorizontal: pipelineImageHorizontal,
+      image: {
+        image: pipelineImage,
+        width: 720,
+        height: 1279,
+      },
+      imageHorizontal: {
+        image: pipelineImageHorizontal,
+        width: 800,
+        height: 450,
+      },
     },
     {
       id: FeaturesEnum.REST_MONITORING,
       i18nKey: 'restMonitoring',
       accentColor: '#e74c3c',
-      image: apiMonitorImage,
-      imageHorizontal: apiMonitorImageHorizontal,
+      image: {
+        image: apiMonitorImage,
+        width: 720,
+        height: 1080,
+      },
+      imageHorizontal: {
+        image: apiMonitorImageHorizontal,
+        width: 800,
+        height: 450,
+      },
     },
     {
       id: FeaturesEnum.DEPLOY_PLATFORM,
       i18nKey: 'deployPlatform',
       accentColor: '#1abc9c',
-      image: appPlatformImage,
-      imageHorizontal: appPlatformImageHorizontal,
+      image: {
+        image: appPlatformImage,
+        width: 720,
+        height: 1279,
+      },
+      imageHorizontal: {
+        image: appPlatformImageHorizontal,
+        width: 800,
+        height: 450,
+      },
     },
     {
       id: FeaturesEnum.LOCALIZATION,
       i18nKey: 'localization',
       accentColor: '#9b59b6',
-      image: i18nImage,
-      imageHorizontal: i18nImageHorizonatl,
+      image: {
+        image: i18nImage,
+        width: 720,
+        height: 1080,
+      },
+      imageHorizontal: {
+        image: i18nImageHorizonatl,
+        width: 800,
+        height: 450,
+      },
     },
     {
       id: FeaturesEnum.SEAT_MAP,
       i18nKey: 'seatMap',
       accentColor: '#409724',
-      image: seatmapImage,
-      imageHorizontal: seatmapImageHorizontal,
+      image: {
+        image: seatmapImage,
+        width: 720,
+        height: 1279,
+      },
+      imageHorizontal: {
+        image: seatmapImageHorizontal,
+        width: 800,
+        height: 450,
+      },
     },
   ]);
 
