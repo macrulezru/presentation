@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@fancyapps/ui": "^6.1.14",
+    "@macrulez/inview-nuxt": "^0.2.3",
     "@macrulez/masonry-kit-nuxt": "^0.1.4",
     "@macrulez/vue-image-kit": "^1.2.0",
     "axios": "^1.13.2",

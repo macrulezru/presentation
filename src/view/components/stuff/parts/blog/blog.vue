@@ -8,7 +8,6 @@
 
   import blogImage from '@/view/assets/images/blog.webp';
   import { useI18n } from '~/composables/useI18n';
-  import { useResponsive } from '~/composables/useResponsive';
 
   const { t } = useI18n();
 
@@ -16,21 +15,11 @@
     ssrItems?: BlogPostItem[];
   }>();
 
-  const responsive = useResponsive();
-
   const isSSR = import.meta.env.SSR;
   const blogPost = props.ssrItems || isSSR ? null : useBlogPost();
 
   const postToView = computed(() => {
     return props.ssrItems ?? blogPost?.items.value ?? [];
-  });
-
-  const mainPosts = computed(() => {
-    return postToView.value.slice(0, 3);
-  });
-
-  const secondaryPosts = computed(() => {
-    return postToView.value.slice(3, 7);
   });
 </script>
 
