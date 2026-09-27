@@ -56,15 +56,11 @@
       </div>
     </div>
     <div class="blog__posts">
-      <BlogItem v-for="(post, index) in mainPosts" :key="index" :post="post" />
-    </div>
-    <div v-if="responsive.desktop" class="blog__posts blog__posts_secondary">
-      <BlogItem
-        v-for="(post, index) in secondaryPosts"
-        :key="index"
-        :post="post"
-        hideDescription
-      />
+      <MasonryGrid :items="postToView" :options="{ gap: { main: 50, cross: 40 } }">
+        <template #item="{ item }">
+          <BlogItem :post="item" />
+        </template>
+      </MasonryGrid>
     </div>
   </div>
 </template>

@@ -35,6 +35,12 @@
   line-height: 1.2;
 }
 
+@mixin nano-title {
+  font-size: clamp(14px, 4vw, 18px);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
 @mixin medium-text {
   font-size: clamp(16px, 4vw, 22px);
   font-weight: 300;

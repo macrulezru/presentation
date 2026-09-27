@@ -53,13 +53,6 @@
   }
 
   &__posts {
-    @include grid-3-cols;
-
     margin-top: clamp(20px, 10vw, 80px);
-    margin-bottom: -20px;
-
-    &_secondary {
-      @include grid-4-cols;
-    }
   }
 }
