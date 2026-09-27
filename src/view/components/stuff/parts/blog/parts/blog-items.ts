@@ -34,7 +34,7 @@ export function useBlogPost() {
     loading.value = true;
     error.value = null;
     try {
-      const response = await client.get(`/posts?per_page=7`);
+      const response = await client.get(`/posts?per_page=8`);
       const apiResponse =
         response && 'data' in response ? (response as any).data : response;
       const data = apiResponse?.data?.items ?? [];

@@ -3,22 +3,28 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    &:hover .blog-item__image {
+      transform: scale(1.2);
+    }
   }
 
   &__post-image-wrapper {
+    border-radius: 10px;
     aspect-ratio: 3 / 2;
+    overflow: hidden;
   }
 
   &__image {
     aspect-ratio: 3 / 2;
-    border-radius: 10px;
     overflow: hidden;
     position: relative;
     width: 100%;
+    transition: transform 0.3s ease-in-out;
   }
 
   &__title {
-    @include mini-title;
+    @include nano-title;
 
     transition: color 0.2s ease;
 
