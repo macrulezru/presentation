@@ -111,10 +111,17 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['@macrulez/masonry-kit-nuxt', '@macrulez/vue-image-kit/nuxt'],
+  modules: [
+    '@macrulez/masonry-kit-nuxt',
+    '@macrulez/vue-image-kit/nuxt',
+    '@macrulez/inview-nuxt',
+  ],
   masonry: {
     columns: 'auto',
     minLaneSize: 300,
+  },
+  inview: {
+    defaultRootMargin: '-10% 0px',
   },
   // Совпадают с медиазапросами из composables/useResponsive.ts
   vueImageKit: {

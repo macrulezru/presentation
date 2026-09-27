@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import '@/view/components/travelshop-project/travelshop-project.scss';
 
-  import { ref, computed, defineAsyncComponent, h, Transition } from 'vue';
+  import { ref, computed, defineAsyncComponent, h, Transition, watch } from 'vue';
 
   import type {
     Feature,
@@ -11,7 +11,6 @@
 
   import TravelshopImageHorizontal from '@/view/assets/images/travelshop-image-horizontal.webp';
   import TravelshopImage from '@/view/assets/images/travelshop-image.webp';
-  import TravelshopIntro from '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue';
   import Button from '@/view/ui/ui-button/ui-button.vue';
   import CircleChart from '@/view/ui/ui-circle-chart/ui-circle-chart.vue';
   import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
@@ -31,8 +30,9 @@
               h(UiLoading, {
                 type: 'circle',
                 circleRadius: 60,
-                thickness: 3,
-                progressColor: '#d941b0',
+                thickness: 5,
+                strokeColor: '#151515',
+                progressColor: '#78cf05',
               }),
             ]),
         },
@@ -41,11 +41,32 @@
     suspensible: false,
   });
 
+  const TravelshopIntro = defineAsyncComponent({
+    loader: () =>
+      import('@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.vue'),
+    loadingComponent: () =>
+      h('div', { class: 'travelshop__animation-loader' }, [
+        h(UiLoading, {
+          type: 'circle',
+          circleRadius: 60,
+          thickness: 5,
+          strokeColor: '#151515',
+          progressColor: '#78cf05',
+        }),
+      ]),
+    delay: 0,
+    suspensible: false,
+  });
+
   const { t, tm } = useI18n();
 
   const showSwiper = ref<boolean>(false);
+  const isShowAnimation = ref<boolean>(false);
+  const travelshopRef = ref<HTMLElement>();
 
-  const isBrowser = typeof window !== 'undefined';
+  const introVisibility = useElementVisibility(travelshopRef, { once: true });
+
+  const isIntroVisible = computed(() => introVisibility.isVisible);
 
   const features = computed<Feature[]>(() => {
     const items = tm('travelshop.features.items') as Record<string, unknown>[];
@@ -90,18 +111,30 @@
   const toggleSwiper = () => {
     showSwiper.value = !showSwiper.value;
   };
+
+  watch(
+    isIntroVisible.value,
+    () => {
+      console.log('123');
+      isShowAnimation.value = true;
+    },
+    { once: true },
+  );
 </script>
 
 <template>
-  <div class="travelshop">
-    <!-- Canvas / Image() heavy intro: SSR-safe fallback -->
-    <template v-if="isBrowser">
+  <div ref="travelshopRef" class="travelshop">
+    <template v-if="isShowAnimation">
       <TravelshopIntro />
     </template>
-    <div v-else class="travelshop-intro">
-      <div class="travelshop-intro__wrapper">
-        <div class="travelshop-intro__canvas travelshop-intro__canvas-loading" />
-      </div>
+    <div v-else class="travelshop__animation-loader">
+      <UiLoading
+        type="circle"
+        :circleRadius="60"
+        :thickness="5"
+        strokeColor="#151515"
+        progressColor="#78cf05"
+      />
     </div>
     <div class="travelshop__intro">
       <div class="travelshop__container travelshop__airplane_top">
