@@ -119,64 +119,106 @@
     "tech_stack_title": "技术栈",
     "tech_stack": {
       "main": {
-        "title": "核心技术",
-        "description": "<span><strong>Vue 3</strong> 使用 <strong>Proxy</strong> 实现 '智能' 反应式，而 <strong>Vite</strong> 利用浏览器内置的 ES 模块实现瞬间启动。</span><span><strong>Pinia</strong> 从零开始为 TypeScript 而设计——类型自动推断。整个技术栈遵循构造器原则：您从现成的函数中组装逻辑，而不是编写大量配置。</span>",
+        "title": "核心技术栈",
+        "description": "<span><strong>Vue.js</strong> 借助 <strong>Proxy</strong> 实现智能响应式，而 <strong>Nuxt</strong> 开箱即用地提供 SSR/SSG。</span><span><strong>Pinia</strong> 从零为 TypeScript 打造——类型自动推导。而 <strong>Vue Router</strong> 通过懒加载把导航变成代码中的声明式部分。整套组合像拼装积木一样工作：你从现成的函数中组装逻辑，而无需编写大量配置。</span>",
         "items": {
           "vue": {
-            "title": "Vue.JS",
-            "description": "使用Composition API、组合函数、响应式系统开发SPA应用，处理生命周期钩子，自定义指令"
+            "title": "Vue.js",
+            "description": "使用 Composition API、composables、响应式、生命周期钩子开发 SPA 应用……"
           },
           "nuxt": {
             "title": "Nuxt",
-            "description": "基于文件路由的 SSR 和 SSG 应用，支持服务端与客户端的数据获取、SEO 优化以及与 API 的集成"
+            "description": "基于文件路由的 SSR 和 SSG 应用，服务端与客户端数据获取，SEO 优化与 API 集成"
           },
           "pinia": {
             "title": "Pinia",
-            "description": "使用Composition API进行应用程序状态管理，通过Setup Store语法组织模块化存储，TypeScript集成"
+            "description": "使用 Composition API 管理应用状态，通过 Setup Store 语法组织模块化 store，TypeScript 集成"
           },
           "typescript": {
             "title": "TypeScript",
-            "description": "严格类型检查，泛型，实用工具类型，组件和存储中的类型安全"
+            "description": "严格类型、泛型、工具类型，组件与 store 中的类型安全"
           },
-          "vite": {
-            "title": "Vite",
-            "description": "快速项目构建，插件配置，生产构建优化"
+          "vue_router": {
+            "title": "Vue Router",
+            "description": "懒加载导航、嵌套路由、导航守卫、历史记录管理、路由保护"
           }
         }
       },
       "infra": {
-        "title": "基础设施与工具",
-        "description": "<span><strong>Vue Router</strong> 将导航变成代码的声明式部分，其懒加载是应用瞬间启动的秘诀。</span><span><strong>Git</strong> 是代码的时间机器，<strong>REST API</strong> 是前端与世界通信的通用语言。<strong>Vue i18n</strong> 让这个世界用任何语言都能理解，动态加载翻译作为界面的一部分。</span>",
+        "title": "开发工具",
+        "description": "<span><strong>Vite</strong> 基于原生 ES 模块让项目瞬间启动，而 <strong>Git</strong> 是代码的时光机。</span><span><strong>REST API</strong> 是与后端交流的通用语言，<strong>Vue i18n</strong> 让界面在任何语言下都清晰易懂，而 linter 和测试确保一切不会崩溃。</span>",
         "items": {
-          "vue_router": {
-            "title": "Vue Router",
-            "description": "导航路由，懒加载，嵌套路由，导航钩子，历史管理"
+          "vite": {
+            "title": "Vite",
+            "description": "快速构建项目，插件配置，生产构建优化"
           },
           "vue_i18n": {
-            "title": "Vue i18n",
-            "description": "应用本地化，动态加载翻译，复数形式处理"
+            "title": "i18n",
+            "description": "应用本地化，动态加载翻译，复数处理"
           },
           "git": {
             "title": "Git",
-            "description": "团队协作，功能分支，代码审查，冲突解决"
+            "description": "团队协作，feature 分支，代码评审，冲突解决"
           },
           "rest_api": {
             "title": "REST API",
-            "description": "开发和自定义HTTP请求包装器，错误处理，缓存，请求生命周期管理"
+            "description": "开发并使用自定义 HTTP 请求封装，错误处理，缓存，请求生命周期管理"
+          },
+          "quality": {
+            "title": "代码质量",
+            "description": "ESLint 与 Prettier 保证统一风格与自动检查，Vitest 单元测试，Playwright 覆盖关键路径的 e2e 场景"
           }
         }
       },
       "layout": {
-        "title": "布局与样式",
-        "description": "<span><strong>HTML5</strong> 和 <strong>CSS3</strong> 是界面的骨骼和皮肤。<strong>Grid</strong> 和 <strong>Flexbox</strong> 创建自适应框架，HTML 语义告诉浏览器和辅助技术页面上的真正重要内容。</span><span><strong>SCSS/SASS</strong> 是 CSS 乘以逻辑的结果。变量、混合和嵌套将样式维护从日常琐事转变为可编程且可扩展的过程。</span>",
+        "title": "排版与样式",
+        "description": "<span><strong>HTML5</strong> 负责语义与结构，<strong>CSS3</strong> 负责视觉层、动画与自适应。<strong>Grid</strong> 与 <strong>Flexbox</strong> 构建任意复杂度的布局骨架，而语义与 ARIA 告诉浏览器和辅助技术页面上真正重要的是什么。</span><span><strong>SCSS/SASS</strong> 是 CSS 乘以逻辑：变量、mixin 与 token 让样式的维护变成可编程的过程。<strong>BEM</strong> 与 <strong>CSS Modules</strong> 让样式保持可预测与隔离。</span>",
         "items": {
-          "html_css": {
-            "title": "HTML5/CSS3",
-            "description": "语义化标记，响应式设计，CSS Grid/Flexbox"
+          "html5": {
+            "title": "HTML5",
+            "description": "语义化排版，无障碍表单，原生 API（dialog、details、picture），ARIA 属性，键盘导航与焦点管理"
+          },
+          "css3": {
+            "title": "CSS3",
+            "description": "自定义属性，Grid 与 Flexbox，过渡与关键帧，容器查询，现代函数（clamp、min/max）"
           },
           "scss": {
             "title": "SCSS/SASS",
-            "description": "预处理，混合器，模块化样式，CSS自定义属性"
+            "description": "预处理，变量、mixin、函数，设计 token，样式模块化，以及无层叠地狱的嵌套"
+          },
+          "bem": {
+            "title": "BEM",
+            "description": "类命名方法论，可复用块与元素，CSS Modules 实现局部作用域与样式隔离"
+          },
+          "responsive": {
+            "title": "自适应",
+            "description": "Mobile First，媒体查询，流体排版，自适应图片：WebP/AVIF、懒加载、srcset 与 sizes"
+          }
+        }
+      },
+      "devops": {
+        "title": "DevOps",
+        "description": "<span><strong>Docker</strong> 把应用及其所有依赖打包进隔离容器，而 <strong>Nginx</strong> 提供静态资源并作为反向代理工作。</span><span><strong>CI/CD</strong> 自动化构建、测试与部署。<strong>监控</strong>与备份覆盖运维层面：能看清发生了什么，也有办法恢复。</span>",
+        "items": {
+          "docker": {
+            "title": "Docker",
+            "description": "应用与服务的容器化，Docker Compose 用于本地环境与生产环境"
+          },
+          "nginx": {
+            "title": "Nginx",
+            "description": "反向代理，静态资源分发，gzip/brotli，缓存，SSL 终止"
+          },
+          "ci_cd": {
+            "title": "CI/CD",
+            "description": "GitHub Actions / GitLab CI 流水线：构建、测试、部署、发布自动化"
+          },
+          "monitoring": {
+            "title": "监控",
+            "description": "错误与日志追踪，指标，告警，Uptime Kuma，Grafana，Sentry"
+          },
+          "backups": {
+            "title": "备份",
+            "description": "数据库、配置与构建产物的备份，故障后的恢复"
           }
         }
       }

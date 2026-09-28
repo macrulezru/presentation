@@ -119,42 +119,42 @@
     "tech_stack_title": "Technology Stack",
     "tech_stack": {
       "main": {
-        "title": "Core Technologies",
-        "description": "<span><strong>Vue 3</strong> with <strong>Proxy</strong> for 'smart' reactivity, and <strong>Vite</strong> launches the project instantly using built-in ES-modules.</span><span><strong>Pinia</strong> is built for TypeScript from the ground up — types are inferred automatically. This entire stack works on the principle of a constructor: you assemble logic from ready-made functions, rather than writing tons of configuration.</span>",
+        "title": "Core Stack",
+        "description": "<span><strong>Vue.js</strong> with <strong>Proxy</strong> for smart reactivity, while <strong>Nuxt</strong> gives you SSR/SSG out of the box.</span><span><strong>Pinia</strong> was built for TypeScript from the ground up — types are inferred automatically. And <strong>Vue Router</strong> turns navigation into a declarative part of your code with lazy loading. The whole stack works like a constructor kit: you assemble logic from ready-made functions instead of writing tons of configuration.</span>",
         "items": {
           "vue": {
-            "title": "Vue.JS",
-            "description": "SPA development using Composition API, composables, reactivity, working with lifecycle hooks, custom directives"
+            "title": "Vue.js",
+            "description": "Building SPAs with the Composition API, composables, reactivity, and lifecycle hooks..."
           },
           "nuxt": {
             "title": "Nuxt",
-            "description": "SSR and SSG applications based on file-based routing, data fetching on server and client, SEO optimization and API integration"
+            "description": "SSR and SSG apps built on file-based routing, server- and client-side data fetching, SEO optimization, and API integration"
           },
           "pinia": {
             "title": "Pinia",
-            "description": "Application state management using Composition API, organization of modular stores via Setup Store syntax, TypeScript integration"
+            "description": "Application state management with the Composition API, modular stores via Setup Store syntax, TypeScript integration"
           },
           "typescript": {
             "title": "TypeScript",
             "description": "Strict typing, generics, utility types, type safety in components and stores"
           },
-          "vite": {
-            "title": "Vite",
-            "description": "Fast project building, plugin configuration, production build optimization"
+          "vue_router": {
+            "title": "Vue Router",
+            "description": "Navigation with lazy loading, nested routes, navigation guards, history management, route protection"
           }
         }
       },
       "infra": {
-        "title": "Infrastructure & Tools",
-        "description": "<span><strong>Vue Router</strong> turns navigation into a declarative part of your code, and its lazy loading is your secret to instant app startup.</span><span><strong>Git</strong> is a time machine for code, and <strong>REST API</strong> is the universal language through which frontend negotiates with the world. <strong>Vue i18n</strong> makes this world understandable in any language, dynamically loading translations as part of the interface.</span>",
+        "title": "Development Tools",
+        "description": "<span><strong>Vite</strong> starts a project instantly on native ES modules, and <strong>Git</strong> is a time machine for your code.</span><span><strong>REST API</strong> is the universal language for talking to the backend, <strong>Vue i18n</strong> makes the interface understandable in any language, and linters and tests make sure nothing breaks.</span>",
         "items": {
-          "vue_router": {
-            "title": "Vue Router",
-            "description": "Navigation with lazy loading, nested routes, navigation hooks, history management"
+          "vite": {
+            "title": "Vite",
+            "description": "Fast project builds, plugin configuration, production build optimization"
           },
           "vue_i18n": {
-            "title": "Vue i18n",
-            "description": "Application localization, dynamic translation loading, pluralization"
+            "title": "i18n",
+            "description": "App localization, dynamic translation loading, pluralization"
           },
           "git": {
             "title": "Git",
@@ -162,21 +162,63 @@
           },
           "rest_api": {
             "title": "REST API",
-            "description": "Development and use of custom HTTP request wrappers, error handling, caching, request lifecycle management"
+            "description": "Building and using custom HTTP request wrappers, error handling, caching, request lifecycle management"
+          },
+          "quality": {
+            "title": "Code Quality",
+            "description": "ESLint and Prettier for consistent style and automated checks, unit tests with Vitest, e2e scenarios with Playwright for critical paths"
           }
         }
       },
       "layout": {
-        "title": "Layout & Styling",
-        "description": "<span><strong>HTML5</strong> and <strong>CSS3</strong> are the skeleton and skin of the interface. <strong>Grid</strong> and <strong>Flexbox</strong> create adaptive frameworks, and HTML semantics tell browsers and assistive technologies what's truly important on the page.</span><span><strong>SCSS/SASS</strong> is CSS multiplied by logic. Variables, mixins, and nesting transform style maintenance from a chore into a programmable and scalable process.</span>",
+        "title": "Markup & Styling",
+        "description": "<span><strong>HTML5</strong> is responsible for meaning and structure, <strong>CSS3</strong> for the visual layer, animations, and responsiveness. <strong>Grid</strong> and <strong>Flexbox</strong> build layouts of any complexity, while semantics and ARIA tell browsers and assistive technologies what actually matters on the page.</span><span><strong>SCSS/SASS</strong> is CSS multiplied by logic: variables, mixins, and tokens turn style maintenance into a programmable process. <strong>BEM</strong> and <strong>CSS Modules</strong> keep styles predictable and isolated.</span>",
         "items": {
-          "html_css": {
-            "title": "HTML5/CSS3",
-            "description": "Semantic markup, responsive design, CSS Grid/Flexbox"
+          "html5": {
+            "title": "HTML5",
+            "description": "Semantic markup, accessible forms, native APIs (dialog, details, picture), ARIA attributes, keyboard navigation, and focus management"
+          },
+          "css3": {
+            "title": "CSS3",
+            "description": "Custom properties, Grid and Flexbox, transitions and keyframes, container queries, modern functions (clamp, min/max)"
           },
           "scss": {
             "title": "SCSS/SASS",
-            "description": "Preprocessing, mixins, modular styling, CSS Custom Properties"
+            "description": "Preprocessing, variables, mixins, functions, design tokens, style modularity, and nesting without cascade hell"
+          },
+          "bem": {
+            "title": "BEM",
+            "description": "Class naming methodology, reusable blocks and elements, CSS Modules for local scope and style isolation"
+          },
+          "responsive": {
+            "title": "Responsiveness",
+            "description": "Mobile First, media queries, fluid typography, responsive images: WebP/AVIF, lazy loading, srcset and sizes"
+          }
+        }
+      },
+      "devops": {
+        "title": "DevOps",
+        "description": "<span><strong>Docker</strong> packages the app with all its dependencies into an isolated container, while <strong>Nginx</strong> serves static assets and acts as a reverse proxy.</span><span><strong>CI/CD</strong> automates build, tests, and deployment. <strong>Monitoring</strong> and backups cover operations: you can see what's happening and you have a way to recover.</span>",
+        "items": {
+          "docker": {
+            "title": "Docker",
+            "description": "Containerizing apps and services, Docker Compose for local environments and production"
+          },
+          "nginx": {
+            "title": "Nginx",
+            "description": "Reverse proxy, static file serving, gzip/brotli, caching, SSL termination"
+          },
+          "ci_cd": {
+            "title": "CI/CD",
+            "description": "GitHub Actions / GitLab CI pipelines: build, tests, deploy, release automation"
+          },
+          "monitoring": {
+            "title": "Monitoring",
+            "description": "Error and log tracking, metrics, alerts, Uptime Kuma, Grafana, Sentry"
+          },
+          "backups": {
+            "title": "Backups",
+            "description": "Backing up databases, configs, and build artifacts, recovery after failures"
           }
         }
       }

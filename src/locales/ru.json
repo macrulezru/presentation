@@ -119,11 +119,11 @@
     "tech_stack_title": "Технологический стек",
     "tech_stack": {
       "main": {
-        "title": "Основные технологии",
-        "description": "<span><strong>Vue JS</strong> с <strong>Proxy</strong> для «умной» реактивности, а <strong>Vite</strong> запускает проект мгновенно, используя встроенные в браузер ES-модули.</span><span><strong>Pinia</strong> создан для TypeScript с нуля — типы выводятся автоматически. Вся эта связка работает по принципу конструктора: вы собираете логику из готовых функций, а не пишете тонны конфигурации.</span>",
+        "title": "Основной стек",
+        "description": "<span><strong>Vue.js</strong> с <strong>Proxy</strong> для «умной» реактивности, а <strong>Nuxt</strong> даёт SSR/SSG из коробки.</span><span><strong>Pinia</strong> создан для TypeScript с нуля — типы выводятся автоматически. А <strong>Vue Router</strong> превращает навигацию в декларативную часть кода с ленивой загрузкой. Вся связка работает по принципу конструктора: вы собираете логику из готовых функций, а не пишете тонны конфигурации.</span>",
         "items": {
           "vue": {
-            "title": "Vue.JS",
+            "title": "Vue.js",
             "description": "Разработка SPA-приложений с использованием Composition API, composables, реактивность, работа с lifecycle hooks..."
           },
           "nuxt": {
@@ -138,22 +138,22 @@
             "title": "TypeScript",
             "description": "Строгая типизация, generics, utility types, типобезопасность в компонентах и сторах"
           },
-          "vite": {
-            "title": "Vite",
-            "description": "Быстрая сборка проектов, конфигурация плагинов, оптимизация production-сборки"
+          "vue_router": {
+            "title": "Vue Router",
+            "description": "Навигация с lazy loading, nested routes, навигационные хуки, история переходов, защита маршрутов"
           }
         }
       },
       "infra": {
-        "title": "Инфраструктура и инструменты",
-        "description": "<span><strong>Vue Router</strong> превращает навигацию в декларативную часть кода, а его ленивая загрузка — ваш секрет моментального старта приложения.</span><span><strong>Git</strong> — это машина времени для кода, а <strong>REST API</strong> — универсальный язык, на котором фронтенд договаривается с миром. <strong>Vue i18n</strong> делает этот мир понятным на любом языке, динамически подгружая переводы как части интерфейса.</span>",
+        "title": "Инструменты разработки",
+        "description": "<span><strong>Vite</strong> запускает проект мгновенно на нативных ES-модулях, а <strong>Git</strong> — это машина времени для кода.</span><span><strong>REST API</strong> — универсальный язык общения с бэкендом, <strong>Vue i18n</strong> делает интерфейс понятным на любом языке, а линтеры и тесты следят, чтобы ничего не сломалось.</span>",
         "items": {
-          "vue_router": {
-            "title": "Vue Router",
-            "description": "Навигация с lazy loading, nested routes, навигационные хуки, история переходов"
+          "vite": {
+            "title": "Vite",
+            "description": "Быстрая сборка проектов, конфигурация плагинов, оптимизация production-сборки"
           },
           "vue_i18n": {
-            "title": "Vue i18n",
+            "title": "i18n",
             "description": "Локализация приложений, динамическая подгрузка переводов, pluralization"
           },
           "git": {
@@ -163,20 +163,62 @@
           "rest_api": {
             "title": "REST API",
             "description": "Разработка и использование кастомных обёрток для HTTP-запросов, обработка ошибок, кеширование, управление жизненным циклом запросов"
+          },
+          "quality": {
+            "title": "Качество кода",
+            "description": "ESLint и Prettier для единого стиля и автопроверок, unit-тесты на Vitest, e2e-сценарии на Playwright для критичных путей"
           }
         }
       },
       "layout": {
         "title": "Верстка и стилизация",
-        "description": "<span><strong>HTML5</strong> и <strong>CSS3</strong> — это скелет и кожа интерфейса. <strong>Grid</strong> и <strong>Flexbox</strong> создают адаптивные каркасы, а семантика HTML говорит браузерам и ассистивным технологиям, что на странице действительно важно.</span><span><strong>SCSS/SASS</strong> — сила CSS, помноженная на логику. Переменные, миксины и вложенность превращают поддержку стилей из рутины в программируемый и масштабируемый процесс.</span>",
+        "description": "<span><strong>HTML5</strong> отвечает за смысл и структуру, <strong>CSS3</strong> — за визуальный слой, анимации и адаптивность. <strong>Grid</strong> и <strong>Flexbox</strong> создают каркасы любой сложности, а семантика и ARIA говорят браузерам и ассистивным технологиям, что на странице действительно важно.</span><span><strong>SCSS/SASS</strong> — сила CSS, помноженная на логику: переменные, миксины и токены превращают поддержку стилей в программируемый процесс. <strong>BEM</strong> и <strong>CSS Modules</strong> держат стили предсказуемыми и изолированными.</span>",
         "items": {
-          "html_css": {
-            "title": "HTML5/CSS3",
-            "description": "Семантическая верстка, адаптивный дизайн, CSS Grid/Flexbox"
+          "html5": {
+            "title": "HTML5",
+            "description": "Семантическая верстка, доступные формы, нативные API (dialog, details, picture), ARIA-атрибуты, клавиатурная навигация и фокус-менеджмент"
+          },
+          "css3": {
+            "title": "CSS3",
+            "description": "Кастомные свойства, Grid и Flexbox, transitions и keyframes, container queries, современные функции (clamp, min/max)"
           },
           "scss": {
             "title": "SCSS/SASS",
-            "description": "Препроцессинг, миксины, модульность стилей, кастомные свойства (CSS Custom Properties)"
+            "description": "Препроцессинг, переменные, миксины, функции, дизайн-токены, модульность стилей и вложенность без каскадного ада"
+          },
+          "bem": {
+            "title": "BEM",
+            "description": "Методология именования классов, переиспользуемые блоки и элементы, CSS Modules для локальной области видимости и изоляции стилей"
+          },
+          "responsive": {
+            "title": "Адаптивность",
+            "description": "Mobile First, media queries, fluid typography, адаптивные изображения: WebP/AVIF, lazy loading, srcset и sizes"
+          }
+        }
+      },
+      "devops": {
+        "title": "DevOps",
+        "description": "<span><strong>Docker</strong> упаковывает приложение со всеми зависимостями в изолированный контейнер, а <strong>Nginx</strong> раздаёт статику и работает обратным прокси.</span><span><strong>CI/CD</strong> автоматизирует сборку, тесты и деплой. <strong>Мониторинг</strong> и бэкапы закрывают вопрос эксплуатации: видно, что происходит, и есть чем восстановиться.</span>",
+        "items": {
+          "docker": {
+            "title": "Docker",
+            "description": "Контейнеризация приложений и сервисов, Docker Compose для локального окружения и продакшена"
+          },
+          "nginx": {
+            "title": "Nginx",
+            "description": "Обратный прокси, раздача статики, gzip/brotli, кеширование, SSL-терминация"
+          },
+          "ci_cd": {
+            "title": "CI/CD",
+            "description": "Пайплайны GitHub Actions / GitLab CI: сборка, тесты, деплой, автоматизация релизов"
+          },
+          "monitoring": {
+            "title": "Мониторинг",
+            "description": "Отслеживание ошибок и логов, метрики, алерты, Uptime Kuma, Grafana, Sentry"
+          },
+          "backups": {
+            "title": "Бэкапы",
+            "description": "Резервное копирование БД, конфигов и артефактов сборки, восстановление после сбоев"
           }
         }
       }

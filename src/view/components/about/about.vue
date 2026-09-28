@@ -1,25 +1,18 @@
 <script setup lang="ts">
   import '@/view/components/about/about.scss';
 
-  import {
-    computed,
-    onMounted,
-    onUnmounted,
-    ref,
-    type ComponentPublicInstance,
-  } from 'vue';
+  import { computed, ref } from 'vue';
 
   import type { ListItem } from '@/view/components/about/types';
 
-  import TechStackArtHorizontal from '@/view/assets/images/tech-stack-art-horizontal.webp';
-  import TechStackArt from '@/view/assets/images/tech-stack-art.webp';
+  import techStackMain from '@/view/assets/images/tech-stack-1.webp';
+  import techStackInfra from '@/view/assets/images/tech-stack-2.webp';
+  import techStackLayout from '@/view/assets/images/tech-stack-3.webp';
+  import techStackDevops from '@/view/assets/images/tech-stack-4.webp';
   import AiFeature from '@/view/components/about/parts/ai-feature/ai-feature.vue';
   import { useI18n } from '~/composables/useI18n';
-  import { useResponsive } from '~/composables/useResponsive';
 
   const { t, tm } = useI18n();
-
-  const responsive = useResponsive();
   const container = ref<HTMLElement>();
 
   const getListItem = (key: string): ListItem[] => {
@@ -46,10 +39,20 @@
 
   interface TechCategory {
     key: string;
+    image: string;
     title: string;
+    description: string;
     items: ListItem[];
-    iconClass?: string;
   }
+
+  const techStackImages: Record<string, string> = {
+    main: techStackMain,
+    infra: techStackInfra,
+    layout: techStackLayout,
+    devops: techStackDevops,
+  };
+
+  const fallbackImage = techStackMain;
 
   const skillsList = computed(() => getListItem('about.skills_list'));
 
@@ -70,57 +73,11 @@
       })
       .map(([categoryKey, category]) => ({
         key: categoryKey,
+        image: techStackImages[categoryKey] ?? fallbackImage,
         title: (category as Record<string, unknown>).title as string,
+        description: (category as Record<string, unknown>).description as string,
         items: getListItem(`about.tech_stack.${categoryKey}.items`),
       }));
-  });
-
-  const activeTipIndex = ref(0);
-  const categoryRefs = ref<Record<string, HTMLElement>>({});
-
-  const techTips = computed<string[]>(() => {
-    const keys = ['main', 'infra', 'layout'];
-    return keys.map(key => {
-      const desc = tm(`about.tech_stack.${key}.description`);
-      return typeof desc === 'string' ? desc : '';
-    });
-  });
-
-  const activeTip = computed(() => techTips.value[activeTipIndex.value] || '');
-
-  const setCategoryRef = (key: string, el: Element | ComponentPublicInstance | null) => {
-    if (el && el instanceof HTMLElement) {
-      categoryRefs.value[key] = el;
-    }
-  };
-
-  const handleCategoryIntersection = () => {
-    if (Object.keys(categoryRefs.value).length === 0) return;
-
-    const visibleCategories = Object.entries(categoryRefs.value).map(([key, el]) => {
-      const rect = el?.getBoundingClientRect();
-      const isVisible = rect && rect.top < window.innerHeight * 0.5 && rect.bottom > 0;
-      return { key, isVisible, top: rect?.top || 0 };
-    });
-
-    const visibleCategory = visibleCategories
-      .filter(({ isVisible }) => isVisible)
-      .sort((a, b) => b.top - a.top)[0];
-
-    if (visibleCategory) {
-      const newIndex = techCategories.value.findIndex(c => c.key === visibleCategory.key);
-      if (newIndex !== -1) {
-        activeTipIndex.value = newIndex;
-      }
-    }
-  };
-
-  onMounted(() => {
-    window.addEventListener('scroll', handleCategoryIntersection, { passive: true });
-  });
-
-  onUnmounted(() => {
-    window.removeEventListener('scroll', handleCategoryIntersection);
   });
 
   defineExpose({ container });
@@ -151,67 +108,42 @@
         </div>
       </div>
       <div class="about__tech-stack">
-        <div class="about__tech-stack-side">
-          <div class="about__tech-stack-side-wrapper">
-            <VImage
-              :src="TechStackArt"
-              :width="700"
-              :height="467"
-              :sources="{
-                tablet: { src: TechStackArtHorizontal, width: 800, height: 450 },
-              }"
-              alt="Tech stack"
-              placeholderColor="#201D1F"
-              class="about__tech-art"
-            />
-            <div v-show="responsive.desktop">
-              <Transition name="tech-tip-fade" mode="out-in">
-                <div
-                  v-if="activeTip"
-                  :key="activeTipIndex"
-                  class="about__tech-tip"
-                  :class="{ 'about__tech-tip_active': activeTip }"
-                >
-                  <!-- eslint-disable-next-line vue/no-v-html -->
-                  <div class="about__tech-tip-wrapper" v-html="activeTip" />
-                </div>
-              </Transition>
-            </div>
-          </div>
-        </div>
-        <div class="about__tech-stack-wrapper">
-          <div class="about__tech-stack-title">{{ t('about.tech_stack_title') }}</div>
+        <div class="about__tech-stack-title">{{ t('about.tech_stack_title') }}</div>
 
-          <div class="about__tech-stack-content">
-            <template v-for="(category, index) in techCategories" :key="category.key">
-              <div
-                :ref="el => setCategoryRef(category.key, el)"
-                class="about__tech-category"
-              >
+        <div class="about__tech-stack-content">
+          <template v-for="category in techCategories" :key="category.key">
+            <div class="about__tech-category">
+              <div class="about__tech-category-header">
+                <VImage
+                  class="about__tech-category-image"
+                  :src="category.image"
+                  :width="300"
+                  :height="300"
+                  :alt="category.title"
+                  :lazy="true"
+                  thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"
+                />
                 <div class="about__tech-category-title">
                   {{ category.title }}
                 </div>
-                <div class="about__tech-list">
-                  <div
-                    v-for="item in category.items"
-                    :key="item.key"
-                    class="about__tech-list-item"
-                  >
-                    <div class="about__tech-item-title">
-                      {{ item.title }}
-                    </div>
-                    <div class="about__tech-item-description">
-                      {{ item.description }}
-                    </div>
+              </div>
+              <div class="about__tech-list">
+                <div
+                  v-for="item in category.items"
+                  :key="item.key"
+                  class="about__tech-list-item"
+                >
+                  <div class="about__tech-item-title">
+                    {{ item.title }}
+                  </div>
+                  <div class="about__tech-item-description">
+                    {{ item.description }}
                   </div>
                 </div>
               </div>
-              <span
-                v-if="index !== techCategories.length - 1"
-                class="about__tech-category-separator"
-              />
-            </template>
-          </div>
+              <div class="about__tech-category-info" v-html="category.description" />
+            </div>
+          </template>
         </div>
       </div>
     </div>
