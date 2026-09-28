@@ -119,64 +119,106 @@
     "tech_stack_title": "Технологиялық стек",
     "tech_stack": {
       "main": {
-        "title": "Негізгі технологиялар",
-        "description": "<span><strong>Vue 3</strong> «ақылды» реактивтілік үшін <strong>Proxy</strong> қолданады, ал <strong>Vite</strong> браузерге орнатылған ES-модульдерді пайдаланып жобаны лезде іске қосады.</span><span><strong>Pinia</strong> нөлден бастап TypeScript үшін жасалған — түрлер автоматты түрде қорытындыланады. Бұл бүкіл байланыс конструктор принципі бойынша жұмыс істейді: сіз логиканы дайын функциялардан құрастырасыз, тонналаған конфигурация жазбайсыз.</span>",
+        "title": "Негізгі стек",
+        "description": "<span><strong>Vue.js</strong> <strong>Proxy</strong> арқылы «ақылды» реактивтілік береді, ал <strong>Nuxt</strong> SSR/SSG-ні дайын күйінде ұсынады.</span><span><strong>Pinia</strong> TypeScript үшін нөлден жасалған — типтер автоматты түрде шығарылады. Ал <strong>Vue Router</strong> навигацияны lazy loading-пен декларативті код бөлігіне айналдырады. Бүкіл байланыс конструктор принципімен жұмыс істейді: тонналаған конфигурация жазудың орнына дайын функциялардан логика жинайсыз.</span>",
         "items": {
           "vue": {
-            "title": "Vue.JS",
-            "description": "Composition API, composables, реактивтілік, lifecycle hooks-пен жұмыс істеуді қолдана отырып, SPA-қолданбаларды әзірлеу..."
+            "title": "Vue.js",
+            "description": "Composition API, composables, реактивтілік, lifecycle hooks-пен жұмыс арқылы SPA-қосымшалар жасау..."
           },
           "nuxt": {
             "title": "Nuxt",
-            "description": "Файлдық маршрутизацияға негізделген SSR және SSG-қолданбалар, серверде және клиентте data fetching, SEO-оңтайландыру және API-мен интеграция"
+            "description": "Файлдық маршрутизацияға негізделген SSR және SSG қосымшалары, серверде және клиентте data fetching, SEO-оңтайландыру және API интеграциясы"
           },
           "pinia": {
             "title": "Pinia",
-            "description": "Composition API қолдана отырып, қолданба жай-күйін басқару, Setup Store синтаксисі арқылы модульдік қоймаларды ұйымдастыру, TypeScript интеграциясы"
+            "description": "Composition API арқылы қосымша күйін басқару, Setup Store синтаксисі арқылы модульдік қоймалар, TypeScript интеграциясы"
           },
           "typescript": {
             "title": "TypeScript",
             "description": "Қатаң типтеу, generics, utility types, компоненттер мен қоймалардағы тип қауіпсіздігі"
           },
-          "vite": {
-            "title": "Vite",
-            "description": "Жобаларды жылдам жинау, плагиндерді конфигурациялау, production жинағын оңтайландыру"
+          "vue_router": {
+            "title": "Vue Router",
+            "description": "Lazy loading, nested routes, навигациялық hooks, тарихты басқару, маршруттарды қорғау арқылы навигация"
           }
         }
       },
       "infra": {
-        "title": "Инфрақұрылым және құралдар",
-        "description": "<span><strong>Vue Router</strong> навигацияны кодтың декларативтік бөлігіне айналдырады, ал оның lazy loading тәсілі — қолданбаның лездік іске қосылуының құпиясы.</span><span><strong>Git</strong> — код үшін уақыт машинасы, ал <strong>REST API</strong> — фронтендтің әлеммен сөйлесетін әмбебап тілі. <strong>Vue i18n</strong> аудармаларды интерфейс бөлігі ретінде динамикалық түрде жүктеп, осы әлемді кез келген тілде түсінікті етеді.</span>",
+        "title": "Әзірлеу құралдары",
+        "description": "<span><strong>Vite</strong> жобаны нативті ES-модульдерде лезде іске қосады, ал <strong>Git</strong> — код үшін уақыт машинасы.</span><span><strong>REST API</strong> — бэкендпен сөйлесудің әмбебап тілі, <strong>Vue i18n</strong> интерфейсті кез келген тілде түсінікті етеді, ал линтерлер мен тесттер ештеңе бұзылмауын қадағалайды.</span>",
         "items": {
-          "vue_router": {
-            "title": "Vue Router",
-            "description": "Lazy loading, nested routes, навигациялық хуқтар, өту тарихы бар навигация"
+          "vite": {
+            "title": "Vite",
+            "description": "Жылдам жоба жинау, плагиндерді конфигурациялау, production-жинақты оңтайландыру"
           },
           "vue_i18n": {
-            "title": "Vue i18n",
-            "description": "Қолданбаларды локализациялау, аудармаларды динамикалық жүктеу, pluralization"
+            "title": "i18n",
+            "description": "Қосымшаларды локализациялау, аудармаларды динамикалық жүктеу, pluralization"
           },
           "git": {
             "title": "Git",
-            "description": "Командалық жұмыс, feature branches, code review, қайшылықтарды шешу"
+            "description": "Командада жұмыс, feature branches, code review, қақтығыстарды шешу"
           },
           "rest_api": {
             "title": "REST API",
-            "description": "HTTP-сұраулар үшін арнайы орамаларды әзірлеу және пайдалану, қателерді өңдеу, кэштеу, сұраулар өмірлік циклін басқару"
+            "description": "HTTP-сұраныстарға арналған кастомты қабықшаларды жасау және пайдалану, қателерді өңдеу, кештеу, сұраныс өмірлік циклін басқару"
+          },
+          "quality": {
+            "title": "Код сапасы",
+            "description": "Біртұтас стиль мен автопроверкалар үшін ESLint және Prettier, Vitest-те unit-тесттер, маңызды жолдар үшін Playwright-та e2e-сценарийлер"
           }
         }
       },
       "layout": {
         "title": "Верстка және стильдеу",
-        "description": "<span><strong>HTML5</strong> және <strong>CSS3</strong> — интерфейстің қалқаны және ері. <strong>Grid</strong> және <strong>Flexbox</strong> бейімді негіздерді құрайды, ал HTML семантикасы браузерлерге және көмек құралдарына беттегі неге шынайы маңызды екенін айтады.</span><span><strong>SCSS/SASS</strong> — логикке көбейтілген CSS. Айнымалылар, миксиндер және орналастыру стиль ұстау істеуін рутинадан программалауға және масштабталуға болатын процесске айналдырады.</span>",
+        "description": "<span><strong>HTML5</strong> мағына мен құрылымға жауап береді, <strong>CSS3</strong> — визуалды қабатқа, анимациялар мен адаптивтілікке. <strong>Grid</strong> және <strong>Flexbox</strong> кез келген күрделіктегі қаңқаларды жасайды, ал семантика мен ARIA браузерлер мен ассистивті технологияларға бетте шынымен маңызды нәрсені айтады.</span><span><strong>SCSS/SASS</strong> — логикаға көбейтілген CSS күші: айнымалылар, миксиндер және токендер стильдерді қолдауды бағдарламаланатын процеске айналдырады. <strong>BEM</strong> және <strong>CSS Modules</strong> стильдерді болжамды және оқшауланған күйде ұстайды.</span>",
         "items": {
-          "html_css": {
-            "title": "HTML5/CSS3",
-            "description": "Семантикалық верстка, бейімді дизайн, CSS Grid/Flexbox"
+          "html5": {
+            "title": "HTML5",
+            "description": "Семантикалық верстка, қолжетімді формалар, нативті API (dialog, details, picture), ARIA-атрибуттар, пернетақта навигациясы және фокус-менеджмент"
+          },
+          "css3": {
+            "title": "CSS3",
+            "description": "Кастомты қасиеттер, Grid және Flexbox, transitions және keyframes, container queries, заманауи функциялар (clamp, min/max)"
           },
           "scss": {
             "title": "SCSS/SASS",
-            "description": "Препроцессинг, миксиндер, стильдердің модульділігі, арнайы CSS қасиеттері (CSS Custom Properties)"
+            "description": "Препроцессинг, айнымалылар, миксиндер, функциялар, дизайн-токендер, стильдердің модульділігі және каскадтық тозақсыз кірістіру"
+          },
+          "bem": {
+            "title": "BEM",
+            "description": "Кластарды атау әдістемесі, қайта пайдаланылатын блоктар мен элементтер, жергілікті көріну аймағы мен стильдерді оқшаулау үшін CSS Modules"
+          },
+          "responsive": {
+            "title": "Адаптивтілік",
+            "description": "Mobile First, media queries, fluid typography, адаптивті суреттер: WebP/AVIF, lazy loading, srcset және sizes"
+          }
+        }
+      },
+      "devops": {
+        "title": "DevOps",
+        "description": "<span><strong>Docker</strong> қосымшаны барлық тәуелділіктерімен оқшауланған контейнерге салады, ал <strong>Nginx</strong> статиканы таратып, кері прокси ретінде жұмыс істейді.</span><span><strong>CI/CD</strong> жинауды, тесттерді және деплойды автоматтандырады. <strong>Мониторинг</strong> және бэкаптар пайдалану мәселесін жабады: не болып жатқаны көрінеді және қалпына келтіретін нәрсе бар.</span>",
+        "items": {
+          "docker": {
+            "title": "Docker",
+            "description": "Қосымшалар мен сервистерді контейнерлеу, жергілікті орта және продакшен үшін Docker Compose"
+          },
+          "nginx": {
+            "title": "Nginx",
+            "description": "Кері прокси, статиканы тарату, gzip/brotli, кештеу, SSL-терминация"
+          },
+          "ci_cd": {
+            "title": "CI/CD",
+            "description": "GitHub Actions / GitLab CI пайплайндары: жинау, тесттер, деплой, релиздерді автоматтандыру"
+          },
+          "monitoring": {
+            "title": "Мониторинг",
+            "description": "Қателер мен логтарды қадағалау, метрикалар, әскери дабылдар, Uptime Kuma, Grafana, Sentry"
+          },
+          "backups": {
+            "title": "Бэкаптар",
+            "description": "ДҚ, конфигтер және жинақ артефактілерін резервтік көшіру, ақаулардан кейін қалпына келтіру"
           }
         }
       }
