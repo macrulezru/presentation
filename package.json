@@ -30,6 +30,9 @@
     "@macrulez/inview-nuxt": "^0.2.3",
     "@macrulez/masonry-kit-nuxt": "^0.1.4",
     "@macrulez/vue-image-kit": "^1.2.0",
+    "@codemirror/lang-json": "^6.0.2",
+    "@codemirror/theme-one-dark": "^6.1.3",
+    "codemirror": "^6.0.2",
     "axios": "^1.13.2",
     "css-magic-gradient": "^1.2.11",
     "emailjs-com": "^3.2.0",
@@ -43,7 +46,8 @@
     "undici": "^7.22.0",
     "vue": "^3.5.22",
     "vue-i18n": "^9.14.5",
-    "vue-router": "^4.6.3"
+    "vue-router": "^4.6.3",
+    "vue-worker-kit": "^0.2.5"
   },
   "devDependencies": {
     "@pinia/nuxt": "^0.11.3",

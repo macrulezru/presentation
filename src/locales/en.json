@@ -1264,6 +1264,59 @@
     "button_openDemo": "Open demo",
     "metrics_show": "Show metrics"
   },
+  "seatmap-demo": {
+    "button_openDemo": "Open demo",
+    "title": "Universal SeatMap mechanism demo",
+    "intro_1": "Every airline returns a seat map its own way: Northwind Air has one set of fields, Solstice Airways another, BlueOrbit a third. Writing a separate parser for each format quickly turns the UI into a mess of conditional branches, duplication, and fragile transformations. Maintaining such a scheme becomes more and more expensive: adding a new airline requires changes in the core and the rendering layer, and testing each format turns into a separate task.",
+    "intro_2": "Universal SeatMap solves this with a single pipeline. You describe a driver for a specific carrier's format, and the mechanism itself brings the data into a universal seat map model and passes it to the rendering layer. The parsing logic is isolated in drivers and runs in a Web Worker, so heavy processing doesn't block the main thread. The output is a standard JSON that doesn't depend on the specifics of any particular airline.",
+    "intro_3": "A new airline can be added without touching the core or the UI: you just plug in a new driver. Each airline can have its own rendering skin — it's configured separately and doesn't depend on the universal format. The same JSON can be displayed differently for Northwind Air, Solstice Airways, and BlueOrbit. One universal format — different airlines, different skins, one predictable interface.",
+    "intro_example": "How does it work?",
+    "intro_example_1_title": "Data retrieval.",
+    "intro_example_1_desc": "The mechanism receives a proprietary seat map format from a specific airline: Northwind Air, Solstice Airways, or BlueOrbit.",
+    "intro_example_2_title": "Driver selection.",
+    "intro_example_2_desc": "By carrier or format identifier, the required driver is connected — the one that knows this particular format.",
+    "intro_example_3_title": "Conversion in a Web Worker.",
+    "intro_example_3_desc": "The driver parses and normalizes the data in a background thread, without blocking the main thread or affecting UI responsiveness.",
+    "intro_example_4_title": "Universal JSON.",
+    "intro_example_4_desc": "The output is a standard structure: rows, seats, statuses, types, coordinates, aisles, emergency exits, and availability rules.",
+    "intro_example_5_title": "Rendering and skin.",
+    "intro_example_5_desc": "The UI receives the universal JSON and draws the cabin layout. Each airline can have its own rendering skin — it's configured separately and doesn't depend on the universal format.",
+    "flow": {
+      "source_title": "Data source",
+      "source_desc": "Select an airline to load its seat map in its original format.",
+      "api_raw_title": "Airline API response",
+      "api_raw_desc": "Proprietary JSON from the carrier's API. The field structure and nesting are unique to each airline.",
+      "drivers_title": "Data drivers",
+      "drivers_desc": "Specialized converters. They bring the source format to a single standard, running in isolation inside a Web Worker.",
+      "driver_prefix": "Data type",
+      "universal_title": "Universal model",
+      "universal_desc": "A standardized JSON. It doesn't depend on the carrier's specifics and is fully ready for UI rendering."
+    },
+    "viewer": {
+      "flight_label": "Flight:",
+      "segment_label": "Segment:",
+      "departure": "Departure",
+      "arrival": "Arrival"
+    },
+    "legend": {
+      "available": "Available",
+      "occupied": "Occupied",
+      "selected": "Selected",
+      "blocked": "Unavailable",
+      "overwing": "Overwing",
+      "exit": "Emergency exit",
+      "exit_icon": "← →"
+    },
+    "cabin": {
+      "door_left": "← Door",
+      "door_right": "Door →"
+    },
+    "row": {
+      "bulkhead": "Bulkhead",
+      "exit_left": "← Exit",
+      "exit_right": "Exit →"
+    }
+  },
   "app-platform-demo": {
     "button_openDemo": "View platform screens"
   },

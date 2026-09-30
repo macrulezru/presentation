@@ -1264,6 +1264,59 @@
     "button_openDemo": "打开演示",
     "metrics_show": "显示指标"
   },
+  "seatmap-demo": {
+    "button_openDemo": "打开演示",
+    "title": "Universal SeatMap 机制演示",
+    "intro_1": "每家航空公司返回座位图的方式都不同：Northwind Air 使用一组字段，Solstice Airways 使用另一组，BlueOrbit 又是第三组。如果为每种格式单独编写解析器，UI 很快就会充斥条件分支、重复代码和脆弱的转换逻辑。维护这样的方案成本越来越高：新增一家航空公司需要修改内核和渲染层，而测试每种格式也变成一项独立的任务。",
+    "intro_2": "Universal SeatMap 用统一的流水线解决这个问题。您只需为特定承运商的格式描述一个驱动程序，机制本身会将数据转换为通用座位图模型并交给渲染层。解析逻辑隔离在驱动程序中，并在 Web Worker 中运行，因此繁重的处理不会阻塞主线程。输出是标准化的 JSON，不依赖于任何特定航空公司的特性。",
+    "intro_3": "新增一家航空公司无需修改内核和 UI：只需接入新的驱动程序即可。每家航空公司都可以指定自己的渲染皮肤——它单独配置，且不依赖于通用格式。同一份 JSON 可以为 Northwind Air、Solstice Airways 和 BlueOrbit 呈现不同的外观。一种通用格式——不同的航空公司、不同的皮肤、统一且可预期的界面。",
+    "intro_example": "它是如何工作的？",
+    "intro_example_1_title": "获取数据。",
+    "intro_example_1_desc": "机制接收来自特定航空公司的专有座位图格式：Northwind Air、Solstice Airways 或 BlueOrbit。",
+    "intro_example_2_title": "选择驱动程序。",
+    "intro_example_2_desc": "根据承运商或格式标识符连接相应的驱动程序，由它来识别该格式。",
+    "intro_example_3_title": "在 Web Worker 中转换。",
+    "intro_example_3_desc": "驱动程序在后台线程中解析并规范化数据，不阻塞主线程，也不影响 UI 的响应速度。",
+    "intro_example_4_title": "通用 JSON。",
+    "intro_example_4_desc": "输出为标准结构：排、座位、状态、类型、坐标、过道、紧急出口和可用性规则。",
+    "intro_example_5_title": "渲染与皮肤。",
+    "intro_example_5_desc": "UI 接收通用 JSON 并绘制客舱布局。每家航空公司都可以指定自己的渲染皮肤——它单独配置，且不依赖于通用格式。",
+    "flow": {
+      "source_title": "数据源",
+      "source_desc": "选择一家航空公司，以原始格式加载其座位图。",
+      "api_raw_title": "航空公司 API 响应",
+      "api_raw_desc": "来自承运商 API 的专有 JSON。字段结构和嵌套层级因航空公司而异。",
+      "drivers_title": "数据驱动程序",
+      "drivers_desc": "专用转换器。将源格式统一为标准格式，并在 Web Worker 中隔离运行。",
+      "driver_prefix": "数据类型",
+      "universal_title": "通用模型",
+      "universal_desc": "标准化的 JSON。不依赖于承运商的特性，完全可以直接用于 UI 渲染。"
+    },
+    "viewer": {
+      "flight_label": "航班：",
+      "segment_label": "航段：",
+      "departure": "出发",
+      "arrival": "到达"
+    },
+    "legend": {
+      "available": "可用",
+      "occupied": "已占",
+      "selected": "已选",
+      "blocked": "不可用",
+      "overwing": "机翼上方",
+      "exit": "紧急出口",
+      "exit_icon": "← →"
+    },
+    "cabin": {
+      "door_left": "← 舱门",
+      "door_right": "舱门 →"
+    },
+    "row": {
+      "bulkhead": "隔板",
+      "exit_left": "← 出口",
+      "exit_right": "出口 →"
+    }
+  },
   "app-platform-demo": {
     "button_openDemo": "查看平台界面"
   },

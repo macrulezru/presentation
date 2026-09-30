@@ -86,6 +86,28 @@
     suspensible: false,
   });
 
+  const SeatMap = defineAsyncComponent({
+    loader: () => import('@/view/components/seat-map/seat-map.vue'),
+    loadingComponent: () =>
+      h(
+        Transition,
+        { name: 'loader-appear', appear: true },
+        {
+          default: () =>
+            h('div', { class: 'examples__pipeline-loader' }, [
+              h(UiLoading, {
+                type: 'circle',
+                circleRadius: 60,
+                thickness: 3,
+                progressColor: '#8aec0b',
+              }),
+            ]),
+        },
+      ),
+    delay: 0,
+    suspensible: false,
+  });
+
   const { t } = useI18n();
 
   const responsive = useResponsive();
@@ -94,6 +116,7 @@
   const isShowPipeline = ref<boolean>(false);
   const isShowRestApi = ref<boolean>(false);
   const isShowAppPlatform = ref<boolean>(false);
+  const isShowSeatmap = ref<boolean>(false);
   const activeFeatureId = ref<string>('');
   const navigationRef = ref<HTMLElement | null>(null);
   const isScrollingByUser = ref<boolean>(false);
@@ -150,6 +173,17 @@
 
   const closeAppPlatform = () => {
     isShowAppPlatform.value = false;
+  };
+
+  const showSeatmap = () => {
+    const currentScrollPosition = window.scrollY;
+    isShowSeatmap.value = true;
+    activeFeatureId.value = FeaturesEnum.SEAT_MAP;
+    nextTick(() =>
+      window.scrollTo({
+        top: currentScrollPosition,
+      }),
+    );
   };
 
   const getNavigationOffset = () => {
@@ -306,7 +340,7 @@
                     @click="showPipeline"
                   />
                 </div>
-                <div v-if="isShowPipeline" class="examples__pipeline-animated">
+                <div v-if="isShowPipeline">
                   <Pipeline />
                 </div>
               </template>
@@ -318,10 +352,7 @@
                     @click="showRestApi"
                   />
                 </div>
-                <div
-                  v-if="isShowRestApi"
-                  class="examples__pipeline-animated examples__rest-api"
-                >
+                <div v-if="isShowRestApi" class="examples__rest-api">
                   <RestApi @close="closeRestApi" />
                 </div>
               </template>
@@ -336,11 +367,20 @@
                     @click="showAppPlatform"
                   />
                 </div>
-                <div
-                  v-if="isShowAppPlatform"
-                  class="examples__pipeline-animated examples__app-platform"
-                >
+                <div v-if="isShowAppPlatform" class="examples__app-platform">
                   <AppPlatform @close="closeAppPlatform" />
+                </div>
+              </template>
+              <template v-if="feature.id === FeaturesEnum.SEAT_MAP">
+                <div v-if="!isShowSeatmap" class="examples__pipeline examples__seatmap">
+                  <UiButton
+                    :text="t('pipeline-demo.button_openDemo')"
+                    promo
+                    @click="showSeatmap"
+                  />
+                </div>
+                <div v-if="isShowSeatmap" class="examples__seatmap">
+                  <SeatMap />
                 </div>
               </template>
             </FeatureItem>

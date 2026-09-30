@@ -1264,6 +1264,59 @@
     "button_openDemo": "Demo öffnen",
     "metrics_show": "Metriken anzeigen"
   },
+  "seatmap-demo": {
+    "button_openDemo": "Demo öffnen",
+    "title": "Demonstration des Universal-SeatMap-Mechanismus",
+    "intro_1": "Jede Fluggesellschaft liefert die Sitzplatzkarte auf ihre eigene Weise: Northwind Air hat ein Set an Feldern, Solstice Airways ein anderes, BlueOrbit ein drittes. Wenn man für jedes Format einen eigenen Parser schreibt, wächst das UI schnell mit bedingten Verzweigungen, Duplikaten und fragilen Transformationen zu. Eine solche Lösung zu pflegen wird immer teurer: Das Hinzufügen einer neuen Fluggesellschaft erfordert Änderungen am Kern und an der Rendering-Schicht, und das Testen jedes Formats wird zu einer eigenen Aufgabe.",
+    "intro_2": "Universal SeatMap löst das mit einer einzigen Pipeline. Sie beschreiben einen Treiber für das spezifische Format eines Carriers, und der Mechanismus bringt die Daten selbst in ein universelles Sitzplatzkarten-Modell und übergibt sie an die Rendering-Schicht. Die Parsing-Logik ist in Treibern isoliert und läuft in einem Web Worker, sodass schwere Verarbeitung den Hauptthread nicht blockiert. Am Ausgang entsteht ein standardisiertes JSON, das nicht von den Besonderheiten einer bestimmten Fluggesellschaft abhängt.",
+    "intro_3": "Eine neue Fluggesellschaft kann hinzugefügt werden, ohne den Kern oder das UI zu ändern: Es genügt, einen neuen Treiber anzuschließen. Für jede Fluggesellschaft kann ein eigener Rendering-Skin angegeben werden — er wird separat konfiguriert und hängt nicht vom universellen Format ab. Dasselbe JSON kann für Northwind Air, Solstice Airways und BlueOrbit unterschiedlich dargestellt werden. Ein universelles Format — verschiedene Fluggesellschaften, verschiedene Skins, eine vorhersehbare Oberfläche.",
+    "intro_example": "Wie funktioniert das?",
+    "intro_example_1_title": "Datenabruf.",
+    "intro_example_1_desc": "Der Mechanismus empfängt ein proprietäres Sitzplatzkarten-Format von einer bestimmten Fluggesellschaft: Northwind Air, Solstice Airways oder BlueOrbit.",
+    "intro_example_2_title": "Treiberauswahl.",
+    "intro_example_2_desc": "Anhand der Kennung des Carriers oder des Formats wird der passende Treiber verbunden, der dieses Format kennt.",
+    "intro_example_3_title": "Konvertierung im Web Worker.",
+    "intro_example_3_desc": "Der Treiber parst und normalisiert die Daten in einem Hintergrundthread, ohne den Hauptthread zu blockieren oder die Reaktionsfähigkeit des UI zu beeinträchtigen.",
+    "intro_example_4_title": "Universelles JSON.",
+    "intro_example_4_desc": "Am Ausgang entsteht eine Standardstruktur: Reihen, Sitze, Status, Typen, Koordinaten, Gänge, Notausgänge und Verfügbarkeitsregeln.",
+    "intro_example_5_title": "Rendering und Skin.",
+    "intro_example_5_desc": "Das UI erhält das universelle JSON und zeichnet das Kabinenlayout. Für jede Fluggesellschaft kann ein eigener Rendering-Skin angegeben werden — er wird separat konfiguriert und hängt nicht vom universellen Format ab.",
+    "flow": {
+      "source_title": "Datenquelle",
+      "source_desc": "Wählen Sie eine Fluggesellschaft, um ihre Sitzplatzkarte im Originalformat zu laden.",
+      "api_raw_title": "Antwort der Airline-API",
+      "api_raw_desc": "Proprietäres JSON von der API des Carriers. Struktur der Felder und Verschachtelung sind für jede Fluggesellschaft einzigartig.",
+      "drivers_title": "Datentreiber",
+      "drivers_desc": "Spezialisierte Konverter. Sie bringen das Ausgangsformat auf einen einheitlichen Standard und laufen isoliert in einem Web Worker.",
+      "driver_prefix": "Datentyp",
+      "universal_title": "Universelles Modell",
+      "universal_desc": "Ein standardisiertes JSON. Es hängt nicht von den Besonderheiten des Carriers ab und ist vollständig bereit für das UI-Rendering."
+    },
+    "viewer": {
+      "flight_label": "Flug:",
+      "segment_label": "Segment:",
+      "departure": "Abflug",
+      "arrival": "Ankunft"
+    },
+    "legend": {
+      "available": "Verfügbar",
+      "occupied": "Belegt",
+      "selected": "Ausgewählt",
+      "blocked": "Nicht verfügbar",
+      "overwing": "Über dem Flügel",
+      "exit": "Notausgang",
+      "exit_icon": "← →"
+    },
+    "cabin": {
+      "door_left": "← Tür",
+      "door_right": "Tür →"
+    },
+    "row": {
+      "bulkhead": "Trennwand",
+      "exit_left": "← Ausgang",
+      "exit_right": "Ausgang →"
+    }
+  },
   "app-platform-demo": {
     "button_openDemo": "Plattform-Ansichten anzeigen"
   },

@@ -1,0 +1,237 @@
+.seat-map {
+  padding-top: clamp(30px, 5vw, 60px);
+  margin-top: clamp(30px, 5vw, 60px);
+  border-top: solid 1px var(--color-7);
+
+  &__container {
+    @include container-lg;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    padding-bottom: 80px;
+  }
+
+  &__header-block {
+    @include grid-2-cols;
+
+    padding-bottom: 80px;
+  }
+
+  &__description {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    color: var(--color-4);
+  }
+
+  &__steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__steps-list-title {
+    padding-bottom: 20px;
+  }
+
+  &__step-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 16px;
+
+    &-title {
+      @include mini-title;
+    }
+
+    &-description {
+      color: var(--color-4);
+    }
+
+    &::before {
+      display: block;
+      content: ' ';
+      position: absolute;
+      top: 8px;
+      left: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--color-6);
+    }
+  }
+
+  &__title {
+    @include big-title;
+  }
+
+  &__flow {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__flow-link {
+    position: relative;
+    width: 0;
+    height: 80px;
+    border-left: solid 1px var(--color-7);
+    z-index: 1;
+
+    &::before,
+    &::after {
+      position: absolute;
+      display: block;
+      content: ' ';
+      left: -5px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: solid 1px var(--color-7);
+      background-color: var(--color-background);
+      z-index: 2;
+    }
+
+    &::before {
+      top: -5px;
+    }
+
+    &::after {
+      bottom: -5px;
+    }
+  }
+
+  &__sources,
+  &__api-raw-data,
+  &__drivers-selector,
+  &__api-formated-data {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    max-width: 900px;
+    padding: 30px;
+    border: solid 1px var(--color-7);
+    border-radius: 10px;
+    background-color: #131313;
+
+    @include media-small-tablet {
+      padding: 20px;
+    }
+  }
+
+  &__map-container {
+    width: 100%;
+    max-width: 940px;
+    padding: 30px;
+    border: solid 1px var(--color-7);
+    border-radius: 10px;
+    background-color: #131313;
+
+    @include media-small-tablet {
+      padding: 20px;
+    }
+  }
+
+  &__step-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__step-title {
+    @include small-title;
+  }
+
+  &__step-description {
+    color: var(--color-4);
+  }
+
+  &__sources-wrapper {
+    display: flex;
+    justify-content: space-around;
+
+    @include media-small-tablet {
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+
+  &__source {
+    padding: 20px 26px;
+    min-width: 200px;
+    border: solid 1px var(--color-7);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+
+    &:not(.seat-map__source_active):hover {
+      border-color: var(--color-1);
+      color: var(--color-1);
+    }
+
+    &_active {
+      background-color: var(--color-1);
+      border-color: var(--color-1);
+      color: var(--color-background);
+    }
+  }
+
+  &__empty-json-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 500px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background: #1e1e1e;
+  }
+
+  &__drivers-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__drivers {
+    display: flex;
+    border: solid 1px var(--color-7);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+
+    @include media-small-tablet {
+      flex-direction: column;
+    }
+  }
+
+  &__driver-block {
+    padding: 15px 20px;
+    border-right: solid 1px var(--color-7);
+    color: var(--color-4);
+
+    @include media-small-tablet {
+      border-right: none;
+      border-bottom: solid 1px var(--color-7);
+    }
+
+    &_active {
+      color: var(--color-background);
+      background-color: var(--color-success);
+    }
+
+    &:last-child {
+      border-right: none;
+
+      @include media-small-tablet {
+        border-bottom: none;
+      }
+    }
+  }
+}
