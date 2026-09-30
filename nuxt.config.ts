@@ -123,7 +123,6 @@ export default defineNuxtConfig({
   inview: {
     defaultRootMargin: '-10% 0px',
   },
-  // Совпадают с медиазапросами из composables/useResponsive.ts
   vueImageKit: {
     breakpoints: {
       mobile: '(max-width: 600px)',
