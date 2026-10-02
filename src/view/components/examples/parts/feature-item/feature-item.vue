@@ -7,8 +7,6 @@
   import type { GradientOptions, GradientColors, headerGradientOptions } from './types';
   import type { FeatureData } from '~/composables/useFeatures';
 
-  import { useResponsive } from '~/composables/useResponsive';
-
   interface Props {
     feature: FeatureData;
     reverse?: boolean;

@@ -3,7 +3,6 @@ import { ref, computed } from 'vue';
 
 import { PageSectionsEnum } from '@/enums/page-sections.enum';
 import { useNavigationStore } from '@/stores/use-navigation-store.ts';
-import { useResponsive } from '~/composables/useResponsive';
 
 const HEADER_HEIGHT = 60;
 const HEADER_MOBILE_HEIGHT = 50;
