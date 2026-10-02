@@ -136,6 +136,7 @@ export default defineNuxtConfig({
     },
     order: ['mobile', 'smallTablet', 'tablet', 'desktop'],
     ssrState: { desktop: true },
+    ssrHints: ['cookie', 'user-agent'],
   },
   vueImageKit: {
     breakpoints: {

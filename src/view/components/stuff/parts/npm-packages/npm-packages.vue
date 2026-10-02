@@ -47,7 +47,7 @@
     </div>
     <div class="npm-packages__packages">
       <div v-if="isLoading" class="npm-packages__loader">
-        <UiLoading type="circle" progressColor="#d941b0" />
+        <UiLoading type="circle" progressColor="#78cf05" />
       </div>
       <MasonryGrid :items="npmToView">
         <template #item="{ item }">

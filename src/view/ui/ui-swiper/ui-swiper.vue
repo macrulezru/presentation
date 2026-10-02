@@ -65,7 +65,9 @@
   const currentIndex = ref(props.initialIndex ?? 0);
   const containerHeight = ref<number | null>(null);
   const viewportRef = ref<HTMLDivElement | null>(null);
-  const isDesktopMode = ref(false);
+  const isDesktopMode = useMediaQuery(
+    () => `(min-width: ${fixedHeightBreakpointValue.value}px)`,
+  );
 
   // Cache высот слайдов для оптимизации
   const heightCache = ref<Map<number, number>>(new Map());
@@ -149,9 +151,6 @@
       clearTimeout(windowResizeTimeout);
     }
     windowResizeTimeout = window.setTimeout(() => {
-      isDesktopMode.value =
-        typeof window !== 'undefined' &&
-        window.matchMedia(`(min-width: ${fixedHeightBreakpointValue.value}px)`).matches;
       heightCache.value.clear();
       updateHeight();
     }, 50);
@@ -273,10 +272,12 @@
     { deep: true },
   );
 
+  watch(isDesktopMode, () => {
+    heightCache.value.clear();
+    updateHeight();
+  });
+
   onMounted(() => {
-    isDesktopMode.value =
-      typeof window !== 'undefined' &&
-      window.matchMedia(`(min-width: ${fixedHeightBreakpointValue.value}px)`).matches;
     setupImageObserver();
     updateHeight();
     startAutoplay(); // Запускаем autoplay при монтировании
