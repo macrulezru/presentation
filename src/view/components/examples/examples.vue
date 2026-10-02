@@ -16,7 +16,6 @@
   import UiLoading from '~/components/ui/UiLoading.vue';
   import { useFeatures } from '~/composables/useFeatures';
   import { useI18n } from '~/composables/useI18n';
-  import { useResponsive } from '~/composables/useResponsive';
 
   import '@/view/components/examples/examples.scss';
 

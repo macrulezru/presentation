@@ -6,7 +6,6 @@
   import { useTravelshopCanvas } from '@/view/composables/use-travelshop-canvas';
   import Button from '@/view/ui/ui-button/ui-button.vue';
   import { useI18n } from '~/composables/useI18n';
-  import { useResponsive } from '~/composables/useResponsive';
 
   import '@/view/components/travelshop-project/parts/travelshop-intro/travelshop-intro.scss';
 

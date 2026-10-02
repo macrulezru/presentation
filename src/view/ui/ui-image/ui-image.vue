@@ -1,9 +1,8 @@
 <script setup lang="ts">
   import '@/view/ui/ui-image/ui-image.scss';
 
+  import { getResponsiveMediaQueries } from 'responsive-media';
   import { ref, computed } from 'vue';
-
-  import { useResponsive, getResponsiveMediaQueries } from '~/composables/useResponsive';
 
   export interface UiImageSource {
     src: string;

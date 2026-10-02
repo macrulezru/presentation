@@ -6,7 +6,6 @@
   import LangSelector from '@/view/components/lang-selector/lang-selector.vue';
   import { useScrollRouting } from '@/view/composables/use-scroll-routing.ts';
   import { useI18n } from '~/composables/useI18n';
-  import { useResponsive } from '~/composables/useResponsive';
   import { useSectionsConfig } from '~/composables/useSectionsConfig';
 
   import '@/view/components/header/header.scss';

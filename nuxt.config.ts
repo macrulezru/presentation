@@ -4,6 +4,8 @@ import { fileURLToPath, URL } from 'node:url';
 
 import { defineNuxtConfig } from 'nuxt/config';
 
+import { BREAKPOINTS, scssBreakpointsConfig } from './utils/breakpoints';
+
 function loadDotEnvFile(absPath: string) {
   if (!existsSync(absPath)) return {};
 
@@ -115,6 +117,8 @@ export default defineNuxtConfig({
     '@macrulez/masonry-kit-nuxt',
     '@macrulez/vue-image-kit/nuxt',
     '@macrulez/inview-nuxt',
+    '@macrulez/visual-linker-nuxt',
+    'responsive-media/nuxt',
   ],
   masonry: {
     columns: 'auto',
@@ -123,10 +127,20 @@ export default defineNuxtConfig({
   inview: {
     defaultRootMargin: '-10% 0px',
   },
+  responsive: {
+    breakpoints: {
+      mobile: [{ type: 'max-width', value: BREAKPOINTS.mobile }],
+      smallTablet: [{ type: 'max-width', value: BREAKPOINTS.smallTablet }],
+      tablet: [{ type: 'max-width', value: BREAKPOINTS.tablet }],
+      desktop: [{ type: 'min-width', value: BREAKPOINTS.tablet + 1 }],
+    },
+    order: ['mobile', 'smallTablet', 'tablet', 'desktop'],
+    ssrState: { desktop: true },
+  },
   vueImageKit: {
     breakpoints: {
-      mobile: '(max-width: 600px)',
-      tablet: '(max-width: 960px)',
+      mobile: `(max-width: ${BREAKPOINTS.mobile}px)`,
+      tablet: `(max-width: ${BREAKPOINTS.tablet}px)`,
     },
   },
   vite: {
@@ -134,8 +148,8 @@ export default defineNuxtConfig({
       preprocessorOptions: {
         scss: {
           additionalData: `
+            @use "@/view/styles/mixins/media.scss" as * with (${scssBreakpointsConfig});
             @use "@/view/styles/mixins/layout.scss" as *;
-            @use "@/view/styles/mixins/media.scss" as *;
             @use "@/view/styles/mixins/element.scss" as *;
           `,
         },
