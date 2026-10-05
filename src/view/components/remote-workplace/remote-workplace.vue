@@ -43,11 +43,18 @@
           <div class="remote-workplace__features-image-container">
             <VImage
               :src="RemoveWorkplaceImage"
+              blurhash="L01NHhFxy@PUpFaPkpg38w+[Lzv#"
               :width="600"
               :height="400"
-              :sources="{ tablet: { src: RemoveWorkplaceImageHorizontal, width: 800, height: 450 } }"
+              :sources="{
+                tablet: {
+                  src: RemoveWorkplaceImageHorizontal,
+                  width: 800,
+                  height: 450,
+                  blurhash: 'L00,^lKOujTJo_aikVkWD4#kQ5sS',
+                },
+              }"
               alt="Workstation"
-              placeholderColor="#201D1F"
               class="feature-item__image"
             />
           </div>
