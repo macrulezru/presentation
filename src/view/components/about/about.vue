@@ -3,7 +3,7 @@
 
   import { computed, ref } from 'vue';
 
-  import type { ListItem } from '@/view/components/about/types';
+  import type { ListItem, TechImage } from '@/view/components/about/types';
 
   import techStackMain from '@/view/assets/images/tech-stack-1.webp';
   import techStackInfra from '@/view/assets/images/tech-stack-2.webp';
@@ -39,20 +39,20 @@
 
   interface TechCategory {
     key: string;
-    image: string;
+    image: TechImage;
     title: string;
     description: string;
     items: ListItem[];
   }
 
-  const techStackImages: Record<string, string> = {
-    main: techStackMain,
-    infra: techStackInfra,
-    layout: techStackLayout,
-    devops: techStackDevops,
+  const techStackImages: Record<string, TechImage> = {
+    main: { image: techStackMain, blurhash: 'L56A%|YMHXnW*0nPQSu3Q8n7c:oe' },
+    infra: { image: techStackInfra, blurhash: 'L54zHUR$VEyXyE*IROnQh#xvj?Rh' },
+    layout: { image: techStackLayout, blurhash: 'L64}WaY$tRU{xwqEo|nnY+mARPuM' },
+    devops: { image: techStackDevops, blurhash: 'LA5%#}yCL#jZl,pHUwaLL$RPXkkC' },
   };
 
-  const fallbackImage = techStackMain;
+  const fallbackImage = techStackImages.main!;
 
   const skillsList = computed(() => getListItem('about.skills_list'));
 
@@ -116,12 +116,13 @@
               <div class="about__tech-category-header">
                 <VImage
                   class="about__tech-category-image"
-                  :src="category.image"
+                  :src="category.image.image"
+                  :blurhash="category.image.blurhash"
                   :width="300"
                   :height="300"
                   :alt="category.title"
                   :lazy="true"
-                  thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"
+                  ssrPlaceholder
                 />
                 <div class="about__tech-category-title">
                   {{ category.title }}

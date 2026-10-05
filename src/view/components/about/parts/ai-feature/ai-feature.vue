@@ -76,14 +76,19 @@
             <div class="ai-feature__image-wrapper">
               <VImage
                 :src="AiImage"
+                blurhash="L41g+Do}Q8Z~baj?o3kDUbbcd9j="
                 :width="587"
                 :height="454"
                 :sources="{
-                  tablet: { src: AiImageHorizontal, width: 1536, height: 759 },
+                  tablet: {
+                    src: AiImageHorizontal,
+                    width: 1536,
+                    height: 759,
+                    blurhash: 'L214b2o#Q8W+WUbFozo}Ubbbd9WC',
+                  },
                 }"
                 alt="AI Feature Image"
-                placeholderColor="#201D1F"
-                class="about__tech-art"
+                class="ai-feature__image"
               />
             </div>
           </div>

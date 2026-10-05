@@ -18,10 +18,20 @@
 
   const localePrefix = computed(() => (locale.value !== LocalesEnum.RU ? 'en/' : ''));
 
-  const items = computed(() => {
+  interface ToolzItem {
+    image: string;
+    blurhash: string;
+    title: string;
+    sub_title: string;
+    description: string;
+    url: string;
+  }
+
+  const items = computed((): ToolzItem[] => {
     return [
       {
         image: TinySvg,
+        blurhash: 'L66[zQR4Z3%#o=o~M^Mv00.ApwHr',
         title: t('toolz.modulez.tiny_svg.title'),
         sub_title: t('toolz.modulez.tiny_svg.sub_title'),
         description: t('toolz.modulez.tiny_svg.description'),
@@ -29,6 +39,7 @@
       },
       {
         image: ImageCompressor,
+        blurhash: 'LA8zmJ-aVUN-skxwNCR#00NWp2r|',
         title: t('toolz.modulez.image_compressor.title'),
         sub_title: t('toolz.modulez.image_compressor.sub_title'),
         description: t('toolz.modulez.image_compressor.description'),
@@ -36,6 +47,7 @@
       },
       {
         image: GradinetFabric,
+        blurhash: 'LAAJghWC0Jj=CDfkrNjH00oy-HV[',
         title: t('toolz.modulez.gradient_fabric.title'),
         sub_title: t('toolz.modulez.gradient_fabric.sub_title'),
         description: t('toolz.modulez.gradient_fabric.description'),
@@ -43,6 +55,7 @@
       },
       {
         image: UnitForge,
+        blurhash: 'L6725z3cQk:b=hDgi^x_00+kt:Kz',
         title: t('toolz.modulez.unit_forge.title'),
         sub_title: t('toolz.modulez.unit_forge.sub_title'),
         description: t('toolz.modulez.unit_forge.description'),
@@ -50,6 +63,7 @@
       },
       {
         image: FavIcona,
+        blurhash: 'L78g?wN3DN-?P4sXMvk;00t6x|Il',
         title: t('toolz.modulez.fav_icona.title'),
         sub_title: t('toolz.modulez.fav_icona.sub_title'),
         description: t('toolz.modulez.fav_icona.description'),
@@ -57,6 +71,7 @@
       },
       {
         image: Stronghold,
+        blurhash: 'L88qjtCa00_woYn4ITSzI7rwWGO8',
         title: t('toolz.modulez.stronghold.title'),
         sub_title: t('toolz.modulez.stronghold.sub_title'),
         description: t('toolz.modulez.stronghold.description'),
@@ -88,11 +103,11 @@
                     <VImage
                       class="toolz__modules-item-image"
                       :src="item.image"
+                      :blurhash="item.blurhash"
                       :width="300"
                       :height="300"
                       :alt="item.title"
                       :lazy="true"
-                      thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"
                     />
                   </span>
                   <span class="toolz__modules-item-title">

@@ -34,11 +34,11 @@
           <VImage
             class="npm-packages__image"
             :src="npmLogo"
+            blurhash="L64EApx9Y+enc@TGRoaxHXXTl-jF"
             :width="616"
             :height="600"
             alt="VueCraft NPM"
             :lazy="true"
-            thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"
           />
           <div class="npm-packages__header">VueCraft NPM</div>
         </a>
@@ -62,7 +62,8 @@
                     :width="300"
                     :height="300"
                     :lazy="true"
-                    thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"
+                    placeholderMode="color"
+                    placeholderColor="#1c1b1b"
                   />
                 </div>
                 <div class="npm-packages__item-name">

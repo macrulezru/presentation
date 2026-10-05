@@ -75,9 +75,11 @@
         <div class="feature-item__image-container">
           <VImage
             :src="feature.image.image"
+            :blurhash="feature.image.blurhash"
             :sources="{
               tablet: {
                 src: feature.imageHorizontal.image,
+                blurhash: feature.imageHorizontal.blurhash,
                 width: feature.imageHorizontal.width,
                 height: feature.imageHorizontal.height,
               },
@@ -85,7 +87,6 @@
             :width="feature.image.width"
             :height="feature.image.height"
             :alt="feature.title"
-            placeholderColor="#201D1F"
             class="feature-item__image"
           />
         </div>

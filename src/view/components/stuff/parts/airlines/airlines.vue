@@ -20,11 +20,11 @@
           <VImage
             class="airlines__image"
             :src="airlinesImage"
+            blurhash="L54X6oVrL#WXyXozbqV[HXo#qEVs"
             :width="641"
             :height="600"
             :alt="t('airlines.title')"
             :lazy="true"
-            thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"
           />
           <div class="airlines__header">
             {{ t('airlines.title') }}

@@ -3,3 +3,8 @@ export interface ListItem {
   title: string;
   description: string;
 }
+
+export interface TechImage {
+  image: string;
+  blurhash: string;
+}

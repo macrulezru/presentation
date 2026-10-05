@@ -143,6 +143,12 @@ export default defineNuxtConfig({
       mobile: `(max-width: ${BREAKPOINTS.mobile}px)`,
       tablet: `(max-width: ${BREAKPOINTS.tablet}px)`,
     },
+    placeholders: {
+      mode: 'blurhash',
+      imports: {
+        exclude: ['/aircraft.png', '/airport.png', '/cloud.png'],
+      },
+    },
   },
   vite: {
     css: {

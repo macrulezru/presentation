@@ -31,11 +31,11 @@
           <VImage
             class="blog__image"
             :src="blogImage"
+            blurhash="L45PXVx]Q9bE.ms:V[o}HXkpR*kp"
             :width="500"
             :height="496"
             :alt="t('blog.title')"
             :lazy="true"
-            thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"
           />
           <div class="blog__header">
             {{ t('blog.title') }}
