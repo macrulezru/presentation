@@ -46,10 +46,16 @@
   }
 
   const techStackImages: Record<string, TechImage> = {
-    main: { image: techStackMain, blurhash: 'L56A%|YMHXnW*0nPQSu3Q8n7c:oe' },
-    infra: { image: techStackInfra, blurhash: 'L54zHUR$VEyXyE*IROnQh#xvj?Rh' },
-    layout: { image: techStackLayout, blurhash: 'L64}WaY$tRU{xwqEo|nnY+mARPuM' },
-    devops: { image: techStackDevops, blurhash: 'LA5%#}yCL#jZl,pHUwaLL$RPXkkC' },
+    main: { image: techStackMain, hazehash: 'MEkSLwIAaJ_qSkZ1Fk8rrZPFlxCaSWUnek6kRA' },
+    infra: { image: techStackInfra, hazehash: 'MD4ONPMAQIfqqeIPXFWlde0tXpZVkDtaavTLuw' },
+    layout: {
+      image: techStackLayout,
+      hazehash: 'MEoQsPsAQK_wOC8evGIvsurl44jbPGW61q7SmQ',
+    },
+    devops: {
+      image: techStackDevops,
+      hazehash: 'MFgxsPugTIfwfWqpmRW19Cal03OtU5pKc6a51Q',
+    },
   };
 
   const fallbackImage = techStackImages.main!;
@@ -117,7 +123,7 @@
                 <VImage
                   class="about__tech-category-image"
                   :src="category.image.image"
-                  :blurhash="category.image.blurhash"
+                  :hazehash="category.image.hazehash"
                   :width="300"
                   :height="300"
                   :alt="category.title"

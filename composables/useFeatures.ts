@@ -30,13 +30,13 @@ export interface FeatureData {
   id: string;
   image: {
     image: string;
-    blurhash: string;
+    hazehash: string;
     width: number;
     height: number;
   };
   imageHorizontal: {
     image: string;
-    blurhash: string;
+    hazehash: string;
     width: number;
     height: number;
   };
@@ -72,13 +72,13 @@ export function useFeatures() {
       accentColor: '#bd0e3d',
       image: {
         image: uiImage,
-        blurhash: 'L243DfsDHXkqVWe.bIozD4V@uOVs',
+        hazehash: 'Dd4JvOKAQLJ5O244i81E07OKrV1hu4hmmXeJhw',
         width: 720,
         height: 1080,
       },
       imageHorizontal: {
         image: uiImageHorizontal,
-        blurhash: 'L327K{ofQ8ohQ8bap_afL#a|qEW9',
+        hazehash: 'E_sHvOOYSI2t62AjisNzmzBfBxGJAFS1EKUpUQ',
         width: 800,
         height: 450,
       },
@@ -89,13 +89,13 @@ export function useFeatures() {
       accentColor: '#3498db',
       image: {
         image: pipelineImage,
-        blurhash: 'L31W_ypbQ8U_pHjZeokqQ8Zjugp^',
+        hazehash: 'DOwGuuMAQKg75T4bwNJFU7urzNraQbtusaqlSQ',
         width: 720,
         height: 1279,
       },
       imageHorizontal: {
         image: pipelineImageHorizontal,
-        blurhash: 'L30_3zjaUbbukVeojGkVUbjGqEbH',
+        hazehash: 'E_xGuuwgMCvv0EPkVNh4TphSmmob4vRy7iNPMw',
         width: 800,
         height: 450,
       },
@@ -106,13 +106,13 @@ export function useFeatures() {
       accentColor: '#e74c3c',
       image: {
         image: apiMonitorImage,
-        blurhash: 'L33lUP$,M1IsGdKPrF#TMHi^cDOr',
+        hazehash: 'DepmvtqJVKpOd3tuhaTV44WLFJVUt4iVzW6Y0w',
         width: 720,
         height: 1080,
       },
       imageHorizontal: {
         image: apiMonitorImageHorizontal,
-        blurhash: 'L20dsmkXUbaJkqflene.UbaKl.kq',
+        hazehash: 'E-0GOuMQSElzuWuBJEVREI3wG5YbpG2XGFhhKw',
         width: 800,
         height: 450,
       },
@@ -123,13 +123,13 @@ export function useFeatures() {
       accentColor: '#1abc9c',
       image: {
         image: appPlatformImage,
-        blurhash: 'L40-b_g3UcjGkDj[kCbIUbenl,kC',
+        hazehash: 'DOxGuuwgsoHv3Kn4WUuY497WrFyXyTdXz4yMtA',
         width: 720,
         height: 1279,
       },
       imageHorizontal: {
         image: appPlatformImageHorizontal,
-        blurhash: 'L30w+3kCUbjFeTf6kWflUbaxl-j]',
+        hazehash: 'E-wGuuMAQFZ55g8CEjNJoZlUpIOMI5mhxghoyQ',
         width: 800,
         height: 450,
       },
@@ -140,13 +140,13 @@ export function useFeatures() {
       accentColor: '#9b59b6',
       image: {
         image: i18nImage,
-        blurhash: 'L50nHcjOZ2bkkGj2kpgGd:fNlCjg',
+        hazehash: 'DewGvNuAQFD3OFwXSSD2HlxgU0bxDN4M4dZKmw',
         width: 720,
         height: 1080,
       },
       imageHorizontal: {
         image: i18nImageHorizonatl,
-        blurhash: 'L40Ua-g7UbjAjNe[aJfyUbffqFfC',
+        hazehash: 'E-xGuuQYUIazthOCkVQqrLuhumwZpFp4oLEWQw',
         width: 800,
         height: 450,
       },
@@ -157,13 +157,13 @@ export function useFeatures() {
       accentColor: '#409724',
       image: {
         image: seatmapImage,
-        blurhash: 'L30x1kkCY+i_iwjukqfkUbaLl-g3',
+        hazehash: 'DOxGuuuYUDK3zhp0gUpBlG6rkjDKMpOGptGQqw',
         width: 720,
         height: 1279,
       },
       imageHorizontal: {
         image: seatmapImageHorizontal,
-        blurhash: 'L20nHJa#Y+epm-afk=flUbjul-f*',
+        hazehash: 'E-8GOuuYKNX79PBv4BpoeBcTg0ROqXVKZ4A8VA',
         width: 800,
         height: 450,
       },

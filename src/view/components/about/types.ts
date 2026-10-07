@@ -6,5 +6,5 @@ export interface ListItem {
 
 export interface TechImage {
   image: string;
-  blurhash: string;
+  hazehash: string;
 }

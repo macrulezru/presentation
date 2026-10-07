@@ -20,7 +20,7 @@
 
   interface ToolzItem {
     image: string;
-    blurhash: string;
+    hazehash: string;
     title: string;
     sub_title: string;
     description: string;
@@ -31,7 +31,7 @@
     return [
       {
         image: TinySvg,
-        blurhash: 'L66[zQR4Z3%#o=o~M^Mv00.ApwHr',
+        hazehash: 'MFiPvMsAQGfw3GqnVjrQ-wac7xbWt1Fs3W2MVQ',
         title: t('toolz.modulez.tiny_svg.title'),
         sub_title: t('toolz.modulez.tiny_svg.sub_title'),
         description: t('toolz.modulez.tiny_svg.description'),
@@ -39,7 +39,7 @@
       },
       {
         image: ImageCompressor,
-        blurhash: 'LA8zmJ-aVUN-skxwNCR#00NWp2r|',
+        hazehash: 'MDwRRpEAYF_yk8WhGrWLrLCTPJGyjGsFZVmPNw',
         title: t('toolz.modulez.image_compressor.title'),
         sub_title: t('toolz.modulez.image_compressor.sub_title'),
         description: t('toolz.modulez.image_compressor.description'),
@@ -47,7 +47,7 @@
       },
       {
         image: GradinetFabric,
-        blurhash: 'LAAJghWC0Jj=CDfkrNjH00oy-HV[',
+        hazehash: 'MC1yyKo6wGXwrvTYQVHx6Dwc_dsr92Fg9vI47w',
         title: t('toolz.modulez.gradient_fabric.title'),
         sub_title: t('toolz.modulez.gradient_fabric.sub_title'),
         description: t('toolz.modulez.gradient_fabric.description'),
@@ -55,7 +55,7 @@
       },
       {
         image: UnitForge,
-        blurhash: 'L6725z3cQk:b=hDgi^x_00+kt:Kz',
+        hazehash: 'MD2QvqGoSG_ww9HT5beo75l5rXqvBpre1btF6Q',
         title: t('toolz.modulez.unit_forge.title'),
         sub_title: t('toolz.modulez.unit_forge.sub_title'),
         description: t('toolz.modulez.unit_forge.description'),
@@ -63,7 +63,7 @@
       },
       {
         image: FavIcona,
-        blurhash: 'L78g?wN3DN-?P4sXMvk;00t6x|Il',
+        hazehash: 'MD4QQqmAQGfwrfGVwd6ffLKpu37Vju8pVem40w',
         title: t('toolz.modulez.fav_icona.title'),
         sub_title: t('toolz.modulez.fav_icona.sub_title'),
         description: t('toolz.modulez.fav_icona.description'),
@@ -71,7 +71,7 @@
       },
       {
         image: Stronghold,
-        blurhash: 'L88qjtCa00_woYn4ITSzI7rwWGO8',
+        hazehash: 'MFmRQKoxSFfqqqFpvhsbbcLSVDOJliTbdU1AvQ',
         title: t('toolz.modulez.stronghold.title'),
         sub_title: t('toolz.modulez.stronghold.sub_title'),
         description: t('toolz.modulez.stronghold.description'),
@@ -103,7 +103,7 @@
                     <VImage
                       class="toolz__modules-item-image"
                       :src="item.image"
-                      :blurhash="item.blurhash"
+                      :hazehash="item.hazehash"
                       :width="300"
                       :height="300"
                       :alt="item.title"

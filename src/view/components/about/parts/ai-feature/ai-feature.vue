@@ -76,7 +76,7 @@
             <div class="ai-feature__image-wrapper">
               <VImage
                 :src="AiImage"
-                blurhash="L41g+Do}Q8Z~baj?o3kDUbbcd9j="
+                hazehash="Es9HuuugQDA3QTzTOHMOk2veIITcN27U18xVww"
                 :width="587"
                 :height="454"
                 :sources="{
@@ -84,7 +84,7 @@
                     src: AiImageHorizontal,
                     width: 1536,
                     height: 759,
-                    blurhash: 'L214b2o#Q8W+WUbFozo}Ubbbd9WC',
+                    hazehash: 'E-xGuuwhUlJzuoToupLcqXLrSSiqVKZDSaao1Q',
                   },
                 }"
                 alt="AI Feature Image"
