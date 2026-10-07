@@ -43,7 +43,7 @@
           <div class="remote-workplace__features-image-container">
             <VImage
               :src="RemoveWorkplaceImage"
-              blurhash="L01NHhFxy@PUpFaPkpg38w+[Lzv#"
+              hazehash="Eu1GuvOQqCnf0EPkoBboK5y-eOqgZwNtDS6o8Q"
               :width="600"
               :height="400"
               :sources="{
@@ -51,7 +51,7 @@
                   src: RemoveWorkplaceImageHorizontal,
                   width: 800,
                   height: 450,
-                  blurhash: 'L00,^lKOujTJo_aikVkWD4#kQ5sS',
+                  hazehash: 'E-5GOvMQsqH76CL8IJ1aDra3kGpw0uuhctU5bw',
                 },
               }"
               alt="Workstation"

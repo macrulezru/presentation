@@ -31,7 +31,7 @@
           <VImage
             class="blog__image"
             :src="blogImage"
-            blurhash="L45PXVx]Q9bE.ms:V[o}HXkpR*kp"
+            hazehash="MEoONvIAQH_q6UXUXG3t3WR4lp4TTIjsKpOtWw"
             :width="500"
             :height="496"
             :alt="t('blog.title')"
