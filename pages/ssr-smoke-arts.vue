@@ -1,4 +1,5 @@
 <script setup lang="ts">
+useHead({ meta: [{ name: 'robots', content: 'noindex, nofollow' }] });
 const { data, pending, error } = await usePortfolioArts();
 </script>
 
