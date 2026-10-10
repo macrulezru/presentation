@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { onMounted, onUnmounted, defineAsyncComponent, computed } from 'vue';
 
+  import { LocalesList } from '@/enums/locales.enum';
   import { PageSectionsEnum } from '@/enums/page-sections.enum';
   import { i18n } from '@/locales';
   import Header from '@/view/components/header/header.vue';
@@ -16,11 +17,17 @@
 
   const route = useRoute();
   const locale = computed(() => String(route.params.locale || 'ru'));
-  const canonicalUrl = computed(() =>
-    locale.value === 'ru'
-      ? 'https://macrulez.ru/'
-      : `https://macrulez.ru/${locale.value}`,
-  );
+  const localeUrl = (code: string) =>
+    code === 'ru' ? 'https://macrulez.ru/' : `https://macrulez.ru/${code}`;
+  const canonicalUrl = computed(() => localeUrl(locale.value));
+  const alternateLinks = [
+    ...LocalesList.map(code => ({
+      rel: 'alternate',
+      hreflang: code,
+      href: localeUrl(code),
+    })),
+    { rel: 'alternate', hreflang: 'x-default', href: localeUrl('ru') },
+  ];
 
   const seoTitle = computed(() => String(t('seo.title')));
   const seoDescription = computed(() => String(t('seo.description')));
@@ -28,12 +35,7 @@
   useHead(() => ({
     htmlAttrs: { lang: locale.value },
     title: seoTitle.value,
-    link: [
-      { rel: 'canonical', href: canonicalUrl.value },
-      { rel: 'alternate', hreflang: 'ru', href: 'https://macrulez.ru/' },
-      { rel: 'alternate', hreflang: 'en', href: 'https://macrulez.ru/en' },
-      { rel: 'alternate', hreflang: 'x-default', href: 'https://macrulez.ru/' },
-    ],
+    link: [{ rel: 'canonical', href: canonicalUrl.value }, ...alternateLinks],
     meta: [{ name: 'description', content: seoDescription.value }],
     script: [
       {

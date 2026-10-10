@@ -1,23 +1,25 @@
 import { LocalesList } from '@/enums/locales.enum';
 
 const SITE_URL = 'https://macrulez.ru';
+const DEFAULT_LOCALE = 'ru';
+
+const urlFor = (locale: string) =>
+  locale === DEFAULT_LOCALE ? `${SITE_URL}/` : `${SITE_URL}/${locale}`;
 
 export default defineEventHandler(event => {
-  const alternateLinks = (currentLocale: string) =>
-    [
-      ...LocalesList.map(
-        l =>
-          `    <xhtml:link rel="alternate" hreflang="${l}" href="${SITE_URL}/${l}"/>`,
-      ),
-      `    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL}/ru"/>`,
-    ].join('\n');
+  const alternateLinks = [
+    ...LocalesList.map(
+      l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${urlFor(l)}"/>`,
+    ),
+    `    <xhtml:link rel="alternate" hreflang="x-default" href="${urlFor(DEFAULT_LOCALE)}"/>`,
+  ].join('\n');
 
   const urlEntries = LocalesList.map(
     locale => `  <url>
-    <loc>${SITE_URL}/${locale}</loc>
+    <loc>${urlFor(locale)}</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-${alternateLinks(locale)}
+${alternateLinks}
   </url>`,
   ).join('\n');
 
