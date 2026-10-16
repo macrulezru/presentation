@@ -173,7 +173,7 @@
             <div>
               <VImage
                 :src="TravelshopImage"
-                hazehash="DN5GOuuYUpQ5O01EcJNBSyxVmVbqqaTcyksCmw"
+                hazehash="DP_mOuugSolb5Y2jxBREKQsy7IdyyZFSW2luRTYLVGVIFMOW5rDJhwWXDA"
                 :width="720"
                 :height="1237"
                 :sources="{
@@ -181,7 +181,7 @@
                     src: TravelshopImageHorizontal,
                     width: 1400,
                     height: 700,
-                    hazehash: 'E99GOuwYqNX6fQPKfBHoOXjznO5CocAp1qIFZw',
+                    hazehash: 'E__mOuwYqnb9-uL5PkZcx7x5zdS7lkww4tndzJeEjkzVkyWtY5wiZGWX',
                   },
                 }"
                 alt="TravelShop 2.0"

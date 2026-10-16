@@ -20,7 +20,7 @@
           <VImage
             class="airlines__image"
             :src="airlinesImage"
-            hazehash="MMwPMvuAQI_goK1wnJfXfeqktEi6aVjTjTlO8g"
+            hazehash="MP_vMvuYQI_gFKbotmOgSmZqt477DcHw9KmRT1n7yGtAzc2EESGGziWdBJCSsA"
             :width="641"
             :height="600"
             :alt="t('airlines.title')"

@@ -31,7 +31,7 @@
     return [
       {
         image: TinySvg,
-        hazehash: 'MFiPvMsAQGfw3GqnVjrQ-wac7xbWt1Fs3W2MVQ',
+        hazehash: 'MH9vvMsIwmfw3FTizVdJjaZkbvEF87d3SusMjzg0FRUts1OKaZwjEJxM7TiTSBk',
         title: t('toolz.modulez.tiny_svg.title'),
         sub_title: t('toolz.modulez.tiny_svg.sub_title'),
         description: t('toolz.modulez.tiny_svg.description'),
@@ -39,7 +39,7 @@
       },
       {
         image: ImageCompressor,
-        hazehash: 'MDwRRpEAYF_yk8WhGrWLrLCTPJGyjGsFZVmPNw',
+        hazehash: 'MH9RRpEASF_yvWM1HGDDUe3zjIrDs1hYWsZ0-MhLzFamGy5vat0qdu7xMet7qqxa',
         title: t('toolz.modulez.image_compressor.title'),
         sub_title: t('toolz.modulez.image_compressor.sub_title'),
         description: t('toolz.modulez.image_compressor.description'),
@@ -47,7 +47,7 @@
       },
       {
         image: GradinetFabric,
-        hazehash: 'MC1yyKo6wGXwrvTYQVHx6Dwc_dsr92Fg9vI47w',
+        hazehash: 'MH9yyKo6ymXwnCw7lNASSIHddQ-hg5BSrIBOnjeXNTvl1ig6BL7SmmljpVTyd4rI',
         title: t('toolz.modulez.gradient_fabric.title'),
         sub_title: t('toolz.modulez.gradient_fabric.sub_title'),
         description: t('toolz.modulez.gradient_fabric.description'),
@@ -55,7 +55,7 @@
       },
       {
         image: UnitForge,
-        hazehash: 'MD2QvqGoSG_ww9HT5beo75l5rXqvBpre1btF6Q',
+        hazehash: 'MH3wvqGpSG_wnD1s8OpQ68rc61cDvhOPh3VOod2vVqseF1iQN60c4WKOq-FkZq7T',
         title: t('toolz.modulez.unit_forge.title'),
         sub_title: t('toolz.modulez.unit_forge.sub_title'),
         description: t('toolz.modulez.unit_forge.description'),
@@ -63,7 +63,7 @@
       },
       {
         image: FavIcona,
-        hazehash: 'MD4QQqmAQGfwrfGVwd6ffLKpu37Vju8pVem40w',
+        hazehash: 'MH7wQqmYyGfw3Va4rFxlqXnMlod9aTmKrFt3NUPa1i-fBu-MGMaxib4xabbxztYy',
         title: t('toolz.modulez.fav_icona.title'),
         sub_title: t('toolz.modulez.fav_icona.sub_title'),
         description: t('toolz.modulez.fav_icona.description'),
@@ -71,7 +71,7 @@
       },
       {
         image: Stronghold,
-        hazehash: 'MFmRQKoxSFfqqqFpvhsbbcLSVDOJliTbdU1AvQ',
+        hazehash: 'MH_RQKoxQFfqqnHHeG2ZZtrFhbNuHi8QG6xiiq1nmcsfvpiGKknMLUN1La3dVR5j',
         title: t('toolz.modulez.stronghold.title'),
         sub_title: t('toolz.modulez.stronghold.sub_title'),
         description: t('toolz.modulez.stronghold.description'),

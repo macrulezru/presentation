@@ -76,7 +76,7 @@
             <div class="ai-feature__image-wrapper">
               <VImage
                 :src="AiImage"
-                hazehash="Es9HuuugQDA3QTzTOHMOk2veIITcN27U18xVww"
+                hazehash="Ev_nuuugSoK52warojmm4b5m65i5ipmEUjjeK5mSJuGxYhYUTFVUZHcOEaA"
                 :width="587"
                 :height="454"
                 :sources="{
@@ -84,7 +84,7 @@
                     src: AiImageHorizontal,
                     width: 1536,
                     height: 759,
-                    hazehash: 'E-xGuuwhUlJzuoToupLcqXLrSSiqVKZDSaao1Q',
+                    hazehash: 'E__muuwhSlJzuRajQF1JbnObqly1gSUYpVuRMhkWolkU4pQzVUQimnEz',
                   },
                 }"
                 alt="AI Feature Image"

@@ -34,7 +34,7 @@
           <VImage
             class="npm-packages__image"
             :src="npmLogo"
-            hazehash="MD5PMvuAUoXiwLRNgA3W74YZprXHiQ3qYTDwZA"
+            hazehash="MH9vMvuYSoXiGA7tdicnDEOgyax2GYSkVEt416nN5ReJkp0xjGaY6gp4iVBq6mSZ"
             :width="616"
             :height="600"
             alt="VueCraft NPM"
