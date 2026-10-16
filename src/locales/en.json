@@ -26,48 +26,42 @@
     "examples_description": "From UI components to deployment and monitoring systems — here you'll find concrete technical solutions that I have designed and implemented in practice."
   },
   "about": {
-    "intro": {
-      "front-end": "Frontend Developer (Vue.js)",
-      "vue": "6+ years of commercial experience with Vue",
-      "web": "20+ years in web development and design"
-    },
     "top_title": "Architecture as a reactive system",
     "top_sub_title": "Interface as its human face",
-    "top_description": "Pushing beyond 'just code', I design cohesive SPA systems where Vue's modularity and TypeScript's clarity serve one goal — creating intuitive and high-performance digital products",
-    "approach": "I build complex, performant, and user-friendly SPA applications using Vue.js 3. I combine a deep understanding of frontend architecture with a keen eye for design and UX, allowing me to craft interfaces that not only work efficiently but are also enjoyed by users.",
+    "top_description": "I design cohesive systems with Vue and Nuxt: SPA for complex applications, SSR for live data, SSG for fast static pages. Vue's modularity and TypeScript's clarity serve one goal — intuitive digital products that load fast and are easy to find in search.",
     "ai": {
       "subtitle": "<span>A</span>rtificial&nbsp;<span>I</span>ntelligence as a working tool",
-      "description": "I integrate AI into the daily development process to speed up routine tasks and improve code quality. I don't just 'chat with AI' — I build clear, controllable pipelines with its help.",
+      "description": "AI is built into the daily development workflow: it speeds up routine tasks and helps keep code quality high, while the processes around it stay clear and controlled.",
       "options": [
         {
           "title": "Design systems and components",
           "items": [
-            "I generate UI library scaffolding, types, and composables from descriptions.",
-            "I convert Figma mockups into draft layouts (HTML/SCSS), which I then refine.",
-            "Result: 30–40% reduction in time to create base components."
+            "UI library scaffolds, types and composables generated from a description.",
+            "Figma mockups turned into draft markup (HTML/SCSS), then refined by hand.",
+            "Base components are built noticeably faster."
           ]
         },
         {
           "title": "Documentation and specifications",
           "items": [
-            "I write draft API documentation (OpenAPI) and complex module docs based on code.",
-            "I generate library usage examples.",
-            "I write release notes and update README files for modules, components, NPM packages..."
+            "Draft API documentation (OpenAPI) and docs for complex modules, based on the code.",
+            "Library usage examples.",
+            "Release notes and README files for modules, components and NPM packages."
           ]
         },
         {
           "title": "Refactoring and code analysis",
           "items": [
-            "I use AI to identify bottlenecks, non-obvious bugs, and code duplication.",
-            "I generate migrations for updating dependencies (e.g., vuex → Pinia or vue-i18n schema updates).",
-            "Result: 25% reduction in time spent on routine refactoring."
+            "Search for bottlenecks, non-obvious bugs and duplication.",
+            "Migrations for dependency updates, such as vuex → Pinia or vue-i18n schema changes.",
+            "Routine refactoring takes less time."
           ]
         },
         {
           "title": "Automated tests and mocks",
           "items": [
-            "I generate unit test scenarios (Vitest/Jest) and mock data for APIs.",
-            "I create realistic test datasets for UI debugging."
+            "Unit test scenarios (Vitest/Jest) and mock data for APIs.",
+            "Realistic test datasets for UI debugging."
           ]
         }
       ],
@@ -87,12 +81,11 @@
           {
             "icon": "copilot",
             "title": "Copilot",
-            "text": "Quick boilerplate autocomplete, JSX/TSX markup creation, and routine data queries."
+            "text": "Quick boilerplate autocomplete, repetitive markup blocks and routine data queries."
           }
         ]
       }
     },
-    "skills_title": "In my work, I focus on architectural cleanliness, code maintainability, and type safety. I have experience in the full cycle of frontend development for complex SPAs:",
     "skills_list": {
       "architecture_design": {
         "title": "Application structure design",
@@ -120,11 +113,11 @@
     "tech_stack": {
       "main": {
         "title": "Core Stack",
-        "description": "<span><strong>Vue.js</strong> with <strong>Proxy</strong> for smart reactivity, while <strong>Nuxt</strong> gives you SSR/SSG out of the box.</span><span><strong>Pinia</strong> was built for TypeScript from the ground up — types are inferred automatically. And <strong>Vue Router</strong> turns navigation into a declarative part of your code with lazy loading. The whole stack works like a constructor kit: you assemble logic from ready-made functions instead of writing tons of configuration.</span>",
+        "description": "<span>Interfaces built with <strong>Vue.js</strong>, the Composition API and <strong>TypeScript</strong>; <strong>Nuxt</strong> when SSR or SSG is needed: fast first load and proper indexing by search engines.</span><span>State lives in <strong>Pinia</strong>, navigation and lazy loading in <strong>Vue Router</strong>. Logic is assembled from small composable functions, so the code is easy to reuse and test.</span>",
         "items": {
           "vue": {
             "title": "Vue.js",
-            "description": "Building SPAs with the Composition API, composables, reactivity, and lifecycle hooks..."
+            "description": "Composition API, composables, reactivity and lifecycle hooks: from SPAs to SSR/SSG together with Nuxt"
           },
           "nuxt": {
             "title": "Nuxt",

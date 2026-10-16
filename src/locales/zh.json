@@ -26,48 +26,42 @@
     "examples_description": "从 UI 组件到部署和监控系统 — 这里汇集了我在实践中设计和实现的具体技术解决方案。"
   },
   "about": {
-    "intro": {
-      "front-end": "前端开发工程师 (Vue.js方向)",
-      "vue": "拥有6年以上Vue商业项目经验",
-      "web": "在网页开发与设计领域拥有20年以上经验"
-    },
     "top_title": "架构如同一套响应式系统",
     "top_sub_title": "界面是它的人性化面孔",
-    "top_description": "超越“只是代码”，我设计完整的 SPA 系统，让 Vue 的模块化和 TypeScript 的清晰性共同服务于一个目标——打造直观且高性能的数字产品。",
-    "approach": "我使用Vue.js 3构建复杂、高性能且用户友好的单页面应用(SPA)。我将对前端架构的深刻理解与对设计和用户体验的敏锐洞察相结合，从而能够设计出不仅运行高效、而且深受用户喜爱的界面。",
+    "top_description": "我基于 Vue 和 Nuxt 设计完整的系统：复杂应用用 SPA，实时数据用 SSR，快速的静态页面用 SSG。Vue 的模块化和 TypeScript 的清晰性共同服务于一个目标——加载迅速、易于被搜索引擎收录的直观数字产品。",
     "ai": {
       "subtitle": "<span>A</span>rtificial&nbsp;<span>I</span>ntelligence 作为工作工具",
-      "description": "我将 AI 融入日常开发流程，以加速例行工作并提升代码质量。我不只是「和 AI 聊天」——而是借助它构建清晰、可控的工作流程。",
+      "description": "AI 已融入日常开发：它加速例行工作、帮助保持代码质量，围绕它的流程清晰、可控。",
       "options": [
         {
           "title": "设计系统与组件",
           "items": [
-            "根据描述生成 UI 库的骨架、类型和 composable 函数。",
-            "将 Figma 原型转换为初稿布局（HTML/SCSS），之后再进一步完善。",
-            "成果：基础组件创建时间减少 30–40%。"
+            "根据描述生成 UI 库骨架、类型和 composable 函数。",
+            "Figma 原型先转为初稿布局（HTML/SCSS），再手动完善。",
+            "基础组件的创建明显更快。"
           ]
         },
         {
           "title": "文档与规格说明",
           "items": [
-            "基于代码为 API（OpenAPI）和复杂模块编写文档草稿。",
-            "为代码库生成使用示例。",
-            "撰写模块、组件、NPM 包的发布说明并更新 README..."
+            "基于代码生成 API（OpenAPI）和复杂模块的文档草稿。",
+            "代码库使用示例。",
+            "模块、组件和 NPM 包的发布说明与 README。"
           ]
         },
         {
           "title": "重构与代码分析",
           "items": [
-            "利用 AI 识别性能瓶颈、隐蔽 bug 和代码重复。",
-            "生成依赖更新的迁移代码（如 vuex → Pinia 或 vue-i18n schema 升级）。",
-            "成果：日常重构时间减少 25%。"
+            "排查性能瓶颈、隐蔽 bug 和代码重复。",
+            "依赖升级时的迁移代码，如 vuex → Pinia 或 vue-i18n schema 升级。",
+            "日常重构耗时更少。"
           ]
         },
         {
           "title": "自动化测试与模拟数据",
           "items": [
-            "生成 unit 测试场景（Vitest/Jest）和 API 模拟数据。",
-            "创建用于 UI 调试的真实测试数据集。"
+            "unit 测试场景（Vitest/Jest）和 API 模拟数据。",
+            "用于 UI 调试的真实测试数据集。"
           ]
         }
       ],
@@ -87,12 +81,11 @@
           {
             "icon": "copilot",
             "title": "Copilot",
-            "text": "快速补全样板代码、生成 JSX/TSX 标记，以及处理常规数据查询。"
+            "text": "快速补全样板代码、重复的标记块，以及处理常规数据查询。"
           }
         ]
       }
     },
-    "skills_title": "在工作中，我注重架构的清晰性、代码的可维护性和类型安全性。拥有复杂 SPA 前端部分全周期开发经验：",
     "skills_list": {
       "architecture_design": {
         "title": "应用程序结构设计",
@@ -120,11 +113,11 @@
     "tech_stack": {
       "main": {
         "title": "核心技术栈",
-        "description": "<span><strong>Vue.js</strong> 借助 <strong>Proxy</strong> 实现智能响应式，而 <strong>Nuxt</strong> 开箱即用地提供 SSR/SSG。</span><span><strong>Pinia</strong> 从零为 TypeScript 打造——类型自动推导。而 <strong>Vue Router</strong> 通过懒加载把导航变成代码中的声明式部分。整套组合像拼装积木一样工作：你从现成的函数中组装逻辑，而无需编写大量配置。</span>",
+        "description": "<span>使用 <strong>Vue.js</strong>、Composition API 和 <strong>TypeScript</strong> 构建界面；需要 SSR 或 SSG 时使用 <strong>Nuxt</strong>：首屏加载快，搜索引擎收录良好。</span><span>状态由 <strong>Pinia</strong> 管理，导航与懒加载由 <strong>Vue Router</strong> 负责。逻辑由小型 composable 函数组合而成，因此代码易于复用和测试。</span>",
         "items": {
           "vue": {
             "title": "Vue.js",
-            "description": "使用 Composition API、composables、响应式、生命周期钩子开发 SPA 应用……"
+            "description": "Composition API、composable 函数、响应式与生命周期钩子：从 SPA 到搭配 Nuxt 的 SSR/SSG"
           },
           "nuxt": {
             "title": "Nuxt",
