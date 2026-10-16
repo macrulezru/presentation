@@ -1,8 +1,4 @@
 .stuff {
   position: relative;
   padding: clamp(60px, 5vw, 70px) 0;
-
-  &__container {
-    @include container-lg;
-  }
 }

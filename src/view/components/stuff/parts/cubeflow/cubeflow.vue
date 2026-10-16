@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import './cubeflow.scss';
 
-  import { computed } from 'vue';
+  import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 
   import CubeflowBox from '@/view/assets/images/cubeflow-box.webp';
   import CubeflowLogo from '@/view/assets/images/cubeflow.webp';
@@ -14,13 +14,82 @@
 
   const { t, tm } = useI18n();
 
+  const promoRef = ref<HTMLElement>();
+  const canvasRef = ref<HTMLCanvasElement>();
+  const sceneRef = ref<HTMLElement>();
+
+  /** Положение сетки: центр куба-картинки и размер единицы плоскости; пересчитывается при смене размеров, а не каждый кадр */
+  const frame = { cx: 0, cy: 0, unit: 400 };
+  let grid: import('./cubeflow-grid').CubeflowGridHandle | null = null;
+  let resizeObserver: ResizeObserver | null = null;
+  let isGridLoading = false;
+  let isDestroyed = false;
+
+  const measureFrame = () => {
+    const canvas = canvasRef.value;
+    const scene = sceneRef.value;
+    if (!canvas || !scene) return;
+    const canvasRect = canvas.getBoundingClientRect();
+    const sceneRect = scene.getBoundingClientRect();
+    const box = scene.querySelector<HTMLElement>('.cubeflow__box');
+    frame.cx = sceneRect.left + sceneRect.width / 2 - canvasRect.left;
+    frame.cy =
+      sceneRect.top -
+      canvasRect.top +
+      (box ? box.offsetTop + box.offsetHeight / 2 : sceneRect.height / 2);
+    frame.unit = (box?.offsetWidth || 500) * 0.8;
+  };
+
+  /** Скрипт сетки подгружается, только когда блок впервые оказался рядом с экраном */
+  const loadGrid = async () => {
+    if (grid || isGridLoading || !canvasRef.value) return;
+    isGridLoading = true;
+    const { createCubeflowGrid } = await import('./cubeflow-grid');
+    isGridLoading = false;
+    if (isDestroyed || !canvasRef.value) return;
+    grid = createCubeflowGrid(canvasRef.value, () => frame);
+    measureFrame();
+    grid.resize();
+    resizeObserver = new ResizeObserver(() => {
+      measureFrame();
+      grid?.resize();
+    });
+    resizeObserver.observe(canvasRef.value);
+    if (sceneRef.value) resizeObserver.observe(sceneRef.value);
+    if (visibility.isVisible.value) grid.start();
+  };
+
+  const visibility = useElementVisibility(promoRef, { rootMargin: '200px 0px' });
+
+  watch(
+    () => visibility.isVisible.value,
+    isVisible => {
+      if (isVisible) {
+        if (grid) grid.start();
+        else void loadGrid();
+      } else grid?.stop();
+    },
+  );
+
+  onMounted(() => {
+    if (visibility.isVisible.value) void loadGrid();
+  });
+
+  onBeforeUnmount(() => {
+    isDestroyed = true;
+    resizeObserver?.disconnect();
+    grid?.destroy();
+    grid = null;
+  });
+
   const features = computed(() => (tm('cubeflow.features') as CubeflowFeature[]) || []);
 </script>
 
 <template>
   <div class="cubeflow">
     <div class="cubeflow__container">
-      <div class="cubeflow__promo">
+      <div ref="promoRef" class="cubeflow__promo">
+        <canvas ref="canvasRef" class="cubeflow__grid" aria-hidden="true" />
         <a class="cubeflow__link" href="https://cubeflow.retrosteam.ru" target="_blank">
           <VImage
             class="cubeflow__logo"
@@ -31,7 +100,7 @@
             alt="Cubeflow"
             :lazy="true"
           />
-          <div class="cubeflow__scene">
+          <div ref="sceneRef" class="cubeflow__scene">
             <div class="cubeflow__box">
               <VImage
                 class="cubeflow__box-iamge"

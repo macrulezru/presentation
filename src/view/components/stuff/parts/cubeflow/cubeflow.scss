@@ -1,5 +1,6 @@
 .cubeflow {
   padding: clamp(50px, 5vw, 80px) 0;
+  overflow-x: clip;
 
   &__container {
     display: flex;
@@ -10,33 +11,64 @@
   }
 
   &__promo {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 40px;
-    max-width: 820px;
+    width: 100%;
+    padding: 0 clamp(20px, 4vw, 50px);
+  }
+
+  /* фон-киберсетка: холст на всю ширину экрана позади блока, пока скрипт не подгружен — пустой */
+  &__grid {
+    position: absolute;
+    top: -160px;
+    bottom: -160px;
+    left: 50%;
+    z-index: 0;
+    width: 100vw;
+
+    /* у холста высота не растягивается по top и bottom, поэтому задана явно */
+    height: calc(100% + 320px);
+    transform: translateX(-50%);
+    pointer-events: none;
+
+    /* дорожки плавно гаснут к верхнему и нижнему краю блока */
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 300px,
+      #000 calc(100% - 300px),
+      transparent 100%
+    );
+  }
+
+  &__link,
+  &__subtitle {
+    position: relative;
+    z-index: 1;
   }
 
   &__subtitle {
     @include medium-text;
 
+    max-width: 820px;
     text-align: center;
     color: var(--color-4);
   }
 
   &__features {
+    @include container-lg;
+
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
-    margin: 0;
-    padding: 0;
     width: 100%;
-    max-width: 1100px;
     list-style: none;
 
     @include media-tablet {
       grid-template-columns: 1fr;
-      max-width: 520px;
     }
   }
 
@@ -91,7 +123,13 @@
   &__link {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    align-items: center;
+    gap: 60px;
+    width: 100%;
+  }
+
+  &__logo {
+    max-width: 800px;
   }
 
   &__scene {

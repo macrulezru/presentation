@@ -1,5 +1,8 @@
 .toolz {
-  padding: clamp(50px, 5vw, 80px) 0;
+  @include container-lg;
+
+  padding-top: clamp(50px, 5vw, 80px);
+  padding-bottom: clamp(50px, 5vw, 80px);
 
   &__promo {
     display: flex;
