@@ -46,15 +46,21 @@
   }
 
   const techStackImages: Record<string, TechImage> = {
-    main: { image: techStackMain, hazehash: 'MEkSLwIAaJ_qSkZ1Fk8rrZPFlxCaSWUnek6kRA' },
-    infra: { image: techStackInfra, hazehash: 'MD4ONPMAQIfqqeIPXFWlde0tXpZVkDtaavTLuw' },
+    main: {
+      image: techStackMain,
+      hazehash: 'MH8yLwIAUp_qjjb1G9PNS81KrWnbub43y2lQrrEM1qYNzJEw5ZwspQ6zjEElZuwp',
+    },
+    infra: {
+      image: techStackInfra,
+      hazehash: 'MH9uNPMASIfqmp1wITpb5UVQmpirph4hUXm51U0MWLxdEd3pYlcPDVXltk3dRAxQ',
+    },
     layout: {
       image: techStackLayout,
-      hazehash: 'MEoQsPsAQK_wOC8evGIvsurl44jbPGW61q7SmQ',
+      hazehash: 'MH_QsPsISK_wwbxijF52fXEscTeFfOMadUldHSUncabOWyVVl0MS1l5xUWdVMVpy',
     },
     devops: {
       image: techStackDevops,
-      hazehash: 'MFgxsPugTIfwfWqpmRW19Cal03OtU5pKc6a51Q',
+      hazehash: 'MH_xsPugSIfwfVVM17WQKVMum9MPqYms4lRqXKt0tqITjrSxWQyoam4IbQasIwnI',
     },
   };
 

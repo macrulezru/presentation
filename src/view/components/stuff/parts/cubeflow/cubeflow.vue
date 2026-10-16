@@ -94,7 +94,7 @@
           <VImage
             class="cubeflow__logo"
             :src="CubeflowLogo"
-            hazehash="OcmTtuGiyn_YnjdxlyMA-vXhXW1UyxNKqxXtWw"
+            hazehash="Of_TtuGiwH_Ynhrn77KxLYV4NVND5YrFXgVs4em6xVPp61Zex2F7q01qvZ4sO-6m"
             :width="800"
             :height="164"
             alt="Cubeflow"
@@ -105,7 +105,7 @@
               <VImage
                 class="cubeflow__box-iamge"
                 :src="CubeflowBox"
-                hazehash="L0wOutuAQLdoSalzNY666lpa-4k5St7fVpu5bQ"
+                hazehash="L2_OutuyyrdohOmJtyo6xGlVq8ztTPEXGInYfTvLYWnGbmZKbTtVqabvGOcYp1WJ"
                 :width="599"
                 :height="698"
                 alt="Cubeflow box"
