@@ -1368,5 +1368,14 @@
   "airlines": {
     "title": "Airlines",
     "text": "Routennetze, Flughäfen, Flugvisualisierung – alles an einem Ort. Planen Sie in Sekundenschnelle eine Route von Punkt A nach Punkt B. Ein Werkzeug für alle, die das grosse Ganze sehen wollen."
+  },
+  "cubeflow": {
+    "title": "Cubeflow",
+    "subtitle": "Ein Rätsel, in dem der Zauberwürfel auf einen Plasmastrom trifft: Drehen Sie die Seiten so, dass die Energie von der Quelle zum Empfänger gelangt – oder bauen Sie ein eigenes Level.",
+    "features": [
+      { "title": "Legen Sie den Plasmapfad", "text": "Plasma strömt über die Flächen des Würfels, und jede Drehung einer Ebene ändert seinen Weg. Bauen Sie einen durchgehenden Pfad, und der Strom erreicht sein Ziel." },
+      { "title": "Erstellen Sie Ihr eigenes Level", "text": "Mit dem Editor platzieren Sie Kacheln, Boni und Kontrollpunkte, stellen das Mischen ein, prüfen, ob das Level lösbar ist, und teilen es per Link." },
+      { "title": "Drei Modi", "text": "Der Cyber-Würfel mit Plasmastrom, das klassische Rätsel und das Dodekaeder – Kilominx und Megaminx. Grössen ab 2×2." }
+    ]
   }
 }
