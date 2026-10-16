@@ -26,48 +26,42 @@
     "examples_description": "Von UI-Komponenten bis hin zu Deployment- und Monitoringsystemen — hier finden Sie konkrete technische Lösungen, die ich entworfen und in der Praxis umgesetzt habe."
   },
   "about": {
-    "intro": {
-      "front-end": "Frontend-Entwickler (Vue.js)",
-      "vue": "6+ Jahre Berufserfahrung mit Vue",
-      "web": "20+ Jahre in Webentwicklung und Design"
-    },
     "top_title": "Architektur als reaktives System",
     "top_sub_title": "Die Schnittstelle als ihr menschliches Gesicht",
-    "top_description": "Über „nur Code“ hinaus entwerfe ich ganzheitliche SPA-Systeme, in denen die Modularität von Vue und die Klarheit von TypeScript einem Ziel dienen – intuitive und leistungsfähige digitale Produkte zu schaffen",
-    "approach": "Ich entwickle komplexe, leistungsstarke und benutzerfreundliche SPA-Anwendungen mit Vue.js 3. Ich verbinde ein tiefes Verständnis der Frontend-Architektur mit einem geschulten Auge für Design und UX, wodurch ich Schnittstellen gestalten kann, die nicht nur effizient funktionieren, sondern auch den Nutzern Freude bereiten.",
+    "top_description": "Ich entwerfe ganzheitliche Systeme mit Vue und Nuxt: SPA für komplexe Anwendungen, SSR für Live-Daten, SSG für schnelle statische Seiten. Die Modularität von Vue und die Klarheit von TypeScript dienen einem Ziel – intuitiven digitalen Produkten, die schnell laden und in Suchmaschinen gut gefunden werden.",
     "ai": {
       "subtitle": "<span>A</span>rtificial&nbsp;<span>I</span>ntelligence als Arbeitswerkzeug",
-      "description": "Ich integriere KI in den täglichen Entwicklungsprozess, um Routineaufgaben zu beschleunigen und die Codequalität zu verbessern. Ich \"chatte nicht einfach mit der KI\" — ich baue damit klare, kontrollierbare Pipelines.",
+      "description": "KI ist fester Bestandteil des Entwicklungsalltags: Sie beschleunigt Routineaufgaben und hilft, die Codequalität hoch zu halten – die Prozesse drumherum bleiben klar und kontrolliert.",
       "options": [
         {
           "title": "Design-Systeme und Komponenten",
           "items": [
-            "Ich generiere das Gerüst von UI-Bibliotheken, Typen und Composables auf Basis von Beschreibungen.",
-            "Ich wandle Figma-Mockups in Entwurfs-Layouts (HTML/SCSS) um, die ich anschließend verfeinere.",
-            "Ergebnis: 30–40 % Zeitersparnis bei der Erstellung von Basiskomponenten."
+            "Gerüste für UI-Bibliotheken, Typen und Composables aus einer Beschreibung.",
+            "Figma-Mockups werden zu Entwurfs-Layouts (HTML/SCSS) und danach von Hand verfeinert.",
+            "Basiskomponenten entstehen spürbar schneller."
           ]
         },
         {
           "title": "Dokumentation und Spezifikationen",
           "items": [
-            "Ich schreibe Entwürfe für API-Dokumentationen (OpenAPI) und komplexe Module auf Basis des Codes.",
-            "Ich generiere Beispiele zur Nutzung von Bibliotheken.",
-            "Ich verfasse Release Notes und aktualisiere README-Dateien für Module, Komponenten, NPM-Pakete..."
+            "Entwürfe für API-Dokumentation (OpenAPI) und komplexe Module auf Basis des Codes.",
+            "Beispiele zur Nutzung von Bibliotheken.",
+            "Release Notes und README-Dateien für Module, Komponenten und NPM-Pakete."
           ]
         },
         {
           "title": "Refactoring und Code-Analyse",
           "items": [
-            "Ich nutze KI, um Engpässe, nicht offensichtliche Bugs und Codeduplizierungen zu finden.",
-            "Ich generiere Migrationen für Dependency-Updates (z. B. vuex → Pinia oder vue-i18n Schema-Aktualisierungen).",
-            "Ergebnis: 25 % weniger Zeit für routinemäßiges Refactoring."
+            "Suche nach Engpässen, nicht offensichtlichen Bugs und Codeduplizierung.",
+            "Migrationen bei Dependency-Updates, z. B. vuex → Pinia oder Schema-Änderungen bei vue-i18n.",
+            "Routinemäßiges Refactoring kostet weniger Zeit."
           ]
         },
         {
           "title": "Automatisierte Tests und Mocks",
           "items": [
-            "Ich generiere Unit-Test-Szenarien (Vitest/Jest) und Mock-Daten für APIs.",
-            "Ich erstelle realistische Testdatensätze für das UI-Debugging."
+            "Unit-Test-Szenarien (Vitest/Jest) und Mock-Daten für APIs.",
+            "Realistische Testdatensätze für das UI-Debugging."
           ]
         }
       ],
@@ -87,12 +81,11 @@
           {
             "icon": "copilot",
             "title": "Copilot",
-            "text": "Schnelle Boilerplate-Autovervollständigung, JSX/TSX-Markup-Erstellung und routinemäßige Datenanfragen."
+            "text": "Schnelle Boilerplate-Autovervollständigung, wiederkehrende Markup-Blöcke und routinemäßige Datenanfragen."
           }
         ]
       }
     },
-    "skills_title": "In meiner Arbeit lege ich Wert auf architektonische Sauberkeit, Wartbarkeit des Codes und Typsicherheit. Ich habe Erfahrung im kompletten Zyklus der Frontend-Entwicklung komplexer SPAs:",
     "skills_list": {
       "architecture_design": {
         "title": "Anwendungsstruktur-Design",
@@ -120,11 +113,11 @@
     "tech_stack": {
       "main": {
         "title": "Kern-Stack",
-        "description": "<span><strong>Vue.js</strong> mit <strong>Proxy</strong> für intelligente Reaktivität, während <strong>Nuxt</strong> SSR/SSG out of the box liefert.</span><span><strong>Pinia</strong> wurde von Grund auf für TypeScript entwickelt — Typen werden automatisch abgeleitet. Und <strong>Vue Router</strong> macht Navigation zu einem deklarativen Teil des Codes mit Lazy Loading. Der ganze Stack funktioniert wie ein Baukasten: Sie setzen Logik aus fertigen Funktionen zusammen, statt tonnenweise Konfiguration zu schreiben.</span>",
+        "description": "<span>Oberflächen mit <strong>Vue.js</strong>, Composition API und <strong>TypeScript</strong>; <strong>Nuxt</strong>, wenn SSR oder SSG gefragt ist: schneller Erstaufruf und saubere Indexierung durch Suchmaschinen.</span><span>Der Zustand liegt in <strong>Pinia</strong>, Navigation und Lazy Loading im <strong>Vue Router</strong>. Die Logik besteht aus kleinen Composable-Funktionen, daher lässt sich der Code leicht wiederverwenden und testen.</span>",
         "items": {
           "vue": {
             "title": "Vue.js",
-            "description": "Entwicklung von SPAs mit der Composition API, Composables, Reaktivität, Arbeit mit Lifecycle Hooks..."
+            "description": "Composition API, Composables, Reaktivität und Lifecycle-Hooks: von SPAs bis SSR/SSG zusammen mit Nuxt"
           },
           "nuxt": {
             "title": "Nuxt",
