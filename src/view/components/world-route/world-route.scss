@@ -177,7 +177,7 @@
     height: 40px;
     border-radius: 50%;
     border: 3px solid rgb(255 255 255 / 12%);
-    border-top-color: #eb610b;
+    border-top-color: var(--color-1);
     animation: world-route-spin 0.65s linear infinite;
   }
 }
