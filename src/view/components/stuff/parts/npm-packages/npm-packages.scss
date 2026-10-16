@@ -1,5 +1,7 @@
 .npm-packages {
-  padding: 0 0 clamp(50px, 5vw, 80px);
+  @include container-lg;
+
+  padding-bottom: clamp(50px, 5vw, 80px);
   display: flex;
   flex-direction: column;
   gap: 40px;
