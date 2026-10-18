@@ -1348,6 +1348,11 @@
         "title": "Stronghold",
         "sub_title": "Sicherer Passwortgenerator",
         "description": "Flexible Längeneinstellungen, Zeichensätze und Ausschluss mehrdeutiger Zeichen. Die visuelle Stärkenanzeige zeigt den Komplexitätsgrad vor dem Speichern."
+      },
+      "spectrum_cell": {
+        "title": "Spectrum Cell",
+        "sub_title": "Farbpaletten-Generator",
+        "description": "Erstellen Sie Paletten nach Harmonieregeln oder aus einem Bild. Präzise Bearbeitung, Kontrast- und Farbenblindheitsprüfung, Vorschauen auf Mockups und Export nach CSS, SCSS, Tailwind und JSON."
       }
     }
   },
@@ -1366,9 +1371,18 @@
     "title": "Cubeflow",
     "subtitle": "Ein Rätsel, in dem der Zauberwürfel auf einen Plasmastrom trifft: Drehen Sie die Seiten so, dass die Energie von der Quelle zum Empfänger gelangt – oder bauen Sie ein eigenes Level.",
     "features": [
-      { "title": "Legen Sie den Plasmapfad", "text": "Plasma strömt über die Flächen des Würfels, und jede Drehung einer Ebene ändert seinen Weg. Bauen Sie einen durchgehenden Pfad, und der Strom erreicht sein Ziel." },
-      { "title": "Erstellen Sie Ihr eigenes Level", "text": "Mit dem Editor platzieren Sie Kacheln, Boni und Kontrollpunkte, stellen das Mischen ein, prüfen, ob das Level lösbar ist, und teilen es per Link." },
-      { "title": "Drei Modi", "text": "Der Cyber-Würfel mit Plasmastrom, das klassische Rätsel und das Dodekaeder – Kilominx und Megaminx. Grössen ab 2×2." }
+      {
+        "title": "Legen Sie den Plasmapfad",
+        "text": "Plasma strömt über die Flächen des Würfels, und jede Drehung einer Ebene ändert seinen Weg. Bauen Sie einen durchgehenden Pfad, und der Strom erreicht sein Ziel."
+      },
+      {
+        "title": "Erstellen Sie Ihr eigenes Level",
+        "text": "Mit dem Editor platzieren Sie Kacheln, Boni und Kontrollpunkte, stellen das Mischen ein, prüfen, ob das Level lösbar ist, und teilen es per Link."
+      },
+      {
+        "title": "Drei Modi",
+        "text": "Der Cyber-Würfel mit Plasmastrom, das klassische Rätsel und das Dodekaeder – Kilominx und Megaminx. Grössen ab 2×2."
+      }
     ]
   }
 }

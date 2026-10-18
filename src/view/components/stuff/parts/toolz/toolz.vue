@@ -7,6 +7,7 @@
   import FavIcona from '@/view/assets/images/toolz/fav_icona.webp';
   import GradinetFabric from '@/view/assets/images/toolz/gradient_fabric.webp';
   import ImageCompressor from '@/view/assets/images/toolz/image_compressor.webp';
+  import SpectrumCell from '@/view/assets/images/toolz/spectrum_cell.webp';
   import Stronghold from '@/view/assets/images/toolz/stronghold.webp';
   import TinySvg from '@/view/assets/images/toolz/tiny_svg.webp';
   import UnitForge from '@/view/assets/images/toolz/unit_forge.webp';
@@ -54,6 +55,14 @@
         url: `https://toolz.macrulez.ru/${localePrefix.value}module/gradient-fabric`,
       },
       {
+        image: SpectrumCell,
+        hazehash: 'MG_SRqsyyofqM4qsKVI1jJly9aDdS61sryatt3nDiXxJy8XiqpnMPF1IoMapFbjN',
+        title: t('toolz.modulez.spectrum_cell.title'),
+        sub_title: t('toolz.modulez.spectrum_cell.sub_title'),
+        description: t('toolz.modulez.spectrum_cell.description'),
+        url: `https://toolz.macrulez.ru/${localePrefix.value}module/spectrum-cell`,
+      },
+      {
         image: UnitForge,
         hazehash: 'MH3wvqGpSG_wnD1s8OpQ68rc61cDvhOPh3VOod2vVqseF1iQN60c4WKOq-FkZq7T',
         title: t('toolz.modulez.unit_forge.title'),
@@ -79,6 +88,10 @@
       },
     ];
   });
+
+  const masonryOptions = {
+    gap: { main: 60, cross: 40 },
+  };
 </script>
 
 <template>
@@ -96,30 +109,36 @@
         <div class="toolz__promo-content">
           <div class="toolz__promo-title">{{ t('toolz.title') }}</div>
           <div class="toolz__modules">
-            <div v-for="item in items" :key="item.title" class="toolz__modules-item">
-              <div class="toolz__modules-item-header-block">
-                <a class="toolz__modules-item-link" :href="item.url" target="_blank">
-                  <span class="toolz__modules-item-image-wrapper">
-                    <VImage
-                      class="toolz__modules-item-image"
-                      :src="item.image"
-                      :hazehash="item.hazehash"
-                      :width="300"
-                      :height="300"
-                      :alt="item.title"
-                      :lazy="true"
-                    />
+            <MasonryGrid :items="items" :options="masonryOptions">
+              <template #item="{ item }">
+                <div class="toolz__modules-item">
+                  <div class="toolz__modules-item-header-block">
+                    <a class="toolz__modules-item-link" :href="item.url" target="_blank">
+                      <span class="toolz__modules-item-image-wrapper">
+                        <VImage
+                          class="toolz__modules-item-image"
+                          :src="item.image"
+                          :hazehash="item.hazehash"
+                          :width="300"
+                          :height="300"
+                          :alt="item.title"
+                          :lazy="true"
+                        />
+                      </span>
+                      <span class="toolz__modules-item-title">
+                        <span class="toolz__modules-item-link-wrapper">
+                          {{ item.title }}
+                        </span>
+                      </span>
+                    </a>
+                  </div>
+                  <span class="toolz__modules-item-sub-title">{{ item.sub_title }}</span>
+                  <span class="toolz__modules-item-description">
+                    {{ item.description }}
                   </span>
-                  <span class="toolz__modules-item-title">
-                    <span class="toolz__modules-item-link-wrapper">
-                      {{ item.title }}
-                    </span>
-                  </span>
-                </a>
-              </div>
-              <span class="toolz__modules-item-sub-title">{{ item.sub_title }}</span>
-              <span class="toolz__modules-item-description">{{ item.description }}</span>
-            </div>
+                </div>
+              </template>
+            </MasonryGrid>
           </div>
         </div>
       </div>
