@@ -1348,6 +1348,11 @@
         "title": "Stronghold",
         "sub_title": "Strong password generator",
         "description": "Flexible length settings, character sets, and exclusion of ambiguous characters. Visual strength meter shows the complexity level before saving."
+      },
+      "spectrum_cell": {
+        "title": "Spectrum Cell",
+        "sub_title": "Color Palette Generator",
+        "description": "Create palettes using harmony rules or from an image. Precise editing, contrast and color blindness checks, previews on mockups, and export to CSS, SCSS, Tailwind, and JSON."
       }
     }
   },
@@ -1366,9 +1371,18 @@
     "title": "Cubeflow",
     "subtitle": "A puzzle where the Rubik's cube meets a stream of plasma: turn the faces so that energy travels from the source to the receiver, or build a level of your own.",
     "features": [
-      { "title": "Lay the plasma path", "text": "Plasma flows across the faces of the cube, and every layer turn changes its route. Build an unbroken path and the stream reaches its goal." },
-      { "title": "Create your own level", "text": "The builder lets you place tiles, bonuses and checkpoints, set the scramble, check that the level can be solved and share it with a link." },
-      { "title": "Three modes", "text": "The cyber cube with its plasma flow, the classic puzzle and the dodecahedron — kilominx and megaminx. Sizes from 2×2." }
+      {
+        "title": "Lay the plasma path",
+        "text": "Plasma flows across the faces of the cube, and every layer turn changes its route. Build an unbroken path and the stream reaches its goal."
+      },
+      {
+        "title": "Create your own level",
+        "text": "The builder lets you place tiles, bonuses and checkpoints, set the scramble, check that the level can be solved and share it with a link."
+      },
+      {
+        "title": "Three modes",
+        "text": "The cyber cube with its plasma flow, the classic puzzle and the dodecahedron — kilominx and megaminx. Sizes from 2×2."
+      }
     ]
   }
 }
