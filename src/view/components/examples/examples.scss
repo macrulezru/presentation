@@ -48,9 +48,10 @@
     position: sticky;
     top: 60px;
     z-index: 10;
-    background-color: var(--color-background);
+    background-color: rgb(21 21 21 / 92%);
     border-top: 1px solid var(--color-7);
     border-bottom: 1px solid var(--color-7);
+    backdrop-filter: blur(5px);
 
     @include media-tablet {
       top: 50px;
@@ -69,16 +70,18 @@
 
     &-item {
       cursor: pointer;
-      padding: 20px 16px;
+      padding: 16px;
       transition: all 0.2s ease;
       white-space: nowrap;
       color: var(--color-4);
       font-weight: 400;
       text-align: center;
 
-      &:not(&_active):hover {
-        background-color: var(--color-7);
-        color: var(--color-text-light);
+      @media (hover: hover) and (pointer: fine) {
+        &:not(&_active):hover {
+          background-color: var(--color-7);
+          color: var(--color-text-light);
+        }
       }
 
       &_active {

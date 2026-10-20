@@ -25,12 +25,28 @@
   const container = ref<HTMLElement>();
   const abuotWave = ref<HTMLCanvasElement | null>(null);
 
-  const wavesConfig = reactive<NeonWavesConfig>(
-    JSON.parse(JSON.stringify(DEFAULT_CONFIG)),
-  );
+  const wavesConfig = reactive<NeonWavesConfig>({
+    ...DEFAULT_CONFIG,
+    particles: {
+      ...DEFAULT_CONFIG.particles,
+      minRadius: 0.6,
+      maxRadius: 2,
+    },
+  });
 
   // Передаем реактивный объект напрямую
-  const { start, stop } = useNeonWaves(abuotWave, wavesConfig);
+  const { start, stop } = useNeonWaves(abuotWave, wavesConfig, {
+    effects: {
+      cursor: true,
+      cursorStrength: 60,
+      cursorRadiusX: 320,
+      cursorRadiusY: 170,
+      cursorSmoothness: 0.3,
+      particleGlow: true,
+      particleGlowStrength: 0.75,
+      particleGlowRadius: 5,
+    },
+  });
 
   const { isVisible } = useElementVisibility(abuotWave, {
     rootMargin: '100px 0px',
