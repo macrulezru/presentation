@@ -1,7 +1,10 @@
 <script setup lang="ts">
   import '@/view/components/about/about.scss';
 
-  import { computed, ref } from 'vue';
+  import { useElementVisibility } from '@macrulez/inview-vue';
+  import { computed, ref, watch, reactive } from 'vue';
+
+  //import WavesDebugPanel from './WavesDebugPanel.vue';
 
   import type { ListItem, TechImage } from '@/view/components/about/types';
 
@@ -10,10 +13,29 @@
   import techStackLayout from '@/view/assets/images/tech-stack-3.webp';
   import techStackDevops from '@/view/assets/images/tech-stack-4.webp';
   import AiFeature from '@/view/components/about/parts/ai-feature/ai-feature.vue';
+  import {
+    useNeonWaves,
+    DEFAULT_CONFIG,
+    type NeonWavesConfig,
+  } from '@/view/composables/useNeonWaves';
   import { useI18n } from '~/composables/useI18n';
 
   const { t, tm } = useI18n();
+
   const container = ref<HTMLElement>();
+  const abuotWave = ref<HTMLCanvasElement | null>(null);
+
+  const wavesConfig = reactive<NeonWavesConfig>(
+    JSON.parse(JSON.stringify(DEFAULT_CONFIG)),
+  );
+
+  // Передаем реактивный объект напрямую
+  const { start, stop } = useNeonWaves(abuotWave, wavesConfig);
+
+  const { isVisible } = useElementVisibility(abuotWave, {
+    rootMargin: '100px 0px',
+    threshold: 0,
+  });
 
   const getListItem = (key: string): ListItem[] => {
     const items = tm(key);
@@ -92,23 +114,35 @@
       }));
   });
 
+  watch(
+    isVisible,
+    visible => {
+      if (visible) {
+        start();
+      } else {
+        stop();
+      }
+    },
+    { immediate: true },
+  );
+
   defineExpose({ container });
 </script>
 
 <template>
   <div ref="container" class="about">
-    <div class="about__container">
-      <div class="about__top">
-        <div class="about__top-background about__top-background_top" />
-        <div class="about__top-content">
-          <div class="about__top-title">{{ t('about.top_title') }}</div>
-          <div class="about__top-sub-title">{{ t('about.top_sub_title') }}</div>
-          <div class="about__top-description">
-            {{ t('about.top_description') }}
-          </div>
+    <div class="about__top">
+      <canvas ref="abuotWave" class="about__wave" />
+      <div ref="contentRef" class="about__top-content">
+        <div class="about__top-title">{{ t('about.top_title') }}</div>
+        <div class="about__top-sub-title">{{ t('about.top_sub_title') }}</div>
+        <div class="about__top-description">
+          {{ t('about.top_description') }}
         </div>
-        <div class="about__top-background about__top-background_bottom" />
       </div>
+    </div>
+    <!-- <WavesDebugPanel :config="wavesConfig" /> -->
+    <div class="about__container">
       <div class="about__skills">
         <div v-for="skill in skillsList" :key="skill.key" class="about__skills-item">
           <span class="about__skill-icon" :class="`about__skill-icon_${skill.key}`" />
