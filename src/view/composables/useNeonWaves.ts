@@ -45,6 +45,18 @@ export interface EdgeLayerConfig {
   alpha: number;
 }
 
+export interface ParticleConfig {
+  enabled: boolean;
+  count: number;
+  minRadius: number;
+  maxRadius: number;
+  speedMultiplier: number;
+  colors: string[];
+  minAlpha: number;
+  maxAlpha: number;
+  direction?: 'ltr' | 'rtl' | 'auto';
+}
+
 export interface NeonWavesConfig {
   colors: WaveColorConfig[];
   waves: WaveConfig[];
@@ -58,6 +70,7 @@ export interface NeonWavesConfig {
   padding: number;
   fadeEdgeWidth: number;
   gap: number | string;
+  particles: ParticleConfig;
 }
 
 // ==========================================
@@ -216,6 +229,18 @@ export const DEFAULT_CONFIG: NeonWavesConfig = {
     { width: 4.2, colorKey: 'core', alpha: 0.15 },
     { width: 1.5, colorKey: 'core', alpha: 0.2 },
   ],
+
+  particles: {
+    enabled: true,
+    count: 120,
+    minRadius: 1,
+    maxRadius: 3,
+    speedMultiplier: 0.3,
+    colors: ['rgb(180, 195, 160)', 'rgb(107, 164, 184)', 'rgb(196, 220, 150)'],
+    minAlpha: 0.2,
+    maxAlpha: 0.8,
+    direction: 'auto',
+  },
 };
 
 // ==========================================
@@ -232,6 +257,16 @@ function cloneDeep<T>(obj: T): T {
     }
   }
   return copy;
+}
+
+interface Particle {
+  waveIndex: number;
+  x: number;
+  yOffset: number;
+  radius: number;
+  color: string;
+  baseAlpha: number;
+  phase: number;
 }
 
 // ==========================================
@@ -253,6 +288,8 @@ export function useNeonWaves(
   let dpr = 1;
   let isAnimating = false;
 
+  let particles: Particle[] = [];
+
   const alphaCache = new Map<string, Map<number, string>>();
   function getColorWithAlpha(rgba: string, alpha: number): string {
     const a = Math.round(alpha * 100) / 100;
@@ -268,6 +305,22 @@ export function useNeonWaves(
     return result;
   }
 
+  function toRgba(color: string, alpha: number): string {
+    if (color.startsWith('rgba')) {
+      return color.replace(/[\d.]+\)$/, `${alpha})`);
+    }
+    if (color.startsWith('rgb')) {
+      return color.replace('rgb', 'rgba').replace(')', `, ${alpha})`);
+    }
+    if (color.startsWith('#')) {
+      const r = parseInt(color.slice(1, 3), 16);
+      const g = parseInt(color.slice(3, 5), 16);
+      const b = parseInt(color.slice(5, 7), 16);
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+    return color;
+  }
+
   let xs: Float32Array | null = null;
   let ys: Float32Array | null = null;
   let envs: Float32Array | null = null;
@@ -277,6 +330,39 @@ export function useNeonWaves(
       xs = new Float32Array(steps + 1);
       ys = new Float32Array(steps + 1);
       envs = new Float32Array(steps + 1);
+    }
+  }
+
+  function initParticles() {
+    particles = [];
+    if (!activeConfig.particles.enabled) return;
+
+    const waveCount = activeConfig.waves.length;
+    if (waveCount === 0) return;
+
+    const { colors, minAlpha, maxAlpha } = activeConfig.particles;
+    if (colors.length === 0) return;
+
+    for (let i = 0; i < activeConfig.particles.count; i++) {
+      const waveIndex = Math.floor(Math.random() * waveCount);
+      const radius =
+        Math.random() *
+          (activeConfig.particles.maxRadius - activeConfig.particles.minRadius) +
+        activeConfig.particles.minRadius;
+
+      const color = colors[Math.floor(Math.random() * colors.length)]!;
+      const baseAlpha = minAlpha + Math.random() * (maxAlpha - minAlpha);
+      const phase = Math.random() * Math.PI * 2;
+
+      particles.push({
+        waveIndex,
+        x: Math.random(),
+        yOffset: (Math.random() - 0.5) * 40,
+        radius,
+        color,
+        baseAlpha,
+        phase,
+      });
     }
   }
 
@@ -300,15 +386,19 @@ export function useNeonWaves(
   }
 
   function waveY(x: number, w: WaveConfig, t: number): number {
+    // Верхние волны движутся вправо (1), нижние — влево (-1)
+    const direction = w.zone === 'top' ? 1 : -1;
+
     let phaseX: number;
     if (w.speedXRange) {
       const [min, max] = w.speedXRange;
       const mid = (min + max) / 2;
       const amp = (max - min) / 2;
       const f = w.modFreqX ?? 0.5;
-      phaseX = mid * t - (amp / f) * Math.cos(f * t);
+      // Применяем direction к средней скорости
+      phaseX = mid * direction * t - (amp / f) * Math.cos(f * t);
     } else {
-      phaseX = t * (w.speedX ?? 0);
+      phaseX = t * ((w.speedX ?? 0) * direction);
     }
 
     let driftY: number;
@@ -342,9 +432,19 @@ export function useNeonWaves(
     const topZoneBottom = Math.max(activeConfig.padding, centerY - halfGap);
     const bottomZoneTop = Math.min(height - activeConfig.padding, centerY + halfGap);
 
-    const result: { wave: WaveConfig; baseY: number; compression: number }[] = [];
+    const result: {
+      wave: WaveConfig;
+      baseY: number;
+      compression: number;
+      index: number;
+    }[] = [];
 
-    const processZone = (waves: WaveConfig[], spaceTop: number, spaceBottom: number) => {
+    const processZone = (
+      waves: WaveConfig[],
+      spaceTop: number,
+      spaceBottom: number,
+      startIndex: number,
+    ) => {
       const available = Math.max(0, spaceBottom - spaceTop);
       waves.forEach((w, i) => {
         const step = waves.length > 1 ? i / (waves.length - 1) : 0.5;
@@ -385,12 +485,22 @@ export function useNeonWaves(
           }
         }
 
-        result.push({ wave: w, baseY, compression: Math.max(0.1, compression) });
+        result.push({
+          wave: w,
+          baseY,
+          compression: Math.max(0.1, compression),
+          index: startIndex + i,
+        });
       });
     };
 
-    processZone(topWaves, activeConfig.padding, topZoneBottom);
-    processZone(bottomWaves, bottomZoneTop, height - activeConfig.padding);
+    processZone(topWaves, activeConfig.padding, topZoneBottom, 0);
+    processZone(
+      bottomWaves,
+      bottomZoneTop,
+      height - activeConfig.padding,
+      topWaves.length,
+    );
 
     return result.sort((a, b) => a.baseY - b.baseY);
   }
@@ -421,7 +531,6 @@ export function useNeonWaves(
       ys[i] = finalY;
       envs[i] = envelope(x);
 
-      // Используем ! для безопасного доступа
       const currentY = ys[i]!;
       if (currentY < yMin) yMin = currentY;
       if (currentY > yMax) yMax = currentY;
@@ -477,6 +586,57 @@ export function useNeonWaves(
     }
   }
 
+  function drawParticles(
+    t: number,
+    deltaTime: number,
+    waveCalculations: ReturnType<typeof getWaveCalculations>,
+  ) {
+    if (!ctx || !activeConfig.particles.enabled) return;
+
+    ctx.globalCompositeOperation = 'lighter';
+
+    for (const p of particles) {
+      const waveData = waveCalculations.find(wd => wd.index === p.waveIndex);
+      if (!waveData) continue;
+
+      const { wave, baseY, compression } = waveData;
+
+      let direction = 1;
+      const configDir = activeConfig.particles.direction ?? 'auto';
+      if (configDir === 'rtl') {
+        direction = -1;
+      } else if (configDir === 'ltr') {
+        direction = 1;
+      } else {
+        direction = wave.zone === 'top' ? -1 : 1;
+      }
+
+      let speedX = 0.1;
+      if (wave.speedXRange) {
+        speedX = (wave.speedXRange[0] + wave.speedXRange[1]) / 2;
+      } else {
+        const { speedX: waveSpeedX = 0.1 } = wave;
+        speedX = waveSpeedX;
+      }
+
+      p.x += direction * speedX * activeConfig.particles.speedMultiplier * deltaTime;
+
+      if (p.x > 1.1) p.x = -0.1;
+      if (p.x < -0.1) p.x = 1.1;
+
+      const rawY = waveY(p.x, wave, t);
+      const finalY = baseY + rawY * compression + p.yOffset;
+
+      const twinkle = 0.8 + 0.2 * Math.sin(t * 3 + p.phase);
+      const currentAlpha = p.baseAlpha * twinkle;
+
+      ctx.beginPath();
+      ctx.arc(p.x * width, finalY, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = toRgba(p.color, currentAlpha);
+      ctx.fill();
+    }
+  }
+
   function applyEdgeFade() {
     if (!ctx || activeConfig.fadeEdgeWidth <= 0) return;
     const fadeW = Math.min(activeConfig.fadeEdgeWidth, width / 2);
@@ -493,7 +653,7 @@ export function useNeonWaves(
     ctx.globalCompositeOperation = 'source-over';
   }
 
-  function renderFrame(t: number) {
+  function renderFrame(t: number, deltaTime: number = 0.016) {
     if (!ctx || !xs || !ys || !envs) return;
 
     ctx.globalCompositeOperation = 'source-over';
@@ -510,6 +670,9 @@ export function useNeonWaves(
     }
 
     ctx.globalAlpha = 1.0;
+    drawParticles(t, deltaTime, wavesData);
+
+    ctx.globalAlpha = 1.0;
     ctx.globalCompositeOperation = 'source-over';
 
     applyEdgeFade();
@@ -520,16 +683,16 @@ export function useNeonWaves(
     if (!startTime) startTime = now;
     const t = (now - startTime) / 1000;
 
-    renderFrame(t);
+    const lastTime = (frame as any).lastTime || now;
+    const deltaTime = Math.min((now - lastTime) / 1000, 0.1);
+    (frame as any).lastTime = now;
+
+    renderFrame(t, deltaTime);
 
     if (isAnimating) {
       rafId = requestAnimationFrame(frame);
     }
   }
-
-  // ==========================================
-  // 5. УПРАВЛЕНИЕ АНИМАЦИЕЙ
-  // ==========================================
 
   function start() {
     if (typeof window === 'undefined') return;
@@ -543,6 +706,7 @@ export function useNeonWaves(
       if (!ctx) return;
       ensureBuffers(activeConfig.segments);
       resize();
+      initParticles();
     }
 
     startTime = 0;
@@ -560,9 +724,20 @@ export function useNeonWaves(
     () => configSource,
     newConfig => {
       if (newConfig) {
+        const oldParticlesEnabled = activeConfig.particles.enabled;
+        const oldParticlesCount = activeConfig.particles.count;
+
         activeConfig = cloneDeep(newConfig);
+
+        if (
+          activeConfig.particles.enabled !== oldParticlesEnabled ||
+          activeConfig.particles.count !== oldParticlesCount
+        ) {
+          initParticles();
+        }
+
         if (ctx) {
-          renderFrame(performance.now() / 1000);
+          renderFrame(performance.now() / 1000, 0.016);
         }
       }
     },
@@ -580,8 +755,8 @@ export function useNeonWaves(
     ensureBuffers(activeConfig.segments);
     resize();
     window.addEventListener('resize', resize);
-
-    renderFrame(0);
+    initParticles();
+    renderFrame(0, 0.016);
   });
 
   onBeforeUnmount(() => {
@@ -594,6 +769,7 @@ export function useNeonWaves(
     xs = null;
     ys = null;
     envs = null;
+    particles = [];
   });
 
   return { start, stop };
