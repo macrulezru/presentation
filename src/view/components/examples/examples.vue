@@ -320,6 +320,10 @@
                   :class="{
                     'examples__navigation-item_active': activeFeatureId === feature.id,
                   }"
+                  :style="{
+                    'background-color':
+                      activeFeatureId === feature.id ? feature.accentColor : '',
+                  }"
                   @click="scrollToFeature(feature.id)"
                 >
                   {{ feature.shortTitle }}
