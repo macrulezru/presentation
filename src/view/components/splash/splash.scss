@@ -5,27 +5,7 @@
   align-items: center;
   padding: clamp(60px, 10vw, 180px) var(--spacing-lg);
   margin-top: var(--header-height);
-  background-image: radial-gradient(
-    ellipse 100% 100% at 50% 50%,
-    rgb(82 82 82) 0%,
-    rgb(0 0 0) 100%
-  );
-
-  &__dimmer {
-    position: absolute;
-    background-image:
-      repeating-conic-gradient(#000000d9 0 0%, #0000008c 0 20%),
-      linear-gradient(
-        to bottom,
-        color-mix(in srgb, var(--color-background) 55%, transparent) 0,
-        color-mix(in srgb, var(--color-background) 15%, transparent) 40%,
-        color-mix(in srgb, var(--color-background) 85%, transparent)
-      );
-    background-size:
-      3px 3px,
-      100% 100%;
-    inset: 0;
-  }
+  background-color: #050505;
 
   &__main {
     display: flex;
