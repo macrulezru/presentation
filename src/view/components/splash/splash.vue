@@ -21,7 +21,6 @@
 
 <template>
   <section ref="splashRef" class="splash">
-    <div class="splash__dimmer" />
     <div class="splash__main">
       <div class="splash__animation" />
 
