@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import '@/view/components/about/about.scss';
 
-  import { useElementVisibility } from '@macrulez/inview-vue';
+  import { useElementVisibility, prefersReducedMotion } from '@macrulez/inview-vue';
   import { computed, ref, watch, reactive } from 'vue';
 
   //import WavesDebugPanel from './WavesDebugPanel.vue';
@@ -17,7 +17,7 @@
     useNeonWaves,
     DEFAULT_CONFIG,
     type NeonWavesConfig,
-  } from '@/view/composables/useNeonWaves';
+  } from '@/view/composables/neon-wave/useNeonWaves';
   import { useI18n } from '~/composables/useI18n';
 
   const { t, tm } = useI18n();
@@ -36,6 +36,10 @@
 
   // Передаем реактивный объект напрямую
   const { start, stop } = useNeonWaves(abuotWave, wavesConfig, {
+    fps: 60,
+    maxDpr: 1.5,
+    performance: 'auto',
+
     effects: {
       cursor: true,
       cursorStrength: 60,
@@ -45,12 +49,20 @@
       particleGlow: true,
       particleGlowStrength: 0.75,
       particleGlowRadius: 5,
+      particleTrails: true,
+      trailLength: 13,
+      ribbonBreathing: true,
+      breathingStrength: 0.07,
+      smoothIntersections: true,
+      activityCycles: true,
+      activityStrength: 0.07,
     },
   });
 
   const { isVisible } = useElementVisibility(abuotWave, {
     rootMargin: '100px 0px',
     threshold: 0,
+    once: false,
   });
 
   const getListItem = (key: string): ListItem[] => {
@@ -131,9 +143,9 @@
   });
 
   watch(
-    isVisible,
-    visible => {
-      if (visible) {
+    [isVisible, prefersReducedMotion],
+    ([visible, reducedMotion]) => {
+      if (visible && !reducedMotion) {
         start();
       } else {
         stop();
