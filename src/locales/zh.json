@@ -1353,6 +1353,11 @@
         "title": "Spectrum Cell",
         "sub_title": "调色板生成器",
         "description": "根据和谐规则或从图像生成调色板。精确调整、对比度与色盲检查、在模型上预览，以及导出到 CSS、SCSS、Tailwind 和 JSON。"
+      },
+      "data_lab": {
+        "title": "Data Lab",
+        "sub_title": "查看、编辑和转换数据",
+        "description": "打开 JSON、YAML、TOML、CSV、XML 及其他格式：以文本、树或表格查看数据，带损失报告转换，比较，按架构校验，并从多个来源合并。全部在浏览器中计算。"
       }
     }
   },

@@ -140,13 +140,10 @@
 
       &-sub-title {
         @include mini-title;
-
-        text-align: center;
       }
 
       &-description {
         color: var(--color-4);
-        text-align: center;
       }
     }
   }
