@@ -1353,6 +1353,11 @@
         "title": "Spectrum Cell",
         "sub_title": "Color Palette Generator",
         "description": "Create palettes using harmony rules or from an image. Precise editing, contrast and color blindness checks, previews on mockups, and export to CSS, SCSS, Tailwind, and JSON."
+      },
+      "data_lab": {
+        "title": "Data Lab",
+        "sub_title": "View, edit, and convert data",
+        "description": "Open JSON, YAML, TOML, CSV, XML, and other formats: view data as text, tree, or table, convert with a loss report, compare, validate against a schema, and merge from multiple sources. Everything runs in the browser."
       }
     }
   },

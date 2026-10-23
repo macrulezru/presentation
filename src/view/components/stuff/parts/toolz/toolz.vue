@@ -4,6 +4,7 @@
   import { computed } from 'vue';
 
   import { LocalesEnum } from '@/enums/locales.enum.ts';
+  import DataLab from '@/view/assets/images/toolz/data_lab.webp';
   import FavIcona from '@/view/assets/images/toolz/fav_icona.webp';
   import GradinetFabric from '@/view/assets/images/toolz/gradient_fabric.webp';
   import ImageCompressor from '@/view/assets/images/toolz/image_compressor.webp';
@@ -69,6 +70,14 @@
         sub_title: t('toolz.modulez.unit_forge.sub_title'),
         description: t('toolz.modulez.unit_forge.description'),
         url: `https://toolz.macrulez.ru/${localePrefix.value}module/unit-forge`,
+      },
+      {
+        image: DataLab,
+        hazehash: 'MH3wvqGpSG_wnD1s8OpQ68rc61cDvhOPh3VOod2vVqseF1iQN60c4WKOq-FkZq7T',
+        title: t('toolz.modulez.data_lab.title'),
+        sub_title: t('toolz.modulez.data_lab.sub_title'),
+        description: t('toolz.modulez.data_lab.description'),
+        url: `https://toolz.macrulez.ru/${localePrefix.value}module/data-lab`,
       },
       {
         image: FavIcona,

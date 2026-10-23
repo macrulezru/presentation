@@ -1353,6 +1353,11 @@
         "title": "Spectrum Cell",
         "sub_title": "Farbpaletten-Generator",
         "description": "Erstellen Sie Paletten nach Harmonieregeln oder aus einem Bild. Präzise Bearbeitung, Kontrast- und Farbenblindheitsprüfung, Vorschauen auf Mockups und Export nach CSS, SCSS, Tailwind und JSON."
+      },
+      "data_lab": {
+        "title": "Data Lab",
+        "sub_title": "Daten anzeigen, bearbeiten und konvertieren",
+        "description": "Öffnen Sie JSON, YAML, TOML, CSV, XML und andere Formate: Daten als Text, Baum oder Tabelle anzeigen, mit Verlustbericht konvertieren, vergleichen, gegen ein Schema prüfen und aus mehreren Quellen zusammenführen. Alles läuft im Browser."
       }
     }
   },
