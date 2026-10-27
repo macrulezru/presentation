@@ -5,6 +5,9 @@
     calc(10vw + var(--wave-separator-height)),
     calc(60px + var(--wave-separator-height))
   );
+  background: url('@/view/assets/images/features-background-noise.svg?no-inline'), #0c0c0c;
+  background-size: 64px 64px;
+  background-repeat: repeat;
 
   &__demonstration {
     display: flex;

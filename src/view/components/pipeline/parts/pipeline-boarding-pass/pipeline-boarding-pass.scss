@@ -7,6 +7,7 @@
   border: solid 1px var(--color-8);
   line-height: 1;
   overflow: hidden;
+  filter: drop-shadow(0 4px 12px rgb(0 0 0 / 40%));
 
   &__header-row {
     display: flex;
