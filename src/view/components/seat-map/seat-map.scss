@@ -120,6 +120,7 @@
     border: solid 1px var(--color-7);
     border-radius: 10px;
     background-color: #131313;
+    filter: drop-shadow(0 4px 12px rgb(0 0 0 / 40%));
 
     @include media-small-tablet {
       padding: 20px;
@@ -133,6 +134,7 @@
     border: solid 1px var(--color-7);
     border-radius: 10px;
     background-color: #131313;
+    filter: drop-shadow(0 4px 12px rgb(0 0 0 / 40%));
 
     @include media-small-tablet {
       padding: 20px;

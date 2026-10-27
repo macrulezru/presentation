@@ -166,7 +166,7 @@
             </span>
             <a
               class="pipeline__links_github-link"
-              href="https://github.com/macrulezru/pipeline-js"
+              href="https://npm.vuecraft.ru/packages/rest-pipeline-js/"
               target="_blank"
               rel="noreferrer"
             >

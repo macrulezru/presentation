@@ -159,23 +159,20 @@
     border: solid 1px var(--color-dark);
     border-radius: 10px;
     background-color: #121212;
-    background-image: url('@/view/assets/images/feature-process-background.svg?url');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
+    filter: drop-shadow(0 4px 12px rgb(0 0 0 / 40%));
 
     &-separator {
       position: relative;
       top: 0;
       width: 0;
       height: 100%;
-      border-left: solid 1px var(--color-7);
+      border-left: solid 1px rgb(123 123 123 / 16%);
 
       @include media-tablet {
         width: 100%;
         height: 0;
         border-left: none;
-        border-top: solid 1px var(--color-7);
+        border-top: solid 1px rgb(123 123 123 / 16%);
       }
     }
 
@@ -255,7 +252,7 @@
       flex-direction: column;
       gap: 5px;
       padding: 30px;
-      border: dotted 2px var(--color-7);
+      border: dashed 1px var(--color-7);
       border-radius: 10px;
       background-color: var(--color-background);
 

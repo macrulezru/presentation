@@ -7,6 +7,8 @@
   import type { GradientOptions, GradientColors, headerGradientOptions } from './types';
   import type { FeatureData } from '~/composables/useFeatures';
 
+  import BackgroundNoise from '@/view/assets/images/background-noise.svg?no-inline';
+
   interface Props {
     feature: FeatureData;
     reverse?: boolean;
@@ -52,7 +54,26 @@
       ],
     };
     const gradient = useRadialGradient(color, options);
-    return `background-image: ${gradient.value}`;
+    return `
+      background: ${gradient.value};
+    `;
+  };
+
+  const archSectionGradient = (color: string) => {
+    const gradient = useLinearGradient(
+      [
+        { color, opacity: 0.1, position: '0%' },
+        { color, opacity: 0, position: '70%' },
+      ],
+      {
+        angle: 160,
+      },
+    );
+    return `
+      background: ${gradient.value}, url("${BackgroundNoise}"), rgb(12 12 12);
+      background-size: auto, 40px 40px;
+      background-repeat: no-repeat, repeat;
+    `;
   };
 </script>
 
@@ -127,7 +148,10 @@
       </div>
 
       <div class="feature-item__content">
-        <div class="feature-item__section-group">
+        <div
+          class="feature-item__section-group"
+          :style="archSectionGradient(feature.accentColor)"
+        >
           <div class="feature-item__section feature-item__section_process">
             <h3 class="feature-item__section-title">{{ feature.process.title }}</h3>
             <div class="feature-item__process">
