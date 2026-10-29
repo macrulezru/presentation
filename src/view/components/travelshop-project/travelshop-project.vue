@@ -14,7 +14,6 @@
   import TravelshopImageCabinet from '@/view/assets/images/travelshop-cabinet.webp';
   import TravelshopImageCheckin from '@/view/assets/images/travelshop-checkin.webp';
   import TravelshopImageExchange from '@/view/assets/images/travelshop-exchange.webp';
-  import TravelshopImageMobile from '@/view/assets/images/travelshop-head-mobile.webp';
   import TravelshopImage from '@/view/assets/images/travelshop-head.webp';
   import TravelshopImageServices from '@/view/assets/images/travelshop-services.webp';
   import TravelshopImageArchitecture from '@/view/assets/images/travelshop-tech.webp';
@@ -65,6 +64,8 @@
   });
 
   const { t, tm } = useI18n();
+
+  const responsive = useResponsive();
 
   const showSwiper = ref<boolean>(false);
   const isShowAnimation = ref<boolean>(false);
@@ -208,20 +209,12 @@
           </div>
         </div>
 
-        <div>
+        <div v-if="!responsive.smallTablet">
           <VImage
             :src="TravelshopImage"
             hazehash="E__mOuwYqnb9-uL5PkZcx7x5zdS7lkww4tndzJeEjkzVkyWtY5wiZGWX"
             :width="1400"
             :height="560"
-            :sources="{
-              tablet: {
-                src: TravelshopImageMobile,
-                hazehash: 'E__pOPOoSjU87W5bxKZiqzi-ZuxBMZHKw5h3g1dNJbTWGGO7hlyolmNYhwoY',
-                width: 868,
-                height: 456,
-              },
-            }"
             alt="TravelShop 2.0"
             class="travelshop__tsh-image"
           />
