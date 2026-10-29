@@ -325,6 +325,10 @@
                   :style="{
                     'background-color':
                       activeFeatureId === feature.id ? feature.accentColor : '',
+                    filter:
+                      activeFeatureId === feature.id
+                        ? `drop-shadow(${feature.accentColor} 0px 0px 18px)`
+                        : 'none',
                   }"
                   @click="scrollToFeature(feature.id)"
                 >
