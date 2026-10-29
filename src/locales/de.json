@@ -224,94 +224,160 @@
     "title": "TravelShop 2.0 - Flugbuchungssystem",
     "role": "Lead Frontend-Entwickler",
     "period": "Dezember 2020 — Oktober 2025",
-    "description": "Entwicklung und Wartung eines modernen Flugticketbuchungssystems für russische und ausländische Fluggesellschaften, einschließlich Azimut.",
+    "description": "Entwicklung und Support eines modernen Flugbuchungssystems für russische und internationale Fluggesellschaften, einschließlich Azimuth.",
+    "modules": {
+      "booking": {
+        "title": "Flugbuchung",
+        "subTitle": "Von der Suche bis zur Zahlung — ohne Anruf im Callcenter",
+        "description": "Der Nutzer findet einen Flug, wählt einen Tarif und durchläuft einen mehrstufigen Buchungsassistenten mit Validierung bei jedem Schritt. Das System arbeitet mit Echtzeitdaten und Tarifen der Fluggesellschaften direkt über GDS, wendet flexible Preisregeln an — einschließlich individueller Bedingungen für Firmenkunden — und ist mit Metasuchmaschinen verbunden (Aviasales, Yandex.Flights, SkyScanner, Momondo, Kayak). Zahlung — Karten, E-Wallets, Firmeneinzahlung.",
+        "itemsTitle": "Was drin ist",
+        "items": [
+          "Buchungsassistent: intuitive Eingabefelder, intelligente Städtesuche (Autovervollständigung) und ein praktischer Datumswähler.",
+          "Validierung der Passagierdaten bei jedem Schritt — Buchungsfehler um 60% reduziert.",
+          "Unterstützung komplexer Szenarien: von sofortiger Kartenzahlung bis zur Abbuchung vom Firmendepot.",
+          "Caching von Suchanfragen — Systemleistung um 25% verbessert.",
+          "Flexible Architektur ermöglicht das Hinzufügen neuer Funktionen um 40% schneller."
+        ]
+      },
+      "checkin": {
+        "title": "Online-Check-in",
+        "subTitle": "Selbstbedienungs-Check-in mit Sitzplatzwahl und Zusatzleistungen",
+        "description": "Der Passagier checkt online von seinem persönlichen Konto aus ein, wählt einen Sitzplatz an Bord und kauft sofort Gepäck, Verpflegung oder Versicherung. Das System integriert sich in verschiedene DCS, und die Sitzplatzkarte kommt aus verschiedenen Buchungssystemen in unterschiedlichen Formaten.",
+        "itemsTitle": "Woraus der Check-in besteht",
+        "items": [
+          "Universelle Sitzplatzkarte, die fehlerfrei angezeigt wird, unabhängig davon, aus welchem Buchungssystem die Daten stammen.",
+          "Anschauliche Sitzplatzwahl: Der Passagier sieht sofort belegte und freie Plätze sowie Plätze mit zusätzlichen Annehmlichkeiten.",
+          "Bequemer Check-in-Prozess kombiniert mit dem Verkauf von Zusatzleistungen (Gepäck, Verpflegung, Versicherung).",
+          "Sofortige Übermittlung der Check-in-Daten direkt an die Fluggesellschaft."
+        ]
+      },
+      "services": {
+        "title": "Zusatzleistungen",
+        "subTitle": "Zusatzleistungen nach der Buchung — ohne Änderung des Tickets",
+        "description": "Der Passagier kauft Gepäck, Verpflegung oder Versicherung nach der Ticketausstellung. Die Verkaufslogik ist so gestaltet, dass Dienstleistungen im richtigen Moment und in verständlicher Form angeboten werden — dies erhöht den durchschnittlichen Bestellwert und entlastet das Callcenter.",
+        "itemsTitle": "Wie der Zusatzkauf funktioniert",
+        "items": [
+          "Klare Schnittstelle für Auswahl und Kauf von Zusatzleistungen, integriert in den gesamten Kaufprozess.",
+          "Intelligente Angebotslogik: Das System zeigt nur die Leistungen an, die für einen bestimmten Tarif verfügbar sind.",
+          "Flexible Anpassung der Schnittstelle für verschiedene Kunden (White Label) ohne Code-Duplizierung.",
+          "Sofortiger Abruf aktueller Preise und verfügbarer Optionen von Dienstleistern."
+        ]
+      },
+      "exchange": {
+        "title": "Ticket-Umbuchung/Erstattung",
+        "subTitle": "Buchungsverwaltung nach Tarifregeln — online",
+        "description": "Der Passagier tauscht oder erstattet ein Ticket selbstständig von seinem persönlichen Konto aus. Das System automatisiert Verfahren gemäß den Tarifregeln und führt den Nutzer fehlerfrei durch ein transaktionales Szenario.",
+        "itemsTitle": "Was das Szenario bietet",
+        "items": [
+          "Schrittweise Umbuchungs- und Erstattungsschnittstelle: Das System schlägt selbst vor, welche Aktionen laut Tarif möglich sind.",
+          "Transparente Berechnung von Erstattungs- oder Zuzahlungsbeträgen in Echtzeit.",
+          "Transaktionszuverlässigkeit: Visualisierung des Vorgangsstatus und Schutz vor Fehlern bei Rückerstattungen.",
+          "Die Historie aller Buchungsänderungen ist für den Passagier jederzeit einsehbar."
+        ]
+      },
+      "cabinet": {
+        "title": "Persönliches Konto",
+        "subTitle": "Eine zentrale Anlaufstelle für Bestellungen und Profil",
+        "description": "Der Passagier sieht den Bestellverlauf, verwaltet sein Profil, bucht erneut und nimmt selbstständig Änderungen an Buchungen vor. Firmenkunden erhalten zusätzlich bargeldlose Zahlung vom Depot und eine individuelle Agenturgebühr.",
+        "itemsTitle": "Was im Konto drin ist",
+        "items": [
+          "Übersichtliche Bestellliste mit schnellem Zugriff auf die Details jedes Fluges.",
+          "Verwaltung des Passagierprofils und Speicherung von Daten für schnellere Buchungen in der Zukunft.",
+          "Trennung der Schnittstelle für Privatpersonen (B2C) und Firmenkunden (B2B).",
+          "Schnelle Nachbuchung von Tickets mit nur wenigen Klicks."
+        ]
+      },
+      "architecture": {
+        "title": "Architektur und Technologien",
+        "subTitle": "Das Fundament für Geschwindigkeit, Zuverlässigkeit und Skalierbarkeit",
+        "description": "Übergreifende technische Lösungen, auf denen alle Systemmodule basieren. Von einer einheitlichen Komponentenbibliothek bis hin zu fehlertoleranten API-Interaktionen und komplexer Datenumwandlungslogik.",
+        "itemsTitle": "Technische Lösungen",
+        "items": [
+          "Einheitliche UI-Bibliothek: wiederverwendbare Vue-Komponenten mit Unterstützung für Barrierefreiheit (a11y) und Theming.",
+          "State-Management: durchdachte Pinia-Store-Architektur für zuverlässige Datenspeicherung.",
+          "Zuverlässiger Datenaustausch: REST-API-Anfrage-Pipeline mit automatischer Parameterübergabe, Wiederholungsversuchen bei Fehlern und Abbruch.",
+          "Universelle Sitzplatzkarte: ein Treibersystem zur Umwandlung von Formaten aus beliebigen Buchungssystemen in eine einheitliche Ansicht.",
+          "Flexible Lokalisierung: Mechanismus zur Zusammenführung von Standard- und benutzerdefinierten Wörterbüchern für verschiedene Build-Bundles (White Label).",
+          "Monitoring und Analyse: integriertes API-Fehlerverfolgungs-Panel (RPS, p95) und Telegram-Alarmierung."
+        ]
+      }
+    },
     "features": {
       "title": "Wichtige Systemfunktionen",
       "items": [
         {
-          "icon": "flight-search",
-          "title": "Echtzeit-Flugsuche und -buchung",
-          "text": "Bietet direkten Zugriff auf aktuelle Fluggesellschaftsdaten und Tarife für sofortige Buchungen."
+          "icon": "aircompany",
+          "title": "Für Fluggesellschaften und Agenturen",
+          "text": "Eine Lösung für russische und internationale Fluggesellschaften und Online-Reisebüros: von White Label bis zu kundenspezifischen Systemen unter der Marke des Kunden."
         },
         {
-          "icon": "price-tag",
-          "title": "Komplexe Geschäftslogik für Tarif- und Gebührenberechnung",
-          "text": "Wendet automatisch flexible Preisregeln an, einschließlich individueller Bedingungen für Firmenkunden."
-        },
-        {
-          "icon": "checklist",
-          "title": "Mehrstufiger Buchungsprozess mit Datenvalidierung",
-          "text": "Intuitiver schrittweiser Prozess mit Informationsüberprüfung in jeder Phase zur Minimierung von Fehlern."
-        },
-        {
-          "icon": "user-management",
-          "title": "Bestell- und Passagierverwaltungssystem",
-          "text": "Bietet Passagieren ein persönliches Konto für selbstständige Buchungsverwaltung und Online-Check-in."
-        },
-        {
-          "icon": "api",
-          "title": "Integration mit Buchungssystemen (GDS)",
-          "text": "Verbindet sich mit GDS, DCS und Metasuchmaschinen über flexible API für Inhaltszugriff."
-        },
-        {
-          "icon": "luggage",
-          "title": "Unterstützung für Zusatzleistungen (Gepäck, Verpflegung, Versicherungen)",
-          "text": "Bietet effizient Zusatzleistungen während der Buchung an, um den durchschnittlichen Bestellwert zu erhöhen."
-        },
-        {
-          "icon": "web-checkin",
-          "title": "Online-Check-in für Flüge",
-          "text": "Ermöglicht Passagieren das eigenständige Online-Check-in und die Sitzplatzwahl an Bord."
-        },
-        {
-          "icon": "exchange",
-          "title": "Umtausch und Erstattung von Flugtickets",
-          "text": "Automatisiert die Verfahren zum Umtausch und zur Erstattung von Tickets gemäß den Tarifregeln."
+          "icon": "b2c",
+          "title": "B2C und B2B in einem Produkt",
+          "text": "Privatpassagiere und Firmenkunden: bargeldlose Zahlung vom Depot, individuelle Agenturgebühr und spezielle Einstellungen."
         },
         {
           "icon": "shopping-cart",
-          "title": "Nachkauf von Zusatzleistungen",
-          "text": "Ermöglicht Passagieren den Erwerb zusätzlicher Dienste nach der Buchung — Gepäck, Mahlzeiten, Versicherungen."
+          "title": "Zahlungen für jedes Szenario",
+          "text": "Karten, E-Wallets, Firmeneinzahlung und Integrationen mit beliebten Zahlungslösungen."
         },
         {
-          "icon": "profile",
-          "title": "Persönliches Benutzerkonto",
-          "text": "Bietet Passagieren Zugang zu Bestellhistorie, Profilverwaltung und schneller Neubuchung."
+          "icon": "flight-search",
+          "title": "Anbindung an Metasuchmaschinen",
+          "text": "Schneller Verkaufsstart über Aviasales, Yandex.Flights, SkyScanner, Momondo, Kayak und andere Dienste."
+        },
+        {
+          "icon": "api",
+          "title": "Direkter Zugang zu Inhalten",
+          "text": "Arbeit mit GDS, DCS und Metasuchdiensten über flexible API — Echtzeitdaten und Tarife ohne Zwischenhändler."
         },
         {
           "icon": "responsive",
-          "title": "Responsives Design für alle Geräte",
-          "text": "Basiert auf PWA-Technologie (Vue.js), die gleichermaßen bequeme Bedienung auf jedem Gerät gewährleistet."
+          "title": "Einheitliche PWA-Codebasis",
+          "text": "Eine Vue/Nuxt-Lösung für Desktops, Tablets und Mobilgeräte — ohne separate Versionen für jede Plattform."
         },
         {
           "icon": "mobile-app",
-          "title": "Mobile App für Android und iOS",
-          "text": "Eine voll funktionsfähige mobile Anwendung zum Suchen, Buchen und Verwalten von Flügen auf Smartphones."
+          "title": "Mobile Apps für iOS und Android",
+          "text": "Voll funktionsfähige Apps zum Suchen, Buchen und Verwalten von Tickets auf Smartphones."
+        },
+        {
+          "icon": "customization",
+          "title": "Tiefe Anpassung",
+          "text": "Anpassung der Schnittstelle und Logik an die Geschäftsspezifika des Kunden — 2–3 mal schneller und günstiger dank einer einheitlichen Codebasis."
+        },
+        {
+          "icon": "api-integration",
+          "title": "Vollwertige API",
+          "text": "Flexible API für die Integration mit externen Systemen und den Aufbau eigener Szenarien auf dem Produkt."
+        },
+        {
+          "icon": "security-shield",
+          "title": "Sicherheit und Compliance",
+          "text": "Architektur unter Berücksichtigung regulatorischer Anforderungen zum Schutz der Infrastruktur und der personenbezogenen Daten von Reisenden."
+        },
+        {
+          "icon": "scalability",
+          "title": "Skalierbarkeit",
+          "text": "Modulare Architektur, die dem Wachstum des Transaktionsvolumens und der Anbindung neuer Kunden ohne Kernüberarbeitung standhält."
+        },
+        {
+          "icon": "web-checkin",
+          "title": "Boutique-Ansatz",
+          "text": "Individuelle Lösungen für große Projekte und kontinuierliche Betreuung — statt einer typischen 'Out-of-the-box'-Implementierung."
         }
       ]
     },
-    "achievements": {
-      "title": "Erfolge und Ergebnisse",
-      "items": {
-        "scalable_architecture": "Skalierbare Architektur entwickelt, was die Bereitstellung neuer Funktionen um 40 % beschleunigte",
-        "error_reduction": "Buchungsfehler um 60 % reduziert durch Einführung eines Passagierdateneingabevalidierungssystems",
-        "performance_improvement": "Leistung um 25 % verbessert durch Implementierung eines Suchanfragen-Caching-Mechanismus",
-        "code_reliability": "Code-Zuverlässigkeit verbessert durch Konfiguration des Code-Review-Prozesses und Einführung statischer Typisierung",
-        "responsive_design": "Korrekte Darstellung auf allen Geräten durch adaptives Layout gewährleistet"
-      }
-    },
     "projects": {
-      "title": "Umsetzte Projekte",
       "items": [
         {
           "name": "Azimuth Airlines",
           "url": "https://booking.azimuth.ru/new/",
-          "description": "Vollfunktionales Buchungssystem mit individualisiertem Design"
+          "description": "Voll funktionsfähiges Buchungssystem mit angepasstem Design"
         },
         {
           "name": "TravelShop White Label",
           "url": "https://ors-aero.ru/travelshop",
-          "description": "Basisplattform für schnelle Bereitstellung von Buchungssystemen"
+          "description": "Basisplattform für die schnelle Bereitstellung von Buchungssystemen"
         }
       ]
     },
@@ -320,13 +386,13 @@
     "images": {
       "description": {
         "desktop_1": "Flugsuchformular",
-        "desktop_2": "Gefundene Flüge Bildschirm",
+        "desktop_2": "Bildschirm mit Suchergebnissen",
         "desktop_3": "Tarifauswahl",
-        "desktop_4": "Passagierdatenformular Bildschirm",
-        "desktop_5": "Auswahl der Borddienste",
-        "desktop_6": "Sitzplatzwahl in der Flugzeugkabine",
+        "desktop_4": "Bildschirm mit Passagierdatenformular",
+        "desktop_5": "Auswahl der Flugservices",
+        "desktop_6": "Sitzplatzauswahl im Flugzeug",
         "desktop_7": "Pre-Commit-Bildschirm",
-        "desktop_8": "Warenkorb mit ausgewählten Dienstleistungen",
+        "desktop_8": "Warenkorb mit ausgewählten Services",
         "default": "Bild {number}"
       }
     }

@@ -4,15 +4,20 @@
   import { ref, computed, defineAsyncComponent, h, Transition, watch } from 'vue';
 
   import type {
+    SystemModule,
     Feature,
     Project,
-    AchievementGraph,
+    ITravelshopImage,
   } from '@/view/components/travelshop-project/types';
 
-  import TravelshopImageHorizontal from '@/view/assets/images/travelshop-image-horizontal.webp';
-  import TravelshopImage from '@/view/assets/images/travelshop-image.webp';
+  import TravelshopImageBooking from '@/view/assets/images/travelshop-booking.webp';
+  import TravelshopImageCabinet from '@/view/assets/images/travelshop-cabinet.webp';
+  import TravelshopImageCheckin from '@/view/assets/images/travelshop-checkin.webp';
+  import TravelshopImageExchange from '@/view/assets/images/travelshop-exchange.webp';
+  import TravelshopImage from '@/view/assets/images/travelshop-head.webp';
+  import TravelshopImageServices from '@/view/assets/images/travelshop-services.webp';
+  import TravelshopImageArchitecture from '@/view/assets/images/travelshop-tech.webp';
   import Button from '@/view/ui/ui-button/ui-button.vue';
-  import CircleChart from '@/view/ui/ui-circle-chart/ui-circle-chart.vue';
   import LinkArrow from '@/view/ui/ui-link-arrow/ui-link-arrow.vue';
   import UiLoading from '@/view/ui/ui-loading/ui-loading.vue';
   import { useI18n } from '~/composables/useI18n';
@@ -60,6 +65,8 @@
 
   const { t, tm } = useI18n();
 
+  const responsive = useResponsive();
+
   const showSwiper = ref<boolean>(false);
   const isShowAnimation = ref<boolean>(false);
   const travelshopRef = ref<HTMLElement>();
@@ -67,6 +74,57 @@
   const introVisibility = useElementVisibility(travelshopRef, { once: true });
 
   const isIntroVisible = computed(() => introVisibility.isVisible);
+
+  const moduleImages: Record<string, ITravelshopImage> = {
+    booking: {
+      image: TravelshopImageBooking,
+      hazehash: 'MP9PMPKJQo_ycZx0Q4C3kY1dQa3tuFVq8cxrrvoXc5mzldApirMNus3dugyw84OJ',
+    },
+    checkin: {
+      image: TravelshopImageCheckin,
+      hazehash: 'MP_PMvuYypfomp1jNaaCcThy1hRuffQprYZipcYslvUQtXCXCs0mLdTLcUZlXRCL',
+    },
+    services: {
+      image: TravelshopImageServices,
+      hazehash: 'MP9QrvqASo_yjSWhxDWmVNZptrV1F5mtZ3c6lS96mHXDOSGeoB8KnQ1UlyHceYqM',
+    },
+    exchange: {
+      image: TravelshopImageExchange,
+      hazehash: 'MP9QrwIAQH_wfFa6W04kTjOqHP3Op65URzt8Xz06v1yFMneeMrWtavGt3k3YLF62',
+    },
+    cabinet: {
+      image: TravelshopImageCabinet,
+      hazehash: 'MP9OMvMISpfqnB1xHOgbnKg3OBmdqNVcYV3PG7heKyrHLiiMuqYFNKoWWS1jnLdZ',
+    },
+    architecture: {
+      image: TravelshopImageArchitecture,
+      hazehash: 'MP9yLvoAQIfgicTA00YYq8mYlz77G1pBLvGqHO4vjFqr085jZOMLZ3s9bUsXjMxg',
+    },
+  };
+
+  const systemModules = computed<SystemModule[]>(() => {
+    const raw = tm('travelshop.modules') as unknown;
+
+    if (!raw || typeof raw !== 'object') return [];
+
+    const list = Array.isArray(raw) ? raw : Object.entries(raw);
+
+    return list
+      .filter(
+        (item): item is [string, Record<string, unknown>] =>
+          Array.isArray(item) && !!item[1] && typeof item[1] === 'object',
+      )
+      .map(([key, item]) => ({
+        image: moduleImages[key] || moduleImages.booking!,
+        title: typeof item.title === 'string' ? item.title : '',
+        subTitle: typeof item.subTitle === 'string' ? item.subTitle : '',
+        description: typeof item.description === 'string' ? item.description : '',
+        itemsTitle: typeof item.itemsTitle === 'string' ? item.itemsTitle : '',
+        items: Array.isArray(item.items)
+          ? item.items.filter((x): x is string => typeof x === 'string')
+          : [],
+      }));
+  });
 
   const features = computed<Feature[]>(() => {
     const items = tm('travelshop.features.items') as Record<string, unknown>[];
@@ -90,24 +148,6 @@
       : [];
   });
 
-  const achievementsGraphs = computed<AchievementGraph[]>(() => [
-    {
-      value: 40,
-      color: '#BC1212',
-      text: t('travelshop.achievements.items.scalable_architecture'),
-    },
-    {
-      value: 60,
-      color: '#17980B',
-      text: t('travelshop.achievements.items.error_reduction'),
-    },
-    {
-      value: 25,
-      color: '#0270FF',
-      text: t('travelshop.achievements.items.performance_improvement'),
-    },
-  ]);
-
   const toggleSwiper = () => {
     showSwiper.value = !showSwiper.value;
   };
@@ -115,7 +155,6 @@
   watch(
     isIntroVisible.value,
     () => {
-      console.log('123');
       isShowAnimation.value = true;
     },
     { once: true },
@@ -150,107 +189,89 @@
 
     <div class="travelshop__container travelshop__airplane_bottom">
       <div class="travelshop__content">
-        <!-- Ключевые функции -->
-        <div class="travelshop__section">
+        <div>
           <div class="travelshop__section-title">
             {{ t('travelshop.features.title') }}
           </div>
-          <div class="travelshop__features-wrapper">
-            <div class="travelshop__features">
-              <div
-                v-for="(feature, index) in features"
-                :key="index"
-                class="travelshop__feature"
-              >
-                <span
-                  class="travelshop__feature-icon"
-                  :class="`travelshop__feature-icon_${feature.icon}`"
-                />
-                <span class="travelshop__feature-title">{{ feature.title }}</span>
-                <span class="travelshop__feature-text">{{ feature.text }}</span>
-              </div>
-            </div>
-            <div>
-              <VImage
-                :src="TravelshopImage"
-                hazehash="DP_mOuugSolb5Y2jxBREKQsy7IdyyZFSW2luRTYLVGVIFMOW5rDJhwWXDA"
-                :width="720"
-                :height="1237"
-                :sources="{
-                  tablet: {
-                    src: TravelshopImageHorizontal,
-                    width: 1400,
-                    height: 700,
-                    hazehash: 'E__mOuwYqnb9-uL5PkZcx7x5zdS7lkww4tndzJeEjkzVkyWtY5wiZGWX',
-                  },
-                }"
-                alt="TravelShop 2.0"
-                class="travelshop__tsh-image"
+          <div class="travelshop__features">
+            <div
+              v-for="(feature, index) in features"
+              :key="index"
+              class="travelshop__feature"
+            >
+              <span
+                class="travelshop__feature-icon"
+                :class="`travelshop__feature-icon_${feature.icon}`"
               />
+              <span class="travelshop__feature-title">{{ feature.title }}</span>
+              <span class="travelshop__feature-text">{{ feature.text }}</span>
             </div>
           </div>
         </div>
 
-        <!-- Достижения -->
-        <div class="travelshop__section">
-          <div class="travelshop__section-title">
-            {{ t('travelshop.achievements.title') }}
-          </div>
-          <div class="travelshop__achievements">
-            <div class="travelshop__chart">
-              <div
-                v-for="(item, index) in achievementsGraphs"
-                :key="index"
-                class="travelshop__chart-item"
-              >
-                <CircleChart
-                  autoPlay
-                  mode="boxed"
-                  :value="item.value"
-                  :size="180"
-                  :markCount="20"
-                  :lineThick="14"
-                  :valueFontSize="36"
-                  valueColor="#DDDDDD"
-                  strokeColor="#363035"
-                  :segmentColor="item.color"
-                  :label="item.text"
-                />
-              </div>
-              <div class="travelshop__achievement-content">
-                <div class="travelshop__achievement-item">
-                  {{ t('travelshop.achievements.items.code_reliability') }}
-                </div>
-                <div class="travelshop__achievement-item">
-                  {{ t('travelshop.achievements.items.responsive_design') }}
-                </div>
-              </div>
+        <div v-if="!responsive.smallTablet">
+          <VImage
+            :src="TravelshopImage"
+            hazehash="E__mOuwYqnb9-uL5PkZcx7x5zdS7lkww4tndzJeEjkzVkyWtY5wiZGWX"
+            :width="1400"
+            :height="560"
+            alt="TravelShop 2.0"
+            class="travelshop__tsh-image"
+          />
+        </div>
+        <div class="travelshop__modules">
+          <div
+            v-for="(item, index) in systemModules"
+            :key="index"
+            class="travelshop__module"
+          >
+            <VImage
+              :src="item.image.image"
+              :hazehash="item.image.hazehash"
+              :width="300"
+              :height="264"
+              :alt="item.title"
+              class="travelshop__module-image"
+            />
+            <div class="travelshop__module-head">
+              <div class="travelshop__module-title">{{ item.title }}</div>
+              <div class="travelshop__module-subtitle">{{ item.subTitle }}</div>
+            </div>
+            <div class="travelshop__module-description">
+              {{ item.description }}
+            </div>
+            <div class="travelshop__module-items">
+              <div class="travelshop__module-items-title">{{ item.itemsTitle }}</div>
+              <ul class="travelshop__module-items-list">
+                <li
+                  v-for="(listItem, listIndex) in item.items"
+                  :key="listIndex"
+                  class="travelshop__module-items-list-item"
+                >
+                  {{ listItem }}
+                </li>
+              </ul>
             </div>
           </div>
         </div>
 
         <!-- Проекты -->
-        <div class="travelshop__section">
-          <div class="travelshop__section-title">
-            {{ t('travelshop.projects.title') }}
-          </div>
-          <div class="travelshop__projects">
-            <div
-              v-for="(project, index) in projects"
-              :key="index"
-              class="travelshop__project"
-            >
-              <a :href="project.url" target="_blank">
-                <span class="travelshop__project-header">
-                  <span class="travelshop__project-name">
-                    {{ project.name }}
-                    <LinkArrow class="travelshop__project-arrow" />
-                  </span>
-                </span>
-              </a>
-              <div class="travelshop__project-description">{{ project.description }}</div>
-            </div>
-          </div>
+        <div class="travelshop__projects">
+          <a
+            v-for="(project, index) in projects"
+            :key="index"
+            class="travelshop__project"
+            :href="project.url"
+            target="_blank"
+          >
+            <span class="travelshop__project-header">
+              <span class="travelshop__project-name">
+                {{ project.name }}
+                <LinkArrow class="travelshop__project-arrow" />
+              </span>
+            </span>
+            <div class="travelshop__project-description">{{ project.description }}</div>
+          </a>
         </div>
 
         <div

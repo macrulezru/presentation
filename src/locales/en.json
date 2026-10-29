@@ -221,92 +221,158 @@
     "title": "Career"
   },
   "travelshop": {
-    "title": "TravelShop 2.0 - Flight Booking System",
+    "title": "TravelShop 2.0 - Airline Booking System",
     "role": "Lead Frontend Developer",
     "period": "December 2020 — October 2025",
-    "description": "Development and maintenance of a modern flight ticket booking system for Russian and foreign airlines, including Azimut.",
+    "description": "Development and support of a modern airline booking system for Russian and international airlines, including Azimuth.",
+    "modules": {
+      "booking": {
+        "title": "Flight Booking",
+        "subTitle": "From search to payment — without calling the call center",
+        "description": "The user finds a flight, selects a fare, and goes through a multi-step booking wizard with validation at each step. The system works with real-time airline data and fares directly via GDS, applies flexible pricing rules — including individual conditions for corporate clients — and connects to metasearch engines (Aviasales, Yandex.Flights, SkyScanner, Momondo, Kayak). Payment — cards, e-wallets, corporate deposit.",
+        "itemsTitle": "What's inside",
+        "items": [
+          "Booking wizard: intuitive input fields, smart city search (autocomplete), and a convenient date picker.",
+          "Passenger data validation at each step — booking errors reduced by 60%.",
+          "Support for complex scenarios: from instant card payment to funds deduction from a corporate deposit.",
+          "Search query caching — system performance improved by 25%.",
+          "Flexible architecture allows adding new features 40% faster."
+        ]
+      },
+      "checkin": {
+        "title": "Online Check-in",
+        "subTitle": "Self-service check-in with seat selection and add-ons",
+        "description": "The passenger checks in for a flight online from their personal account, selects a seat on board, and immediately purchases baggage, meals, or insurance. The system integrates with various DCS, and the seat map comes from different booking systems in different formats.",
+        "itemsTitle": "What check-in consists of",
+        "items": [
+          "Universal aircraft seat map that displays flawlessly regardless of which booking system provided the data.",
+          "Visual seat selection: the passenger immediately sees occupied and available seats, as well as seats with extra amenities.",
+          "Convenient check-in process combined with the sale of add-on services (baggage, meals, insurance).",
+          "Instant transmission of check-in data directly to the airline."
+        ]
+      },
+      "services": {
+        "title": "Add-on Services",
+        "subTitle": "Post-booking add-ons — without changing the ticket",
+        "description": "The passenger purchases baggage, meals, or insurance after the ticket is issued. The sales logic is designed to offer services at the right moment and in a clear way — this increases the average check and reduces the call center load.",
+        "itemsTitle": "How add-on purchase works",
+        "items": [
+          "Clear interface for selecting and purchasing add-ons, integrated into the overall purchase flow.",
+          "Smart offer logic: the system shows only those services that are available for a specific fare.",
+          "Flexible interface customization for different clients (White Label) without code duplication.",
+          "Instant retrieval of up-to-date prices and available options from service providers."
+        ]
+      },
+      "exchange": {
+        "title": "Ticket Exchange/Refund",
+        "subTitle": "Managing bookings according to fare rules — online",
+        "description": "The passenger independently exchanges or refunds a ticket from their personal account. The system automates procedures in accordance with fare rules and guides the user through a transactional scenario without errors.",
+        "itemsTitle": "What the scenario provides",
+        "items": [
+          "Step-by-step exchange and refund interface: the system itself prompts which actions are available under the fare.",
+          "Transparent calculation of refund or surcharge amounts in real time.",
+          "Transaction reliability: operation status visualization and protection against failures during fund refunds.",
+          "The history of all booking changes is always available to the passenger."
+        ]
+      },
+      "cabinet": {
+        "title": "Personal Account",
+        "subTitle": "A single point for managing orders and profile",
+        "description": "The passenger views order history, manages their profile, re-books, and independently makes changes to bookings. Corporate users additionally get cashless payment from a deposit and an individual agency fee.",
+        "itemsTitle": "What's inside the account",
+        "items": [
+          "Convenient order list with quick access to the details of any flight.",
+          "Passenger profile management and data saving for faster booking in the future.",
+          "Interface separation for individuals (B2C) and corporate clients (B2B).",
+          "Quick re-booking of tickets in just a few clicks."
+        ]
+      },
+      "architecture": {
+        "title": "Architecture and Technologies",
+        "subTitle": "The foundation ensuring speed, reliability, and scalability",
+        "description": "Cross-cutting technical solutions that power all system modules. From a unified component library to fault-tolerant API interactions and complex data transformation logic.",
+        "itemsTitle": "Technical solutions",
+        "items": [
+          "Unified UI library: reusable Vue components with accessibility (a11y) and theming support.",
+          "State management: well-designed Pinia store architecture for reliable data storage.",
+          "Reliable data exchange: REST API request pipeline with automatic parameter passing, retries on failure, and cancellation.",
+          "Universal seat map: a driver system to convert formats from any booking system into a unified view.",
+          "Flexible localization: mechanism for merging default and custom dictionaries for different build bundles (White Label).",
+          "Monitoring and analytics: built-in API error tracking panel (RPS, p95) and Telegram alerting."
+        ]
+      }
+    },
     "features": {
       "title": "Key System Features",
       "items": [
         {
-          "icon": "flight-search",
-          "title": "Real-time flight search and booking",
-          "text": "Provides direct access to current airline data and fares for instant booking."
+          "icon": "aircompany",
+          "title": "For Airlines and Agencies",
+          "text": "A solution for Russian and international carriers and online travel agencies: from White Label to customized systems under the client's brand."
         },
         {
-          "icon": "price-tag",
-          "title": "Complex business logic for fare and fee calculation",
-          "text": "Automatically applies flexible pricing rules, including individual conditions for corporate clients."
-        },
-        {
-          "icon": "checklist",
-          "title": "Multi-step booking process with data validation",
-          "text": "Intuitive step-by-step process with information verification at each stage to minimize errors."
-        },
-        {
-          "icon": "user-management",
-          "title": "Order and passenger management system",
-          "text": "Provides passengers with a personal account for self-service booking management and online check-in."
-        },
-        {
-          "icon": "api",
-          "title": "Integration with booking systems (GDS)",
-          "text": "Connects to GDS, DCS, and metasearch services through flexible API for content access."
-        },
-        {
-          "icon": "luggage",
-          "title": "Support for additional services (baggage, meals, insurance)",
-          "text": "Efficiently offers ancillary services during booking to increase average order value."
-        },
-        {
-          "icon": "web-checkin",
-          "title": "Web check-in for flights",
-          "text": "Allows passengers to independently check in online and select their seat on board."
-        },
-        {
-          "icon": "exchange",
-          "title": "Exchange and refund of air tickets",
-          "text": "Automates ticket exchange and refund procedures in accordance with fare rules."
+          "icon": "b2c",
+          "title": "B2C and B2B in One Product",
+          "text": "Private passengers and corporate clients: cashless payment from a deposit, individual agency fee, and special settings."
         },
         {
           "icon": "shopping-cart",
-          "title": "Post-booking service add-ons",
-          "text": "Enables passengers to purchase additional services after booking — baggage, meals, insurance."
+          "title": "Payments for Any Scenario",
+          "text": "Cards, e-wallets, corporate deposit, and integrations with popular payment solutions."
         },
         {
-          "icon": "profile",
-          "title": "User personal account",
-          "text": "Provides passengers with access to order history, profile management, and quick rebooking."
+          "icon": "flight-search",
+          "title": "Metasearch Engine Integration",
+          "text": "Quick sales launch via Aviasales, Yandex.Flights, SkyScanner, Momondo, Kayak, and other services."
+        },
+        {
+          "icon": "api",
+          "title": "Direct Access to Content",
+          "text": "Working with GDS, DCS, and metasearch services via flexible API — real-time data and fares without intermediaries."
         },
         {
           "icon": "responsive",
-          "title": "Responsive design for all devices",
-          "text": "Built on PWA (Vue.js) technology, ensuring equally convenient operation on any device."
+          "title": "Single PWA Codebase",
+          "text": "One Vue/Nuxt solution for desktops, tablets, and mobile devices — without separate versions for each platform."
         },
         {
           "icon": "mobile-app",
-          "title": "Mobile application for Android and iOS",
-          "text": "A fully-featured mobile app for searching, booking, and managing flights on smartphones."
+          "title": "iOS and Android Mobile Apps",
+          "text": "Fully functional apps for searching, booking, and managing tickets on smartphones."
+        },
+        {
+          "icon": "customization",
+          "title": "Deep Customization",
+          "text": "Adaptation of the interface and logic to the client's business specifics — 2–3 times faster and cheaper thanks to a single codebase."
+        },
+        {
+          "icon": "api-integration",
+          "title": "Full-featured API",
+          "text": "Flexible API for integration with external systems and building custom scenarios on top of the product."
+        },
+        {
+          "icon": "security-shield",
+          "title": "Security and Compliance",
+          "text": "Architecture designed with regulatory requirements for protecting infrastructure and travelers' personal data in mind."
+        },
+        {
+          "icon": "scalability",
+          "title": "Scalability",
+          "text": "Modular architecture that withstands transaction volume growth and onboarding of new clients without core rework."
+        },
+        {
+          "icon": "web-checkin",
+          "title": "Boutique Approach",
+          "text": "Individual solutions for large projects and ongoing support — instead of a typical 'out-of-the-box' implementation."
         }
       ]
     },
-    "achievements": {
-      "title": "Achievements and Results",
-      "items": {
-        "scalable_architecture": "Scalable architecture developed, accelerating new feature deployment by 40%",
-        "error_reduction": "Booking errors reduced by 60% through implementation of passenger data validation system",
-        "performance_improvement": "Performance improved by 25% through implementation of search query caching mechanism",
-        "code_reliability": "Code reliability enhanced through configuration of code review process and implementation of static typing",
-        "responsive_design": "Proper display on all devices ensured through adaptive layout"
-      }
-    },
     "projects": {
-      "title": "Implemented Projects",
       "items": [
         {
           "name": "Azimuth Airlines",
           "url": "https://booking.azimuth.ru/new/",
-          "description": "Full-featured booking system with customized design"
+          "description": "Fully functional booking system with customized design"
         },
         {
           "name": "TravelShop White Label",
@@ -319,14 +385,14 @@
     "loading_screenshots": "Loading screenshots...",
     "images": {
       "description": {
-        "desktop_1": "Flight search form",
-        "desktop_2": "Found flights screen",
-        "desktop_3": "Tariff selection",
-        "desktop_4": "Passenger data form screen",
-        "desktop_5": "In-flight services selection",
-        "desktop_6": "Seat selection in the airplane cabin",
-        "desktop_7": "Pre-commit screen",
-        "desktop_8": "Shopping cart with selected services",
+        "desktop_1": "Flight Search Form",
+        "desktop_2": "Search Results Screen",
+        "desktop_3": "Fare Selection",
+        "desktop_4": "Passenger Details Form Screen",
+        "desktop_5": "Flight Services Selection",
+        "desktop_6": "Aircraft Seat Selection",
+        "desktop_7": "Pre-commit Screen",
+        "desktop_8": "Cart with Selected Services",
         "default": "Image {number}"
       }
     }
