@@ -12,11 +12,7 @@
   <div class="airlines">
     <div class="airlines__container">
       <div class="airlines__promo">
-        <a
-          class="airlines__link"
-          href="https://airlines.macrulez.ru/map/2d/SBI/DME?x=0.3889&y=0.2740&z=3.2100"
-          target="_blank"
-        >
+        <a class="airlines__link" href="https://airlines.macrulez.ru" target="_blank">
           <VImage
             class="airlines__image"
             :src="airlinesImage"
