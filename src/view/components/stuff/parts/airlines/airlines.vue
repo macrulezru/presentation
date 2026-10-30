@@ -14,7 +14,7 @@
       <div class="airlines__promo">
         <a
           class="airlines__link"
-          href="https://airlines.macrulez.ru/2d/SBI/DME?x=0.3889&y=0.2740&z=3.2100"
+          href="https://airlines.macrulez.ru/map/2d/SBI/DME?x=0.3889&y=0.2740&z=3.2100"
           target="_blank"
         >
           <VImage
