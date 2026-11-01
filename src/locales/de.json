@@ -1436,7 +1436,24 @@
   },
   "airlines": {
     "title": "Airlines",
-    "text": "Routennetze, Flughäfen, Flugvisualisierung – alles an einem Ort. Planen Sie in Sekundenschnelle eine Route von Punkt A nach Punkt B. Ein Werkzeug für alle, die das grosse Ganze sehen wollen."
+    "text": "Streckennetze, Flughäfen und Flugvisualisierung — alles an einem Ort. Zeichnen Sie eine Route von Punkt A nach Punkt B in einer Sekunde. Ein Werkzeug für alle, die das Gesamtbild sehen wollen.",
+    "statsAirlines": "Fluggesellschaften",
+    "statsAirports": "Flughäfen",
+    "statsRoutes": "Strecken",
+    "features": {
+      "route": {
+        "title": "Alle Ziele einer Airline auf einen Blick",
+        "text": "Wählen Sie eine Airline und sehen Sie, wohin sie fliegt: Hubs, Langstrecken und Verbindungen zwischen Städten. Ohne Installation, direkt im Browser."
+      },
+      "globe": {
+        "title": "Dasselbe Netz auf einer 3D-Erdkugel",
+        "text": "Wechseln Sie in 3D und sehen Sie, wie die Routen den Planeten umrunden. Die flache Karte ist nur einen Klick entfernt."
+      },
+      "hubs": {
+        "title": "Hubs, Cluster und wer dort fliegt",
+        "text": "Der Flughafen-Modus fasst Punkte zu Clustern zusammen, zeigt Statistiken und listet die Airlines an jedem Hub auf."
+      }
+    }
   },
   "cubeflow": {
     "title": "Cubeflow",

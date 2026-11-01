@@ -1436,7 +1436,24 @@
   },
   "airlines": {
     "title": "Airlines",
-    "text": "Route networks, airports, flight visualisation — all in one place. Plan a route from point A to point B in seconds. A tool for those who want to see the full picture."
+    "text": "Route networks, airports, and flight visualization — all in one place. Plot a route from point A to point B in a second. A tool for those who want to see the whole picture.",
+    "statsAirlines": "Airlines",
+    "statsAirports": "Airports",
+    "statsRoutes": "Routes",
+    "features": {
+      "route": {
+        "title": "All of an airline's destinations at once",
+        "text": "Pick a carrier and see where it flies: hubs, long-haul lines, and connections between cities. No installation, right in your browser."
+      },
+      "globe": {
+        "title": "The same network on a 3D globe",
+        "text": "Switch to 3D and watch routes curve around the planet. The flat map is one click away."
+      },
+      "hubs": {
+        "title": "Hubs, clusters, and who flies there",
+        "text": "The airports mode groups points into clusters, shows statistics, and lists the airlines at each hub."
+      }
+    }
   },
   "cubeflow": {
     "title": "Cubeflow",

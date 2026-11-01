@@ -9,7 +9,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 40px;
+    gap: 60px;
   }
 
   &__promo {
@@ -22,7 +22,7 @@
   }
 
   &__header {
-    @include big-title;
+    @include extra-title;
 
     text-align: center;
     transition: color 0.3s ease-in-out;
@@ -51,5 +51,101 @@
 
     text-align: center;
     color: var(--color-4);
+  }
+
+  &__stats {
+    @include grid-3-cols;
+
+    gap: 0;
+
+    &-item {
+      display: flex;
+      flex-direction: column;
+      padding: 0 clamp(40px, 6vw, 50px);
+      border-right: solid 1px var(--color-7);
+      align-items: center;
+
+      &:last-child {
+        border: none;
+      }
+
+      &_airlines {
+        color: #22d9b3;
+      }
+
+      &_airports {
+        color: #f8df4d;
+      }
+
+      &_routes {
+        color: #0554b8;
+      }
+
+      @include media-tablet {
+        border: none;
+        padding: 0;
+      }
+    }
+
+    &-count {
+      font-size: clamp(40px, 10vw, 60px);
+      font-weight: 900;
+    }
+
+    @include media-tablet {
+      grid-template-columns: 1fr !important;
+      gap: clamp(40px, 6vw, 50px);
+    }
+  }
+
+  &__features {
+    @include grid-3-cols;
+
+    @include media-tablet {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    text-align: center;
+
+    &-image {
+      max-width: 240px;
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px #292929;
+      transition: all 0.3s ease-in-out;
+    }
+
+    &-info {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    &-title {
+      @include small-title;
+
+      transition: color 0.3s ease-in-out;
+    }
+
+    &-description {
+      @include regular-text;
+
+      color: var(--color-4);
+    }
+
+    &:hover {
+      .airlines__feature-image {
+        box-shadow: 0 0 0 6px var(--color-2);
+      }
+
+      .airlines__feature-title {
+        color: var(--color-2);
+      }
+    }
   }
 }
