@@ -1,5 +1,12 @@
 @use './media.scss' as *;
 
+@mixin extra-title {
+  font-size: clamp(50px, 9vw, 100px);
+  font-weight: 900;
+  letter-spacing: 0.9;
+  line-height: 1;
+}
+
 @mixin big-title {
   font-size: clamp(28px, 5vw, 56px);
   font-weight: 900;

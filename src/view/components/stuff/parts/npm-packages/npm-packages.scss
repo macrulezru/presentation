@@ -28,8 +28,9 @@
   }
 
   &__header {
-    @include big-title;
+    @include extra-title;
 
+    text-align: center;
     transition: color 0.3s ease-in-out;
   }
 
