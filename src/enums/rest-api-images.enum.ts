@@ -9,7 +9,6 @@ export enum RestApiImage {
   IMAGE_8 = 'image_8',
   IMAGE_9 = 'image_9',
   IMAGE_10 = 'image_10',
-  IMAGE_11 = 'image_11',
 }
 
 // Интерфейс для конфигурации изображения
@@ -31,7 +30,6 @@ export const REST_API_IMAGE_CONFIGS: RestApiImageConfig[] = [
   { enum: RestApiImage.IMAGE_1, fileName: 'rest-api-8' },
   { enum: RestApiImage.IMAGE_1, fileName: 'rest-api-9' },
   { enum: RestApiImage.IMAGE_1, fileName: 'rest-api-10' },
-  { enum: RestApiImage.IMAGE_1, fileName: 'rest-api-11' },
 ];
 
 // Тип для объекта изображения
