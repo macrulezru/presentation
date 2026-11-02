@@ -40,9 +40,11 @@
             alt="VueCraft NPM"
             :lazy="true"
           />
-          <div class="npm-packages__header">VueCraft NPM</div>
         </a>
-        <div class="npm-packages__description">{{ t('npm.title') }}</div>
+        <div>
+          <div class="npm-packages__header">VueCraft NPM</div>
+          <div class="npm-packages__description">{{ t('npm.title') }}</div>
+        </div>
       </div>
     </div>
     <div class="npm-packages__packages">
