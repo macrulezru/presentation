@@ -156,7 +156,7 @@
     grid-template-columns: 1fr 1px 1fr;
     gap: 40px;
     position: relative;
-    border: solid 1px var(--color-dark);
+    border: solid 1px color-mix(in srgb, var(--block-accent-color) 20%, transparent);
     border-radius: 10px;
     background-color: #121212;
     filter: drop-shadow(0 4px 12px rgb(0 0 0 / 40%));
@@ -166,13 +166,13 @@
       top: 0;
       width: 0;
       height: 100%;
-      border-left: solid 1px rgb(123 123 123 / 16%);
+      border-left: solid 1px color-mix(in srgb, var(--block-accent-color) 17%, transparent);
 
       @include media-tablet {
         width: 100%;
         height: 0;
         border-left: none;
-        border-top: solid 1px rgb(123 123 123 / 16%);
+        border-top: solid 1px color-mix(in srgb, var(--block-accent-color) 17%, transparent);
       }
     }
 
@@ -236,6 +236,8 @@
 
     &-title {
       @include mini-title;
+
+      font-weight: 300;
     }
 
     &-description {
@@ -252,12 +254,18 @@
       flex-direction: column;
       gap: 5px;
       padding: 30px;
-      border: dashed 1px var(--color-7);
+      border: dashed 1px color-mix(in srgb, var(--block-accent-color) 30%, transparent);
       border-radius: 10px;
-      background-color: var(--color-background);
+      background-color: color-mix(
+        in srgb,
+        color-mix(in srgb, var(--block-accent-color) 40%, black) 10%,
+        transparent
+      );
 
       &-title {
         @include mini-title;
+
+        font-weight: 300;
       }
 
       &-description {

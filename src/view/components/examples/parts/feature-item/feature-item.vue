@@ -73,6 +73,7 @@
       background: ${gradient.value}, url("${BackgroundNoise}"), rgb(12 12 12);
       background-size: auto, 40px 40px;
       background-repeat: no-repeat, repeat;
+      --block-accent-color: ${color};
     `;
   };
 </script>
