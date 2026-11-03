@@ -1472,5 +1472,10 @@
         "text": "The cyber cube with its plasma flow, the classic puzzle and the dodecahedron — kilominx and megaminx. Sizes from 2×2."
       }
     ]
+  },
+  "swiper": {
+    "prevSlide": "Previous slide",
+    "nextSlide": "Next slide",
+    "close": "Close"
   }
 }

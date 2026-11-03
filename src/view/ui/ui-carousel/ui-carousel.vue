@@ -9,6 +9,10 @@
 
   import { type Slide } from './types';
 
+  import { useI18n } from '~/composables/useI18n';
+
+  const { t } = useI18n();
+
   interface Props {
     slides: Slide[];
     closable?: boolean;
@@ -43,7 +47,12 @@
 </script>
 <template>
   <div class="ui-carousel" :style="styles">
-    <span v-if="props.closable" class="ui-carousel__close-btn" @click="onClose" />
+    <span
+      v-if="props.closable"
+      class="ui-carousel__close-btn"
+      :aria-label="t('swiper.close')"
+      @click="onClose"
+    />
     <swiper
       class="ui-carousel__swiper"
       :slidesPerView="'auto'"
@@ -72,7 +81,7 @@
         </div>
       </swiper-slide>
     </swiper>
-    <span class="ui-carousel__button-prev" aria-label="Предыдущий слайд" />
-    <span class="ui-carousel__button-next" aria-label="Следующий слайд" />
+    <span class="ui-carousel__button-prev" :aria-label="t('swiper.prevSlide')" />
+    <span class="ui-carousel__button-next" :aria-label="t('swiper.nextSlide')" />
   </div>
 </template>
