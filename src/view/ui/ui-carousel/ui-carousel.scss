@@ -1,0 +1,79 @@
+.ui-carousel {
+  --swiper-pagination-color: var(--color-2);
+  --swiper-pagination-bullet-inactive-color: var(--color-8);
+
+  width: 100%;
+  min-width: 0;
+  user-select: none;
+
+  &__swiper {
+    flex: 1; // если .ui-carousel flex-контейнер
+    height: 100%; // если нужно просто 100% от родителя
+
+    .swiper-wrapper {
+      align-items: stretch;
+      padding: 50px 0;
+    }
+
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: fit-content !important;
+      height: auto;
+      align-self: stretch;
+    }
+  }
+
+  &__slide {
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__image {
+    display: block;
+    width: auto;
+    max-width: 90vw;
+    height: auto;
+    max-height: var(--ui-carousel-max-height, none);
+    border-radius: var(--radius-lg);
+    filter: drop-shadow(0 0 12px rgb(0 0 0 / 20%));
+  }
+
+  &__close-btn {
+    position: absolute;
+    top: 0;
+    right: 16px;
+    width: 26px;
+    height: 26px;
+    border: solid 1px var(--color-8);
+    border-radius: 59%;
+    background-color: transparent;
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.3s ease;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      mask-image: url('@/view/assets/images/icon-close.svg');
+      mask-repeat: no-repeat;
+      mask-position: center center;
+      mask-size: contain;
+      background-color: var(--color-8);
+      transition: background-color 0.3s ease;
+    }
+
+    &:hover {
+      border-color: var(--color-5);
+
+      &::before {
+        background-color: var(--color-5);
+      }
+    }
+  }
+}

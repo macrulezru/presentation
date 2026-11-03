@@ -280,15 +280,15 @@
         >
           <Button :text="t('travelshop.view_screenshots')" @click="toggleSwiper" />
         </div>
-        <div v-if="showSwiper" class="travelshop__section travelshop__section_images">
-          <div class="travelshop__ts-slideshow">
-            <TravelshopImages
-              size="large"
-              :textKey="t('travelshop.loading_screenshots')"
-              @close="showSwiper = false"
-            />
-          </div>
-        </div>
+      </div>
+    </div>
+    <div v-if="showSwiper" class="travelshop__section travelshop__section_images">
+      <div class="travelshop__ts-slideshow">
+        <TravelshopImages
+          size="large"
+          :textKey="t('travelshop.loading_screenshots')"
+          @close="showSwiper = false"
+        />
       </div>
     </div>
   </div>
