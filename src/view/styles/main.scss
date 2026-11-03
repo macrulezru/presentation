@@ -1,4 +1,5 @@
 @use './mixins/element.scss' as *;
+@use './variables.scss' as *;
 @import 'https://fonts.googleapis.com/css2?family=Gidole&family=Roboto&family=Roboto&family=Roboto+Condensed:wght@100,300,400,500,600,700,800,900&display=swap';
 
 body {
@@ -163,4 +164,43 @@ body.body-locked {
 
 .brand_node {
   color: #6c3;
+}
+
+.fancybox__dialog {
+  .f-carousel__toolbar__column {
+    --f-toolbar-gap: 10px;
+  }
+
+  .f-button {
+    --f-arrow-hover-color: var(--color-2);
+    --f-button-active-color: var(--color-2);
+    --f-button-hover-color: var(--color-2);
+  }
+
+  @include media-mobile {
+    .f-button {
+      --f-button-width: 30px;
+      --f-button-height: 30px;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .f-button.is-arrow {
+      --f-arrow-width: 30px;
+      --f-arrow-height: 30px;
+      --f-arrow-pos: 12px;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .fancybox__carousel > .f-button.is-arrow::before {
+      inset: -20px;
+    }
+  }
 }

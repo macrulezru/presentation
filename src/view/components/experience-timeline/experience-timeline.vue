@@ -5,6 +5,7 @@
 
   import { useExperienceItems, type ExperienceItem } from './experience-items';
   import CompanyItem from './parts/company-item/company-item.vue';
+  import TimelineSwiper from './parts/timeline-swiper/timeline-swiper.vue';
 
   import UiLoading from '~/components/ui/UiLoading.vue';
   import { useI18n } from '~/composables/useI18n';
@@ -56,15 +57,8 @@
         <div class="experience__years">
           <span class="experience__years-text">1998 - 2017</span>
         </div>
-
-        <div class="experience__companies">
-          <CompanyItem
-            v-for="company in overCompany"
-            :key="company.id"
-            :company="company"
-          />
-        </div>
       </template>
     </div>
+    <TimelineSwiper :items="overCompany" />
   </div>
 </template>
