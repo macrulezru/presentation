@@ -3,9 +3,9 @@
   import 'swiper/css/pagination';
   import './ui-carousel.scss';
 
-  import { Pagination } from 'swiper/modules';
+  import { Navigation, Pagination } from 'swiper/modules';
   import { Swiper, SwiperSlide } from 'swiper/vue';
-  import { computed, onMounted } from 'vue';
+  import { computed } from 'vue';
 
   import { type Slide } from './types';
 
@@ -23,11 +23,7 @@
   const props = defineProps<Props>();
   const emit = defineEmits<Emits>();
 
-  const modules = [Pagination];
-
-  const onSwiper = swiper => {
-    console.log(swiper);
-  };
+  const modules = [Navigation, Pagination];
 
   const styles = computed(() => {
     const result: Record<string, string> = {};
@@ -57,7 +53,10 @@
       :pagination="{
         clickable: true,
       }"
-      @swiper="onSwiper"
+      :navigation="{
+        nextEl: '.ui-carousel__button-next',
+        prevEl: '.ui-carousel__button-prev',
+      }"
     >
       <swiper-slide v-for="(item, index) in props.slides" :key="index">
         <div class="ui-carousel__slide">
@@ -73,5 +72,7 @@
         </div>
       </swiper-slide>
     </swiper>
+    <span class="ui-carousel__button-prev" aria-label="Предыдущий слайд" />
+    <span class="ui-carousel__button-next" aria-label="Следующий слайд" />
   </div>
 </template>
