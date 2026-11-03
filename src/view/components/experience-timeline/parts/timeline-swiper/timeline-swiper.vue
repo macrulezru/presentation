@@ -9,6 +9,10 @@
   import { type ExperienceItem } from './../../experience-items';
   import CompanyItem from './../company-item/company-item.vue';
 
+  import { useI18n } from '~/composables/useI18n';
+
+  const { t } = useI18n();
+
   const props = defineProps<{
     items?: ExperienceItem[];
   }>();
@@ -57,7 +61,7 @@
         <CompanyItem class="" :company="item" />
       </swiper-slide>
     </swiper>
-    <button class="timeline-swiper__button-prev" aria-label="Предыдущий слайд" />
-    <button class="timeline-swiper__button-next" aria-label="Следующий слайд" />
+    <button class="timeline-swiper__button-prev" :aria-label="t('swiper.prevSlide')" />
+    <button class="timeline-swiper__button-next" :aria-label="t('swiper.nextSlide')" />
   </div>
 </template>

@@ -1472,5 +1472,10 @@
         "text": "Der Cyber-Würfel mit Plasmastrom, das klassische Rätsel und das Dodekaeder – Kilominx und Megaminx. Grössen ab 2×2."
       }
     ]
+  },
+  "swiper": {
+    "prevSlide": "Vorherige Folie",
+    "nextSlide": "Nächste Folie",
+    "close": "Schließen"
   }
 }
