@@ -1,9 +1,12 @@
 <script setup lang="ts">
   import '@/view/components/app-platform/app-platform.scss';
 
+  import { computed } from 'vue';
+
   import { useAppPlatformImages } from '@/view/composables/use-app-platform-images.ts';
   import { useFancybox } from '@/view/composables/use-fancybox';
-  import UiSwiper from '@/view/ui/ui-swiper/ui-swiper.vue';
+  import { type Slides } from '@/view/ui/ui-carousel/types';
+  import UiCarousel from '@/view/ui/ui-carousel/ui-carousel.vue';
 
   const { images } = useAppPlatformImages();
   const { openGallery } = useFancybox();
@@ -13,6 +16,15 @@
   }
 
   const emit = defineEmits<Emits>();
+
+  const slides = computed((): Slides => {
+    return images.value.map(item => {
+      return {
+        image: item.preview,
+        description: item.preview || null,
+      };
+    });
+  });
 
   const openModal = (index: number) => {
     openGallery(images.value, index);
@@ -26,10 +38,10 @@
 <template>
   <Transition name="content-appear" appear>
     <div class="app-platform">
-      <UiSwiper
-        showCloseButton
-        :slides="images"
-        :maxHeight="600"
+      <UiCarousel
+        :slides="slides"
+        :max-height="650"
+        closable
         @slide-click="openModal"
         @close="onClose"
       />

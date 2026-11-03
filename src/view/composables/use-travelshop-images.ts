@@ -10,10 +10,13 @@ import {
 export const useTravelshopImages = () => {
   const { t } = useI18n();
 
-  const imageModules = import.meta.glob('@/view/assets/images/travelshop/*.{jpg,jpeg,png,webp}', {
-    eager: true,
-    import: 'default',
-  }) as Record<string, string>;
+  const imageModules = import.meta.glob(
+    '@/view/assets/images/travelshop/*.{jpg,jpeg,png,webp}',
+    {
+      eager: true,
+      import: 'default',
+    },
+  ) as Record<string, string>;
 
   const imageUrlByName: Record<string, string> = Object.fromEntries(
     Object.entries(imageModules).map(([path, url]) => {
