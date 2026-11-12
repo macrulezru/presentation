@@ -21,7 +21,6 @@
             :src="props.post.coverImage"
             :alt="props.post.title"
             :lazy="true"
-            thumbhash="1+cNHYI3iHeFh3iPh5d4h7ZwZQl4"
           />
         </div>
         <div class="blog-item__title">

@@ -153,7 +153,6 @@
           <VImage
             class="airlines__image"
             :src="airlinesImage"
-            hazehash="MP_vMvuYQI_gFKbotmOgSmZqt477DcHw9KmRT1n7yGtAzc2EESGGziWdBJCSsA"
             :width="641"
             :height="600"
             :alt="t('airlines.title')"
@@ -187,7 +186,6 @@
           <VImage
             class="airlines__feature-image"
             :src="feature.image"
-            :hazehash="feature.hash"
             :width="400"
             :height="400"
             :alt="feature.title"

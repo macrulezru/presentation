@@ -97,11 +97,9 @@
         <div class="feature-item__image-container">
           <VImage
             :src="feature.image.image"
-            :hazehash="feature.image.hazehash"
             :sources="{
               tablet: {
                 src: feature.imageHorizontal.image,
-                hazehash: feature.imageHorizontal.hazehash,
                 width: feature.imageHorizontal.width,
                 height: feature.imageHorizontal.height,
               },

@@ -96,7 +96,6 @@
         :src="props.image.preview"
         :width="props.image.previewWidth ?? undefined"
         :height="props.image.previewHeight ?? undefined"
-        :thumbhash="props.image.previewThumbhash ?? undefined"
         :alt="props.image.directory"
         @error="handleImageError"
         @load="handleImageLoad"

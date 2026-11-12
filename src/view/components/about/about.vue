@@ -191,7 +191,6 @@
                 <VImage
                   class="about__tech-category-image"
                   :src="category.image.image"
-                  :hazehash="category.image.hazehash"
                   :width="300"
                   :height="300"
                   :alt="category.title"

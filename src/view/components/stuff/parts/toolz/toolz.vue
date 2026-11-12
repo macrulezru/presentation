@@ -127,7 +127,6 @@
                         <VImage
                           class="toolz__modules-item-image"
                           :src="item.image"
-                          :hazehash="item.hazehash"
                           :width="300"
                           :height="300"
                           :alt="item.title"
