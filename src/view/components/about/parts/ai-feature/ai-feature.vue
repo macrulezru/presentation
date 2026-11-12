@@ -76,7 +76,6 @@
             <div class="ai-feature__image-wrapper">
               <VImage
                 :src="AiImage"
-                hazehash="Ev_nuuugSoK52warojmm4b5m65i5ipmEUjjeK5mSJuGxYhYUTFVUZHcOEaA"
                 :width="587"
                 :height="454"
                 :sources="{

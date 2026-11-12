@@ -212,7 +212,6 @@
         <div v-if="!responsive.smallTablet">
           <VImage
             :src="TravelshopImage"
-            hazehash="E__mOuwYqnb9-uL5PkZcx7x5zdS7lkww4tndzJeEjkzVkyWtY5wiZGWX"
             :width="1400"
             :height="560"
             alt="TravelShop 2.0"
@@ -227,7 +226,6 @@
           >
             <VImage
               :src="item.image.image"
-              :hazehash="item.image.hazehash"
               :width="300"
               :height="264"
               :alt="item.title"
